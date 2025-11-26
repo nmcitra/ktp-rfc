@@ -236,7 +236,6 @@ KTP-PROBLEMS explicitly documents what we don't know how to solve, inviting coll
 ```
 ktp-rfc/
 ├── README.md                 # This file
-├── GAP-ANALYSIS.md           # Development roadmap and gaps
 ├── constitution.txt          # The Constitution of Digital Physics
 ├── rfcs/                     # RFC specifications (19 documents)
 │   ├── ktp-core.txt          # Core protocol specification

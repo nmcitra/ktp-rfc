@@ -1,0 +1,1066 @@
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
+
+
+          Kinetic Trust Protocol (KTP) - Flight Recorder Specification
+
+Abstract
+
+   This document specifies the Flight Recorder system for the Kinetic
+   Trust Protocol (KTP). The Flight Recorder provides immutable audit
+   logging of all authorization decisions, enabling forensic analysis,
+   compliance verification, and system learning.
+
+   The specification covers Decision Geometry (the multi-dimensional
+   record of each decision), storage requirements, query interfaces,
+   retention policies, and integration with external audit systems.
+
+Status of This Memo
+
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
+
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
+
+Copyright Notice
+
+   Copyright (c) 2025 Chris Perkins / NMCITRA.
+   This work is licensed under the Apache License, Version 2.0.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .  2
+       1.1.  The Invisible Success Problem . . . . . . . . . . . . .  2
+       1.2.  Flight Recorder Philosophy  . . . . . . . . . . . . . .  3
+       1.3.  Requirements Language . . . . . . . . . . . . . . . . .  4
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Decision Geometry . . . . . . . . . . . . . . . . . . . . . .  5
+       3.1.  Core Components . . . . . . . . . . . . . . . . . . . .  6
+       3.2.  Environmental Snapshot  . . . . . . . . . . . . . . . .  8
+       3.3.  Agent Context . . . . . . . . . . . . . . . . . . . . .  9
+       3.4.  Decision Outcome  . . . . . . . . . . . . . . . . . . . 10
+   4.  Record Types  . . . . . . . . . . . . . . . . . . . . . . . . 11
+       4.1.  Authorization Decision  . . . . . . . . . . . . . . . . 11
+       4.2.  Trust Score Change  . . . . . . . . . . . . . . . . . . 13
+       4.3.  Tier Transition . . . . . . . . . . . . . . . . . . . . 14
+       4.4.  Soul Veto . . . . . . . . . . . . . . . . . . . . . . . 15
+       4.5.  Attestation . . . . . . . . . . . . . . . . . . . . . . 16
+   5.  Immutability Requirements . . . . . . . . . . . . . . . . . . 17
+       5.1.  Append-Only Storage . . . . . . . . . . . . . . . . . . 17
+       5.2.  Cryptographic Chaining  . . . . . . . . . . . . . . . . 18
+       5.3.  Tamper Detection  . . . . . . . . . . . . . . . . . . . 19
+   6.  Storage Architecture  . . . . . . . . . . . . . . . . . . . . 20
+       6.1.  Hot Storage . . . . . . . . . . . . . . . . . . . . . . 20
+       6.2.  Warm Storage  . . . . . . . . . . . . . . . . . . . . . 21
+       6.3.  Cold Storage  . . . . . . . . . . . . . . . . . . . . . 21
+       6.4.  Retention Policies  . . . . . . . . . . . . . . . . . . 22
+   7.  Query Interface . . . . . . . . . . . . . . . . . . . . . . . 23
+       7.1.  Query Language  . . . . . . . . . . . . . . . . . . . . 23
+       7.2.  Common Queries  . . . . . . . . . . . . . . . . . . . . 25
+       7.3.  Forensic Reconstruction . . . . . . . . . . . . . . . . 27
+   8.  Accountability Analysis . . . . . . . . . . . . . . . . . . . 28
+       8.1.  Human Negligence vs. Environmental Force  . . . . . . . 28
+       8.2.  Attribution Framework . . . . . . . . . . . . . . . . . 30
+       8.3.  Liability Boundaries  . . . . . . . . . . . . . . . . . 31
+   9.  External Integration  . . . . . . . . . . . . . . . . . . . . 32
+       9.1.  SIEM Integration  . . . . . . . . . . . . . . . . . . . 32
+       9.2.  Compliance Export . . . . . . . . . . . . . . . . . . . 33
+       9.3.  Machine Learning Pipeline . . . . . . . . . . . . . . . 34
+   10. Security Considerations . . . . . . . . . . . . . . . . . . . 35
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . . 36
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 37
+
+
+1.  Introduction
+
+   The Flight Recorder is the memory of a KTP system. Every decision,
+   every state change, every veto is recorded with full context,
+   creating an immutable history that can be queried, analyzed, and
+   used for both forensic investigation and system improvement.
+
+1.1.  The Invisible Success Problem
+
+   Traditional security systems suffer from an invisible success
+   problem: when an attack is prevented, there is no incident to
+   investigate. The prevented disaster is invisible, making it
+   difficult to:
+
+   - Prove that security controls are working
+   - Learn from near-misses
+   - Justify security investments
+   - Distinguish luck from competence
+
+   The Flight Recorder solves this by recording every Silent Veto
+   with the same detail as an allowed action. A prevented attack is
+   visible in the record:
+
+      "At 14:32:07, Agent X attempted action Y with risk 85.
+       E_trust was 42 due to elevated Heat (0.78) from active
+       attack indicators. Silent Veto triggered. Action denied.
+       If this action had been permitted, blast radius would have
+       included 47 downstream services."
+
+   The disaster that didn't happen is now visible, auditable, and
+   valuable for learning.
+
+1.2.  Flight Recorder Philosophy
+
+   The Flight Recorder follows these principles:
+
+   1. Record Everything: Every authorization decision, not just
+      denials or anomalies. The baseline is as important as the
+      exceptions.
+
+   2. Context Over Outcome: The outcome (allow/deny) is one bit.
+      The context (why, what was the environment, what would have
+      happened) is where the value lies.
+
+   3. Immutability: Once written, records cannot be altered or
+      deleted. This is essential for legal defensibility and
+      forensic integrity.
+
+   4. Queryability: Data that can't be queried is data that won't
+      be used. The Flight Recorder must support rich queries for
+      forensic analysis.
+
+   5. Forward Secrecy: Records should be usable for learning
+      without exposing sensitive operational details.
+
+1.3.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174].
+
+
+2.  Terminology
+
+   Attestation:
+      A cryptographically signed statement about an agent's behavior,
+      issued by the Trust Oracle after successful transaction.
+
+   Decision Geometry:
+      The multi-dimensional record of a single authorization decision,
+      including agent context, environmental state, action details,
+      and outcome.
+
+   Flight Recorder:
+      The immutable audit log system that records all KTP decisions
+      and state changes.
+
+   Forensic Reconstruction:
+      The process of recreating the exact conditions that led to a
+      specific decision, using Flight Recorder data.
+
+   Hot Storage:
+      Fast, frequently accessed storage for recent records (hours to
+      days).
+
+   Cold Storage:
+      Archival storage for historical records (months to years).
+
+   Record Chain:
+      A sequence of records cryptographically linked via hash pointers,
+      ensuring tamper detection.
+
+   Warm Storage:
+      Intermediate storage for less frequently accessed records (days
+      to months).
+
+
+3.  Decision Geometry
+
+   Every authorization decision is recorded as a Decision Geometry -
+   a multi-dimensional snapshot that captures not just what happened,
+   but why it happened and what would have happened under different
+   conditions.
+
+3.1.  Core Components
+
+   A Decision Geometry record contains:
+
+      {
+        "record_id": "dr-uuid-12345",
+        "record_type": "authorization_decision",
+        "timestamp": "2025-11-25T14:32:07.123Z",
+        "chain": {
+          "previous_hash": "sha256:abc123...",
+          "sequence_number": 1847392
+        },
+
+        "agent": { ... },        // Agent context
+        "environment": { ... },  // Environmental snapshot
+        "action": { ... },       // Requested action
+        "decision": { ... },     // Outcome and reasoning
+        "counterfactual": { ... } // What-if analysis
+      }
+
+   3.1.1. Record Identification
+
+   record_id:
+      Globally unique identifier for this record. Format:
+      "dr-" + UUIDv4 for decision records.
+
+   record_type:
+      Type of record. One of:
+      - authorization_decision
+      - trust_score_change
+      - tier_transition
+      - soul_veto
+      - attestation
+      - system_event
+
+   timestamp:
+      ISO 8601 timestamp with millisecond precision. MUST be in UTC.
+
+   3.1.2. Chain Integrity
+
+   previous_hash:
+      SHA-256 hash of the immediately preceding record. Creates
+      tamper-evident chain.
+
+   sequence_number:
+      Monotonically increasing sequence number. Gaps indicate
+      potential tampering or data loss.
+
+
+3.2.  Environmental Snapshot
+
+   The environmental snapshot captures the complete Context Tensor
+   state at decision time:
+
+      "environment": {
+        "context_tensor": {
+          "m": 0.45,
+          "p": 0.78,
+          "h": 0.82,
+          "t": 0.30,
+          "i": 0.25,
+          "o": 0.15
+        },
+        "r": 0.523,
+        "soul": {
+          "s": 0,
+          "constraint_type": null
+        },
+        "sensor_health": {
+          "m_feeds_active": 4,
+          "m_feeds_total": 5,
+          "p_feeds_active": 3,
+          "p_feeds_total": 3,
+          "degraded_dimensions": ["m"]
+        },
+        "trust_oracle": {
+          "oracle_id": "oracle-east-1",
+          "quorum": "3-of-5",
+          "latency_ms": 3
+        },
+        "zone": {
+          "zone_id": "zone-blue-prod-01",
+          "zone_type": "blue",
+          "federation": ["zone-blue-prod-02", "zone-cyan-staging"]
+        }
+      }
+
+   This snapshot enables forensic reconstruction: given the exact
+   environmental conditions, we can replay the decision logic and
+   verify that the correct outcome was reached.
+
+
+3.3.  Agent Context
+
+   Agent context captures the identity and state of the requesting
+   agent:
+
+      "agent": {
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "lineage": "persistent",
+        "generation": 7,
+        "sponsor": null,
+        "e_base": 87,
+        "e_trust": 42,
+        "de_dt": -2.3,
+        "sigma": 0.15,
+        "tier": "analyst",
+        "previous_tier": "operator",
+        "tier_duration_seconds": 847,
+        "trajectory_hash": "sha256:def456...",
+        "resilience_score": 0.82,
+        "session": {
+          "session_id": "sess-xyz789",
+          "session_start": "2025-11-25T13:00:00Z",
+          "actions_this_session": 1247,
+          "vetoes_this_session": 3
+        }
+      }
+
+   Key fields:
+
+   e_base: Agent's intrinsic capability (from Proof of Resilience)
+   e_trust: Effective Trust Score after environmental deflation
+   de_dt: Trust velocity (rate of change)
+   tier: Current Trust Tier
+   previous_tier: Tier before most recent transition (if recent)
+   trajectory_hash: Hash of agent's trajectory chain for verification
+
+
+3.4.  Decision Outcome
+
+   The decision outcome records what happened and why:
+
+      "decision": {
+        "outcome": "deny",
+        "reason": "TRUST_INSUFFICIENT",
+        "evaluation": {
+          "soul_check": "pass",
+          "tier_check": "pass",
+          "zeroth_law_check": "fail",
+          "a": 85,
+          "e_trust": 42,
+          "gap": 43
+        },
+        "enforcement_point": {
+          "pep_id": "pep-api-gateway-east",
+          "pep_type": "api_gateway",
+          "latency_ms": 2
+        },
+        "notification": {
+          "agent_notified": true,
+          "response_code": 403,
+          "response_body_hash": "sha256:ghi789..."
+        }
+      }
+
+   Key fields:
+
+   outcome: "allow" or "deny"
+   reason: KTP error code if denied
+   evaluation: Step-by-step evaluation trace
+   gap: Difference between A and E_trust (how far from threshold)
+
+
+3.5.  Counterfactual Analysis
+
+   The counterfactual section records what would have happened under
+   different conditions:
+
+      "counterfactual": {
+        "if_allowed": {
+          "blast_radius": {
+            "services_affected": 47,
+            "users_affected": 12500,
+            "data_records_at_risk": 1847392
+          },
+          "reversibility": "partial",
+          "estimated_recovery_time_minutes": 45
+        },
+        "threshold_analysis": {
+          "e_trust_needed": 85,
+          "e_trust_actual": 42,
+          "r_needed_for_allow": 0.03,
+          "r_actual": 0.52,
+          "primary_contributor": "heat",
+          "heat_value": 0.82,
+          "heat_source": "waf_blocks_elevated"
+        }
+      }
+
+   This analysis is invaluable for:
+   - Understanding near-misses
+   - Quantifying prevented damage
+   - Identifying which tensor dimension drove the decision
+
+
+4.  Record Types
+
+4.1.  Authorization Decision
+
+   The most common record type, created for every action request.
+
+   Schema:
+
+      {
+        "record_type": "authorization_decision",
+        "action": {
+          "method": "DELETE",
+          "resource": "/api/users/12345",
+          "action_class": "delete_permanent",
+          "action_risk": 85,
+          "parameters": {
+            "user_id": "12345",
+            "cascade": true
+          },
+          "source_ip": "10.0.1.45",
+          "request_id": "req-uuid-67890"
+        },
+        "agent": { ... },
+        "environment": { ... },
+        "decision": { ... },
+        "counterfactual": { ... }
+      }
+
+
+4.2.  Trust Score Change
+
+   Recorded when an agent's E_trust changes significantly (threshold
+   configurable, default: change >= 5 points or crosses tier boundary).
+
+   Schema:
+
+      {
+        "record_type": "trust_score_change",
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "change": {
+          "e_trust_before": 88,
+          "e_trust_after": 72,
+          "e_base": 95,
+          "r_before": 0.07,
+          "r_after": 0.24,
+          "delta": -16,
+          "velocity": -3.2
+        },
+        "cause": {
+          "primary_dimension": "heat",
+          "heat_before": 0.15,
+          "heat_after": 0.65,
+          "trigger_event": "waf_block_spike",
+          "trigger_details": {
+            "waf_blocks_per_minute": 5420,
+            "baseline": 200
+          }
+        },
+        "impact": {
+          "tier_before": "operator",
+          "tier_after": "analyst",
+          "capabilities_lost": [
+            "write:production",
+            "execute:deployments",
+            "admin:config"
+          ]
+        }
+      }
+
+
+4.3.  Tier Transition
+
+   Recorded when an agent crosses a Trust Tier boundary.
+
+   Schema:
+
+      {
+        "record_type": "tier_transition",
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "transition": {
+          "from_tier": "operator",
+          "to_tier": "analyst",
+          "direction": "demotion",
+          "e_trust_at_transition": 68,
+          "threshold_crossed": 70
+        },
+        "duration_in_previous_tier_seconds": 14832,
+        "actions_in_previous_tier": 4721,
+        "vetoes_in_previous_tier": 12,
+        "agent_state": {
+          "in_flight_operations": 2,
+          "operations_cancelled": 1,
+          "graceful_degradation": true
+        }
+      }
+
+
+4.4.  Soul Veto
+
+   Recorded when a sovereignty constraint blocks an action. These
+   records receive special handling due to their legal and cultural
+   significance.
+
+   Schema:
+
+      {
+        "record_type": "soul_veto",
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "action": {
+          "method": "POST",
+          "resource": "/api/data/export",
+          "action_class": "read_sensitive",
+          "action_risk": 40
+        },
+        "soul_constraint": {
+          "s": 1,
+          "constraint_type": "tk_label",
+          "constraint_id": "TK-NC-001",
+          "constraint_name": "TK Non-Commercial",
+          "authority": "https://localcontexts.org/label/tk-nc/",
+          "community": "Example Indigenous Community",
+          "data_lineage": {
+            "data_id": "data-record-xyz",
+            "origin": "tribal-repository",
+            "collection_date": "2024-06-15",
+            "labels_applied": ["TK-NC", "TK-A"]
+          }
+        },
+        "note": {
+          "e_trust": 92,
+          "action_risk": 40,
+          "would_have_passed_zeroth_law": true,
+          "blocked_by_sovereignty": true
+        },
+        "remediation_provided": "Contact community data steward"
+      }
+
+   Soul Veto records MUST be:
+   - Retained for minimum 7 years (or as required by jurisdiction)
+   - Exportable for community review upon request
+   - Protected from modification by any party
+
+
+4.5.  Attestation
+
+   Recorded when the Trust Oracle issues an attestation of successful
+   transaction, contributing to an agent's Proof of Resilience.
+
+   Schema:
+
+      {
+        "record_type": "attestation",
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "attestation": {
+          "attestation_id": "att-uuid-12345",
+          "action_completed": "deploy_service_update",
+          "action_risk": 75,
+          "e_trust_at_action": 82,
+          "environment_state": "degraded",
+          "r_at_action": 0.14,
+          "resilience_contribution": 0.003
+        },
+        "signatures": {
+          "agent": "sig:agent:abc123...",
+          "oracle": "sig:oracle:def456...",
+          "timestamp_authority": "sig:tsa:ghi789..."
+        }
+      }
+
+
+5.  Immutability Requirements
+
+5.1.  Append-Only Storage
+
+   The Flight Recorder MUST use append-only storage:
+
+   1. Records can only be added, never modified or deleted
+   2. Storage system must enforce append-only at infrastructure level
+   3. Deletions are only permitted via retention policy expiration
+   4. Even expired records should be archived before deletion
+
+   Implementation options:
+
+   - Append-only databases (e.g., Datomic, XTDB)
+   - Immutable storage services (e.g., AWS S3 Object Lock)
+   - Blockchain or distributed ledger (for highest assurance)
+   - Write-once media (for air-gapped compliance)
+
+
+5.2.  Cryptographic Chaining
+
+   Records MUST be cryptographically chained:
+
+   1. Each record includes hash of previous record
+   2. Hash algorithm: SHA-256 (minimum)
+   3. Chain creates tamper-evident sequence
+   4. Any modification breaks the chain
+
+   Chain structure:
+
+      Record N:
+        previous_hash: SHA256(Record N-1)
+        sequence_number: N
+        content: { ... }
+        record_hash: SHA256(previous_hash + sequence_number + content)
+
+      Record N+1:
+        previous_hash: record_hash from Record N
+        sequence_number: N+1
+        ...
+
+   Chain verification:
+
+      For each record from oldest to newest:
+        1. Compute expected hash from content
+        2. Compare to stored hash
+        3. Verify previous_hash matches prior record's hash
+        4. Verify sequence numbers are contiguous
+
+
+5.3.  Tamper Detection
+
+   The Flight Recorder MUST detect tampering:
+
+   1. Periodic chain integrity verification (recommended: hourly)
+   2. Alert on any hash mismatch or sequence gap
+   3. Maintain chain anchors in external system (e.g., public
+      blockchain timestamp)
+   4. Support third-party audit of chain integrity
+
+   Tamper detection response:
+
+   1. Immediately alert security team
+   2. Preserve evidence (snapshot of tampered section)
+   3. Isolate affected storage
+   4. Begin forensic investigation
+   5. Do NOT attempt to "fix" the chain
+
+
+6.  Storage Architecture
+
+6.1.  Hot Storage
+
+   Hot storage holds recent records for fast query access.
+
+   Characteristics:
+   - Retention: 24-72 hours
+   - Latency: < 10ms query response
+   - Technology: In-memory database, SSD-backed store
+   - Replication: Synchronous, multi-region
+
+   Use cases:
+   - Real-time dashboards
+   - Active incident investigation
+   - Live query by agents
+
+
+6.2.  Warm Storage
+
+   Warm storage holds intermediate-age records.
+
+   Characteristics:
+   - Retention: 7-90 days
+   - Latency: < 100ms query response
+   - Technology: SSD-backed database, time-series DB
+   - Replication: Asynchronous, multi-region
+
+   Use cases:
+   - Trend analysis
+   - Compliance reporting
+   - Investigation of recent incidents
+
+
+6.3.  Cold Storage
+
+   Cold storage holds historical records for compliance and forensics.
+
+   Characteristics:
+   - Retention: 1-7+ years (per policy)
+   - Latency: Minutes to hours (acceptable for archival)
+   - Technology: Object storage, tape archive
+   - Replication: Cross-region, immutable
+
+   Use cases:
+   - Legal discovery
+   - Long-term compliance
+   - Historical analysis
+
+
+6.4.  Retention Policies
+
+   Recommended minimum retention periods:
+
+   +---------------------------+------------+------------------------+
+   | Record Type               | Minimum    | Notes                  |
+   +---------------------------+------------+------------------------+
+   | Authorization Decision    | 1 year     | Standard audit         |
+   | Trust Score Change        | 1 year     | Standard audit         |
+   | Tier Transition           | 2 years    | Behavioral analysis    |
+   | Soul Veto                 | 7 years    | Legal/cultural         |
+   | Attestation               | 7 years    | Proof of Resilience    |
+   | System Event              | 90 days    | Operational            |
+   +---------------------------+------------+------------------------+
+
+   Retention policies MUST be:
+   - Documented and versioned
+   - Approved by legal/compliance
+   - Enforced automatically
+   - Auditable (who changed policy, when)
+
+
+7.  Query Interface
+
+7.1.  Query Language
+
+   The Flight Recorder MUST provide a query interface supporting:
+
+   7.1.1. Temporal Queries
+
+   Query records by time range:
+
+      {
+        "query": "temporal",
+        "start": "2025-11-25T00:00:00Z",
+        "end": "2025-11-25T23:59:59Z",
+        "record_types": ["authorization_decision", "soul_veto"]
+      }
+
+   7.1.2. Agent Queries
+
+   Query records for specific agent:
+
+      {
+        "query": "agent",
+        "agent_id": "agent:7gen:optimized:a1b2c3d4",
+        "start": "2025-11-01T00:00:00Z",
+        "include": ["decisions", "tier_transitions", "attestations"]
+      }
+
+   7.1.3. Outcome Queries
+
+   Query by decision outcome:
+
+      {
+        "query": "outcome",
+        "outcome": "deny",
+        "reason": "TRUST_INSUFFICIENT",
+        "start": "2025-11-25T00:00:00Z"
+      }
+
+   7.1.4. Environmental Queries
+
+   Query by environmental conditions:
+
+      {
+        "query": "environment",
+        "conditions": {
+          "heat": { "gte": 0.7 },
+          "r": { "gte": 0.5 }
+        },
+        "start": "2025-11-25T00:00:00Z"
+      }
+
+   7.1.5. Counterfactual Queries
+
+   Query by potential impact:
+
+      {
+        "query": "counterfactual",
+        "if_allowed": {
+          "blast_radius.services_affected": { "gte": 10 }
+        },
+        "outcome": "deny",
+        "start": "2025-11-25T00:00:00Z"
+      }
+
+
+7.2.  Common Queries
+
+   7.2.1. "Show me all prevented incidents today"
+
+      {
+        "query": "compound",
+        "filters": [
+          { "record_type": "authorization_decision" },
+          { "outcome": "deny" },
+          { "counterfactual.if_allowed.blast_radius.services_affected":
+            { "gte": 5 } }
+        ],
+        "start": "2025-11-25T00:00:00Z",
+        "sort": "counterfactual.if_allowed.blast_radius.services_affected",
+        "order": "desc"
+      }
+
+   7.2.2. "What was Agent X doing when trust dropped?"
+
+      {
+        "query": "correlation",
+        "anchor": {
+          "record_type": "trust_score_change",
+          "agent_id": "agent:7gen:optimized:a1b2c3d4",
+          "change.delta": { "lte": -10 }
+        },
+        "correlate": {
+          "record_type": "authorization_decision",
+          "window_before_seconds": 300,
+          "window_after_seconds": 60
+        }
+      }
+
+   7.2.3. "Show all Soul vetoes for community X"
+
+      {
+        "query": "soul_veto",
+        "filters": [
+          { "soul_constraint.community": "Example Indigenous Community" }
+        ],
+        "start": "2025-01-01T00:00:00Z"
+      }
+
+   7.2.4. "Agents with highest veto rate this week"
+
+      {
+        "query": "aggregate",
+        "record_type": "authorization_decision",
+        "group_by": "agent_id",
+        "metrics": [
+          { "name": "total_decisions", "function": "count" },
+          { "name": "vetoes", "function": "count",
+            "filter": { "outcome": "deny" } },
+          { "name": "veto_rate", "function": "ratio",
+            "numerator": "vetoes", "denominator": "total_decisions" }
+        ],
+        "start": "2025-11-18T00:00:00Z",
+        "sort": "veto_rate",
+        "order": "desc",
+        "limit": 10
+      }
+
+
+7.3.  Forensic Reconstruction
+
+   The Flight Recorder MUST support forensic reconstruction: the
+   ability to recreate the exact conditions that led to a decision.
+
+   Reconstruction query:
+
+      {
+        "query": "reconstruct",
+        "record_id": "dr-uuid-12345",
+        "include": [
+          "full_context_tensor",
+          "sensor_values",
+          "agent_trajectory",
+          "oracle_state",
+          "pep_configuration"
+        ]
+      }
+
+   Reconstruction output:
+
+      {
+        "reconstruction": {
+          "record_id": "dr-uuid-12345",
+          "timestamp": "2025-11-25T14:32:07.123Z",
+          "complete": true,
+          "context_tensor": {
+            "m": { "value": 0.45, "feeds": [...] },
+            "p": { "value": 0.78, "feeds": [...] },
+            ...
+          },
+          "agent_trajectory": {
+            "last_100_actions": [...],
+            "trust_history_1h": [...]
+          },
+          "decision_replay": {
+            "step_1_soul_check": "pass",
+            "step_2_tier_check": "pass",
+            "step_3_zeroth_law": "fail",
+            "deterministic": true,
+            "same_outcome_on_replay": true
+          }
+        }
+      }
+
+
+8.  Accountability Analysis
+
+8.1.  Human Negligence vs. Environmental Force
+
+   A key use of the Flight Recorder is distinguishing between:
+
+   1. Human negligence: A human made a decision that violated policy
+      or caused harm through carelessness.
+
+   2. Environmental force majeure: The system correctly responded to
+      environmental conditions beyond anyone's control.
+
+   The Decision Geometry provides the evidence:
+
+   Negligence indicators:
+   - Action was allowed despite high risk
+   - Trust Score was artificially elevated
+   - Sensor data was ignored or overridden
+   - Policy was modified without authorization
+
+   Force majeure indicators:
+   - Action was correctly vetoed by physics
+   - Environmental conditions changed rapidly
+   - All sensors functioning correctly
+   - System behaved according to specification
+
+
+8.2.  Attribution Framework
+
+   The Flight Recorder enables precise attribution:
+
+   +------------------+--------------------------------------------+
+   | Question         | Flight Recorder Evidence                   |
+   +------------------+--------------------------------------------+
+   | Who requested?   | agent_id, session, source_ip               |
+   | What was asked?  | action.method, action.resource             |
+   | When?            | timestamp                                  |
+   | What was state?  | environment.context_tensor, e_trust        |
+   | What decided?    | decision.outcome, decision.reason          |
+   | Why?             | decision.evaluation, counterfactual        |
+   | What was impact? | counterfactual.if_allowed.blast_radius     |
+   +------------------+--------------------------------------------+
+
+
+8.3.  Liability Boundaries
+
+   The Flight Recorder creates clear liability boundaries:
+
+   If action was vetoed:
+   - System functioned correctly
+   - Damage was prevented
+   - Liability lies with environmental conditions
+   - No human negligence (unless sensors were manipulated)
+
+   If action was allowed and caused harm:
+   - Was A correctly classified? (If not: policy author liable)
+   - Was E_trust correctly calculated? (If not: Oracle operator liable)
+   - Were sensors functioning? (If not: operations liable)
+   - Was PEP functioning? (If not: infrastructure liable)
+   - Were all systems correct? (If yes: environmental conditions
+     changed faster than system could respond - force majeure)
+
+
+9.  External Integration
+
+9.1.  SIEM Integration
+
+   Flight Recorder records SHOULD be exportable to SIEM systems:
+
+   Export format (CEF):
+
+      CEF:0|NMCITRA|KTP|1.0|DENY|Trust Insufficient|7|
+      src=10.0.1.45 suser=agent:7gen:optimized:a1b2c3d4
+      act=DELETE request=/api/users/12345 reason=TRUST_INSUFFICIENT
+      cs1=85 cs1Label=ActionRisk cs2=42 cs2Label=ETrust
+      cs3=0.52 cs3Label=RiskFactor
+
+   Export format (JSON):
+
+      {
+        "event_type": "ktp_authorization",
+        "timestamp": "2025-11-25T14:32:07.123Z",
+        "agent": "agent:7gen:optimized:a1b2c3d4",
+        "action": "DELETE /api/users/12345",
+        "outcome": "deny",
+        "reason": "TRUST_INSUFFICIENT",
+        "action_risk": 85,
+        "e_trust": 42,
+        "r": 0.52
+      }
+
+
+9.2.  Compliance Export
+
+   Flight Recorder MUST support compliance-ready exports:
+
+   SOC 2 format:
+   - Control evidence mapping
+   - Exception reports
+   - Access logs
+
+   GDPR format:
+   - Data subject access requests
+   - Processing activity records
+   - Consent verification
+
+   HIPAA format:
+   - Access audit trails
+   - Disclosure tracking
+   - Security incident documentation
+
+
+9.3.  Machine Learning Pipeline
+
+   Flight Recorder data can feed ML models for:
+
+   1. Anomaly detection: Learn normal patterns, alert on deviation
+
+   2. Trust prediction: Predict E_trust trajectory from current
+      conditions
+
+   3. Risk calibration: Learn optimal A values from historical
+      outcomes
+
+   4. Sensor validation: Detect sensor drift or manipulation
+
+   ML export format:
+
+      {
+        "features": {
+          "agent_generation": 7,
+          "e_base": 87,
+          "r": 0.52,
+          "m": 0.45, "p": 0.78, "h": 0.82,
+          "t": 0.30, "i": 0.25, "o": 0.15,
+          "action_risk": 85,
+          "hour_of_day": 14,
+          "day_of_week": 1
+        },
+        "label": {
+          "outcome": "deny",
+          "correct": true
+        }
+      }
+
+
+10. Security Considerations
+
+   10.1. Record Confidentiality
+
+   Flight Recorder records contain sensitive information.
+
+   Mitigations:
+   - Encrypt records at rest
+   - Encrypt records in transit
+   - Implement role-based access to queries
+   - Audit all query access
+   - Redact sensitive fields for lower-privilege queries
+
+   10.2. Record Integrity
+
+   Attackers may attempt to modify records to hide activity.
+
+   Mitigations:
+   - Cryptographic chaining (Section 5.2)
+   - External chain anchors
+   - Multi-party signing of records
+   - Tamper detection alerts (Section 5.3)
+
+   10.3. Availability
+
+   The Flight Recorder is critical infrastructure.
+
+   Mitigations:
+   - Multi-region replication
+   - Async write path (don't block authorization on logging)
+   - Queue-based architecture for resilience
+   - Regular backup and recovery testing
+
+
+11. References
+
+11.1.  Normative References
+
+   [KTP-CORE]
+              Perkins, C., "Kinetic Trust Protocol - Core
+              Specification", NMCITRA, November 2025.
+
+   [KTP-ENFORCE]
+              Perkins, C., "Kinetic Trust Protocol - Enforcement Layer
+              Specification", NMCITRA, November 2025.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+
+Authors' Addresses
+
+   Chris Perkins
+   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+
+   Email: cperkins@nmcitra.org

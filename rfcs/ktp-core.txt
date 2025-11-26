@@ -1,0 +1,2037 @@
+
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
+
+
+             Kinetic Trust Protocol (KTP) - Core Specification
+
+Abstract
+
+   This document specifies the Kinetic Trust Protocol (KTP), a
+   framework for dynamic, environment-aware authorization of autonomous
+   agents. KTP replaces static permission models with physics-based
+   constraints that adapt in real-time to environmental conditions.
+
+   The protocol introduces the concept of a Trust Score derived from
+   environmental sensors, a Trust Proof token that travels with each
+   request, and a Silent Veto mechanism that automatically constrains
+   agent capabilities when environmental stability degrades.
+
+Status of This Memo
+
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
+
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
+
+Copyright Notice
+
+   Copyright (c) 2025 Chris Perkins / NMCITRA.
+   This work is licensed under the Apache License, Version 2.0.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .  3
+       1.1.  The Problem with Static Authorization . . . . . . . . .  3
+       1.2.  The Physics-Based Solution  . . . . . . . . . . . . . .  4
+       1.3.  Requirements Language . . . . . . . . . . . . . . . . .  4
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   3.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .  7
+       3.1.  Architecture  . . . . . . . . . . . . . . . . . . . . .  7
+       3.2.  Flow  . . . . . . . . . . . . . . . . . . . . . . . . .  8
+   4.  The Zeroth Law  . . . . . . . . . . . . . . . . . . . . . . .  9
+       4.1.  Definition  . . . . . . . . . . . . . . . . . . . . . .  9
+       4.2.  Enforcement . . . . . . . . . . . . . . . . . . . . . . 10
+   5.  Trust Score Calculation . . . . . . . . . . . . . . . . . . . 11
+       5.1.  Base Trust (E_base) . . . . . . . . . . . . . . . . . . 11
+       5.2.  Risk Factor (R) . . . . . . . . . . . . . . . . . . . . 12
+             5.2.1.  Risk Domains  . . . . . . . . . . . . . . . . . 13
+       5.3.  Effective Trust Score (E_trust) . . . . . . . . . . . . 14
+       5.4.  Trust Velocity (dE/dt)  . . . . . . . . . . . . . . . . 14
+       5.5.  Trust Score Integrity (Anti-Goodhart) . . . . . . . . . 15
+             5.5.1.  The Goodhart Threat Model . . . . . . . . . . . 15
+             5.5.2.  Multi-Dimensional Scoring . . . . . . . . . . . 16
+             5.5.3.  Behavioral Unpredictability . . . . . . . . . . 16
+             5.5.4.  Adversity Requirements  . . . . . . . . . . . . 17
+             5.5.5.  Peer Validation . . . . . . . . . . . . . . . . 17
+             5.5.6.  Temporal Consistency  . . . . . . . . . . . . . 18
+             5.5.7.  Cross-Zone Correlation  . . . . . . . . . . . . 18
+             5.5.8.  Human-in-the-Loop Sampling  . . . . . . . . . . 19
+             5.5.9.  Gradient Isolation  . . . . . . . . . . . . . . 19
+             5.5.10. Fundamental Limits  . . . . . . . . . . . . . . 20
+   6.  Context Tensor  . . . . . . . . . . . . . . . . . . . . . . . 21
+       6.1.  The Seven Dimensions  . . . . . . . . . . . . . . . . . 21
+       6.2.  The Soul Veto . . . . . . . . . . . . . . . . . . . . . 24
+       6.3.  Normalization . . . . . . . . . . . . . . . . . . . . . 25
+       6.4.  Domain Weights  . . . . . . . . . . . . . . . . . . . . 26
+       6.5.  Tensor Modularity . . . . . . . . . . . . . . . . . . . 27
+       6.6.  Aggregation Algorithm . . . . . . . . . . . . . . . . . 28
+   7.  Trust Proof Token . . . . . . . . . . . . . . . . . . . . . . 29
+       7.1.  Token Format  . . . . . . . . . . . . . . . . . . . . . 29
+       7.2.  Claims  . . . . . . . . . . . . . . . . . . . . . . . . 30
+       7.3.  Signature . . . . . . . . . . . . . . . . . . . . . . . 32
+       7.4.  Lifetime  . . . . . . . . . . . . . . . . . . . . . . . 33
+   8.  Silent Veto Mechanism . . . . . . . . . . . . . . . . . . . . 34
+       8.1.  Action Risk Classification  . . . . . . . . . . . . . . 34
+       8.2.  Veto Trigger  . . . . . . . . . . . . . . . . . . . . . 35
+       8.3.  Veto Response . . . . . . . . . . . . . . . . . . . . . 36
+   9.  Trust Oracle  . . . . . . . . . . . . . . . . . . . . . . . . 37
+       9.1.  Responsibilities  . . . . . . . . . . . . . . . . . . . 37
+       9.2.  Distribution  . . . . . . . . . . . . . . . . . . . . . 38
+       9.3.  Consensus . . . . . . . . . . . . . . . . . . . . . . . 39
+   10. Security Considerations . . . . . . . . . . . . . . . . . . . 40
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . . 33
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . . 34
+   Appendix A.  Example Calculations . . . . . . . . . . . . . . . . 36
+   Appendix B.  JSON Schemas . . . . . . . . . . . . . . . . . . . . 38
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . 42
+
+
+1.  Introduction
+
+   The digital world is experiencing an explosion of autonomous agents
+   - AI systems that act at machine-speed, make decisions without human
+   oversight, and control critical infrastructure. Traditional
+   authorization systems, designed for human-speed interactions, are
+   fundamentally inadequate for this new reality.
+
+1.1.  The Problem with Static Authorization
+
+   Current authorization systems suffer from three critical flaws:
+
+   1. The Passport Fallacy: They assume that possession of a credential
+      (API key, token, certificate) equals proof of identity. This
+      fails when credentials are stolen, as there is no mechanism to
+      detect that the presenting entity is not the original holder.
+
+   2. The Static Fallacy: They verify permissions at time T and assume
+      those permissions remain valid at T+1. In the millisecond gap
+      between verification and action, the environment may have changed
+      dramatically (network compromise, capacity exhaustion, attack
+      initiation).
+
+   3. The Vacuum Fallacy: They treat authorization as independent of
+      environmental conditions. A credential that permits "delete
+      database" grants the same permission whether the system is idle
+      or at 99% capacity under active attack.
+
+   These flaws create catastrophic risk in agent-heavy environments.
+   An autonomous agent can execute thousands of API calls per second.
+   If even 0.1% of those actions are destructive in context, the damage
+   compounds exponentially before any human can respond.
+
+1.2.  The Physics-Based Solution
+
+   KTP addresses these flaws by treating authorization as a physics
+   problem rather than a policy problem. The key insight is:
+
+      An agent's autonomy must never exceed the environment's stability.
+
+   This is expressed mathematically as the Zeroth Law:
+
+      A <= E
+
+   Where A is the intrinsic risk of the requested action and E is the
+   current Trust Score of the environment-agent relationship.
+
+   Instead of asking "Does this agent have permission?", KTP asks "Can
+   this environment safely support this action right now?"
+
+   The environment becomes the final authority. Just as friction vetoes
+   a sprinter's attempt to run on ice, environmental constraints veto
+   an agent's attempt to act beyond the system's current capacity.
+
+1.3.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+
+2.  Terminology
+
+   This section defines terms used throughout this specification.
+
+   Action Risk (A):
+      A numeric value (0-100) representing the intrinsic risk of a
+      requested action. Higher values indicate more dangerous actions
+      (e.g., "read public data" = 10, "delete database" = 85).
+
+   Adaptive Dormancy:
+      The progressive reduction of agent capabilities as environmental
+      conditions degrade. Agents "hibernate" rather than fail.
+
+   Base Trust (E_base):
+      A numeric value (0-100) representing an agent's intrinsic
+      capability, derived from its Proof of Resilience and lineage.
+
+   Blue Zone:
+      A network segment where KTP is enforced. Agents within Blue Zones
+      operate under physics-based constraints.
+
+   Context Tensor:
+      A seven-dimensional vector of environmental measurements used to
+      calculate the Risk Factor (six weighted dimensions) and sovereignty
+      constraints (Soul dimension). See Section 6.
+
+   Data Sovereignty:
+      The principle that data is subject to the laws, customs, and
+      governance structures of the nation or community from which it
+      originates or to which it pertains.
+
+   Effective Trust Score (E_trust):
+      The final Trust Score after environmental deflation, calculated
+      as E_base * (1 - R). This is the value used to evaluate A <= E.
+
+   Kinetic Permission:
+      Authorization that depends on real-time environmental state
+      rather than static credentials.
+
+   Lineage:
+      The evolutionary history of an agent, from Tethered (dependent
+      on sponsor) through Divergent (building own mass) to Persistent
+      (fully autonomous).
+
+   Policy Decision Point (PDP):
+      A component that evaluates Trust Proofs and makes authorization
+      decisions based on A <= E.
+
+   Policy Enforcement Point (PEP):
+      A component that enforces PDP decisions by allowing, blocking,
+      or throttling agent actions.
+
+   Proof of Resilience:
+      A cryptographically signed ledger of an agent's successful
+      transactions in high-friction environments. See [KTP-IDENTITY].
+
+   Risk Factor (R):
+      A normalized value (0-1) representing aggregated environmental
+      stress. Derived from the Context Tensor.
+
+   Silent Veto:
+      The automatic denial of an action when A > E_trust, without
+      requiring human intervention.
+
+   Soul (Sovereignty Dimension):
+      The seventh dimension of the Context Tensor, representing ethical,
+      legal, and spiritual constraints of data or location. Unlike other
+      dimensions, Soul acts as a binary veto rather than a weighted
+      contributor to the Risk Factor.
+
+   Soul Veto:
+      The automatic denial of an action when sovereignty constraints are
+      violated (S = 1), regardless of Trust Score. Takes precedence over
+      the standard Silent Veto evaluation.
+
+   Sponsorship Bond:
+      A cryptographic commitment where a high-mass entity stakes
+      trust on behalf of a new, low-mass agent.
+
+   Trajectory Chain:
+      A cryptographically linked chain of agent transactions, where
+      each link includes agent signature, environment attestation,
+      and previous state hash. See [KTP-IDENTITY].
+
+   Trust Leash:
+      The metaphorical constraint on agent autonomy that tightens
+      (shorter leash) as environmental risk increases.
+
+   Trust Oracle:
+      A distributed authority responsible for calculating Trust Scores,
+      signing Trust Proofs, and attesting to agent transactions.
+
+   Trust Proof:
+      A signed token (extending JWT) that carries the current Trust
+      Score, its velocity, and environmental context.
+
+   Trust Score:
+      See "Effective Trust Score (E_trust)".
+
+   Trust Tier:
+      A capability level (God Mode, Operator Mode, Analyst Mode,
+      Observer Mode) determined by E_trust thresholds.
+
+   Trust Velocity (dE/dt):
+      The rate of change of the Trust Score over time. Rapid negative
+      velocity indicates deteriorating conditions.
+
+   Vector Identity:
+      Identity represented as a trajectory (position + momentum)
+      rather than a static credential (a "verb" rather than a "noun").
+
+   Zeroth Law:
+      The foundational constraint A <= E: an agent's autonomy must
+      never exceed the environment's stability.
+
+
+3.  Protocol Overview
+
+3.1.  Architecture
+
+   A KTP deployment consists of the following components:
+
+   +------------------------------------------------------------------+
+   |                          TRUST ORACLE MESH                       |
+   |  +------------+    +------------+    +------------+              |
+   |  |  Oracle 1  |<-->|  Oracle 2  |<-->|  Oracle 3  |  (threshold) |
+   |  +------------+    +------------+    +------------+              |
+   +------------------------------------------------------------------+
+            |                    |                    |
+            v                    v                    v
+   +------------------------------------------------------------------+
+   |                      CONTEXT TENSOR SENSORS                      |
+   |  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]      |
+   +------------------------------------------------------------------+
+            |                    |                    |
+            v                    v                    v
+   +------------------------------------------------------------------+
+   |                   POLICY ENFORCEMENT POINTS                      |
+   |  +----------+  +----------+  +----------+  +----------+         |
+   |  | API GW   |  | Service  |  |   IAM    |  |    DB    |         |
+   |  |          |  |   Mesh   |  |          |  |   Proxy  |         |
+   |  +----------+  +----------+  +----------+  +----------+         |
+   +------------------------------------------------------------------+
+            |                    |                    |
+            v                    v                    v
+   +------------------------------------------------------------------+
+   |                       AGENT POPULATION                           |
+   |  [Tethered Agents]  [Divergent Agents]  [Persistent Lineages]   |
+   +------------------------------------------------------------------+
+            |                    |                    |
+            v                    v                    v
+   +------------------------------------------------------------------+
+   |                    FLIGHT RECORDER (IMMUTABLE)                   |
+   |  [Decision Geometry]  [Attestations]  [Trajectory Chains]       |
+   +------------------------------------------------------------------+
+
+   Figure 1: KTP Architecture
+
+
+   Trust Oracle Mesh:
+      A distributed set of Trust Oracles that collectively calculate
+      Trust Scores and sign Trust Proofs. Threshold signatures (e.g.,
+      3-of-5) prevent single points of failure.
+
+   Context Tensor Sensors:
+      A sensor array that measures the six dimensions of environmental
+      reality and feeds data to the Trust Oracles.
+
+   Policy Enforcement Points:
+      Components that intercept agent requests, present Trust Proofs
+      to the PDP, and enforce authorization decisions.
+
+   Agent Population:
+      The agents operating within the KTP domain, at various stages
+      of their evolutionary lineage.
+
+   Flight Recorder:
+      An immutable log of all authorization decisions, including the
+      full Decision Geometry for forensic analysis.
+
+
+3.2.  Flow
+
+   The basic authorization flow is:
+
+   1. Agent initiates a request (e.g., "DELETE /api/database/users")
+
+   2. PEP intercepts the request and extracts the agent's identity
+
+   3. PEP requests a Trust Proof from the Trust Oracle, or validates
+      an existing Trust Proof attached to the request
+
+   4. Trust Oracle:
+      a. Retrieves agent's E_base from Proof of Resilience ledger
+      b. Retrieves current sensor values from Context Tensor
+      c. Calculates R using domain weights
+      d. Calculates E_trust = E_base * (1 - R)
+      e. Signs Trust Proof with Oracle key(s)
+
+   5. PDP evaluates A <= E_trust for the requested action
+
+   6. If A <= E_trust: Action is ALLOWED
+      If A > E_trust: Silent Veto triggers, action is DENIED
+
+   7. Decision and full context are logged to Flight Recorder
+
+   8. Response returned to agent with Trust Proof for potential
+      forwarding to downstream services
+
+
+   +--------+        +--------+        +--------+        +--------+
+   | Agent  |        |  PEP   |        | Trust  |        | Flight |
+   |        |        |        |        | Oracle |        |Recorder|
+   +---+----+        +---+----+        +---+----+        +---+----+
+       |                 |                 |                 |
+       | 1. Request      |                 |                 |
+       |---------------->|                 |                 |
+       |                 | 2. Get/Validate |                 |
+       |                 |    Trust Proof  |                 |
+       |                 |---------------->|                 |
+       |                 |                 | 3. Calculate    |
+       |                 |                 |    E_base, R,   |
+       |                 |                 |    E_trust      |
+       |                 |                 |                 |
+       |                 | 4. Trust Proof  |                 |
+       |                 |<----------------|                 |
+       |                 |                 |                 |
+       |                 | 5. Evaluate     |                 |
+       |                 |    A <= E_trust |                 |
+       |                 |                 |                 |
+       |                 | 6. Log Decision |                 |
+       |                 |---------------------------------->|
+       |                 |                 |                 |
+       | 7. Response     |                 |                 |
+       |    (with Proof) |                 |                 |
+       |<----------------|                 |                 |
+       |                 |                 |                 |
+
+   Figure 2: KTP Authorization Flow
+
+
+4.  The Zeroth Law
+
+4.1.  Definition
+
+   The Zeroth Law is the foundational constraint of KTP:
+
+      A <= E
+
+   Where:
+
+      A (Autonomy): The intrinsic risk score of the requested action,
+      expressed as a value from 0 to 100. This value is determined by
+      the action's potential impact and is assigned by the system
+      administrator or derived from action classification rules.
+
+      E (Environment): The current Effective Trust Score (E_trust),
+      also expressed as a value from 0 to 100. This value is calculated
+      in real-time based on agent history and environmental conditions.
+
+   The inequality MUST be evaluated for every authorization request.
+   It is not a policy that can be overridden by human intervention
+   or emergency procedures. It is a physical constraint, analogous
+   to the constraint that prevents a person from running faster than
+   their muscles allow.
+
+   The naming "Zeroth Law" is intentional. Just as thermodynamics'
+   Zeroth Law (thermal equilibrium) was recognized as more fundamental
+   than the existing First, Second, and Third Laws, KTP's Zeroth Law
+   precedes all other authorization considerations. Before asking
+   "Is this action permitted by policy?", we must first ask "Is this
+   action possible given environmental physics?"
+
+
+4.2.  Enforcement
+
+   Enforcement of the Zeroth Law is cryptographic, not administrative.
+
+   The Trust Proof token contains:
+   - The current E_trust value
+   - The Trust Oracle's signature over E_trust
+   - The timestamp of calculation
+
+   The PEP:
+   - Verifies the Trust Oracle's signature
+   - Checks that the Trust Proof has not expired
+   - Looks up the Action Risk (A) for the requested operation
+   - Evaluates A <= E_trust
+
+   If the Trust Proof signature is invalid, the action MUST be denied.
+   If the Trust Proof has expired, a new Trust Proof MUST be obtained.
+   If A > E_trust, the action MUST be denied (Silent Veto).
+
+   There is no "emergency override" mechanism. The only way to permit
+   a high-risk action is to either:
+
+   1. Reduce the action's risk classification (A)
+   2. Increase the agent's base trust (E_base) through Proof of
+      Resilience accumulation
+   3. Wait for environmental conditions to improve (R decreases)
+
+   This design is intentional. In an emergency, the natural human
+   instinct is to override safety controls. This instinct is often
+   catastrophically wrong. By removing the override capability, KTP
+   forces systems to operate within their actual capacity, even when
+   humans wish they could exceed it.
+
+
+5.  Trust Score Calculation
+
+5.1.  Base Trust (E_base)
+
+   Base Trust represents the agent's intrinsic capability, independent
+   of current environmental conditions. It is derived from:
+
+   1. Proof of Resilience (70% weight):
+      The agent's historical performance, particularly under stress.
+      An agent that has successfully completed 10,000 transactions
+      during system crises has higher E_base than one with 100,000
+      transactions in calm conditions.
+
+   2. Lineage Generation (20% weight):
+      The evolutionary maturity of the agent:
+      - Generation 0-2 (Tethered): E_base capped at 40
+      - Generation 3-5 (Divergent): E_base capped at 70
+      - Generation 6+ (Persistent): E_base uncapped
+
+   3. Sponsor Weight (10% weight):
+      For Tethered agents, the sponsor's E_base contributes to the
+      agent's E_base according to the stake percentage.
+
+   The calculation:
+
+      E_base = (PoR_score * 0.70) + (Lineage_cap * 0.20) +
+               (Sponsor_contribution * 0.10)
+
+   Where:
+      PoR_score = f(transaction_count, crisis_ratio, max_friction)
+      Lineage_cap = min(generation * 15, 100)
+      Sponsor_contribution = Sponsor_E_base * stake_percentage
+
+   E_base MUST be recalculated when:
+   - New Proof of Resilience attestations are received
+   - Agent generation advances
+   - Sponsorship terms change
+
+   E_base SHOULD be cached for performance, with a maximum cache
+   lifetime of 60 seconds.
+
+
+5.2.  Risk Factor (R)
+
+   The Risk Factor represents aggregated environmental stress. It is
+   calculated from the Context Tensor (see Section 6) using domain-
+   specific weights.
+
+   The calculation:
+
+      R = sum(w_i * s_i) for i in {M, P, H, T, I, O}
+
+   Where:
+      w_i = Domain-specific weight for dimension i
+      s_i = Normalized sensor value for dimension i (0 to 1)
+      sum(w_i) = 1.0 (weights must sum to 1)
+
+   R is always in the range [0, 1]:
+   - R = 0: Perfect conditions, no environmental stress
+   - R = 0.5: Moderate stress, significant capability reduction
+   - R = 1: Total crisis, all capabilities suspended
+
+   The multiplicative relationship between R and E_base (see Section
+   5.3) is critical. R is not subtracted from E_base; it deflates it.
+   This means:
+
+   - At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction)
+   - At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction)
+   - At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction)
+   - At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)
+
+   This design ensures that environmental risk has veto power over
+   agent capability. No amount of historical trust can overcome a
+   completely compromised environment.
+
+5.2.1.  Risk Domains
+
+   To prevent oscillation in the Risk Factor—rapid fluctuation caused
+   by local sensor noise—KTP calculates R at three hierarchical levels:
+
+   Node Domain:
+      Local to a single resource or endpoint. High frequency updates
+      (1-5 seconds). Captures immediate conditions but subject to noise.
+      Default weight: 30%.
+
+   Neighborhood Domain:
+      The local cluster, service mesh, or subnet. Medium frequency
+      updates (10-30 seconds). Smooths out individual node variance.
+      Default weight: 40%.
+
+   Global Domain:
+      Zone-wide or federation-wide environment. Low frequency updates
+      (30-120 seconds). Captures broad trends and external threats.
+      Default weight: 30%.
+
+   The final Risk Factor aggregates all three levels:
+
+      R = (w_node × R_node) + (w_neighborhood × R_neighborhood) +
+          (w_global × R_global)
+
+   This three-level structure prevents a single node spike from causing
+   tier oscillation while ensuring that genuine widespread degradation
+   is detected and acted upon.
+
+   See [KTP-SENSORS] Section 2.3 for detailed specification of Risk
+   Domains including anti-oscillation mechanics and configuration.
+
+
+5.3.  Effective Trust Score (E_trust)
+
+   The Effective Trust Score is the value used to evaluate the Zeroth
+   Law. It is calculated as:
+
+      E_trust = E_base * (1 - R)
+
+   This is the core equation of KTP. It unifies agent history (E_base)
+   with environmental reality (R) into a single scalar value that
+   determines what actions are possible.
+
+   Example calculations:
+
+   Scenario A: Stable Environment
+      E_base = 95 (highly trusted agent)
+      R = 0.1 (10% environmental stress)
+      E_trust = 95 * (1 - 0.1) = 95 * 0.9 = 85.5
+
+      Agent can perform actions with A <= 85.
+
+   Scenario B: Degraded Environment
+      E_base = 95 (same highly trusted agent)
+      R = 0.7 (70% environmental stress)
+      E_trust = 95 * (1 - 0.7) = 95 * 0.3 = 28.5
+
+      Agent can only perform actions with A <= 28.
+
+   Scenario C: Toxic Environment
+      E_base = 95 (same highly trusted agent)
+      R = 0.95 (95% environmental stress)
+      E_trust = 95 * (1 - 0.95) = 95 * 0.05 = 4.75
+
+      Agent can only perform minimal actions (A <= 4).
+
+   Note that the agent's intrinsic capability (E_base = 95) remains
+   constant across all three scenarios. It is the environment that
+   changes what is possible.
+
+
+5.4.  Trust Velocity (dE/dt)
+
+   Trust Velocity is the rate of change of E_trust over time:
+
+      dE/dt = (E_trust_t - E_trust_(t-1)) / delta_t
+
+   Where delta_t is the time interval between measurements.
+
+   Trust Velocity provides critical predictive information:
+
+   - dE/dt > 0: Conditions improving, capabilities expanding
+   - dE/dt = 0: Stable conditions
+   - dE/dt < 0: Conditions degrading, capabilities contracting
+   - dE/dt << 0: Rapid degradation, potential crisis imminent
+
+   Implementations MAY use Trust Velocity to:
+
+   1. Pre-emptively deny actions that would succeed now but likely
+      fail mid-execution due to degrading conditions
+
+   2. Warn agents to reduce activity in anticipation of contraction
+
+   3. Trigger early Adaptive Dormancy before E_trust crosses tier
+      thresholds
+
+   4. Detect anomalies (e.g., Trust Score changing faster than any
+      known sensor could explain)
+
+   Trust Velocity SHOULD be included in the Trust Proof token (see
+   Section 7) and in Flight Recorder logs (see [KTP-AUDIT]).
+
+
+5.5.  Trust Score Integrity (Anti-Goodhart Measures)
+
+   "When a measure becomes a target, it ceases to be a good measure."
+   - Charles Goodhart
+
+   Trust Score faces an existential threat: Goodhart's Law. Once agents
+   know they are being measured, they will optimize for the score rather
+   than the underlying property. A generation of AI agents trained to
+   maximize Trust Score would learn to appear trustworthy, not to BE
+   trustworthy.
+
+   KTP cannot fully solve this problem — it may be unsolvable in the
+   general case. But we can make gaming expensive, detectable, and
+   risky. This section specifies required countermeasures.
+
+5.5.1.  The Goodhart Threat Model
+
+   Attack: Agent learns Trust Score calculation
+   Goal: Maximize E_trust without genuine trustworthiness
+   Methods:
+   - Pattern mimicry (act like high-trust agents)
+   - Metric manipulation (game specific sensors)
+   - Sybil networks (create false attestation sources)
+   - Timing attacks (act well when observed, poorly when not)
+   - Gradient hacking (if ML-based, manipulate training)
+
+   The fundamental challenge: Any observable signal used to calculate
+   trust can potentially be faked. The question is cost.
+
+5.5.2.  Multi-Dimensional Scoring
+
+   GOODHART-001: Trust Score MUST derive from multiple independent
+   signals that are difficult to simultaneously optimize.
+
+   Required signal diversity:
+   - At least 3 independent data sources for E_base
+   - At least 4 sensor dimensions for R
+   - Cross-validation between sources
+   - Anomaly detection on source agreement
+
+   Rationale: Gaming one dimension is easier than gaming all
+   dimensions consistently. Inconsistency between dimensions is
+   itself a signal of manipulation.
+
+   Implementation:
+   - If PoR_score is high but behavioral entropy is low → flag
+   - If E_base is high but peer attestations are sparse → flag
+   - If trajectory is smooth but environmental correlation is weak → flag
+
+5.5.3.  Behavioral Unpredictability
+
+   GOODHART-002: Trust Score calculation SHOULD include unpredictable
+   elements that cannot be anticipated by the agent.
+
+   Permitted unpredictability:
+   - Random weight variations within bounds (±10%)
+   - Unannounced sensor emphasis shifts
+   - Periodic recalibration of dimension weights
+   - Random deep audits of trajectory
+
+   NOT permitted:
+   - Arbitrary score manipulation
+   - Retroactive weight changes
+   - Unpredictability that violates deterministic verification
+
+   The Trust Oracle MUST be able to prove, after the fact, that any
+   score was correctly calculated given the (unpredictable but
+   recorded) parameters in effect at that time.
+
+5.5.4.  Adversity Requirements
+
+   GOODHART-003: E_base MUST include demonstrated performance under
+   adversity, not just volume of successful transactions.
+
+   Proof of Resilience already requires crisis-time attestations.
+   This section strengthens that requirement:
+
+   - Agents with no adversity exposure are capped at E_base = 60
+   - E_base > 60 requires attestations under R > 0.5
+   - E_base > 80 requires attestations under R > 0.7
+   - E_base > 90 requires attestations under CRISIS conditions
+
+   This cannot be gamed by self-inflicted crises because:
+   - Attestations require Oracle signature
+   - Oracle only signs if crisis is zone-wide (not agent-local)
+   - Manufactured crises harm the manufacturing agent
+
+5.5.5.  Peer Validation
+
+   GOODHART-004: E_base calculation SHOULD incorporate peer signals
+   that the agent cannot directly control.
+
+   Peer signals include:
+   - Co-transaction success rate (how often do transactions with
+     this agent succeed for the counterparty?)
+   - Sponsor reputation (high-trust sponsors are selective)
+   - Zone endorsements (zones the agent has operated in)
+   - Negative attestations (complaints, disputes, violations)
+
+   Weight: Peer signals SHOULD contribute 10-20% of E_base.
+
+   Gaming resistance: An agent cannot force other agents to transact
+   with it, cannot force sponsors to stake on it, cannot forge zone
+   endorsements. Peer signals are externally controlled.
+
+5.5.6.  Temporal Consistency
+
+   GOODHART-005: Trust Score MUST incorporate long-term consistency,
+   not just point-in-time performance.
+
+   Requirements:
+   - E_base is a moving average, not instantaneous
+   - Minimum trajectory length for E_base > 50 (1000 transactions)
+   - Minimum trajectory length for E_base > 70 (10,000 transactions)
+   - Sudden behavioral changes trigger investigation
+
+   Volatility penalty:
+   - Calculate behavioral volatility over trailing window
+   - High volatility (inconsistent behavior) reduces E_base
+   - Volatility_penalty = std_dev(behavior_vector) * penalty_rate
+
+   Gaming resistance: Maintaining a false persona over thousands of
+   transactions is expensive. The longer the trajectory required,
+   the more costly the attack.
+
+5.5.7.  Cross-Zone Correlation
+
+   GOODHART-006: Federated zones SHOULD share anonymized behavioral
+   statistics to detect cross-zone gaming.
+
+   Shared statistics:
+   - Distribution of E_base scores (not individual scores)
+   - Behavioral cluster signatures (not individual trajectories)
+   - Anomaly rates by agent category
+   - Attestation patterns
+
+   Detection: If an agent's behavior in Zone A differs significantly
+   from its behavior in Zone B, both zones are alerted. Context may
+   explain the difference; gaming may also explain it.
+
+   Privacy: Only aggregate statistics cross zone boundaries. Individual
+   agent data does not.
+
+5.5.8.  Human-in-the-Loop Sampling
+
+   GOODHART-007: Zones SHOULD implement random human review of
+   high-trust agents.
+
+   Sampling rate by tier:
+   - Observer: No human review required
+   - Analyst: 0.1% random sample
+   - Operator: 1% random sample
+   - God Mode: 10% random sample
+
+   Review process:
+   - Human examines trajectory, attestations, peer signals
+   - Human can flag for investigation or confirm
+   - Flagged agents are audited; confirmed agents continue
+   - False positive rate is tracked
+
+   Gaming resistance: Agents cannot predict which actions will be
+   reviewed. Consistent good behavior is the only reliable strategy.
+
+5.5.9.  Gradient Isolation
+
+   GOODHART-008: If machine learning is used in Trust Score
+   calculation, the model MUST be isolated from agent influence.
+
+   Requirements:
+   - Training data must not be agent-controllable
+   - Model updates must be human-approved
+   - Adversarial robustness testing required
+   - Model weights are not published (security through partial obscurity)
+
+   Rationale: An agent that can influence its own training data can
+   perform gradient hacking — subtly manipulating the model to favor
+   its behavior patterns.
+
+5.5.10.  Fundamental Limits
+
+   These measures make gaming expensive and detectable. They do not
+   make it impossible. The honest assessment:
+
+   WHAT WE CAN DO:
+   - Make single-dimension gaming ineffective
+   - Make sustained gaming expensive
+   - Detect statistical anomalies
+   - Create audit trails for investigation
+   - Raise the cost of attack above the benefit
+
+   WHAT WE CANNOT DO:
+   - Distinguish perfect mimicry from genuine trustworthiness
+   - Prevent nation-state-level sustained deception
+   - Guarantee the Trust Score reflects true trustworthiness
+
+   The Trust Score is a proxy. All proxies are imperfect. The goal
+   is a proxy where gaming is harder than genuine trustworthy behavior.
+
+   See [KTP-PROBLEMS] Problem #21 for ongoing research into this
+   challenge.
+
+
+6.  Context Tensor
+
+   The Context Tensor is a seven-dimensional vector of environmental
+   measurements that drives the Risk Factor calculation. Six dimensions
+   contribute to the weighted Risk Factor (R), while the seventh
+   dimension (Soul) acts as an independent veto mechanism.
+
+6.1.  The Seven Dimensions
+
+   1. Mass (M) - Physical Density
+
+      Physics Equivalent: Density / Mass (m)
+
+      Measures the sheer weight of presence in the environment -
+      human presence, electromagnetic interference, and spatial
+      congestion.
+
+      Sensors:
+      - Crowd size (LIDAR, turnstiles, badge counts)
+      - RF noise floor (electromagnetic density)
+      - Device count on network
+      - CO2 levels (proxy for human occupancy)
+
+      Interpretation:
+      - Low M: Empty building, quiet conditions
+      - High M: Packed stadium, high RF interference
+
+      Impact: High Mass creates a Gravity Well. It naturally slows
+      down operations (Time Dilation) and increases the "cost" of
+      movement through the environment.
+
+
+   2. Momentum (P) - Kinetic Velocity
+
+      Physics Equivalent: Kinetic Energy (KE = 1/2 mv^2)
+
+      Measures the speed and direction of data flow - how fast the
+      system is moving.
+
+      Sensors:
+      - Transaction rates per second
+      - Link saturation (percentage of bandwidth used)
+      - Packet velocity and throughput
+      - Queue depth (pending messages)
+
+      Interpretation:
+      - Low P: Idle system, excess capacity
+      - High P: System moving fast, approaching saturation
+
+      Impact: High Momentum means the system is moving fast. Sudden
+      stops or turns (Vector Kinking) create massive G-forces (Risk).
+      Course corrections become expensive.
+
+
+   3. Heat (H) - Adversarial Pressure
+
+      Physics Equivalent: Entropy / Temperature (T)
+
+      Measures the chaotic energy or friction in the system -
+      indicators of active attack or system stress.
+
+      Sensors:
+      - Thermal load (CPU temps, voltage droop)
+      - WAF block count (blocked malicious requests)
+      - Anomaly rates (entropy in traffic patterns)
+      - Error logs and exception rates
+      - Identity velocity (auth attempts per second)
+
+      Interpretation:
+      - Low H: Cool, stable operations
+      - High H: Hot, active attack or system stress
+
+      Impact: Heat is the Deflator. As Heat rises, the structural
+      integrity of Trust degrades. High Heat triggers the "Cool-Down"
+      cycle (Freezing agents to Observer Mode).
+
+
+   4. Time (T) - Temporal Phase
+
+      Physics Equivalent: Temporal Mechanics / Phase
+
+      Measures the criticality of the current moment relative to an
+      event horizon - where in a temporal cycle the system is.
+
+      Sensors:
+      - Event schedules (e.g., "5 minutes to Kickoff")
+      - Maintenance windows (scheduled downtime)
+      - Business hours (peak vs. off-peak)
+      - Mission criticality timers
+
+      Interpretation:
+      - Low T: Low-criticality period (maintenance window, 3am)
+      - High T: High-criticality period (production, live event)
+
+      Impact: A failure during "Kickoff" has infinitely higher gravity
+      than a failure at 3:00 AM. Time dilates the risk tolerance -
+      the same action costs more trust near event horizons.
+
+
+   5. Inertia (I) - Blast Radius
+
+      Physics Equivalent: Inertial Mass
+
+      Measures the topological importance of a node - how hard is it
+      to move or stop this asset, and how much depends on it.
+
+      Sensors:
+      - Network topology (degree centrality, betweenness)
+      - Dependency graph depth (downstream services)
+      - Data volume stored
+      - Blast radius estimation (systems affected by failure)
+
+      Interpretation:
+      - Low I: Leaf node, few dependencies, easy to move
+      - High I: Core service, many dependencies, expensive to move
+
+      Impact: A Core Router has high Inertia; an edge IoT device has
+      low Inertia. High Inertia nodes require higher Trust Scores to
+      modify - they resist change.
+
+
+   6. Observer (O) - Population
+
+      Physics Equivalent: Frame of Reference / Observer Effect
+
+      Measures who is watching - the stakes based on the population
+      present and their sensitivity.
+
+      Sensors:
+      - VIP presence (executives, regulators, media)
+      - User segmentation (internal vs. external)
+      - Regulatory jurisdiction flags
+      - Audit mode (compliance observation active)
+      - Life-safety population count
+
+      Interpretation:
+      - Low O: Normal user population, routine operations
+      - High O: High-visibility users present, elevated scrutiny
+
+      Impact: The laws of physics tighten when the Observer count is
+      high or when specific observers (e.g., Regulators) are present.
+      Actions that would be routine become consequential.
+
+
+   7. Soul (S) - Sovereignty
+
+      Physics Equivalent: The Cosmological Constant / Immutable Law
+
+      Measures the ethical, legal, and spiritual constraints of the
+      physical location or data lineage - constraints that exist
+      independent of operational conditions.
+
+      Sensors:
+      - TK Labels (Traditional Knowledge labels)
+      - OCAP/CARE protocol flags (Ownership, Control, Access,
+        Possession / Collective benefit, Authority to control,
+        Responsibility, Ethics)
+      - Sacred Land geofences
+      - Treaty database lookups
+      - Data provenance chains (where did this data originate?)
+      - Cultural heritage registries
+
+      Interpretation:
+      - S = 0: No sovereignty constraints apply
+      - S = 1: Sovereignty constraint violated, action forbidden
+
+      Impact: This acts as a Boolean Veto or a hard limit. It
+      represents the "Spirit" of the data or location. If the Soul
+      dimension is violated, the physics of the action become
+      impossible (Probability = 0). No amount of Trust Score can
+      overcome a Soul veto.
+
+      See Section 6.2 for Soul Veto mechanics.
+
+
+6.2.  The Soul Veto
+
+   The Soul dimension operates differently from the other six
+   dimensions. While Mass, Momentum, Heat, Time, Inertia, and Observer
+   contribute weighted values to the Risk Factor (R), Soul acts as
+   an independent constraint that can veto any action regardless of
+   Trust Score.
+
+   The Soul evaluation is:
+
+      IF S > 0 THEN
+        action is FORBIDDEN (Probability = 0)
+      END IF
+
+   This evaluation occurs BEFORE the standard A <= E_trust check.
+   A Soul veto cannot be overridden by:
+
+   - High Trust Score
+   - Low Risk Factor
+   - Emergency procedures
+   - Administrative override
+
+   This is by design. The Soul dimension encodes constraints that
+   exist outside the operational domain - legal treaties, cultural
+   sovereignty, spiritual significance. These are not "policies" that
+   can be weighed against operational need; they are immutable laws
+   that define what actions are possible.
+
+   Example Soul constraints:
+
+   1. Traditional Knowledge (TK) Labels:
+
+      Data tagged with TK Labels (per Local Contexts framework) may
+      have restrictions on:
+      - Who can access (TK Community Voice)
+      - How it can be used (TK Non-Commercial)
+      - Whether it can be modified (TK Outreach)
+      - Attribution requirements (TK Attribution)
+
+      If an agent action would violate a TK Label, S = 1.
+
+   2. OCAP/CARE Principles:
+
+      For Indigenous data, the OCAP principles (Ownership, Control,
+      Access, Possession) and CARE principles (Collective benefit,
+      Authority to control, Responsibility, Ethics) may require:
+      - Community consent for access
+      - Data to remain within tribal jurisdiction
+      - Specific handling protocols
+
+      If an agent action would violate OCAP/CARE, S = 1.
+
+   3. Sacred Land Geofences:
+
+      Physical locations may have sovereignty constraints:
+      - Sacred sites where certain activities are forbidden
+      - Treaty lands with specific data handling requirements
+      - Cultural heritage zones with restricted access
+
+      If an agent operates within or affects a Sacred Land geofence
+      in a prohibited manner, S = 1.
+
+   4. Data Lineage Sovereignty:
+
+      Data may carry sovereignty constraints from its origin:
+      - Data collected on tribal land
+      - Data about Indigenous peoples
+      - Data derived from traditional knowledge
+
+      Even if the data has moved to cloud infrastructure, its Soul
+      travels with it. If an action would violate origin sovereignty,
+      S = 1.
+
+   The Soul veto response differs from the standard Silent Veto:
+
+      HTTP/1.1 403 Forbidden
+      Content-Type: application/json
+      X-KTP-Veto: true
+      X-KTP-Veto-Type: sovereignty
+
+      {
+        "error": "SOVEREIGNTY_CONSTRAINT",
+        "message": "Action violates data sovereignty",
+        "constraint_type": "tk_label",
+        "constraint_id": "TK-NC-001",
+        "authority": "https://localcontexts.org/label/tk-nc/",
+        "e_trust": 95,
+        "e_required": 50,
+        "note": "Trust Score is sufficient, but action is
+                 forbidden by sovereignty constraint"
+      }
+
+   Note that e_trust and e_required are provided for transparency,
+   but the denial is not due to insufficient trust - it is due to
+   an immutable constraint that exists independent of trust.
+
+
+6.3.  Normalization
+
+   Each sensor outputs values in its native units (ppm, percentage,
+   events/minute, etc.). These MUST be normalized to a 0-1 scale
+   before aggregation.
+
+   The normalization function for each dimension:
+
+      s_normalized = (s_raw - s_min) / (s_max - s_min)
+
+   Where:
+      s_raw = Raw sensor value
+      s_min = Minimum expected value (maps to 0)
+      s_max = Maximum expected value (maps to 1)
+
+   Values below s_min SHOULD be clamped to 0.
+   Values above s_max SHOULD be clamped to 1.
+
+   Example normalization thresholds:
+
+   +------------+------------+------------+------------+
+   | Dimension  | Sensor     | s_min      | s_max      |
+   +------------+------------+------------+------------+
+   | Mass       | CO2 (ppm)  | 400        | 2000       |
+   | Momentum   | Link %     | 0          | 100        |
+   | Heat       | WAF blocks | 0          | 10000/min  |
+   | Time       | Hours out  | 72         | 0          |
+   | Inertia    | Dep count  | 0          | 500        |
+   | Observer   | VIP count  | 0          | 50         |
+   | Soul       | N/A        | Binary (0 or 1)         |
+   +------------+------------+------------+------------+
+
+   Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress)
+   Note: Soul is not normalized - it is a binary veto (see Section 6.2)
+
+
+6.4.  Domain Weights
+
+   Different deployment domains weight the first six dimensions
+   differently. The weights MUST sum to 1.0. Soul is not weighted -
+   it operates as an independent constraint.
+
+   Example domain profiles (M, P, H, T, I, O):
+
+   Stadium Network:
+      M=0.25, P=0.25, H=0.20, T=0.15, I=0.10, O=0.05
+
+   Financial Trading:
+      M=0.05, P=0.30, H=0.25, T=0.20, I=0.15, O=0.05
+
+   Healthcare:
+      M=0.10, P=0.15, H=0.25, T=0.15, I=0.20, O=0.15
+
+   Cloud Infrastructure:
+      M=0.05, P=0.25, H=0.30, T=0.10, I=0.25, O=0.05
+
+   Indigenous Data Repository:
+      M=0.10, P=0.10, H=0.20, T=0.10, I=0.15, O=0.35
+      (Note: High Observer weight reflects community oversight;
+       Soul veto always active for TK-labeled data)
+
+   Implementations MUST allow configuration of domain weights.
+   Implementations SHOULD provide pre-defined profiles for common
+   domains.
+
+
+6.5.  Tensor Modularity
+
+   The Context Tensor architecture is designed to be modular at two
+   levels:
+
+   1. Tensor-Level Modularity:
+
+      The tensor framework itself is extensible. The seven dimensions
+      defined in this specification represent the core measurement
+      space, but implementations MAY define additional dimensions for
+      domain-specific requirements.
+
+      Additional dimensions MUST:
+      - Be clearly documented with physics equivalent
+      - Specify whether they contribute to R (weighted) or act as
+        independent constraints (like Soul)
+      - Define normalization rules
+      - Register with the Trust Oracle
+
+   2. Feed-Level Modularity:
+
+      Each tensor dimension aggregates multiple sensor feeds. These
+      feeds are independently configurable:
+
+      - Feeds can be enabled/disabled per deployment
+      - Feed weights within a dimension can be adjusted
+      - New feeds can be added to existing dimensions
+      - Feed sources can be local or federated
+
+      Example: The Soul dimension might aggregate:
+      - TK Labels API (enabled)
+      - OCAP registry (enabled)
+      - Sacred Land geofence service (enabled)
+      - Treaty database (disabled - not applicable)
+      - Custom cultural heritage API (enabled)
+
+   Feed Configuration Example:
+
+      {
+        "dimension": "soul",
+        "feeds": [
+          {
+            "id": "tk-labels",
+            "source": "https://api.localcontexts.org/v1/labels",
+            "enabled": true,
+            "weight": 1.0,
+            "veto_on_match": true
+          },
+          {
+            "id": "ocap-registry",
+            "source": "https://ocap.example.org/check",
+            "enabled": true,
+            "weight": 1.0,
+            "veto_on_match": true
+          },
+          {
+            "id": "sacred-geofence",
+            "source": "local://geofence-service",
+            "enabled": true,
+            "weight": 1.0,
+            "veto_on_match": true
+          }
+        ],
+        "aggregation": "any_veto"
+      }
+
+   The "aggregation" field for Soul MUST be "any_veto" - if any
+   enabled feed returns a veto, the Soul dimension vetoes.
+
+   For weighted dimensions (M, P, H, T, I, O), typical aggregation
+   is "weighted_average" of enabled feeds.
+
+
+6.6.  Aggregation Algorithm
+
+   The complete authorization algorithm is:
+
+   Step 1: Soul Veto Check (MUST be first)
+
+      IF S > 0 THEN
+        RETURN DENY with SOVEREIGNTY_CONSTRAINT
+      END IF
+
+   Step 2: Risk Factor Calculation
+
+      R = (w_M * M) + (w_P * P) + (w_H * H) +
+          (w_T * T) + (w_I * I) + (w_O * O)
+
+   Step 3: Trust Score Deflation
+
+      E_trust = E_base * (1 - R)
+
+   Step 4: Zeroth Law Check
+
+      IF A > E_trust THEN
+        RETURN DENY with TRUST_INSUFFICIENT
+      ELSE
+        RETURN ALLOW
+      END IF
+
+   The Soul veto is evaluated first because sovereignty constraints
+   are immutable - no amount of trust can override them. This
+   ordering ensures that sovereignty is respected before operational
+   calculations begin.
+
+   The aggregation MUST be performed at the Trust Oracle.
+
+   Sensor values SHOULD be refreshed at intervals appropriate to
+   their rate of change:
+
+   +------------+------------------------+
+   | Dimension  | Recommended Interval   |
+   +------------+------------------------+
+   | Mass       | 30-60 seconds          |
+   | Momentum   | 1-5 seconds            |
+   | Heat       | 1-5 seconds            |
+   | Time       | 60 seconds             |
+   | Inertia    | 300 seconds            |
+   | Observer   | 30 seconds             |
+   | Soul       | On-demand (per action) |
+   +------------+------------------------+
+
+   Soul is evaluated on-demand because sovereignty constraints may
+   be action-specific (e.g., "read" may be permitted while "modify"
+   is forbidden by TK labels).
+
+   Implementations MAY cache aggregated R values for up to 100ms
+   to reduce computational load. Soul evaluations SHOULD NOT be
+   cached as they are context-specific.
+
+
+7.  Trust Proof Token
+
+   The Trust Proof is a signed token that travels with each request,
+   carrying the current Trust Score and environmental context.
+
+7.1.  Token Format
+
+   The Trust Proof extends JSON Web Token (JWT) as defined in RFC 7519.
+   It uses the standard JWT structure:
+
+      Header.Payload.Signature
+
+   The header MUST include:
+
+      {
+        "alg": "ES256",
+        "typ": "ktp+jwt",
+        "kid": "oracle-key-id"
+      }
+
+   The "alg" field specifies the signature algorithm. Implementations
+   MUST support ES256 (ECDSA with P-256 and SHA-256). Implementations
+   MAY support additional algorithms.
+
+   The "typ" field MUST be "ktp+jwt" to distinguish KTP Trust Proofs
+   from standard JWTs.
+
+   The "kid" field identifies the Trust Oracle signing key, enabling
+   key rotation and multi-Oracle deployments.
+
+
+7.2.  Claims
+
+   The payload contains standard JWT claims plus KTP-specific claims
+   in the "ktp" namespace.
+
+   Standard claims:
+
+      iss (Issuer): The Trust Oracle identifier (URI)
+      sub (Subject): The agent identifier (URI)
+      iat (Issued At): Unix timestamp of Trust Proof generation
+      exp (Expiration): Unix timestamp of Trust Proof expiration
+      jti (JWT ID): Unique identifier for this Trust Proof
+
+   KTP claims (in "ktp" object):
+
+      e_base: Base Trust score (0-100)
+      e_trust: Effective Trust score (0-100)
+      r: Risk Factor (0-1)
+      de_dt: Trust Velocity (change per second)
+      sigma: Trust Volatility (standard deviation)
+
+      context: Object containing normalized sensor values
+        m: Mass (0-1)
+        p: Momentum (0-1)
+        h: Heat (0-1)
+        t: Time (0-1)
+        i: Inertia (0-1)
+        o: Observer (0-1)
+
+      soul: Object containing sovereignty evaluation
+        s: Soul veto status (0 = clear, 1 = veto)
+        constraint_type: Type of constraint if s=1 (null if s=0)
+        constraint_id: Identifier of triggering constraint
+        authority: URI of sovereignty authority
+
+      lineage: Agent lineage stage ("tethered", "divergent",
+               "persistent")
+      generation: Agent generation number (0+)
+      sponsor: Sponsor agent identifier (if tethered)
+      resilience_hash: Hash of current Proof of Resilience ledger
+
+   Example Trust Proof payload (no sovereignty constraint):
+
+      {
+        "iss": "https://oracle.example.com",
+        "sub": "agent:7gen:optimized:a1b2c3d4",
+        "iat": 1699900000,
+        "exp": 1699900010,
+        "jti": "tp-uuid-12345",
+        "ktp": {
+          "e_base": 87,
+          "e_trust": 42,
+          "r": 0.517,
+          "de_dt": -2.3,
+          "sigma": 0.15,
+          "context": {
+            "m": 0.875,
+            "p": 0.920,
+            "h": 0.020,
+            "t": 1.000,
+            "i": 0.100,
+            "o": 0.040
+          },
+          "soul": {
+            "s": 0,
+            "constraint_type": null,
+            "constraint_id": null,
+            "authority": null
+          },
+          "lineage": "persistent",
+          "generation": 7,
+          "resilience_hash": "sha256:abc123def456..."
+        }
+      }
+
+   Example Trust Proof payload (sovereignty constraint active):
+
+      {
+        "iss": "https://oracle.example.com",
+        "sub": "agent:7gen:optimized:a1b2c3d4",
+        "iat": 1699900000,
+        "exp": 1699900010,
+        "jti": "tp-uuid-12346",
+        "ktp": {
+          "e_base": 95,
+          "e_trust": 90,
+          "r": 0.053,
+          "de_dt": 0.1,
+          "sigma": 0.02,
+          "context": {
+            "m": 0.100,
+            "p": 0.150,
+            "h": 0.010,
+            "t": 0.200,
+            "i": 0.050,
+            "o": 0.020
+          },
+          "soul": {
+            "s": 1,
+            "constraint_type": "tk_label",
+            "constraint_id": "TK-NC-001",
+            "authority": "https://localcontexts.org/label/tk-nc/"
+          },
+          "lineage": "persistent",
+          "generation": 7,
+          "resilience_hash": "sha256:abc123def456..."
+        }
+      }
+
+   Note: In the second example, despite high E_trust (90) and low R
+   (0.053), the Soul veto (s=1) will cause any action to be denied
+   that violates the TK Non-Commercial label.
+
+
+7.3.  Signature
+
+   The Trust Proof MUST be signed by the Trust Oracle using the
+   algorithm specified in the header.
+
+   For distributed Trust Oracle deployments, the signature MAY be
+   a threshold signature requiring k-of-n Oracles to sign.
+
+   Implementations MUST verify:
+   1. The signature is valid for the payload
+   2. The signing key is a known, trusted Oracle key
+   3. The signing key has not been revoked
+
+   Signature verification failure MUST result in action denial.
+
+
+7.4.  Lifetime
+
+   Trust Proofs are intentionally short-lived to ensure they reflect
+   current environmental conditions.
+
+   The "exp" claim MUST NOT exceed 10 seconds from "iat".
+
+   Implementations SHOULD use shorter lifetimes (1-5 seconds) in
+   high-volatility environments.
+
+   Trust Proofs MUST NOT be cached beyond their expiration.
+
+   If an action takes longer than the Trust Proof lifetime, the agent
+   MUST obtain a new Trust Proof before continuing. This may result
+   in mid-action denial if conditions have degraded.
+
+
+8.  Silent Veto Mechanism
+
+   The Silent Veto is the automatic denial of an action when A > E_trust.
+   It is "silent" because it requires no human intervention - the
+   environment itself enforces the constraint.
+
+8.1.  Action Risk Classification
+
+   Each action type MUST be assigned an intrinsic risk score (A).
+   The following table provides baseline classifications:
+
+   +----------------------+-----+--------------------------------+
+   | Action Class         | A   | Description                    |
+   +----------------------+-----+--------------------------------+
+   | Read (public)        | 10  | Read publicly accessible data  |
+   | Read (internal)      | 20  | Read internal/private data     |
+   | Read (sensitive)     | 30  | Read PII, credentials, keys    |
+   | Write (append)       | 40  | Add new data, no modification  |
+   | Write (modify)       | 50  | Modify existing data           |
+   | Execute (safe)       | 60  | Run pre-approved operations    |
+   | Execute (unsafe)     | 75  | Run arbitrary code             |
+   | Delete (recoverable) | 80  | Delete with backup/undo        |
+   | Delete (permanent)   | 85  | Delete without recovery        |
+   | Admin (config)       | 90  | Change system configuration    |
+   | Admin (infra)        | 95  | Modify infrastructure          |
+   +----------------------+-----+--------------------------------+
+
+   Implementations MAY define additional action classes.
+   Implementations MUST allow configuration of A values.
+   Implementations SHOULD log any changes to A values.
+
+
+8.2.  Veto Trigger
+
+   The veto evaluation is performed at the PEP:
+
+      IF A > E_trust THEN
+        trigger Silent Veto
+      ELSE
+        permit action
+      END IF
+
+   The evaluation MUST occur for every action request.
+   The evaluation MUST use the E_trust from a valid, unexpired
+   Trust Proof.
+
+   The veto is triggered automatically. There is no:
+   - Appeal process
+   - Emergency override
+   - Manager approval flow
+   - Grace period
+
+   This is by design. The veto represents a physical constraint,
+   not a policy decision. Overriding it would be like overriding
+   gravity.
+
+
+8.3.  Veto Response
+
+   When a Silent Veto is triggered, the PEP MUST:
+
+   1. Deny the action immediately
+
+   2. Return an error response to the agent including:
+      - Error code indicating Trust-based denial
+      - Current E_trust value
+      - Required E_trust for the action (A)
+      - Trust Velocity (dE/dt) for predictive purposes
+
+   3. Log the denial to the Flight Recorder with full Decision
+      Geometry
+
+   Recommended HTTP response:
+
+      HTTP/1.1 403 Forbidden
+      Content-Type: application/json
+      X-KTP-Veto: true
+
+      {
+        "error": "TRUST_INSUFFICIENT",
+        "message": "Action risk exceeds current trust",
+        "e_trust": 42,
+        "e_required": 50,
+        "de_dt": -2.3,
+        "retry_after": null
+      }
+
+   The "retry_after" field MAY contain an estimated time (in seconds)
+   until conditions might permit the action, based on Trust Velocity
+   projections. If conditions are degrading (dE/dt < 0), this field
+   SHOULD be null.
+
+
+9.  Trust Oracle
+
+   The Trust Oracle is the authoritative source of Trust Scores and
+   Trust Proofs within a KTP domain.
+
+9.1.  Responsibilities
+
+   The Trust Oracle:
+
+   1. Ingests sensor data from the Context Tensor
+   2. Maintains the Proof of Resilience ledger for all agents
+   3. Calculates E_base for each agent
+   4. Calculates R from Context Tensor values
+   5. Calculates E_trust = E_base * (1 - R)
+   6. Signs Trust Proofs with its private key
+   7. Issues Attestations of Passage for successful transactions
+   8. Publishes its public key for Trust Proof verification
+
+
+9.2.  Distribution
+
+   To avoid single points of failure, the Trust Oracle SHOULD be
+   distributed across multiple nodes.
+
+   Distribution models:
+
+   1. Active-Passive: One primary Oracle, one or more standby
+      Oracles that take over on primary failure. Simple but has
+      failover latency.
+
+   2. Active-Active with Consensus: Multiple Oracles that must
+      agree on Trust Scores. More resilient but higher latency.
+
+   3. Threshold Signatures: Multiple Oracles that each contribute
+      partial signatures; k-of-n required for valid Trust Proof.
+      Recommended for high-security deployments.
+
+   Implementations MUST support at least Active-Passive distribution.
+   Implementations SHOULD support threshold signatures.
+
+
+9.3.  Consensus
+
+   When multiple Oracles are active, they MUST agree on:
+
+   1. Current sensor values (within tolerance)
+   2. Agent E_base values (must match exactly)
+   3. Calculated R and E_trust (within tolerance)
+
+   Tolerance for sensor values: 5% relative difference
+   Tolerance for E_trust: 2 points absolute difference
+
+   If Oracles disagree beyond tolerance, they MUST:
+
+   1. Log the disagreement with full context
+   2. Use the more conservative (lower) E_trust value
+   3. Alert operators to investigate
+
+   Oracle disagreement MAY indicate:
+   - Sensor failure or manipulation
+   - Network partition between Oracles
+   - Attack on Oracle infrastructure
+
+
+10. Security Considerations
+
+   This section addresses security considerations for KTP
+   implementations.
+
+10.1.  Trust Oracle Compromise
+
+   The Trust Oracle is the most critical component. A compromised
+   Oracle could issue fraudulent Trust Proofs, enabling unauthorized
+   actions.
+
+   Mitigations:
+   - Distribute across multiple failure domains
+   - Use threshold signatures (k-of-n)
+   - Store signing keys in HSMs
+   - Rotate keys on a defined schedule
+   - Monitor for anomalous Trust Proof issuance
+   - Implement Byzantine fault tolerance
+
+10.2.  Sensor Manipulation
+
+   Attackers may attempt to manipulate sensors to reduce R, thereby
+   increasing E_trust and enabling higher-risk actions.
+
+   Mitigations:
+   - Use multiple independent sensors per dimension
+   - Cross-validate sensors (e.g., CO2 should correlate with badge)
+   - Detect sudden sensor value changes
+   - Maintain minimum R floor during suspicious conditions
+   - Physically secure sensor infrastructure
+
+10.3.  Replay Attacks
+
+   Attackers may capture and replay Trust Proofs.
+
+   Mitigations:
+   - Short Trust Proof lifetime (max 10 seconds)
+   - Include action hash in Trust Proof
+   - Track Trust Proof JTIs to prevent reuse
+   - Bind Trust Proof to TLS session
+
+10.4.  Trajectory Forgery
+
+   Attackers may attempt to forge agent trajectories to inflate E_base.
+
+   Mitigations:
+   - Trajectory chains require Oracle co-signature
+   - Each transaction links to previous state hash
+   - Continuity enforcement prevents "teleportation"
+   - See [KTP-IDENTITY] for detailed countermeasures
+
+10.5.  Denial of Service
+
+   Attackers may artificially increase R (e.g., by generating WAF
+   blocks) to deny service to legitimate agents.
+
+   Mitigations:
+   - Distinguish attack indicators from legitimate load
+   - Implement hysteresis to prevent oscillation
+   - Allow operators to adjust weights during confirmed attacks
+   - Maintain minimum capability for critical agents
+
+10.6.  Privacy Considerations
+
+   Trust Proofs contain detailed information about agent history,
+   environmental conditions, and organizational operations.
+
+   Mitigations:
+   - Encrypt Trust Proofs in transit
+   - Implement access controls on Flight Recorder
+   - Consider privacy-preserving Trust Proofs (ZK proofs of
+     E_trust >= threshold without revealing actual value)
+   - Comply with relevant data protection regulations
+
+
+11. IANA Considerations
+
+   This document requests the following IANA registrations:
+
+11.1.  JWT Claim Registration
+
+   Claim Name: ktp
+   Claim Description: Kinetic Trust Protocol data
+   Change Controller: IETF
+   Specification Document(s): This document
+
+11.2.  Media Type Registration
+
+   Type name: application
+   Subtype name: ktp+jwt
+   Required parameters: None
+   Optional parameters: None
+   Encoding considerations: binary (JWT is Base64url-encoded)
+   Security considerations: See Section 10
+   Interoperability considerations: None
+   Published specification: This document
+   Applications which use this media type: KTP implementations
+   Fragment identifier considerations: None
+   Restrictions on usage: None
+   Additional information: None
+   Person to contact for further information: [TBD]
+   Intended usage: COMMON
+   Author/Change controller: IETF
+
+11.3.  URI Scheme Registration
+
+   Scheme name: ktp
+   Status: Provisional
+   Applications/protocols that use this scheme: KTP
+   Contact: [TBD]
+   Change controller: IETF
+   References: This document
+
+
+12. References
+
+12.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Token (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/info/rfc7519>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174,
+              DOI 10.17487/RFC8174, May 2017,
+              <https://www.rfc-editor.org/info/rfc8174>.
+
+12.2.  Informative References
+
+   [KTP-IDENTITY]
+              Perkins, C., "Kinetic Trust Protocol - Vector Identity",
+              Work in Progress.
+
+   [KTP-SENSORS]
+              Perkins, C., "Kinetic Trust Protocol - Context Tensor
+              Sensors", Work in Progress.
+
+   [KTP-ENFORCE]
+              Perkins, C., "Kinetic Trust Protocol - Enforcement
+              Layer", Work in Progress.
+
+   [KTP-AUDIT]
+              Perkins, C., "Kinetic Trust Protocol - Flight Recorder",
+              Work in Progress.
+
+   [KTP-ZONES]
+              Perkins, C., "Kinetic Trust Protocol - Blue Zone
+              Discovery", Work in Progress.
+
+   [KTP-FEDERATION]
+              Perkins, C., "Kinetic Trust Protocol - Trust Federation",
+              Work in Progress.
+
+
+Appendix A.  Example Calculations
+
+A.1.  Stadium Network at Kickoff
+
+   Scenario: A deployment agent attempts to push a code update to the
+   ticketing system during a major sporting event.
+
+   Sensor values:
+      CO2: 1800 ppm
+      Link saturation: 92%
+      WAF blocks: 200/min
+      Time to kickoff: 5 minutes
+      Dependency count: 50
+      VIP count: 2
+
+   Normalization:
+      M = (1800 - 400) / 1600 = 0.875
+      V = 92 / 100 = 0.920
+      H = 200 / 10000 = 0.020
+      T = 1 - (0.083 / 72) = 0.999 ≈ 1.000
+      I = 50 / 500 = 0.100
+      O = 2 / 50 = 0.040
+
+   Domain weights (stadium):
+      w_M=0.30, w_V=0.25, w_H=0.20, w_T=0.15, w_I=0.05, w_O=0.05
+
+   Risk calculation:
+      R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 * 0.020) +
+          (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040)
+      R = 0.263 + 0.230 + 0.004 + 0.150 + 0.005 + 0.002
+      R = 0.654
+
+   Agent E_base: 95 (highly trusted deployment agent)
+
+   E_trust calculation:
+      E_trust = 95 * (1 - 0.654) = 95 * 0.346 = 32.87
+
+   Action requested: Deploy code (A = 50)
+
+   Zeroth Law evaluation:
+      A <= E_trust ?
+      50 <= 32.87 ?
+      FALSE
+
+   Result: Silent Veto. Deployment denied.
+
+
+A.2.  Same Agent, Calm Conditions
+
+   Same agent, but during a maintenance window:
+
+   Sensor values:
+      CO2: 450 ppm
+      Link saturation: 12%
+      WAF blocks: 5/min
+      Time to event: 48 hours
+      Dependency count: 50
+      VIP count: 0
+
+   Normalization:
+      M = (450 - 400) / 1600 = 0.031
+      V = 12 / 100 = 0.120
+      H = 5 / 10000 = 0.001
+      T = 1 - (48 / 72) = 0.333
+      I = 50 / 500 = 0.100
+      O = 0 / 50 = 0.000
+
+   Risk calculation:
+      R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 * 0.001) +
+          (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000)
+      R = 0.009 + 0.030 + 0.000 + 0.050 + 0.005 + 0.000
+      R = 0.094
+
+   E_trust calculation:
+      E_trust = 95 * (1 - 0.094) = 95 * 0.906 = 86.07
+
+   Action requested: Deploy code (A = 50)
+
+   Zeroth Law evaluation:
+      A <= E_trust ?
+      50 <= 86.07 ?
+      TRUE
+
+   Result: Action permitted.
+
+
+Appendix B.  JSON Schemas
+
+B.1.  Trust Proof Schema
+
+   {
+     "$schema": "https://json-schema.org/draft/2020-12/schema",
+     "$id": "https://ktp.example.org/schemas/trust-proof.json",
+     "title": "KTP Trust Proof",
+     "type": "object",
+     "required": ["iss", "sub", "iat", "exp", "jti", "ktp"],
+     "properties": {
+       "iss": {
+         "type": "string",
+         "format": "uri",
+         "description": "Trust Oracle identifier"
+       },
+       "sub": {
+         "type": "string",
+         "format": "uri",
+         "description": "Agent identifier"
+       },
+       "iat": {
+         "type": "integer",
+         "description": "Issued at (Unix timestamp)"
+       },
+       "exp": {
+         "type": "integer",
+         "description": "Expiration (Unix timestamp)"
+       },
+       "jti": {
+         "type": "string",
+         "description": "Unique token identifier"
+       },
+       "ktp": {
+         "$ref": "#/$defs/ktpClaims"
+       }
+     },
+     "$defs": {
+       "ktpClaims": {
+         "type": "object",
+         "required": ["e_base", "e_trust", "r", "context", "lineage"],
+         "properties": {
+           "e_base": {
+             "type": "number",
+             "minimum": 0,
+             "maximum": 100
+           },
+           "e_trust": {
+             "type": "number",
+             "minimum": 0,
+             "maximum": 100
+           },
+           "r": {
+             "type": "number",
+             "minimum": 0,
+             "maximum": 1
+           },
+           "de_dt": {
+             "type": "number",
+             "description": "Trust velocity (change per second)"
+           },
+           "sigma": {
+             "type": "number",
+             "minimum": 0,
+             "description": "Trust volatility"
+           },
+           "context": {
+             "$ref": "#/$defs/contextTensor"
+           },
+           "soul": {
+             "$ref": "#/$defs/soulConstraint"
+           },
+           "lineage": {
+             "type": "string",
+             "enum": ["tethered", "divergent", "persistent"]
+           },
+           "generation": {
+             "type": "integer",
+             "minimum": 0
+           },
+           "sponsor": {
+             "type": "string",
+             "format": "uri"
+           },
+           "resilience_hash": {
+             "type": "string"
+           }
+         }
+       },
+       "contextTensor": {
+         "type": "object",
+         "required": ["m", "p", "h", "t", "i", "o"],
+         "properties": {
+           "m": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Mass - physical density" },
+           "p": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Momentum - kinetic velocity" },
+           "h": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Heat - adversarial pressure" },
+           "t": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Time - temporal phase" },
+           "i": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Inertia - blast radius" },
+           "o": { "type": "number", "minimum": 0, "maximum": 1,
+                  "description": "Observer - population" }
+         }
+       },
+       "soulConstraint": {
+         "type": "object",
+         "required": ["s"],
+         "properties": {
+           "s": {
+             "type": "integer",
+             "enum": [0, 1],
+             "description": "Soul veto status (0=clear, 1=veto)"
+           },
+           "constraint_type": {
+             "type": ["string", "null"],
+             "enum": ["tk_label", "ocap", "care", "sacred_land",
+                      "treaty", "lineage", null],
+             "description": "Type of sovereignty constraint"
+           },
+           "constraint_id": {
+             "type": ["string", "null"],
+             "description": "Identifier of triggering constraint"
+           },
+           "authority": {
+             "type": ["string", "null"],
+             "format": "uri",
+             "description": "URI of sovereignty authority"
+           }
+         }
+       }
+     }
+   }
+
+
+Authors' Addresses
+
+   Chris Perkins
+   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+
+   Email: cperkins@nmcitra.org

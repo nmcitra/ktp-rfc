@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ktp.example.org/schemas/trust-proof.json",
+  "title": "KTP Trust Proof",
+  "description": "Signed token carrying Trust Score and environmental context for the Kinetic Trust Protocol",
+  "type": "object",
+  "required": ["iss", "sub", "iat", "exp", "jti", "ktp"],
+  "properties": {
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "Trust Oracle identifier (issuer)"
+    },
+    "sub": {
+      "type": "string",
+      "format": "uri",
+      "description": "Agent identifier (subject)"
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issued at (Unix timestamp)"
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expiration time (Unix timestamp, max 10 seconds from iat)"
+    },
+    "jti": {
+      "type": "string",
+      "description": "Unique token identifier (JWT ID)"
+    },
+    "ktp": {
+      "$ref": "#/$defs/ktpClaims"
+    }
+  },
+  "$defs": {
+    "ktpClaims": {
+      "type": "object",
+      "required": ["e_base", "e_trust", "r", "context", "soul", "lineage"],
+      "properties": {
+        "e_base": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Base Trust score (intrinsic agent capability)"
+        },
+        "e_trust": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Effective Trust score after environmental deflation"
+        },
+        "r": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Risk Factor from weighted Context Tensor dimensions"
+        },
+        "de_dt": {
+          "type": "number",
+          "description": "Trust velocity (rate of change per second)"
+        },
+        "sigma": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Trust volatility (standard deviation)"
+        },
+        "context": {
+          "$ref": "context-tensor.json",
+          "description": "The six weighted dimensions of environmental state"
+        },
+        "soul": {
+          "$ref": "soul-constraint.json",
+          "description": "Sovereignty constraint evaluation"
+        },
+        "lineage": {
+          "type": "string",
+          "enum": ["tethered", "divergent", "persistent"],
+          "description": "Agent evolutionary stage"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Agent generation number"
+        },
+        "sponsor": {
+          "type": "string",
+          "format": "uri",
+          "description": "Sponsor agent identifier (for tethered agents)"
+        },
+        "resilience_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "Hash of current Proof of Resilience ledger"
+        },
+        "zone": {
+          "type": "string",
+          "description": "Blue Zone identifier where proof was issued"
+        },
+        "oracle_quorum": {
+          "type": "string",
+          "pattern": "^[0-9]+-of-[0-9]+$",
+          "description": "Threshold signature quorum (e.g., '3-of-5')"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "iss": "https://oracle.example.com",
+      "sub": "agent:7gen:optimized:a1b2c3d4",
+      "iat": 1699900000,
+      "exp": 1699900010,
+      "jti": "tp-uuid-12345",
+      "ktp": {
+        "e_base": 87,
+        "e_trust": 42,
+        "r": 0.517,
+        "de_dt": -2.3,
+        "sigma": 0.15,
+        "context": {
+          "m": 0.875,
+          "p": 0.920,
+          "h": 0.020,
+          "t": 1.000,
+          "i": 0.100,
+          "o": 0.040
+        },
+        "soul": {
+          "s": 0,
+          "constraint_type": null,
+          "constraint_id": null,
+          "authority": null
+        },
+        "lineage": "persistent",
+        "generation": 7,
+        "resilience_hash": "sha256:abc123def456789012345678901234567890123456789012345678901234",
+        "zone": "zone-blue-prod-01",
+        "oracle_quorum": "3-of-5"
+      }
+    },
+    {
+      "iss": "https://oracle.example.com",
+      "sub": "agent:2gen:data-analyst:xyz789",
+      "iat": 1699900100,
+      "exp": 1699900110,
+      "jti": "tp-uuid-67890",
+      "ktp": {
+        "e_base": 45,
+        "e_trust": 40,
+        "r": 0.111,
+        "de_dt": 0.5,
+        "sigma": 0.08,
+        "context": {
+          "m": 0.100,
+          "p": 0.150,
+          "h": 0.050,
+          "t": 0.200,
+          "i": 0.080,
+          "o": 0.100
+        },
+        "soul": {
+          "s": 1,
+          "constraint_type": "tk_label",
+          "constraint_id": "TK-NC-001",
+          "constraint_name": "TK Non-Commercial",
+          "authority": "https://localcontexts.org/label/tk-nc/",
+          "community": "Example Indigenous Community",
+          "remediation": "Contact community data steward for commercial licensing"
+        },
+        "lineage": "tethered",
+        "generation": 2,
+        "sponsor": "agent:persistent:data-team:abc123",
+        "resilience_hash": "sha256:fedcba987654321098765432109876543210987654321098765432109876",
+        "zone": "zone-blue-research",
+        "oracle_quorum": "2-of-3"
+      }
+    }
+  ]
+}

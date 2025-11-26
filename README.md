@@ -176,29 +176,29 @@ Blue Zones are network segments where Digital Physics is enforced—safe harbors
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                     BLUE ZONE                        │
+│                     BLUE ZONE                       │
 │  ┌───────────────────────────────────────────────┐  │
-│  │           Trust Oracle Mesh                    │  │
+│  │           Trust Oracle Mesh                   │  │
 │  │   [Oracle 1] ←→ [Oracle 2] ←→ [Oracle 3]      │  │
 │  └───────────────────────────────────────────────┘  │
 │                        ↓                            │
 │  ┌───────────────────────────────────────────────┐  │
-│  │         Context Tensor Sensors                 │  │
+│  │         Context Tensor Sensors                │  │
 │  │   [M] [P] [H] [T] [I] [O] [S]                 │  │
 │  └───────────────────────────────────────────────┘  │
 │                        ↓                            │
 │  ┌───────────────────────────────────────────────┐  │
-│  │      Policy Enforcement Points                 │  │
+│  │      Policy Enforcement Points                │  │
 │  │   [API GW] [Service Mesh] [IAM] [DB Proxy]    │  │
 │  └───────────────────────────────────────────────┘  │
 │                        ↓                            │
 │  ┌───────────────────────────────────────────────┐  │
-│  │          Agent Population                      │  │
+│  │          Agent Population                     │  │
 │  │   [Tethered] [Divergent] [Persistent]         │  │
 │  └───────────────────────────────────────────────┘  │
 │                        ↓                            │
 │  ┌───────────────────────────────────────────────┐  │
-│  │           Flight Recorder                      │  │
+│  │           Flight Recorder                     │  │
 │  │   [Immutable Audit Log - Decision Geometry]   │  │
 │  └───────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────┘
@@ -206,7 +206,7 @@ Blue Zones are network segments where Digital Physics is enforced—safe harbors
                 [ZONE GATEWAY]
                          ↕
 ┌─────────────────────────────────────────────────────┐
-│                WILD INTERNET                         │
+│                WILD INTERNET                        │
 │     (Static credentials, binary permissions)        │
 └─────────────────────────────────────────────────────┘
 ```

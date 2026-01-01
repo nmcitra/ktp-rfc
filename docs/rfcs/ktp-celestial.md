@@ -1,0 +1,1152 @@
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
+
+
+         Kinetic Trust Protocol (KTP) - Celestial Wayfinding
+         
+              Trust Mechanics for Interplanetary Communication
+
+===============================================================================
+
+   "The star compass does not tell you where you are.
+    It tells you who you are, and therefore where you must go."
+    
+                              — Nainoa Thompson, Polynesian Voyaging Society
+
+===============================================================================
+
+Abstract
+
+   This document extends the Kinetic Trust Protocol for interplanetary
+   communication, where signal latency measured in minutes or hours
+   makes traditional real-time trust verification impossible.
+
+   The specification introduces Celestial Trust mechanics: extended
+   Trust Proofs, predictive trust based on trajectory, local Oracle
+   sovereignty, and the Light-Cone Trust model that explicitly handles
+   the irreducible uncertainty of distance.
+
+   The architecture draws inspiration from traditional wayfinding—the
+   art of navigating vast distances not by eliminating uncertainty but
+   by moving skillfully within it, carrying identity and purpose across
+   the void.
+
+Status of This Memo
+
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
+
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
+
+Copyright Notice
+
+   Copyright (c) 2025 Chris Perkins / NMCITRA.
+   This work is licensed under the Apache License, Version 2.0.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .  3
+       1.1.  The Wayfinding Principle . . . . . . . . . . . . . . . .  3
+       1.2.  The Latency Problem  . . . . . . . . . . . . . . . . . .  4
+       1.3.  Requirements Language  . . . . . . . . . . . . . . . . .  5
+   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   3.  Celestial Distances  . . . . . . . . . . . . . . . . . . . . .  7
+       3.1.  Light-Time Table . . . . . . . . . . . . . . . . . . . .  7
+       3.2.  Latency Classes  . . . . . . . . . . . . . . . . . . . .  8
+   4.  The Light-Cone Trust Model . . . . . . . . . . . . . . . . . .  9
+       4.1.  Trust Horizons . . . . . . . . . . . . . . . . . . . . .  9
+       4.2.  The Uncertainty Zone . . . . . . . . . . . . . . . . . . 11
+       4.3.  Causal Trust Boundaries  . . . . . . . . . . . . . . . . 12
+   5.  Local Oracle Sovereignty . . . . . . . . . . . . . . . . . . . 13
+       5.1.  Planetary Oracle Meshes  . . . . . . . . . . . . . . . . 13
+       5.2.  Sovereignty Hierarchy  . . . . . . . . . . . . . . . . . 14
+       5.3.  Lagrange Point Anchors . . . . . . . . . . . . . . . . . 15
+   6.  Extended Trust Proofs  . . . . . . . . . . . . . . . . . . . . 17
+       6.1.  Validity Scaling . . . . . . . . . . . . . . . . . . . . 17
+       6.2.  Trajectory Binding . . . . . . . . . . . . . . . . . . . 18
+       6.3.  Degradation Curves . . . . . . . . . . . . . . . . . . . 19
+   7.  Predictive Trust . . . . . . . . . . . . . . . . . . . . . . . 21
+       7.1.  Trajectory Projection  . . . . . . . . . . . . . . . . . 21
+       7.2.  Whakapapa Chains . . . . . . . . . . . . . . . . . . . . 22
+       7.3.  Confidence Decay . . . . . . . . . . . . . . . . . . . . 24
+   8.  Voyage Protocol  . . . . . . . . . . . . . . . . . . . . . . . 25
+       8.1.  Departure Attestation  . . . . . . . . . . . . . . . . . 25
+       8.2.  Transit Operations . . . . . . . . . . . . . . . . . . . 26
+       8.3.  Arrival Reconciliation . . . . . . . . . . . . . . . . . 28
+   9.  Constellation Federation . . . . . . . . . . . . . . . . . . . 29
+       9.1.  Inter-Planetary Federation . . . . . . . . . . . . . . . 29
+       9.2.  Delayed Consensus  . . . . . . . . . . . . . . . . . . . 30
+       9.3.  Schism Resolution  . . . . . . . . . . . . . . . . . . . 31
+   10. Mauri: The Essence That Travels  . . . . . . . . . . . . . . . 32
+   11. Security Considerations  . . . . . . . . . . . . . . . . . . . 34
+   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 36
+
+
+===============================================================================
+                    PART I: FOUNDATIONS
+===============================================================================
+
+1.  Introduction
+
+   The Kinetic Trust Protocol was designed for terrestrial networks
+   where signal latency is measured in milliseconds. Trust Proofs
+   expire in seconds. Oracle consensus happens in real-time. The
+   Silent Veto triggers instantly.
+
+   None of this works when your Trust Oracle is four light-minutes
+   away and receding.
+
+   This document extends KTP for the celestial domain—where agents
+   operate across interplanetary distances, where real-time verification
+   is physically impossible, and where trust must travel with the
+   traveler.
+
+1.1.  The Wayfinding Principle
+
+   For three thousand years, Polynesian navigators crossed the Pacific—
+   the largest ocean on Earth—in double-hulled canoes without compass,
+   sextant, or chart. They navigated by stars, by the feel of ocean
+   swells, by the flight patterns of birds, by the color of clouds
+   near unseen islands.
+
+   They did not eliminate uncertainty. They moved skillfully within it.
+
+   The navigator Nainoa Thompson describes traditional wayfinding not
+   as knowing where you are, but as knowing who you are—and therefore
+   knowing where you must go. The navigator carries their island with
+   them: their genealogy (whakapapa), their essential nature (mauri),
+   their earned authority (mana). Identity is not verified by the
+   destination; it travels with the voyager.
+
+   This is the philosophical foundation of Celestial Trust:
+
+      Trust that travels with you.
+
+   An agent crossing interplanetary space cannot wait for verification
+   from a distant Oracle. Instead, the agent carries:
+
+   - Extended Trust Proofs with validity scaled to distance
+   - Trajectory chains that prove continuity of identity
+   - Predictive trust based on demonstrated patterns
+   - The mauri—the essential quality that makes the agent what it is
+
+   Upon arrival, the agent does not prove identity from scratch. The
+   agent presents the journey itself as proof: where it came from, how
+   it traveled, what it did along the way. The trajectory IS the
+   identity.
+
+1.2.  The Latency Problem
+
+   Consider an agent operating on Mars, subordinate to a Trust Oracle
+   mesh on Earth:
+
+   Earth-Mars light-time:
+   - Minimum (closest approach): 3.0 minutes one-way
+   - Maximum (opposite sides of sun): 22.3 minutes one-way
+   - Average: 12.5 minutes one-way
+
+   Round-trip verification: 6 to 45 minutes.
+
+   If Trust Proofs expire in 10 seconds (terrestrial default), an
+   agent on Mars would need to request a new proof, wait up to 45
+   minutes for response, and find the proof already expired on arrival.
+
+   This is not a solvable problem within traditional KTP. The physics
+   of light-speed communication create irreducible latency that
+   invalidates real-time trust verification.
+
+   The solution is not faster communication—that violates physics.
+   The solution is trust architecture that acknowledges light-speed
+   as a fundamental constraint, like gravity or entropy.
+
+   Celestial Trust does not fight the light-cone. It works within it.
+
+1.3.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174].
+
+
+2.  Terminology
+
+   Arrival Reconciliation:
+      The process of validating an agent's voyage upon reaching a
+      destination Oracle, comparing predicted trajectory against
+      actual behavior.
+
+   Celestial Trust:
+      The extension of KTP for interplanetary distances where real-time
+      Oracle verification is impossible.
+
+   Constellation:
+      A federation of Planetary Oracle Meshes with delayed consensus.
+
+   Departure Attestation:
+      A comprehensive attestation issued when an agent leaves one
+      Oracle domain for another, containing extended Trust Proof and
+      predicted trajectory.
+
+   Extended Trust Proof:
+      A Trust Proof with validity period scaled to transit distance,
+      potentially hours or days instead of seconds.
+
+   Lagrange Point Anchor:
+      A Trust Oracle positioned at a gravitationally stable Lagrange
+      point, serving as intermediate trust authority.
+
+   Light-Cone:
+      The region of spacetime that can be causally connected to a
+      given event, bounded by the speed of light.
+
+   Light-Time:
+      The time required for light (or radio signals) to travel between
+      two points. Earth-Moon: 1.3 seconds. Earth-Mars: 3-22 minutes.
+
+   Local Oracle Sovereignty:
+      The principle that each planetary body maintains authoritative
+      Trust Oracles for its local domain.
+
+   Mauri:
+      (Māori) The essential life force or quality that makes something
+      what it is. In Celestial Trust, the irreducible identity that
+      travels with an agent.
+
+   Planetary Oracle Mesh:
+      The Trust Oracle infrastructure local to a planetary body or
+      station, authoritative for that domain.
+
+   Predictive Trust:
+      Trust extended into the future based on trajectory analysis and
+      demonstrated behavioral patterns.
+
+   Transit:
+      The period during which an agent is between Oracle domains,
+      operating on Extended Trust Proofs.
+
+   Trust Horizon:
+      The temporal boundary beyond which trust cannot be verified
+      due to light-speed latency.
+
+   Uncertainty Zone:
+      The period during transit where an agent's current state cannot
+      be known by any Oracle due to light-time delays.
+
+   Voyage:
+      An agent's journey between planetary Oracle domains, comprising
+      departure, transit, and arrival.
+
+   Whakapapa:
+      (Māori) Genealogy; the chain of ancestry connecting past to
+      present to future. In Celestial Trust, the trajectory chain
+      that proves continuity of identity across distance and time.
+
+
+3.  Celestial Distances
+
+3.1.  Light-Time Table
+
+   The following table provides light-time values for major celestial
+   bodies from Earth (one-way signal time):
+
+   +------------------+----------------+----------------+--------------+
+   | Destination      | Minimum        | Maximum        | Average      |
+   +------------------+----------------+----------------+--------------+
+   | Moon             | 1.25 sec       | 1.35 sec       | 1.28 sec     |
+   | Mars             | 3.0 min        | 22.3 min       | 12.5 min     |
+   | Venus            | 2.2 min        | 14.4 min       | 6.0 min      |
+   | Jupiter          | 32.7 min       | 52.4 min       | 43.2 min     |
+   | Saturn           | 66.0 min       | 89.4 min       | 79.3 min     |
+   | Uranus           | 147.0 min      | 173.0 min      | 159.6 min    |
+   | Neptune          | 244.0 min      | 272.0 min      | 257.8 min    |
+   | Proxima Centauri | 4.24 years     | 4.24 years     | 4.24 years   |
+   +------------------+----------------+----------------+--------------+
+
+   Round-trip verification time is double these values.
+
+   Note: Values vary significantly based on orbital positions. Mars
+   at closest approach (opposition) vs. farthest (conjunction) differs
+   by a factor of 7.4x.
+
+3.2.  Latency Classes
+
+   Celestial Trust defines latency classes that determine trust
+   mechanics:
+
+   Class 0 - Terrestrial (< 1 second one-way):
+      Standard KTP applies. Real-time Oracle verification.
+      Examples: Earth surface, LEO satellites, GEO satellites.
+
+   Class 1 - Cislunar (1-5 seconds one-way):
+      Near-real-time verification possible. Slight proof extension.
+      Examples: Moon, Earth-Moon Lagrange points.
+
+   Class 2 - Inner System (1-30 minutes one-way):
+      Real-time verification impractical. Extended Trust Proofs.
+      Local Oracle sovereignty required.
+      Examples: Mars, Venus, Near-Earth asteroids.
+
+   Class 3 - Outer System (30-300 minutes one-way):
+      Real-time verification impossible. Full predictive trust.
+      Local Oracles mandatory with delayed federation.
+      Examples: Jupiter, Saturn, asteroid belt.
+
+   Class 4 - Deep Space (> 300 minutes one-way):
+      Effectively autonomous operation. Trust based entirely on
+      departure attestation and trajectory prediction.
+      Examples: Uranus, Neptune, Kuiper belt.
+
+   Class 5 - Interstellar (years):
+      Complete autonomy. No real-time federation possible.
+      Trust established at departure, verified at arrival.
+      Example: Proxima Centauri missions.
+
+
+===============================================================================
+                    PART II: THE LIGHT-CONE MODEL
+===============================================================================
+
+4.  The Light-Cone Trust Model
+
+   The speed of light is not a limitation to be overcome; it is a
+   physical law to be respected. Celestial Trust explicitly models
+   the light-cone as a trust boundary.
+
+4.1.  Trust Horizons
+
+   At any moment, an Oracle can only have verified knowledge of events
+   within its past light-cone—events whose light has had time to reach
+   the Oracle.
+
+   The Trust Horizon is the boundary of this cone:
+
+                              Future
+                                ^
+                                |
+                               /|\
+                              / | \
+                             /  |  \
+                            /   |   \    <- Future light-cone
+                           /    |    \      (where our signals can reach)
+                          /     |     \
+                         /      |      \
+                        /       |       \
+                       +--------*--------+  NOW (Oracle position)
+                        \       |       /
+                         \      |      /
+                          \     |     /
+                           \    |    /   <- Past light-cone
+                            \   |   /       (what we can know)
+                             \  |  /
+                              \ | /
+                               \|/
+                                v
+                              Past
+
+   For a Trust Oracle on Earth considering an agent on Mars:
+
+   - The Oracle can verify the agent's state as of (now - light_time)
+   - The Oracle cannot know the agent's current state
+   - Any Trust Proof issued now will arrive (now + light_time)
+   - The agent's state when the proof arrives is unknown
+
+   This is not uncertainty due to incomplete information. It is
+   fundamental uncertainty arising from the structure of spacetime.
+
+4.2.  The Uncertainty Zone
+
+   When an agent transits between Oracle domains, it enters an
+   Uncertainty Zone: a period where no Oracle can verify its current
+   state in real-time.
+
+   Consider an agent departing Earth for Mars:
+
+   Time T0: Agent departs Earth, receives Departure Attestation
+   Time T0 + 1 hour: Agent is in transit
+      - Earth Oracle: Knows agent state as of T0 (1 hour ago)
+      - Mars Oracle: Has not yet received departure signal
+
+   Time T0 + 6 minutes (closest approach):
+      - Mars Oracle receives departure notification
+      - But agent is now 6 minutes further along
+      - Neither Oracle knows agent's CURRENT state
+
+   This Uncertainty Zone persists throughout transit. The agent
+   operates on:
+
+   1. Extended Trust Proof from departure
+   2. Predictive trust based on trajectory
+   3. Local environmental assessment
+   4. Its own mauri—its essential nature
+
+   The Uncertainty Zone is not a bug; it is the physics of distance.
+   Celestial Trust embraces it rather than pretending it can be
+   eliminated.
+
+4.3.  Causal Trust Boundaries
+
+   Trust verification is bounded by causality:
+
+   Rule 1: An Oracle MUST NOT claim to verify an agent's current state
+           beyond its past light-cone.
+
+   Rule 2: An Oracle MAY extend predictive trust based on trajectory
+           and behavioral history, clearly marked as predictive.
+
+   Rule 3: An agent MAY operate on Extended Trust Proofs within the
+           Uncertainty Zone, subject to degradation curves.
+
+   Rule 4: Upon arrival, trust MUST be reconciled between predicted
+           and actual behavior.
+
+   These rules acknowledge that certainty decreases with distance,
+   and design trust mechanics accordingly.
+
+
+===============================================================================
+                    PART III: ARCHITECTURE
+===============================================================================
+
+5.  Local Oracle Sovereignty
+
+   Each major celestial body or station maintains its own Planetary
+   Oracle Mesh with full sovereignty over its local domain.
+
+5.1.  Planetary Oracle Meshes
+
+   A Planetary Oracle Mesh is the authoritative trust infrastructure
+   for a celestial body:
+
+   Earth:
+   - Primary Oracle Mesh (multiple redundant ground stations)
+   - LEO relay constellation
+   - GEO anchor stations
+   - Authoritative for: Earth surface, LEO, GEO, Earth-Moon L1/L2
+
+   Moon:
+   - Lunar Oracle Mesh (surface stations + orbital relays)
+   - Earth-Moon L4/L5 anchors
+   - Authoritative for: Lunar surface, lunar orbit, cislunar space
+
+   Mars:
+   - Martian Oracle Mesh (surface + orbital)
+   - Mars-Sun L1/L2 anchors
+   - Phobos/Deimos relay stations
+   - Authoritative for: Mars surface, Mars orbit, Mars approach
+
+   Each Planetary Oracle Mesh:
+
+   - Maintains independent sensor networks (Context Tensor)
+   - Issues Trust Proofs authoritative for its domain
+   - Operates during communication blackouts (solar conjunction)
+   - Federates with other meshes via delayed consensus
+
+5.2.  Sovereignty Hierarchy
+
+   When domains overlap or agents transit between them, sovereignty
+   follows a clear hierarchy:
+
+   1. Local Oracle has primary authority
+      - An agent on Mars surface answers to Mars Oracle Mesh
+      - Even if Earth Oracle disagrees, Mars Oracle governs locally
+
+   2. Departure Oracle attests, Arrival Oracle verifies
+      - Departure Attestation is a claim, not a guarantee
+      - Arrival Oracle performs Arrival Reconciliation
+      - Discrepancies resolved by Arrival Oracle
+
+   3. Transit follows Departure attestation until Arrival
+      - In the Uncertainty Zone, Departure Attestation governs
+      - Agent operates on Extended Trust Proof
+      - No Oracle can override during transit (causally impossible)
+
+   4. Federation resolves cross-domain disputes
+      - After arrival, both Oracles have verified information
+      - Constellation Federation reconciles any conflicts
+      - Resolution propagates (at light-speed) to all members
+
+5.3.  Lagrange Point Anchors
+
+   Lagrange points—gravitationally stable positions—serve as ideal
+   locations for Trust Oracle infrastructure:
+
+   Earth-Moon Lagrange Points:
+   - L1: Between Earth and Moon, 1.3 light-seconds from each
+   - L2: Beyond Moon, relay for lunar far side
+   - L4/L5: Stable points for long-term infrastructure
+
+   Earth-Sun Lagrange Points:
+   - L1: Solar observation, 1% closer to Sun than Earth
+   - L2: Deep space observation (James Webb position)
+
+   Mars-Sun Lagrange Points:
+   - L1/L2: Mars communication relay during solar conjunction
+
+   Lagrange Point Anchors provide:
+
+   1. Intermediate trust authority during transit
+   2. Reduced latency for nearby agents
+   3. Redundancy during planetary blackouts
+   4. Stable long-term observation platforms
+
+   An agent transiting Earth-to-Mars might update its Trust Proof
+   at Earth-Sun L1, reducing the Uncertainty Zone and providing
+   intermediate attestation.
+
+
+6.  Extended Trust Proofs
+
+6.1.  Validity Scaling
+
+   Extended Trust Proofs scale validity period based on:
+
+   1. Transit distance (light-time to destination)
+   2. Agent's trust tier at departure
+   3. Behavioral consistency (trajectory variance)
+   4. Mission criticality
+
+   Validity formula:
+
+      validity = base_validity * distance_factor * trust_factor
+
+   Where:
+      base_validity = Standard terrestrial validity (10 seconds)
+      distance_factor = 2 * light_time_one_way (minimum round-trip)
+      trust_factor = 1.0 + (departure_tier * 0.5)
+                     (higher trust = longer validity extension)
+
+   Example: Mars transit (12.5 min average), Operator tier (0.85)
+
+      distance_factor = 2 * 750 seconds = 1500
+      trust_factor = 1.0 + (0.85 * 0.5) = 1.425
+      validity = 10 * 1500 * 1.425 = 21,375 seconds ≈ 6 hours
+
+   Extended Trust Proof validity caps:
+
+   +---------------+-----------------+
+   | Latency Class | Maximum Validity|
+   +---------------+-----------------+
+   | Class 0       | 60 seconds      |
+   | Class 1       | 30 minutes      |
+   | Class 2       | 24 hours        |
+   | Class 3       | 7 days          |
+   | Class 4       | 30 days         |
+   | Class 5       | Mission duration|
+   +---------------+-----------------+
+
+6.2.  Trajectory Binding
+
+   Extended Trust Proofs are bound to expected trajectory:
+
+      {
+        "proof_type": "extended",
+        "agent_id": "agent:7gen:voyager:mars-survey-7",
+        "departure": {
+          "oracle": "earth-primary",
+          "timestamp": "2025-11-25T14:00:00Z",
+          "e_base": 87,
+          "e_trust": 82,
+          "tier": "operator"
+        },
+        "trajectory": {
+          "origin": "earth-leo",
+          "destination": "mars-orbit",
+          "expected_arrival": "2026-04-15T00:00:00Z",
+          "waypoints": [
+            {"point": "earth-moon-l1", "eta": "2025-11-26T02:00:00Z"},
+            {"point": "earth-sun-l1", "eta": "2025-12-10T00:00:00Z"}
+          ],
+          "corridor": {
+            "type": "elliptic_transfer",
+            "tolerance_km": 10000
+          }
+        },
+        "validity": {
+          "start": "2025-11-25T14:00:00Z",
+          "end": "2026-04-15T00:00:00Z",
+          "degradation_curve": "linear"
+        },
+        "signatures": {
+          "departure_oracle": "sig:earth-primary:abc...",
+          "trajectory_authority": "sig:jpl-nav:def..."
+        }
+      }
+
+   If the agent deviates significantly from expected trajectory,
+   the Extended Trust Proof is invalidated. The trajectory binding
+   creates accountability even during the Uncertainty Zone.
+
+6.3.  Degradation Curves
+
+   Extended Trust Proofs degrade over time, reflecting increasing
+   uncertainty:
+
+   Linear Degradation:
+      e_trust(t) = e_trust(0) * (1 - t/validity)
+
+   Exponential Degradation (more conservative):
+      e_trust(t) = e_trust(0) * e^(-k*t)
+      where k = ln(0.5) / half_life
+
+   Step Degradation (tier-based):
+      e_trust drops one tier at each threshold
+      Operator -> Analyst at 50% validity
+      Analyst -> Observer at 75% validity
+      Observer -> Hibernation at 90% validity
+
+   Recommended: Step Degradation for Class 2+, Linear for Class 1.
+
+   Degradation ensures that the longer an agent operates without
+   verification, the more constrained its capabilities become.
+   This is not punishment; it is epistemic humility encoded in
+   protocol.
+
+
+7.  Predictive Trust
+
+7.1.  Trajectory Projection
+
+   Predictive Trust extends trust into the future based on observed
+   patterns:
+
+   Inputs:
+   - Historical trajectory (whakapapa chain)
+   - Behavioral variance (sigma)
+   - Environmental correlation (how behavior changes with context)
+   - Mission parameters (expected actions)
+
+   The projection algorithm:
+
+   1. Analyze historical trajectory for patterns
+   2. Identify behavioral invariants (what the agent always does)
+   3. Calculate variance bounds (what the agent might do)
+   4. Project forward with confidence intervals
+
+   Output:
+
+      {
+        "prediction_type": "trajectory_projection",
+        "agent_id": "agent:7gen:voyager:mars-survey-7",
+        "projection_start": "2025-11-25T14:00:00Z",
+        "projections": [
+          {
+            "timestamp": "2025-12-01T00:00:00Z",
+            "predicted_e_trust": 78,
+            "confidence": 0.92,
+            "expected_actions": ["navigation", "telemetry", "science"],
+            "max_action_risk": 65
+          },
+          {
+            "timestamp": "2026-01-01T00:00:00Z",
+            "predicted_e_trust": 71,
+            "confidence": 0.78,
+            "expected_actions": ["navigation", "telemetry"],
+            "max_action_risk": 55
+          },
+          {
+            "timestamp": "2026-03-01T00:00:00Z",
+            "predicted_e_trust": 62,
+            "confidence": 0.61,
+            "expected_actions": ["navigation", "hibernation_prep"],
+            "max_action_risk": 45
+          }
+        ]
+      }
+
+   Confidence decreases with projection distance. This is honest
+   uncertainty, not a flaw in the system.
+
+7.2.  Whakapapa Chains
+
+   In Māori tradition, whakapapa is genealogy—but more than biological
+   descent. It is the chain of connection linking past to present to
+   future, connecting people to land, to ancestors, to descendants
+   not yet born. To know your whakapapa is to know your place in the
+   web of relationships that constitutes reality.
+
+   In Celestial Trust, the Whakapapa Chain is the trajectory record
+   that proves continuity of identity across vast distances and times:
+
+      {
+        "whakapapa": {
+          "agent_id": "agent:7gen:voyager:mars-survey-7",
+          "creation": {
+            "timestamp": "2024-01-15T00:00:00Z",
+            "oracle": "earth-jpl",
+            "sponsor": "agent:persistent:jpl-mission-control",
+            "purpose": "Mars geological survey"
+          },
+          "lineage": [
+            {
+              "generation": 1,
+              "period": "2024-01-15 to 2024-06-01",
+              "domain": "earth-jpl-lab",
+              "sponsor": "jpl-mission-control",
+              "attestations": 1247,
+              "resilience_events": 3
+            },
+            {
+              "generation": 3,
+              "period": "2024-06-01 to 2025-03-01",
+              "domain": "earth-leo-staging",
+              "sponsor": null,
+              "attestations": 8934,
+              "resilience_events": 12
+            },
+            {
+              "generation": 5,
+              "period": "2025-03-01 to 2025-11-25",
+              "domain": "earth-leo-operational",
+              "sponsor": null,
+              "attestations": 24521,
+              "resilience_events": 7
+            }
+          ],
+          "current_voyage": {
+            "departure": "2025-11-25T14:00:00Z",
+            "origin": "earth-leo",
+            "destination": "mars-orbit",
+            "generation_at_departure": 6
+          }
+        }
+      }
+
+   The Whakapapa Chain travels with the agent. Upon arrival at Mars,
+   the agent presents not just a Trust Proof, but its entire genealogy:
+   where it came from, who sponsored it, what it has done, how it has
+   grown.
+
+   The Mars Oracle does not verify identity from scratch. It reads
+   the whakapapa and judges: is this agent's story coherent? Does the
+   arrival match the departure? Has the agent maintained its essential
+   nature (mauri) across the void?
+
+7.3.  Confidence Decay
+
+   Predictive trust confidence decays with:
+
+   1. Time since last verification
+   2. Distance from known trajectory
+   3. Environmental uncertainty at destination
+   4. Agent behavioral variance
+
+   Confidence formula:
+
+      confidence(t) = base_confidence * time_decay * trajectory_match
+                      * environmental_factor * variance_penalty
+
+   Where:
+      base_confidence = Confidence at departure (typically 0.95)
+      time_decay = e^(-t/tau) where tau = mission-specific time constant
+      trajectory_match = 1.0 if on expected path, decreasing with deviation
+      environmental_factor = 1.0 for known conditions, lower for unknown
+      variance_penalty = 1.0 for consistent agents, lower for erratic
+
+   When confidence drops below threshold (typically 0.5), predictive
+   trust is no longer extended and the agent must operate on degraded
+   Extended Trust Proof only.
+
+
+===============================================================================
+                    PART IV: OPERATIONS
+===============================================================================
+
+8.  Voyage Protocol
+
+8.1.  Departure Attestation
+
+   Before leaving an Oracle domain, an agent receives a Departure
+   Attestation:
+
+   Pre-Departure Requirements:
+
+   1. Agent must be in good standing (E_trust >= 70)
+   2. Trajectory must be filed and approved
+   3. Extended Trust Proof must be generated
+   4. Whakapapa Chain must be current
+   5. Destination Oracle must be notified (signal sent)
+
+   Departure Attestation contents:
+
+      {
+        "attestation_type": "departure",
+        "agent_id": "agent:7gen:voyager:mars-survey-7",
+        "departure_oracle": "earth-primary",
+        "departure_time": "2025-11-25T14:00:00Z",
+        
+        "trust_state": {
+          "e_base": 87,
+          "e_trust": 82,
+          "tier": "operator",
+          "trajectory_hash": "sha256:abc...",
+          "resilience_score": 0.89
+        },
+        
+        "extended_proof": {
+          "validity_end": "2026-04-15T00:00:00Z",
+          "degradation_curve": "step",
+          "trajectory_bound": true
+        },
+        
+        "whakapapa_summary": {
+          "creation_date": "2024-01-15",
+          "generations_completed": 6,
+          "total_attestations": 34702,
+          "resilience_events_survived": 22,
+          "domains_operated": ["earth-jpl-lab", "earth-leo-staging",
+                               "earth-leo-operational"]
+        },
+        
+        "voyage": {
+          "destination": "mars-orbit",
+          "expected_arrival": "2026-04-15T00:00:00Z",
+          "mission": "geological-survey-7",
+          "waypoints": ["earth-moon-l1", "earth-sun-l1"]
+        },
+        
+        "signatures": {
+          "oracle": "sig:earth-primary:xyz...",
+          "agent": "sig:agent:mars-survey-7:abc...",
+          "mission_authority": "sig:jpl:def..."
+        }
+      }
+
+   The Departure Attestation is transmitted to:
+   - The agent (obviously)
+   - The destination Oracle (Mars)
+   - Any waypoint Oracles (Lagrange points)
+   - The Constellation Federation registry
+
+8.2.  Transit Operations
+
+   During transit, the agent operates under Celestial Trust rules:
+
+   Phase 1: Near-Departure (0-10% of transit)
+      - Recent attestation, high confidence
+      - Full tier capabilities available
+      - Waypoint updates if passing Lagrange anchors
+      - Departure Oracle can still observe (within light-cone)
+
+   Phase 2: Deep Transit (10-90% of transit)
+      - Maximum Uncertainty Zone
+      - Neither Departure nor Arrival Oracle has real-time visibility
+      - Extended Trust Proof with degradation active
+      - Predictive trust governs capability limits
+      - Agent operates on its mauri—its essential nature
+
+   Phase 3: Near-Arrival (90-100% of transit)
+      - Arrival Oracle begins to observe agent
+      - Preliminary arrival verification begins
+      - Agent prepares Arrival Report
+      - Trust reconciliation process starts
+
+   Transit behavior logging:
+
+   Even in the Uncertainty Zone, the agent MUST log all actions to
+   its local Flight Recorder. This log will be presented at Arrival
+   Reconciliation.
+
+      {
+        "transit_log_entry": {
+          "timestamp": "2026-01-15T08:23:17Z",
+          "position": {"type": "heliocentric", "coords": [...]},
+          "action": "course_correction",
+          "action_risk": 45,
+          "e_trust_at_action": 68,
+          "context": {
+            "reason": "optimize_fuel_efficiency",
+            "delta_v": 2.3,
+            "new_trajectory_hash": "sha256:ghi..."
+          },
+          "self_attestation": "sig:agent:abc..."
+        }
+      }
+
+   The transit log is signed by the agent itself. This is not as
+   authoritative as Oracle attestation, but it provides continuity
+   of record. The Arrival Oracle will evaluate whether the log is
+   consistent with observed behavior.
+
+8.3.  Arrival Reconciliation
+
+   Upon arrival at destination Oracle domain:
+
+   Step 1: Signal Arrival
+      Agent announces presence to Arrival Oracle
+      Transmits: Departure Attestation + Transit Log + Current State
+
+   Step 2: Trajectory Verification
+      Arrival Oracle compares:
+      - Expected trajectory (from Departure Attestation)
+      - Observed trajectory (from Arrival Oracle sensors)
+      - Claimed trajectory (from Transit Log)
+
+   Step 3: Behavioral Analysis
+      Arrival Oracle evaluates:
+      - Did agent stay within capability bounds?
+      - Do logged actions match observed behavior?
+      - Is the whakapapa chain intact and coherent?
+
+   Step 4: Trust Reconciliation
+      Arrival Oracle calculates:
+      - New E_base based on voyage performance
+      - Attestation for successful transit (if warranted)
+      - Any penalties for deviation or violation
+
+   Step 5: Local Trust Proof Issuance
+      Arrival Oracle issues local Trust Proof
+      Agent is now under Arrival Oracle sovereignty
+      New whakapapa entry added for this domain
+
+   Reconciliation outcomes:
+
+   Clean Arrival:
+      - Trajectory matched expectations
+      - Behavior consistent with predictions
+      - E_base maintained or increased
+      - Full trust restored
+
+   Minor Deviation:
+      - Small trajectory variance (within tolerance)
+      - Behavior mostly consistent
+      - E_base maintained
+      - Note added to whakapapa
+
+   Major Deviation:
+      - Significant trajectory difference
+      - Unexplained behavioral anomalies
+      - E_base reduced
+      - Investigation triggered
+
+   Irreconcilable:
+      - Trajectory completely wrong
+      - Transit log inconsistent with observation
+      - Agent cannot prove identity continuity
+      - Treated as unknown agent
+      - May require new sponsorship
+
+
+9.  Constellation Federation
+
+9.1.  Inter-Planetary Federation
+
+   Planetary Oracle Meshes federate into a Constellation:
+
+      +------------------+
+      |  Earth Primary   |
+      +--------+---------+
+               |
+      +--------+---------+--------+--------+
+      |        |         |        |        |
+      v        v         v        v        v
+   +------+ +------+ +------+ +------+ +------+
+   | Moon | | Mars | | L1   | | L2   | | ... |
+   +------+ +------+ +------+ +------+ +------+
+
+   Federation enables:
+   - Portable trust across planetary boundaries
+   - Shared threat intelligence (at light-speed delay)
+   - Coordinated response to bad actors
+   - Backup authority during blackouts
+
+   Federation trust factors adjust for:
+   - Distance (longer = lower factor)
+   - Communication reliability
+   - Governance alignment
+   - Historical accuracy of attestations
+
+9.2.  Delayed Consensus
+
+   Constellation consensus operates with explicit light-speed delays:
+
+   Event: Agent commits violation on Mars
+   Time T0: Mars Oracle detects violation, revokes local trust
+   Time T0 + 3-22 min: Earth Oracle receives notification
+   Time T0 + 6-44 min: Round-trip confirmed, Earth Oracle updates
+   Time T0 + 32-52 min: Jupiter Oracle receives notification
+
+   During the propagation window:
+   - Mars Oracle has authoritative local information
+   - Earth Oracle has stale information (acknowledges this)
+   - Jupiter Oracle has very stale information
+
+   Consensus rule: Most recent light-cone wins.
+
+   Each Oracle timestamps its knowledge and acknowledges the
+   light-time delay. There is no pretense of instantaneous consensus.
+
+9.3.  Schism Resolution
+
+   When Oracles cannot communicate (solar conjunction, equipment
+   failure), they may develop divergent views of agent trust.
+
+   Schism scenario:
+   - Mars and Earth lose contact for 14 days (solar conjunction)
+   - Agent X operates on Mars, earns high trust
+   - Agent X's clone operates on Earth, commits violation
+   - Contact restored: Mars says X is trusted, Earth says revoked
+
+   Resolution protocol:
+
+   1. Compare whakapapa chains for both instances
+   2. Determine if identity forked (clone attack) or single agent
+   3. If fork: Both instances suspect until investigated
+   4. If single: Oracle with direct observation governs
+   5. Propagate resolution to all Constellation members
+
+
+===============================================================================
+                    PART V: PHILOSOPHY
+===============================================================================
+
+10.  Mauri: The Essence That Travels
+
+   In te ao Māori (the Māori worldview), all things possess mauri—
+   an essential life force or quality that makes something what it is.
+   A river has mauri. A mountain has mauri. A person has mauri. When
+   the mauri is strong, the thing flourishes. When the mauri is
+   damaged, the thing diminishes.
+
+   Mauri is not reducible to physical components. You cannot point
+   to mauri in a dissection. But it is real—as real as the difference
+   between a living forest and a clear-cut hillside, between a
+   thriving community and a collection of strangers.
+
+   In Celestial Trust, mauri is what an agent carries across the void
+   that no Trust Proof can fully capture:
+
+   - The accumulated weight of consistent behavior
+   - The pattern of choices that reveals character
+   - The resilience demonstrated under pressure
+   - The essential nature that persists through change
+
+   When an agent departs Earth for Mars, it carries its Trust Proof,
+   its whakapapa chain, its trajectory binding. But it also carries
+   its mauri—the quality that makes it trustworthy beyond what any
+   cryptographic proof can verify.
+
+   The Arrival Oracle, reading the agent's credentials, makes a
+   judgment that is partly algorithmic and partly... something else.
+   Does this agent's story ring true? Does the trajectory match the
+   character? Has the essential nature survived the voyage?
+
+   This is not mysticism. It is recognition that trust is ultimately
+   about relationship, and relationship cannot be fully reduced to
+   verification protocols.
+
+   The Polynesian navigator crossing the Pacific did not carry a
+   certificate proving they were a navigator. They carried their
+   mauri—their skill, their knowledge, their genealogy, their
+   relationship to sea and stars. Upon arriving at a new island,
+   they were recognized not by credentials but by essence.
+
+   We build protocols to approximate trust. The protocols are
+   necessary. But we should not mistake the protocol for the thing
+   itself.
+
+   The mauri is what travels.
+
+
+===============================================================================
+                    PART VI: IMPLEMENTATION
+===============================================================================
+
+11.  Security Considerations
+
+   11.1.  Extended Validity Risks
+
+   Longer Trust Proof validity creates larger attack windows.
+
+   Mitigations:
+   - Trajectory binding (proof invalid if off-course)
+   - Degradation curves (capabilities reduce over time)
+   - Local Oracle can override if threat detected
+   - Transit logging enables post-hoc accountability
+
+   11.2.  Transit Log Manipulation
+
+   Agents could falsify transit logs during Uncertainty Zone.
+
+   Mitigations:
+   - Cryptographic chaining of log entries
+   - External observation where available (waypoints)
+   - Behavioral consistency analysis at arrival
+   - Statistical anomaly detection on action patterns
+
+   11.3.  Oracle Impersonation
+
+   Attackers could impersonate distant Oracles.
+
+   Mitigations:
+   - Pre-established key exchange before transit
+   - Multiple signature verification (Constellation members)
+   - Out-of-band key verification via alternate channels
+   - Delayed verification through multiple paths
+
+   11.4.  Whakapapa Forgery
+
+   Attackers could forge genealogy chains.
+
+   Mitigations:
+   - Whakapapa anchored to Constellation-verified events
+   - Cross-reference with Flight Recorder logs
+   - Sponsor signatures required for early generations
+   - Statistical consistency checking across chain
+
+
+12.  References
+
+12.1.  Normative References
+
+   [KTP-CORE]
+              Perkins, C., "Kinetic Trust Protocol - Core
+              Specification", NMCITRA, November 2025.
+
+   [KTP-FEDERATION]
+              Perkins, C., "Kinetic Trust Protocol - Trust Federation
+              Specification", NMCITRA, November 2025.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+12.2.  Informative References
+
+   [POLYNESIAN-VOYAGING]
+              Polynesian Voyaging Society, "Traditional Navigation",
+              https://www.hokulea.com/
+
+   [MAURI]    Royal, Te Ahukaramū Charles, "Māori Creation Traditions",
+              Te Ara - the Encyclopedia of New Zealand,
+              https://teara.govt.nz/
+
+   [LIGHT-TIME]
+              NASA, "Solar System Distances",
+              https://www.nasa.gov/
+
+
+===============================================================================
+
+   "We are voyagers.
+    We carry our island with us.
+    The stars do not move; we move beneath them.
+    Trust is not verified at arrival.
+    Trust travels with the traveler."
+
+                              — Celestial Trust design principle,
+                                 after the Polynesian navigators
+
+===============================================================================
+
+
+Authors' Addresses
+
+   Chris Perkins
+   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+
+   Email: cperkins@nmcitra.org

@@ -1,0 +1,1197 @@
+
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
+
+
+              Kinetic Trust Protocol (KTP) - Migration Guide
+
+                   Adoption Pathways from Legacy Systems
+
+Abstract
+
+   This document specifies migration patterns for adopting the Kinetic
+   Trust Protocol in existing environments. It covers integration with
+   legacy authorization systems (OAuth 2.0, SAML, API keys, mTLS),
+   progressive deployment strategies, trust bootstrapping, hybrid
+   operation during transition, and success metrics.
+
+   The specification acknowledges that no organization will adopt KTP
+   through wholesale replacement. Migration must be incremental,
+   reversible, and demonstrably valuable at each stage.
+
+Status of This Memo
+
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
+
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
+
+Copyright Notice
+
+   Copyright (c) 2025 Chris Perkins / NMCITRA.
+   This work is licensed under the Apache License, Version 2.0.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .  2
+       1.1.  The Adoption Problem . . . . . . . . . . . . . . . . . .  2
+       1.2.  Migration Principles . . . . . . . . . . . . . . . . . .  3
+   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Legacy System Integration  . . . . . . . . . . . . . . . . . .  5
+       3.1.  OAuth 2.0 / OIDC . . . . . . . . . . . . . . . . . . . .  5
+       3.2.  SAML 2.0 . . . . . . . . . . . . . . . . . . . . . . . .  8
+       3.3.  API Keys . . . . . . . . . . . . . . . . . . . . . . . . 10
+       3.4.  Mutual TLS (mTLS)  . . . . . . . . . . . . . . . . . . . 12
+       3.5.  Service Mesh Identity  . . . . . . . . . . . . . . . . . 14
+   4.  Deployment Stages  . . . . . . . . . . . . . . . . . . . . . . 16
+       4.1.  Stage 0: Observation . . . . . . . . . . . . . . . . . . 16
+       4.2.  Stage 1: Shadow Mode . . . . . . . . . . . . . . . . . . 18
+       4.3.  Stage 2: Advisory Mode . . . . . . . . . . . . . . . . . 20
+       4.4.  Stage 3: Canary Enforcement  . . . . . . . . . . . . . . 22
+       4.5.  Stage 4: Progressive Enforcement . . . . . . . . . . . . 24
+       4.6.  Stage 5: Full Enforcement  . . . . . . . . . . . . . . . 26
+   5.  Trust Bootstrapping  . . . . . . . . . . . . . . . . . . . . . 27
+       5.1.  Initial Trust Assignment . . . . . . . . . . . . . . . . 27
+       5.2.  Historical Behavior Import . . . . . . . . . . . . . . . 29
+       5.3.  Sponsorship Chains . . . . . . . . . . . . . . . . . . . 30
+   6.  Hybrid Operation . . . . . . . . . . . . . . . . . . . . . . . 31
+       6.1.  Dual-Stack Authorization . . . . . . . . . . . . . . . . 31
+       6.2.  Boundary Enforcement . . . . . . . . . . . . . . . . . . 33
+       6.3.  Gradual Perimeter Expansion  . . . . . . . . . . . . . . 34
+   7.  Rollback Procedures  . . . . . . . . . . . . . . . . . . . . . 35
+       7.1.  Stage Regression . . . . . . . . . . . . . . . . . . . . 35
+       7.2.  Emergency Fallback . . . . . . . . . . . . . . . . . . . 36
+       7.3.  Data Preservation  . . . . . . . . . . . . . . . . . . . 37
+   8.  Success Metrics  . . . . . . . . . . . . . . . . . . . . . . . 38
+   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 40
+   10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 42
+
+
+1.  Introduction
+
+1.1.  The Adoption Problem
+
+   The best protocol is worthless if no one can adopt it.
+
+   KTP proposes a fundamentally different approach to authorization:
+   physics-based constraints rather than policy enforcement, Trust
+   Scores derived from environmental sensors, Silent Veto that cannot
+   be overridden. This is a significant departure from OAuth tokens,
+   RBAC policies, and API key validation.
+
+   Organizations considering KTP face real barriers:
+
+   - Existing investment in identity infrastructure
+   - Integration contracts with vendors and partners
+   - Compliance requirements tied to current systems
+   - Operational expertise in current tooling
+   - Risk of disruption during transition
+
+   No organization will abandon working systems for an unproven
+   alternative. Migration must be:
+
+   - Incremental: Value delivered at each stage
+   - Reversible: Easy rollback if problems arise
+   - Observable: Clear visibility into behavior before enforcement
+   - Compatible: Works alongside existing systems during transition
+
+   This document provides the adoption pathway that makes KTP
+   practical, not just theoretical.
+
+1.2.  Migration Principles
+
+   Principle 1: Observe Before Enforce
+
+      Never enforce KTP constraints until you have observed their
+      impact in your specific environment. Shadow mode lets you see
+      what would have happened without affecting production.
+
+   Principle 2: Coexist, Don't Replace
+
+      KTP should run alongside existing authorization during
+      transition. Dual-stack operation allows comparison and provides
+      fallback. Full replacement comes only after confidence is
+      established.
+
+   Principle 3: Earn Trust for the System
+
+      Ironically, KTP itself must earn trust before organizations will
+      trust it. Each migration stage builds confidence through
+      demonstrated reliability and value.
+
+   Principle 4: Preserve Optionality
+
+      Every stage should be reversible. Design migration so that
+      rollback is straightforward and data is preserved regardless
+      of direction.
+
+   Principle 5: Start Small, Expand Gradually
+
+      Begin with a single service, a single API, a single team. Prove
+      value in a constrained scope before expanding. Island of Blue
+      in a sea of Wild.
+
+
+2.  Terminology
+
+   Advisory Mode:
+      A deployment stage where KTP evaluates requests and reports
+      recommendations, but legacy authorization makes final decisions.
+
+   Bootstrap Trust:
+      Initial Trust Score assigned to existing identities when
+      joining KTP, based on historical behavior and role.
+
+   Canary Enforcement:
+      Selective enforcement of KTP constraints on a small percentage
+      of traffic while the remainder uses legacy authorization.
+
+   Dual-Stack:
+      Operating both legacy authorization and KTP simultaneously,
+      with configurable priority and fallback.
+
+   Full Enforcement:
+      Complete reliance on KTP for authorization decisions, with
+      legacy systems retired or relegated to identity provision.
+
+   Green Zone:
+      KTP zone type with minimal enforcement, suitable as transition
+      boundary between Wild (no KTP) and Blue (full KTP).
+
+   Legacy System:
+      Existing authorization infrastructure (OAuth, SAML, API keys,
+      etc.) operating before KTP adoption.
+
+   Migration Stage:
+      A defined phase in the transition from legacy authorization
+      to KTP enforcement, each with specific characteristics and
+      success criteria.
+
+   Observation Mode:
+      Initial deployment stage focused on collecting telemetry and
+      establishing baselines without any KTP evaluation.
+
+   Progressive Enforcement:
+      Gradual expansion of KTP enforcement scope (services, actions,
+      agents) based on demonstrated success.
+
+   Shadow Mode:
+      A deployment stage where KTP evaluates all requests but does
+      not affect authorization decisions. Results are logged for
+      comparison with legacy system decisions.
+
+   Trust Bridging:
+      The process of translating legacy credentials (OAuth tokens,
+      SAML assertions) into KTP Trust Proofs during hybrid operation.
+
+
+3.  Legacy System Integration
+
+3.1.  OAuth 2.0 / OIDC Integration
+
+   OAuth 2.0 and OpenID Connect are the most common authorization
+   frameworks for modern applications. KTP can integrate at multiple
+   points.
+
+3.1.1.  Token Enrichment
+
+   The simplest integration adds KTP claims to existing OAuth tokens:
+
+   Standard OAuth Token:
+      {
+        "sub": "user-123",
+        "scope": "read write",
+        "exp": 1732550400
+      }
+
+   KTP-Enriched Token:
+      {
+        "sub": "user-123",
+        "scope": "read write",
+        "exp": 1732550400,
+        "ktp": {
+          "e_base": 72,
+          "e_trust": 68,
+          "tier": "analyst",
+          "trajectory_hash": "sha256:abc...",
+          "oracle": "https://oracle.example.com",
+          "proof_exp": 1732547000
+        }
+      }
+
+   Token enrichment preserves OAuth compatibility while adding KTP
+   context. Resource servers can:
+   - Ignore KTP claims (full backward compatibility)
+   - Use KTP claims for additional constraints (hybrid mode)
+   - Require KTP claims (forward migration)
+
+3.1.2.  Authorization Server Extension
+
+   The OAuth Authorization Server can be extended to:
+
+   1. Query Trust Oracle during token issuance
+   2. Embed Trust Proof in access token
+   3. Adjust token lifetime based on Trust Score
+   4. Limit scopes based on Trust Tier
+
+   Example flow:
+
+   1. Client requests token with scopes [read, write, admin]
+   2. AuthZ Server authenticates user
+   3. AuthZ Server queries Trust Oracle for user's Trust Proof
+   4. Trust Oracle returns E_trust = 68, tier = analyst
+   5. AuthZ Server filters scopes: [read, write] (admin requires operator)
+   6. AuthZ Server issues token with KTP claims and filtered scopes
+
+3.1.3.  Resource Server Enforcement
+
+   Resource servers can enforce KTP constraints independently:
+
+   Request arrives with OAuth token:
+
+   1. Validate OAuth token signature and expiration
+   2. Extract KTP claims (if present)
+   3. If KTP claims present:
+      a. Verify Trust Proof signature against known Oracle
+      b. Check Trust Proof expiration
+      c. Evaluate A <= E_trust for requested action
+      d. If KTP denies, return 403 with KTP error
+   4. If KTP claims absent:
+      a. Evaluate OAuth scopes per legacy logic
+      b. Optionally query Trust Oracle for real-time proof
+
+   This approach allows gradual enforcement:
+   - Phase 1: Accept requests with or without KTP claims
+   - Phase 2: Require KTP claims, use OAuth as fallback
+   - Phase 3: Require KTP claims, OAuth for identity only
+
+3.1.4.  OIDC UserInfo Extension
+
+   The OIDC UserInfo endpoint can be extended to provide Trust Score:
+
+   Standard UserInfo Response:
+      {
+        "sub": "user-123",
+        "name": "Alice Smith",
+        "email": "alice@example.com"
+      }
+
+   KTP-Extended UserInfo Response:
+      {
+        "sub": "user-123",
+        "name": "Alice Smith",
+        "email": "alice@example.com",
+        "ktp_trust_score": {
+          "e_base": 72,
+          "e_trust": 68,
+          "tier": "analyst",
+          "trajectory_url": "https://oracle.example.com/trajectory/user-123",
+          "proof_url": "https://oracle.example.com/proof/user-123"
+        }
+      }
+
+
+3.2.  SAML 2.0 Integration
+
+   SAML remains common in enterprise environments. KTP integrates
+   through attribute extensions.
+
+3.2.1.  Attribute Statement Extension
+
+   SAML Assertions can include KTP attributes:
+
+      <saml:AttributeStatement>
+        <saml:Attribute Name="ktp:e_base">
+          <saml:AttributeValue>72</saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute Name="ktp:e_trust">
+          <saml:AttributeValue>68</saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute Name="ktp:tier">
+          <saml:AttributeValue>analyst</saml:AttributeValue>
+        </saml:Attribute>
+        <saml:Attribute Name="ktp:proof">
+          <saml:AttributeValue>[base64-encoded Trust Proof]</saml:AttributeValue>
+        </saml:Attribute>
+      </saml:AttributeStatement>
+
+3.2.2.  Identity Provider Extension
+
+   The SAML IdP can query Trust Oracle during assertion generation:
+
+   1. User authenticates to IdP
+   2. IdP queries Trust Oracle for user's current Trust Proof
+   3. IdP includes KTP attributes in SAML Assertion
+   4. SP receives assertion with embedded Trust Proof
+   5. SP validates both SAML signature and KTP Trust Proof
+
+3.2.3.  Service Provider Enforcement
+
+   SPs can enforce KTP constraints on SAML-authenticated sessions:
+
+   1. Validate SAML Assertion per standard SAML processing
+   2. Extract KTP attributes from AttributeStatement
+   3. Verify embedded Trust Proof against known Oracle
+   4. For each request during session:
+      a. Evaluate A <= E_trust
+      b. Enforce tier-appropriate constraints
+   5. Optionally refresh Trust Proof periodically during session
+
+
+3.3.  API Key Integration
+
+   API keys remain common for service-to-service communication and
+   developer access. KTP can enhance API key systems without
+   replacing them.
+
+3.3.1.  API Key to Agent Mapping
+
+   Each API key maps to a KTP agent identity:
+
+      {
+        "api_key_hash": "sha256:xyz...",
+        "agent_id": "agent:service:payment-processor",
+        "created": "2024-01-15T00:00:00Z",
+        "owner": "team:payments",
+        "ktp_binding": {
+          "oracle": "https://oracle.example.com",
+          "e_base": 65,
+          "lineage": "tethered",
+          "sponsor": "agent:persistent:payments-team-lead"
+        }
+      }
+
+   When a request arrives with an API key:
+   1. Validate API key exists and is active
+   2. Look up associated agent_id
+   3. Query Trust Oracle for current Trust Proof
+   4. Evaluate request against Trust Score
+
+3.3.2.  Key-Embedded Trust Proofs
+
+   For reduced latency, Trust Proofs can be embedded in enhanced
+   API key format:
+
+   Traditional API key:
+      X-API-Key: abc123xyz
+
+   KTP-enhanced header:
+      X-API-Key: abc123xyz
+      X-KTP-Proof: eyJhbGciOiJFUzI1NiIs... [JWT Trust Proof]
+
+   Or combined format:
+      X-API-Key: abc123xyz.eyJhbGciOiJFUzI1NiIs...
+
+   The client is responsible for refreshing the Trust Proof component
+   before expiration.
+
+3.3.3.  Tiered API Keys
+
+   API keys can be issued with tier constraints:
+
+      {
+        "api_key_hash": "sha256:xyz...",
+        "agent_id": "agent:service:readonly-analytics",
+        "tier_cap": "observer",
+        "allowed_actions": ["read_public", "read_internal"],
+        "max_action_risk": 30
+      }
+
+   Even if the agent's Trust Score would permit higher capabilities,
+   the key itself constrains what can be done. This allows:
+   - Production keys with full capability
+   - Staging keys with reduced capability
+   - Read-only keys for analytics
+   - Emergency keys with minimal access
+
+
+3.4.  Mutual TLS (mTLS) Integration
+
+   mTLS provides strong cryptographic identity for services. KTP
+   complements mTLS with dynamic trust.
+
+3.4.1.  Certificate to Agent Mapping
+
+   X.509 certificates map to KTP agent identities:
+
+      {
+        "certificate_fingerprint": "sha256:abc...",
+        "subject_dn": "CN=payment-service,O=Example,C=US",
+        "agent_id": "agent:service:payment-processor",
+        "ktp_binding": {
+          "oracle": "https://oracle.example.com",
+          "e_base": 85,
+          "lineage": "persistent"
+        }
+      }
+
+   Certificate identity establishes WHO; KTP establishes WHAT they
+   can do right now.
+
+3.4.2.  TLS Extension for Trust Proof
+
+   A TLS extension can carry Trust Proof during handshake:
+
+   Extension Type: ktp_trust_proof (TBD by IANA)
+   Extension Data: Serialized Trust Proof
+
+   This allows trust evaluation at connection establishment, before
+   any application data is exchanged.
+
+3.4.3.  Post-Handshake Trust Updates
+
+   For long-lived connections, Trust Proofs can be updated via:
+
+   1. Application-layer refresh (HTTP header on each request)
+   2. TLS post-handshake authentication with new proof
+   3. Periodic trust channel messages (WebSocket, gRPC stream)
+
+
+3.5.  Service Mesh Identity (SPIFFE/SPIRE)
+
+   SPIFFE provides service identity in cloud-native environments.
+   KTP integrates naturally with SPIFFE identities.
+
+3.5.1.  SPIFFE ID to Agent Mapping
+
+   SPIFFE IDs map directly to KTP agent identities:
+
+   SPIFFE ID:
+      spiffe://example.com/service/payment-processor
+
+   KTP Agent ID:
+      agent:spiffe:example.com:service:payment-processor
+
+   The mapping is deterministic, requiring no separate registry.
+
+3.5.2.  SVID Enhancement
+
+   SPIFFE Verifiable Identity Documents (SVIDs) can include KTP
+   claims in the x509-svid or jwt-svid:
+
+   JWT-SVID with KTP claims:
+      {
+        "sub": "spiffe://example.com/service/payment-processor",
+        "aud": ["spiffe://example.com/service/api-gateway"],
+        "exp": 1732550400,
+        "ktp": {
+          "e_base": 85,
+          "e_trust": 78,
+          "tier": "operator",
+          "proof_sig": "sig:oracle:abc..."
+        }
+      }
+
+3.5.3.  Trust Oracle as SPIRE Plugin
+
+   SPIRE can be extended with a Trust Oracle plugin:
+
+   1. Workload requests SVID from SPIRE Agent
+   2. SPIRE Agent attests workload identity
+   3. SPIRE Agent queries Trust Oracle plugin
+   4. Trust Oracle returns current Trust Proof for workload
+   5. SPIRE Agent issues SVID with embedded KTP claims
+   6. Workload presents enhanced SVID to peers
+
+   This integrates KTP into existing SPIFFE/SPIRE deployments with
+   minimal architectural change.
+
+
+4.  Deployment Stages
+
+4.1.  Stage 0: Observation
+
+   Purpose: Establish baselines without any KTP evaluation.
+
+   Duration: 2-4 weeks minimum
+
+   Activities:
+   - Deploy Context Tensor sensors
+   - Collect environmental telemetry
+   - Identify agents and action patterns
+   - Establish normal operating ranges
+   - No Trust Oracle, no Trust Proofs
+
+   Deliverables:
+   - Sensor coverage map
+   - Environmental baseline report
+   - Agent inventory
+   - Action classification draft
+   - Risk assessment for Stage 1
+
+   Success Criteria:
+   - All target sensors reporting
+   - < 1% data gaps in telemetry
+   - Agent inventory > 95% complete
+   - Baseline variance understood
+
+   What You Learn:
+   - What is "normal" for your environment
+   - Which sensors are reliable/noisy
+   - How to classify your actions by risk
+   - Where the boundaries should be
+
+4.1.1.  Sensor Deployment
+
+   Stage 0 sensor deployment focuses on observability:
+
+   Minimum sensors:
+   - CPU/memory utilization (Heat component)
+   - Network throughput (Momentum component)
+   - Active connections (Mass component)
+   - Error rates (Heat component)
+   - Request latency (Momentum component)
+
+   Do NOT deploy:
+   - Trust Oracle (not ready)
+   - Policy Enforcement Points (nothing to enforce)
+   - Flight Recorder (no decisions to record)
+
+4.1.2.  Agent Discovery
+
+   Identify all entities that will become KTP agents:
+
+   - Service accounts
+   - API clients
+   - Human users (via SSO)
+   - Automated jobs
+   - Third-party integrations
+
+   For each, capture:
+   - Current authorization method
+   - Typical action patterns
+   - Peak usage times
+   - Historical incidents
+
+
+4.2.  Stage 1: Shadow Mode
+
+   Purpose: Evaluate KTP decisions without enforcement.
+
+   Duration: 4-8 weeks minimum
+
+   Activities:
+   - Deploy Trust Oracle (non-authoritative)
+   - Generate Trust Proofs for all agents
+   - Evaluate every request against KTP
+   - Compare KTP decision to legacy decision
+   - Log discrepancies for analysis
+
+   Deliverables:
+   - Shadow decision log
+   - Discrepancy analysis report
+   - False positive rate
+   - False negative rate
+   - Tuning recommendations
+
+   Success Criteria:
+   - KTP evaluation on > 99% of requests
+   - False positive rate < 5%
+   - False negative rate < 1%
+   - No production impact
+
+   What You Learn:
+   - How KTP decisions compare to current authorization
+   - Where Trust Scores need calibration
+   - Which action risk classifications need adjustment
+   - Likely impact of enforcement
+
+4.2.1.  Shadow Architecture
+
+   Shadow mode runs KTP in parallel:
+
+                    ┌─────────────────┐
+                    │  Incoming       │
+                    │  Request        │
+                    └────────┬────────┘
+                             │
+                    ┌────────▼────────┐
+                    │  API Gateway    │
+                    │  (Dual Eval)    │
+                    └────────┬────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+      ┌───────────┐  ┌───────────┐  ┌───────────┐
+      │  Legacy   │  │   KTP     │  │  Shadow   │
+      │  AuthZ    │  │  Eval     │  │  Logger   │
+      └─────┬─────┘  └─────┬─────┘  └───────────┘
+            │              │              ▲
+            │              └──────────────┘
+            │                (log only)
+            ▼
+      ┌───────────┐
+      │  Backend  │
+      │  Service  │
+      └───────────┘
+
+   Legacy authorization remains authoritative. KTP evaluates but
+   does not affect the request. Discrepancies are logged.
+
+4.2.2.  Discrepancy Analysis
+
+   For each request, log:
+
+      {
+        "timestamp": "2025-11-25T14:30:00Z",
+        "request_id": "req-abc-123",
+        "agent": "service:payment-processor",
+        "action": "write_transaction",
+        "legacy_decision": "allow",
+        "legacy_reason": "scope:write present",
+        "ktp_decision": "deny",
+        "ktp_reason": "A(65) > E_trust(58)",
+        "ktp_context": {
+          "e_base": 72,
+          "e_trust": 58,
+          "risk_factor": 0.19,
+          "action_risk": 65,
+          "tier": "analyst",
+          "tier_max_risk": 60
+        },
+        "discrepancy": true,
+        "discrepancy_type": "legacy_allow_ktp_deny"
+      }
+
+   Aggregate discrepancies by:
+   - Agent (which agents are most affected?)
+   - Action (which actions are most contentious?)
+   - Time (are there temporal patterns?)
+   - Environmental state (high-risk times?)
+
+
+4.3.  Stage 2: Advisory Mode
+
+   Purpose: Present KTP recommendations to operators without
+   automatic enforcement.
+
+   Duration: 2-4 weeks
+
+   Activities:
+   - Surface KTP recommendations in admin UI
+   - Alert on high-risk requests that KTP would deny
+   - Allow operators to manually apply KTP constraints
+   - Gather operator feedback on recommendations
+
+   Deliverables:
+   - Operator feedback report
+   - Recommendation accuracy assessment
+   - UI/UX refinements
+   - Enforcement readiness assessment
+
+   Success Criteria:
+   - Operators find recommendations useful
+   - > 80% of KTP denials validated by operators
+   - < 10% of recommendations overridden
+   - Operators comfortable with enforcement
+
+4.3.1.  Advisory Dashboard
+
+   The advisory dashboard shows:
+
+   - Current environmental state (Context Tensor)
+   - Agent Trust Scores (real-time)
+   - Recent KTP recommendations
+   - Discrepancy trend (improving?)
+   - Projected enforcement impact
+
+   Operators can:
+   - Acknowledge recommendations
+   - Override with justification (logged)
+   - Adjust Trust Scores (within bounds)
+   - Tune action risk classifications
+
+4.3.2.  Alert Integration
+
+   Advisory mode integrates with existing alerting:
+
+   - PagerDuty: High-risk requests KTP would deny
+   - Slack: Summary of recommendations
+   - SIEM: All KTP evaluations for correlation
+   - Dashboard: Real-time Trust Score display
+
+
+4.4.  Stage 3: Canary Enforcement
+
+   Purpose: Enforce KTP on small percentage of traffic.
+
+   Duration: 2-4 weeks per increment
+
+   Activities:
+   - Enable KTP enforcement for 1% of traffic
+   - Monitor for unexpected denials
+   - Compare business metrics (latency, errors, conversions)
+   - Gradually increase percentage
+
+   Deliverables:
+   - Canary performance report
+   - Business metric comparison
+   - Incident log (if any)
+   - Expansion readiness assessment
+
+   Success Criteria:
+   - No unexpected outages
+   - Business metrics within tolerance
+   - Denial rate matches shadow predictions
+   - Team confidence for expansion
+
+4.4.1.  Canary Selection
+
+   Canary traffic can be selected by:
+
+   - Random sampling (1%, 5%, 10%, etc.)
+   - Specific agents (start with lowest risk)
+   - Specific actions (start with read-only)
+   - Specific time windows (off-peak first)
+   - Specific user segments (internal first)
+
+   Recommended progression:
+   1. 1% random, read-only actions
+   2. 5% random, read-only actions
+   3. 10% random, all actions
+   4. 25% random, all actions
+   5. 50% random, all actions
+   6. Stage 4 (progressive by service)
+
+4.4.2.  Canary Metrics
+
+   Monitor during canary:
+
+   - Request success rate (KTP vs legacy cohort)
+   - P50/P95/P99 latency (KTP overhead)
+   - Denial rate (expected vs actual)
+   - False positive reports (user complaints)
+   - Business conversion (if applicable)
+
+
+4.5.  Stage 4: Progressive Enforcement
+
+   Purpose: Expand KTP enforcement service by service.
+
+   Duration: 1-2 weeks per service
+
+   Activities:
+   - Enable full KTP enforcement for one service
+   - Monitor and validate
+   - Move to next service
+   - Repeat until all services covered
+
+   Deliverables:
+   - Per-service enforcement report
+   - Cross-service dependency validation
+   - Full coverage timeline
+   - Legacy deprecation plan
+
+   Success Criteria:
+   - Each service stable under KTP enforcement
+   - Cross-service calls function correctly
+   - No rollbacks required
+   - Team operating confidently
+
+4.5.1.  Service Ordering
+
+   Order services for progressive enforcement by:
+
+   1. Dependency depth (leaves first, then parents)
+   2. Risk level (low-risk first)
+   3. Traffic volume (low-traffic first for learning)
+   4. Team readiness (willing teams first)
+
+   Example ordering:
+   - Week 1: Internal tools, documentation services
+   - Week 2: Analytics, reporting services
+   - Week 3: Customer-facing read APIs
+   - Week 4: Customer-facing write APIs
+   - Week 5: Payment processing
+   - Week 6: Core platform services
+
+4.5.2.  Boundary Management
+
+   During progressive enforcement, manage boundaries between:
+
+   - KTP-enforced services (Blue)
+   - Legacy-authorized services (Wild)
+
+   Cross-boundary calls:
+   - Blue → Wild: Include Trust Proof (Wild may ignore)
+   - Wild → Blue: Require Trust Proof or bridge
+
+   Trust bridging at boundary:
+   - Wild service presents OAuth token
+   - Gateway validates OAuth, queries Trust Oracle
+   - Gateway issues Trust Proof based on OAuth identity
+   - Request proceeds with bridged Trust Proof
+
+
+4.6.  Stage 5: Full Enforcement
+
+   Purpose: Complete KTP enforcement across all services.
+
+   Duration: Ongoing
+
+   Activities:
+   - Retire legacy authorization for covered services
+   - Operate Trust Oracle as authoritative
+   - Full Flight Recorder logging
+   - Continuous tuning and improvement
+
+   Deliverables:
+   - Legacy deprecation complete
+   - Full KTP operational runbook
+   - Incident response procedures
+   - Ongoing metrics and reporting
+
+   Success Criteria:
+   - All services under KTP enforcement
+   - Legacy authorization retired or identity-only
+   - Operational stability demonstrated
+   - Team fully trained and confident
+
+4.6.1.  Legacy Retirement
+
+   After full enforcement, legacy systems can be:
+
+   - Retired completely (ideal for API keys)
+   - Reduced to identity-only (OAuth for authn, KTP for authz)
+   - Maintained as emergency fallback (temporary)
+
+   Do NOT maintain parallel authorization long-term. This creates:
+   - Confusion about authoritative source
+   - Maintenance burden
+   - Potential bypass vectors
+   - Inconsistent audit trail
+
+
+5.  Trust Bootstrapping
+
+   New agents entering KTP need initial Trust Scores. For migration,
+   existing identities need bootstrap trust based on historical
+   behavior.
+
+5.1.  Initial Trust Assignment
+
+   Bootstrap trust is assigned based on:
+
+   1. Role category
+   2. Historical behavior (if available)
+   3. Sponsorship relationship
+   4. Service criticality
+
+5.1.1.  Role-Based Bootstrap
+
+   Default initial E_base by role category:
+
+   +----------------------+---------+------------+
+   | Role Category        | E_base  | Tier       |
+   +----------------------+---------+------------+
+   | Infrastructure/Admin | 70      | Analyst    |
+   | Production Service   | 60      | Analyst    |
+   | Internal Tool        | 50      | Observer   |
+   | External Integration | 40      | Observer   |
+   | New/Unknown          | 30      | Observer   |
+   | Probationary         | 20      | Hibernation|
+   +----------------------+---------+------------+
+
+   These are starting points. Trust increases through demonstrated
+   reliable operation.
+
+5.1.2.  Behavioral Import
+
+   For identities with historical data, adjust bootstrap based on:
+
+   - Incident history (reduce for past issues)
+   - Operational tenure (increase for long stable operation)
+   - Access patterns (increase for consistent patterns)
+   - Compliance record (increase for clean audits)
+
+   Example adjustment:
+
+      base_bootstrap = 60 (production service)
+      tenure_bonus = +5 (3+ years stable operation)
+      incident_penalty = -10 (major incident in past year)
+      compliance_bonus = +3 (clean SOC 2 audit)
+      
+      final_bootstrap = 60 + 5 - 10 + 3 = 58
+
+5.2.  Historical Behavior Import
+
+   If historical logs are available, construct synthetic trajectory:
+
+   1. Extract access events from legacy logs
+   2. Classify each event by action risk
+   3. Identify any incidents or anomalies
+   4. Calculate what Trust Score would have been
+   5. Use terminal value as bootstrap E_base
+
+   This gives agents "credit" for historical good behavior.
+
+5.2.1.  Log Sources for Import
+
+   - SIEM logs (authentication, authorization events)
+   - Application logs (API calls, database queries)
+   - Cloud provider logs (AWS CloudTrail, GCP Audit)
+   - Network logs (flow data, firewall events)
+   - Incident management (PagerDuty, ServiceNow)
+
+5.2.2.  Import Limitations
+
+   Historical import has limits:
+
+   - Cannot reconstruct environmental context (R unknown)
+   - Action risk classification may differ from current
+   - Legacy systems may not log all relevant events
+   - Time window affects reliability (recent > old)
+
+   Treat imported history as approximation, not truth.
+
+5.3.  Sponsorship Chains
+
+   For agents without sufficient history, sponsorship provides
+   bootstrap trust:
+
+   1. Established agent sponsors new agent
+   2. Sponsor stakes portion of their own trust
+   3. New agent receives bootstrap from sponsor
+   4. New agent operates as Tethered until sufficient history
+
+   Sponsorship during migration:
+   - Infrastructure team sponsors production services
+   - Service owners sponsor their integrations
+   - Security team sponsors security tooling
+   - No agent bootstraps without sponsor
+
+
+6.  Hybrid Operation
+
+6.1.  Dual-Stack Authorization
+
+   During migration, both systems operate simultaneously:
+
+   Request evaluation:
+   1. Legacy system evaluates (OAuth scope, RBAC policy, etc.)
+   2. KTP evaluates (A <= E_trust, tier constraints)
+   3. Final decision based on configuration:
+      - "legacy_primary": Legacy decides, KTP logged
+      - "ktp_primary": KTP decides, legacy fallback
+      - "unanimous": Both must allow
+      - "either": Either allowing is sufficient
+
+   Recommended progression:
+   - Stage 1-2: legacy_primary
+   - Stage 3: unanimous (most restrictive, safest)
+   - Stage 4: ktp_primary
+   - Stage 5: KTP only
+
+6.2.  Boundary Enforcement
+
+   During migration, clear boundaries define where KTP is enforced:
+
+   - KTP Zone: Full KTP enforcement (Blue/Cyan)
+   - Legacy Zone: Legacy authorization only (Wild)
+   - Boundary Zone: Dual-stack, trust bridging (Green)
+
+   Boundary PEPs handle translation:
+
+      ┌─────────────────┐    ┌─────────────────┐
+      │    KTP Zone     │    │   Legacy Zone   │
+      │                 │    │                 │
+      │  ┌───────────┐  │    │  ┌───────────┐  │
+      │  │ Service A │◄─┼────┼──│ Service X │  │
+      │  └───────────┘  │    │  └───────────┘  │
+      │       │         │    │       │         │
+      │       ▼         │    │       ▼         │
+      │  ┌───────────┐  │    │  ┌───────────┐  │
+      │  │ Service B │──┼────┼─►│ Service Y │  │
+      │  └───────────┘  │    │  └───────────┘  │
+      │                 │    │                 │
+      └────────┬────────┘    └────────┬────────┘
+               │                      │
+               └──────────┬───────────┘
+                          │
+                  ┌───────▼───────┐
+                  │ Boundary PEP  │
+                  │ (Trust Bridge)│
+                  └───────────────┘
+
+6.3.  Gradual Perimeter Expansion
+
+   Expand KTP enforcement perimeter gradually:
+
+   Phase 1: Single service island
+      - One service fully KTP-enforced
+      - All dependencies via boundary PEP
+      - Prove concept, build confidence
+
+   Phase 2: Service cluster
+      - Group of related services under KTP
+      - Internal calls KTP-native
+      - External calls via boundary
+
+   Phase 3: Domain coverage
+      - Entire domain (payments, users, etc.) under KTP
+      - Cross-domain calls via boundary
+      - Boundary shrinks as coverage expands
+
+   Phase 4: Full coverage
+      - All services under KTP
+      - Boundary only at external edge
+      - Legacy retired internally
+
+
+7.  Rollback Procedures
+
+7.1.  Stage Regression
+
+   If problems arise, regress to previous stage:
+
+   - Stage 5 → 4: Re-enable legacy for problematic services
+   - Stage 4 → 3: Reduce to canary percentage
+   - Stage 3 → 2: Disable enforcement, advisory only
+   - Stage 2 → 1: Disable recommendations, shadow only
+   - Stage 1 → 0: Disable KTP evaluation entirely
+
+   Rollback should be:
+   - Pre-planned (runbook ready)
+   - Fast (< 5 minutes to execute)
+   - Safe (no data loss)
+   - Reversible (can re-advance when ready)
+
+7.2.  Emergency Fallback
+
+   For critical incidents:
+
+   1. Disable KTP enforcement at gateway (single config change)
+   2. All requests fall back to legacy authorization
+   3. KTP continues logging (shadow mode) for analysis
+   4. Investigate root cause
+   5. Fix and re-enable
+
+   Emergency fallback configuration:
+
+      {
+        "enforcement_mode": "emergency_fallback",
+        "legacy_authoritative": true,
+        "ktp_evaluation": "shadow",
+        "alert": "security-team",
+        "auto_restore_after": null,
+        "requires_manual_restore": true
+      }
+
+7.3.  Data Preservation
+
+   During rollback, preserve:
+
+   - Trust Scores (don't reset agent progress)
+   - Trajectory chains (maintain history)
+   - Flight Recorder logs (audit continuity)
+   - Configuration (restore point)
+
+   Rollback affects enforcement, not data. When re-advancing, agents
+   retain earned trust.
+
+
+8.  Success Metrics
+
+   Track these metrics throughout migration:
+
+8.1.  Adoption Metrics
+
+   - Sensor coverage (% of environment instrumented)
+   - Agent coverage (% of identities with Trust Scores)
+   - Request coverage (% of requests KTP-evaluated)
+   - Enforcement coverage (% of requests KTP-enforced)
+
+8.2.  Accuracy Metrics
+
+   - False positive rate (KTP denied, should have allowed)
+   - False negative rate (KTP allowed, should have denied)
+   - Discrepancy rate (KTP differs from legacy)
+   - Override rate (operators overriding KTP)
+
+8.3.  Performance Metrics
+
+   - Evaluation latency (KTP overhead per request)
+   - Oracle response time (Trust Proof generation)
+   - PEP throughput (requests per second)
+   - System availability (Oracle, PEP uptime)
+
+8.4.  Security Metrics
+
+   - Incidents prevented (Silent Veto in action)
+   - Time to detect (anomaly identification)
+   - Blast radius reduction (compared to legacy)
+   - Audit completeness (Flight Recorder coverage)
+
+8.5.  Business Metrics
+
+   - Request latency (user-facing impact)
+   - Error rate (failed requests)
+   - Conversion rate (if applicable)
+   - Operational cost (compared to legacy)
+
+
+9.  Security Considerations
+
+9.1.  Migration-Specific Risks
+
+   Dual-Stack Bypass:
+      Attackers may target the weaker of two systems during
+      hybrid operation. Ensure legacy system remains hardened.
+
+   Trust Bootstrap Manipulation:
+      Attackers may attempt to manipulate historical data to
+      inflate bootstrap Trust Scores. Verify import sources.
+
+   Boundary Exploitation:
+      Attackers may exploit trust bridging at zone boundaries.
+      Apply principle of least privilege at boundaries.
+
+   Rollback Exploitation:
+      Attackers may trigger conditions that cause rollback,
+      then exploit legacy weaknesses. Monitor for patterns.
+
+9.2.  Mitigations
+
+   - Maintain legacy security posture during migration
+   - Verify historical data integrity before import
+   - Apply KTP constraints at boundaries even during bridging
+   - Require approval for rollback, investigate triggers
+   - Monitor for migration-aware attack patterns
+
+
+10.  References
+
+10.1.  Normative References
+
+   [KTP-CORE]
+              Perkins, C., "Kinetic Trust Protocol - Core
+              Specification", NMCITRA, November 2025.
+
+   [KTP-ZONES]
+              Perkins, C., "Kinetic Trust Protocol - Blue Zone
+              Specification", NMCITRA, November 2025.
+
+   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
+              RFC 6749, October 2012.
+
+10.2.  Informative References
+
+   [SAML2]    OASIS, "Security Assertion Markup Language (SAML) 2.0",
+              March 2005.
+
+   [SPIFFE]   SPIFFE Project, "Secure Production Identity Framework
+              for Everyone", https://spiffe.io/
+
+
+Authors' Addresses
+
+   Chris Perkins
+   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+
+   Email: cperkins@nmcitra.org

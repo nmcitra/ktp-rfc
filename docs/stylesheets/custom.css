@@ -84,6 +84,31 @@
   color: #aaddff;
 }
 
+/* Button styling - matches logo colors */
+.md-typeset .md-button {
+  background-color: #e2c000 !important;
+  color: #ffffff !important;
+  border: none !important;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+}
+
+.md-typeset .md-button:hover {
+  background-color: #c9ab00 !important;
+  color: #ffffff !important;
+}
+
+.md-typeset .md-button--primary {
+  background-color: #e2c000 !important;
+  color: #ffffff !important;
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: #c9ab00 !important;
+  color: #ffffff !important;
+}
+
 /* Hero Section */
 .hero {
   text-align: center;
@@ -341,31 +366,39 @@
 /* Tables - full width */
 .md-typeset table {
   margin: 1.5rem 0;
-  font-size: 0.95rem;
+  font-size: 0.75rem;
   width: 100%;
   display: table;
+  line-height: 1.2;
 }
 
 .md-typeset table th {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: var(--skyblue-light);
-  color: var(--text-primary);
+  color: #000000;
+  padding: 0.3rem 0.5rem;
 }
 
-/* Math equations - reduced size */
+.md-typeset table td {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+/* Math equations - larger size */
 .arithmatex {
   overflow-x: auto;
-  font-size: 0.65em !important;
+  font-size: 1.25em !important;
 }
 
 .zeroth-law .arithmatex {
-  font-size: 1.625rem !important;
+  font-size: 2rem !important;
 }
 
 .equation-block .arithmatex {
-  font-size: 0.975rem !important;
+  font-size: 1.5rem !important;
 }
 
 /* Horizontal rules */
@@ -381,13 +414,39 @@
   color: var(--text-secondary);
 }
 
-/* Hide nested ToC in left sidebar */
-.md-nav--primary .md-nav--secondary {
-  display: none !important;
+/* Left sidebar navigation styling */
+.md-nav--primary {
+  font-size: 0.75rem;
+  line-height: 1.1;
 }
 
-.md-nav__list .md-nav__list {
-  display: none !important;
+.md-nav--primary .md-nav__link {
+  color: #ffffff !important;
+  font-size: 0.75rem;
+  padding: 0.15rem 0;
+}
+
+.md-nav--primary .md-nav__item--active > .md-nav__link {
+  color: #e2c000 !important;
+  font-weight: 600;
+}
+
+.md-nav--primary .md-nav__link:hover {
+  color: #88ccee !important;
+}
+
+/* Hierarchy indentation */
+.md-nav--primary .md-nav__list .md-nav__list {
+  padding-left: 0.75rem;
+}
+
+.md-nav--primary .md-nav__list .md-nav__list .md-nav__list {
+  padding-left: 0.5rem;
+}
+
+.md-sidebar--primary .md-sidebar__inner {
+  background-color: #1a1f36;
+  padding: 1rem;
 }
 
 /* Responsive adjustments */
@@ -420,19 +479,24 @@
 
 .md-typeset .grid.cards > :is(ul, ol) {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   margin: 1rem 0;
 }
 
-@media screen and (max-width: 1024px) {
-  .md-typeset .grid.cards > :is(ul, ol) {
+/* Homepage 3-column grid */
+.grid.cards.homepage > :is(ul, ol) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width: 1200px) {
+  .grid.cards.homepage > :is(ul, ol) {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (max-width: 640px) {
-  .md-typeset .grid.cards > :is(ul, ol) {
+  .grid.cards.homepage > :is(ul, ol) {
     grid-template-columns: 1fr;
   }
 }
@@ -491,22 +555,17 @@
   font-size: 0.95rem;
 }
 
-/* Hide navigation on homepage */
-[data-md-component="navigation"] {
-  display: none;
-}
-
-body:not(.md-nav--primary) [data-md-component="navigation"] {
-  display: block;
-}
-
 /* Clean white background */
 .md-main {
   background-color: #ffffff;
 }
 
 .md-main__inner.md-grid {
-  margin-left: 96px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc(2rem + 48px);
+  padding-right: 2rem;
 }
 
 [data-md-color-scheme="slate"] .md-main {
@@ -558,6 +617,10 @@ body:not(.md-nav--primary) [data-md-component="navigation"] {
   display: flex;
   align-items: center;
   height: 48px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
   padding-right: 2rem;
   margin-top: 10px;
 }
@@ -566,6 +629,23 @@ body:not(.md-nav--primary) [data-md-component="navigation"] {
   margin: 0;
   padding: 0.75rem 0;
   order: 1;
+}
+
+.md-header__button.md-logo img {
+  width: 36px;
+  height: 36px;
+}
+
+/* Hide only the page title that appears on scroll, not the site title */
+.md-header__title .md-header__topic:nth-child(2) {
+  display: none !important;
+}
+
+/* Keep the site title always visible */
+.md-header__title .md-header__topic:first-child {
+  opacity: 1 !important;
+  transform: none !important;
+  position: static !important;
 }
 
 .md-header__title {
@@ -583,13 +663,36 @@ body:not(.md-nav--primary) [data-md-component="navigation"] {
 
 .md-tabs {
   position: static !important;
-  width: auto !important;
+  width: 100% !important;
   height: 48px !important;
-  margin-left: 2rem !important;
-  margin-right: auto !important;
   background-color: transparent !important;
   box-shadow: none !important;
   order: 3;
+}
+
+/* Ensure tabs wrapper aligns with content */
+.md-header .md-tabs {
+  max-width: 1400px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: calc(2rem + 28px);
+  padding-right: 2rem;
+}
+
+.md-container > .md-tabs {
+  max-width: 1400px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: calc(2rem + 28px);
+  padding-right: 2rem;
+}
+
+.md-tabs__inner {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc(2rem + 28px);
+  padding-right: 2rem;
 }
 
 .md-header__source {
@@ -607,6 +710,7 @@ body:not(.md-nav--primary) [data-md-component="navigation"] {
   font-size: 2rem;
   font-weight: 600;
   color: #e2c000;
+}
 
 .md-tabs__item {
   height: 48px;
@@ -631,4 +735,65 @@ body:not(.md-nav--primary) [data-md-component="navigation"] {
   .md-tabs {
     position: static !important;
   }
+}
+
+/* ===== Specification Status Icons ===== */
+.stable {
+  color: #4caf50 !important;
+}
+
+.draft {
+  color: #ff9800 !important;
+}
+
+.experimental {
+  color: #9c27b0 !important;
+}
+
+/* Status icon sizing in tables */
+td .stable,
+td .draft,
+td .experimental {
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+/* Specification domain tabs styling */
+.md-typeset .tabbed-labels > label {
+  font-weight: 500;
+}
+
+.md-typeset .tabbed-set > input:checked + label {
+  border-color: var(--md-accent-fg-color);
+}
+
+/* ===== RFC Grid Cards - Compact Layout ===== */
+/* Reduce padding and spacing for grid cards in RFC pages */
+[href*="/rfcs/"] ~ .grid.cards > ul > li,
+.md-content [data-md-component="content"] .grid.cards > ul > li {
+  padding: 0.6rem 0.8rem;
+}
+
+/* Target RFC pages specifically via URL path */
+body[data-md-url*="/rfcs/"] .grid.cards > ul > li,
+body .md-content .grid.cards > ul > li {
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+}
+
+body .md-content .grid.cards > ul > li > p:first-child {
+  margin-top: 0;
+}
+
+body .md-content .grid.cards > ul > li > hr {
+  margin: 0.4rem 0;
+}
+
+body .md-content .grid.cards > ul > li > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tighter grid gap for RFC cards */
+body .md-content .grid.cards > ul {
+  gap: 0.75rem;
 }

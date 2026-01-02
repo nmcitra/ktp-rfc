@@ -10,28 +10,44 @@ hide:
 
 <div class="grid cards" markdown>
 
--   :material-book-open-page-variant:{ .lg .middle } __Getting Started__
+-   :material-book-open-page-variant:{ .lg .middle }
 
     ---
+
+    __Getting Started__
 
     Learn the core concepts of KTP, including the Constitution, the Zeroth Law, and the physics-based model of trust.
 
--   :material-file-document-multiple:{ .lg .middle } __Specifications__
+    [Explore →](constitution.md)
+
+-   :material-file-document-multiple:{ .lg .middle }
 
     ---
+
+    __Specifications__
 
     Dive into the complete technical specifications, from the core protocol and vector identity to Blue Zones and the Context Tensor.
 
--   :material-compass-rose:{ .lg .middle } __Use Cases & Patterns__
+    [Browse Specs →](rfcs/index.md)
+
+-   :material-compass-rose:{ .lg .middle }
 
     ---
+
+    __Use Cases & Patterns__
 
     Explore real-world applications, including securing autonomous agent swarms, governing critical infrastructure, and enabling Indigenous Data Sovereignty.
 
--   :material-code-braces:{ .lg .middle } __Developer Resources__
+    [View Patterns →](rfcs/index.md)
+
+-   :material-code-braces:{ .lg .middle }
 
     ---
 
+    __Developer Resources__
+
     Find SDKs, reference implementations, and tutorials for building with KTP and integrating Digital Physics into your applications.
+
+    [Get Started →](rfcs/index.md)
 
 </div>

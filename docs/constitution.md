@@ -12,65 +12,71 @@ We hold these truths to be computationally evident: that the digital realm has o
 
 ## Article I: The Zeroth Law
 
-**Section 1: Supremacy**  
 No agent may take an action whose intrinsic risk (A) exceeds the environment's capacity to absorb it (E). This law, `A ≤ E`, is supreme and cannot be overridden.
-
-**Section 2: Enforcement**  
-Enforcement is automatic. When `A > E`, the action is denied. This is the Silent Veto—not a punishment, but physics.
-
-**Section 3: The Trust Equation**  
-Environmental capacity is calculated as `E_trust = E_base × (1 - R)`, where `E_base` is the agent's earned trust and `R` is the real-time Risk Factor.
-
-**Section 4: Sovereignty**  
-Sovereignty constraints (S) are checked first. If `S=1`, the action is forbidden, regardless of Trust Score. Sovereignty is immutable.
 
 ---
 
 ## Article II: The Context Tensor
 
-**Section 1: Definition**  
-The Context Tensor is the seven-dimensional measurement of environmental reality, providing the sensory input for the Risk Factor.
+The seven-dimensional measurement of environmental reality, providing the sensory input for the Risk Factor.
 
-**Section 2: The Seven Dimensions**
-
-| Dimension | Symbol | Physics Equivalent | Measures |
-|:----------|:------:|:-------------------|:---------|
-| **Mass** | M | Density/Mass | Physical & computational density |
-| **Momentum** | P | Kinetic Energy | Data flow velocity & volume |
-| **Heat** | H | Entropy/Temp | Adversarial pressure & threat intensity |
-| **Time** | T | Temporal Phase | Criticality of the current moment |
-| **Inertia** | I | Inertial Mass | Scope of potential impact (blast radius) |
-| **Observer** | O | Frame of Reference | Who is watching & under what authority |
-| **Soul** | S | Immutable Law | Ethical, legal & spiritual constraints |
-
-**Section 3: Risk Calculation**  
-Dimensions M, P, H, T, I, and O are weighted contributors to the Risk Factor. The Soul (S) dimension is a binary veto, not part of the weighted calculation.
+| Dimension | Symbol | Measures |
+|:----------|:------:|:---------|
+| **Mass** | M | Physical & computational density |
+| **Momentum** | P | Data flow velocity & volume |
+| **Heat** | H | Adversarial pressure & threat intensity |
+| **Time** | T | Criticality of the current moment |
+| **Inertia** | I | Scope of potential impact (blast radius) |
+| **Observer** | O | Who is watching & under what authority |
+| **Soul** | S | Ethical, legal & spiritual constraints |
 
 ---
 
 ## Article III: Vector Identity
 
-**Section 1: Identity as Trajectory**  
 Identity is not a credential possessed, but a trajectory traveled. An agent is defined by its history of movement and action.
-
-**Section 2: Proof of Resilience**  
-Trust is earned through survival under stress. An agent that has operated reliably in adverse conditions carries more weight than one with a pristine but untested history.
-
-**Section 3: Agent Lineages**
-
-- **Tethered Agents**: New agents operating under sponsor supervision.
-- **Divergent Agents**: Independent agents with moderate, earned autonomy.
-- **Persistent Agents**: Highly trusted agents with demonstrated resilience.
 
 ---
 
-## Article IV: Governance
+## Article IV: The Silent Veto
 
-**Section 1: Amendment**  
-This Constitution may be amended by a supermajority of Persistent Agents, ratified by a quorum of Trust Oracles. The Zeroth Law is immutable and cannot be amended.
+When `A > E`, the action is denied. This is the Silent Veto—not a punishment, but physics.
 
-**Section 2: Interpretation**  
-The Trust Oracle Mesh is the final arbiter of interpretation. Its decisions are binding within its Zone.
+---
+
+## Article V: Trust Tiers
+
+Graduated capability levels based on effective Trust Score. As `E_trust` changes, agents automatically transition between tiers.
+
+---
+
+## Article VI: The Trust Oracle
+
+The authoritative source of Trust Scores within a domain. It aggregates sensor data, calculates the Risk Factor, and issues signed Trust Proofs.
+
+---
+
+## Article VII: Governance Recursion
+
+The governance of Digital Physics is itself subject to Digital Physics. There is no escape hatch.
+
+---
+
+## Article VIII: Blue Zones
+
+Network segments where Digital Physics is enforced. Safe harbors on the internet where agents operate under physics-based constraints with cryptographic trust guarantees.
+
+---
+
+## Article IX: The Flight Recorder
+
+The immutable audit log of all authorization decisions. It records not just what happened, but why it happened.
+
+---
+
+## Article X: Indigenous Data Sovereignty
+
+Data carries with it obligations that transcend operational convenience. The Soul dimension of the Context Tensor operationalizes these constraints as an immutable veto.
 
 ---
 

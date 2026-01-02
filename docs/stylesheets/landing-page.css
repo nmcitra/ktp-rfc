@@ -1,314 +1,201 @@
-/* KTP Landing Page Enhancements */
-/* Add to existing custom.css or as separate file */
+/* Landing Page Design - Clean with Visual Breaks */
 
-/* Hero Section */
-.hero {
-  text-align: center;
+/* White base background */
+.md-content__inner {
+  background-color: #ffffff !important;
+}
+
+/* Remove default grey background */
+body {
+  background-color: #ffffff !important;
+}
+
+.md-main {
+  background-color: #ffffff !important;
+}
+
+/* Hero title - sky blue gradient */
+.md-typeset h1:first-of-type {
+  background: linear-gradient(135deg, #87CEEB 0%, #B0D9F5 100%);
+  color: #1a1a1a;
   padding: 3rem 2rem;
-  margin: 2rem 0 3rem 0;
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.hero p:first-of-type {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--skyblue-dark);
-  margin-bottom: 2rem;
-  letter-spacing: -0.02em;
-}
-
-.hero p {
-  max-width: 65ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero em {
-  color: var(--text-secondary);
-}
-
-.hero strong em {
-  color: var(--skyblue-dark);
-  font-style: normal;
-}
-
-/* Zeroth Law Feature Block */
-.zeroth-law {
-  background: var(--bg-secondary);
-  border: 2px solid var(--skyblue);
-  border-radius: 8px;
-  padding: 2.5rem;
-  margin: 2rem 0;
+  margin: 0 -2rem 0 -2rem;
+  font-size: 3rem;
+  font-weight: 700;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
+  border: none;
 }
 
-.zeroth-law .arithmatex {
-  font-size: 2.5rem !important;
-  margin: 1.5rem 0;
-}
-
-.zeroth-law p:first-of-type strong {
-  font-size: 1.1rem;
-  color: var(--skyblue-dark);
-  display: block;
-  margin-top: 1rem;
-}
-
-/* Equation Block */
-.equation-block {
-  background: var(--bg-secondary);
-  border-left: 4px solid var(--skyblue);
-  border-radius: 0 8px 8px 0;
+/* Tagline - light cream with border */
+.md-typeset h1:first-of-type + p {
+  background-color: #F7FCFE;
   padding: 2rem;
-  margin: 2rem 0;
+  margin: 0 -2rem 0 -2rem;
+  border-left: 6px solid #87CEEB;
+  border-bottom: 2px solid #E5E4E6;
+  font-size: 1.2rem;
+  line-height: 1.9;
+  font-style: italic;
+  color: #2a2a2a;
 }
 
-.equation-block .arithmatex {
-  font-size: 1.5rem !important;
+/* Section headers - sky blue left border */
+.md-typeset h2 {
+  background: #ffffff;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  margin: 3rem -2rem 2rem -2rem;
+  color: #1a1a1a;
+  font-weight: 700;
+  border-left: 8px solid #87CEEB;
+  border-bottom: 1px solid #E5E4E6;
+  font-size: 2rem;
+}
+
+/* Alternating section backgrounds */
+.md-typeset h2:nth-of-type(even) {
+  background: #F7FCFE;
+}
+
+/* Add padding to content after h2 */
+.md-typeset h2 + p,
+.md-typeset h2 + .arithmatex,
+.md-typeset h2 + table {
+  margin-top: 2rem;
+}
+
+/* Math equations - sky blue bordered boxes */
+.md-typeset .arithmatex {
+  background: #F7FCFE;
+  border: 3px solid #87CEEB;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2.5rem 0;
   text-align: center;
-  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+  font-size: 1.5rem;
 }
 
-/* Tier Grid */
-.tier-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+/* Tables - clean with sky blue header */
+.md-typeset table {
+  border: 2px solid #87CEEB;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 2.5rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #ffffff;
 }
 
-.tier {
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.md-typeset table thead {
+  background: linear-gradient(135deg, #87CEEB 0%, #B0D9F5 100%);
+  color: #1a1a1a;
+  font-weight: 700;
 }
 
-.tier:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.md-typeset table thead th {
+  padding: 1.25rem;
+  border-bottom: 3px solid #4A90C8;
+  text-align: left;
 }
 
-.tier h3 {
-  margin-top: 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--border-color);
+.md-typeset table tbody tr:nth-child(even) {
+  background-color: #F7FCFE;
 }
 
-.tier.tethered h3 {
-  border-color: #E8B4B4;
+.md-typeset table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
 }
 
-.tier.divergent h3 {
-  border-color: #E8D4B4;
+.md-typeset table tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #E5E4E6;
 }
 
-.tier.persistent h3 {
-  border-color: #B4D4B4;
-}
-
-.tier strong {
-  font-family: 'SF Mono', 'Monaco', monospace;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-/* Spec Grid */
-.spec-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-}
-
-.spec-grid h3 {
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--skyblue-dark);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.spec-grid ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.spec-grid li {
-  padding: 0.35rem 0;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.spec-grid li:last-child {
+.md-typeset table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.spec-grid a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Blockquotes - sky blue accent */
+.md-typeset blockquote {
+  background: #F7FCFE;
+  border-left: 6px solid #87CEEB;
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 8px rgba(135, 206, 235, 0.15);
+  font-style: normal;
 }
 
-.spec-grid a::after {
-  content: '→';
-  opacity: 0;
-  transform: translateX(-5px);
-  transition: all 0.2s ease;
-}
-
-.spec-grid a:hover::after {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Innovations (definition list styling) */
-.innovations dt {
-  font-weight: 600;
-  color: var(--skyblue-dark);
-  margin-top: 1.5rem;
-  font-size: 1.05rem;
-}
-
-.innovations dt:first-of-type {
-  margin-top: 0;
-}
-
-.innovations dd {
-  margin-left: 0;
-  padding-left: 1rem;
-  border-left: 2px solid var(--border-color);
-  margin-bottom: 1rem;
-}
-
-/* Problem Grid Definition List */
-.problem-grid dt {
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-top: 1.5rem;
-  font-size: 1.05rem;
-}
-
-.problem-grid dt:first-of-type {
-  margin-top: 0;
-}
-
-.problem-grid dd {
-  margin-left: 0;
-  color: var(--text-secondary);
-}
-
-/* Closing Quote Section */
-.closing {
-  text-align: center;
-  padding: 3rem 2rem;
-  margin: 3rem 0;
-}
-
-.closing blockquote {
-  border: none;
-  background: transparent;
-  font-size: 1.25rem;
-  max-width: 50ch;
-  margin: 0 auto 2rem auto;
-  padding: 0;
-}
-
-.closing p:last-of-type {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* Footer Meta */
-.footer-meta {
-  text-align: center;
-  padding: 2rem;
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  margin-top: 3rem;
-  font-size: 0.9rem;
-}
-
-.footer-meta p:first-child {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.footer-meta a {
-  margin: 0 0.5rem;
-}
-
-/* Code blocks in landing page - cleaner look */
-.md-typeset pre {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-  border: none;
-  border-radius: 8px;
-  border-left: none;
-}
-
-[data-md-color-scheme="slate"] .md-typeset pre {
-  background-color: #0a0a0a;
-}
-
-/* Tables - more refined */
-.md-typeset table {
-  margin: 1.5rem 0;
-  font-size: 0.95rem;
-}
-
-.md-typeset table th {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* Math equations */
-.arithmatex {
-  overflow-x: auto;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 600px) {
-  .hero {
-    padding: 2rem 1rem;
-  }
-  
-  .hero p:first-of-type {
-    font-size: 1.25rem;
-  }
-  
-  .zeroth-law {
-    padding: 1.5rem;
-  }
-  
-  .zeroth-law .arithmatex {
-    font-size: 2rem !important;
-  }
-  
-  .tier-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .spec-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Horizontal rule styling */
+/* Horizontal rules - sky blue gradient */
 .md-typeset hr {
-  margin: 3rem 0;
-  border-top: 1px solid var(--border-color);
-  opacity: 1;
+  border: none;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, #87CEEB 50%, transparent 100%);
+  margin: 4rem 0;
 }
 
-/* First paragraph after h2 - slightly larger */
-.md-typeset h2 + p {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
+/* Strong text - sky blue */
+.md-typeset strong {
+  color: #4A90C8;
+  font-weight: 700;
+}
+
+/* Lists - better spacing */
+.md-typeset ul, .md-typeset ol {
+  margin: 2rem 0;
+  padding-left: 2.5rem;
+}
+
+.md-typeset li {
+  margin: 1rem 0;
+  line-height: 1.9;
+}
+
+/* Paragraphs - generous spacing */
+.md-typeset p {
+  margin: 1.75rem 0;
+  line-height: 1.9;
+}
+
+/* Code blocks */
+.md-typeset pre {
+  background-color: #F7FCFE;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+/* Section spacing - create visual breaks */
+.md-typeset > * {
+  position: relative;
+}
+
+/* Add subtle background to every other major section */
+.md-typeset h2:nth-of-type(even) ~ * {
+  background: inherit;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .md-typeset h1:first-of-type {
+    font-size: 2.25rem;
+    padding: 2rem 1.5rem;
+    margin: 0 -1rem 0 -1rem;
+  }
+  
+  .md-typeset h2 {
+    font-size: 1.5rem;
+    margin: 2rem -1rem 1.5rem -1rem;
+    padding: 1rem 1rem 1rem 1.5rem;
+  }
+  
+  .md-typeset h1:first-of-type + p {
+    margin: 0 -1rem 0 -1rem;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .md-typeset table {
+    font-size: 0.9rem;
+  }
 }

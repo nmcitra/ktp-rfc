@@ -71,3 +71,7 @@ hide:
     [Read Articles →](rfcs/index.md)
 
 </div>
+
+<div style="text-align: center; margin: 3rem auto;">
+  <img src="assets/nmcitra-logo-white.png" alt="NMCITRA Logo" style="width: 420px; height: 420px;">
+</div>

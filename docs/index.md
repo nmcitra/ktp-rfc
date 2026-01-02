@@ -1,324 +1,292 @@
 # Kinetic Trust Protocol
 
-*A framework for dynamic, physics-based authorization of autonomous agents*
+<div class="hero" markdown>
 
----
+**The credential is dead. Long live the trajectory.**
 
-**Status**: Draft Specification - NMCITRA  
-**Version**: 0.1  
-**Date**: November 2025
+Traditional authorization asks the wrong question. It asks: *"Does this agent have permission?"*
 
-This repository contains draft specifications developed by the New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA). These documents have not been submitted to the IETF and do not represent Internet Standards or consensus of any standards body.
+KTP asks something different: ***"Can this environment safely support this action?"***
 
----
+This is not a policy change. It is a change in physics.
 
-> *"We cannot command Nature except by obeying her."* — Francis Bacon
-
-## Overview
-
-The Kinetic Trust Protocol (KTP) is a framework for dynamic, physics-based authorization of autonomous agents. It replaces static permission models with environmental constraints that adapt in real-time to system conditions.
-
-**The Core Insight**: Instead of asking "Does this agent have permission?", KTP asks "Can this environment safely support this action?"
-
----
-
-## The Problem
-
-Traditional authorization systems suffer from three fatal assumptions:
-
-**The Passport Fallacy**  
-Possession of a credential equals proof of identity.
-
-**The Static Fallacy**  
-Permissions verified at time T remain valid at T+1.
-
-**The Vacuum Fallacy**  
-Digital systems operate independent of physical reality.
-
-In the age of autonomous agents operating at machine-speed, all three assumptions fail catastrophically.
-
----
-
-## The Solution: Digital Physics
-
-KTP introduces a physics-based model where trust, risk, and authorization follow natural laws rather than arbitrary rules.
-
-**Trust is Mass**  
-Earned through survival under stress, not assigned by fiat.
-
-**Risk is Friction**  
-Environmental pressure that constrains movement.
-
-**Authorization is Motion**  
-The result of mass overcoming friction.
-
-**Identity is Trajectory**  
-A vector of movement through time, not a static credential.
+</div>
 
 ---
 
 ## The Zeroth Law
 
-The foundational constraint of all KTP systems:
+<div class="zeroth-law" markdown>
 
-```
-A ≤ E
+$$A \leq E$$
 
-Where:
-  A = Autonomy (intrinsic risk of the requested action)
-  E = Environment stability (current Trust Score)
-```
+**Autonomy cannot exceed environmental stability.**
 
-This is not a policy. It is a physical constraint enforced by cryptography.
+This is the foundational constraint. Not a rule to be enforced—a law that enforces itself. When an agent's requested action (A) exceeds what the environment can absorb (E), the action simply does not occur.
 
----
+No exception handler. No override flag. No emergency bypass.
 
-## RFC Series
+Physics.
 
-The Kinetic Trust Protocol is defined through a series of Request for Comments (RFC) documents, organized by domain:
-
-### Foundational Documents
-
-- **[Constitution](constitution.md)** - Core principles and immutable constraints
-- **[KTP-CORE](rfcs/ktp-core.md)** - The foundational specification
-- **[KTP-IDENTITY](rfcs/ktp-identity.md)** - Vector identity and trajectory-based authentication
-
-### Identity & Trust
-
-- **[KTP-SENSORS](rfcs/ktp-sensors.md)** - Context Tensor measurement and environmental sensing
-- **[KTP-ENFORCE](rfcs/ktp-enforce.md)** - Policy enforcement and decision geometry
-- **[KTP-AUDIT](rfcs/ktp-audit.md)** - Immutable audit logs and flight recorders
-
-### Enforcement & Audit
-
-- **[KTP-ZONES](rfcs/ktp-zones.md)** - Blue Zones and trust boundaries
-- **[KTP-FEDERATION](rfcs/ktp-federation.md)** - Cross-zone trust and federation protocols
-
-### Zones & Federation
-
-- **[KTP-CRYPTO](rfcs/ktp-crypto.md)** - Cryptographic primitives and key management
-- **[KTP-TRANSPORT](rfcs/ktp-transport.md)** - Network protocols and message formats
-- **[KTP-THREAT-MODEL](rfcs/ktp-threat-model.md)** - Security analysis and attack vectors
-
-### Technical Infrastructure
-
-- **[KTP-RECOVERY](rfcs/ktp-recovery.md)** - Disaster recovery and system restoration
-- **[KTP-MIGRATION](rfcs/ktp-migration.md)** - Migration paths from legacy systems
-
-### Operations & Recovery
-
-- **[KTP-HUMAN](rfcs/ktp-human.md)** - Human-agent interaction patterns
-- **[KTP-GOVERNANCE](rfcs/ktp-governance.md)** - Specification governance and amendment process
-
-### Human & Governance
-
-- **[KTP-PRIVACY](rfcs/ktp-privacy.md)** - Privacy guarantees and data protection
-- **[KTP-CONFORMANCE](rfcs/ktp-conformance.md)** - Conformance testing and certification
-
-### Privacy & Compliance
-
-- **[KTP-CELESTIAL](rfcs/ktp-celestial.md)** - Space-based and extreme environment adaptations
-- **[KTP-PROBLEMS](rfcs/ktp-problems.md)** - Known problems and open research questions
-
-### Special Topics
+</div>
 
 ---
 
-## Summary Statistics
+## The Problem We Solve
 
-| Metric | Value |
-|:-------|:------|
-| **Total RFCs** | 19 specifications |
-| **Status** | Draft (v0.1) |
-| **License** | Apache 2.0 |
-| **Lines of Specification** | ~15,000 |
+Three assumptions poison every authorization system ever built:
 
----
+<div class="problem-grid" markdown>
 
-## Quick Start
+**The Passport Fallacy**
+:   Possession of a credential equals proof of identity. It does not. Credentials are stolen, shared, and forged. The passport proves nothing about the traveler.
 
-### The Trust Equation
+**The Static Fallacy**
+:   Permissions verified at time T remain valid at T+1. They do not. The world changes between authentication and action. The gap is where attacks live.
 
-```
-E_trust = E_base × (1 - R)
+**The Vacuum Fallacy**
+:   Digital systems operate independent of physical reality. They do not. Every CPU runs on silicon, in a building, drawing power, generating heat. The physical world votes.
 
-Where:
-  E_base  = Agent's intrinsic capability (0-100)
-  R       = Risk factor from Context Tensor (0-1)
-  E_trust = What the environment allows (0-100)
-```
+</div>
 
-### The Context Tensor
-
-Seven dimensions of environmental reality:
-
-| Dimension | Symbol | Physics Equivalent | Measures | Sensors |
-|:----------|:-------|:-------------------|:---------|:--------|
-| **Mass** | M | Density/Mass | Physical density | CO2, LIDAR, RF noise, device count |
-| **Momentum** | P | Kinetic Energy | Data flow velocity | TPS, link saturation, packet velocity |
-| **Heat** | H | Entropy/Temperature | Adversarial pressure | WAF blocks, anomaly rates, CPU temps |
-| **Time** | T | Temporal Phase | Moment criticality | Event countdown, maintenance windows |
-| **Inertia** | I | Inertial Mass | Blast radius | Topology centrality, dependency depth |
-| **Observer** | O | Frame of Reference | Who is watching | VIP presence, regulatory jurisdiction |
-| **Soul** | S | Cosmological Constant | Sovereignty constraints | TK Labels, OCAP/CARE, Sacred Land geofences |
-
-### Trust Tiers
-
-Agents are classified into three tiers based on their trust trajectory:
-
-**Tethered Agents** (E_base: 0-33)  
-New or untested agents operating under strict supervision.
-
-**Divergent Agents** (E_base: 34-66)  
-Proven agents with moderate autonomy and operational freedom.
-
-**Persistent Agents** (E_base: 67-100)  
-Highly trusted agents with demonstrated resilience under stress.
+In the age of autonomous agents operating at machine-speed, all three assumptions fail catastrophically.
 
 ---
 
-## The Silent Veto
+## The Model
 
-Unlike the first six dimensions of the Context Tensor (which contribute weighted values to the Risk Factor), **Soul** acts as a binary veto. If sovereignty constraints are violated (S = 1), the action is forbidden regardless of Trust Score.
+KTP introduces physics where policy once stood.
 
-This operationalizes Indigenous Data Sovereignty, cultural heritage protections, and other immutable constraints that cannot be overridden by operational convenience.
+| Concept | Physics Equivalent | Meaning |
+|:--------|:-------------------|:--------|
+| **Trust** | Mass | Earned through survival, not granted by fiat |
+| **Risk** | Friction | Environmental pressure that constrains movement |
+| **Authorization** | Motion | The result of mass overcoming friction |
+| **Identity** | Trajectory | A vector through time, not a static credential |
+
+---
+
+## The Trust Equation
+
+<div class="equation-block" markdown>
+
+$$E_{trust} = E_{base} \times (1 - R)$$
+
+| Variable | Range | Meaning |
+|:---------|:------|:--------|
+| $E_{base}$ | 0–100 | Intrinsic capability, earned through trajectory |
+| $R$ | 0–1 | Risk factor from the Context Tensor |
+| $E_{trust}$ | 0–100 | What the environment actually allows |
+
+An agent with $E_{base} = 87$ in an environment where $R = 0.52$ has an effective trust of **42**.
+
+Same agent. Different environment. Different physics.
+
+</div>
+
+---
+
+## The Context Tensor
+
+Seven dimensions of environmental reality, measured in real-time:
+
+| Dimension | Symbol | Measures | Example Sensors |
+|:----------|:------:|:---------|:----------------|
+| **Mass** | M | Physical & computational density | CO₂ levels, badge counts, device density |
+| **Momentum** | P | Data flow velocity | Transactions/sec, bandwidth saturation |
+| **Heat** | H | Adversarial pressure | WAF blocks, anomaly rates, threat feeds |
+| **Time** | T | Moment criticality | Event countdowns, maintenance windows |
+| **Inertia** | I | Blast radius | Topology centrality, dependency depth |
+| **Observer** | O | Who is watching | VIP presence, regulatory jurisdiction |
+| **Soul** | S | Sacred boundaries | TK Labels, OCAP, sacred land geofences |
+
+The first six dimensions contribute weighted values to the Risk Factor.
+
+**Soul** is different. Soul is binary. When sovereignty constraints are violated, the action is forbidden—regardless of trust score. This is the **Silent Veto**.
+
+---
+
+## Trust Tiers
+
+Agents evolve through three lifecycle stages:
+
+<div class="tier-grid" markdown>
+
+<div class="tier tethered" markdown>
+
+### Tethered
+**$E_{base}$: 0–33**
+
+New or untested. Operating under a sponsor's trust. The sponsor stakes their own reputation. Accountability without requiring pre-existing history.
+
+</div>
+
+<div class="tier divergent" markdown>
+
+### Divergent
+**$E_{base}$: 34–66**
+
+Proven through survival. Moderate autonomy earned. No longer dependent on a sponsor, not yet capable of sponsoring others.
+
+</div>
+
+<div class="tier persistent" markdown>
+
+### Persistent
+**$E_{base}$: 67–100**
+
+Demonstrated resilience under stress. Can sponsor new agents. Carries enough mass to shape the environment itself.
+
+</div>
+
+</div>
 
 ---
 
 ## Blue Zones
 
-Blue Zones are network segments where Digital Physics is enforced—safe harbors on the internet where humans and agents can operate with cryptographic trust guarantees.
+Network segments where Digital Physics is enforced. Safe harbors on the internet.
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                     BLUE ZONE                       │
-│  ┌───────────────────────────────────────────────┐  │
-│  │           Trust Oracle Mesh                   │  │
-│  │   [Oracle 1] ←→ [Oracle 2] ←→ [Oracle 3]      │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │         Context Tensor Sensors                │  │
-│  │   [M] [P] [H] [T] [I] [O] [S]                 │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │      Policy Enforcement Points                │  │
-│  │   [API GW] [Service Mesh] [IAM] [DB Proxy]    │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │          Agent Population                     │  │
-│  │   [Tethered] [Divergent] [Persistent]         │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │           Flight Recorder                     │  │
-│  │   [Immutable Audit Log - Decision Geometry]   │  │
-│  └───────────────────────────────────────────────┘  │
+│                                                     │
+│   Trust Oracle Mesh                                 │
+│   ├── Oracle 1 ←→ Oracle 2 ←→ Oracle 3             │
+│   └── Threshold signatures, quorum consensus        │
+│                                                     │
+│   Context Tensor Sensors                            │
+│   └── [M] [P] [H] [T] [I] [O] [S]                  │
+│                                                     │
+│   Policy Enforcement Points                         │
+│   └── API Gateway │ Service Mesh │ IAM │ DB Proxy  │
+│                                                     │
+│   Agent Population                                  │
+│   └── Tethered → Divergent → Persistent            │
+│                                                     │
+│   Flight Recorder                                   │
+│   └── Immutable audit log of decision geometry     │
+│                                                     │
 └─────────────────────────────────────────────────────┘
                          ↕
-                [ZONE GATEWAY]
+                   [ZONE GATEWAY]
                          ↕
 ┌─────────────────────────────────────────────────────┐
-│                WILD INTERNET                        │
-│     (Static credentials, binary permissions)        │
+│                  WILD INTERNET                      │
+│        Static credentials. Binary permissions.      │
+│              Hope as a security strategy.           │
 └─────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Key Innovations
+## What Makes This Different
 
-### 1. Vector Identity
+<div class="innovations" markdown>
 
-Identity is a trajectory, not a credential. You are not what you hold; you are where you've been and how you moved.
+**Vector Identity**
+:   You are not what you hold. You are where you've been and how you moved.
 
-### 2. Proof of Resilience
+**Proof of Resilience**
+:   Trust is earned through survival under stress, not granted by authority. An agent that has weathered storms carries more weight than one with a pristine but untested history.
 
-Trust is earned through survival under stress, not granted by authority. An agent that has weathered storms carries more weight than one with a pristine but untested history.
+**Sponsorship Model**
+:   New agents enter through sponsorship. A sponsor stakes their own trust, creating accountability without requiring pre-existing reputation.
 
-### 3. Sponsorship Model
+**The Silent Veto**
+:   When sovereignty constraints are violated, the action is denied. Not as punishment—as physics.
 
-New agents enter through sponsorship. A sponsor stakes their own trust, creating accountability without requiring pre-existing reputation.
+**Indigenous Data Sovereignty**
+:   The Soul dimension operationalizes TK Labels, OCAP/CARE principles, and sacred land protections as immutable constraints. These are not policy exceptions. They are cosmological constants.
 
-### 4. Anti-Goodhart Measures
+**Honest Uncertainty**
+:   [KTP-PROBLEMS](rfcs/ktp-problems.md) documents what we don't know how to solve. We invite collaboration rather than claim false completeness.
 
-Comprehensive countermeasures against gaming the Trust Score, including multi-dimensional scoring, behavioral unpredictability, adversity requirements, and peer validation.
-
-### 5. Indigenous Data Sovereignty
-
-The Soul dimension operationalizes TK Labels, OCAP/CARE principles, and sacred land protections as immutable constraints that cannot be overridden by operational convenience.
-
-### 6. Honest Uncertainty
-
-KTP-PROBLEMS explicitly documents what we don't know how to solve, inviting collaboration rather than claiming false completeness.
+</div>
 
 ---
 
-## Repository Structure
+## Specification
 
-```
-ktp-rfc/
-├── rfcs/              # RFC specifications
-├── schemas/           # JSON schemas
-├── constitution.txt   # Foundational principles
-├── glossary.md        # Terminology definitions
-└── README.md          # This document
-```
+<div class="spec-grid" markdown>
+
+### Foundation
+
+- [Constitution](constitution.md) — Core principles
+- [KTP-CORE](rfcs/ktp-core.md) — Foundational specification
+- [KTP-IDENTITY](rfcs/ktp-identity.md) — Vector identity
+
+### Measurement
+
+- [KTP-SENSORS](rfcs/ktp-sensors.md) — Context Tensor
+- [KTP-ENFORCE](rfcs/ktp-enforce.md) — Policy enforcement
+- [KTP-AUDIT](rfcs/ktp-audit.md) — Flight recorders
+
+### Boundaries
+
+- [KTP-ZONES](rfcs/ktp-zones.md) — Blue Zones
+- [KTP-FEDERATION](rfcs/ktp-federation.md) — Cross-zone trust
+
+### Infrastructure
+
+- [KTP-CRYPTO](rfcs/ktp-crypto.md) — Cryptographic primitives
+- [KTP-TRANSPORT](rfcs/ktp-transport.md) — Network protocols
+- [KTP-THREAT-MODEL](rfcs/ktp-threat-model.md) — Security analysis
+
+### Operations
+
+- [KTP-RECOVERY](rfcs/ktp-recovery.md) — Disaster recovery
+- [KTP-MIGRATION](rfcs/ktp-migration.md) — Legacy migration
+
+### Governance
+
+- [KTP-HUMAN](rfcs/ktp-human.md) — Human-agent interaction
+- [KTP-GOVERNANCE](rfcs/ktp-governance.md) — Amendment process
+- [KTP-PRIVACY](rfcs/ktp-privacy.md) — Privacy guarantees
+- [KTP-CONFORMANCE](rfcs/ktp-conformance.md) — Certification
+
+### Special Topics
+
+- [KTP-CELESTIAL](rfcs/ktp-celestial.md) — Extreme environments
+- [KTP-PROBLEMS](rfcs/ktp-problems.md) — Open questions
+
+</div>
 
 ---
 
-## Contributing
+## Status
 
-We welcome contributions to the Kinetic Trust Protocol specifications. Please see [CONTRIBUTING.md](https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md) for guidelines.
+| Metric | Value |
+|:-------|:------|
+| Version | 0.1 (Draft) |
+| RFCs | 19 specifications |
+| Lines | ~15,000 |
+| License | Apache 2.0 |
 
-### Priority Areas
+**Status**: Draft Specification — NMCITRA  
+**Date**: November 2025
 
-- Reference implementations
-- Security analysis and threat modeling
-- Integration patterns for existing systems
-- Performance benchmarking
-- Edge case documentation
-
----
-
-## Philosophy
-
-KTP is built on the principle that **trust must follow natural laws, not arbitrary rules**. By modeling authorization as a physical system, we create constraints that cannot be gamed, policies that adapt to reality, and a framework that scales from embedded devices to global federations.
-
-The protocol acknowledges that perfect security is impossible, perfect knowledge is unattainable, and perfect prediction is a fantasy. Instead, it provides tools for operating safely within uncertainty, adapting to change, and recovering from failure.
+These documents have not been submitted to the IETF and do not represent Internet Standards.
 
 ---
 
-## Authors
+<div class="closing" markdown>
 
-**Chris Perkins** - New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+> *"We cannot command Nature except by obeying her."*  
+> — Francis Bacon, 1620
+
+The age of autonomous agents is here. The question is not whether we can control them with words.
+
+The question is whether we can create physics they cannot violate.
+
+</div>
 
 ---
 
-## License
+<div class="footer-meta" markdown>
 
-This work is licensed under the Apache License 2.0. See [LICENSE](https://github.com/nmcitra/ktp-rfc/blob/main/LICENSE) for details.
+**Author**: Chris Perkins — New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
 
----
+[Glossary](glossary.md) · [Constitution](constitution.md) · [Contributing](https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md) · [License](https://github.com/nmcitra/ktp-rfc/blob/main/LICENSE)
 
-## References
-
-### Foundational Articles
-
-- Bacon, F. (1620). *Novum Organum*
-- Shannon, C. (1948). "A Mathematical Theory of Communication"
-- Lamport, L. (1978). "Time, Clocks, and the Ordering of Events in a Distributed System"
-
-### Related Standards
-
-- RFC 6749: OAuth 2.0 Authorization Framework
-- RFC 7519: JSON Web Token (JWT)
-- RFC 8446: Transport Layer Security (TLS) 1.3
-
-### Academic Foundations
-
-- Schneier, B. (2000). *Secrets and Lies: Digital Security in a Networked World*
-- Anderson, R. (2008). *Security Engineering: A Guide to Building Dependable Distributed Systems*
-- Saltzer, J. & Schroeder, M. (1975). "The Protection of Information in Computer Systems"
+</div>

@@ -34,15 +34,24 @@ theme:
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      base_path: ["."]
   - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - admonition
   - tables
   - attr_list
@@ -56,24 +65,66 @@ nav:
     - learn/index.md
     - Getting Started: learn/getting-started.md
     - Core Concepts: learn/core-concepts.md
+    - Context Tensor: learn/context-tensor.md
+    - Telemetry: learn/telemetry.md
     - Constitution: learn/constitution.md
     - Use Cases: learn/use-cases.md
   - Specifications:
     - specifications/index.md
     - Blue Zones: specifications/blue-zones.md
-    - RFCs: specifications/rfcs/index.md
+    - RFCs:
+      - rfcs/index.md
+      - KTP-Core: rfcs/ktp-core.md
+      - KTP-Identity: rfcs/ktp-identity.md
+      - KTP-Crypto: rfcs/ktp-crypto.md
+      - KTP-Transport: rfcs/ktp-transport.md
+      - KTP-Federation: rfcs/ktp-federation.md
+      - KTP-Zones: rfcs/ktp-zones.md
+      - KTP-Sensors: rfcs/ktp-sensors.md
+      - KTP-Tensors: rfcs/ktp-tensors.md
+      - KTP-Human: rfcs/ktp-human.md
+      - KTP-Privacy: rfcs/ktp-privacy.md
+      - KTP-Enforce: rfcs/ktp-enforce.md
+      - KTP-Audit: rfcs/ktp-audit.md
+      - KTP-Recovery: rfcs/ktp-recovery.md
+      - KTP-Migration: rfcs/ktp-migration.md
+      - KTP-Legacy: rfcs/ktp-legacy.md
+      - KTP-Conformance: rfcs/ktp-conformance.md
+      - KTP-Governance: rfcs/ktp-governance.md
+      - KTP-Threat Model: rfcs/ktp-threat-model.md
+      - KTP-Problems: rfcs/ktp-problems.md
+      - KTP-Signal: rfcs/ktp-signal.md
+      - KTP-Gravity: rfcs/ktp-gravity.md
+      - KTP-Celestial: rfcs/ktp-celestial.md
+      - KTP-Oracle: rfcs/ktp-oracle.md
+      - KTP-Provenance: rfcs/ktp-provenance.md
+      - KTP-Relational: rfcs/ktp-relational.md
+      - KTP-Emergency: rfcs/ktp-emergency.md
+      - KTP-Deprecation: rfcs/ktp-deprecation.md
+    - Schemas:
+      - schemas/index.md
+      - Context Tensor: schemas/context-tensor.json
+      - Trust Proof: schemas/trust-proof.json
+      - Soul Constraint: schemas/soul-constraint.json
+      - Sensor Config: schemas/sensor-config.json
   - Implement:
     - implement/index.md
+    - Digital Physics Viewer: implement/digital-physics-viewer.md
+    - Experience Calculator: implement/experience-calculator.md
     - Developer Guide: implement/developer-guide.md
     - API Reference: implement/api-reference.md
     - SDKs & Libraries: implement/sdks-and-libraries.md
     - Examples: implement/examples.md
   - Community:
     - community/index.md
+    - Writings:
+      - community/writings/index.md
+    - Tools:
+      - community/tools/index.md
+    - Connect: community/connect/index.md
     - Contributing: community/contributing.md
     - Discussions: community/discussions.md
     - Roadmap: community/roadmap.md
-    - Blog: community/blog/index.md
     - About: community/about.md
 
 extra:
@@ -82,8 +133,8 @@ extra:
       link: https://github.com/nmcitra/ktp-rfc
 
 extra_javascript:
-  - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - javascripts/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 extra_css:

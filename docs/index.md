@@ -50,4 +50,24 @@ hide:
 
     [Get Started →](rfcs/index.md)
 
+-   :material-briefcase:{ .lg .middle }
+
+    ---
+
+    __Case Studies__
+
+    Real-world implementations and deployments of KTP across various domains and industries.
+
+    [Explore Cases →](rfcs/index.md)
+
+-   :material-newspaper:{ .lg .middle }
+
+    ---
+
+    __Writings__
+
+    Articles, blogs, research papers, and thought pieces on digital physics, trust models, and protocol design.
+
+    [Read Articles →](rfcs/index.md)
+
 </div>

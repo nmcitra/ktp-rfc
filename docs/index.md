@@ -1,7 +1,5 @@
 # Kinetic Trust Protocol
 
-<div class="hero" markdown>
-
 **The credential is dead. Long live the trajectory.**
 
 Traditional authorization asks the wrong question. It asks: *"Does this agent have permission?"*
@@ -10,13 +8,9 @@ KTP asks something different: ***"Can this environment safely support this actio
 
 This is not a policy change. It is a change in physics.
 
-</div>
-
 ---
 
 ## The Zeroth Law
-
-<div class="zeroth-law" markdown>
 
 $$A \leq E$$
 
@@ -28,26 +22,17 @@ No exception handler. No override flag. No emergency bypass.
 
 Physics.
 
-</div>
-
 ---
 
 ## The Problem We Solve
 
 Three assumptions poison every authorization system ever built:
 
-<div class="problem-grid" markdown>
+**The Passport Fallacy**: Possession of a credential equals proof of identity. It does not. Credentials are stolen, shared, and forged. The passport proves nothing about the traveler.
 
-**The Passport Fallacy**
-:   Possession of a credential equals proof of identity. It does not. Credentials are stolen, shared, and forged. The passport proves nothing about the traveler.
+**The Static Fallacy**: Permissions verified at time T remain valid at T+1. They do not. The world changes between authentication and action. The gap is where attacks live.
 
-**The Static Fallacy**
-:   Permissions verified at time T remain valid at T+1. They do not. The world changes between authentication and action. The gap is where attacks live.
-
-**The Vacuum Fallacy**
-:   Digital systems operate independent of physical reality. They do not. Every CPU runs on silicon, in a building, drawing power, generating heat. The physical world votes.
-
-</div>
+**The Vacuum Fallacy**: Digital systems operate independent of physical reality. They do not. Every CPU runs on silicon, in a building, drawing power, generating heat. The physical world votes.
 
 In the age of autonomous agents operating at machine-speed, all three assumptions fail catastrophically.
 
@@ -68,8 +53,6 @@ KTP introduces physics where policy once stood.
 
 ## The Trust Equation
 
-<div class="equation-block" markdown>
-
 $$E_{trust} = E_{base} \times (1 - R)$$
 
 | Variable | Range | Meaning |
@@ -81,8 +64,6 @@ $$E_{trust} = E_{base} \times (1 - R)$$
 An agent with $E_{base} = 87$ in an environment where $R = 0.52$ has an effective trust of **42**.
 
 Same agent. Different environment. Different physics.
-
-</div>
 
 ---
 
@@ -110,36 +91,20 @@ The first six dimensions contribute weighted values to the Risk Factor.
 
 Agents evolve through three lifecycle stages:
 
-<div class="tier-grid" markdown>
-
-<div class="tier tethered" markdown>
-
 ### Tethered
 **$E_{base}$: 0–33**
 
 New or untested. Operating under a sponsor's trust. The sponsor stakes their own reputation. Accountability without requiring pre-existing history.
-
-</div>
-
-<div class="tier divergent" markdown>
 
 ### Divergent
 **$E_{base}$: 34–66**
 
 Proven through survival. Moderate autonomy earned. No longer dependent on a sponsor, not yet capable of sponsoring others.
 
-</div>
-
-<div class="tier persistent" markdown>
-
 ### Persistent
 **$E_{base}$: 67–100**
 
 Demonstrated resilience under stress. Can sponsor new agents. Carries enough mass to shape the environment itself.
-
-</div>
-
-</div>
 
 ---
 
@@ -182,33 +147,21 @@ Network segments where Digital Physics is enforced. Safe harbors on the internet
 
 ## What Makes This Different
 
-<div class="innovations" markdown>
+**Vector Identity**: You are not what you hold. You are where you've been and how you moved.
 
-**Vector Identity**
-:   You are not what you hold. You are where you've been and how you moved.
+**Proof of Resilience**: Trust is earned through survival under stress, not granted by authority. An agent that has weathered storms carries more weight than one with a pristine but untested history.
 
-**Proof of Resilience**
-:   Trust is earned through survival under stress, not granted by authority. An agent that has weathered storms carries more weight than one with a pristine but untested history.
+**Sponsorship Model**: New agents enter through sponsorship. A sponsor stakes their own trust, creating accountability without requiring pre-existing reputation.
 
-**Sponsorship Model**
-:   New agents enter through sponsorship. A sponsor stakes their own trust, creating accountability without requiring pre-existing reputation.
+**The Silent Veto**: When sovereignty constraints are violated, the action is denied. Not as punishment—as physics.
 
-**The Silent Veto**
-:   When sovereignty constraints are violated, the action is denied. Not as punishment—as physics.
+**Indigenous Data Sovereignty**: The Soul dimension operationalizes TK Labels, OCAP/CARE principles, and sacred land protections as immutable constraints. These are not policy exceptions. They are cosmological constants.
 
-**Indigenous Data Sovereignty**
-:   The Soul dimension operationalizes TK Labels, OCAP/CARE principles, and sacred land protections as immutable constraints. These are not policy exceptions. They are cosmological constants.
-
-**Honest Uncertainty**
-:   [KTP-PROBLEMS](rfcs/ktp-problems.md) documents what we don't know how to solve. We invite collaboration rather than claim false completeness.
-
-</div>
+**Honest Uncertainty**: [KTP-PROBLEMS](rfcs/ktp-problems.md) documents what we don't know how to solve. We invite collaboration rather than claim false completeness.
 
 ---
 
 ## Specification
-
-<div class="spec-grid" markdown>
 
 ### Foundation
 
@@ -250,8 +203,6 @@ Network segments where Digital Physics is enforced. Safe harbors on the internet
 - [KTP-CELESTIAL](rfcs/ktp-celestial.md) — Extreme environments
 - [KTP-PROBLEMS](rfcs/ktp-problems.md) — Open questions
 
-</div>
-
 ---
 
 ## Status
@@ -270,8 +221,6 @@ These documents have not been submitted to the IETF and do not represent Interne
 
 ---
 
-<div class="closing" markdown>
-
 > *"We cannot command Nature except by obeying her."*  
 > — Francis Bacon, 1620
 
@@ -279,14 +228,8 @@ The age of autonomous agents is here. The question is not whether we can control
 
 The question is whether we can create physics they cannot violate.
 
-</div>
-
 ---
-
-<div class="footer-meta" markdown>
 
 **Author**: Chris Perkins — New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
 
 [Glossary](glossary.md) · [Constitution](constitution.md) · [Contributing](https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md) · [License](https://github.com/nmcitra/ktp-rfc/blob/main/LICENSE)
-
-</div>

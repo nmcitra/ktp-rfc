@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Kinetic Trust Protocol
 
 <div class="hero" markdown>

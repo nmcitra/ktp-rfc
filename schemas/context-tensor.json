@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ktp.example.org/schemas/context-tensor.json",
+  "title": "KTP Context Tensor",
+  "description": "Seven-dimensional environmental measurement vector for the Kinetic Trust Protocol",
+  "type": "object",
+  "required": ["m", "p", "h", "t", "i", "o"],
+  "properties": {
+    "m": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Mass - Physical density (0=empty, 1=maximum capacity)"
+    },
+    "p": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Momentum - Kinetic velocity (0=idle, 1=saturated)"
+    },
+    "h": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Heat - Adversarial pressure (0=cool, 1=under attack)"
+    },
+    "t": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Time - Temporal phase (0=maintenance, 1=critical moment)"
+    },
+    "i": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Inertia - Blast radius (0=leaf node, 1=core infrastructure)"
+    },
+    "o": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Observer - Population sensitivity (0=normal, 1=VIPs present)"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "m": 0.875,
+      "p": 0.920,
+      "h": 0.020,
+      "t": 1.000,
+      "i": 0.100,
+      "o": 0.040
+    },
+    {
+      "m": 0.100,
+      "p": 0.150,
+      "h": 0.010,
+      "t": 0.200,
+      "i": 0.050,
+      "o": 0.020
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ktp.example.org/schemas/soul-constraint.json",
+  "title": "KTP Soul Constraint",
+  "description": "Sovereignty constraint evaluation for the Kinetic Trust Protocol",
+  "type": "object",
+  "required": ["s"],
+  "properties": {
+    "s": {
+      "type": "integer",
+      "enum": [0, 1],
+      "description": "Soul veto status: 0=clear (no constraint), 1=veto (action forbidden)"
+    },
+    "constraint_type": {
+      "type": ["string", "null"],
+      "enum": [
+        "tk_label",
+        "ocap",
+        "care",
+        "sacred_land",
+        "treaty",
+        "lineage",
+        "cultural_heritage",
+        null
+      ],
+      "description": "Category of sovereignty constraint that triggered veto"
+    },
+    "constraint_id": {
+      "type": ["string", "null"],
+      "description": "Unique identifier of the specific constraint (e.g., TK-NC-001)"
+    },
+    "constraint_name": {
+      "type": ["string", "null"],
+      "description": "Human-readable name of the constraint"
+    },
+    "authority": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URI of the sovereignty authority or framework"
+    },
+    "community": {
+      "type": ["string", "null"],
+      "description": "Name of the community asserting the constraint"
+    },
+    "remediation": {
+      "type": ["string", "null"],
+      "description": "Guidance on how to obtain permission if applicable"
+    }
+  },
+  "if": {
+    "properties": {
+      "s": { "const": 1 }
+    }
+  },
+  "then": {
+    "required": ["s", "constraint_type", "authority"],
+    "properties": {
+      "constraint_type": {
+        "type": "string"
+      },
+      "authority": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "s": 0,
+      "constraint_type": null,
+      "constraint_id": null,
+      "authority": null
+    },
+    {
+      "s": 1,
+      "constraint_type": "tk_label",
+      "constraint_id": "TK-NC-001",
+      "constraint_name": "TK Non-Commercial",
+      "authority": "https://localcontexts.org/label/tk-nc/",
+      "community": "Example Indigenous Community",
+      "remediation": "Contact community data steward for commercial licensing"
+    },
+    {
+      "s": 1,
+      "constraint_type": "sacred_land",
+      "constraint_id": "geofence-001",
+      "constraint_name": "Sacred Site Boundary",
+      "authority": "https://tribal-lands.example.org/",
+      "community": "Example Tribe",
+      "remediation": "Activity not permitted within sacred site boundaries"
+    },
+    {
+      "s": 1,
+      "constraint_type": "ocap",
+      "constraint_id": "ocap-possession",
+      "constraint_name": "OCAP Possession Principle",
+      "authority": "https://fnigc.ca/ocap/",
+      "community": "First Nation Community",
+      "remediation": "Data must remain within community-controlled infrastructure"
+    }
+  ]
+}

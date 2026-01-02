@@ -5,15 +5,17 @@ hide:
 
 # Kinetic Trust Protocol
 
+*An Internet Governed by Digital Physics, Not Policy*
+
 <div class="hero" markdown>
 
-**The credential is dead. Long live the trajectory.**
+**What if authorization wasn't a gate, but a gravity well?**
 
-Traditional authorization asks the wrong question. It asks: *"Does this agent have permission?"*
+For decades, we've built digital walls. We grant permissions, check credentials, and enforce policies. It is a system of rigid gates and brittle rules.
 
-KTP asks something different: ***"Can this environment safely support this action?"***
+KTP proposes a different universe. One where trust is mass, risk is friction, and authorization is the natural result of an agent moving through an environment. 
 
-This is not a policy change. It is a change in physics.
+This is not a new policy. It is a new physics.
 
 </div>
 
@@ -115,34 +117,31 @@ The first six dimensions contribute weighted values to the Risk Factor.
 
 Agents evolve through three lifecycle stages:
 
-<div class="tier-grid" markdown>
+<div class="grid cards" markdown>
 
-<div class="tier tethered" markdown>
+-   :material-link-variant:{ .lg .middle } __Tethered__
 
-### Tethered
-**$E_{base}$: 0–33**
+    ---
 
-New or untested. Operating under a sponsor's trust. The sponsor stakes their own reputation. Accountability without requiring pre-existing history.
+    **$E_{base}$: 0–33**
 
-</div>
+    New or untested. Operating under a sponsor's trust. The sponsor stakes their own reputation. Accountability without requiring pre-existing history.
 
-<div class="tier divergent" markdown>
+-   :material-chart-timeline:{ .lg .middle } __Divergent__
 
-### Divergent
-**$E_{base}$: 34–66**
+    ---
 
-Proven through survival. Moderate autonomy earned. No longer dependent on a sponsor, not yet capable of sponsoring others.
+    **$E_{base}$: 34–66**
 
-</div>
+    Proven through survival. Moderate autonomy earned. No longer dependent on a sponsor, not yet capable of sponsoring others.
 
-<div class="tier persistent" markdown>
+-   :material-shield-check:{ .lg .middle } __Persistent__
 
-### Persistent
-**$E_{base}$: 67–100**
+    ---
 
-Demonstrated resilience under stress. Can sponsor new agents. Carries enough mass to shape the environment itself.
+    **$E_{base}$: 67–100**
 
-</div>
+    Demonstrated resilience under stress. Can sponsor new agents. Carries enough mass to shape the environment itself.
 
 </div>
 
@@ -213,49 +212,15 @@ Network segments where Digital Physics is enforced. Safe harbors on the internet
 
 ## Specification
 
-<div class="spec-grid" markdown>
-
-### Foundation
-
-- [Constitution](constitution.md) — Core principles
-- [KTP-CORE](rfcs/ktp-core.md) — Foundational specification
-- [KTP-IDENTITY](rfcs/ktp-identity.md) — Vector identity
-
-### Measurement
-
-- [KTP-SENSORS](rfcs/ktp-sensors.md) — Context Tensor
-- [KTP-ENFORCE](rfcs/ktp-enforce.md) — Policy enforcement
-- [KTP-AUDIT](rfcs/ktp-audit.md) — Flight recorders
-
-### Boundaries
-
-- [KTP-ZONES](rfcs/ktp-zones.md) — Blue Zones
-- [KTP-FEDERATION](rfcs/ktp-federation.md) — Cross-zone trust
-
-### Infrastructure
-
-- [KTP-CRYPTO](rfcs/ktp-crypto.md) — Cryptographic primitives
-- [KTP-TRANSPORT](rfcs/ktp-transport.md) — Network protocols
-- [KTP-THREAT-MODEL](rfcs/ktp-threat-model.md) — Security analysis
-
-### Operations
-
-- [KTP-RECOVERY](rfcs/ktp-recovery.md) — Disaster recovery
-- [KTP-MIGRATION](rfcs/ktp-migration.md) — Legacy migration
-
-### Governance
-
-- [KTP-HUMAN](rfcs/ktp-human.md) — Human-agent interaction
-- [KTP-GOVERNANCE](rfcs/ktp-governance.md) — Amendment process
-- [KTP-PRIVACY](rfcs/ktp-privacy.md) — Privacy guarantees
-- [KTP-CONFORMANCE](rfcs/ktp-conformance.md) — Certification
-
-### Special Topics
-
-- [KTP-CELESTIAL](rfcs/ktp-celestial.md) — Extreme environments
-- [KTP-PROBLEMS](rfcs/ktp-problems.md) — Open questions
-
-</div>
+| Domain | RFCs |
+|:-------|:-----|
+| **Foundation** | [Constitution](constitution.md) · [KTP-CORE](rfcs/ktp-core.md) · [KTP-IDENTITY](rfcs/ktp-identity.md) |
+| **Measurement** | [KTP-SENSORS](rfcs/ktp-sensors.md) · [KTP-ENFORCE](rfcs/ktp-enforce.md) · [KTP-AUDIT](rfcs/ktp-audit.md) |
+| **Boundaries** | [KTP-ZONES](rfcs/ktp-zones.md) · [KTP-FEDERATION](rfcs/ktp-federation.md) |
+| **Infrastructure** | [KTP-CRYPTO](rfcs/ktp-crypto.md) · [KTP-TRANSPORT](rfcs/ktp-transport.md) · [KTP-THREAT-MODEL](rfcs/ktp-threat-model.md) |
+| **Operations** | [KTP-RECOVERY](rfcs/ktp-recovery.md) · [KTP-MIGRATION](rfcs/ktp-migration.md) |
+| **Governance** | [KTP-HUMAN](rfcs/ktp-human.md) · [KTP-GOVERNANCE](rfcs/ktp-governance.md) · [KTP-PRIVACY](rfcs/ktp-privacy.md) · [KTP-CONFORMANCE](rfcs/ktp-conformance.md) |
+| **Special Topics** | [KTP-CELESTIAL](rfcs/ktp-celestial.md) · [KTP-PROBLEMS](rfcs/ktp-problems.md) |
 
 ---
 

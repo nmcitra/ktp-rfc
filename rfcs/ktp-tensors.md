@@ -141,57 +141,25 @@ graph LR
 
 ## Core Components
 
-<div class="grid cards" markdown>
+???+ note "Measurement Philosophy"
+    Observable over Internal: Measure what the agent *does*, not what it \"thinks.\"
 
--   **Measurement Philosophy**
-    ---
-    Observable over Internal: Measure what the agent *does*, not what it "thinks."
-
--   **Instrumentation**
-    ---
+???+ note "Instrumentation"
     Standardized APIs for sensors and kernels to report dimension values to the KTP-Monitor.
 
--   **Normalization**
-    ---
+???+ note "Normalization"
     Mapping raw values (e.g., 45°C) to a universal 0-1 risk scale based on safe/danger ranges.
 
--   **Trajectory Analysis**
-    ---
-    Using time-series data to detect "Behavioral Drift" before it crosses a safety threshold.
-
-</div>
+???+ note "Trajectory Analysis"
+    Using time-series data to detect behavioral drift before it crosses a safety threshold.
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
-
-    ---
-
-    The sensory nervous system providing real-time telemetry.
-
--   :material-orbit:{ .lg .middle } **[KTP-Gravity](ktp-gravity.md)**
-
-    ---
-
-    The enforcement mechanism that replaces policy with physics.
-
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
-
-    ---
-
-    Vector Identity and trajectory-based authentication.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Sensors](ktp-sensors.md)** — The sensory nervous system providing real-time telemetry.
+    - **[KTP-Gravity](ktp-gravity.md)** — The enforcement mechanism that replaces policy with physics.
+    - **[KTP-Identity](ktp-identity.md)** — Vector Identity and trajectory-based authentication.
 
 ---
 

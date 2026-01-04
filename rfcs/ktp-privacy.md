@@ -71,73 +71,27 @@ KTP adopts Helen Nissenbaum's **Contextual Integrity** framework. Privacy is not
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   **Privacy Impact Assessment (PIA)**
-    ---
+???+ note "Privacy Impact Assessment (PIA)"
     A mandatory review process for any new sensor or data feed added to the [**Context Tensor**](ktp-tensors.md).
 
--   **Differential Privacy**
-    ---
+???+ note "Differential Privacy"
     Adding statistical noise to aggregate reports so that individual agent behavior cannot be reverse-engineered.
 
--   **Cryptographic Privacy**
-    ---
+???+ note "Cryptographic Privacy"
     Using Zero-Knowledge Proofs (ZKPs) to prove "I am trustworthy" without revealing "Who I am" or "What I did."
 
--   **Data Subject Rights**
-    ---
+???+ note "Data Subject Rights"
     Automated APIs for Access, Rectification, Erasure, and Portability (GDPR/CCPA compliance).
-
-</div>
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-account-group:{ .lg .middle } **[KTP-Human](ktp-human.md)**
-
-    ---
-
-    Human oversight and the "Human-in-the-Loop" requirement.
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
-</div>
-    ---
-    The system that must be carefully constrained to prevent surveillance.
-
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    How identities are managed to support pseudonymity.
-
--   [**KTP-Tensors**](ktp-tensors.md)
-    ---
-    The data collection engine that requires strict privacy controls.
-
--   [**KTP-Human**](ktp-human.md)
-    ---
-    The interface between the system and human rights.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Audit](ktp-audit.md)** — The Flight Recorder specification for immutable decision logging.
+    - **[KTP-Identity](ktp-identity.md)** — Identity management to support pseudonymity and lineage.
+    - **[KTP-Tensors](ktp-tensors.md)** — The data collection engine that requires strict privacy controls.
+    - **[KTP-Human](ktp-human.md)** — The interface between the system and human rights.
+    - **[KTP-Governance](ktp-governance.md)** — The governance framework for policy evolution.
 
 ---
 

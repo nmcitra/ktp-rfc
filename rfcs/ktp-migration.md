@@ -106,65 +106,25 @@ graph TD
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   :material-rocket-launch:{ .lg .middle } **Trust Bootstrapping**
-
-    ---
-    
+???+ note "Trust Bootstrapping"
     Assigning initial trust scores to existing users based on historical logs and role tenure.
 
--   :material-clipboard-text:{ .lg .middle } **Shadow Mode Logging**
-
-    ---
-    
+???+ note "Shadow Mode Logging"
     A standardized log format for comparing Legacy vs. KTP decisions to detect anomalies.
 
--   :material-restore:{ .lg .middle } **Rollback Procedures**
-
-    ---
-    
+???+ note "Rollback Procedures"
     "Emergency Fallback" protocols to instantly disable KTP enforcement if a critical business process is blocked.
 
--   :material-chart-line:{ .lg .middle } **Success Metrics**
-
-    ---
-    
+???+ note "Success Metrics"
     KPIs for migration health: False Positive Rate, Latency Impact, and Trust Score Stability.
-
-</div>
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-bridge:{ .lg .middle } **[KTP-Legacy](ktp-legacy.md)**
-
-    ---
-
-    Bridging the gap between static credentials and kinetic trust.
-
--   :material-earth:{ .lg .middle } **[KTP-Federation](ktp-federation.md)**
-
-    ---
-
-    Cross-zone cryptographic trust establishment.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Legacy](ktp-legacy.md)** — Bridging the gap between static credentials and kinetic trust.
+    - **[KTP-Federation](ktp-federation.md)** — Cross-zone cryptographic trust establishment.
+    - **[KTP-Governance](ktp-governance.md)** — The human-in-the-loop and algorithmic governance framework.
 
 ---
 

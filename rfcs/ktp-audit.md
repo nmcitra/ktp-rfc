@@ -84,62 +84,6 @@ KTP-Audit defines a system for recording **Decision Geometry**—a multi-dimensi
 
 ---
 
-## Storage Architecture
-
-```mermaid
-graph TD
-    subgraph Hot [Hot Storage (Redis/Memcached)]
-        R1[Recent Logs (1h)]
-    end
-    
-    subgraph Warm [Warm Storage (Elasticsearch)]
-        R2[Searchable Logs (30d)]
-    end
-    
-    subgraph Cold [Cold Storage (S3/Glacier)]
-        R3[Archived Logs (7y)]
-    end
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](ktp-conformance.md)**
-
-    ---
-
-    Defining the three levels of KTP compliance and certification.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
-
-    ---
-
-    The secure messaging and transport layer for KTP signals.
-
-</div>
-    end
-
-    Oracle -->|Stream| Hot
-    Hot -->|Batch| Warm
-    Warm -->|Archive| Cold
-```
-
----
-
 ## Forensic Reconstruction
 Because the Flight Recorder captures the full **Environmental Snapshot**, investigators can "replay" a decision.
 
@@ -153,49 +97,25 @@ This capability is critical for proving that the system behaved correctly during
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   **Cryptographic Chaining**
-    ---
+???+ note "Cryptographic Chaining"
     Each record includes the hash of the previous record, creating a tamper-evident blockchain-like structure.
 
--   **Counterfactual Analysis**
-    ---
+???+ note "Counterfactual Analysis"
     Records can include "what-if" data: "If the risk factor had been 0.1 lower, this action would have been allowed."
 
--   **Compliance Export**
-    ---
+???+ note "Compliance Export"
     Standardized formats for exporting logs to external auditors or SIEM systems.
 
--   **Liability Attribution**
-    ---
+???+ note "Liability Attribution"
     Using the logs to determine if a failure was due to human negligence, agent error, or environmental force majeure.
-
-</div>
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   [**KTP-Threat Model**](ktp-threat-model.md)
-    ---
-    The threats that the Flight Recorder helps investigate.
-
--   [**KTP-Tensors**](ktp-tensors.md)
-    ---
-    The environmental data captured in every record.
-
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    The agent identity tracked across records.
-
--   [**KTP-Recovery**](ktp-recovery.md)
-    ---
-    How to use logs to reconstruct state after a failure.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Threat Model](ktp-threat-model.md)** — The threats that the Flight Recorder helps investigate.
+    - **[KTP-Tensors](ktp-tensors.md)** — The environmental data captured in every record.
+    - **[KTP-Identity](ktp-identity.md)** — The agent identity tracked across records.
+    - **[KTP-Recovery](ktp-recovery.md)** — How to use logs to reconstruct state after a failure.
 
 ---
 

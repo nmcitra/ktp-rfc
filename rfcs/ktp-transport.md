@@ -521,73 +521,11 @@ For high-volume sensors:
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
-
-    ---
-    
-    Foundation protocol that transport carries.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
-
--   :material-lock:{ .lg .middle } **KTP-Crypto**
-
-    ---
-    
-    Cryptographic requirements for transport security.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
-
--   :material-gauge:{ .lg .middle } **KTP-Sensors**
-
-    ---
-    
-    Sensor data specifications for transport.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-sensors.md)
-
--   :material-earth:{ .lg .middle } **KTP-Federation**
-
-    ---
-    
-    Cross-zone transport protocols.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-federation.md)
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives and algorithms for trust proofs.
-
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
-
-    ---
-
-    The sensory nervous system providing real-time telemetry.
-
--   :material-earth:{ .lg .middle } **[KTP-Federation](ktp-federation.md)**
-
-    ---
-
-    Cross-zone cryptographic trust establishment.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Trust physics carried by transport.
+    - [KTP-Crypto](ktp-crypto.md): Encryption and signing requirements.
+    - [KTP-Sensors](ktp-sensors.md): Telemetry payload formats.
+    - [KTP-Federation](ktp-federation.md): Cross-zone transport protocols.
 
 ---
 

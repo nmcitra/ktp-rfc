@@ -92,74 +92,22 @@ Trust events propagate across the federation network:
 
 ---
 
-## Related Specifications
+## Federation Agreement
 
-<div class="grid cards" markdown>
+A formal JSON contract specifying trust factors, expiration dates, and dispute resolution protocols.
 
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
-
-    ---
-
-    Vector Identity and trajectory-based authentication.
-
--   :material-map-marker-radius:{ .lg .middle } **[KTP-Zones](ktp-zones.md)**
-
-    ---
-
-    Blue Zone architecture and governance for bounded trust.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
-</div>
-    A formal JSON contract specifying trust factors, expiration dates, and dispute resolution protocols.
-
--   **Cross-Zone Attestation**
-    ---
-    Cryptographic proofs of behavior co-signed by multiple Zone Authorities to create portable history.
-
--   **Trust Decay**
-    ---
-    Reputation from external zones decays over time unless reinforced by local good behavior.
-
--   **Dispute Resolution**
-    ---
-    Protocols for handling disagreements between zones (e.g., "Zone B issued a bad credential").
-
-</div>
-
----
+- **Cross-Zone Attestation:** Cryptographic proofs co-signed by multiple Zone Authorities.
+- **Trust Decay:** External reputation decays unless reinforced by local good behavior.
+- **Dispute Resolution:** Protocols for handling disagreements between zones.
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   [**KTP-Zones**](ktp-zones.md)
-    ---
-    The entities that are being federated.
-
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    The portable identity that carries the reputation.
-
--   [**KTP-Gravity**](ktp-gravity.md)
-    ---
-    How trust levels affect the physical constraints on an agent.
-
--   [**KTP-Governance**](ktp-governance.md)
-    ---
-    The human processes for negotiating federation agreements.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Trust physics that federation relies on.
+    - [KTP-Identity](ktp-identity.md): Portable identity and reputation signals.
+    - [KTP-Zones](ktp-zones.md): Zone boundaries and trust domains.
+    - [KTP-Governance](ktp-governance.md): Negotiation and oversight frameworks.
+    - [KTP-Migration](ktp-migration.md): Trust portability during zone transitions.
 
 ---
 

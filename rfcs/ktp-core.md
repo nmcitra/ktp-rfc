@@ -74,57 +74,35 @@ KTP treats authorization as **physics**, not policy.
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **Zeroth Law**
-
-    ---
-    
+???+ note "Zeroth Law"
     The inviolable constraint $A \leq E$ that governs all authorization decisions.
     
-    [:octicons-arrow-right-24: Jump to section](#the-zeroth-law)
+    [Jump to section](#the-zeroth-law)
 
--   :material-counter:{ .lg .middle } **Trust Score**
-
-    ---
-    
+???+ note "Trust Score"
     Dynamic calculation combining agent history with environmental reality.
     
-    [:octicons-arrow-right-24: Jump to section](#trust-score-calculation)
+    [Jump to section](#trust-score-calculation)
 
--   :material-cube-outline:{ .lg .middle } **Context Tensor**
-
-    ---
-    
+???+ note "Context Tensor"
     Seven-dimensional environmental measurement framework.
     
-    [:octicons-arrow-right-24: Jump to section](#context-tensor)
+    [Jump to section](#context-tensor)
 
--   :material-certificate:{ .lg .middle } **Trust Proof**
-
-    ---
-    
+???+ note "Trust Proof"
     Cryptographically signed token carrying real-time trust state.
     
-    [:octicons-arrow-right-24: Jump to section](#trust-proof-token)
+    [Jump to section](#trust-proof-token)
 
--   :material-hand-back-right:{ .lg .middle } **Silent Veto**
-
-    ---
+???+ note "Silent Veto"
+    Automatic action denial when $A > E_{trust}$ — physics, not policy.
     
-    Automatic action denial when $A > E_{trust}$—physics, not policy.
-    
-    [:octicons-arrow-right-24: Jump to section](#silent-veto-mechanism)
+    [Jump to section](#silent-veto-mechanism)
 
--   :material-blur-radial:{ .lg .middle } **Trust Oracle**
-
-    ---
-    
+???+ note "Trust Oracle"
     Distributed authority for Trust Score calculation and attestation.
     
-    [:octicons-arrow-right-24: Jump to section](#trust-oracle)
-
-</div>
+    [Jump to section](#trust-oracle)
 
 ---
 
@@ -521,75 +499,12 @@ sequenceDiagram
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
-
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
-
--   :material-lock:{ .lg .middle } **KTP-Crypto**
-
-    ---
-    
-    Cryptographic primitives and signature schemes.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
-
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
-
-    ---
-    
-    Network transport and Trust Proof propagation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
-
--   :material-cube-outline:{ .lg .middle } **KTP-Tensors**
-
-    ---
-    
-    Complete Context Tensor specification (1,707 dimensions).
-
-    [:octicons-arrow-right-24: Read Spec](ktp-tensors.md)
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives and algorithms for trust proofs.
-
--   :material-cube-outline:{ .lg .middle } **[KTP-Tensors](ktp-tensors.md)**
-
-    ---
-
-    Complete Context Tensor specification (1,707 dimensions).
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
-
-    ---
-
-    The secure messaging and transport layer for KTP signals.
-
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](ktp-conformance.md)**
-
-    ---
-
-    Defining the three levels of KTP compliance and certification.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Identity](ktp-identity.md)** — Vector Identity, Proof of Resilience, and agent lineage.
+    - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and signature schemes.
+    - **[KTP-Transport](ktp-transport.md)** — Network transport and Trust Proof propagation.
+    - **[KTP-Tensors](ktp-tensors.md)** — Complete Context Tensor specification (1,707 dimensions).
+    - **[KTP-Conformance](ktp-conformance.md)** — Compliance levels and certification criteria.
 
 ---
 

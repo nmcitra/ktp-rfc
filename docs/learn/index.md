@@ -170,5 +170,71 @@ Seven dimensions that let the Internet feel its own weather:
 
 ---
 
+---
+
+## What Makes KTP Different?
+
+<div class="grid cards" markdown>
+
+-   :material-lock-open-variant:{ .lg .middle } **Physics, Not Policy**
+
+    ---
+
+    Traditional systems rely on rules that can be bypassed or become outdated. KTP uses constraints that behave like gravity—immutable and continuously enforced.
+
+-   :material-speedometer:{ .lg .middle } **Machine Speed Authorization**
+
+    ---
+
+    In the age of AI, human-speed policies fail. KTP makes trust decisions in milliseconds, adapting to environmental conditions in real-time.
+
+-   :material-chart-timeline-variant:{ .lg .middle } **Trust as Trajectory**
+
+    ---
+
+    Identity is not a password—it's a trajectory. KTP tracks how systems have actually moved, building trust through behavior over time.
+
+-   :material-shield-check:{ .lg .middle } **Constitutional Governance**
+
+    ---
+
+    The Zeroth Law ensures human wellbeing is never compromised by algorithmic efficiency. Trust has boundaries that cannot be crossed.
+
+</div>
+
+---
+
+## Next Steps
+
 !!! tip "New to KTP?"
-    Start with **Getting Started** regardless of your role—it provides the foundation for everything else.
+    Start with [**Getting Started**](getting-started.md) regardless of your role—it provides the foundation for everything else.
+
+<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 400px;">
+  <a href="../implement/index.html" class="md-button" style="width: 100%; text-align: center;">
+    <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2H3v2h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h2v-2H8v-5a2 2 0 0 0-2-2 2 2 0 0 0 2-2V5h2V3m6 0a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1v2h-1a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-2v-2h2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5h-2V3Z"></path></svg></span>
+    Developer Resources
+  </a>
+  <a href="../specifications/index.html" class="md-button" style="width: 100%; text-align: center;">
+    <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 7h4v2h-4m0 4h4v2h-4m0 4h4v2h-4M3 5v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2m2 0h8v14H5Z"></path></svg></span>
+    Read the Specifications
+  </a>
+  <a href="https://github.com/nmcitra/ktp-rfc/discussions" class="md-button" style="width: 100%; text-align: center;">
+    <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"></path></svg></span>
+    Join the Discussion
+  </a>
+  <a href="../community/contributing.html" class="md-button" style="width: 100%; text-align: center;">
+    <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"></path></svg></span>
+    Contributing Guide
+  </a>
+</div>
+
+---
+
+## The Voyage
+
+The intellectual journey from reactive observability to proactive trust governance is captured in the 12-part narrative series:
+
+[:material-sail-boat: Read The Voyage: 12 Days of Digital Physics](../community/writings/index.md){ .md-button .md-button--primary }
+
+Each chapter reveals a core principle through metaphor, technical insight, and personal reflection—from "Departure" (why the old harbor fails us) to "Fire" (what we pass forward).
+

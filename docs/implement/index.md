@@ -82,43 +82,6 @@
 
 ---
 
-## Quick Start
-
-Get up and running with KTP in minutes:
-
-```bash
-# Install the KTP SDK
-pip install ktp-sdk
-
-# Or for JavaScript
-npm install @ktp/sdk
-```
-
-```python
-from ktp import TrustOracle, Agent, TrustContext
-
-# Initialize connection to your KTP zone
-oracle = TrustOracle(zone_url="https://oracle.yourzone.ktp")
-
-# Register your agent
-agent = Agent(
-    id="agent:service-alpha",
-    capabilities=["read:data", "write:logs"]
-)
-
-# Request a trust proof
-proof = oracle.request_proof(agent)
-
-# Use the proof to authorize an action
-if proof.score >= 60:  # Analyst tier
-    result = perform_action(proof)
-    print(f"Action authorized: {result}")
-else:
-    print(f"Insufficient trust: {proof.score} < 60")
-```
-
----
-
 ## Integration Patterns
 
 KTP can be integrated at multiple layers of your application stack:
@@ -159,19 +122,30 @@ Understanding how KTP components work together:
 
 ```mermaid
 graph TD
-    A[Your Application] -->|1. Request Proof| O[Trust Oracle]
-    O -->|2. Evaluate Context| T[Context Tensor]
+    A[Your Application]
+    O[Trust Oracle]
+    T[Context Tensor]
+    P[Policy Enforcement Point]
+    R[Resource]
+    S[Sensors]
+    F[Flight Recorder]
+    
+    A -->|1. Request Proof| O
+    O -->|2. Evaluate Context| T
     O -->|3. Issue Proof| A
-    A -->|4. Present Proof| P[Policy Enforcement Point]
+    A -->|4. Present Proof| P
     P -->|5. Verify Signature| O
-    P -->|6. Allow/Deny| R[Resource]
+    P -->|6. Allow/Deny| R
+    T --> S
+    P --> F
     
-    T -->|Sensor Data| S[Sensors]
-    P -->|Audit Log| F[Flight Recorder]
-    
-    style O fill:#4CAF50,stroke:#2E7D32,color:#fff
-    style P fill:#2196F3,stroke:#1565C0,color:#fff
-    style F fill:#FF9800,stroke:#E65100,color:#fff
+    style A fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style O fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style T fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style P fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style R fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style S fill:#2c3e50,stroke:#34495e,color:#ecf0f1
+    style F fill:#2c3e50,stroke:#34495e,color:#ecf0f1
 ```
 
 **Key Components:**
@@ -183,95 +157,7 @@ graph TD
 
 ---
 
-## Integration Checklist
-
-Before deploying to production, ensure you've completed:
-
-- [x] **Environment Setup**
-    - [ ] Install SDK for your language
-    - [ ] Configure connection to KTP zone
-    - [ ] Set up secure credential storage
-    
-- [x] **Agent Registration**
-    - [ ] Generate agent identity
-    - [ ] Define capability requirements
-    - [ ] Establish sponsorship (if required)
-    
-- [x] **Trust Flow Implementation**
-    - [ ] Request trust proof logic
-    - [ ] Proof verification at enforcement points
-    - [ ] Error handling for denied requests
-    
-- [x] **Context Integration**
-    - [ ] Context tensor data collection
-    - [ ] Sensor configuration
-    - [ ] Real-time updates (WebSocket)
-    
-- [x] **Observability**
-    - [ ] Audit logging configuration
-    - [ ] Metrics and monitoring
-    - [ ] Alerting for trust anomalies
-    
-- [x] **Testing & Validation**
-    - [ ] Run conformance test suite
-    - [ ] Load testing with KTP overhead
-    - [ ] Security review of implementation
-
----
-
-## Conformance Levels
-
-Choose the level that matches your requirements:
-
-| Level | Use Case | Requirements | Time to Implement |
-|-------|----------|--------------|-------------------|
-| **Level 1: Basic** | Development, Testing | Single Oracle, 3 dimensions | 1-2 days |
-| **Level 2: Standard** | Production | 3-node mesh, Full tensor | 1-2 weeks |
-| **Level 3: Full** | Critical Infrastructure | 5-node geo-mesh, Hardware enforcement | 4-8 weeks |
-
-See [KTP-Conformance](../rfcs/ktp-conformance.md) for detailed requirements.
-
----
-
 ## Support & Community
 
 !!! tip "Need Help?"
     - **Documentation Issues**: [Open an issue on GitHub](https://github.com/nmcitra/ktp-rfc/issues)
-    - **Implementation Questions**: Join the [KTP Developer Slack](#)
-    - **Security Concerns**: Email security@ktp.example
-
----
-
-## Related Specifications
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](../rfcs/ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](../rfcs/ktp-transport.md)**
-
-    ---
-
-    Network protocols for KTP communication (HTTP/2, gRPC, WebSocket).
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](../rfcs/ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives for trust proofs and signatures.
-
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](../rfcs/ktp-conformance.md)**
-
-    ---
-
-    Testing requirements and certification procedures.
-
-</div>

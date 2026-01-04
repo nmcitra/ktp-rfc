@@ -118,57 +118,25 @@ graph TD
 
 ## Core Components
 
-<div class="grid cards" markdown>
+???+ note "Attack Trees"
+    Hierarchical decomposition of high-level threats (e.g., \"Bypass Zeroth Law\") into specific actionable steps.
 
--   **Attack Trees**
-    ---
-    Hierarchical decomposition of high-level threats (e.g., "Bypass Zeroth Law") into specific actionable steps.
+???+ note "Risk Matrix"
+    Scoring threats based on likelihood vs. impact to prioritize mitigations.
 
--   **Risk Matrix**
-    ---
-    Scoring threats based on Likelihood vs. Impact to prioritize mitigations.
+???+ note "Residual Risk"
+    Documenting the risks that remain even after all mitigations are applied (e.g., \"Insider Threat\").
 
--   **Residual Risk**
-    ---
-    Documenting the risks that remain even after all mitigations are applied (e.g., "Insider Threat").
-
--   **Security Requirements**
-    ---
+???+ note "Security Requirements"
     Mandatory controls for any KTP-compliant implementation.
-
-</div>
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives and algorithms for trust proofs.
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
--   :material-lifebuoy:{ .lg .middle } **[KTP-Recovery](ktp-recovery.md)**
-
-    ---
-
-    Protocols for system restoration and failure handling.
-
--   :material-alert-circle:{ .lg .middle } **[KTP-Problems](ktp-problems.md)**
-
-    ---
-
-    Known limitations and open problems in the security model.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and algorithms for trust proofs.
+    - **[KTP-Audit](ktp-audit.md)** — The Flight Recorder specification for immutable decision logging.
+    - **[KTP-Recovery](ktp-recovery.md)** — Protocols for system restoration and failure handling.
+    - **[KTP-Problems](ktp-problems.md)** — Known limitations and open problems in the security model.
 
 ---
 

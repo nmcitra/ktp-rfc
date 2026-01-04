@@ -1,23 +1,54 @@
 # Experience Calculator
 
+*Quantifying Immersive Experience at Humanity's Largest Gatherings*
+
+---
+
 !!! abstract "Universal Experience Equation"
-    A new language for quantifying the immersive experience at humanity's largest gatherings.
+    
+    $$E = (A \times 0.4) + (R \times 0.3) + (Q \times 0.3)$$
+    
+    **$A$ = Accessibility (40%)** — Can the moment begin?  
+    **$R$ = Retainability (30%)** — Will the moment endure?  
+    **$Q$ = Quality (30%)** — Is the moment magical?
+
+---
+
+## Quick Navigation
+
+<div class="grid cards" markdown>
+
+-   :material-connection:{ .lg .middle } **[Accessibility](#accessibility-a-can-the-moment-begin)**
+
+    ---
+
+    40% weight — The gateway to experience
+
+-   :material-timer:{ .lg .middle } **[Retainability](#retainability-r-will-the-moment-endure)**
+
+    ---
+
+    30% weight — The promise of persistence
+
+-   :material-quality-high:{ .lg .middle } **[Quality](#quality-q-is-the-moment-magical)**
+
+    ---
+
+    30% weight — From functional to exceptional
+
+-   :material-newspaper:{ .lg .middle } **[Foundation Story](#the-foundation-article)**
+
+    ---
+
+    Read the Medium article that started it all
+
+</div>
+
+---
 
 ## Overview
 
 The Universal Experience Equation (UEE) translates infinite technical complexity into a single, human-centric truth. Born from 20 years of building systems for massive events—from Metallica concerts to the Olympics—this framework measures what truly matters: **Will this work when I need it to?**
-
-**The Equation:**
-
-$$
-E = (A \times 0.4) + (R \times 0.3) + (Q \times 0.3)
-$$
-
-Where:
-
-- **$A$ = Accessibility (40%)** — Can the moment begin?
-- **$R$ = Retainability (30%)** — Will the moment endure?
-- **$Q$ = Quality (30%)** — Is the moment magical?
 
 The E-score ranges from 0-100, providing a unified metric that replaces war room arguments with actionable intelligence.
 
@@ -25,80 +56,72 @@ The E-score ranges from 0-100, providing a unified metric that replaces war room
 
 ## The Three Pillars
 
-### Pillar 1: Accessibility (A) — Can the Moment Begin?
+### Accessibility (A) — Can the Moment Begin?
 
-<div class="grid cards" markdown>
+**Weight: 40%** | :material-connection:
 
--   :material-connection:{ .lg .middle } **Weight: 40%**
+#### The Gateway Question
 
-    ---
+For a mother at the Paralympics, this is everything. Can she even start the livestream of her son's 100-meter dash? That single bar of connectivity represents her gateway to sharing this moment.
 
-    **The Gateway Question**
-    
-    For a mother at the Paralympics, this is everything. Can she even start the livestream of her son's 100-meter dash? That single bar of connectivity represents her gateway to sharing this moment.
-    
-    **Why 40%?**
-    
-    Accessibility is binary in human perception. If you can't connect, the experience is over before it begins. It carries the most weight because without it, nothing else matters.
-    
-    **Measures:**
-    
-    - Authentication success rate → Connection Confidence
-    - Signal strength → Signal Certainty  
-    - IP assignment (DHCP) → Instant Network Entry
-    - DNS resolution → Seamless Navigation
+#### Why 40%?
 
-</div>
+Accessibility is binary in human perception. If you can't connect, the experience is over before it begins. It carries the most weight because without it, nothing else matters.
 
-### Pillar 2: Retainability (R) — Will the Moment Endure?
+#### Key Measures
 
-<div class="grid cards" markdown>
+| Technical Metric | Experience Language |
+|------------------|---------------------|
+| Authentication Success Rate | Connection Confidence |
+| Signal Strength | Signal Certainty |
+| IP Assignment (DHCP) | Instant Network Entry |
+| DNS Resolution | Seamless Navigation |
 
--   :material-timer:{ .lg .middle } **Weight: 30%**
+---
 
-    ---
+### Retainability (R) — Will the Moment Endure?
 
-    **The Promise of Persistence**
-    
-    She gets the stream started just as the gun goes off. Her son explodes from the blocks. The crowd roars, and 80,000 other phones suddenly hit the network. Does her stream drop?
-    
-    **Why 30%?**
-    
-    A dropped connection is a broken promise, a memory lost. Retainability is the table stakes of a modern digital experience.
-    
-    **Measures:**
-    
-    - Handoff success rate → Seamless Mobility
-    - Session persistence → Uninterrupted Flow
-    - Connection health → Reliability Assurance
-    - SLA compliance → Moment Reliability
+**Weight: 30%** | :material-timer:
 
-</div>
+#### The Promise of Persistence
 
-### Pillar 3: Quality (Q) — Is the Moment Magical?
+She gets the stream started just as the gun goes off. Her son explodes from the blocks. The crowd roars, and 80,000 other phones suddenly hit the network. Does her stream drop?
 
-<div class="grid cards" markdown>
+#### Why 30%?
 
--   :material-quality-high:{ .lg .middle } **Weight: 30%**
+A dropped connection is a broken promise, a memory lost. Retainability is the table stakes of a modern digital experience.
 
-    ---
+#### Key Measures
 
-    **From Functional to Exceptional**
-    
-    The stream holds. Her son is crossing the finish line. But what does her mother see? A clear, smooth video of her grandson's triumph, or a pixelated, buffering mess?
-    
-    **Why 30%?**
-    
-    Quality is the differentiator between a functional experience and an exceptional one. It's the difference between watching a memory and truly sharing it.
-    
-    **Measures:**
-    
-    - Latency → Instant Response
-    - Throughput capacity → Unlimited Bandwidth
-    - QoE fairness → Experience Equity
-    - User satisfaction score → Digital Delight
+| Technical Metric | Experience Language |
+|------------------|---------------------|
+| Handoff Success Rate | Seamless Mobility |
+| Session Persistence | Uninterrupted Flow |
+| Connection Health | Reliability Assurance |
+| SLA Compliance | Moment Reliability |
 
-</div>
+---
+
+### Quality (Q) — Is the Moment Magical?
+
+**Weight: 30%** | :material-quality-high:
+
+#### From Functional to Exceptional
+
+The stream holds. Her son is crossing the finish line. But what does her mother see? A clear, smooth video of her grandson's triumph, or a pixelated, buffering mess?
+
+#### Why 30%?
+
+Quality is the differentiator between a functional experience and an exceptional one. It's the difference between watching a memory and truly sharing it.
+
+#### Key Measures
+
+| Technical Metric | Experience Language |
+|------------------|---------------------|
+| Latency | Instant Response |
+| Throughput Capacity | Unlimited Bandwidth |
+| QoE Fairness | Experience Equity |
+| User Satisfaction Score | Digital Delight |
 
 ---
 
@@ -122,20 +145,18 @@ You don't need to guess. You don't need to argue. The UEE immediately shows you 
 
 ---
 
-## How to Start: Your First E-Score
+## Getting Started
 
 This isn't a complex, multi-year transformation. You can start this journey on Monday.
 
 ### Step 1: Define Your Core Experiences
 
-What are the 3–5 moments that matter most to your guests? 
+What are the 3–5 moments that matter most to your guests?
 
 - Scanning a ticket
-- Ordering food  
+- Ordering food
 - Posting a video
 - Making a phone call in a crowded venue
-
-Identify the critical paths.
 
 ### Step 2: Map Your Metrics to ARQ
 
@@ -145,7 +166,7 @@ You don't need new tools to start—just a new way of looking at your existing d
 
 ### Step 3: Calculate Your First E-Score
 
-Run the numbers. Establish a baseline. Don't be afraid if it's low. The first score is not a judgment; it's a starting point. It's the first sentence in a new, data-driven conversation.
+Run the numbers. Establish a baseline. Don't be afraid if it's low. The first score is not a judgment; it's a starting point.
 
 ### Step 4: Start the Conversation
 
@@ -157,7 +178,7 @@ Use the E-score to unify your teams. The next time there's a problem, the questi
 
 The mother's experience is not the same as a VIP delegate in a luxury suite, or a security official with specific needs. The context of who you are and what you're doing matters.
 
-**Adaptive Weighting:**
+**Adaptive Weighting Example:**
 
 For mission-critical use cases where connection stability matters most:
 
@@ -171,26 +192,26 @@ A truly resilient system understands and adapts to these variables, ensuring the
 
 ## Use Cases
 
-### For Venue Operators
+=== "Venue Operators"
 
-- Identify bottlenecks reducing $E$ scores
-- Balance capacity against infrastructure investment
-- Benchmark against similar venues
-- Predict incidents before they impact guests
+    - Identify bottlenecks reducing $E$ scores
+    - Balance capacity against infrastructure investment
+    - Benchmark against similar venues
+    - Predict incidents before they impact guests
 
-### For Event Producers  
+=== "Event Producers"
 
-- Maximize all three pillars (A, R, Q)
-- Reduce TTGD from hours to minutes
-- Predict experience scores pre-event
-- Adjust in real-time during shows
+    - Maximize all three pillars (A, R, Q)
+    - Reduce TTGD from hours to minutes
+    - Predict experience scores pre-event
+    - Adjust in real-time during shows
 
-### For Technology Providers
+=== "Technology Providers"
 
-- Quantify impact of new solutions (WiFi upgrades, better ticketing)
-- Calculate ROI on experience improvements
-- Demonstrate value with unified metrics
-- Compare solutions objectively
+    - Quantify impact of new solutions
+    - Calculate ROI on experience improvements
+    - Demonstrate value with unified metrics
+    - Compare solutions objectively
 
 ---
 
@@ -207,34 +228,17 @@ But the biggest win is **cultural**. When we align around a common goal—protec
 
 ---
 
-## A New Language: From Nerd Speak to Experience Speak
-
-The Universal Experience Equation provides more than a score—it provides a new, human-centered vocabulary:
-
-| Technical Metric | Experience Language |
-|------------------|-------------------|
-| Authentication Success Rate | Connection Confidence |
-| Radio/Physical Access | Signal Certainty |
-| DNS Resolution | Seamless Navigation |
-| Handoff Success Rate | Seamless Mobility |
-| Session Persistence | Uninterrupted Flow |
-| SLA Compliance | Moment Reliability |
-| Latency | Instant Response |
-| Throughput Capacity | Unlimited Bandwidth |
-| QoE Fairness | Experience Equity |
-| User Satisfaction Score | Digital Delight |
-
----
-
----
-
 ## The Foundation Article
 
 The Experience Equation was introduced in the Medium article that started it all:
 
-[:material-newspaper: Read "The Experience Equation"](https://chrisperkins505.medium.com/the-experience-equation-74953a64c03f?source=friends_link&sk=10f4ceaa036041e28e050091ba7fda4a){ .md-button .md-button--primary }
+<div align="center" markdown style="padding: 30px 0;">
+
+[:material-newspaper: **Read "The Experience Equation"**](https://chrisperkins505.medium.com/the-experience-equation-74953a64c03f?source=friends_link&sk=10f4ceaa036041e28e050091ba7fda4a){ .md-button .md-button--primary }
 
 *Published November 17, 2025*
+
+</div>
 
 **The Story:**
 
@@ -254,15 +258,23 @@ Standing in Empower Field with 80,000 other people at Metallica (his 26th & 27th
 
 The Experience Equation and the Kinetic Trust Protocol share deep foundational principles:
 
-| UEE Concept | KTP Equivalent |
-|-------------|----------------|
-| E-score (0-100) | Trust Score (E-score) |
-| Accessibility, Retainability, Quality | Context Tensor dimensions |
-| Weighted formula | Trust calculation with risk |
-| Real-time measurement | Telemetry streams |
-| Personalization at scale | Constitutional governance |
-| TTGD (Time-to-Good-Decision) | ARQ (Anticipate, React, Question) |
-| War room to shared truth | Policy to physics |
+=== "Shared Concepts"
+
+    | UEE Concept | KTP Equivalent |
+    |-------------|----------------|
+    | E-score (0-100) | Trust Score (E-score) |
+    | Accessibility, Retainability, Quality | Context Tensor dimensions |
+    | Weighted formula | Trust calculation with risk |
+    | Real-time measurement | Telemetry streams |
+
+=== "Shared Philosophy"
+
+    | UEE Principle | KTP Principle |
+    |---------------|---------------|
+    | Personalization at scale | Constitutional governance |
+    | TTGD (Time-to-Good-Decision) | ARQ (Anticipate, React, Question) |
+    | War room to shared truth | Policy to physics |
+    | Human-centric outcomes | Trust-aware systems |
 
 **Both frameworks apply physics-based thinking to complex systems:**
 
@@ -273,9 +285,9 @@ The same mathematical rigor. The same human-centric outcomes.
 
 ---
 
-## Calculator Roadmap
+## Interactive Calculator
 
-!!! tip "Interactive Tool Coming Soon"
+!!! tip "Coming Soon"
     We're building a web-based calculator to compute E-scores from your venue metrics.
 
 <div class="grid cards" markdown>
@@ -300,7 +312,7 @@ The same mathematical rigor. The same human-centric outcomes.
 
     ---
 
-    Real-time visualization and historical E-score trends
+    Real-time visualization and historical trends
     
     **Status:** Q3 2026
 
@@ -308,7 +320,7 @@ The same mathematical rigor. The same human-centric outcomes.
 
     ---
 
-    ML models for forecasting incidents and optimizing ARQ
+    ML models for forecasting and optimization
     
     **Status:** Future
 
@@ -316,32 +328,34 @@ The same mathematical rigor. The same human-centric outcomes.
 
 ---
 
-## Data Sources for E-Scores
+## Data Sources
 
-### Infrastructure Layer
+Understanding where E-score data comes from:
 
-- **Network telemetry** — WiFi density, authentication logs, handoff rates
-- **Application performance** — API response times, error rates
-- **Ticketing systems** — Entry flows, scan success rates
-- **Communication systems** — SMS gateway success, call completion
+=== "Infrastructure Layer"
 
-### Experience Layer
+    - Network telemetry — WiFi density, authentication logs, handoff rates
+    - Application performance — API response times, error rates
+    - Ticketing systems — Entry flows, scan success rates
+    - Communication systems — SMS gateway success, call completion
 
-- **Surveys** — Post-event feedback, NPS scores
-- **Social media** — Sentiment analysis, engagement rates  
-- **Support tickets** — Volume and categorization
-- **App analytics** — Session duration, feature usage
+=== "Experience Layer"
 
-### Context Layer
+    - Surveys — Post-event feedback, NPS scores
+    - Social media — Sentiment analysis, engagement rates
+    - Support tickets — Volume and categorization
+    - App analytics — Session duration, feature usage
 
-- **Event phase** — Opening ceremony vs. competition finals
-- **User profile** — VIP, delegate, staff, media
-- **Location** — Section, elevation, proximity to access points
-- **Time** — Concurrent users, peak vs. off-peak
+=== "Context Layer"
+
+    - Event phase — Opening ceremony vs. competition finals
+    - User profile — VIP, delegate, staff, media
+    - Location — Section, elevation, proximity to access points
+    - Time — Concurrent users, peak vs. off-peak
 
 ---
 
-## Questions?
+## Get Involved
 
 Have feedback on the Experience Equation or ideas for the calculator?
 

@@ -82,65 +82,13 @@ graph TD
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-cube-outline:{ .lg .middle } **[KTP-Tensors](ktp-tensors.md)**
-
-    ---
-
-    Complete Context Tensor specification (1,707 dimensions).
-
--   :material-gavel:{ .lg .middle } **[KTP-Enforce](ktp-enforce.md)**
-
-    ---
-
-    The enforcement mechanisms for Digital Physics.
-
--   :material-alert-decagram:{ .lg .middle } **[KTP-Emergency](ktp-emergency.md)**
-
-    ---
-
-    Emergency protocols and the "Silent Veto" mechanism.
-
-</div>
-
--   **Gravity Propagation**
-    ---
-    How a risk event in one node "curves" the environment for neighboring nodes (The Neighborhood Domain).
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   [**KTP-Core**](ktp-core.md)
-    ---
-    The fundamental laws that Digital Gravity enforces.
-
--   [**KTP-Tensors**](ktp-tensors.md)
-    ---
-    The data source for calculating the Risk Factor $R$.
-
--   [**KTP-Sensors**](ktp-sensors.md)
-    ---
-    The hardware/software interfaces that report environmental state.
-
--   [**KTP-Zones**](ktp-zones.md)
-    ---
-    The spatial boundaries where gravity is applied.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Tensors](ktp-tensors.md)** — Data source for calculating the Risk Factor $R$.
+    - **[KTP-Enforce](ktp-enforce.md)** — Enforcement mechanisms for Digital Physics.
+    - **[KTP-Emergency](ktp-emergency.md)** — Emergency protocols and the Silent Veto mechanism.
+    - **[KTP-Sensors](ktp-sensors.md)** — Interfaces that report environmental state.
+    - **[KTP-Zones](ktp-zones.md)** — Spatial boundaries where gravity is applied.
 
 ---
 

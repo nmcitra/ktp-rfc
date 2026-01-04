@@ -91,73 +91,20 @@ A read-only, immutable record of the agent's life.
 
 ---
 
-## Related Specifications
+## Additional Safeguards
 
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
-
-    ---
-
-    Vector Identity and trajectory-based authentication.
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
-</div>
-
--   **Orphan Prevention**
-    ---
-    Protocols to ensure no dependent agent is left without a required service provider.
-
--   **Emergency Termination**
-    ---
-    "Kill Switch" procedures for immediate, non-graceful termination in the event of a security breach.
-
--   **Digital Epitaph**
-    ---
-    A final, signed statement from the agent (or its controller) summarizing its purpose and achievements.
-
-</div>
-
----
+- **Orphan Prevention:** Ensure no dependent agent is left without a required service provider.
+- **Emergency Termination:** Immediate kill-switch procedures for security breaches.
+- **Digital Epitaph:** A final signed statement summarizing purpose and achievements.
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    The entity being retired.
-
--   [**KTP-Audit**](ktp-audit.md)
-    ---
-    Where the Trajectory Archive is stored.
-
--   [**KTP-Migration**](ktp-migration.md)
-    ---
-    How to move from a deprecated model to a new one.
-
--   [**KTP-Relational**](ktp-relational.md)
-    ---
-    Handling the "grief" or disruption in the agent's social graph.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Identity](ktp-identity.md): The entity being retired and lineage continuity.
+    - [KTP-Audit](ktp-audit.md): Where the Trajectory Archive is stored.
+    - [KTP-Migration](ktp-migration.md): Transition paths to successor models.
+    - [KTP-Relational](ktp-relational.md): Social graph and community impact.
+    - [KTP-Governance](ktp-governance.md): Oversight and retirement approvals.
 
 ---
 

@@ -76,41 +76,25 @@ KTP replaces static credentials with **trajectory-based authentication**:
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   :material-link-variant:{ .lg .middle } **Trajectory Chain**
-
-    ---
-    
+???+ note "Trajectory Chain"
     Cryptographically linked transaction records forming unforgeable history.
     
-    [:octicons-arrow-right-24: Jump to section](#trajectory-chains)
+    [Jump to section](#trajectory-chains)
 
--   :material-shield-check:{ .lg .middle } **Proof of Resilience**
-
-    ---
-    
+???+ note "Proof of Resilience"
     Attestations of survival under stress—the primary input to $E_{base}$.
     
-    [:octicons-arrow-right-24: Jump to section](#proof-of-resilience)
+    [Jump to section](#proof-of-resilience)
 
--   :material-handshake:{ .lg .middle } **Sponsorship Bonds**
-
-    ---
-    
+???+ note "Sponsorship Bonds"
     Trust staking that solves the genesis problem for new agents.
     
-    [:octicons-arrow-right-24: Jump to section](#sponsorship-bonds)
+    [Jump to section](#sponsorship-bonds)
 
--   :material-stairs-up:{ .lg .middle } **Lineage Evolution**
-
-    ---
-    
+???+ note "Lineage Evolution"
     The maturation path from Tethered → Divergent → Persistent.
     
-    [:octicons-arrow-right-24: Jump to section](#lineage-evolution)
-
-</div>
+    [Jump to section](#lineage-evolution)
 
 ---
 
@@ -392,75 +376,12 @@ KTP aligns with NIST 800-63 Identity Assurance Levels:
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
-
-    ---
-    
-    Foundation protocol, Zeroth Law, Trust Score calculation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
-
--   :material-lock:{ .lg .middle } **KTP-Crypto**
-
-    ---
-    
-    Cryptographic primitives for signatures and hashing.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
-
--   :material-earth:{ .lg .middle } **KTP-Federation**
-
-    ---
-    
-    Cross-zone identity verification and trust transfer.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-federation.md)
-
--   :material-gavel:{ .lg .middle } **KTP-Governance**
-
-    ---
-    
-    Sponsor accountability and identity dispute resolution.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-governance.md)
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-earth:{ .lg .middle } **[KTP-Federation](ktp-federation.md)**
-
-    ---
-
-    Cross-zone cryptographic trust establishment.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — Foundation protocol, Zeroth Law, and Trust Score calculation.
+    - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives for signatures and hashing.
+    - **[KTP-Federation](ktp-federation.md)** — Cross-zone identity verification and trust transfer.
+    - **[KTP-Governance](ktp-governance.md)** — Sponsor accountability and identity dispute resolution.
+    - **[KTP-Audit](ktp-audit.md)** — Immutable decision logging for identity events.
 
 ---
 

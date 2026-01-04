@@ -85,33 +85,11 @@ The **Soul Dimension** is unique. It does not use weighted averages. Instead, it
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-cube-outline:{ .lg .middle } **[KTP-Tensors](ktp-tensors.md)**
-
-    ---
-
-    Complete Context Tensor specification (1,707 dimensions).
-
--   :material-wifi:{ .lg .middle } **[KTP-Signal](ktp-signal.md)**
-
-    ---
-
-    Measuring the epistemic health of the information environment.
-
--   :material-gavel:{ .lg .middle } **[KTP-Enforce](ktp-enforce.md)**
-
-    ---
-
-    The enforcement mechanisms for Digital Physics.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Trust physics that sensor data feeds.
+    - [KTP-Tensors](ktp-tensors.md): Context Tensor schema for sensor inputs.
+    - [KTP-Signal](ktp-signal.md): Epistemic health signals from telemetry.
+    - [KTP-Enforce](ktp-enforce.md): Enforcement decisions driven by sensor data.
 
 ---
 

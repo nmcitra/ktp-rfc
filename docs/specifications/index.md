@@ -72,7 +72,7 @@ Different readers need different entry points. Select the journey that matches y
 
 ## Specifications by Domain
 
-=== ":material-foundation: Foundation"
+=== ":material-axis-arrow: Foundation"
 
     The bedrock protocols that define KTP's core architecture.
     

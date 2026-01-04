@@ -1,176 +1,241 @@
 # The Constitution of Digital Physics
 
-> **The Laws That Govern the Age of Autonomous Agents**
-> 
-> *NMCITRA · Version 0.1 · November 2025*
+<div class="hero" markdown>
 
-!!! abstract "We are at a constitutional moment"
-    We are building a digital universe populated by billions of autonomous agents — AI systems that act at machine-speed, make decisions without human oversight, and control critical infrastructure. Yet we have no constitution for this universe. **Until now.**
+The Laws That Govern the Age of Autonomous Agents
+
+Primary essay (part of a Medium series):  
+[**The Constitution of Digital Physics**](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4)  
+Series author: [Chris Perkins](https://medium.com/@chrisperkins505)
+
+We are at a constitutional moment.
+
+We are building a digital universe populated by autonomous agents that act at machine speed, yet the environment still lacks authority.
+
+This document defines ten immutable laws that turn policy into physics, enforced by mathematics and cryptography. The essay provides narrative context; this page is the canonical reference.
+
+</div>
+
 
 ---
 
 ## Quick Navigation
 
-| Article | Law | Jump |
-|:--------|:----|:-----|
-| Preamble | The Rule of Nature | [:material-arrow-down-circle:](#preamble-the-rule-of-nature) |
-| I | The Law of Inescapable Constraint | [:material-arrow-down-circle:](#article-i-the-zeroth-law-of-motion) |
-| II | The Law of Non-Binary Reality | [:material-arrow-down-circle:](#article-ii-the-law-of-universal-digital-trust) |
-| III | The Law of Physical Reality | [:material-arrow-down-circle:](#article-iii-the-law-of-environmental-context) |
-| IV | The Law of Earned Authority | [:material-arrow-down-circle:](#article-iv-the-law-of-kinetic-identity) |
-| V | The Law of Systemic Survival | [:material-arrow-down-circle:](#article-v-the-law-of-graceful-degradation) |
-| VI | The Law of Inescapable Audit | [:material-arrow-down-circle:](#article-vi-the-law-of-algorithmic-accountability) |
-| VII | The Law of Anti-Hypocrisy | [:material-arrow-down-circle:](#article-vii-the-law-of-recursive-governance) |
-| VIII | The Law of Emergent Authority | [:material-arrow-down-circle:](#article-viii-the-law-of-distributed-oracle) |
-| IX | The Law of Sanctuary | [:material-arrow-down-circle:](#article-ix-the-law-of-blue-zones) |
-| X | The Law of Sovereignty | [:material-arrow-down-circle:](#article-x-the-law-of-immutable-constraint) |
+<div class="grid cards constitution-cards" markdown>
+
+- <a class="ktp-nav-card" href="#preamble-the-rule-of-nature">
+    <span class="ktp-nav-card__eyebrow">Preamble</span>
+    <span class="ktp-nav-card__title">The Law of Nature</span>
+    <span class="ktp-nav-card__desc">Restore environmental authority.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-i-the-zeroth-law-of-motion">
+    <span class="ktp-nav-card__eyebrow">Article I</span>
+    <span class="ktp-nav-card__title">The Law of Inescapable Constraint</span>
+    <span class="ktp-nav-card__desc">Autonomy cannot exceed stability.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-ii-the-law-of-universal-digital-trust">
+    <span class="ktp-nav-card__eyebrow">Article II</span>
+    <span class="ktp-nav-card__title">The Law of Non-Binary Reality</span>
+    <span class="ktp-nav-card__desc">Trust is computed, not granted.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-iii-the-law-of-environmental-context">
+    <span class="ktp-nav-card__eyebrow">Article III</span>
+    <span class="ktp-nav-card__title">The Law of Physical Reality</span>
+    <span class="ktp-nav-card__desc">The Context Tensor governs reality.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-iv-the-law-of-kinetic-identity">
+    <span class="ktp-nav-card__eyebrow">Article IV</span>
+    <span class="ktp-nav-card__title">The Law of Earned Authority</span>
+    <span class="ktp-nav-card__desc">Authority is earned by trajectory.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-v-the-law-of-graceful-degradation">
+    <span class="ktp-nav-card__eyebrow">Article V</span>
+    <span class="ktp-nav-card__title">The Law of Systemic Survival</span>
+    <span class="ktp-nav-card__desc">Survive instability by design.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-vi-the-law-of-algorithmic-accountability">
+    <span class="ktp-nav-card__eyebrow">Article VI</span>
+    <span class="ktp-nav-card__title">The Law of Inescapable Audit</span>
+    <span class="ktp-nav-card__desc">Every decision is logged.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-vii-the-law-of-recursive-governance">
+    <span class="ktp-nav-card__eyebrow">Article VII</span>
+    <span class="ktp-nav-card__title">The Law of Anti-Hypocrisy</span>
+    <span class="ktp-nav-card__desc">The system governs itself.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-viii-the-law-of-distributed-oracle">
+    <span class="ktp-nav-card__eyebrow">Article VIII</span>
+    <span class="ktp-nav-card__title">The Law of Emergent Authority</span>
+    <span class="ktp-nav-card__desc">Trust emerges by consensus.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-ix-the-law-of-blue-zones">
+    <span class="ktp-nav-card__eyebrow">Article IX</span>
+    <span class="ktp-nav-card__title">The Law of Sanctuary</span>
+    <span class="ktp-nav-card__desc">Islands of physics in the wild.</span>
+  </a>
+
+- <a class="ktp-nav-card" href="#article-x-the-law-of-immutable-constraint">
+    <span class="ktp-nav-card__eyebrow">Article X</span>
+    <span class="ktp-nav-card__title">The Law of Sovereignty</span>
+    <span class="ktp-nav-card__desc">The Soul is non-negotiable.</span>
+  </a>
+
+</div>
 
 ---
 
 ## Preamble: The Rule of Nature
 
+We are building a digital world where autonomous agents act at machine speed, yet the environment has no authority. The Constitution restores that authority by making physical constraints the final governor of digital action.
+
 !!! quote "The Foundation"
     We establish **Justice** (Accountability), insure domestic **Tranquility** (Stability), and secure the Blessings of **Liberty** (Autonomy) by submitting all digital will to the superior authority of Digital Physics.
 
-In the physical world, no amount of human intent can override the laws of gravity, thermodynamics, or entropy. In the digital world, we have created a vacuum — a frictionless environment where agents act without environmental constraint.
+In the physical world, no amount of human intent can override gravity, thermodynamics, or entropy. In the digital world, we created a frictionless vacuum. **This Constitution restores the natural order.**
 
-**This Constitution restores the natural order. It makes the environment the final authority.**
+=== "Old Covenants"
+    The systems we inherited were forged for a different world:
 
-### The Old Covenants Have Failed
+    - [x] Passwords and permissions
+    - [x] Policies and audits  
+    - [x] Human actors at human pace
 
-The systems we inherited were forged for a different world:
+    They assume what can no longer be assumed:
 
-- [x] Passwords and permissions
-- [x] Policies and audits  
-- [x] Human actors at human pace
+    | Assumption | Reality |
+    |------------|---------|
+    | Identity is static | Identity is continuous behavior |
+    | Context is stable | Context shifts at machine speed |
+    | A credential verified is valid | Credentials say nothing about *now* |
 
-They assume what can no longer be assumed:
+=== "Why Physics"
+    We choose physics over policy:
 
-| Assumption | Reality |
-|------------|---------|
-| Identity is static | Identity is continuous behavior |
-| Context is stable | Context shifts at machine speed |
-| A credential verified is valid | Credentials say nothing about *now* |
+    | | Physics | Policy |
+    |---|---------|--------|
+    | **Written by** | Humans | Humans |
+    | **Enforced by** | Mathematics | Humans |
+    | **Violated by** | No one | Humans |
 
-### Why Physics?
+=== "Promise"
+    !!! success "The Promise"
+        We are moving from a world governed by policies (written by humans, enforced by humans, violated by humans) to a world governed by physics (defined by humans, enforced by mathematics, violated by no one).
 
-We choose physics over policy:
-
-| | Physics | Policy |
-|---|---------|--------|
-| **Written by** | Humans | Humans |
-| **Enforced by** | Mathematics | Humans |
-| **Violated by** | No one | Humans |
-
-!!! success "The Promise"
-    We are moving from a world governed by policies (written by humans, enforced by humans, violated by humans) to a world governed by physics (defined by humans, enforced by mathematics, violated by no one).
-
-> **We are not building a prison for AI. We are building physics for the digital world.**
+    > **We are not building a prison for AI. We are building physics for the digital world.**
 
 ---
 
 ## Article I: The Zeroth Law of Motion
 
-### *The Law of Inescapable Constraint*
+Autonomy is bounded by environmental stability. When the environment cannot safely contain an action, the action is physically impossible.
 
-!!! warning "The Mandate"
-    An agent's autonomy **MUST NOT** exceed the environment's stability.
+This law precedes all others. It defines the hard boundary between permitted action and the Silent Veto.
 
-### The Equation
+=== "Mandate"
+    !!! warning "The Mandate"
+        An agent's autonomy **MUST NOT** exceed the environment's stability.
 
-<div class="zeroth-law" markdown>
+=== "Equation"
+    <div class="zeroth-law" markdown>
 
-$$A \leq E$$
+    $$A \leq E$$
 
-</div>
+    </div>
 
-| Symbol | Meaning |
-|--------|---------|
-| **A** | Autonomy — the intrinsic risk of the action |
-| **E** | Environment — the environment's current Trust Score |
+    | Symbol | Meaning |
+    |--------|---------|
+    | **A** | Autonomy — the intrinsic risk of the action |
+    | **E** | Environment — the environment's current Trust Score |
 
-### The Principle
+=== "Principle"
+    > *In the physical world, you cannot run on ice — friction vetoes your will. In the digital world, the environment must have the same power.*
 
-This law precedes all others. If the environment cannot safely support the action, the action is **physically impossible**.
+=== "Enforcement"
+    !!! danger "Physics, Not Punishment"
+        We call this the **Silent Veto**.
+        
+        - It requires no human intervention
+        - It generates no appeal
+        - It admits no exception
+        
+        The environment measures, the equation calculates, and if A > E, the action simply **does not occur**.
 
-> *In the physical world, you cannot run on ice — friction vetoes your will. In the digital world, the environment must have the same power.*
-
-### The Silent Veto
-
-!!! danger "Physics, Not Punishment"
-    We call this the **Silent Veto**.
-    
-    - It requires no human intervention
-    - It generates no appeal
-    - It admits no exception
-    
-    The environment measures, the equation calculates, and if A > E, the action simply **does not occur**.
-
-The Silent Veto is not punishment. It is physics.
+=== "Implementation"
+    Implemented in the Trust Proof enforcement pipeline. See [KTP-CORE](../rfcs/ktp-core.md).
 
 ---
 
 ## Article II: The Law of Universal Digital Trust
 
-### *The Law of Non-Binary Reality*
+Trust is a computed physical guarantee, not a static permission. It rises with evidence and contracts with risk.
 
-!!! info "The Mandate"
-    Digital Trust is a **physical guarantee**, not a static permission. Digital Trust (E) is calculated as the product of capability and trustworthiness.
+Digital Trust is continuous and contextual. It updates in real time as telemetry and threat signals change.
 
-### The Equation
+=== "Mandate"
+    !!! info "The Mandate"
+        Digital Trust is a **physical guarantee**, not a static permission. Digital Trust (E) is calculated as the product of capability and trustworthiness.
 
-<div class="equation-block" markdown>
+=== "Equation"
+    <div class="equation-block" markdown>
 
-$$E = E_{base} \times (1 - R)$$
+    $$E = E_{base} \times (1 - R)$$
 
-</div>
+    </div>
 
-| Variable | Description |
-|----------|-------------|
-| $E_{base}$ | Raw capability (Accessibility, Retainability, Quality) |
-| $R$ | Normalized friction (Security, Compliance, Resilience) |
+    | Variable | Description |
+    |----------|-------------|
+    | $E_{base}$ | Raw capability (Accessibility, Retainability, Quality) |
+    | $R$ | Normalized friction (Security, Compliance, Resilience) |
 
-### The Principle
+=== "Principle"
+    !!! warning "Risk is a Deflator"
+        If risk approaches 1.0 (total compromise), the Trust Score collapses to **zero** — even if the system is technically "up."
 
-!!! warning "Risk is a Deflator"
-    If risk approaches 1.0 (total compromise), the Trust Score collapses to **zero** — even if the system is technically "up."
+    **Speed without safety is physically impossible.**
 
-**Speed without safety is physically impossible.**
+=== "Implementation"
+    Trust scoring is defined in [KTP-CORE](../rfcs/ktp-core.md) and informed by [KTP-THREAT-MODEL](../rfcs/ktp-threat-model.md).
 
 ---
 
 ## Article III: The Law of Environmental Context
 
-### *The Law of Physical Reality*
+Kinetic decisions must be tethered to the real, multi-dimensional state of the environment. The Context Tensor makes the environment measurable and enforceable.
 
-!!! info "The Mandate"
-    All kinetic decisions **MUST** be tethered to a multi-dimensional analysis of the true physical and adversarial state of the environment.
+The first six dimensions shape risk. The seventh — **Soul** — sits outside the equation as immutable constraint.
 
-### The Context Tensor
+=== "Mandate"
+    !!! info "The Mandate"
+        All kinetic decisions **MUST** be tethered to a multi-dimensional analysis of the true physical and adversarial state of the environment.
 
-Digital Trust is derived from the **seven-dimensional Context Tensor**:
+=== "Context Tensor"
+    Digital Trust is derived from the **seven-dimensional Context Tensor**:
 
-$$C = \{Mass, Momentum, Heat, Time, Inertia, Observer, Soul\}$$
+    $$C = \{Mass, Momentum, Heat, Time, Inertia, Observer, Soul\}$$
 
-The first six dimensions are weighted contributors to the Risk Factor. The seventh — **Soul** — operates outside the equation as immutable constraint.
+    The first six dimensions are weighted contributors to the Risk Factor. The seventh — **Soul** — operates outside the equation as immutable constraint.
 
-### The Operational Dimensions
+=== "Dimensions"
+    #### I. Mass
 
-=== "I. MASS"
-
-    **Physical Density**
-    
     | Measures | Examples |
     |----------|----------|
-    | Concentration of resources | Crowd size, RF noise, occupancy, device density |
+    | Physical density | Crowd size, RF noise, occupancy, device density |
 
     !!! note "Impact"
         High mass creates **gravity wells** that slow operations. Time dilates near massive nodes.
 
-=== "II. MOMENTUM"
+    #### II. Momentum
 
-    **Kinetic Velocity**
-    
     | Measures | Examples |
     |----------|----------|
     | Rate and volume of flow | Link saturation, transaction rates, API calls |
@@ -178,10 +243,8 @@ The first six dimensions are weighted contributors to the Risk Factor. The seven
     !!! note "Impact"
         High momentum makes **course correction expensive**. Sharp changes create dangerous G-forces.
 
-=== "III. HEAT"
+    #### III. Heat
 
-    **Adversarial Pressure**
-    
     | Measures | Examples |
     |----------|----------|
     | Threat intensity | Identity velocity, port scans, entropy, failed auth |
@@ -189,10 +252,8 @@ The first six dimensions are weighted contributors to the Risk Factor. The seven
     !!! warning "Impact"
         Heat is the **great deflator**. It degrades structural integrity and reduces Trust directly.
 
-=== "IV. TIME"
+    #### IV. Time
 
-    **Temporal Phase**
-    
     | Measures | Examples |
     |----------|----------|
     | Moment criticality | Event state, mission criticality, deadline proximity |
@@ -200,10 +261,8 @@ The first six dimensions are weighted contributors to the Risk Factor. The seven
     !!! note "Impact"
         Time **dilates near critical events**. Risk tolerance decreases as event horizons approach.
 
-=== "V. INERTIA"
+    #### V. Inertia
 
-    **Service Criticality**
-    
     | Measures | Examples |
     |----------|----------|
     | Scope of impact | Topology centrality, dependency depth, blast radius |
@@ -211,21 +270,17 @@ The first six dimensions are weighted contributors to the Risk Factor. The seven
     !!! note "Impact"
         High-inertia nodes **resist change and amplify consequences**.
 
-=== "VI. OBSERVER"
+    #### VI. Observer
 
-    **Actor Population**
-    
     | Measures | Examples |
     |----------|----------|
-    | Who is watching | VIP presence, regulatory jurisdiction, audit mode |
+    | Actor population | VIP presence, regulatory jurisdiction, audit mode |
 
     !!! note "Impact"
         Each population creates **different expectations and risk tolerances**. Observation changes what is permissible.
 
-=== "VII. SOUL"
+    #### VII. Soul
 
-    **Sovereignty**
-    
     | Measures | Examples |
     |----------|----------|
     | Immutable constraints | TK Labels, OCAP/CARE, sacred lands, treaties |
@@ -233,338 +288,359 @@ The first six dimensions are weighted contributors to the Risk Factor. The seven
     !!! danger "Impact"
         **Binary veto.** Soul exists outside the equation as immutable constraint. Article X addresses Soul in full.
 
-### The Constraint
+=== "Constraint"
+    !!! abstract "Layer 0 Integration"
+        The Trust Oracle **MUST** integrate Layer 0 (physical) telemetry — thermal sensors, RF absorption, building occupancy — to calculate the Trust Score.
 
-!!! abstract "Layer 0 Integration"
-    The Trust Oracle **MUST** integrate Layer 0 (physical) telemetry — thermal sensors, RF absorption, building occupancy — to calculate the Trust Score.
+    **The digital world does not stop at the API gateway.**
 
-**The digital world does not stop at the API gateway.**
+=== "Implementation"
+    The Context Tensor is specified in [KTP-TENSORS](../rfcs/ktp-tensors.md).
 
 ---
 
 ## Article IV: The Law of Kinetic Identity
 
-### *The Law of Earned Authority*
+Identity is trajectory. Authority is earned through behavior over time, not granted by static credentials.
 
-!!! info "The Mandate"
-    Authority is derived from **proven history and mass**, not static credentials. Identity is a vector, not a noun.
+The model rejects global directories and passports. It replaces them with lineage and accumulated proof.
 
-### The Principle
+=== "Mandate"
+    !!! info "The Mandate"
+        Authority is derived from **proven history and mass**, not static credentials. Identity is a vector, not a noun.
 
-> **No global directory. Only lineage.**
+=== "Principle"
+    > **No global directory. Only lineage.**
 
-In the current model, identity is a *passport* — a static credential you possess. In the Digital Physics model, identity is a *trajectory* — a record of how you move through the environment.
+    In the current model, identity is a *passport* — a static credential you possess. In the Digital Physics model, identity is a *trajectory* — a record of how you move through the environment.
 
-### The Genesis Mechanic
+=== "Genesis"
+    !!! success "Solving Cold-Start"
+        A new agent **MUST** obtain a **Sponsorship Bond** from a high-mass entity to inherit provisional trust.
 
-!!! success "Solving Cold-Start"
-    A new agent **MUST** obtain a **Sponsorship Bond** from a high-mass entity to inherit provisional trust.
+=== "Evolution"
+    **Tethered Phase**
 
-### The Evolution
-
-Identity moves through phases:
-
-=== "TETHERED"
-
-    :material-link: **Dependent Phase**
-    
     - Operates under sponsor supervision
     - Cannot exceed sponsor's Trust Score
     - Actions count toward sponsor's reputation
 
-=== "AUTONOMOUS"
+    **Autonomous Phase**
 
-    :material-shield-crown: **Self-Governing Phase**
-    
     - Accumulated Proof of Resilience
     - Cryptographically signed evidence of success under stress
     - Full autonomous operation
 
-### Proof of Resilience
+=== "Proof"
+    !!! success "Trust is Earned Through Survival"
+        **Proof of Resilience** = Cryptographically signed evidence of successful actions under stress.
 
-!!! success "Trust is Earned Through Survival"
-    **Proof of Resilience** = Cryptographically signed evidence of successful actions under stress.
+    | Resilience Event | Weight |
+    |------------------|--------|
+    | Network partitions | High |
+    | Attack conditions | Very High |
+    | Resource exhaustion | Medium |
+    | Environmental degradation | Medium |
 
-| Resilience Event | Weight |
-|------------------|--------|
-| Network partitions | High |
-| Attack conditions | Very High |
-| Resource exhaustion | Medium |
-| Environmental degradation | Medium |
+=== "Implementation"
+    Identity mechanics are defined in [KTP-IDENTITY](../rfcs/ktp-identity.md).
 
 ---
 
 ## Article V: The Law of Graceful Degradation
 
-### *The Law of Systemic Survival*
+When environments destabilize, systems must degrade safely instead of failing catastrophically. Survival is analog, not binary.
 
-!!! info "The Mandate"
-    Upon environmental instability, the system **SHALL** automatically transition to a safer, constrained state, ensuring **graceful survival over catastrophic failure**.
+Graceful degradation preserves core safety by stripping capabilities as risk rises. Recovery restores power only when conditions stabilize.
 
-### The Mechanism: Adaptive Dormancy
+=== "Mandate"
+    !!! info "The Mandate"
+        Upon environmental instability, the system **SHALL** automatically transition to a safer, constrained state, ensuring **graceful survival over catastrophic failure**.
 
-When a crisis hits, we don't want binary failure. We want **analog survival**.
+=== "Mechanism"
+    When a crisis hits, we don't want binary failure. We want **analog survival**.
 
-### Trust Tiers
+=== "Trust Tiers"
+    | Tier | Threshold | Core Capability |
+    |------|-----------|-----------------|
+    | God Mode | $E \geq 95$ | Full control |
+    | Operator | $E \geq 85$ | Service management |
+    | Analyst | $E \geq 70$ | Read-only operations |
+    | Observer | $E < 70$ | Minimal capability |
 
-Progressive levels of capability that degrade as the environment destabilizes:
+    **God Mode**
 
-=== ":material-shield-crown: GOD MODE"
-
-    **$E \geq 95$**
-    
     - [x] Full infrastructure control
     - [x] Create, destroy, mutate system components
     - [x] Deploy code to production
     - [x] Modify security configurations
 
-=== ":material-wrench: OPERATOR"
+    **Operator**
 
-    **$E \geq 85$**
-    
     - [x] Service management
     - [x] Restart services, scale deployments
     - [x] Read configurations
     - [x] Access internal APIs
 
-=== ":material-chart-line: ANALYST"
+    **Analyst**
 
-    **$E \geq 70$**
-    
     - [x] Read operations
     - [x] Query databases
     - [x] Access logs and metrics
     - [ ] No write access to production
 
-=== ":material-eye: OBSERVER"
+    **Observer**
 
-    **$E < 70$**
-    
     - [x] Minimal capability
     - [x] Emit logs and metrics
     - [x] Send heartbeat signals
     - [x] Await recovery
 
-### The Reflex
+=== "Reflex"
+    !!! warning "Automatic Capability Stripping"
+        When the Trust Score falls below critical tiers, the enforcement point **automatically strips the agent of dangerous capabilities**.
 
-!!! warning "Automatic Capability Stripping"
-    When the Trust Score falls below critical tiers, the enforcement point **automatically strips the agent of dangerous capabilities**.
+    This is not punishment. It is survival. The agent hibernates. When the environment stabilizes, it wakes back up.
 
-This is not punishment. It is survival. The agent hibernates. When the environment stabilizes, it wakes back up.
+=== "Implementation"
+    Degradation tiers are defined in [KTP-ENFORCE](../rfcs/ktp-enforce.md).
 
 ---
 
 ## Article VI: The Law of Algorithmic Accountability
 
-### *The Law of Inescapable Audit*
+Every decision must be logged as immutable, mathematical evidence. If the system acts, the system records.
 
-!!! info "The Mandate"
-    Every kinetic decision **MUST** be logged as immutable, mathematical evidence.
+The Flight Recorder is the memory of the Constitution. It captures trust state, volatility, and risk at decision time.
 
-### The Mechanism: The Flight Recorder
+=== "Mandate"
+    !!! info "The Mandate"
+        Every kinetic decision **MUST** be logged as immutable, mathematical evidence.
 
-Every decision — allowed, denied, or aborted — must log the full **Decision Geometry**:
+=== "Flight Recorder"
+    Every decision — allowed, denied, or aborted — must log the full **Decision Geometry**:
 
-$$Decision\ Geometry = \{E, \frac{dE}{dt}, \sigma, \rho\}$$
+    $$Decision\ Geometry = \{E, \frac{dE}{dt}, \sigma, \rho\}$$
 
-| Symbol | Meaning |
-|--------|---------|
-| $E$ | Trust Score |
-| $\frac{dE}{dt}$ | Velocity of trust |
-| $\sigma$ | Volatility |
-| $\rho$ | Action's intrinsic risk |
+    | Symbol | Meaning |
+    |--------|---------|
+    | $E$ | Trust Score |
+    | $\frac{dE}{dt}$ | Velocity of trust |
+    | $\sigma$ | Volatility |
+    | $\rho$ | Action's intrinsic risk |
 
-### The Defense: Digital Force Majeure
+=== "Defense"
+    !!! success "Distinguishing Negligence from Physics"
+        This immutable log establishes a **Digital Force Majeure defense**. It distinguishes between human negligence and inevitable environmental constraint.
 
-!!! success "Distinguishing Negligence from Physics"
-    This immutable log establishes a **Digital Force Majeure defense**. It distinguishes between human negligence and inevitable environmental constraint.
+    | Scenario | Verdict |
+    |----------|---------|
+    | Human made a bad policy decision | **"We failed"** |
+    | Environment physically incapable | **"The universe said no"** |
 
-If an agent is denied permission to deploy a critical patch, the log proves whether:
-
-| Scenario | Verdict |
-|----------|---------|
-| Human made a bad policy decision | **"We failed"** |
-| Environment physically incapable | **"The universe said no"** |
+=== "Implementation"
+    Audit requirements are defined in [KTP-AUDIT](../rfcs/ktp-audit.md).
 
 ---
 
 ## Article VII: The Law of Recursive Governance
 
-### *The Law of Anti-Hypocrisy*
+Governance must submit to the same physics it enforces. If governance breaks the rules, governance is penalized.
 
-!!! danger "The Mandate"
-    The governance layer **MUST** submit to the same physical constraints it enforces. The system **SHALL** possess the means to correct its own structural flaws by penalizing the architects responsible for unsafe design.
+This law prevents hypocrisy in system design. The infrastructure is forced to govern itself safely.
 
-### The Mechanism: The Recursive Veto
+=== "Mandate"
+    !!! danger "The Mandate"
+        The governance layer **MUST** submit to the same physical constraints it enforces. The system **SHALL** possess the means to correct its own structural flaws by penalizing the architects responsible for unsafe design.
 
-**The Structural Flaw Audit**: The system monitors the Asset Inertia of its own governance components (the Trust Oracle, the signing keys, the telemetry backbone).
+=== "Mechanism"
+    **The Recursive Veto**
 
-**The Penalty**: If the governance structure introduces a critical vulnerability (e.g., centralizing a key function), the network automatically detects this structural risk and applies a global penalty factor to the entire Trust Score.
+    | Governance Component | Structural Risk | System Response |
+    |----------------------|-----------------|-----------------|
+    | Trust Oracle | Centralization | Global trust penalty |
+    | Signing keys | Single point of failure | Automatic constraint |
+    | Telemetry backbone | Missing coverage | Capability reduction |
 
-**The Veto**: The human or automated architect responsible for the unsafe structural change immediately finds their own agents operating in **Observer Mode**.
+    **The Penalty**: If the governance structure introduces a critical vulnerability, the network automatically detects this structural risk and applies a global penalty factor to the Trust Score.
 
-!!! warning "Immediate Consequence"
-    The very design choice they made physically vetoes their own ability to manage the system.
+    **The Veto**: The human or automated architect responsible for the unsafe structural change immediately finds their own agents operating in **Observer Mode**.
 
-### The Principle
+=== "Principle"
+    !!! warning "Immediate Consequence"
+        The very design choice they made physically vetoes their own ability to manage the system.
 
-This law ensures the **endurance of the civilization**. It guarantees that the infrastructure is designed for stability, because the penalty for structural incompetence is immediate and systemically enforced.
+    This law ensures the **endurance of the civilization**. It guarantees that the infrastructure is designed for stability, because the penalty for structural incompetence is immediate and systemically enforced.
+
+=== "Implementation"
+    Governance constraints are specified in [KTP-GOVERNANCE](../rfcs/ktp-governance.md).
 
 ---
 
 ## Article VIII: The Law of Distributed Oracle
 
-### *The Law of Emergent Authority*
+Trust is calculated by a distributed mesh and verified by mathematics, not declared by a single authority.
 
-!!! info "The Mandate"
-    Trust Scores **SHALL** be calculated and signed by a distributed mesh of Trust Oracles, not a single authority.
+No single entity can declare trust. Trust is emergent, computed from sensors and signed by consensus.
 
-### The Mechanism: The Trust Oracle Mesh
+=== "Mandate"
+    !!! info "The Mandate"
+        Trust Scores **SHALL** be calculated and signed by a distributed mesh of Trust Oracles, not a single authority.
 
-> **No single entity can declare trust. Trust is emergent** — calculated from sensor data, signed by consensus, verified by mathematics.
+=== "Oracle Mesh"
+    The Oracle Mesh requires:
 
-The Oracle Mesh requires:
+    - [x] Minimum **three Oracles** for threshold signing
+    - [x] **Geographic distribution** (no single point of failure)
+    - [x] **Consensus** before any Trust Proof is issued
+    - [x] No single Oracle can act alone
 
-- [x] Minimum **three Oracles** for threshold signing
-- [x] **Geographic distribution** (no single point of failure)
-- [x] **Consensus** before any Trust Proof is issued
-- [x] No single Oracle can act alone
+    ```mermaid
+    flowchart LR
+      OracleA((Oracle A)) -->|sign| Proof[Trust Proof]
+      OracleB((Oracle B)) -->|sign| Proof
+      OracleC((Oracle C)) -->|sign| Proof
+      Proof --> Verify[Verification]
+    ```
 
-### The Trust Proof
+=== "Trust Proof"
+    The Oracle issues a cryptographically signed token — the **Trust Proof** — containing:
 
-The Oracle issues a cryptographically signed token — the **Trust Proof** — containing:
+    | Field | Description |
+    |-------|-------------|
+    | Trust Score | Current E value |
+    | Velocity | Rate of change ($dE/dt$) |
+    | Context | Environmental snapshot |
+    | Soul Status | Sovereignty flags |
+    | Expiration | Seconds, not hours |
 
-| Field | Description |
-|-------|-------------|
-| Trust Score | Current E value |
-| Velocity | Rate of change ($dE/dt$) |
-| Context | Environmental snapshot |
-| Soul Status | Sovereignty flags |
-| Expiration | Seconds, not hours |
+    !!! note "Ephemeral by Design"
+        The proof expires in **seconds, not hours**. It must be refreshed constantly.
 
-!!! note "Ephemeral by Design"
-    The proof expires in **seconds, not hours**. It must be refreshed constantly.
+=== "Principle"
+    > *In the physical world, no single particle decides which way gravity points. In the digital world, no single server decides who is trusted.*
 
-### The Principle
-
-> *In the physical world, no single particle decides which way gravity points. In the digital world, no single server decides who is trusted.*
-
-There is no central authority that decides who is trusted. There is only the mesh — calculating physics, issuing proofs, dissolving into the environment it measures.
+=== "Implementation"
+    Oracle requirements are defined in [KTP-ORACLE](../rfcs/ktp-oracle.md).
 
 ---
 
 ## Article IX: The Law of Blue Zones
 
-### *The Law of Sanctuary*
+Blue Zones are enforced environments where physics-based constraints become real. They are safe harbors in the wild internet.
 
-!!! info "The Mandate"
-    Digital Physics is enforced within designated **Blue Zones** — network segments where agents operate under physics-based constraints with cryptographic trust guarantees.
+We do not attempt to govern the entire internet. We build islands of physics where trust is enforced by environment.
 
-### The Spectrum
+=== "Mandate"
+    !!! info "The Mandate"
+        Digital Physics is enforced within designated **Blue Zones** — network segments where agents operate under physics-based constraints with cryptographic trust guarantees.
 
-Zones exist on a gradient of enforcement:
+=== "Spectrum"
+    | Zone | Enforcement Level |
+    |------|-------------------|
+    | :material-circle:{ style="color: #0d47a1" } **DEEP BLUE** | Maximum physics enforcement |
+    | :material-circle:{ style="color: #1976d2" } **BLUE** | Full KTP enforcement |
+    | :material-circle:{ style="color: #00bcd4" } **CYAN** | Partial enforcement |
+    | :material-circle:{ style="color: #4caf50" } **GREEN** | Minimal enforcement |
+    | :material-circle:{ style="color: #9e9e9e" } **WILD** | No KTP (legacy Internet) |
 
-| Zone | Enforcement Level |
-|------|-------------------|
-| :material-circle:{ style="color: #0d47a1" } **DEEP BLUE** | Maximum physics enforcement |
-| :material-circle:{ style="color: #1976d2" } **BLUE** | Full KTP enforcement |
-| :material-circle:{ style="color: #00bcd4" } **CYAN** | Partial enforcement |
-| :material-circle:{ style="color: #4caf50" } **GREEN** | Minimal enforcement |
-| :material-circle:{ style="color: #9e9e9e" } **WILD** | No KTP (legacy Internet) |
+=== "Requirements"
+    A Blue Zone **MUST** have:
 
-### Zone Requirements
+    - [x] Trust Oracle mesh
+    - [x] Context Tensor sensors
+    - [x] Policy Enforcement Points at all boundaries
+    - [x] Flight Recorder for immutable audit
+    - [x] Published governance documentation
 
-A Blue Zone **MUST** have:
+=== "Federation"
+    Zones may **federate**:
 
-- [x] Trust Oracle mesh
-- [x] Context Tensor sensors
-- [x] Policy Enforcement Points at all boundaries
-- [x] Flight Recorder for immutable audit
-- [x] Published governance documentation
+    - Trust earned in one zone carries to federated zones
+    - Adjusted by federation factors
+    - Bad behavior propagates
+    - Good behavior travels
 
-### Federation
+=== "Sovereignty"
+    Each zone retains sovereignty over:
 
-Zones may **federate**:
+    1. Internal policy beyond base KTP
+    2. Federation relationships
+    3. Admission and expulsion
+    4. Dispute resolution
 
-- Trust earned in one zone carries to federated zones
-- Adjusted by federation factors
-- Bad behavior propagates
-- Good behavior travels
+=== "Principle"
+    !!! success "Islands of Physics"
+        We are not trying to boil the ocean. We are creating **islands of physics in a sea of chaos**.
 
-### Zone Sovereignty
+    **The Wild Internet remains. We do not conquer it. We offer an alternative.**
 
-Each zone retains sovereignty over:
-
-1. Internal policy beyond base KTP
-2. Federation relationships
-3. Admission and expulsion
-4. Dispute resolution
-
-### The Principle
-
-!!! success "Islands of Physics"
-    We are not trying to boil the ocean. We are creating **islands of physics in a sea of chaos**.
-
-Blue Zones are safe harbors — places where agents can trust the environment because the environment enforces trust.
-
-**The Wild Internet remains. We do not conquer it. We offer an alternative.**
+=== "Implementation"
+    Blue Zone requirements are defined in [KTP-ZONES](../rfcs/ktp-zones.md).
 
 ---
 
 ## Article X: The Law of Immutable Constraint
 
-### *The Law of Sovereignty*
+Certain constraints exist outside computation. If the Soul vetoes, the action is forbidden — period.
 
-!!! danger "The Mandate"
-    Certain constraints exist **outside the Trust Equation**. They cannot be overridden by high trust, low risk, emergency, or operational necessity. They are the **Soul** of the system.
+The Soul is not a parameter in the Trust Equation. It is a constitutional boundary.
 
-### The Soul Dimension
+=== "Mandate"
+    !!! danger "The Mandate"
+        Certain constraints exist **outside the Trust Equation**. They cannot be overridden by high trust, low risk, emergency, or operational necessity. They are the **Soul** of the system.
 
-The seventh dimension of the Context Tensor operates differently from all others:
+=== "Soul Dimension"
+    The seventh dimension of the Context Tensor operates differently from all others:
 
-- [x] Evaluated **FIRST**, before any calculation
-- [x] Returns **binary**: clear (0) or veto (1)
-- [x] If Soul = 1, the action is **forbidden — period**
-- [x] No Trust Score, however high, can override it
+    - [x] Evaluated **FIRST**, before any calculation
+    - [x] Returns **binary**: clear (0) or veto (1)
+    - [x] If Soul = 1, the action is **forbidden — period**
+    - [x] No Trust Score, however high, can override it
 
-### What the Soul Protects
+=== "Protections"
+    | Constraint | Example |
+    |------------|---------|
+    | Cultural sovereignty | TK Labels, sacred lands |
+    | Data rights | OCAP and CARE principles |
+    | Legal obligations | Treaties and statutory limits |
 
-- :material-tag: **Traditional Knowledge Labels** (TK Labels)
-- :material-account-group: **OCAP Principles** (Ownership, Control, Access, Possession)
-- :material-heart: **CARE Principles** (Collective Benefit, Authority, Responsibility, Ethics)
-- :material-map-marker: **Sacred land and cultural heritage protections**
-- :material-file-document: **Treaty obligations and legal constraints**
-- :material-source-branch: **Data lineage sovereignty**
+    - :material-tag: **Traditional Knowledge Labels** (TK Labels)
+    - :material-account-group: **OCAP Principles** (Ownership, Control, Access, Possession)
+    - :material-heart: **CARE Principles** (Collective Benefit, Authority, Responsibility, Ethics)
+    - :material-map-marker: **Sacred land and cultural heritage protections**
+    - :material-file-document: **Treaty obligations and legal constraints**
+    - :material-source-branch: **Data lineage sovereignty**
 
-### Community Authority
+=== "Community Authority"
+    !!! warning "Community Control"
+        Sovereignty constraints are controlled by **the communities they represent**, not by system operators.
+        
+        - Communities define their own labels
+        - Communities control their own registries
+        - System operators query but do not override
 
-!!! warning "Community Control"
-    Sovereignty constraints are controlled by **the communities they represent**, not by system operators.
-    
-    - Communities define their own labels
-    - Communities control their own registries
-    - System operators query but do not override
+=== "Portability"
+    Sovereignty **travels with data**:
 
-### Portability
+    ```
+    Point of Collection ──► All Copies ──► All Derivatives
+                                  │
+                                  ▼
+                        Across System Boundaries
+                                  │
+                                  ▼
+                        Regardless of Storage Location
+    ```
 
-Sovereignty **travels with data**:
+=== "Principle"
+    !!! abstract "Navigating by Stars"
+        Some things are not subject to negotiation. The Soul dimension operationalizes what Indigenous data sovereignty frameworks have always known: there are constraints that exist outside operational convenience.
 
-```
-Point of Collection ──► All Copies ──► All Derivatives
-                              │
-                              ▼
-                    Across System Boundaries
-                              │
-                              ▼
-                    Regardless of Storage Location
-```
+    > *We do not own the stars. We navigate by them. The Soul dimension is a star we navigate by — fixed, immutable, not ours to move.*
 
-### The Principle
-
-!!! abstract "Navigating by Stars"
-    Some things are not subject to negotiation. The Soul dimension operationalizes what Indigenous data sovereignty frameworks have always known: there are constraints that exist outside operational convenience.
-
-> *We do not own the stars. We navigate by them. The Soul dimension is a star we navigate by — fixed, immutable, not ours to move.*
+=== "Implementation"
+    Sovereignty constraints are specified in [KTP-HUMAN](../rfcs/ktp-human.md) and [KTP-PRIVACY](../rfcs/ktp-privacy.md).
 
 ---
 
@@ -595,7 +671,17 @@ The Constitution is **self-enforcing**. No external authority is required to giv
 
 ## Where to Go Next
 
-[:octicons-arrow-right-24: Use Cases](use-cases.md){ .md-button .md-button--primary } [:material-file-document-multiple: Specifications](../specifications/index.md){ .md-button }
+<div class="ktp-cta-stack" markdown>
+
+[:octicons-arrow-right-24: Use Cases](use-cases.md){ .md-button .ktp-cta-button }
+
+[:material-file-document-multiple: Specifications](../specifications/index.md){ .md-button .ktp-cta-button }
+
+[:material-book-open-variant: Read the Medium Essay](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4){ .md-button .ktp-cta-button }
+
+[:material-book-multiple: Medium Series](https://medium.com/@chrisperkins505){ .md-button .ktp-cta-button }
+
+</div>
 
 ---
 
@@ -608,3 +694,7 @@ The Constitution is **self-enforcing**. No external authority is required to giv
 | Article IV (Kinetic Identity) | [KTP-IDENTITY](../rfcs/ktp-identity.md) |
 | Article VIII (Distributed Oracle) | [KTP-ORACLE](../rfcs/ktp-oracle.md) |
 | Article IX (Blue Zones) | [KTP-ZONES](../rfcs/ktp-zones.md) |
+
+*[Trust Score]: The computed trust value (E) derived from telemetry and risk.
+*[Trust Proof]: A signed token carrying trust state, context, and expiration.
+*[Context Tensor]: The seven-dimensional model of environmental state used to compute trust.

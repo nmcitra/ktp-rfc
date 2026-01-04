@@ -67,37 +67,11 @@ graph LR
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
-
-    ---
-
-    Vector Identity and trajectory-based authentication.
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives and algorithms for trust proofs.
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
-
-    ---
-
-    The secure messaging and transport layer for KTP signals.
-
-</div>
-
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Baseline trust physics and $A \leq E$.
+    - [KTP-Identity](ktp-identity.md): Vector identity and lineage mapping.
+    - [KTP-Crypto](ktp-crypto.md): Proof signing and legacy credential validation.
+    - [KTP-Transport](ktp-transport.md): Delivery of translated trust proofs.
 
 ---
 

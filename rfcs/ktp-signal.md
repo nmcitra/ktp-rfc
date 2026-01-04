@@ -83,61 +83,12 @@ Where $G_i$ represents major groups like:
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-cube-outline:{ .lg .middle } **[KTP-Tensors](ktp-tensors.md)**
-
-    ---
-
-    Complete Context Tensor specification (1,707 dimensions).
-
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
-
-    ---
-
-    The sensory nervous system providing real-time telemetry.
-
--   :material-orbit:{ .lg .middle } **[KTP-Gravity](ktp-gravity.md)**
-
-    ---
-
-    The enforcement mechanism that replaces policy with physics.
-
-</div>
-    ---
-    A core agent constraint: "The less certain the environment, the less autonomous the action."
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   [**KTP-Tensors**](ktp-tensors.md)
-    ---
-    The Signal Tensor which houses the 358 epistemic dimensions.
-
--   [**KTP-Gravity**](ktp-gravity.md)
-    ---
-    How low epistemic health increases the "Digital Gravity" on an agent.
-
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    The foundation for verifying the sources of information.
-
--   [**KTP-Oracle**](ktp-oracle.md)
-    ---
-    How agents query verified "Ground Truth" from trusted sources.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Tensors](ktp-tensors.md): Signal Tensor and epistemic dimensions.
+    - [KTP-Sensors](ktp-sensors.md): Telemetry feeds that populate signal inputs.
+    - [KTP-Gravity](ktp-gravity.md): How degraded signal increases digital gravity.
+    - [KTP-Identity](ktp-identity.md): Source verification and provenance of signal.
+    - [KTP-Oracle](ktp-oracle.md): Ground-truth querying and trust proof issuance.
 
 ---
 

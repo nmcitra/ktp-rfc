@@ -138,43 +138,11 @@ sequenceDiagram
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
-
-    ---
-    
-    Foundation protocol, Zeroth Law, and Trust Score calculation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
-
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
-
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
-
--   :material-lock:{ .lg .middle } **KTP-Crypto**
-
-    ---
-    
-    Cryptographic primitives and signature schemes.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
-
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
-
-    ---
-    
-    Network transport and Trust Proof propagation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — Foundation protocol, Zeroth Law, and Trust Score calculation.
+    - **[KTP-Identity](ktp-identity.md)** — Vector Identity, Proof of Resilience, and agent lineage.
+    - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and signature schemes.
+    - **[KTP-Transport](ktp-transport.md)** — Network transport and Trust Proof propagation.
 
 ---
 

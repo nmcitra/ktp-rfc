@@ -87,40 +87,11 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-alert-decagram:{ .lg .middle } **[KTP-Emergency](ktp-emergency.md)**
-
-    ---
-
-    Emergency protocols and the "Silent Veto" mechanism.
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](ktp-conformance.md)**
-
-    ---
-
-    Defining the three levels of KTP compliance and certification.
-
-</div>
-
----
-
-## Official RFC Document
-    Protocols for "Break Glass" scenarios during total failure.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Baseline trust physics and $A \leq E$.
+    - [KTP-Emergency](ktp-emergency.md): Break-glass escalation and emergency modes.
+    - [KTP-Audit](ktp-audit.md): Flight Recorder audit trails for recovery actions.
+    - [KTP-Conformance](ktp-conformance.md): Recovery expectations tied to compliance tiers.
 
 ---
 

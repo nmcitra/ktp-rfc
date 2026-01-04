@@ -4,6 +4,11 @@
 
 ---
 
+!!! warning "Draft Specification"
+    This API reference is a **draft** and subject to change as the protocol evolves. We're refining these endpoints based on early implementation feedback. **Your input is valuable!** Share questions, suggestions, or implementation challenges in [GitHub Discussions](https://github.com/nmcitra/ktp-rfc/discussions).
+
+---
+
 This reference documents all KTP REST, gRPC, and WebSocket APIs. For integration guidance, see the [Developer Guide](developer-guide.md).
 
 ## Base URLs

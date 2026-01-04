@@ -399,73 +399,12 @@ When algorithms are deprecated:
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
-
-    ---
-    
-    Foundation protocol that cryptography enforces.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
-
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
-
-    ---
-    
-    Vector Identity using cryptographic chains.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
-
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
-
-    ---
-    
-    Secure transport layer specifications.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
-
--   :material-earth:{ .lg .middle } **KTP-Federation**
-
-    ---
-    
-    Cross-zone cryptographic trust establishment.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-federation.md)
-
-</div>
-
----
-
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
-
-    ---
-
-    The secure messaging and transport layer for KTP signals.
-
--   :material-earth:{ .lg .middle } **[KTP-Federation](ktp-federation.md)**
-
-    ---
-
-    Cross-zone cryptographic trust establishment.
-
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](ktp-conformance.md)**
-
-    ---
-
-    Defining the three levels of KTP compliance and certification.
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Trust physics that cryptography enforces.
+    - [KTP-Identity](ktp-identity.md): Identity chains and cryptographic lineage.
+    - [KTP-Transport](ktp-transport.md): Secure transport and proof propagation.
+    - [KTP-Federation](ktp-federation.md): Cross-zone cryptographic trust.
+    - [KTP-Conformance](ktp-conformance.md): Compliance requirements for algorithms.
 
 ---
 

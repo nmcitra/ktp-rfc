@@ -68,7 +68,7 @@ hide:
 
     Articles, blogs, research papers, and thought pieces on digital physics, trust models, and protocol design.
 
-    [Read Articles →](community/blog/index.md)
+    [Read Articles →](community/writings/index.md)
 
 -   :material-vector-polyline:{ .lg .middle }
 
@@ -103,7 +103,7 @@ hide:
 </div>
 
 <div style="text-align: center; margin: 3rem auto;">
-  <img src="assets/nmcitra-logo-white.png" alt="NMCITRA Logo" style="width: 420px; height: 420px;">
+  <img src="assets/nmcitra-logo-white.png" alt="NMCITRA Logo" class="homepage-logo">
 </div>
 
 !!! abstract "The Foundation of Digital Trust"

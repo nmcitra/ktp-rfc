@@ -96,25 +96,17 @@ sequenceDiagram
 
 ## Core Components
 
-<div class="grid cards" markdown>
-
--   **Zone Discovery**
-    ---
+???+ note "Zone Discovery"
     Mechanisms for agents to detect the trust level of their current environment via DNS-SD or KTP-Broadcast.
 
--   **Boundary Enforcement**
-    ---
-    The "Hard Shell" principle: Zones must fail-closed if cryptographic integrity is compromised.
+???+ note "Boundary Enforcement"
+    The hard shell principle: Zones must fail-closed if cryptographic integrity is compromised.
 
--   **The Bootstrap Paradox**
-    ---
+???+ note "The Bootstrap Paradox"
     How a zone establishes its first root of trust without relying on an external zone.
 
--   **Inter-Zone Routing**
-    ---
+???+ note "Inter-Zone Routing"
     Encapsulating KTP packets (KTP-RFC-004) within secure tunnels when traversing lower-trust zones.
-
-</div>
 
 ---
 
@@ -138,35 +130,11 @@ Agents use the following logic to determine their environment:
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
-
-    ---
-
-    Vector Identity and trajectory-based authentication.
-
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
-
-    ---
-
-    The secure messaging and transport layer for KTP signals.
-
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
-
-    ---
-
-    The sensory nervous system providing real-time telemetry.
-
-</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Identity](ktp-identity.md)** — Vector Identity and trajectory-based authentication.
+    - **[KTP-Transport](ktp-transport.md)** — The secure messaging and transport layer for KTP signals.
+    - **[KTP-Sensors](ktp-sensors.md)** — The sensory nervous system providing real-time telemetry.
 
 ---
 

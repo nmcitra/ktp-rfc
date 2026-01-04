@@ -112,41 +112,11 @@ If an agent becomes too massive, it must undergo **Mitosis** (split into smaller
 
 ## Related Specifications
 
-<div class="grid cards" markdown>
-
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
-
-    ---
-    
-    Foundation protocol, Zeroth Law, and Trust Score calculation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
-
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
-
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
-
--   :material-lock:{ .lg .middle } **KTP-Crypto**
-
-    ---
-    
-    Cryptographic primitives and signature schemes.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
-
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
-
-    ---
-    
-    Network transport and Trust Proof propagation.
-
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
-
-</div>
+??? info "Related Specifications"
+    - [KTP-Core](ktp-core.md): Trust physics enforced by PEPs.
+    - [KTP-Gravity](ktp-gravity.md): Environmental drag and constraint mechanics.
+    - [KTP-Emergency](ktp-emergency.md): Break-glass enforcement paths.
+    - [KTP-Audit](ktp-audit.md): Flight Recorder logs for enforcement actions.
 
 ---
 

@@ -83,39 +83,11 @@ KTP defines three distinct levels of conformance, allowing for lightweight imple
 
 ---
 
-## Related Specifications
-
-<div class="grid cards" markdown>
-
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
-
-    ---
-
-    The foundational protocol and the Zeroth Law ($A \leq E$).
-
--   :material-file-eye:{ .lg .middle } **[KTP-Audit](ktp-audit.md)**
-
-    ---
-
-    The Flight Recorder specification for immutable decision logging.
-
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
-
-    ---
-
-    Cryptographic primitives and algorithms for trust proofs.
-
--   :material-scale-balance:{ .lg .middle } **[KTP-Governance](ktp-governance.md)**
-
-    ---
-
-    The human-in-the-loop and algorithmic governance framework.
-
-</div>
-
----
-
-## Official RFC Document</div>
+??? info "Related Specifications"
+    - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
+    - **[KTP-Audit](ktp-audit.md)** — The Flight Recorder specification for immutable decision logging.
+    - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and algorithms for trust proofs.
+    - **[KTP-Governance](ktp-governance.md)** — The human-in-the-loop and algorithmic governance framework.
 
 ---
 

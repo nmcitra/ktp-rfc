@@ -122,10 +122,7 @@ If an agent becomes too massive, it must undergo **Mitosis** (split into smaller
 
 ## Official RFC Document
 
-!!! quote "KTP-ENFORCE: Enforcement Layer Specification"
-    The following is the official raw text of the KTP-Enforce RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-enforce.txt"
-        ```
+??? note "View Complete RFC Text (ktp-enforce.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-enforce.txt"
+    ```

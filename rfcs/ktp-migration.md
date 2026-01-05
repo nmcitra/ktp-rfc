@@ -130,10 +130,7 @@ graph TD
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-013: KTP-Migration (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-migration.txt)"
     ```text
-    --8<-- "rfcs/ktp-migration.txt"
+    --8<-- "rfcs-txt/ktp-migration.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

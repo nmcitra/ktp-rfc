@@ -93,10 +93,7 @@ KTP defines three distinct levels of conformance, allowing for lightweight imple
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-017: KTP-Conformance (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-conformance.txt)"
     ```text
-    --8<-- "rfcs/ktp-conformance.txt"
+    --8<-- "rfcs-txt/ktp-conformance.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

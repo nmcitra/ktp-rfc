@@ -95,10 +95,7 @@ Major decisions must be assessed across time horizons.
 
 ## Official RFC Document
 
-!!! quote "KTP-RELATIONAL: Relational Dynamics Specification"
-    The following is the official raw text of the KTP-Relational RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-relational.txt"
-        ```
+??? note "View Complete RFC Text (ktp-relational.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-relational.txt"
+    ```

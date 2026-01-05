@@ -6,9 +6,10 @@
 
 ## Welcome to Digital Physics
 
-The Kinetic Trust Protocol represents a paradigm shift in how we think about digital trust. Instead of relying on policy-based rules that drift and can be bypassed, KTP treats trust as a **measurable, computable force**—governed by the same principles that govern physics.
+Welcome to Digital Physics. The Kinetic Trust Protocol represents a paradigm shift in how we think about digital trust. Instead of relying on policy-based rules that drift and can be bypassed, KTP treats trust as a **measurable, computable force**—governed by the same principles that govern physics.
 
-**The Core Insight:** In the age of autonomous AI, credentials can be stolen and policies cannot adjust fast enough. The answer is not higher walls—it's learning to navigate a different kind of ocean, where trust flows like gravity and constraints behave like physical laws.
+!!! info "The Core Insight"
+    In the age of autonomous AI, credentials can be stolen and policies cannot adjust fast enough. The answer is not higher walls—it's learning to navigate a different kind of ocean, where trust flows like gravity and constraints behave like physical laws.
 
 ---
 
@@ -237,4 +238,3 @@ The intellectual journey from reactive observability to proactive trust governan
 [:material-sail-boat: Read The Voyage: 12 Days of Digital Physics](../community/writings/index.md){ .md-button .md-button--primary }
 
 Each chapter reveals a core principle through metaphor, technical insight, and personal reflection—from "Departure" (why the old harbor fails us) to "Fire" (what we pass forward).
-

@@ -110,13 +110,7 @@ sequenceDiagram
 
 ## Official RFC Document
 
-!!! quote "KTP-EMERGENCY: Emergency Response Specification"
-    The following is the official raw text of the KTP-Emergency RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-emergency.txt"
-        ```
-
-    ??? abstract "Read full RFC text"
-        --8<-- "rfcs/ktp-emergency.txt"
+??? note "View Complete RFC Text (ktp-emergency.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-emergency.txt"
+    ```

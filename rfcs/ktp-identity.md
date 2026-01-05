@@ -387,10 +387,7 @@ KTP aligns with NIST 800-63 Identity Assurance Levels:
 
 ## Official RFC Document
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
-
 ??? note "View Complete RFC Text (ktp-identity.txt)"
-    ```
-    --8<-- "rfcs/ktp-identity.txt"
+    ```text
+    --8<-- "rfcs-txt/ktp-identity.txt"
     ```

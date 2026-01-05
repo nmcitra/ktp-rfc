@@ -75,10 +75,7 @@ description: Open problems, anticipated critiques, and known limitations of the 
 
 ## Official RFC Document
 
-!!! quote "KTP-PROBLEMS: Open Problems and Critiques"
-    The following is the official raw text of the KTP-Problems RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-problems.txt"
-        ```
+??? note "View Complete RFC Text (ktp-problems.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-problems.txt"
+    ```

@@ -110,10 +110,7 @@ A read-only, immutable record of the agent's life.
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-014: KTP-Deprecation (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-deprecation.txt)"
     ```text
-    --8<-- "rfcs/ktp-deprecation.txt"
+    --8<-- "rfcs-txt/ktp-deprecation.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

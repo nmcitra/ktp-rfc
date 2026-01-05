@@ -63,14 +63,9 @@ Gravity Effect: Request queued for human approval
 
 ### Relevant Specifications
 
-- [KTP-CORE](../rfcs/ktp-core.md) — Trust Score calculation(1)
-- [KTP-SENSORS](../rfcs/ktp-sensors.md) — Environmental monitoring(2)
-- [KTP-AUDIT](../rfcs/ktp-audit.md) — Audit trail requirements(3)
-{ .annotate }
-
-1. :material-star-four-points-circle: Trust Score calculation, including E_base, R, and E_trust, is defined in [KTP-CORE](../rfcs/ktp-core.md) Section 5.
-2. :material-star-four-points-circle: Environmental sensor requirements for SOC deployments are covered in [KTP-SENSORS](../rfcs/ktp-sensors.md) Section 4, "Security Sensors."
-3. :material-star-four-points-circle: Audit trail requirements ensuring non-repudiation are specified in [KTP-AUDIT](../rfcs/ktp-audit.md).
+- [KTP-CORE](../rfcs/ktp-core.md) — Trust Score calculation, including E_base, R, and E_trust (see Section 5)
+- [KTP-SENSORS](../rfcs/ktp-sensors.md) — Environmental monitoring for SOC deployments (see Section 4, “Security Sensors”)
+- [KTP-AUDIT](../rfcs/ktp-audit.md) — Audit trail requirements ensuring non-repudiation
 
 ---
 
@@ -126,14 +121,9 @@ Flash Crash Warning (VIX spike):
 
 ### Relevant Specifications
 
-- [KTP-ZONES](../rfcs/ktp-zones.md) — Blue Zone architecture(1)
-- [KTP-FEDERATION](../rfcs/ktp-federation.md) — Cross-zone coordination(2)
-- [KTP-RELATIONAL](../rfcs/ktp-relational.md) — Agent-to-agent trust(3)
-{ .annotate }
-
-1. :material-star-four-points-circle: Blue Zone types (Deep Blue, Blue, Cyan, Green, Wild) are defined in [KTP-ZONES](../rfcs/ktp-zones.md) Section 3.
-2. :material-star-four-points-circle: Federation protocols for cross-zone operation are specified in [KTP-FEDERATION](../rfcs/ktp-federation.md).
-3. :material-star-four-points-circle: Agent-to-agent trust relationships and correlation effects are covered in [KTP-RELATIONAL](../rfcs/ktp-relational.md).
+- [KTP-ZONES](../rfcs/ktp-zones.md) — Blue Zone architecture (types, discovery, ingress/egress; see Section 3)
+- [KTP-FEDERATION](../rfcs/ktp-federation.md) — Cross-zone coordination and trust portability
+- [KTP-RELATIONAL](../rfcs/ktp-relational.md) — Agent-to-agent trust and correlation effects
 
 ---
 
@@ -188,13 +178,9 @@ Reason: Non-commercial restriction; diagnostic use permitted,
 
 ### Relevant Specifications
 
-- [KTP-PRIVACY](../rfcs/ktp-privacy.md) — Privacy framework(1)
-- [KTP-HUMAN](../rfcs/ktp-human.md) — Human oversight requirements(2)
+- [KTP-PRIVACY](../rfcs/ktp-privacy.md) — Privacy framework, including consent management
+- [KTP-HUMAN](../rfcs/ktp-human.md) — Human oversight requirements (when human review is required)
 - [Constitution Article VIII](constitution.md) — Sovereignty principles
-{ .annotate }
-
-1. :material-star-four-points-circle: Privacy framework including consent management is specified in [KTP-PRIVACY](../rfcs/ktp-privacy.md).
-2. :material-star-four-points-circle: Human oversight requirements, including when human review is required, are defined in [KTP-HUMAN](../rfcs/ktp-human.md).
 
 ---
 

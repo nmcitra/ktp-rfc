@@ -1,480 +1,1538 @@
-# KTP-Crypto — Cryptographic Specification
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
+
+
+      Kinetic Trust Protocol (KTP) - Cryptographic Specification
+
+Abstract
+
+   This document specifies the cryptographic requirements for the
+   Kinetic Trust Protocol (KTP). It consolidates all cryptographic
+   algorithms, key management procedures, credential formats, and
+   security parameters required for conformant implementations.
+
+   The specification covers signature schemes, hash functions, key
+   derivation, threshold cryptography, hardware security module
+   integration, key lifecycle management, and post-quantum cryptography
+   considerations.
+
+Status of This Memo
+
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
+
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
+
+Copyright Notice
+
+   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
+   under the Apache License, Version 2.0.
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
+       1.1.  Design Principles  . . . . . . . . . . . . . . . . . .   2
+       1.2.  Requirements Language  . . . . . . . . . . . . . . . .   3
+   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Algorithm Requirements by Level  . . . . . . . . . . . . . .   4
+       3.1.  Level 1 (Basic)  . . . . . . . . . . . . . . . . . . .   4
+       3.2.  Level 2 (Standard) . . . . . . . . . . . . . . . . . .   5
+       3.3.  Level 3 (Full) . . . . . . . . . . . . . . . . . . . .   6
+   4.  Signature Schemes  . . . . . . . . . . . . . . . . . . . . .   7
+       4.1.  ECDSA  . . . . . . . . . . . . . . . . . . . . . . . .   7
+       4.2.  EdDSA  . . . . . . . . . . . . . . . . . . . . . . . .   8
+       4.3.  Threshold Signatures . . . . . . . . . . . . . . . . .   9
+       4.4.  Algorithm Negotiation  . . . . . . . . . . . . . . . .  11
+   5.  Hash Functions . . . . . . . . . . . . . . . . . . . . . . .  12
+       5.1.  SHA-2 Family . . . . . . . . . . . . . . . . . . . . .  12
+       5.2.  SHA-3 Family . . . . . . . . . . . . . . . . . . . . .  13
+       5.3.  BLAKE3 . . . . . . . . . . . . . . . . . . . . . . . .  13
+       5.4.  Hash Function Selection  . . . . . . . . . . . . . . .  14
+   6.  Key Derivation . . . . . . . . . . . . . . . . . . . . . . .  14
+       6.1.  HKDF . . . . . . . . . . . . . . . . . . . . . . . . .  14
+       6.2.  Argon2 . . . . . . . . . . . . . . . . . . . . . . . .  15
+       6.3.  Key Derivation Contexts  . . . . . . . . . . . . . . .  16
+   7.  Symmetric Encryption . . . . . . . . . . . . . . . . . . . .  17
+       7.1.  AES-GCM  . . . . . . . . . . . . . . . . . . . . . . .  17
+       7.2.  ChaCha20-Poly1305  . . . . . . . . . . . . . . . . . .  18
+       7.3.  Encryption Contexts  . . . . . . . . . . . . . . . . .  18
+   8.  Key Management . . . . . . . . . . . . . . . . . . . . . . .  19
+       8.1.  Key Types  . . . . . . . . . . . . . . . . . . . . . .  19
+       8.2.  Key Generation . . . . . . . . . . . . . . . . . . . .  21
+       8.3.  Key Storage  . . . . . . . . . . . . . . . . . . . . .  22
+       8.4.  Key Rotation . . . . . . . . . . . . . . . . . . . . .  23
+       8.5.  Key Revocation . . . . . . . . . . . . . . . . . . . .  25
+       8.6.  Key Escrow and Recovery  . . . . . . . . . . . . . . .  26
+   9.  Hardware Security Modules  . . . . . . . . . . . . . . . . .  27
+       9.1.  HSM Requirements . . . . . . . . . . . . . . . . . . .  27
+       9.2.  PKCS#11 Integration  . . . . . . . . . . . . . . . . .  28
+       9.3.  Cloud HSM Considerations . . . . . . . . . . . . . . .  29
+   10. Credential Formats . . . . . . . . . . . . . . . . . . . . .  30
+       10.1. Trust Proof Format . . . . . . . . . . . . . . . . . .  30
+       10.2. Agent Credential Format  . . . . . . . . . . . . . . .  32
+       10.3. Oracle Credential Format . . . . . . . . . . . . . . .  33
+       10.4. Federation Credential Format . . . . . . . . . . . . .  34
+   11. Post-Quantum Cryptography  . . . . . . . . . . . . . . . . .  35
+       11.1. Threat Timeline  . . . . . . . . . . . . . . . . . . .  35
+       11.2. Hybrid Signatures  . . . . . . . . . . . . . . . . . .  36
+       11.3. PQC Algorithm Selection  . . . . . . . . . . . . . . .  37
+       11.4. Migration Strategy . . . . . . . . . . . . . . . . . .  38
+   12. Random Number Generation . . . . . . . . . . . . . . . . . .  39
+   13. Security Considerations  . . . . . . . . . . . . . . . . . .  40
+   14. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  42
+   15. References . . . . . . . . . . . . . . . . . . . . . . . . .  43
+   Appendix A.  Algorithm Identifiers . . . . . . . . . . . . . . .  45
+   Appendix B.  Test Vectors  . . . . . . . . . . . . . . . . . . .  47
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  50
+
+1.  Introduction
+
+   Cryptography is the enforcement mechanism for Digital Physics. The
+   Zeroth Law (A ≤ E) is meaningless without cryptographic guarantees
+   that Trust Proofs cannot be forged, trajectories cannot be falsified,
+   and audit records cannot be altered.
+
+   This specification consolidates all cryptographic requirements from
+   across the KTP RFC series into a single normative document.
+
+1.1.  Design Principles
 
-*The enforcement mechanism for Digital Physics*
+   KTP cryptography follows these principles:
 
----
+   1. CONSERVATIVE CHOICES
+      Prefer well-studied algorithms over novel constructions. Security
+      margins should exceed minimum requirements.
 
-> **Design Principle**: The Zeroth Law ($A \leq E$) is meaningless without cryptographic guarantees that Trust Proofs cannot be forged, trajectories cannot be falsified, and audit records cannot be altered.
+   2. CRYPTOGRAPHIC AGILITY
+      Support algorithm negotiation to enable future transitions. No
+      algorithm is permanent; all must be replaceable.
 
----
+   3. DEFENSE IN DEPTH
+      Multiple cryptographic mechanisms protect critical assets.
+      Compromise of one mechanism should not compromise all.
 
-## At a Glance
+   4. HARDWARE ROOTS
+      High-value keys should be protected by hardware. Software-only
+      protection is acceptable only for Level 1.
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-check-circle:{ .stable } Stable |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md) |
-| **Required By** | All KTP implementations |
+   5. POST-QUANTUM AWARENESS
+      Design for eventual quantum computer threat. Hybrid schemes
+      available now; mandatory transition planned.
 
----
+1.2.  Requirements Language
 
-## Design Principles
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
 
-KTP cryptography follows five core principles:
+2.  Terminology
+
+   This document uses the following terms:
 
-<div class="grid cards" markdown>
+   Signing Key:
+      Private key used to create digital signatures.
+
+   Verification Key:
+      Public key used to verify digital signatures.
+
+   Threshold Signature:
+      Signature requiring k-of-n parties to cooperate.
+
+   Key Ceremony:
+      Formal procedure for generating or rotating keys.
 
--   :material-shield-check:{ .lg .middle } **Conservative Choices**
+   HSM (Hardware Security Module):
+      Tamper-resistant hardware for key protection.
 
-    ---
-    
-    Prefer well-studied algorithms over novel constructions. Security margins exceed minimum requirements.
+   PQC (Post-Quantum Cryptography):
+      Algorithms resistant to quantum computer attacks.
+
+   Hybrid Signature:
+      Combination of classical and post-quantum signatures.
+
+   Key Epoch:
+      Time period during which a key is valid.
+
+3.  Algorithm Requirements by Level
+
+   KTP defines three conformance levels with increasing cryptographic
+   requirements.
+
+3.1.  Level 1 (Basic)
+
+   Level 1 is suitable for development, testing, and low-risk
+   deployments. It prioritizes ease of implementation.
+
+   Signature Algorithms (one REQUIRED):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Curve/Params    | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | ECDSA          | P-256 (secp256r1)| 128-bit       | REQUIRED     |
+   | EdDSA          | Ed25519         | 128-bit        | RECOMMENDED  |
+   +-------------------------------------------------------------------+
+
+   Hash Functions (one REQUIRED):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size     | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | SHA-256        | 256 bits        | 128-bit        | REQUIRED     |
+   | SHA-384        | 384 bits        | 192-bit        | OPTIONAL     |
+   +-------------------------------------------------------------------+
+
+   Symmetric Encryption (if needed):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Key Size        | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | AES-128-GCM    | 128 bits        | 128-bit        | REQUIRED     |
+   | AES-256-GCM    | 256 bits        | 256-bit        | RECOMMENDED  |
+   +-------------------------------------------------------------------+
+
+   Key Storage:
+   -  Software keystore acceptable
+   -  HSM RECOMMENDED but not required
+   -  Key encryption at rest REQUIRED
+
+   Threshold Signatures:
+   -  NOT REQUIRED for Level 1
+   -  Single Oracle signature acceptable
+
+3.2.  Level 2 (Standard)
+
+   Level 2 is suitable for production deployments with moderate security
+   requirements.
+
+   Signature Algorithms (all REQUIRED):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Curve/Params    | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | ECDSA          | P-256           | 128-bit        | REQUIRED     |
+   | EdDSA          | Ed25519         | 128-bit        | REQUIRED     |
+   | ECDSA          | P-384           | 192-bit        | RECOMMENDED  |
+   +-------------------------------------------------------------------+
+
+   Hash Functions (all listed REQUIRED):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size     | Use Case                      |
+   +-------------------------------------------------------------------+
+   | SHA-256        | 256 bits        | General hashing               |
+   | SHA-384        | 384 bits        | High-security contexts        |
+   | SHA3-256       | 256 bits        | Flight Recorder (recommended) |
+   +-------------------------------------------------------------------+
+
+   Symmetric Encryption:
+   +-------------------------------------------------------------------+
+   | Algorithm      | Key Size        | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | AES-256-GCM    | 256 bits        | 256-bit        | REQUIRED     |
+   | ChaCha20-Poly  | 256 bits        | 256-bit        | RECOMMENDED  |
+   +-------------------------------------------------------------------+
 
--   :material-swap-horizontal:{ .lg .middle } **Cryptographic Agility**
+   Key Storage:
+   -  HSM REQUIRED for Oracle signing keys
+   -  Software keystore acceptable for agent keys
+   -  Key encryption at rest REQUIRED
+   -  Key backup procedures REQUIRED
+
+   Threshold Signatures:
+   -  REQUIRED for Trust Proof issuance
+   -  Minimum threshold: 2-of-3
+   -  RECOMMENDED threshold: 3-of-5
+
+3.3.  Level 3 (Full)
 
-    ---
-    
-    Support algorithm negotiation for future transitions. No algorithm is permanent.
+   Level 3 is suitable for critical infrastructure, high-security
+   environments, and federation anchor nodes.
 
--   :material-layers:{ .lg .middle } **Defense in Depth**
+   Signature Algorithms (all REQUIRED):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Curve/Params    | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | ECDSA          | P-384           | 192-bit        | REQUIRED     |
+   | EdDSA          | Ed448           | 224-bit        | REQUIRED     |
+   | Hybrid PQC     | See Section 11  | Post-quantum   | REQUIRED     |
+   +-------------------------------------------------------------------+
 
-    ---
-    
-    Multiple mechanisms protect critical assets. Single compromise ≠ total compromise.
+   Hash Functions:
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size     | Use Case                      |
+   +-------------------------------------------------------------------+
+   | SHA-384        | 384 bits        | General hashing               |
+   | SHA3-384       | 384 bits        | Flight Recorder               |
+   | SHAKE256       | Variable        | Key derivation                |
+   +-------------------------------------------------------------------+
 
--   :material-chip:{ .lg .middle } **Hardware Roots**
+   Symmetric Encryption:
+   +-------------------------------------------------------------------+
+   | Algorithm      | Key Size        | Security Level | Status       |
+   +-------------------------------------------------------------------+
+   | AES-256-GCM    | 256 bits        | 256-bit        | REQUIRED     |
+   | ChaCha20-Poly  | 256 bits        | 256-bit        | REQUIRED     |
+   +-------------------------------------------------------------------+
 
-    ---
-    
-    High-value keys protected by hardware. Software-only acceptable only for Level 1.
+   Key Storage:
+   -  FIPS 140-2 Level 3 (or equivalent) HSM REQUIRED
+   -  Multi-person access control REQUIRED
+   -  Geographic distribution REQUIRED
+   -  Key ceremony with witnesses REQUIRED
 
--   :material-atom:{ .lg .middle } **Post-Quantum Awareness**
+   Threshold Signatures:
+   -  REQUIRED for all Oracle operations
+   -  Minimum threshold: 3-of-5
+   -  RECOMMENDED threshold: 5-of-7
+   -  Geographic distribution of key shares REQUIRED
 
-    ---
-    
-    Designed for eventual quantum threat. Hybrid schemes available now; mandatory transition planned.
+4.  Signature Schemes
 
-</div>
+4.1.  ECDSA
 
----
+   ECDSA (Elliptic Curve Digital Signature Algorithm) per FIPS 186-4.
 
-## Conformance Levels
+   Supported Curves:
+   +-------------------------------------------------------------------+
+   | Curve          | Field Size     | Security Level | JOSE alg      |
+   +-------------------------------------------------------------------+
+   | P-256          | 256 bits       | 128-bit        | ES256         |
+   | P-384          | 384 bits       | 192-bit        | ES384         |
+   | P-521          | 521 bits       | 256-bit        | ES512         |
+   +-------------------------------------------------------------------+
 
-KTP defines three levels with increasing cryptographic requirements:
+   Requirements:
 
-=== "Level 1 (Basic)"
-    
-    *Development, testing, and low-risk deployments*
-    
-    | Category | Requirement |
-    |----------|-------------|
-    | **Signature** | ECDSA P-256 or EdDSA Ed25519 |
-    | **Hash** | SHA-256 |
-    | **Encryption** | AES-128-GCM |
-    | **Key Storage** | Software keystore (HSM recommended) |
-    | **Threshold** | Not required (single Oracle) |
-
-=== "Level 2 (Standard)"
-    
-    *Production deployments with moderate security*
-    
-    | Category | Requirement |
-    |----------|-------------|
-    | **Signature** | ECDSA P-256 + EdDSA Ed25519 + ECDSA P-384 |
-    | **Hash** | SHA-256, SHA-384, SHA3-256 |
-    | **Encryption** | AES-256-GCM, ChaCha20-Poly1305 |
-    | **Key Storage** | HSM **required** for Oracle keys |
-    | **Threshold** | Required (min 2-of-3, recommended 3-of-5) |
+   1. Implementations MUST use deterministic ECDSA (RFC 6979) to prevent
+      nonce reuse vulnerabilities.
 
-=== "Level 3 (Full)"
-    
-    *Critical infrastructure and federation anchors*
-    
-    | Category | Requirement |
-    |----------|-------------|
-    | **Signature** | ECDSA P-384 + EdDSA Ed448 + **Hybrid PQC** |
-    | **Hash** | SHA-384, SHA3-384, SHAKE256 |
-    | **Encryption** | AES-256-GCM + ChaCha20-Poly1305 |
-    | **Key Storage** | FIPS 140-2 Level 3 HSM, multi-person control |
-    | **Threshold** | Required (min 3-of-5, recommended 5-of-7) |
-
----
-
-## Signature Schemes
-
-### ECDSA
-
-Elliptic Curve Digital Signature Algorithm per FIPS 186-4.
-
-| Curve | Field Size | Security | JOSE alg |
-|-------|-----------|----------|----------|
-| P-256 | 256 bits | 128-bit | ES256 |
-| P-384 | 384 bits | 192-bit | ES384 |
-| P-521 | 521 bits | 256-bit | ES512 |
-
-!!! warning "ECDSA Requirements"
-    - **MUST** use deterministic ECDSA (RFC 6979) to prevent nonce reuse
-    - **MUST** validate points are on the curve
-    - **MUST** reject signatures with $s > n/2$ (low-s normalization)
-    - Private keys **MUST** use cryptographically secure RNG
-
-### EdDSA
-
-Edwards-curve Digital Signature Algorithm per RFC 8032.
-
-| Curve | Field Size | Security | JOSE alg |
-|-------|-----------|----------|----------|
-| Ed25519 | 255 bits | 128-bit | EdDSA |
-| Ed448 | 448 bits | 224-bit | EdDSA |
-
-!!! success "EdDSA Advantages"
-    - Deterministic by design (no nonce to leak)
-    - Faster signing and verification
-    - Smaller attack surface
-    - Simpler implementation
-    
-    **EdDSA is RECOMMENDED over ECDSA for new deployments.**
-
-### Threshold Signatures
-
-Threshold signatures require k-of-n Oracles to cooperate, preventing single-point-of-failure:
-
-``` mermaid
-flowchart LR
-    subgraph Oracles["Oracle Mesh (5 nodes)"]
-        O1["Oracle 1<br/>Share 1"]
-        O2["Oracle 2<br/>Share 2"]
-        O3["Oracle 3<br/>Share 3"]
-        O4["Oracle 4<br/>Share 4"]
-        O5["Oracle 5<br/>Share 5"]
-    end
-    
-    O1 --> C["Coordinator"]
-    O2 --> C
-    O3 --> C
-    
-    C --> S["✅ Valid Signature<br/>(3-of-5)"]
-```
-
-| Scheme | Base Algorithm | Level Required |
-|--------|---------------|----------------|
-| **Shamir + ECDSA** | ECDSA | Level 2+ |
-| **FROST** | Schnorr | Level 2+ (recommended) |
-| **BLS Threshold** | BLS12-381 | Level 3 |
-
-??? info "Threshold Configuration by Level"
-    
-    | Level | Minimum (k,n) | Recommended (k,n) | Max Latency |
-    |-------|---------------|-------------------|-------------|
-    | Level 1 | (1,1) | (1,1) | N/A |
-    | Level 2 | (2,3) | (3,5) | 100ms |
-    | Level 3 | (3,5) | (5,7) | 200ms |
-    
-    Threshold $k$ SHOULD be greater than $n/2$ to prevent split-brain scenarios.
-
----
-
-## Hash Functions
-
-### Selection by Context
-
-| Context | Level 1 | Level 2 | Level 3 |
-|---------|---------|---------|---------|
-| Trust Proof hashing | SHA-256 | SHA-256 | SHA-384 |
-| Flight Recorder chain | SHA-256 | SHA3-256 | SHA3-384 |
-| Trajectory chain | SHA-256 | SHA-256 | SHA-384 |
-| Key derivation | SHA-256 | SHA-512 | SHAKE256 |
-
-??? abstract "Hash Function Details"
-    
-    **SHA-2 Family** (FIPS 180-4):
-    
-    | Algorithm | Output | Block | Usage |
-    |-----------|--------|-------|-------|
-    | SHA-256 | 256 bits | 512 bits | General |
-    | SHA-384 | 384 bits | 1024 bits | High-security |
-    | SHA-512 | 512 bits | 1024 bits | Key derivation |
-    
-    **SHA-3 Family** (FIPS 202):
-    
-    | Algorithm | Output | Usage |
-    |-----------|--------|-------|
-    | SHA3-256 | 256 bits | Flight Recorder |
-    | SHA3-384 | 384 bits | Level 3 audit |
-    | SHAKE256 | Variable | KDF (Level 3) |
-    
-    SHA-3 provides defense in depth against potential SHA-2 vulnerabilities.
-
----
-
-## Symmetric Encryption
-
-### AES-GCM
-
-AES-GCM per NIST SP 800-38D:
-
-| Variant | Key Size | Nonce | Tag |
-|---------|----------|-------|-----|
-| AES-128-GCM | 128 bits | 96 bits | 128 bits |
-| AES-256-GCM | 256 bits | 96 bits | 128 bits |
-
-### ChaCha20-Poly1305
-
-ChaCha20-Poly1305 per RFC 8439:
-
-| Key Size | Nonce | Tag |
-|----------|-------|-----|
-| 256 bits | 96 bits | 128 bits |
-
-!!! tip "ChaCha20 Advantages"
-    - Better performance on systems without AES-NI
-    - Constant-time implementation is simpler
-    - No weak-key classes
-    
-    Both **AES-256-GCM** and **ChaCha20-Poly1305** MUST be supported for Level 2+.
-
-### Encryption Contexts
-
-| Context | Algorithm | Key Source |
-|---------|-----------|------------|
-| Trust Proof (at rest) | AES-256-GCM | Zone key |
-| Flight Recorder | AES-256-GCM | Audit key |
-| Agent credentials | AES-256-GCM | Agent master key |
-| Federation messages | ChaCha20-Poly1305 | Session key |
-| Sensor data (in transit) | TLS 1.3 | TLS handshake |
-
----
-
-## Key Management
-
-### Key Types
-
-``` mermaid
-flowchart TB
-    subgraph Oracle["Oracle Keys"]
-        OS["🔐 Signing Keys<br/>(Threshold, HSM)"]
-        OE["🔒 Encryption Keys"]
-    end
-    
-    subgraph Agent["Agent Keys"]
-        AS["✍️ Agent Signing"]
-        AI["🆔 Identity Keys"]
-    end
-    
-    subgraph Zone["Zone Keys"]
-        ZM["🏛️ Zone Master"]
-        ZF["🌐 Federation Keys"]
-    end
-    
-    ZM --> OS
-    ZM --> ZF
-    OS --> AS
-```
-
-??? example "Oracle Signing Key Format"
-    ```json
-    {
-      "key_type": "oracle_signing",
-      "key_id": "oracle-zone-alpha-2025-001",
-      "algorithm": "threshold-frost-ed25519-3of5",
-      "public_key": "base64...",
-      "created_at": "2025-01-01T00:00:00Z",
-      "expires_at": "2027-01-01T00:00:00Z",
-      "rotation_policy": "annual"
-    }
-    ```
-
-### Key Lifecycle
-
-| Phase | Action | Requirements |
-|-------|--------|--------------|
-| **Generation** | Create key material | HSM ceremony for Level 2+ |
-| **Distribution** | Share to authorized parties | Threshold splitting |
-| **Rotation** | Replace with new key | 18-month max lifetime |
-| **Revocation** | Invalidate compromised key | Immediate propagation |
-
-### Key Derivation
-
-**HKDF** (RFC 5869) for deriving keys from shared secrets:
-
-| Purpose | Info String |
-|---------|-------------|
-| Trust Proof encryption | `ktp-trust-proof-encrypt-v1` |
-| Trajectory chain key | `ktp-trajectory-key-v1` |
-| Oracle session key | `ktp-oracle-session-v1` |
-| Federation channel key | `ktp-federation-channel-v1` |
-
-**Argon2id** (RFC 9106) for password-based key derivation:
-
-| Level | Memory | Iterations | Time |
-|-------|--------|------------|------|
-| Level 1 | 64 MiB | 3 | ~0.5s |
-| Level 2 | 256 MiB | 4 | ~1.0s |
-| Level 3 | 1 GiB | 6 | ~3.0s |
-
----
-
-## Hardware Security Modules
-
-### Requirements by Level
-
-| Level | HSM Requirement |
-|-------|-----------------|
-| Level 1 | Recommended, not required |
-| Level 2 | **Required** for Oracle signing keys |
-| Level 3 | FIPS 140-2 Level 3 HSM, multi-person control, geographic distribution |
-
-### Integration
-
-``` mermaid
-flowchart LR
-    A["Trust Oracle"] --> P["PKCS#11 API"]
-    P --> H["HSM"]
-    H --> K["🔐 Key Material<br/>(never leaves HSM)"]
-```
-
-!!! danger "Key Protection"
-    For Level 2+, Oracle signing keys **MUST**:
-    
-    - Be generated inside the HSM
-    - Never be exported in plaintext
-    - Require multi-factor authentication
-    - Support threshold operations
-
----
-
-## Post-Quantum Cryptography
+   2. Implementations MUST validate that points are on the curve before
+      use.
 
-### Threat Timeline
+   3. Implementations MUST reject signatures with s > n/2 (low-s
+      normalization) to prevent malleability.
 
-!!! warning "Quantum Threat"
-    Current estimates suggest cryptographically relevant quantum computers may exist within 10-15 years. KTP implements hybrid schemes **now** to protect long-lived data.
+   4. Private keys MUST be generated using cryptographically secure
+      random number generators.
 
-### Hybrid Signatures
+   Signature Format:
 
-Level 3 requires **hybrid signatures** combining classical and post-quantum algorithms:
+   ECDSA signatures in KTP use the compact representation:
 
-| Component | Algorithm | Purpose |
-|-----------|-----------|---------|
-| Classical | ECDSA P-384 or EdDSA Ed448 | Current security |
-| Post-Quantum | ML-DSA (Dilithium) | Future security |
+      signature = r || s
 
-``` mermaid
-flowchart LR
-    M["Message"] --> C["Classical Sign<br/>(EdDSA)"]
-    M --> Q["PQC Sign<br/>(ML-DSA)"]
-    C --> H["Hybrid Signature"]
-    Q --> H
-```
+   Where r and s are fixed-size big-endian integers (32 bytes for P-256,
+   48 bytes for P-384, 66 bytes for P-521).
 
-### Migration Strategy
+   For JWS/JWT contexts, signatures are base64url-encoded.
 
-| Phase | Timeline | Action |
-|-------|----------|--------|
-| **Prepare** | Now | Hybrid schemes available, optional |
-| **Recommend** | 2027 | Hybrid recommended for Level 3 |
-| **Require** | 2030 | Hybrid mandatory for Level 2+ |
-| **Classical-only** | 2035 | No longer permitted |
+4.2.  EdDSA
 
----
+   EdDSA (Edwards-curve Digital Signature Algorithm) per RFC 8032.
 
-## Algorithm Deprecation
+   Supported Curves:
+   +-------------------------------------------------------------------+
+   | Curve          | Field Size     | Security Level | JOSE alg      |
+   +-------------------------------------------------------------------+
+   | Ed25519        | 255 bits       | 128-bit        | EdDSA         |
+   | Ed448          | 448 bits       | 224-bit        | EdDSA         |
+   +-------------------------------------------------------------------+
 
-When algorithms are deprecated:
+   Requirements:
 
-1. **ANNOUNCE** — 18-month notice before mandatory transition
-2. **WARN** — Log warnings when deprecated algorithm used
-3. **REJECT** — Reject deprecated algorithm
-4. **REMOVE** — Remove from specification
+   1. Implementations MUST use Ed25519 or Ed448 as specified in RFC 8032
+      without modifications.
 
-| Algorithm | Status | Notes |
-|-----------|--------|-------|
-| RSA-2048 | ❌ NOT SUPPORTED | Never permitted |
-| SHA-1 | ❌ NOT SUPPORTED | Never permitted |
-| ECDSA P-256 | ✅ SUPPORTED | Deprecation TBD (post PQC) |
-| EdDSA Ed25519 | ✅ SUPPORTED | Long-term support |
+   2. Ed25519 implementations SHOULD use the "cofactored" variant for
+      batch verification.
 
----
+   3. Implementations MUST reject non-canonical signatures.
 
-## Related Specifications
+   Advantages over ECDSA:
 
-<div class="grid cards" markdown>
+   -  Deterministic by design (no nonce to leak)
+   -  Faster signing and verification
+   -  Smaller attack surface
+   -  Simpler implementation
 
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
+   EdDSA is RECOMMENDED over ECDSA for new deployments.
 
-    ---
-    
-    Foundation protocol that cryptography enforces.
+4.3.  Threshold Signatures
 
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
+   Threshold signatures require k-of-n Oracles to cooperate, preventing
+   single-point-of-failure attacks.
 
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
+4.3.1.  Supported Schemes
 
-    ---
-    
-    Vector Identity using cryptographic chains.
+   +-------------------------------------------------------------------+
+   | Scheme         | Base Algorithm | Level Required | Status        |
+   +-------------------------------------------------------------------+
+   | Shamir + ECDSA | ECDSA          | Level 2+       | REQUIRED      |
+   | FROST          | Schnorr        | Level 2+       | RECOMMENDED   |
+   | BLS Threshold  | BLS12-381      | Level 3        | OPTIONAL      |
+   +-------------------------------------------------------------------+
 
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
+4.3.2.  Shamir-based Threshold ECDSA
 
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
+   Uses Shamir Secret Sharing to distribute the signing key, with secure
+   multi-party computation for signature generation.
 
-    ---
-    
-    Secure transport layer specifications.
+   Protocol outline:
 
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
+   1. KEY GENERATION (one-time ceremony)
+      -  Generate master signing key k
+      -  Create n shares using Shamir (k,n)-threshold scheme
+      -  Distribute shares to n Oracles
+      -  Destroy master key (never reconstructed)
 
--   :material-earth:{ .lg .middle } **KTP-Federation**
+   2. SIGNATURE GENERATION (per Trust Proof)
+      -  k Oracles receive signing request
+      -  Each Oracle generates partial signature using share
+      -  Coordinator combines k partial signatures
+      -  Result is valid ECDSA signature
 
-    ---
-    
-    Cross-zone cryptographic trust establishment.
+   Security properties:
 
-    [:octicons-arrow-right-24: Read Spec](ktp-federation.md)
+   -  Any k Oracles can sign
+   -  Fewer than k Oracles learn nothing about key
+   -  Individual shares never leave HSMs
+   -  Master key is never reconstructed
 
-</div>
+4.3.3.  FROST (Flexible Round-Optimized Schnorr Threshold)
 
----
+   FROST provides threshold Schnorr signatures with two-round signing
+   protocol.
 
-## Related Specifications
+   Advantages:
 
-<div class="grid cards" markdown>
+   -  Fewer rounds than threshold ECDSA
+   -  Smaller signatures (single curve point + scalar)
+   -  Provable security in random oracle model
 
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
+   FROST is RECOMMENDED for new Level 2+ deployments.
 
-    ---
+4.3.4.  Threshold Configuration
 
-    The foundational protocol and the Zeroth Law ($A \leq E$).
+   +-------------------------------------------------------------------+
+   | Level          | Minimum (k,n)  | Recommended (k,n) | Max Latency |
+   +-------------------------------------------------------------------+
+   | Level 1        | (1,1)          | (1,1)             | N/A         |
+   | Level 2        | (2,3)          | (3,5)             | 100ms       |
+   | Level 3        | (3,5)          | (5,7)             | 200ms       |
+   +-------------------------------------------------------------------+
 
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
+   The threshold k SHOULD be greater than n/2 to prevent split-brain
+   scenarios during network partitions.
 
-    ---
+4.4.  Algorithm Negotiation
 
-    The secure messaging and transport layer for KTP signals.
+   KTP supports algorithm negotiation to enable future transitions.
 
--   :material-earth:{ .lg .middle } **[KTP-Federation](ktp-federation.md)**
+4.4.1.  Algorithm Identifier Format
 
-    ---
+   Algorithm identifiers use the format:
 
-    Cross-zone cryptographic trust establishment.
+      <scheme>-<curve_or_params>[-<variant>]
 
--   :material-shield-check:{ .lg .middle } **[KTP-Conformance](ktp-conformance.md)**
+   Examples:
+      ecdsa-p256
+      eddsa-ed25519
+      frost-secp256k1
+      threshold-bls12-381-3of5
 
-    ---
+4.4.2.  Negotiation Protocol
 
-    Defining the three levels of KTP compliance and certification.
+   During zone federation or Oracle mesh formation:
 
-</div>
+   1. Initiator sends supported algorithms (ordered by preference)
+   2. Responder selects highest-preference mutual algorithm
+   3. Selected algorithm used for session
 
----
+   Message format:
 
-## Official RFC Document
+      {
+        "supported_algorithms": [
+          "eddsa-ed448",
+          "eddsa-ed25519",
+          "ecdsa-p384",
+          "ecdsa-p256"
+        ],
+        "required_minimum": "ecdsa-p256"
+      }
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
+4.4.3.  Algorithm Deprecation
 
-??? note "View Complete RFC Text (ktp-crypto.txt)"
-    ```
-    --8<-- "rfcs/ktp-crypto.txt"
-    ```
+   When an algorithm is deprecated:
+
+   1. ANNOUNCE: 18-month notice before mandatory transition
+   2. WARN: Implementations log warnings when deprecated algorithm used
+   3. REJECT: Implementations reject deprecated algorithm
+   4. REMOVE: Algorithm removed from specification
+
+   Current deprecation schedule:
+
+   +-------------------------------------------------------------------+
+   | Algorithm      | Status         | Deprecation Date | Removal Date|
+   +-------------------------------------------------------------------+
+   | RSA-2048       | NOT SUPPORTED  | N/A              | N/A         |
+   | ECDSA P-256    | SUPPORTED      | TBD (post PQC)   | TBD         |
+   | SHA-1          | NOT SUPPORTED  | N/A              | N/A         |
+   +-------------------------------------------------------------------+
+
+5.  Hash Functions
+
+5.1.  SHA-2 Family
+
+   SHA-2 per FIPS 180-4.
+
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size    | Block Size     | KTP Usage     |
+   +-------------------------------------------------------------------+
+   | SHA-256        | 256 bits       | 512 bits       | General       |
+   | SHA-384        | 384 bits       | 1024 bits      | High-security |
+   | SHA-512        | 512 bits       | 1024 bits      | Key derivation|
+   +-------------------------------------------------------------------+
+
+   SHA-256 is the default hash function for Level 1 and Level 2.
+   SHA-384 is REQUIRED for Level 3.
+
+5.2.  SHA-3 Family
+
+   SHA-3 per FIPS 202.
+
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size    | Capacity       | KTP Usage     |
+   +-------------------------------------------------------------------+
+   | SHA3-256       | 256 bits       | 512 bits       | Flight Rec.   |
+   | SHA3-384       | 384 bits       | 768 bits       | Level 3 audit |
+   | SHAKE128       | Variable       | 256 bits       | KDF (general) |
+   | SHAKE256       | Variable       | 512 bits       | KDF (Level 3) |
+   +-------------------------------------------------------------------+
+
+   SHA-3 provides defense in depth against potential SHA-2
+   vulnerabilities. SHA3-256 is RECOMMENDED for Flight Recorder chain
+   hashing.
+
+5.3.  BLAKE3
+
+   BLAKE3 is a high-performance hash function suitable for bulk data
+   hashing.
+
+   +-------------------------------------------------------------------+
+   | Algorithm      | Output Size    | Speed          | KTP Usage     |
+   +-------------------------------------------------------------------+
+   | BLAKE3         | Variable       | Very fast      | Trajectory    |
+   +-------------------------------------------------------------------+
+
+   BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3
+   performance is insufficient. It MUST NOT be used for contexts
+   requiring NIST-approved algorithms.
+
+5.4.  Hash Function Selection
+
+   +-------------------------------------------------------------------+
+   | Context                    | Level 1    | Level 2    | Level 3   |
+   +-------------------------------------------------------------------+
+   | Trust Proof hashing        | SHA-256    | SHA-256    | SHA-384   |
+   | Flight Recorder chain      | SHA-256    | SHA3-256   | SHA3-384  |
+   | Trajectory chain           | SHA-256    | SHA-256    | SHA-384   |
+   | Key derivation             | SHA-256    | SHA-512    | SHAKE256  |
+   | Agent ID generation        | SHA-256    | SHA-256    | SHA-256   |
+   +-------------------------------------------------------------------+
+
+6.  Key Derivation
+
+6.1.  HKDF
+
+   HKDF (HMAC-based Key Derivation Function) per RFC 5869.
+
+   KTP uses HKDF for deriving keys from shared secrets:
+
+      derived_key = HKDF-Expand(
+        HKDF-Extract(salt, input_key_material),
+        info,
+        length
+      )
+
+   Context strings (info parameter):
+
+   +-------------------------------------------------------------------+
+   | Purpose                    | Info String                         |
+   +-------------------------------------------------------------------+
+   | Trust Proof encryption     | "ktp-trust-proof-encrypt-v1"        |
+   | Trajectory chain key       | "ktp-trajectory-key-v1"             |
+   | Oracle session key         | "ktp-oracle-session-v1"             |
+   | Agent attestation key      | "ktp-agent-attestation-v1"          |
+   | Federation channel key     | "ktp-federation-channel-v1"         |
+   +-------------------------------------------------------------------+
+
+   Salt SHOULD be random and unique per derivation. If salt is not
+   available, use the zone identifier as salt.
+
+6.2.  Argon2
+
+   Argon2 per RFC 9106 for password-based key derivation.
+
+   Argon2id is REQUIRED when deriving keys from human-memorable secrets
+   (e.g., recovery passphrases).
+
+   Minimum parameters:
+
+   +-------------------------------------------------------------------+
+   | Level          | Memory         | Iterations     | Parallelism   |
+   +-------------------------------------------------------------------+
+   | Level 1        | 64 MiB         | 3              | 4             |
+   | Level 2        | 256 MiB        | 4              | 4             |
+   | Level 3        | 1 GiB          | 6              | 8             |
+   +-------------------------------------------------------------------+
+
+   These parameters should be tuned to achieve approximately:
+   -  Level 1: 0.5 second computation time
+   -  Level 2: 1.0 second computation time
+   -  Level 3: 3.0 second computation time
+
+6.3.  Key Derivation Contexts
+
+   When deriving multiple keys from a single secret, each key MUST use a
+   unique context:
+
+      master_secret = [from key agreement or ceremony]
+
+      encryption_key = HKDF(master_secret, salt, "encrypt", 32)
+      mac_key = HKDF(master_secret, salt, "mac", 32)
+      nonce_key = HKDF(master_secret, salt, "nonce", 16)
+
+   Keys derived from the same master MUST NOT be used for different
+   algorithms (e.g., don't use same derived key for AES and ChaCha20).
+
+7.  Symmetric Encryption
+
+7.1.  AES-GCM
+
+   AES-GCM per NIST SP 800-38D.
+
+   +-------------------------------------------------------------------+
+   | Variant        | Key Size       | Nonce Size     | Tag Size      |
+   +-------------------------------------------------------------------+
+   | AES-128-GCM    | 128 bits       | 96 bits        | 128 bits      |
+   | AES-256-GCM    | 256 bits       | 96 bits        | 128 bits      |
+   +-------------------------------------------------------------------+
+
+   Requirements:
+
+   1. Nonces MUST be unique per key. Random nonces are acceptable for
+      AES-256-GCM with 96-bit nonce (collision probability acceptable up
+      to 2^32 messages per key).
+
+   2. For high-volume contexts, use counter-based nonces with unique
+      prefix per sender.
+
+   3. Tag size MUST be 128 bits (16 bytes). Truncated tags are NOT
+      permitted.
+
+   4. AAD (Additional Authenticated Data) SHOULD include context binding
+      (e.g., agent ID, timestamp, purpose).
+
+7.2.  ChaCha20-Poly1305
+
+   ChaCha20-Poly1305 per RFC 8439.
+
+   +-------------------------------------------------------------------+
+   | Key Size       | Nonce Size     | Tag Size       | Status        |
+   +-------------------------------------------------------------------+
+   | 256 bits       | 96 bits        | 128 bits       | RECOMMENDED   |
+   +-------------------------------------------------------------------+
+
+   ChaCha20-Poly1305 is RECOMMENDED as an alternative to AES-GCM:
+
+   -  Better performance on systems without AES-NI
+   -  Constant-time implementation is simpler
+   -  No weak-key classes
+
+   Both AES-256-GCM and ChaCha20-Poly1305 MUST be supported for Level
+   2+.
+
+7.3.  Encryption Contexts
+
+   +-------------------------------------------------------------------+
+   | Context                    | Algorithm      | Key Source         |
+   +-------------------------------------------------------------------+
+   | Trust Proof (at rest)      | AES-256-GCM    | Zone key           |
+   | Flight Recorder encryption | AES-256-GCM    | Audit key          |
+   | Agent credentials          | AES-256-GCM    | Agent master key   |
+   | Federation messages        | ChaCha20-Poly  | Session key        |
+   | Sensor data (in transit)   | TLS 1.3        | TLS handshake      |
+   +-------------------------------------------------------------------+
+
+8.  Key Management
+
+8.1.  Key Types
+
+   KTP defines the following key types:
+
+8.1.1.  Oracle Signing Keys
+
+   Purpose: Sign Trust Proofs and trajectory attestations
+
+   Properties:
+   -  Threshold key shares (k-of-n)
+   -  MUST be stored in HSM for Level 2+
+   -  Rotation: Annual or upon compromise
+   -  Lifetime: Maximum 2 years
+
+   Format:
+      {
+        "key_type": "oracle_signing",
+        "key_id": "oracle-zone-alpha-2025-001",
+        "algorithm": "threshold-frost-ed25519-3of5",
+        "public_key": "base64...",
+        "created_at": "2025-01-01T00:00:00Z",
+        "expires_at": "2027-01-01T00:00:00Z",
+        "threshold": {
+          "k": 3,
+          "n": 5
+        },
+        "share_holders": [
+          "oracle-alpha-1",
+          "oracle-alpha-2",
+          "oracle-alpha-3",
+          "oracle-alpha-4",
+          "oracle-alpha-5"
+        ]
+      }
+
+8.1.2.  Agent Identity Keys
+
+   Purpose: Prove agent identity, sign trajectory records
+
+   Properties:
+   -  Single-holder key (not threshold)
+   -  May be software or HSM protected
+   -  Rotation: Upon role change or compromise
+   -  Lifetime: Tied to agent lifecycle
+
+   Format:
+      {
+        "key_type": "agent_identity",
+        "key_id": "agent-7gen-optimized-a1b2c3d4",
+        "algorithm": "eddsa-ed25519",
+        "public_key": "base64...",
+        "created_at": "2025-06-15T10:30:00Z",
+        "expires_at": null,
+        "lineage": "persistent",
+        "generation": 7
+      }
+
+8.1.3.  Zone Encryption Keys
+
+   Purpose: Encrypt data at rest within a zone
+
+   Properties:
+   -  Symmetric key (AES-256)
+   -  Protected by Oracle key (envelope encryption)
+   -  Rotation: Quarterly
+   -  Lifetime: Maximum 1 year
+
+8.1.4.  Federation Keys
+
+   Purpose: Secure communication between zones
+
+   Properties:
+   -  Key agreement (ECDH) + symmetric session keys
+   -  Tied to federation agreement
+   -  Rotation: Per session or hourly (whichever is shorter)
+   -  Lifetime: Session-scoped
+
+8.1.5.  Root of Trust Keys
+
+   Purpose: Anchor the entire key hierarchy
+
+   Properties:
+   -  Highest-security key in the system
+   -  MUST be stored in FIPS 140-2 Level 3+ HSM
+   -  Created in formal key ceremony with witnesses
+   -  Rotation: Rare (5+ years) or upon compromise
+   -  Used only to sign subordinate keys
+
+8.2.  Key Generation
+
+8.2.1.  Randomness Requirements
+
+   All key generation MUST use cryptographically secure random number
+   generators (CSPRNGs):
+
+   -  Operating system: /dev/urandom (Linux), CryptGenRandom (Windows)
+   -  HSM: Hardware random number generator
+   -  Cloud: Cloud provider HSM RNG
+
+   Implementations MUST NOT use:
+   -  Predictable seeds
+   -  Low-entropy sources
+   -  User-provided randomness without mixing
+
+8.2.2.  Key Generation Procedures
+
+   Level 1 (Software):
+
+      1. Generate 256 bits from CSPRNG
+      2. Use as private key directly (Ed25519) or derive (ECDSA)
+      3. Store encrypted in keystore
+      4. Log generation event (without key material)
+
+   Level 2+ (HSM):
+
+      1. Initiate key generation on HSM
+      2. HSM generates key internally using hardware RNG
+      3. Private key never leaves HSM
+      4. Export public key for distribution
+      5. Log generation event with HSM attestation
+
+   Level 3 (Ceremony):
+
+      1. Convene key ceremony with required participants
+      2. Each participant provides entropy contribution
+      3. HSM mixes entropy and generates key
+      4. Key shares distributed to separate HSMs
+      5. Ceremony recorded and witnessed
+      6. Ceremony artifacts archived
+
+8.3.  Key Storage
+
+8.3.1.  Storage Requirements by Level
+
+   +-------------------------------------------------------------------+
+   | Level | Oracle Keys      | Agent Keys       | Audit Keys         |
+   +-------------------------------------------------------------------+
+   | 1     | Encrypted file   | Encrypted file   | Encrypted file     |
+   | 2     | HSM (FIPS 140-2) | Encrypted file   | HSM or encrypted   |
+   | 3     | HSM Level 3      | HSM recommended  | HSM Level 3        |
+   +-------------------------------------------------------------------+
+
+8.3.2.  Software Key Storage
+
+   For software-protected keys:
+
+   1. Encrypt with AES-256-GCM using key derived from:
+      -  System entropy (hardware IDs, boot time, etc.)
+      -  Optional: Human passphrase (Argon2-stretched)
+
+   2. Store in protected location:
+      -  Linux: /var/lib/ktp/keys with mode 0600
+      -  HSM-backed keystore if available
+
+   3. Implement memory protection:
+      -  mlock() to prevent swapping
+      -  Secure memory wiping after use
+
+8.3.3.  HSM Key Storage
+
+   For HSM-protected keys:
+
+   1. Generate keys on HSM (never import)
+   2. Keys are non-extractable
+   3. Access controlled by HSM authentication
+   4. Backup via HSM-to-HSM key transfer (if supported)
+
+8.4.  Key Rotation
+
+8.4.1.  Rotation Schedule
+
+   +-------------------------------------------------------------------+
+   | Key Type            | Normal Rotation  | Emergency Rotation       |
+   +-------------------------------------------------------------------+
+   | Root of Trust       | 5 years          | Immediate upon compromise|
+   | Oracle Signing      | 1 year           | 24 hours upon compromise |
+   | Zone Encryption     | 90 days          | Immediate upon compromise|
+   | Federation Session  | 1 hour           | Immediate upon compromise|
+   | Agent Identity      | Role change      | Immediate upon compromise|
+   +-------------------------------------------------------------------+
+
+8.4.2.  Rotation Procedure
+
+   For Oracle signing keys:
+
+   1. PREPARE (1 week before expiry)
+      -  Generate new key shares on HSMs
+      -  Distribute shares to Oracle nodes
+      -  Verify all nodes have new shares
+
+   2. OVERLAP (during transition window)
+      -  Old key still valid for verification
+      -  New key used for new signatures
+      -  Both keys published in key directory
+
+   3. COMMIT (after transition window)
+      -  Old key marked as expired
+      -  Old key retained for historical verification
+      -  New key is sole signing key
+
+   4. ARCHIVE (after retention period)
+      -  Old key material securely destroyed
+      -  Public key retained indefinitely for audit
+
+8.4.3.  Key Overlap Period
+
+   +-------------------------------------------------------------------+
+   | Key Type            | Overlap Period   | Grace Period             |
+   +-------------------------------------------------------------------+
+   | Oracle Signing      | 7 days           | 30 days                  |
+   | Zone Encryption     | 24 hours         | 7 days                   |
+   | Federation          | 5 minutes        | 1 hour                   |
+   +-------------------------------------------------------------------+
+
+   During overlap period, both old and new keys are valid. During grace
+   period, old key valid for verification only.
+
+8.5.  Key Revocation
+
+8.5.1.  Revocation Triggers
+
+   Keys MUST be revoked when:
+
+   1. Compromise confirmed or suspected
+   2. Key holder leaves organization
+   3. Key holder role changes (if role-bound)
+   4. Cryptographic weakness discovered in algorithm
+   5. HSM containing key is decommissioned
+
+8.5.2.  Revocation Procedure
+
+   1. IMMEDIATE (within minutes)
+      -  Add key to revocation list
+      -  Broadcast revocation to all zones
+      -  Log revocation with reason
+
+   2. PROPAGATION (within hours)
+      -  All Trust Oracles update revocation lists
+      -  All PEPs refresh revocation cache
+      -  All agents receive revocation notice
+
+   3. ENFORCEMENT
+      -  Signatures by revoked key rejected
+      -  Trust Proofs signed by revoked key invalidated
+      -  Agents authenticated by revoked key demoted
+
+8.5.3.  Revocation List Format
+
+      {
+        "version": 1,
+        "zone_id": "zone-alpha",
+        "issued_at": "2025-11-25T12:00:00Z",
+        "next_update": "2025-11-25T13:00:00Z",
+        "revoked_keys": [
+          {
+            "key_id": "oracle-zone-alpha-2024-001",
+            "revoked_at": "2025-11-25T11:30:00Z",
+            "reason": "key_compromise",
+            "replacement_key_id": "oracle-zone-alpha-2025-002"
+          }
+        ],
+        "signature": "..."
+      }
+
+8.6.  Key Escrow and Recovery
+
+8.6.1.  Escrow Policy
+
+   KTP does NOT mandate key escrow for agent keys. Agents that lose
+   their keys lose their trajectory history.
+
+   KTP DOES require recovery capability for Oracle keys to prevent zone-
+   wide lockout.
+
+8.6.2.  Oracle Key Recovery
+
+   Threshold keys provide inherent recovery: any k-of-n shares can
+   reconstruct signing capability.
+
+   For disaster recovery (loss of k+ shares):
+
+   1. COLD BACKUP
+      -  Encrypted backup of key shares stored offline
+      -  Backup encrypted to recovery keys held by trustees
+      -  M-of-N trustees required to recover
+
+   2. RECOVERY CEREMONY
+      -  Convene required trustees
+      -  Decrypt backup shares
+      -  Install on new HSMs
+      -  Verify signing capability
+      -  Destroy backup shares used
+
+   Recovery keys SHOULD be geographically distributed and held by
+   different organizational roles.
+
+9.  Hardware Security Modules
+
+9.1.  HSM Requirements
+
+9.1.1.  Certification Requirements
+
+   +-------------------------------------------------------------------+
+   | Level          | Minimum Certification                            |
+   +-------------------------------------------------------------------+
+   | Level 1        | None (HSM optional)                              |
+   | Level 2        | FIPS 140-2 Level 2                               |
+   | Level 3        | FIPS 140-2 Level 3 or Common Criteria EAL4+      |
+   +-------------------------------------------------------------------+
+
+9.1.2.  Functional Requirements
+
+   HSMs used for KTP MUST support:
+
+   -  Key generation using hardware RNG
+   -  ECDSA signing with P-256, P-384 (P-521 recommended)
+   -  EdDSA signing with Ed25519 (Ed448 recommended)
+   -  AES-256-GCM encryption/decryption
+   -  Non-extractable key storage
+   -  Access control (authentication required for operations)
+   -  Audit logging
+
+   HSMs used for Level 3 MUST additionally support:
+
+   -  Multi-person access control (M-of-N authentication)
+   -  Remote attestation
+   -  Tamper response (key zeroization)
+   -  Secure key backup/restore
+
+9.2.  PKCS#11 Integration
+
+   HSM integration SHOULD use PKCS#11 for portability.
+
+   Required PKCS#11 mechanisms:
+
+   +-------------------------------------------------------------------+
+   | Mechanism              | Use Case                                 |
+   +-------------------------------------------------------------------+
+   | CKM_EC_KEY_PAIR_GEN    | ECDSA key generation                     |
+   | CKM_ECDSA_SHA256       | ECDSA signing (P-256)                    |
+   | CKM_ECDSA_SHA384       | ECDSA signing (P-384)                    |
+   | CKM_AES_GCM            | Symmetric encryption                     |
+   | CKM_SHA256             | Hashing                                  |
+   | CKM_SHA384             | Hashing                                  |
+   +-------------------------------------------------------------------+
+
+   For EdDSA, use vendor-specific mechanisms or CKM_EDDSA if supported
+   (PKCS#11 3.0+).
+
+9.3.  Cloud HSM Considerations
+
+   Cloud HSMs (AWS CloudHSM, Azure Dedicated HSM, GCP Cloud HSM) are
+   acceptable for Level 2 deployments.
+
+   Considerations:
+
+   1. TRUST: You are trusting the cloud provider's HSM implementation
+   2. AVAILABILITY: Cloud HSM availability tied to region availability
+   3. KEY BACKUP: Understand cloud provider's backup mechanisms
+   4. MULTI-REGION: Consider cross-region HSM clusters for resilience
+
+   For Level 3, dedicated (non-cloud) HSMs are RECOMMENDED due to the
+   Hypervisor Opaque Wall concern (see KTP-PROBLEMS).
+
+10.  Credential Formats
+
+10.1.  Trust Proof Format
+
+   Trust Proofs use JWS (JSON Web Signature) format per RFC 7515.
+
+   Header:
+      {
+        "alg": "ES256",
+        "typ": "ktp-trust-proof+jwt",
+        "kid": "oracle-zone-alpha-2025-001",
+        "ktp_level": 2,
+        "threshold": "3of5"
+      }
+
+   Payload:
+      {
+        "iss": "zone:alpha",
+        "sub": "agent:persistent:7gen:optimized:a1b2c3d4",
+        "aud": "zone:alpha",
+        "iat": 1700000000,
+        "exp": 1700000010,
+        "nbf": 1700000000,
+        "jti": "proof-uuid-12345",
+
+        "e_base": 87,
+        "e_trust": 74,
+        "risk_factor": 0.15,
+        "tier": "operator",
+
+        "context": {
+          "m": 0.12,
+          "p": 0.08,
+          "h": 0.22,
+          "t": 0.05,
+          "i": 0.18,
+          "o": 0.10,
+          "s": 0
+        },
+
+        "lineage": {
+          "type": "persistent",
+          "generation": 7,
+          "trajectory_hash": "sha256:abc123..."
+        }
+      }
+
+   Signature:
+   -  For single-Oracle: Standard JWS signature
+   -  For threshold: Aggregated threshold signature
+
+10.2.  Agent Credential Format
+
+   Agent credentials establish identity binding.
+
+      {
+        "credential_type": "ktp-agent-credential",
+        "version": 1,
+        "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+
+        "identity": {
+          "public_key": "base64...",
+          "algorithm": "eddsa-ed25519",
+          "key_id": "agent-key-12345"
+        },
+
+        "proofing": {
+          "ial": 2,
+          "proofed_at": "2025-01-15T10:00:00Z",
+          "provider": "isp:acme-verify"
+        },
+
+        "lineage": {
+          "type": "persistent",
+          "generation": 7,
+          "sponsor_chain": ["org:acme", "agent:acme-deploy"]
+        },
+
+        "issued_at": "2025-01-15T10:00:00Z",
+        "expires_at": "2026-01-15T10:00:00Z",
+
+        "issuer": {
+          "zone_id": "zone:alpha",
+          "oracle_key_id": "oracle-zone-alpha-2025-001"
+        },
+
+        "signature": "base64..."
+      }
+
+10.3.  Oracle Credential Format
+
+   Oracle credentials establish Oracle authority within a zone.
+
+      {
+        "credential_type": "ktp-oracle-credential",
+        "version": 1,
+        "oracle_id": "oracle-alpha-1",
+
+        "zone": {
+          "zone_id": "zone:alpha",
+          "zone_type": "blue",
+          "zone_public_key": "base64..."
+        },
+
+        "signing_capability": {
+          "key_id": "oracle-zone-alpha-2025-001",
+          "algorithm": "threshold-frost-ed25519",
+          "share_index": 1,
+          "threshold": {
+            "k": 3,
+            "n": 5
+          }
+        },
+
+        "attestation": {
+          "hsm_attestation": "base64...",
+          "platform_attestation": "base64..."
+        },
+
+        "issued_at": "2025-01-01T00:00:00Z",
+        "expires_at": "2027-01-01T00:00:00Z",
+
+        "issuer": {
+          "root_key_id": "root-nmcitra-2024-001"
+        },
+
+        "signature": "base64..."
+      }
+
+10.4.  Federation Credential Format
+
+   Federation credentials establish inter-zone trust.
+
+      {
+        "credential_type": "ktp-federation-credential",
+        "version": 1,
+
+        "local_zone": {
+          "zone_id": "zone:alpha",
+          "oracle_key_id": "oracle-zone-alpha-2025-001"
+        },
+
+        "remote_zone": {
+          "zone_id": "zone:beta",
+          "oracle_key_id": "oracle-zone-beta-2025-001"
+        },
+
+        "trust_parameters": {
+          "trust_factor": 0.85,
+          "max_transitive_trust": 0.7,
+          "allowed_operations": ["attest", "query", "federate"],
+          "disallowed_operations": ["admin"]
+        },
+
+        "agreement": {
+          "agreed_at": "2025-06-01T00:00:00Z",
+          "expires_at": "2026-06-01T00:00:00Z",
+          "renewal": "automatic"
+        },
+
+        "signatures": {
+          "alpha_signature": "base64...",
+          "beta_signature": "base64..."
+        }
+      }
+
+11.  Post-Quantum Cryptography
+
+11.1.  Threat Timeline
+
+   Current assessment of quantum computing threat:
+
+   +-------------------------------------------------------------------+
+   | Timeline       | Threat Level   | Recommended Action              |
+   +-------------------------------------------------------------------+
+   | 2025-2030      | Low            | Plan transition, implement      |
+   |                |                | hybrid                          |
+   | 2030-2035      | Medium         | Deploy hybrid mandatory         |
+   | 2035+          | High           | Full PQC transition             |
+   +-------------------------------------------------------------------+
+
+   "Harvest now, decrypt later" attacks make earlier action prudent for
+   data that must remain confidential for 10+ years.
+
+   KTP Trust Proofs have short lifetimes (seconds), so the threat is
+   primarily to Flight Recorder data and trajectory histories.
+
+11.2.  Hybrid Signatures
+
+   Hybrid signatures combine classical and post-quantum algorithms.
+
+   Hybrid format:
+
+      hybrid_signature = classical_signature || pqc_signature
+
+   Both signatures must verify for the hybrid to be valid. This provides
+   security as long as EITHER algorithm remains secure.
+
+   Recommended hybrid pairs:
+
+   +-------------------------------------------------------------------+
+   | Classical      | PQC                | Combined Size | Level      |
+   +-------------------------------------------------------------------+
+   | Ed25519        | Dilithium2         | ~2500 bytes   | 2          |
+   | Ed448          | Dilithium3         | ~3600 bytes   | 3          |
+   | ECDSA P-384    | Dilithium3         | ~3700 bytes   | 3          |
+   +-------------------------------------------------------------------+
+
+11.3.  PQC Algorithm Selection
+
+   Based on NIST PQC standardization:
+
+   Signatures:
+   +-------------------------------------------------------------------+
+   | Algorithm      | Type           | Security Level | Status        |
+   +-------------------------------------------------------------------+
+   | ML-DSA-44      | Lattice        | NIST 2         | RECOMMENDED   |
+   | ML-DSA-65      | Lattice        | NIST 3         | RECOMMENDED   |
+   | ML-DSA-87      | Lattice        | NIST 5         | OPTIONAL      |
+   | SLH-DSA        | Hash-based     | NIST 1-5       | OPTIONAL      |
+   +-------------------------------------------------------------------+
+
+   (ML-DSA is the standardized name for Dilithium)
+
+   Key Encapsulation (for future key agreement):
+   +-------------------------------------------------------------------+
+   | Algorithm      | Type           | Security Level | Status        |
+   +-------------------------------------------------------------------+
+   | ML-KEM-768     | Lattice        | NIST 3         | RECOMMENDED   |
+   | ML-KEM-1024    | Lattice        | NIST 5         | OPTIONAL      |
+   +-------------------------------------------------------------------+
+
+   (ML-KEM is the standardized name for Kyber)
+
+11.4.  Migration Strategy
+
+   Phase 1 (Now - 2027): PREPARATION
+   -  Implement hybrid signature support
+   -  Enable hybrid as OPTIONAL
+   -  Inventory systems requiring long-term confidentiality
+
+   Phase 2 (2027-2030): HYBRID DEPLOYMENT
+   -  Hybrid signatures RECOMMENDED for Level 2+
+   -  Hybrid signatures REQUIRED for Level 3
+   -  Classical-only still accepted for Level 1
+
+   Phase 3 (2030-2035): TRANSITION
+   -  Hybrid signatures REQUIRED for Level 2+
+   -  Classical-only deprecated
+   -  Begin accepting PQC-only signatures
+
+   Phase 4 (2035+): COMPLETION
+   -  PQC-only REQUIRED for Level 3
+   -  Classical algorithms removed from specification
+   -  Hybrid accepted for backward compatibility
+
+12.  Random Number Generation
+
+   Secure random number generation is critical for all cryptographic
+   operations.
+
+12.1.  Requirements
+
+   All random values MUST be generated by a CSPRNG that:
+
+   1. Is seeded from high-entropy sources (hardware RNG, OS entropy)
+   2. Has been validated (NIST SP 800-90A compliance recommended)
+   3. Provides at least 256 bits of security
+   4. Is reseeded periodically
+
+12.2.  Entropy Sources
+
+   Acceptable entropy sources:
+
+   -  Hardware RNG (Intel RDRAND/RDSEED, ARM TRNG)
+   -  Operating system entropy pool (/dev/urandom, CryptGenRandom)
+   -  HSM hardware RNG
+   -  Environmental noise (with appropriate mixing)
+
+   NOT acceptable as sole source:
+
+   -  Timestamps
+   -  Process IDs
+   -  User input
+   -  Network data
+
+12.3.  Testing
+
+   Implementations SHOULD perform entropy health checks:
+
+   -  NIST SP 800-90B health tests
+   -  Continuous random number generator testing
+   -  Startup self-tests
+
+13.  Security Considerations
+
+13.1.  Algorithm Downgrade Attacks
+
+   Attackers may attempt to force use of weaker algorithms.
+
+   Mitigations:
+   -  Require minimum algorithm strength per level
+   -  Sign algorithm negotiation messages
+   -  Alert on unexpected algorithm changes
+
+13.2.  Side-Channel Attacks
+
+   Cryptographic implementations may leak information through:
+   -  Timing variations
+   -  Power analysis
+   -  Electromagnetic emissions
+   -  Cache behavior
+
+   Mitigations:
+   -  Use constant-time implementations
+   -  Use HSMs for high-value keys
+   -  Validate implementations against known test vectors
+
+13.3.  Key Compromise
+
+   If a key is compromised:
+
+   -  Oracle signing key: Revoke immediately, rotate threshold
+   -  Agent key: Revoke agent, invalidate trajectory
+   -  Zone encryption key: Re-encrypt data, rotate key
+   -  Root key: Major incident, full ceremony required
+
+13.4.  Implementation Vulnerabilities
+
+   Common vulnerabilities to avoid:
+
+   -  Nonce reuse in AES-GCM (catastrophic)
+   -  Weak random number generation
+   -  Improper signature verification (accepting malformed)
+   -  Memory leaks of key material
+   -  Timing leaks in comparison operations
+
+   Implementations SHOULD use well-tested cryptographic libraries:
+   -  OpenSSL / BoringSSL
+   -  libsodium
+   -  AWS-LC
+   -  Hardware vendor libraries for HSM
+
+14.  IANA Considerations
+
+14.1.  Algorithm Registry
+
+   This document requests establishment of a KTP Algorithm Registry with
+   the following initial entries:
+
+   +-------------------------------------------------------------------+
+   | ID     | Name                    | Type       | Reference         |
+   +-------------------------------------------------------------------+
+   | 0x0001 | ecdsa-p256              | Signature  | Section 4.1       |
+   | 0x0002 | ecdsa-p384              | Signature  | Section 4.1       |
+   | 0x0003 | ecdsa-p521              | Signature  | Section 4.1       |
+   | 0x0010 | eddsa-ed25519           | Signature  | Section 4.2       |
+   | 0x0011 | eddsa-ed448             | Signature  | Section 4.2       |
+   | 0x0020 | threshold-frost-ed25519 | Threshold  | Section 4.3       |
+   | 0x0030 | hybrid-ed25519-mldsa44  | Hybrid     | Section 11.2      |
+   | 0x0100 | sha256                  | Hash       | Section 5.1       |
+   | 0x0101 | sha384                  | Hash       | Section 5.1       |
+   | 0x0110 | sha3-256                | Hash       | Section 5.2       |
+   | 0x0200 | aes-256-gcm             | AEAD       | Section 7.1       |
+   | 0x0201 | chacha20-poly1305       | AEAD       | Section 7.2       |
+   +-------------------------------------------------------------------+
+
+15.  References
+
+15.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC5869]  Krawczyk, H. and P. Eronen, "HMAC-based Extract-and-
+              Expand Key Derivation Function (HKDF)", RFC 5869,
+              May 2010.
+
+   [RFC6979]  Pornin, T., "Deterministic Usage of the Digital Signature
+              Algorithm (DSA) and Elliptic Curve Digital Signature
+              Algorithm (ECDSA)", RFC 6979, August 2013.
+
+   [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, May 2015.
+
+   [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
+              Signature Algorithm (EdDSA)", RFC 8032, January 2017.
+
+   [RFC8439]  Nir, Y. and A. Langley, "ChaCha20 and Poly1305 for IETF
+              Protocols", RFC 8439, June 2018.
+
+   [RFC9106]  Biryukov, A., et al., "Argon2 Memory-Hard Function for
+              Password Hashing and Proof-of-Work Applications",
+              RFC 9106, September 2021.
+
+15.2.  Informative References
+
+   [FIPS180-4]
+              National Institute of Standards and Technology, "Secure
+              Hash Standard (SHS)", FIPS PUB 180-4, August 2015.
+
+   [FIPS186-4]
+              National Institute of Standards and Technology, "Digital
+              Signature Standard (DSS)", FIPS PUB 186-4, July 2013.
+
+   [FIPS202]  National Institute of Standards and Technology, "SHA-3
+              Standard: Permutation-Based Hash and Extendable-Output
+              Functions", FIPS PUB 202, August 2015.
+
+   [FROST]    Komlo, C. and I. Goldberg, "FROST: Flexible Round-
+              Optimized Schnorr Threshold Signatures", SAC 2020.
+
+   [ML-DSA]   National Institute of Standards and Technology, "Module-
+              Lattice-Based Digital Signature Standard", FIPS 204, 2024.
+
+Appendix A.  Algorithm Identifiers
+
+   Complete list of algorithm identifiers for use in KTP messages:
+
+   Signature Algorithms:
+      ecdsa-p256
+      ecdsa-p384
+      ecdsa-p521
+      eddsa-ed25519
+      eddsa-ed448
+      threshold-shamir-ecdsa-p256-KofN
+      threshold-shamir-ecdsa-p384-KofN
+      threshold-frost-ed25519-KofN
+      threshold-frost-ed448-KofN
+      threshold-bls12-381-KofN
+      hybrid-ed25519-mldsa44
+      hybrid-ed448-mldsa65
+      hybrid-ecdsa-p384-mldsa65
+
+   Hash Algorithms:
+      sha256
+      sha384
+      sha512
+      sha3-256
+      sha3-384
+      sha3-512
+      shake128
+      shake256
+      blake3
+
+   AEAD Algorithms:
+      aes-128-gcm
+      aes-256-gcm
+      chacha20-poly1305
+
+   KDF Algorithms:
+      hkdf-sha256
+      hkdf-sha384
+      hkdf-sha512
+      argon2id
+
+Appendix B.  Test Vectors
+
+B.1.  Ed25519 Signature
+
+   Private Key (hex):
+      9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60
+
+   Public Key (hex):
+      d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a
+
+   Message: (empty)
+
+   Signature (hex):
+      e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e06522490155
+      5fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b
+
+B.2.  SHA-256 Hash
+
+   Message: "abc"
+
+   Hash (hex):
+      ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+
+B.3.  AES-256-GCM Encryption
+
+   Key (hex):
+      feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308
+
+   IV (hex):
+      cafebabefacedbaddecaf888
+
+   Plaintext (hex):
+      d9313225f88406e5a55909c5aff5269a
+
+   AAD (hex):
+      feedfacedeadbeeffeedfacedeadbeef
+
+   Ciphertext (hex):
+      522dc1f099567d07f47f37a32a84427d
+
+   Tag (hex):
+      9fc0ef3636c83f6abbe3d6a6eb0e5bba
+
+Authors' Addresses
+
+   Chris Perkins
+   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
+
+   Email: cperkins@nmcitra.org

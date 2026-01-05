@@ -188,10 +188,7 @@ graph TD
 
 ## Official RFC Document
 
-!!! quote "KTP-GOVERNANCE: Governance Specification"
-    The following is the official raw text of the KTP-Governance RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-governance.txt"
-        ```
+??? note "View Complete RFC Text (ktp-governance.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-governance.txt"
+    ```

@@ -12,7 +12,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     ---
 
-    25+ Request for Comments documents covering every protocol component. Browse the source.
+    27 Request for Comments documents covering every protocol component. Browse the source.
 
     [:octicons-arrow-right-24: Browse RFCs](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs){ target="_blank" }
 
@@ -216,7 +216,7 @@ The Context Tensor is the core data structure for trust decisions. Below is a hi
 | `risk_deflation.security` | Float (0-1) | Security penalty |
 | `risk_deflation.compliance` | Float (0-1) | Compliance penalty |
 
-For the full JSON schema definition, see [schemas/context-tensor.json](../schemas/context-tensor.json).
+For the full JSON schema definition, see [context-tensor.json](../schemas/context-tensor.json).
 
 ## Quick Reference
 

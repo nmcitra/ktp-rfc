@@ -140,10 +140,7 @@ Agents use the following logic to determine their environment:
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-005: KTP-Zones (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-zones.txt)"
     ```text
-    --8<-- "rfcs/ktp-zones.txt"
+    --8<-- "rfcs-txt/ktp-zones.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

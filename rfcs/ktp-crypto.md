@@ -410,10 +410,7 @@ When algorithms are deprecated:
 
 ## Official RFC Document
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
-
 ??? note "View Complete RFC Text (ktp-crypto.txt)"
-    ```
-    --8<-- "rfcs/ktp-crypto.txt"
+    ```text
+    --8<-- "rfcs-txt/ktp-crypto.txt"
     ```

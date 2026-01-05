@@ -94,10 +94,7 @@ graph TD
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-008: KTP-Gravity (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-gravity.txt)"
     ```text
-    --8<-- "rfcs/ktp-gravity.txt"
+    --8<-- "rfcs-txt/ktp-gravity.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

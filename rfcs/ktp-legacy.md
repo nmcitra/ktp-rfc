@@ -77,10 +77,7 @@ graph LR
 
 ## Official RFC Document
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
-
 ??? note "View Complete RFC Text (ktp-legacy.txt)"
     ```text
-    --8<-- "rfcs/ktp-legacy.txt"
+    --8<-- "rfcs-txt/ktp-legacy.txt"
     ```

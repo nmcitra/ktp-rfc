@@ -165,10 +165,7 @@ graph LR
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-006: KTP-Tensors (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-tensors.txt)"
     ```text
-    --8<-- "rfcs/ktp-tensors.txt"
+    --8<-- "rfcs-txt/ktp-tensors.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

@@ -121,10 +121,7 @@ This capability is critical for proving that the system behaved correctly during
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-016: KTP-Audit (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-audit.txt)"
     ```text
-    --8<-- "rfcs/ktp-audit.txt"
+    --8<-- "rfcs-txt/ktp-audit.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

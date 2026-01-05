@@ -122,10 +122,7 @@ sequenceDiagram
 
 ## Official RFC Document
 
-!!! quote "KTP-PROVENANCE: Model Provenance Specification"
-    The following is the official raw text of the KTP-Provenance RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-provenance.txt"
-        ```
+??? note "View Complete RFC Text (ktp-provenance.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-provenance.txt"
+    ```

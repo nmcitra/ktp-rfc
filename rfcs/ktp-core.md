@@ -161,14 +161,16 @@ Base Trust represents intrinsic capability, independent of current conditions:
 
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| **Proof of Resilience** | 70% | Historical performance, especially under stress(1) |
-| **Lineage Generation** | 20% | Evolutionary maturity of the agent(2) |
-| **Sponsor Weight** | 10% | For Tethered agents, sponsor contribution(3) |
-{ .annotate }
+| Proof of Resilience | 70% | Historical performance, especially under stress |
+| Lineage Generation | 20% | Evolutionary maturity of the agent |
+| Sponsor Weight | 10% | For Tethered agents, sponsor contribution |
 
-1. :material-star-four-points-circle: An agent with 10,000 transactions during crises has higher $E_{base}$ than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
-2. :material-star-four-points-circle: **Generation 0-2 (Tethered)**: $E_{base}$ capped at 40 · **Generation 3-5 (Divergent)**: capped at 70 · **Generation 6+ (Persistent)**: uncapped
-3. :material-star-four-points-circle: Sponsor's $E_{base}$ × stake percentage. A high-trust sponsor vouching for a new agent transfers partial trust.
+- An agent with 10,000 transactions during crises has higher $E_{base}$ than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
+- **Lineage caps:**
+    - **Generation 0-2 (Tethered)** capped at 40.
+    - **Generation 3-5 (Divergent)** capped at 70.
+    - **Generation 6+ (Persistent)** uncapped.
+- Sponsor's $E_{base}$ × stake percentage. A high-trust sponsor vouching for a new agent transfers partial trust.
 
 ??? example "Base Trust Calculation"
     ```
@@ -313,7 +315,7 @@ Environmental state is measured across seven dimensions:
     | Request frequency | Action tempo |
     | Token freshness | Credential currency |
 
-=== ":material-inertia: Inertia (I)"
+=== "Inertia (I)"
     
     **Question**: How resistant to change is this entity?
     
@@ -510,10 +512,7 @@ sequenceDiagram
 
 ## Official RFC Document
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
-
 ??? note "View Complete RFC Text (ktp-core.txt)"
-    ```
-    --8<-- "rfcs/ktp-core.txt"
+    ```text
+    --8<-- "rfcs-txt/ktp-core.txt"
     ```

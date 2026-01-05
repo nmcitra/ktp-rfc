@@ -148,10 +148,7 @@ sequenceDiagram
 
 ## Official RFC Document
 
-!!! quote "KTP-HUMAN: Human Integration Specification"
-    The following is the official raw text of the KTP-Human RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-human.txt"
-        ```
+??? note "View Complete RFC Text (ktp-human.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-human.txt"
+    ```

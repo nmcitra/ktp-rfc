@@ -1,112 +1,870 @@
-# KTP-Legacy — Legacy Integration
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-*Bridging the gap between static credentials and kinetic trust*
 
----
+   Kinetic Trust Protocol (KTP) - Legacy Integration Specification
 
-> **The Bridge Principle**: Trust must flow across boundaries, but it must be measured by the receiver's physics, not the sender's promise.
+Abstract
 
-Legacy integration is not just about compatibility; it is about translation. We translate static promises (tokens, keys) into kinetic realities (trust scores, tensors), applying necessary discounts for the loss of fidelity.
+   This document specifies integration between the Kinetic Trust
+   Protocol (KTP) and legacy authentication/authorization systems
+   including OAuth 2.0, OpenID Connect, SAML 2.0, mTLS, and API keys.
+   The specification covers bidirectional bridging, trust mapping,
+   credential translation, migration paths from legacy to KTP-native
+   operation, and hybrid deployment patterns.
 
----
+Status of This Memo
 
-## At a Glance
+   This document specifies a Kinetic Trust Protocol specification for
+   the KTP community, and requests discussion and suggestions for
+   improvements.  Distribution of this memo is unlimited.
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask: Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Identity](ktp-identity.md) |
-| **Key Concept** | Trust Mapping & Discounting |
+   This is an Internet-Draft-style specification.  It is intended to
+   become a stable specification, but may be updated, replaced, or
+   obsoleted by other documents at any time.
 
----
+Copyright Notice
 
-## The Bridge Architecture
+   Copyright (c) 2025 NMCITRA and the persons identified as the
+   document authors.  All rights reserved.
 
-!!! info "Translating Trust"
-    KTP does not reject legacy systems; it contextualizes them. A legacy credential is just another signal input, albeit one with lower fidelity than a native KTP proof.
+   This document is subject to the licensing terms defined in the
+   KTP repository LICENSE file.
 
-```mermaid
-graph LR
-    subgraph Legacy World
-        OAuth[OAuth 2.0]
-        SAML[SAML 2.0]
-        API[API Keys]
-    end
+Table of Contents
 
-    subgraph KTP Bridge
-        Mapper[Trust Mapper]
-        Discount[Trust Discounter]
-        Translator[Credential Translator]
-    end
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Design Principles  . . . . . . . . . . . . . . . . . . . . .   2
+   3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   3
+   4.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Trust Mapping Framework  . . . . . . . . . . . . . . . . . .   4
+       5.1.  The Mapping Problem  . . . . . . . . . . . . . . . . .   4
+       5.2.  Mapping Principles . . . . . . . . . . . . . . . . . .   4
+       5.3.  Trust Equivalence Table  . . . . . . . . . . . . . . .   5
+       5.4.  E_base Modifiers . . . . . . . . . . . . . . . . . . .   5
+       5.5.  Uncertainty Markers  . . . . . . . . . . . . . . . . .   6
+   6.  OAuth 2.0 Integration  . . . . . . . . . . . . . . . . . . .   6
+       6.1.  OAuth to KTP Bridge  . . . . . . . . . . . . . . . . .   6
+       6.2.  Token Validation . . . . . . . . . . . . . . . . . . .   7
+       6.3.  Scope to Tier Mapping  . . . . . . . . . . . . . . . .   7
+       6.4.  KTP to OAuth Bridge  . . . . . . . . . . . . . . . . .   8
+       6.5.  E_base to Scope Mapping  . . . . . . . . . . . . . . .   8
+   7.  OpenID Connect Integration . . . . . . . . . . . . . . . . .   9
+       7.1.  OIDC Claims to KTP Identity  . . . . . . . . . . . . .   9
+       7.2.  ACR/AMR to E_base Modifiers  . . . . . . . . . . . . .   9
+       7.3.  Sponsor Identity from OIDC . . . . . . . . . . . . . .  10
+   8.  SAML 2.0 Integration . . . . . . . . . . . . . . . . . . . .  10
+       8.1.  SAML to KTP Bridge . . . . . . . . . . . . . . . . . .  10
+       8.2.  Assertion Processing . . . . . . . . . . . . . . . . .  11
+       8.3.  Attribute Mapping  . . . . . . . . . . . . . . . . . .  11
+       8.4.  Entitlement to Capability Mapping  . . . . . . . . . .  12
+   9.  mTLS Integration . . . . . . . . . . . . . . . . . . . . . .  12
+       9.1.  Certificate to Trust Mapping . . . . . . . . . . . . .  12
+       9.2.  Certificate Chain Validation . . . . . . . . . . . . .  13
+       9.3.  Hardware Key Attestation . . . . . . . . . . . . . . .  13
+   10. API Key Integration  . . . . . . . . . . . . . . . . . . . .  14
+       10.1. API Key Limitations  . . . . . . . . . . . . . . . . .  14
+       10.2. API Key to Trust Mapping . . . . . . . . . . . . . . .  14
+       10.3. API Key to Agent Binding . . . . . . . . . . . . . . .  15
+   11. Hybrid Agents  . . . . . . . . . . . . . . . . . . . . . . .  15
+       11.1. Definition . . . . . . . . . . . . . . . . . . . . . .  15
+       11.2. Hybrid Agent Architecture  . . . . . . . . . . . . . .  16
+       11.3. Context Detection  . . . . . . . . . . . . . . . . . .  17
+       11.4. Trajectory Accumulation  . . . . . . . . . . . . . . .  17
+   12. Migration Paths  . . . . . . . . . . . . . . . . . . . . . .  18
+       12.1. Migration Stages . . . . . . . . . . . . . . . . . . .  18
+       12.2. Migration Timeline . . . . . . . . . . . . . . . . . .  19
+       12.3. Migration Checklist  . . . . . . . . . . . . . . . . .  19
+       12.4. Trust Carryover  . . . . . . . . . . . . . . . . . . .  20
+   13. Bridge Deployment Patterns . . . . . . . . . . . . . . . . .  20
+       13.1. Sidecar Pattern  . . . . . . . . . . . . . . . . . . .  20
+       13.2. Gateway Pattern  . . . . . . . . . . . . . . . . . . .  21
+       13.3. Service Mesh Pattern . . . . . . . . . . . . . . . . .  21
+   14. Security Considerations  . . . . . . . . . . . . . . . . . .  22
+       14.1. Bridge Security  . . . . . . . . . . . . . . . . . . .  22
+       14.2. Trust Mapping Attacks  . . . . . . . . . . . . . . . .  22
+       14.3. Migration Security . . . . . . . . . . . . . . . . . .  23
+   15. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  23
+   16. Acknowledgments  . . . . . . . . . . . . . . . . . . . . . .  23
+   Appendix A.  Protocol-Specific Bridge Configurations . . . . . .  23
+   Appendix B.  Trust Mapping Calibration . . . . . . . . . . . . .  23
+   Appendix C.  Migration Runbooks  . . . . . . . . . . . . . . . .  24
 
-    subgraph KTP World
-        Zone[KTP Zone]
-        Agent[KTP Agent]
-    end
+1.  Introduction
 
-    OAuth --> Mapper
-    SAML --> Mapper
-    API --> Mapper
-    Mapper --> Discount
-    Discount --> Translator
-    Translator --> Zone
-    Zone --> Agent
-    
-    style Mapper fill:#f9f,stroke:#333,stroke-width:2px
-    style Discount fill:#f96,stroke:#333,stroke-width:2px
-```
+   KTP does not exist in isolation.  The world runs on OAuth, SAML,
+   mTLS, API keys, and countless other authentication and authorization
+   systems.  For KTP to be adopted, it must integrate with—not replace—
+   existing infrastructure.
 
-### Key Components
+   This specification addresses:
 
-1.  **Trust Mapper**: Identifies the type of legacy credential and extracts relevant claims.
-2.  **Trust Discounter**: Applies a "fidelity penalty" to the trust score because legacy credentials lack real-time context.
-3.  **Credential Translator**: Minting a short-lived KTP Trust Proof based on the discounted legacy signal.
+   -  How legacy credentials map to KTP trust
+   -  How KTP agents interact with legacy systems
+   -  How legacy clients interact with KTP zones
+   -  Migration paths from legacy to KTP-native
+   -  Hybrid deployments during transition
 
----
+2.  Design Principles
 
-## Related Specifications
+   Legacy integration embodies these principles:
 
-<div class="grid cards" markdown>
+   1.  Coexistence: KTP and legacy systems operate simultaneously.
+       Neither requires abandoning the other.
 
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
+   2.  Graceful Mapping: Trust concepts translate between systems with
+       appropriate discounting and constraints.
 
-    ---
+   3.  No False Precision: Legacy systems provide less information than
+       KTP.  Mappings acknowledge this uncertainty.
 
-    The foundational protocol and the Zeroth Law ($A \leq E$).
+   4.  Migration Support: Organizations can migrate incrementally from
+       legacy to KTP-native over time.
 
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
+   5.  Security Preservation: Integration does not weaken either
+       system's security properties.
 
-    ---
+3.  Requirements Language
 
-    Vector Identity and trajectory-based authentication.
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in BCP 14 (RFC 2119 and
+   RFC 8174).
 
--   :material-shield-lock:{ .lg .middle } **[KTP-Crypto](ktp-crypto.md)**
+4.  Terminology
 
-    ---
+   Bridge:  A component that translates between KTP and legacy
+      protocols.
 
-    Cryptographic primitives and algorithms for trust proofs.
+   Credential Translation:  Converting legacy credentials to KTP Trust
+      Proofs or vice versa.
 
--   :material-lan:{ .lg .middle } **[KTP-Transport](ktp-transport.md)**
+   Hybrid Agent:  An agent that can operate in both KTP and legacy
+      contexts.
 
-    ---
+   Legacy System:  Any authentication/authorization system predating
+      KTP.
 
-    The secure messaging and transport layer for KTP signals.
+   Migration Path:  A defined sequence for transitioning from legacy to
+      KTP-native.
 
-</div>
+   Trust Mapping:  Correspondence between legacy trust concepts and KTP
+      E_base.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
+5.  Trust Mapping Framework
 
-</div>
+5.1.  The Mapping Problem
 
----
+   Legacy systems and KTP use different trust models:
 
-## Official RFC Document
+   -  System: SAML; Trust Model: Assertions from identity provider
+   -  System: mTLS; Trust Model: Certificate validity and chain
+   -  System: API Keys; Trust Model: Secret possession
+   -  System: KTP; Trust Model: Trajectory-based earned trust
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
+   These models are fundamentally different.  Mapping is approximate.
 
-??? note "View Complete RFC Text (ktp-legacy.txt)"
-    ```text
-    --8<-- "rfcs/ktp-legacy.txt"
-    ```
+5.2.  Mapping Principles
+
+   1.  Conservative Translation: When uncertain, assume lower trust.
+
+   2.  Explicit Uncertainty: Mapped trust carries uncertainty markers.
+
+   3.  No Trust Amplification: Mapping cannot increase trust beyond
+       what the source system provides.
+
+   4.  Decay Over Time: Mapped trust decays if not refreshed from
+       source.
+
+5.3.  Trust Equivalence Table
+
+   Base mapping from legacy to KTP E_base:
+
+   -  Legacy Mechanism: API Key (rotated); Max E_base: 20;
+      Rationale: Some operational hygiene
+   -  Legacy Mechanism: OAuth token (public client); Max E_base: 20;
+      Rationale: User consent but weak client
+   -  Legacy Mechanism: OAuth token (confidential); Max E_base: 30;
+      Rationale: Client authenticated
+   -  Legacy Mechanism: OAuth + PKCE; Max E_base: 35;
+      Rationale: Stronger binding
+   -  Legacy Mechanism: mTLS (self-signed); Max E_base: 25;
+      Rationale: Cryptographic but unverified
+   -  Legacy Mechanism: mTLS (public CA); Max E_base: 35;
+      Rationale: Third-party verification
+   -  Legacy Mechanism: mTLS (private CA); Max E_base: 40;
+      Rationale: Organizational control
+   -  Legacy Mechanism: SAML assertion; Max E_base: 35;
+      Rationale: IdP-backed identity
+   -  Legacy Mechanism: SAML + MFA; Max E_base: 45;
+      Rationale: Stronger authentication
+   -  Legacy Mechanism: FIDO2/WebAuthn; Max E_base: 50;
+      Rationale: Hardware-backed
+
+5.4.  E_base Modifiers
+
+   Mapped E_base is adjusted by context:
+
+   -  Factor: Short-lived token; Modifier: +5;
+      Condition: Expiration < 1 hour
+   -  Factor: IP binding; Modifier: +5;
+      Condition: Token bound to source IP
+   -  Factor: Device binding; Modifier: +10;
+      Condition: Token bound to device
+   -  Factor: Fresh authentication; Modifier: +5;
+      Condition: Auth within 5 minutes
+   -  Factor: Stale authentication; Modifier: -10;
+      Condition: Auth > 24 hours ago
+   -  Factor: First use; Modifier: -10;
+      Condition: Never seen this identity
+   -  Factor: Repeated use; Modifier: +5;
+      Condition: Consistent behavior history
+
+5.5.  Uncertainty Markers
+
+   Mapped trust includes uncertainty:
+
+      {
+        "trust_mapping": {
+          "source_system": "oauth2",
+          "source_credential": "bearer_token",
+          "mapped_e_base": 30,
+          "uncertainty": {
+            "level": "moderate",
+            "reasons": [
+              "no_trajectory_history",
+              "no_behavioral_data",
+              "point_in_time_auth"
+            ]
+          },
+          "constraints": {
+            "max_action_risk": 25,
+            "trajectory_start": "fresh",
+            "monitoring": "enhanced"
+          }
+        }
+      }
+
+6.  OAuth 2.0 Integration
+
+6.1.  OAuth to KTP Bridge
+
+      +----------------+     +------------------+     +----------------+
+      |  OAuth Client  |---->|  OAuth-KTP       |---->|   KTP Zone     |
+      |                |     |  Bridge          |     |                |
+      +----------------+     +------------------+     +----------------+
+                                      |
+                                      v
+                             Token validation
+                             Scope mapping
+                             Trust translation
+                             Trust Proof issuance
+
+6.2.  Token Validation
+
+   The bridge validates OAuth tokens:
+
+   1.  Verify token signature (if JWT) or introspect
+   2.  Check expiration
+   3.  Verify issuer against allowed list
+   4.  Extract scopes and claims
+   5.  Check for revocation
+
+6.3.  Scope to Tier Mapping
+
+   OAuth scopes map to KTP capability tiers:
+
+      {
+        "scope_mapping": {
+          "read": {
+            "tier": "observer",
+            "max_action_risk": 10
+          },
+          "write": {
+            "tier": "participant",
+            "max_action_risk": 25
+          },
+          "admin": {
+            "tier": "analyst",
+            "max_action_risk": 40
+          },
+          "superadmin": {
+            "tier": "operator",
+            "max_action_risk": 60,
+            "requires_additional_verification": true
+          }
+        }
+      }
+
+6.4.  KTP to OAuth Bridge
+
+   KTP agents accessing OAuth-protected resources:
+
+      +----------------+     +------------------+     +----------------+
+      |   KTP Agent    |---->|  KTP-OAuth       |---->| OAuth Resource |
+      |                |     |  Bridge          |     |                |
+      +----------------+     +------------------+     +----------------+
+                                      |
+                                      v
+                             Trust Proof validation
+                             E_base to scope mapping
+                             Token request (client credentials)
+                             Token caching
+
+6.5.  E_base to Scope Mapping
+
+      {
+        "e_base_to_scope": {
+          "ranges": [
+            {"e_min": 0, "e_max": 20, "scopes": ["read"]},
+            {"e_min": 21, "e_max": 40, "scopes": ["read", "write"]},
+            {"e_min": 41, "e_max": 60, "scopes": ["read", "write", "admin"]},
+            {"e_min": 61, "e_max": 100, "scopes": ["read", "write", "admin",
+              "superadmin"]}
+          ]
+        }
+      }
+
+7.  OpenID Connect Integration
+
+7.1.  OIDC Claims to KTP Identity
+
+   OIDC provides richer identity than OAuth:
+
+      {
+        "oidc_mapping": {
+          "sub": "→ agent sponsor identity",
+          "email": "→ contact for sponsor",
+          "email_verified": "→ +5 E_base if true",
+          "name": "→ display name",
+          "preferred_username": "→ agent identifier hint",
+          "acr": "→ authentication strength modifier",
+          "amr": "→ authentication method modifier",
+          "auth_time": "→ freshness calculation"
+        }
+      }
+
+7.2.  ACR/AMR to E_base Modifiers
+
+   Authentication Context Class Reference (acr) values:
+
+   -  ACR Value: urn:mace:incommon:iap:silver; E_base Modifier: +5
+   -  ACR Value: urn:mace:incommon:iap:gold; E_base Modifier: +10
+   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:Password;
+      E_base Modifier: +0
+   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:
+      PasswordProtectedTransport; E_base Modifier: +5
+   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:MultiFactor;
+      E_base Modifier: +15
+
+   Authentication Method Reference (amr) values:
+
+   -  AMR Value: otp; E_base Modifier: +5
+   -  AMR Value: sms; E_base Modifier: +3
+   -  AMR Value: hwk; E_base Modifier: +15
+   -  AMR Value: swk; E_base Modifier: +10
+   -  AMR Value: bio; E_base Modifier: +10
+   -  AMR Value: mfa; E_base Modifier: +10
+
+7.3.  Sponsor Identity from OIDC
+
+   Human sponsors can authenticate via OIDC:
+
+      {
+        "sponsor_from_oidc": {
+          "oidc_provider": "https://idp.example.com",
+          "subject": "user@example.com",
+          "verified_claims": ["email", "name"],
+          "ial_equivalent": "IAL2",
+          "sponsor_e_base": 75,
+          "sponsored_agents_max": 10
+        }
+      }
+
+8.  SAML 2.0 Integration
+
+8.1.  SAML to KTP Bridge
+
+      +----------------+     +------------------+     +----------------+
+      | SAML Service   |---->|  SAML-KTP        |---->|   KTP Zone     |
+      | Provider       |     |  Bridge          |     |                |
+      +----------------+     +------------------+     +----------------+
+                                      |
+                                      v
+                             Assertion validation
+                             Attribute mapping
+                             Trust translation
+                             Trust Proof issuance
+
+8.2.  Assertion Processing
+
+   The bridge processes SAML assertions:
+
+   1.  Validate assertion signature
+   2.  Verify issuer (IdP) against trusted list
+   3.  Check conditions (NotBefore, NotOnOrAfter, AudienceRestriction)
+   4.  Extract attributes
+   5.  Map to KTP identity and trust
+
+8.3.  Attribute Mapping
+
+      {
+        "saml_attribute_mapping": {
+          "urn:oid:0.9.2342.19200300.100.1.3": {
+            "name": "email",
+            "ktp_use": "sponsor_contact"
+          },
+          "urn:oid:2.5.4.42": {
+            "name": "givenName",
+            "ktp_use": "display"
+          },
+          "urn:oid:2.5.4.4": {
+            "name": "surname",
+            "ktp_use": "display"
+          },
+          "urn:oid:1.3.6.1.4.1.5923.1.1.1.7": {
+            "name": "eduPersonEntitlement",
+            "ktp_use": "capability_hint"
+          },
+          "urn:mace:dir:attribute-def:eduPersonAssurance": {
+            "name": "assurance",
+            "ktp_use": "e_base_modifier"
+          }
+        }
+      }
+
+8.4.  Entitlement to Capability Mapping
+
+   SAML entitlements map to KTP capabilities:
+
+      {
+        "entitlement_mapping": {
+          "urn:example:ktp:tier:observer": {
+            "tier": "observer",
+            "max_e_base": 30
+          },
+          "urn:example:ktp:tier:participant": {
+            "tier": "participant",
+            "max_e_base": 45
+          },
+          "urn:example:ktp:tier:analyst": {
+            "tier": "analyst",
+            "max_e_base": 60
+          },
+          "urn:example:ktp:tier:operator": {
+            "tier": "operator",
+            "max_e_base": 75
+          }
+        }
+      }
+
+9.  mTLS Integration
+
+9.1.  Certificate to Trust Mapping
+
+   mTLS provides cryptographic identity:
+
+      {
+        "mtls_trust_mapping": {
+          "certificate_attributes": {
+            "subject_dn": "→ agent identifier",
+            "issuer_dn": "→ trust anchor",
+            "serial_number": "→ credential reference",
+            "not_before": "→ credential start",
+            "not_after": "→ credential expiration",
+            "key_usage": "→ capability constraints",
+            "san": "→ alternative identities"
+          },
+          "trust_factors": {
+            "ca_type": {
+              "self_signed": 25,
+              "public_ca": 35,
+              "private_ca": 40,
+              "qualified_ca": 50
+            },
+            "key_strength": {
+              "rsa_2048": 0,
+              "rsa_4096": 5,
+              "ec_p256": 5,
+              "ec_p384": 10
+            },
+            "validity_period": {
+              "under_1_year": 5,
+              "1_to_3_years": 0,
+              "over_3_years": -5
+            }
+          }
+        }
+      }
+
+9.2.  Certificate Chain Validation
+
+   The bridge validates certificate chains:
+
+   1.  Build chain to trusted anchor
+   2.  Check each certificate's validity period
+   3.  Verify signatures up the chain
+   4.  Check revocation (CRL/OCSP)
+   5.  Validate key usage and constraints
+   6.  Map trust based on chain quality
+
+9.3.  Hardware Key Attestation
+
+   Hardware-backed keys increase trust:
+
+      {
+        "hardware_attestation": {
+          "attestation_type": "TPM",
+          "tpm_version": "2.0",
+          "key_in_tpm": true,
+          "key_non_exportable": true,
+          "e_base_bonus": 15
+        }
+      }
+
+10.  API Key Integration
+
+10.1.  API Key Limitations
+
+   API keys provide minimal trust signals:
+
+   -  No identity binding (shared secrets)
+   -  No behavior history
+   -  No expiration (typically)
+   -  No scope (typically)
+   -  Easily leaked
+
+10.2.  API Key to Trust Mapping
+
+      {
+        "api_key_mapping": {
+          "base_e": 15,
+          "modifiers": {
+            "rotated_regularly": {
+              "condition": "rotation_period < 90 days",
+              "modifier": 5
+            },
+            "ip_restricted": {
+              "condition": "ip_whitelist defined",
+              "modifier": 5
+            },
+            "rate_limited": {
+              "condition": "rate_limit < 1000/hour",
+              "modifier": 3
+            },
+            "audited": {
+              "condition": "usage_logging enabled",
+              "modifier": 2
+            }
+          },
+          "max_e_base": 30,
+          "constraints": {
+            "trajectory_start": "fresh",
+            "monitoring": "enhanced",
+            "max_action_risk": 20
+          }
+        }
+      }
+
+10.3.  API Key to Agent Binding
+
+   API keys can be bound to KTP agents:
+
+      {
+        "api_key_binding": {
+          "api_key_id": "key_abc123",
+          "bound_agent": "agent:tethered:1gen:acme:xyz789",
+          "binding_type": "exclusive",
+          "created_at": "2025-12-01T00:00:00Z",
+          "created_by": "sponsor:alice.smith",
+          "restrictions": {
+            "source_ips": ["10.0.0.0/8"],
+            "allowed_actions": ["read", "write"],
+            "max_rate": 100
+          }
+        }
+      }
+
+11.  Hybrid Agents
+
+11.1.  Definition
+
+   Hybrid agents operate in both KTP and legacy contexts:
+
+   -  Have KTP identity and trajectory
+   -  Can present legacy credentials when needed
+   -  Translate trust bidirectionally
+   -  Accumulate trajectory from all contexts
+
+11.2.  Hybrid Agent Architecture
+
+      +-------------------------------------------------------------------+
+      |                        HYBRID AGENT                               |
+      |                                                                   |
+      |  +------------------+     +------------------+                    |
+      |  |  KTP Identity    |     | Legacy Credentials|                   |
+      |  |  - Agent ID      |     | - OAuth tokens    |                   |
+      |  |  - Trajectory    |     | - SAML assertions |                   |
+      |  |  - Trust Proof   |     | - mTLS certs      |                   |
+      |  +------------------+     +------------------+                    |
+      |           |                       |                               |
+      |           v                       v                               |
+      |  +-----------------------------------------------+                |
+      |  |           Credential Manager                  |                |
+      |  |  - Context detection                          |                |
+      |  |  - Credential selection                       |                |
+      |  |  - Trust translation                          |                |
+      |  +-----------------------------------------------+                |
+      |           |                       |                               |
+      |           v                       v                               |
+      |  +------------------+     +------------------+                    |
+      |  |   KTP Context    |     |  Legacy Context  |                    |
+      |  |   Operations     |     |  Operations      |                    |
+      |  +------------------+     +------------------+                    |
+      |                                                                   |
+      +-------------------------------------------------------------------+
+
+11.3.  Context Detection
+
+   The agent detects which context applies:
+
+      {
+        "context_detection": {
+          "ktp_indicators": [
+            "endpoint_in_zone_registry",
+            "ktp_protocol_headers",
+            "trust_proof_request"
+          ],
+          "legacy_indicators": [
+            "oauth_token_required",
+            "saml_sp_metadata",
+            "mtls_client_auth",
+            "api_key_header"
+          ],
+          "default_context": "ktp",
+          "fallback_behavior": "attempt_ktp_then_legacy"
+        }
+      }
+
+11.4.  Trajectory Accumulation
+
+   All actions contribute to trajectory:
+
+      {
+        "hybrid_trajectory": {
+          "agent_id": "agent:divergent:3gen:acme:abc123",
+          "trajectory_sources": [
+            {
+              "source": "ktp_native",
+              "transactions": 4721,
+              "weight": 1.0
+            },
+            {
+              "source": "oauth_bridge",
+              "transactions": 1247,
+              "weight": 0.8
+            },
+            {
+              "source": "saml_bridge",
+              "transactions": 89,
+              "weight": 0.8
+            },
+            {
+              "source": "mtls_bridge",
+              "transactions": 2103,
+              "weight": 0.9
+            }
+          ],
+          "composite_trajectory_length": 7632
+        }
+      }
+
+12.  Migration Paths
+
+12.1.  Migration Stages
+
+   Stage 0: LEGACY ONLY
+   -  All operations use legacy auth
+   -  No KTP infrastructure
+   -  Baseline for migration
+
+   Stage 1: BRIDGE DEPLOYMENT
+   -  Legacy-KTP bridges deployed
+   -  Legacy clients continue unchanged
+   -  KTP zone operational in shadow
+
+   Stage 2: HYBRID OPERATION
+   -  Some clients use KTP-native
+   -  Some clients use bridges
+   -  Both paths fully supported
+
+   Stage 3: KTP PRIMARY
+   -  Most clients KTP-native
+   -  Bridges for legacy holdouts
+   -  Legacy deprecation announced
+
+   Stage 4: KTP ONLY
+   -  All clients KTP-native
+   -  Bridges removed
+   -  Legacy decommissioned
+
+12.2.  Migration Timeline
+
+   Recommended migration pace:
+
+   -  Stage: 1 → 2; Duration: 4-8 weeks; Milestone: 20% KTP-native
+   -  Stage: 2 → 3; Duration: 3-6 months; Milestone: 80% KTP-native
+   -  Stage: 3 → 4; Duration: 3-6 months; Milestone: 100% KTP-native
+
+12.3.  Migration Checklist
+
+   Pre-migration:
+   -  [ ] KTP zone deployed and tested
+   -  [ ] Bridges deployed and tested
+   -  [ ] Trust mappings configured
+   -  [ ] Fallback procedures documented
+
+   During migration:
+   -  [ ] Traffic monitored at bridges
+   -  [ ] Trust mapping accuracy verified
+   -  [ ] Agent trajectories accumulating
+   -  [ ] Issues logged and addressed
+
+   Post-migration:
+   -  [ ] All clients KTP-native
+   -  [ ] Bridges decommissioned
+   -  [ ] Legacy systems decommissioned
+   -  [ ] Documentation updated
+
+12.4.  Trust Carryover
+
+   Trajectory earned via bridges carries over:
+
+      {
+        "migration_carryover": {
+          "agent_id": "agent:divergent:3gen:acme:abc123",
+          "pre_migration_trajectory": {
+            "source": "oauth_bridge",
+            "transactions": 5000,
+            "e_base_earned": 35
+          },
+          "carryover_factor": 0.7,
+          "post_migration_e_base": 24.5,
+          "carryover_attestation": "signed_by_bridge_and_zone"
+        }
+      }
+
+13.  Bridge Deployment Patterns
+
+13.1.  Sidecar Pattern
+
+   Bridge runs alongside application:
+
+      +-----------------------------------+
+      |           Application Pod         |
+      |  +-------------+  +-------------+ |
+      |  | Application |  |   Bridge    | |
+      |  |             |<>|             | |
+      |  +-------------+  +-------------+ |
+      +-----------------------------------+
+
+13.2.  Gateway Pattern
+
+   Bridge at API gateway:
+
+                          +---------------+
+                          |   API Gateway |
+                          |   + Bridge    |
+                          +---------------+
+                                |
+              +--------+--------+--------+
+              |        |        |        |
+              v        v        v        v
+          +------+ +------+ +------+ +------+
+          | Svc1 | | Svc2 | | Svc3 | | Svc4 |
+          +------+ +------+ +------+ +------+
+
+13.3.  Service Mesh Pattern
+
+   Bridge integrated with service mesh:
+
+      +-----------------------------------+
+      |        Service Mesh Control       |
+      |        + KTP Bridge Control       |
+      +-----------------------------------+
+                       |
+             +---------+---------+
+             |         |         |
+             v         v         v
+         +-------+ +-------+ +-------+
+         | Envoy | | Envoy | | Envoy |
+         |+Bridge| |+Bridge| |+Bridge|
+         +-------+ +-------+ +-------+
+             |         |         |
+             v         v         v
+         +-------+ +-------+ +-------+
+         | Svc A | | Svc B | | Svc C |
+         +-------+ +-------+ +-------+
+
+14.  Security Considerations
+
+14.1.  Bridge Security
+
+   Bridges are high-value targets:
+
+   -  Bridges MUST run in secure environments
+   -  Bridge credentials MUST be protected
+   -  Bridge operations MUST be logged
+   -  Bridge compromise affects all translations
+
+14.2.  Trust Mapping Attacks
+
+   Attackers may try to exploit mappings:
+
+   -  Claim inflation: claiming higher legacy trust than warranted
+   -  Scope smuggling: gaining capabilities not in original token
+   -  Replay attacks: reusing translated credentials
+
+   Mitigations:
+   -  Conservative translation
+   -  Short credential lifetimes
+   -  Binding to context (IP, device)
+   -  Continuous validation
+
+14.3.  Migration Security
+
+   During migration, both systems are attack surface:
+
+   -  Maintain security on both systems
+   -  Monitor for migration-related anomalies
+   -  Test fallback procedures
+   -  Plan for rollback if needed
+
+15.  IANA Considerations
+
+   This document has no IANA actions.
+
+16.  Acknowledgments
+
+   Legacy integration design draws on production experience with OAuth,
+   SAML, mTLS, and identity federation systems.
+
+Appendix A.  Protocol-Specific Bridge Configurations
+
+   Detailed configuration for each legacy protocol.
+
+Appendix B.  Trust Mapping Calibration
+
+   Guidance for tuning trust mappings to organizational context.
+
+Appendix C.  Migration Runbooks
+
+   Step-by-step procedures for migration stages.
+
+Authors' Addresses
+
+   Cody Perkins
+   NMCITRA
+
+   Email: cody@nmcitra.com

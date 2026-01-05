@@ -98,26 +98,34 @@ If E_margin < 0:    Silent Veto (action impossible)
 
 ## Experience Score (E)
 
-Trust in KTP is not granted by authority—it's earned through demonstrated behavior over time. The primary output of the KTP model is the **Experience Score (E)**, a 0-100 composite metric representing the overall quality and trustworthiness of an agent's interaction.
+Trust in KTP is not granted by authority—it's earned through demonstrated behavior over time. The primary output of the KTP model is the **Experience Score (E_trust)**, a live 0–100 meter of how much autonomy an agent has actually earned in the current environment.
 
 ### The Trust Equation & Risk Deflation
 
 The final Experience Score is calculated by taking the raw capability of the agent and applying **Risk Deflation**—the "friction" of the environment.
 
-$$E_{final} = E_{raw} \times (1 - RiskFactor)$$
+$$
+E_{\text{trust}} = E_{\text{base}} \times \bigl(1 - R\bigr)
+$$
 
 Where:
 
-| Component | Meaning | Source |
-|-----------|---------|--------|
-| **E_raw** | Intrinsic capability | Derived from ARQ dimensions (Accessibility, Retainability, Quality) |
-| **RiskFactor** | Environmental friction | Security vulnerabilities, compliance failures, or threat intelligence |
-| **E_final** | Effective Trust | The actual "velocity" the agent is allowed to achieve |
+| Component | Meaning | Example inputs |
+|-----------|---------|----------------|
+| **E_base** | Intrinsic capability | ARQ dimensions: Accessibility, Retainability, Quality |
+| **R** | Environmental friction | Vulnerabilities, compliance failures, threat intel, anomalies |
+| **E_trust** | Effective trust | The velocity the agent is allowed to achieve right now |
+
+What drives **Risk Deflation** up:
+
+- Open vulnerabilities or failed controls (patch gaps, weak TLS, bad secrets)
+- Adversarial signals (DDoS indicators, anomaly spikes, tampering)
+- Contextual pressure (regulated data, high-stakes phase, critical audience)
 
 !!! example "Risk Deflation in Action"
-    An agent with high raw performance ($E_{raw} = 90$) operating in a compliant environment might have a Risk Factor of 0.0, resulting in $E_{final} = 90$.
+    An agent with high base performance ($E_{\text{base}} = 90$) in a clean environment might have $R = 0.0$, resulting in $E_{\text{trust}} = 90$.
     
-    If a security vulnerability is detected, the Risk Factor might jump to 0.5. The agent's effective score drops to 45 ($90 \times (1 - 0.5)$), instantly constraining its autonomy via the Zeroth Law.
+    If a security vulnerability is detected, $R$ might jump to 0.5. The agent's effective score drops to 45 ($90 \times (1 - 0.5)$), instantly constraining its autonomy via the Zeroth Law.
 
 ### Trust Velocity
 
@@ -176,7 +184,7 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 
 1. :material-star-four-points-circle: The complete Context Tensor specification spans 1,707 dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for measurement definitions, aggregation rules, and instrumentation requirements.
 
-### The Six Domains
+### The Six Domains (1,707 dimensions)
 
 | Tensor | Dimensions | Core Question |
 |--------|------------|---------------|
@@ -188,6 +196,22 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 | **Signal** | 358 | What does it know? |
 
 **Total: 1,707 dimensions** measuring the full operational context.
+
+### Cross-Cutting Physics Lenses
+
+Context Tensors also roll up into physics-style lenses that inform the Trust Equation and Risk Deflation:
+
+| Physics Lens | Core Question | RFC Tensor Mapping | Example Signals | Why it matters |
+|--------------|---------------|--------------------|-----------------|----------------|
+| **Mass** | Volume and density of telemetry | Body + World | Packet rates, occupancy, RF absorption | Establishes how “heavy” the environment is; sets baseline stability. |
+| **Momentum** | Rate of change in trust | Time + Signal | Trust velocity, confidence deltas, surge patterns | Captures acceleration of trust up/down to prevent whiplash. |
+| **Inertia** | Resistance to trust fluctuation | Body + Relational | Service criticality, blast radius, dependency depth | Dampens sudden shifts for high-impact systems; enforces stability. |
+| **Heat** | Operational stress and anomaly detection | World + Signal | Error bursts, adversarial scans, resource contention | Reveals pressure that should lower autonomy or trigger dormancy. |
+| **Time** | Temporal patterns and decay | Time | Phase of event, freshness, decay curves | Governs how long trust holds and when it should decay or refresh. |
+| **Observer** | Perspective and vantage point | Relational + Signal | Audience, stakeholder expectations, locality | Adjusts trust by who is impacted and from where it’s measured. |
+| **Soul** | Constitutional constraints that cannot be overridden | Soul | Sovereignty labels, TK/OCAP/CARE rules | Hard vetoes enforced before any other calculation. |
+
+See the full tensor definitions and rollups in [KTP-TENSORS](../rfcs/ktp-tensors.md#tensor-explorer).
 
 ### Measurement Principles
 

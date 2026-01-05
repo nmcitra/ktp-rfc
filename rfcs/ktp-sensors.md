@@ -121,10 +121,7 @@ The **Soul Dimension** is unique. It does not use weighted averages. Instead, it
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-007: KTP-Sensors (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-sensors.txt)"
     ```text
-    --8<-- "rfcs/ktp-sensors.txt"
+    --8<-- "rfcs-txt/ktp-sensors.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

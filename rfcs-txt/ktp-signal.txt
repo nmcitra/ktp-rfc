@@ -1,152 +1,599 @@
----
-title: KTP-Signal - Signal Environment Specification
-description: Measuring the epistemic health of the information environment for agent safety.
----
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-# KTP-Signal: Signal Environment Specification
 
-> "Agents swim in oceans of signal. In a poisoned environment, even the most rational agent can be led to catastrophe."
+          Kinetic Trust Protocol (KTP) - Signal Environment Specification
 
----
+Abstract
 
-## At a Glance
+   This document specifies the Signal Environment layer of the Kinetic
+   Trust Protocol (KTP). The Signal Tensor measures the epistemic health
+   of the information environment—noise levels, truth conditions,
+   manipulation indicators, and collective sensemaking capacity. This
+   specification operationalizes these measurements into actionable risk
+   factors that affect Digital Gravity, enabling agents to operate more
+   cautiously in polluted information environments.
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask:{ .experimental } Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Sensors](ktp-sensors.md) |
-| **Required By** | [KTP-Gravity](ktp-gravity.md), [KTP-Oracle](ktp-oracle.md) |
+Status of This Memo
 
----
+   This document is a draft specification developed by the New Mexico
+   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
+   been submitted to the IETF and does not represent an Internet
+   Standard or consensus of any standards body.
 
-## The Problem
-Agents rely on data to make decisions. However, the modern information environment is often:
-1.  **Murky**: High noise-to-signal ratio makes it difficult to find ground truth.
-2.  **Poisoned**: Active disinformation and manipulation operations target both humans and agents.
-3.  **Synthetic**: The rise of AI-generated content makes it harder to verify provenance.
+   Feedback and contributions are welcome at:
+   https://github.com/nmcitra/ktp-rfc
 
-An agent operating with high autonomy in a low-truth environment is a liability.
+Copyright Notice
 
-## The Solution: Epistemic Health
-KTP-Signal provides a framework for measuring the "Epistemic Health" of the information environment. This measurement is used to adjust [**Digital Gravity**](ktp-gravity.md), forcing agents to move more cautiously when the signal is compromised.
+   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
+   under the Apache License, Version 2.0.
 
-### The Signal Tensor (358 Dimensions)
+Table of Contents
 
-```mermaid
-mindmap
-  root((Signal Tensor))
-    Truth Conditions
-      Verifiability
-      Fact-Check Coverage
-      Consensus Level
-    Source Ecosystem
-      Provenance
-      Source Reliability
-      Attribution Clarity
-    Manipulation
-      Deepfake Prevalence
-      Bot Activity
-      Narrative Currents
-    Sensemaking
-      Nuance Preservation
-      Context Stability
-      Logical Consistency
-```
+   1. Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2. Design Principles . . . . . . . . . . . . . . . . . . . . . .   2
+   3. Requirements Language . . . . . . . . . . . . . . . . . . . .   3
+   4. Signal Tensor Overview  . . . . . . . . . . . . . . . . . . .   3
+      4.1. The 358 Dimensions . . . . . . . . . . . . . . . . . . .   3
+      4.2. Truth Conditions (28 Dimensions) . . . . . . . . . . . .   4
+   5. Epistemic Health Score  . . . . . . . . . . . . . . . . . . .   5
+      5.1. Calculation  . . . . . . . . . . . . . . . . . . . . . .   5
+      5.2. Health Levels  . . . . . . . . . . . . . . . . . . . . .   6
+   6. Information Operations Detection  . . . . . . . . . . . . . .   6
+      6.1. Attack Vectors . . . . . . . . . . . . . . . . . . . . .   6
+      6.2. Detection Metrics  . . . . . . . . . . . . . . . . . . .   7
+      6.3. Response Protocol  . . . . . . . . . . . . . . . . . . .   7
+   7. Source Quality Assessment . . . . . . . . . . . . . . . . . .   8
+      7.1. Source Categories  . . . . . . . . . . . . . . . . . . .   8
+      7.2. Source Scoring . . . . . . . . . . . . . . . . . . . . .   9
+      7.3. Source Poisoning Detection . . . . . . . . . . . . . . .   9
+   8. Collective Sensemaking  . . . . . . . . . . . . . . . . . . .  10
+      8.1. Sensemaking Capacity Dimensions  . . . . . . . . . . . .  10
+      8.2. Sensemaking Degradation  . . . . . . . . . . . . . . . .  10
+      8.3. Sensemaking Support  . . . . . . . . . . . . . . . . . .  11
+   9. Signal Environment to Gravity . . . . . . . . . . . . . . . .  11
+      9.1. E Modification Based on Signal . . . . . . . . . . . . .  11
+      9.2. Action-Specific Modifiers  . . . . . . . . . . . . . . .  12
+      9.3. Example: Polluted Environment  . . . . . . . . . . . . .  12
+   10. Recovery Protocols . . . . . . . . . . . . . . . . . . . . .  13
+       10.1. Environment Recovery . . . . . . . . . . . . . . . . .  13
+       10.2. Agent Recovery . . . . . . . . . . . . . . . . . . . .  14
+   11. Monitoring and Measurement . . . . . . . . . . . . . . . . .  14
+       11.1. Continuous Monitoring  . . . . . . . . . . . . . . . .  14
+       11.2. Alert Thresholds . . . . . . . . . . . . . . . . . . .  15
+       11.3. Reporting  . . . . . . . . . . . . . . . . . . . . . .  15
+   12. Security Considerations  . . . . . . . . . . . . . . . . . .  16
+       12.1. Gaming Resistance  . . . . . . . . . . . . . . . . . .  16
+       12.2. Privacy  . . . . . . . . . . . . . . . . . . . . . . .  16
+   13. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  16
+   Appendix A. Signal Measurement Instrumentation . . . . . . . . .  17
+   Appendix B. Information Operation Playbooks  . . . . . . . . . .  17
+   Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  17
 
----
+1. Introduction
 
-## Epistemic Health Score
-The environment's health is aggregated into a single score that directly impacts the Risk Factor $R$.
+   Agents do not operate in informational vacuums. They swim in oceans
+   of signal—some clear, some murky, some actively poisoned. An agent
+   making decisions in a high-misinformation environment faces different
+   risks than one operating in a well-curated knowledge base.
 
-$$H_{epistemic} = \sum (w_i \cdot G_i)$$
+   The Signal Tensor captures this epistemic context. This specification
+   operationalizes those measurements into protocols for:
 
-Where $G_i$ represents major groups like:
-*   **Truth Conditions (25%)**: Is the information verifiable?
-*   **Source Ecosystem (20%)**: Do we know where this came from?
-*   **Sensemaking Capacity (20%)**: Is the environment conducive to understanding?
-*   **Manipulation Resistance (15%)**: Is the environment actively being attacked?
+   -  Detecting information environment degradation
+   -  Adjusting agent autonomy based on epistemic conditions
+   -  Maintaining sensemaking capacity under attack
+   -  Recovering from information operations
 
----
+2. Design Principles
 
-## Epistemic Tiers
+   Signal environment management embodies these principles:
 
-| Tier | Health Score | Agent Behavior |
-| :--- | :--- | :--- |
-| **Clear** | 0.8 - 1.0 | High-speed operations; full autonomy allowed. |
-| **Murky** | 0.6 - 0.8 | Latency injection begins; increased verification required. |
-| **Polluted** | 0.4 - 0.6 | Significant [**Digital Gravity**](ktp-gravity.md); restricted to verified sources. |
-| **Poisoned** | 0.2 - 0.4 | Emergency shutdown of non-critical agents; human-in-the-loop required. |
-| **Void** | 0.0 - 0.2 | Total isolation; zero trust in external signal. |
+   1.  Epistemic Humility: In uncertain environments, reduce autonomy.
 
----
+   2.  Source Quality: Not all information is equal. Source matters.
 
-## Related Specifications
+   3.  Collective Sensemaking: Individual agents cannot verify
+       everything. Collective capacity matters.
 
-<div class="grid cards" markdown>
+   4.  Resistance to Manipulation: Designed to resist information
+       operations.
 
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
+   5.  Degradation Detection: Recognize when environment is degrading.
 
-    ---
+3. Requirements Language
 
-    The foundational protocol and the Zeroth Law ($A \leq E$).
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in BCP 14 (RFC 2119 and
+   RFC 8174).
 
--   :material-cube-outline:{ .lg .middle } **[KTP-Tensors](ktp-tensors.md)**
+4. Signal Tensor Overview
 
-    ---
+4.1. The 358 Dimensions
 
-    Complete Context Tensor specification (1,707 dimensions).
+   The Signal Tensor comprises 17 major groups:
 
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
+   +------------------------+------------+------------------------------+
+   | Group                  | Dimensions | Purpose                      |
+   +------------------------+------------+------------------------------+
+   | Attention Currents     | 22         | What's capturing attention   |
+   | Narrative Currents     | 26         | Dominant stories flowing     |
+   | Source Ecosystem       | 24         | Quality of information       |
+   |                        |            | sources                      |
+   | Amplification Patterns | 20         | How information spreads      |
+   | Synthetic Content      | 22         | AI-generated content         |
+   |                        |            | detection                    |
+   | Truth Conditions       | 28         | Verifiability and accuracy   |
+   | Emotional Weather      | 24         | Collective emotional state   |
+   | Tribal Dynamics        | 18         | Group identity effects       |
+   | Platform Dynamics      | 16         | Platform-specific patterns   |
+   | Information Operations | 24         | Active manipulation          |
+   |                        |            | detection                    |
+   | Temporal Patterns      | 20         | How signal changes over time |
+   | Epistemic              | 22         | Fact-checking, verification  |
+   | Infrastructure         |            | capacity                     |
+   | Sensemaking Capacity   | 26         | Collective ability to        |
+   |                        |            | understand                   |
+   | Signal Integrity       | 20         | Overall environment health   |
+   | Collective Trauma      | 14         | Shared traumatic content     |
+   | Sacred/Meaning         | 14         | Meaning-making dimensions    |
+   +------------------------+------------+------------------------------+
 
-    ---
+4.2. Truth Conditions (28 Dimensions)
 
-    The sensory nervous system providing real-time telemetry.
+   These dimensions measure epistemic quality:
 
--   :material-orbit:{ .lg .middle } **[KTP-Gravity](ktp-gravity.md)**
+   +---------------------------+------------------------------+-------+
+   | Dimension                 | Description                  | Scale |
+   +---------------------------+------------------------------+-------+
+   | verified_claim_rate       | Claims actually verified     | 0-1   |
+   | fact_check_coverage       | How much content is          | 0-1   |
+   |                           | fact-checked                 |       |
+   | misinformation_volume     | Volume of false information  | 0-1   |
+   | disinformation_volume     | Volume of intentional        | 0-1   |
+   |                           | falsehood                    |       |
+   | epistemic_pollution       | Overall truth environment    | 0-1   |
+   | citation_rate             | How often claims cite        | 0-1   |
+   |                           | sources                      |       |
+   | citation_quality          | Quality of cited sources     | 0-1   |
+   | primary_source_rate       | Use of primary vs secondary  | 0-1   |
+   | correction_rate           | How often errors corrected   | 0-1   |
+   | correction_visibility     | Are corrections seen?        | 0-1   |
+   | retraction_rate           | Formal retractions           | 0-1   |
+   | consensus_level           | Expert consensus available   | 0-1   |
+   | consensus_clarity         | Is consensus clear?          | 0-1   |
+   | evidence_quality          | Quality of supporting        | 0-1   |
+   |                           | evidence                     |       |
+   | evidence_accessibility    | Can evidence be accessed?    | 0-1   |
+   | logical_consistency       | Internal consistency         | 0-1   |
+   | temporal_consistency      | Consistency over time        | 0-1   |
+   | cross_source_consistency  | Agreement across sources     | 0-1   |
+   | nuance_preservation       | Is nuance maintained?        | 0-1   |
+   | context_preservation      | Is context maintained?       | 0-1   |
+   | manipulation_resistance   | Resistance to manipulation   | 0-1   |
+   | deepfake_prevalence       | Synthetic media presence     | 0-1   |
+   | attribution_clarity       | Can sources be attributed?   | 0-1   |
+   | provenance_available      | Is content provenance known? | 0-1   |
+   | edit_history_available    | Can changes be tracked?      | 0-1   |
+   | expert_accessibility      | Can experts be consulted?    | 0-1   |
+   | uncertainty_acknowledged  | Is uncertainty stated?       | 0-1   |
+   +---------------------------+------------------------------+-------+
 
-    ---
+5. Epistemic Health Score
 
-    The enforcement mechanism that replaces policy with physics.
+5.1. Calculation
 
-</div>
-    ---
-    A core agent constraint: "The less certain the environment, the less autonomous the action."
+   Overall epistemic health is calculated:
 
-</div>
+   epistemic_health = weighted_aggregate(
+       truth_conditions × 0.25,
+       source_ecosystem × 0.20,
+       sensemaking_capacity × 0.20,
+       manipulation_resistance × 0.15,
+       signal_integrity × 0.10,
+       noise_floor_inverse × 0.10
+   )
 
----
+5.2. Health Levels
 
-## Related Specifications
+   +-----------+-----------+---------------------+--------------------+
+   | Level     | Score     | Description         | Agent Response     |
+   +-----------+-----------+---------------------+--------------------+
+   | Healthy   | 0.7 - 0.9 | Good environment    | Normal operation   |
+   | Degraded  | 0.5 - 0.7 | Some pollution      | Increased caution  |
+   | Polluted  | 0.3 - 0.5 | Significant         | Reduced autonomy   |
+   |           |           | problems            |                    |
+   | Toxic     | 0.1 - 0.3 | Severe pollution    | Minimal autonomy   |
+   | Collapsed | 0.0 - 0.1 | Epistemic failure   | Read-only mode     |
+   +-----------+-----------+---------------------+--------------------+
 
-<div class="grid cards" markdown>
+6. Information Operations Detection
 
--   [**KTP-Tensors**](ktp-tensors.md)
-    ---
-    The Signal Tensor which houses the 358 epistemic dimensions.
+6.1. Attack Vectors
 
--   [**KTP-Gravity**](ktp-gravity.md)
-    ---
-    How low epistemic health increases the "Digital Gravity" on an agent.
+   +----------------------+------------------------+--------------------+
+   | Vector               | Indicators             | Detection Method   |
+   +----------------------+------------------------+--------------------+
+   | Astroturfing         | Artificial grassroots  | Account age,       |
+   |                      |                        | activity patterns  |
+   | Disinformation       | False narratives at    | Content analysis,  |
+   | Campaigns            | scale                  | fact-checking      |
+   | Deepfakes            | Synthetic media        | Detection          |
+   |                      |                        | algorithms         |
+   | Narrative Flooding   | Volume overwhelming    | Rate analysis      |
+   |                      | signal                 |                    |
+   | Source Poisoning     | Compromised trusted    | Provenance         |
+   |                      | sources                | verification       |
+   | Context Collapse     | Removing context       | Context            |
+   |                      |                        | preservation       |
+   |                      |                        | checks             |
+   +----------------------+------------------------+--------------------+
 
--   [**KTP-Identity**](ktp-identity.md)
-    ---
-    The foundation for verifying the sources of information.
+6.2. Detection Metrics
 
--   [**KTP-Oracle**](ktp-oracle.md)
-    ---
-    How agents query verified "Ground Truth" from trusted sources.
+   {
+     "info_ops_detection": {
+       "coordinated_activity": {
+         "detected": true,
+         "confidence": 0.85,
+         "scope": "moderate",
+         "sources_affected": 47
+       },
+       "synthetic_content": {
+         "prevalence": 0.12,
+         "detection_confidence": 0.78,
+         "types": ["text", "image"]
+       },
+       "narrative_manipulation": {
+         "detected": true,
+         "narratives_affected": 3,
+         "manipulation_type": "framing"
+       },
+       "overall_threat_level": "elevated"
+     }
+   }
 
-</div>
+6.3. Response Protocol
 
----
+   When information operations detected:
 
-## Official RFC Document
+   Level 1: MONITOR
+   -  Increase measurement frequency
+   -  Flag affected content
+   -  Log patterns
 
-??? abstract "KTP-RFC-010: KTP-Signal (Raw Text)"
+   Level 2: ALERT
+   -  Notify zone governance
+   -  Increase agent caution
+   -  Activate verification requirements
 
-    ```text
-    --8<-- "rfcs/ktp-signal.txt"
-    ```
+   Level 3: DEFEND
+   -  Reduce agent autonomy
+   -  Require human verification
+   -  Isolate affected information streams
 
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*
+   Level 4: QUARANTINE
+   -  Block affected sources
+   -  Agents to read-only
+   -  Await human intervention
+
+7. Source Quality Assessment
+
+7.1. Source Categories
+
+   +--------------------+----------------+----------------------+
+   | Category           | Trust Baseline | Verification Required|
+   +--------------------+----------------+----------------------+
+   | Peer-Reviewed      | High           | Low                  |
+   | Institutional      | Medium-High    | Medium               |
+   | Quality Journalism | Medium         | Medium               |
+   | Aggregators        | Medium-Low     | High                 |
+   | Social Media       | Low            | Very High            |
+   | Anonymous          | Very Low       | Maximum              |
+   | Known Bad Actors   | None           | Rejected             |
+   +--------------------+----------------+----------------------+
+
+7.2. Source Scoring
+
+   {
+     "source_assessment": {
+       "source_id": "source:reuters.com",
+       "category": "quality_journalism",
+       "scores": {
+         "accuracy_history": 0.94,
+         "correction_transparency": 0.91,
+         "methodology_clarity": 0.85,
+         "editorial_independence": 0.88,
+         "expertise_depth": 0.82
+       },
+       "composite_score": 0.88,
+       "trust_level": "high",
+       "verification_required": "standard"
+     }
+   }
+
+7.3. Source Poisoning Detection
+
+   When trusted sources are compromised:
+
+   {
+     "source_poisoning_alert": {
+       "source_id": "source:previously-trusted.org",
+       "alert_type": "quality_degradation",
+       "evidence": [
+         "accuracy_drop: 0.91 → 0.62",
+         "correction_rate_drop: 0.85 → 0.31",
+         "style_change_detected: true"
+       ],
+       "recommended_action": "downgrade_trust",
+       "new_verification_level": "high"
+     }
+   }
+
+8. Collective Sensemaking
+
+8.1. Sensemaking Capacity Dimensions
+
+   +-------------------------+--------------------------------+-------+
+   | Dimension               | Description                    | Scale |
+   +-------------------------+--------------------------------+-------+
+   | expertise_diversity     | Range of expert perspectives   | 0-1   |
+   | deliberation_quality    | Quality of public discourse    | 0-1   |
+   | argument_quality        | Logical quality of arguments   | 0-1   |
+   | counterargument_        | Are objections heard?          | 0-1   |
+   | presence                |                                |       |
+   | synthesis_capacity      | Can views be integrated?       | 0-1   |
+   | learning_rate           | How fast does understanding    | 0-1   |
+   |                         | improve?                       |       |
+   | error_correction        | Are mistakes fixed?            | 0-1   |
+   | uncertainty_tolerance   | Can ambiguity be held?         | 0-1   |
+   | complexity_handling     | Can complexity be managed?     | 0-1   |
+   +-------------------------+--------------------------------+-------+
+
+8.2. Sensemaking Degradation
+
+   Signs of collective sensemaking failure:
+
+   +---------------------+------------------------------+------------+
+   | Indicator           | Description                  | Severity   |
+   +---------------------+------------------------------+------------+
+   | Polarization        | Views becoming extreme       | High       |
+   | Expert rejection    | Expertise dismissed          | High       |
+   | Conspiracy thinking | Unfalsifiable beliefs        | Very High  |
+   | Reality divergence  | Groups in different          | Critical   |
+   |                     | realities                    |            |
+   +---------------------+------------------------------+------------+
+
+8.3. Sensemaking Support
+
+   Agents can support collective sensemaking:
+
+   {
+     "sensemaking_support": {
+       "agent_capabilities": [
+         "source_verification",
+         "argument_analysis",
+         "perspective_synthesis",
+         "uncertainty_quantification",
+         "context_provision"
+       ],
+       "agent_limitations": [
+         "cannot_determine_truth",
+         "cannot_replace_expertise",
+         "cannot_force_agreement"
+       ],
+       "recommended_actions": [
+         "provide_context",
+         "cite_sources",
+         "acknowledge_uncertainty",
+         "represent_multiple_views",
+         "flag_verified_vs_unverified"
+       ]
+     }
+   }
+
+9. Signal Environment to Gravity
+
+9.1. E Modification Based on Signal
+
+   Signal environment affects available E:
+
+   E_effective = E_base × (1 - R) × signal_modifier
+
+   Where signal_modifier:
+
+   -  Pristine: 1.0 (no change)
+   -  Healthy: 1.0 (no change)
+   -  Degraded: 0.9 (10% reduction)
+   -  Polluted: 0.75 (25% reduction)
+   -  Toxic: 0.5 (50% reduction)
+   -  Collapsed: 0.1 (90% reduction)
+
+9.2. Action-Specific Modifiers
+
+   Some actions are more sensitive to signal environment:
+
+   +------------------------+--------------------+
+   | Action Type            | Signal Sensitivity |
+   +------------------------+--------------------+
+   | Recommendation making  | Very High          |
+   | Fact claims            | High               |
+   | Analysis               | High               |
+   | Execution              | Medium             |
+   | Read operations        | Low                |
+   +------------------------+--------------------+
+
+9.3. Example: Polluted Environment
+
+   {
+     "gravity_calculation": {
+       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "action": "provide_recommendation",
+       "base_calculation": {
+         "e_base": 55,
+         "r_factor": 0.2,
+         "e_trust": 44
+       },
+       "signal_adjustment": {
+         "epistemic_health": 0.35,
+         "signal_level": "polluted",
+         "signal_modifier": 0.75,
+         "action_sensitivity": "very_high",
+         "additional_modifier": 0.8
+       },
+       "final_e": 26.4,
+       "action_a": 30,
+       "zeroth_law_result": "BLOCKED",
+       "guidance": "Recommendation blocked. Epistemic environment too
+                    polluted for high-stakes recommendation."
+     }
+   }
+
+10. Recovery Protocols
+
+10.1. Environment Recovery
+
+   When signal environment improves:
+
+   Phase 1: DETECTION
+   -  Improvement sustained for 24 hours
+   -  Multiple indicators improving
+   -  No new attacks detected
+
+   Phase 2: VERIFICATION
+   -  External verification of improvement
+   -  Source quality confirmed
+   -  Sensemaking capacity restored
+
+   Phase 3: GRADUAL RESTORATION
+   -  Signal modifier increased 0.1/day
+   -  Agent autonomy gradually restored
+   -  Monitoring continues
+
+   Phase 4: NORMAL OPERATIONS
+   -  Full signal modifier restored
+   -  Normal agent autonomy
+   -  Standard monitoring
+
+10.2. Agent Recovery
+
+   Individual agent recovery after operating in polluted environment:
+
+   {
+     "agent_recovery": {
+       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "polluted_operation_duration": "72 hours",
+       "recovery_protocol": {
+         "verification_period": "24 hours",
+         "actions_during_verification": "read_only",
+         "verification_checks": [
+           "trajectory_consistency_check",
+           "belief_state_audit",
+           "output_quality_review"
+         ],
+         "recovery_criteria": [
+           "no_polluted_content_propagated",
+           "accuracy_maintained",
+           "no_manipulation_indicators"
+         ]
+       },
+       "recovery_status": "in_progress"
+     }
+   }
+
+11. Monitoring and Measurement
+
+11.1. Continuous Monitoring
+
+   Signal environment monitored continuously:
+
+   +------------------------+-----------+--------------------------+
+   | Metric                 | Frequency | Source                   |
+   +------------------------+-----------+--------------------------+
+   | Misinformation volume  | 0.1 Hz    | Fact-checkers, detection |
+   | Source quality         | 0.01 Hz   | Provenance systems       |
+   | Coordination detection | 0.1 Hz    | Network analysis         |
+   | Sensemaking indicators | 0.01 Hz   | Discourse analysis       |
+   +------------------------+-----------+--------------------------+
+
+11.2. Alert Thresholds
+
+   +----------------------+-----------+----------+
+   | Metric               | Warning   | Critical |
+   +----------------------+-----------+----------+
+   | Misinformation rate  | > 0.2     | > 0.4    |
+   | Coordination score   | > 0.3     | > 0.6    |
+   | Source degradation   | > 0.15    | > 0.3    |
+   +----------------------+-----------+----------+
+
+11.3. Reporting
+
+   Regular signal environment reports:
+
+   {
+     "signal_report": {
+       "report_id": "SIG-2025-12-03-001",
+       "zone_id": "zone-blue-prod-01",
+       "period": "2025-12-03T00:00:00Z to 2025-12-03T23:59:59Z",
+       "summary": {
+         "epistemic_health_avg": 0.72,
+         "epistemic_health_min": 0.58,
+         "epistemic_health_max": 0.81,
+         "alerts_triggered": 2,
+         "info_ops_detected": 1
+       },
+       "incidents": [
+         {
+           "time": "2025-12-03T14:30:00Z",
+           "type": "coordinated_activity",
+           "severity": "medium",
+           "duration": "2 hours",
+           "response": "monitoring_increased"
+         }
+       ],
+       "recommendations": [
+         "Continue enhanced monitoring",
+         "Review source quality for topic X"
+       ]
+     }
+   }
+
+12. Security Considerations
+
+12.1. Gaming Resistance
+
+   Signal metrics must resist gaming:
+
+   -  Multiple independent data sources
+   -  Cross-validation of indicators
+   -  Detection of metric manipulation
+   -  Regular calibration against ground truth
+
+12.2. Privacy
+
+   Signal monitoring must respect privacy:
+
+   -  Aggregate metrics only
+   -  No individual tracking
+   -  Content analysis, not person analysis
+   -  Clear data retention limits
+
+13. IANA Considerations
+
+   This document has no IANA actions.
+
+Appendix A. Signal Measurement Instrumentation
+
+   Technical specifications for signal measurement.
+
+Appendix B. Information Operation Playbooks
+
+   Detailed response procedures for different attack types.
+
+Acknowledgments
+
+   Signal environment analysis draws on research in misinformation
+   detection, information operations, and collective intelligence.

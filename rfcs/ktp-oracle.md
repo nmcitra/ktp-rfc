@@ -158,10 +158,7 @@ Critical operations (like changing the physics of the zone) require **Threshold 
 
 ## Official RFC Document
 
-!!! quote "KTP-ORACLE: Trust Oracle Specification"
-    The following is the official raw text of the KTP-Oracle RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-oracle.txt"
-        ```
+??? note "View Complete RFC Text (ktp-oracle.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-oracle.txt"
+    ```

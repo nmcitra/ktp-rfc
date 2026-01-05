@@ -104,13 +104,7 @@ sequenceDiagram
 
 ## Official RFC Document
 
-!!! quote "KTP-CELESTIAL: Celestial Wayfinding"
-    The following is the official raw text of the KTP-Celestial RFC.
-
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-celestial.txt"
-        ```
-
-    ??? abstract "Read full RFC text"
-        --8<-- "rfcs/ktp-celestial.txt"
+??? note "View Complete RFC Text (ktp-celestial.txt)"
+    ```text
+    --8<-- "rfcs-txt/ktp-celestial.txt"
+    ```

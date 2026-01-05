@@ -94,10 +94,7 @@ Where $G_i$ represents major groups like:
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-010: KTP-Signal (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-signal.txt)"
     ```text
-    --8<-- "rfcs/ktp-signal.txt"
+    --8<-- "rfcs-txt/ktp-signal.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

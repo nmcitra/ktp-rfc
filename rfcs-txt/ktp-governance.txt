@@ -1,227 +1,890 @@
----
-title: KTP-Governance
-description: Governance structures, recursive constraints, and dispute resolution for the Kinetic Trust Protocol.
----
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-# KTP-Governance: Governance Specification
 
-!!! info "Status: Experimental"
-    This document defines the governance layer of KTP, including zone charters, the recursive constraint principle, and dispute resolution mechanisms.
+       Kinetic Trust Protocol (KTP) - Governance Specification
 
-## At a Glance
+Abstract
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask:{ .experimental } Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Federation](ktp-federation.md) |
-| **Required By** | [KTP-Audit](ktp-audit.md), [KTP-Conformance](ktp-conformance.md) |
+   This document specifies governance structures for the Kinetic Trust
+   Protocol (KTP).  Governance addresses fundamental questions: Who sets
+   E_base for zones?  Who can modify the physics?  How are disputes
+   resolved?  What accountability exists for zone operators?  The
+   specification covers zone governance models, the recursive constraint
+   (physics applies to governors), E-setting authority, dispute
+   resolution, federation governance, and governance evolution.
 
----
+Status of This Memo
 
-## The Recursive Constraint
+   This document specifies a Kinetic Trust Protocol specification for
+   the Internet community, defining governance structures and procedures
+   for KTP zones.  Distribution of this memo is unlimited.
 
-The fundamental innovation of KTP governance is that it is **not** outside the system. Governors are agents *within* the system, subject to the same physics as the agents they govern.
+Copyright Notice
 
-$$ A_{governor} \leq E_{governor} $$
+   Copyright (c) 2025 NMCITRA.  All rights reserved.
 
-Where:
-- $A_{governor}$ is the autonomy cost of a governance action (e.g., changing a parameter).
-- $E_{governor}$ is the governor's environmental stability (Trust Score).
+   This document is subject to the Kinetic Trust Protocol licensing
+   terms.  Please review the LICENSE file for complete terms.
 
-This prevents "God Mode" administration where operators can bypass safety constraints. To change the physics, a governor must have sufficient trust *within* the physics.
+Table of Contents
 
-### Governance Action Costs
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   3
+       1.1.  The Governance Paradox . . . . . . . . . . . . . . . .   3
+       1.2.  Design Principles  . . . . . . . . . . . . . . . . . .   3
+   2.  Requirements Language  . . . . . . . . . . . . . . . . . . .   4
+   3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   4
+   4.  The Recursive Constraint . . . . . . . . . . . . . . . . . .   5
+       4.1.  Definition . . . . . . . . . . . . . . . . . . . . . .   5
+       4.2.  Why Recursion Matters  . . . . . . . . . . . . . . . .   5
+       4.3.  Governor Autonomy Calculation  . . . . . . . . . . . .   5
+       4.4.  Governor E_base  . . . . . . . . . . . . . . . . . . .   6
+   5.  Zone Governance Models . . . . . . . . . . . . . . . . . . .   6
+       5.1.  Model 1: Sole Proprietor . . . . . . . . . . . . . . .   6
+       5.2.  Model 2: Governance Council  . . . . . . . . . . . . .   7
+       5.3.  Model 3: Delegated Governance  . . . . . . . . . . . .   7
+       5.4.  Model 4: Federated Governance  . . . . . . . . . . . .   8
+   6.  Zone Charter . . . . . . . . . . . . . . . . . . . . . . . .   9
+       6.1.  Purpose  . . . . . . . . . . . . . . . . . . . . . . .   9
+       6.2.  Required Elements  . . . . . . . . . . . . . . . . . .   9
+       6.3.  Charter Immutability . . . . . . . . . . . . . . . . .  10
+   7.  E-Setting Authority  . . . . . . . . . . . . . . . . . . . .  11
+       7.1.  The Authority Problem  . . . . . . . . . . . . . . . .  11
+       7.2.  Authority Levels . . . . . . . . . . . . . . . . . . .  11
+       7.3.  Authority Constraints  . . . . . . . . . . . . . . . .  11
+       7.4.  E-Setting Process  . . . . . . . . . . . . . . . . . .  12
+       7.5.  Emergency E Reduction  . . . . . . . . . . . . . . . .  12
+   8.  Dispute Resolution . . . . . . . . . . . . . . . . . . . . .  13
+       8.1.  Dispute Categories . . . . . . . . . . . . . . . . . .  13
+       8.2.  Zone-Level Dispute Process . . . . . . . . . . . . . .  13
+       8.3.  Federation Arbitration . . . . . . . . . . . . . . . .  14
+   9.  Accountability Mechanisms  . . . . . . . . . . . . . . . . .  14
+       9.1.  Governor Accountability  . . . . . . . . . . . . . . .  14
+       9.2.  Audit Requirements . . . . . . . . . . . . . . . . . .  15
+       9.3.  Governor Removal . . . . . . . . . . . . . . . . . . .  15
+   10. Federation Governance  . . . . . . . . . . . . . . . . . . .  16
+       10.1. Federation Structure . . . . . . . . . . . . . . . . .  16
+       10.2. Federation Authority . . . . . . . . . . . . . . . . .  16
+   11. Meta-Governance  . . . . . . . . . . . . . . . . . . . . . .  17
+       11.1. Changing the Governance  . . . . . . . . . . . . . . .  17
+       11.2. Amendment Process  . . . . . . . . . . . . . . . . . .  17
+       11.3. Amendment Constraints  . . . . . . . . . . . . . . . .  18
+   12. Transparency Requirements  . . . . . . . . . . . . . . . . .  18
+       12.1. Public Information . . . . . . . . . . . . . . . . . .  18
+       12.2. Logging Requirements . . . . . . . . . . . . . . . . .  18
+   13. Security Considerations  . . . . . . . . . . . . . . . . . .  19
+       13.1. Governance Attack Vectors  . . . . . . . . . . . . . .  19
+       13.2. Governance Continuity  . . . . . . . . . . . . . . . .  19
+   14. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  19
+   Appendix A.  Sample Zone Charters  . . . . . . . . . . . . . . .  19
+   Appendix B.  Governance Decision Templates . . . . . . . . . . .  19
+   Appendix C.  Audit Procedures  . . . . . . . . . . . . . . . . .  20
+   Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  20
 
-| Action | Autonomy Cost ($A$) | Requirement |
-| :--- | :--- | :--- |
-| View Metrics | 5 | Basic Access |
-| Modify Tier Boundaries | 25 | Analyst Trust |
-| Adjust Agent $E_{base}$ | 35 | Operator Trust |
-| Adjust Zone $E_{base}$ | 60 | High Trust |
-| Modify Gravity Parameters | 70 | Very High Trust |
-| Change Governance Structure | 80 | Council Consensus |
-| Zone Dissolution | 95 | Maximum Trust |
+1.  Introduction
 
----
+   Digital Gravity is physics, not policy.  But physics has parameters
+   -- and someone must set them.
 
-## Governance Models
+   This specification addresses the governance layer of KTP: the human
+   and organizational structures that configure, operate, and oversee
+   zones.  Unlike the technical specifications, governance involves
+   politics, values, and power.  We cannot pretend otherwise.
 
-KTP supports multiple governance structures depending on the zone's needs.
+1.1.  The Governance Paradox
 
-### Model 1: Sole Proprietor
-Simple, single-entity control. Best for private or experimental zones.
+   KTP exists because we don't trust AI systems to govern themselves.
+   But humans who govern AI systems are themselves fallible:
 
-```mermaid
-graph TD
-    G[Governor] -->|Sets E_base| Z[Zone]
-    G -->|Resolves Disputes| Z
-    style G fill:#f9f,stroke:#333,stroke-width:2px
-```
+   -  Corruptible by incentives
 
-### Model 2: Governance Council
-Distributed decision-making via M-of-N voting. Best for production zones.
+   -  Limited in attention and expertise
 
-```mermaid
-graph TD
-    G1[Governor 1] --> V[Council Voting]
-    G2[Governor 2] --> V
-    G3[Governor 3] --> V
-    G4[Governor 4] --> V
-    G5[Governor 5] --> V
-    
-    V -->|M-of-N Consensus| Z[Zone]
-    
-    style V fill:#bbf,stroke:#333,stroke-width:2px
-```
+   -  Capable of abuse
 
-### Model 3: Delegated Governance
-Layered authority for large organizations.
+   -  Subject to their own biases
 
-```mermaid
-graph TD
-    CC[Charter Council] -->|Delegates| OB[Operations Board]
-    OB -->|Delegates| ZO[Zone Operators]
-    ZO -->|Manages| Z[Zone]
-    
-    subgraph Constitutional
-    CC
-    end
-    
-    subgraph Operational
-    OB
-    end
-    
-    subgraph Technical
-    ZO
-    end
-```
+   The solution is not to trust governors implicitly, but to constrain
+   them by the same physics they administer.
 
-### Model 4: Federated Governance
-Shared governance across multiple zones.
+1.2.  Design Principles
 
-```mermaid
-graph LR
-    ZA[Zone A Gov] <-->|Coordination| ZB[Zone B Gov]
-    ZA --> ZZoneA[Zone A]
-    ZB --> ZZoneB[Zone B]
-    
-    ZZoneA <-->|Trust| ZZoneB
-    
-    FC[Federation Council] -.->|Standards & Arbitration| ZA
-    FC -.->|Standards & Arbitration| ZB
-```
+   Governance embodies these principles:
 
----
+   1.  Recursive Constraint: The physics applies to everyone, including
+       those who set the physics.
 
-## E-Setting Authority
+   2.  Minimal Authority: Governors have only the authority necessary
+       for their function.
 
-The power to set $E_{base}$ is the power to determine the reality of the zone. This authority is tiered to prevent abuse.
+   3.  Transparency: Governance actions are visible and auditable.
 
-| Level | Scope | Typical Authority | Constraints |
-| :--- | :--- | :--- | :--- |
-| **Zone** | Zone-wide $E_{base}$ | Charter Council | Max change 10/week, Audit required |
-| **Tier** | Tier-specific limits | Governance Council | Consensus required |
-| **Agent** | Individual $E_{base}$ | Zone Operators | Cannot exceed Zone Max |
-| **Emergency** | Temporary reduction | Any Governor | Max 24h duration, Post-hoc review |
+   4.  Accountability: Governors face consequences for abuse.
 
-### Emergency E-Reduction Process
+   5.  Evolution: Governance can change, but changes are constrained.
 
-In a crisis, any governor can "pull the brake" (reduce $E$), but restoring it requires consensus.
+   6.  Federation: No single entity governs all zones.
 
-```mermaid
-sequenceDiagram
-    participant Gov as Governor
-    participant Sys as System
-    participant Council as Governance Council
-    
-    Gov->>Sys: Emergency E-Reduction (Reason: Attack)
-    Sys->>Sys: Apply Reduction (E_base = E_base * 0.5)
-    Sys-->>Gov: Confirmed (Duration: 4h)
-    
-    Note over Sys: Zone enters Defensive Mode
-    
-    Council->>Sys: Review Incident
-    Council->>Sys: Authorize Restoration
-    Sys->>Sys: Restore E_base
-```
+2.  Requirements Language
 
----
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in BCP 14 (RFC 2119 and
+   RFC 8174).
 
-## Dispute Resolution
+3.  Terminology
 
-When physics is not enough, human judgment is required.
+   E-Setting Authority:  The power to determine a zone's base
+      environmental stability.
 
-1. **Agent vs. Zone**: Agent disputes a governance decision.
-2. **Governor vs. Governor**: Disagreement within the council.
-3. **Zone vs. Zone**: Cross-zone trust issues.
+   Governance Council:  A body with collective authority over zone
+      governance.
 
-### Federation Arbitration Flow
+   Governor:  An entity with governance authority over a zone.
 
-```mermaid
-graph TD
-    Start[Dispute Filed] --> Investigate[Investigation Phase]
-    Investigate --> Deliberate[Council Deliberation]
-    Deliberate --> Decision{Decision Reached?}
-    
-    Decision -->|Yes| Ruling[Issue Ruling]
-    Decision -->|No| Escalate[Federation Arbitration]
-    
-    Escalate --> ArbHearing[Arbitration Hearing]
-    ArbHearing --> BindingRuling[Binding Ruling]
-    
-    Ruling --> Implement[Implementation]
-    BindingRuling --> Implement
-```
+   Meta-Governance:  Governance of the governance system itself.
 
----
+   Recursive Constraint:  The principle that physics applies to
+      governors themselves.
 
-## Related Specifications
+   Zone Charter:  The foundational document defining zone governance.
 
-<div class="grid cards" markdown>
+   Zone Operator:  The entity responsible for zone technical operations.
 
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
+4.  The Recursive Constraint
 
-    ---
-    
-    Foundation protocol, Zeroth Law, and Trust Score calculation.
+4.1.  Definition
 
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
+   The recursive constraint is the fundamental governance principle:
 
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
+      Governors are subject to KTP physics.
 
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
+   Governor actions have autonomy (A):
 
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
+   -  A = autonomy_requested(governance_action)
 
--   :material-lock:{ .lg .middle } **KTP-Crypto**
+   Governors have environmental stability (E):
 
-    ---
-    
-    Cryptographic primitives and signature schemes.
+   -  E = E_base * (1 - R)
 
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
+   -  Where R reflects governance context risk
 
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
+   The Zeroth Law applies:
 
-    ---
-    
-    Network transport and Trust Proof propagation.
+   -  A_governor <= E_governor
 
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
+   Violations trigger consequences.
 
-</div>
+4.2.  Why Recursion Matters
 
----
+   Without recursive constraint:
 
-## Official RFC Document
+   -  Governors could exempt themselves from physics
 
-!!! quote "KTP-GOVERNANCE: Governance Specification"
-    The following is the official raw text of the KTP-Governance RFC.
+   -  Power would concentrate without check
 
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-governance.txt"
-        ```
+   -  The system would collapse to policy (human-speed, evadable)
+
+   With recursive constraint:
+
+   -  Governors experience the physics they administer
+
+   -  Abuse is constrained by the same mechanisms
+
+   -  Trust in governance is itself earned
+
+4.3.  Governor Autonomy Calculation
+
+   Governance actions have autonomy costs:
+
+      +-----------------------------+----------------------+
+      | Action                      | Base Autonomy (A)    |
+      +-----------------------------+----------------------+
+      | Modify tier boundaries      | 25                   |
+      | Adjust E_base for agent     | 35                   |
+      | Adjust zone E_base          | 60                   |
+      | Modify gravity parameters   | 70                   |
+      | Change governance structure | 80                   |
+      | Zone dissolution            | 95                   |
+      +-----------------------------+----------------------+
+
+4.4.  Governor E_base
+
+   Governors earn E_base through governance trajectory:
+
+   {
+     "governor_trajectory": {
+       "governor_id": "gov:alice.smith",
+       "governance_history": {
+         "zones_governed": 3,
+         "decisions_made": 1247,
+         "decisions_upheld": 1189,
+         "decisions_overturned": 58,
+         "disputes_against": 12,
+         "disputes_lost": 2
+       },
+       "e_base": 72,
+       "accountability_record": {
+         "audits_passed": 8,
+         "violations": 0,
+         "sanctions": 0
+       }
+     }
+   }
+
+5.  Zone Governance Models
+
+5.1.  Model 1: Sole Proprietor
+
+   Single entity governs zone:
+
+      +------------------+
+      |    Governor      |
+      |  (single entity) |
+      +------------------+
+              |
+              v
+      +------------------+
+      |      Zone        |
+      +------------------+
+
+   Characteristics:
+
+   -  Simple decision-making
+
+   -  Clear accountability
+
+   -  Single point of failure
+
+   -  Limited checks on abuse
+
+   Appropriate for:
+
+   -  Small zones
+
+   -  Experimental zones
+
+   -  Private organizational zones
+
+5.2.  Model 2: Governance Council
+
+   Multiple entities share governance:
+
+      +-----+-----+-----+-----+-----+
+      | G1  | G2  | G3  | G4  | G5  |
+      +-----+-----+-----+-----+-----+
+                    |
+                    v
+          +------------------+
+          |  Council Voting  |
+          |  (M-of-N)        |
+          +------------------+
+                    |
+                    v
+          +------------------+
+          |      Zone        |
+          +------------------+
+
+   Characteristics:
+
+   -  Distributed decision-making
+
+   -  Multiple perspectives
+
+   -  Slower changes
+
+   -  Built-in checks
+
+   Appropriate for:
+
+   -  Production zones
+
+   -  Multi-stakeholder zones
+
+   -  Public-facing zones
+
+5.3.  Model 3: Delegated Governance
+
+   Layered governance with delegation:
+
+      +------------------+
+      |  Charter Council |
+      |  (constitutional)|
+      +------------------+
+              |
+              | delegates
+              v
+      +------------------+
+      | Operations Board |
+      |  (operational)   |
+      +------------------+
+              |
+              | delegates
+              v
+      +------------------+
+      | Zone Operators   |
+      |  (technical)     |
+      +------------------+
+              |
+              v
+      +------------------+
+      |      Zone        |
+      +------------------+
+
+   Characteristics:
+
+   -  Separation of concerns
+
+   -  Appropriate expertise at each level
+
+   -  Complex accountability
+
+   -  Suitable for large zones
+
+   Appropriate for:
+
+   -  Large public zones
+
+   -  Regulated industries
+
+   -  Critical infrastructure
+
+5.4.  Model 4: Federated Governance
+
+   Governance shared across federation:
+
+      +------------------+     +------------------+
+      |   Zone A Gov     |<--->|   Zone B Gov     |
+      +------------------+     +------------------+
+              |                         |
+              v                         v
+      +------------------+     +------------------+
+      |     Zone A       |<--->|     Zone B       |
+      +------------------+     +------------------+
+               \                       /
+                v                     v
+              +------------------+
+              | Federation       |
+              | Council          |
+              +------------------+
+
+   Characteristics:
+
+   -  Shared standards
+
+   -  Mutual accountability
+
+   -  Complex coordination
+
+   -  No single authority
+
+   Appropriate for:
+
+   -  Multi-zone deployments
+
+   -  Cross-organizational zones
+
+   -  Global infrastructure
+
+6.  Zone Charter
+
+6.1.  Purpose
+
+   The Zone Charter is the foundational governance document:
+
+   -  Defines governance structure
+
+   -  Specifies E-setting authority
+
+   -  Establishes accountability mechanisms
+
+   -  Sets amendment procedures
+
+   -  Binds all zone participants
+
+6.2.  Required Elements
+
+   Every Zone Charter MUST include:
+
+   zone_charter:
+     zone_id: "zone-blue-prod-01"
+     charter_version: "1.0.0"
+     effective_date: "2025-01-01T00:00:00Z"
+
+     governance_model:
+       type: "council"
+       council_size: 5
+       quorum: 3
+       voting_threshold: 0.6
+
+     e_setting_authority:
+       zone_e_base:
+         authority: "council_supermajority"
+         threshold: 0.8
+       agent_e_base:
+         authority: "council_majority"
+         threshold: 0.6
+       emergency_e_reduction:
+         authority: "any_governor"
+         threshold: null
+
+     accountability:
+       audit_frequency: "quarterly"
+       external_auditor: true
+       transparency_level: "public"
+       dispute_process: "federation_arbitration"
+
+     amendment:
+       proposal_threshold: 0.4
+       approval_threshold: 0.8
+       notice_period_days: 30
+       ratification_period_days: 14
+
+     constraints:
+       recursive_constraint: true
+       governor_e_base_min: 50
+       governor_e_base_max: 90
+
+     signatories:
+       - governor_id: "gov:alice.smith"
+         signature: "sig:..."
+         date: "2025-01-01T00:00:00Z"
+
+6.3.  Charter Immutability
+
+   Certain charter elements MUST NOT be modified:
+
+   -  Recursive constraint (always enabled)
+
+   -  Minimum governor E_base
+
+   -  Requirement for amendment process
+
+   -  Dispute resolution process existence
+
+   These are constitutional constraints that protect the physics.
+
+7.  E-Setting Authority
+
+7.1.  The Authority Problem
+
+   E_base determines how much autonomy agents can have.  Whoever sets
+   E_base has enormous power:
+
+   -  Too low: Agents are crippled, zone is useless
+
+   -  Too high: Agents are unconstrained, zone is dangerous
+
+   -  Inconsistent: Trust becomes meaningless
+
+7.2.  Authority Levels
+
+   E-setting authority is tiered:
+
+      +-----------+------------------------+---------------------+
+      | Level     | Scope                  | Typical Authority   |
+      +-----------+------------------------+---------------------+
+      | Tier      | Tier-specific E_base   | Governance Council  |
+      | Agent     | Individual E_base      | Zone Operators      |
+      | Emergency | Temporary E reduction  | Any Governor        |
+      +-----------+------------------------+---------------------+
+
+7.3.  Authority Constraints
+
+   E-setting authority is itself constrained:
+
+   {
+     "e_setting_constraints": {
+       "zone_e_base": {
+         "min": 20,
+         "max": 80,
+         "change_max_per_period": 10,
+         "change_period_days": 7,
+         "requires_audit": true
+       },
+       "agent_e_base": {
+         "min": 5,
+         "max": "zone_e_base",
+         "change_max_per_period": 15,
+         "change_period_days": 1,
+         "requires_audit": false
+       },
+       "emergency_reduction": {
+         "max_reduction": 50,
+         "max_duration_hours": 24,
+         "requires_post_hoc_review": true
+       }
+     }
+   }
+
+7.4.  E-Setting Process
+
+   Normal E_base modification:
+
+   1.  Proposal submitted
+
+       -  Proposed new E_base
+
+       -  Rationale
+
+       -  Impact assessment
+
+   2.  Review period
+
+       -  Notice to affected parties
+
+       -  Comment period
+
+       -  Impact analysis
+
+   3.  Governance decision
+
+       -  Vote per charter rules
+
+       -  Record of decision
+
+       -  Dissent recorded
+
+   4.  Implementation
+
+       -  Scheduled change
+
+       -  Monitoring period
+
+       -  Rollback capability
+
+   5.  Post-implementation review
+
+       -  Impact verification
+
+       -  Adjustment if needed
+
+7.5.  Emergency E Reduction
+
+   In emergencies, E can be reduced immediately:
+
+   {
+     "emergency_e_reduction": {
+       "reduction_id": "eer-2025-12-03-001",
+       "authorized_by": "gov:alice.smith",
+       "authorization_time": "2025-12-03T14:00:00Z",
+       "original_e_base": 60,
+       "reduced_e_base": 30,
+       "reduction_percentage": 50,
+       "reason": "mass_compromise_detected",
+       "evidence": "INC-2025-12-03-001",
+       "duration_hours": 4,
+       "auto_restore_time": "2025-12-03T18:00:00Z",
+       "review_required": true,
+       "review_deadline": "2025-12-04T14:00:00Z"
+     }
+   }
+
+8.  Dispute Resolution
+
+8.1.  Dispute Categories
+
+      +------------------------+----------------------+------------------+
+      | Category               | Description          | Resolution Path  |
+      +------------------------+----------------------+------------------+
+      | Governor vs. Governor  | Governors disagree   | Council          |
+      |                        |                      | resolution       |
+      | Zone vs. Zone          | Cross-zone disputes  | Federation       |
+      |                        |                      | arbitration      |
+      | Zone vs. Federation    | Zone disputes        | Meta-governance  |
+      |                        | federation           |                  |
+      | Stakeholder vs. Zone   | External party       | External         |
+      |                        | dispute              | arbitration      |
+      +------------------------+----------------------+------------------+
+
+8.2.  Zone-Level Dispute Process
+
+   1.  Filing
+
+       -  Dispute documented
+
+       -  Parties notified
+
+       -  Temporary measures if needed
+
+   2.  Investigation
+
+       -  Facts gathered
+
+       -  Evidence reviewed
+
+       -  Parties heard
+
+   3.  Deliberation
+
+       -  Council reviews
+
+       -  Options considered
+
+       -  Decision made
+
+   4.  Decision
+
+       -  Written decision
+
+       -  Rationale provided
+
+       -  Remedies specified
+
+   5.  Appeal (if available)
+
+       -  Higher authority review
+
+       -  Final decision
+
+8.3.  Federation Arbitration
+
+   Cross-zone disputes use federation arbitration:
+
+   {
+     "federation_arbitration": {
+       "case_id": "FA-2025-001",
+       "parties": {
+         "claimant": "zone-blue-prod-01",
+         "respondent": "zone-blue-prod-02"
+       },
+       "dispute_type": "trust_recognition",
+       "arbitrators": [
+         "arbitrator:neutral-zone-01",
+         "arbitrator:neutral-zone-02",
+         "arbitrator:neutral-zone-03"
+       ],
+       "process": {
+         "filing_date": "2025-12-01",
+         "response_deadline": "2025-12-08",
+         "hearing_date": "2025-12-15",
+         "decision_deadline": "2025-12-22"
+       },
+       "binding": true
+     }
+   }
+
+9.  Accountability Mechanisms
+
+9.1.  Governor Accountability
+
+   Governors are accountable through:
+
+   1.  Transparency: All governance actions logged and public
+
+   2.  Audit: Regular external audit of governance
+
+   3.  Recall: Mechanism to remove governors
+
+   4.  Liability: Personal consequences for abuse
+
+9.2.  Audit Requirements
+
+   Zone governance MUST be audited:
+
+      +------------+-----------+--------------------+
+      | Audit Type | Frequency | Scope              |
+      +------------+-----------+--------------------+
+      | Compliance | Annual    | Charter adherence  |
+      | Security   | Annual    | Security posture   |
+      | External   | Annual    | Independent review |
+      +------------+-----------+--------------------+
+
+9.3.  Governor Removal
+
+   Governors can be removed for cause:
+
+   {
+     "governor_removal": {
+       "process": {
+         "initiation": "petition_by_stakeholders_or_council",
+         "petition_threshold": "20% of stakeholders OR 2 council members",
+         "investigation": "independent_investigator",
+         "hearing": "council_hearing_with_defense",
+         "decision": "supermajority_vote",
+         "appeal": "federation_arbitration"
+       },
+       "grounds": [
+         "violation_of_charter",
+         "abuse_of_authority",
+         "conflict_of_interest",
+         "failure_to_perform_duties",
+         "conviction_of_relevant_offense"
+       ],
+       "consequences": {
+         "removal_from_council": "immediate",
+         "e_base_impact": "reduced_to_minimum",
+         "future_governance": "barred_for_period"
+       }
+     }
+   }
+
+10.  Federation Governance
+
+10.1.  Federation Structure
+
+   Zones federate under shared governance:
+
+   +-----------------------------------------------------------+
+   |                   Federation Council                      |
+   |          (representatives from member zones)              |
+   +-----------------------------------------------------------+
+             |                    |                    |
+             v                    v                    v
+   +------------------+  +------------------+  +------------------+
+   |    Zone A        |  |    Zone B        |  |    Zone C        |
+   |    Governance    |  |    Governance    |  |    Governance    |
+   +------------------+  +------------------+  +------------------+
+
+10.2.  Federation Authority
+
+   Federation governance handles:
+
+      +--------------------+----------------------------------+
+      | Scope              | Authority                        |
+      +--------------------+----------------------------------+
+      | Trust Transfer     | Rules for cross-zone trust       |
+      | Dispute Resolution | Cross-zone disputes              |
+      | Membership         | Zone admission and expulsion     |
+      | Emergency          | Coordinated emergency response   |
+      +--------------------+----------------------------------+
+
+11.  Meta-Governance
+
+11.1.  Changing the Governance
+
+   Governance itself must be governable -- but changes to governance are
+   high-risk operations requiring high trust.
+
+11.2.  Amendment Process
+
+   Charter amendments follow strict process:
+
+   1.  Proposal (requires 40% council support)
+
+       -  Full text of proposed amendment
+
+       -  Rationale
+
+       -  Impact assessment
+
+       -  Implementation plan
+
+   2.  Notice Period (30 days minimum)
+
+       -  Public notice
+
+       -  Comment period
+
+       -  Stakeholder notification
+
+   3.  Deliberation
+
+       -  Council review
+
+       -  Public hearing (if major)
+
+       -  Legal review
+
+   4.  Vote (requires 80% council approval)
+
+       -  Recorded vote
+
+       -  Dissent documented
+
+   5.  Ratification Period (14 days)
+
+       -  Final objection window
+
+       -  Implementation preparation
+
+   6.  Implementation
+
+       -  Staged rollout
+
+       -  Monitoring
+
+       -  Rollback capability
+
+11.3.  Amendment Constraints
+
+   Some amendments are constrained or prohibited:
+
+      +-------------------------------+-----------------------------+
+      | Amendment Type                | Constraint                  |
+      +-------------------------------+-----------------------------+
+      | Reduce transparency           | Requires 90% approval       |
+      | Change dispute process        | Requires external review    |
+      | Reduce governor accountability| Requires 90% approval       |
+      | Increase E_base limits        | Requires impact assessment  |
+      +-------------------------------+-----------------------------+
+
+12.  Transparency Requirements
+
+12.1.  Public Information
+
+   The following MUST be public:
+
+      +----------------------+------------------------------+
+      | Information          | Publication                  |
+      +----------------------+------------------------------+
+      | Governor identities  | Publicly accessible          |
+      | E_base values        | Publicly accessible          |
+      | Governance decisions | Published within 24 hours    |
+      | Audit reports        | Published within 30 days     |
+      | Dispute outcomes     | Published (anonymized if     |
+      |                      | needed)                      |
+      +----------------------+------------------------------+
+
+12.2.  Logging Requirements
+
+   All governance actions are logged to the Flight Recorder with full
+   attribution, timestamps, and authorization chain.
+
+13.  Security Considerations
+
+13.1.  Governance Attack Vectors
+
+      +----------------------+---------------------------------------+
+      | Attack               | Mitigation                            |
+      +----------------------+---------------------------------------+
+      | Collusion            | Distributed governors, transparency   |
+      | Bribery              | Accountability, external audit        |
+      | Regulatory capture   | Federation oversight, public          |
+      |                      | transparency                          |
+      | Slow-motion takeover | Amendment constraints, review cycles  |
+      +----------------------+---------------------------------------+
+
+13.2.  Governance Continuity
+
+   Governance must continue during disruptions:
+
+   -  Backup governors designated
+
+   -  Emergency procedures documented
+
+   -  Federation can provide temporary governance
+
+   -  Clear succession protocols
+
+14.  IANA Considerations
+
+   This document has no IANA actions.
+
+Appendix A.  Sample Zone Charters
+
+   Example charters for different governance models.
+
+Appendix B.  Governance Decision Templates
+
+   Templates for common governance decisions.
+
+Appendix C.  Audit Procedures
+
+   Detailed procedures for governance audits.
+
+Acknowledgments
+
+   Governance design draws on political theory, organizational
+   governance research, and lessons from internet governance bodies.

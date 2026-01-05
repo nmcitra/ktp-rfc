@@ -1,197 +1,1000 @@
----
-title: KTP-Oracle
-description: The Trust Oracle specification - the nerve center of KTP zones, handling trust proofs, consensus, and digital gravity enforcement.
----
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-# KTP-Oracle: Trust Oracle Specification
 
-!!! info "Status: Experimental"
-    The Trust Oracle is the authoritative source of trust state within a zone. It issues Trust Proofs, enforces the Zeroth Law, and maintains consensus on the physics of the environment.
+      Kinetic Trust Protocol (KTP) - Trust Oracle Specification
 
-## At a Glance
+Abstract
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask:{ .experimental } Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Signal](ktp-signal.md) |
-| **Required By** | [KTP-Federation](ktp-federation.md), [KTP-Zones](ktp-zones.md) |
+   This document specifies the Trust Oracle for the Kinetic Trust
+   Protocol (KTP).  The Trust Oracle is the authoritative source of
+   trust state within a zone—issuing Trust Proofs, co-signing
+   trajectory records, calculating environmental stability (E), and
+   enforcing Digital Gravity.  The specification covers Oracle
+   architecture, consensus mechanisms, threshold signatures, mesh
+   topology, Oracle accountability, and Oracle-to-Oracle federation.
 
----
+Status of This Memo
 
-## Oracle Architecture
+   This document specifies a Kinetic Trust Protocol specification for
+   the KTP community, describing the Trust Oracle component and its
+   operations within KTP zones.  Distribution of this memo is
+   unlimited.
 
-The Trust Oracle is not a single server but a distributed system. A single node consists of several critical engines.
+   This is a draft specification and may be updated, replaced, or
+   made obsolete by other documents at any time.  It is inappropriate
+   to use this document as reference material or to cite it other
+   than as "work in progress."
 
-```mermaid
-graph TD
-    subgraph Oracle Node
-        TC[Tensor Collector] -->|Raw Data| RC[Risk Calculator]
-        RC -->|R & E| ZLE[Zeroth Law Engine]
-        RC -->|R & E| TPI[Trust Proof Issuer]
-        
-        Req[Agent Request] --> ZLE
-        Req --> TPI
-        
-        ZLE -->|Permit/Deny| Out[Response]
-        TPI -->|Signed Proof| Out
-        
-        KM[Key Management HSM] -.-> TPI
-        KM -.-> TCS[Trajectory Co-Signer]
-        
-        CC[Consensus Client] <-->|Mesh Traffic| Mesh
-    end
-    
-    Sensors --> TC
-```
+Copyright Notice
 
-### Component Functions
+   Copyright (c) 2025 NMCITRA and the persons identified as the
+   document authors.  All rights reserved.
 
-1.  **Tensor Collector**: Aggregates data from Soul, Body, World, Time, Relational, and Signal tensors.
-2.  **Risk Calculator**: Computes Environmental Stability ($E$) from Risk ($R$).
-    $$ E = E_{base} \times (1 - R) $$
-3.  **Zeroth Law Engine**: The "physics engine" that evaluates every action.
-    $$ A \leq E $$
-4.  **Trust Proof Issuer**: Generates cryptographically signed proofs of trust state.
+   This document is subject to the licensing terms of the Kinetic
+   Trust Protocol project, which permits use, modification, and
+   distribution under the terms of the project license.
 
----
+Table of Contents
 
-## Oracle Mesh Topology
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   1
+   2.  Design Principles  . . . . . . . . . . . . . . . . . . . . .   2
+   3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   2
+   4.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Oracle Architecture  . . . . . . . . . . . . . . . . . . . .   4
+       5.1.  Single Node Architecture . . . . . . . . . . . . . . .   4
+       5.2.  Component Specifications . . . . . . . . . . . . . . .   5
+             5.2.1.  Tensor Collector . . . . . . . . . . . . . . .   5
+             5.2.2.  Risk Calculator  . . . . . . . . . . . . . . .   6
+             5.2.3.  Zeroth Law Engine  . . . . . . . . . . . . . .   6
+             5.2.4.  Trust Proof Issuer . . . . . . . . . . . . . .   7
+             5.2.5.  Trajectory Co-Signer . . . . . . . . . . . . .   8
+   6.  Oracle Mesh  . . . . . . . . . . . . . . . . . . . . . . . .   8
+       6.1.  Mesh Topology  . . . . . . . . . . . . . . . . . . . .   8
+       6.2.  Mesh Requirements  . . . . . . . . . . . . . . . . . .   9
+       6.3.  Node Roles . . . . . . . . . . . . . . . . . . . . . .   9
+   7.  Consensus Mechanisms . . . . . . . . . . . . . . . . . . . .  10
+       7.1.  Consensus Requirements . . . . . . . . . . . . . . . .  10
+       7.2.  Consensus Protocol . . . . . . . . . . . . . . . . . .  10
+       7.3.  Consensus Scope  . . . . . . . . . . . . . . . . . . .  11
+       7.4.  Split Brain Prevention . . . . . . . . . . . . . . . .  11
+   8.  Threshold Signatures . . . . . . . . . . . . . . . . . . . .  12
+       8.1.  Overview . . . . . . . . . . . . . . . . . . . . . . .  12
+       8.2.  Threshold Scheme . . . . . . . . . . . . . . . . . . .  12
+       8.3.  Key Ceremony . . . . . . . . . . . . . . . . . . . . .  13
+       8.4.  Operations Requiring Threshold Signature . . . . . . .  13
+   9.  Trust Proof Lifecycle  . . . . . . . . . . . . . . . . . . .  13
+       9.1.  Issuance . . . . . . . . . . . . . . . . . . . . . . .  13
+       9.2.  Validation . . . . . . . . . . . . . . . . . . . . . .  14
+       9.3.  Refresh  . . . . . . . . . . . . . . . . . . . . . . .  14
+       9.4.  Revocation . . . . . . . . . . . . . . . . . . . . . .  14
+   10. Oracle Accountability  . . . . . . . . . . . . . . . . . . .  15
+       10.1. Oracles Under Gravity  . . . . . . . . . . . . . . . .  15
+       10.2. Oracle Trajectory  . . . . . . . . . . . . . . . . . .  15
+       10.3. Oracle Audit . . . . . . . . . . . . . . . . . . . . .  16
+       10.4. Oracle Misbehavior . . . . . . . . . . . . . . . . . .  16
+   11. Federation . . . . . . . . . . . . . . . . . . . . . . . . .  16
+       11.1. Oracle-to-Oracle Federation  . . . . . . . . . . . . .  16
+       11.2. Federation Establishment . . . . . . . . . . . . . . .  17
+       11.3. Federation Trust Factor  . . . . . . . . . . . . . . .  17
+       11.4. Cross-Zone Operations  . . . . . . . . . . . . . . . .  17
+   12. Performance Requirements . . . . . . . . . . . . . . . . . .  18
+       12.1. Latency Targets  . . . . . . . . . . . . . . . . . . .  18
+       12.2. Throughput Targets . . . . . . . . . . . . . . . . . .  18
+       12.3. Availability Targets . . . . . . . . . . . . . . . . .  18
+   13. Deployment Models  . . . . . . . . . . . . . . . . . . . . .  19
+       13.1. Cloud Deployment . . . . . . . . . . . . . . . . . . .  19
+       13.2. On-Premises Deployment . . . . . . . . . . . . . . . .  19
+       13.3. Hybrid Deployment  . . . . . . . . . . . . . . . . . .  20
+   14. Security Considerations  . . . . . . . . . . . . . . . . . .  20
+       14.1. Key Protection . . . . . . . . . . . . . . . . . . . .  20
+       14.2. Network Security . . . . . . . . . . . . . . . . . . .  20
+       14.3. Byzantine Fault Tolerance  . . . . . . . . . . . . . .  21
+       14.4. Oracle Compromise Response . . . . . . . . . . . . . .  21
+   15. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  21
+   16. Back Matter  . . . . . . . . . . . . . . . . . . . . . . . .  21
+   Appendix A.  Oracle Node Specification . . . . . . . . . . . . .  22
+   Appendix B.  Consensus Protocol Details  . . . . . . . . . . . .  22
+   Appendix C.  Threshold Signature Implementation  . . . . . . . .  22
+   Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  22
 
-To prevent a single point of failure and ensure integrity, Oracles operate in a mesh using Byzantine Fault Tolerance (BFT).
+1.  Introduction
 
-```mermaid
-graph LR
-    N1((Node 1)) <--> N2((Node 2))
-    N2 <--> N3((Node 3))
-    N3 <--> N1
-    N3 <--> N4((Node 4))
-    N4 <--> N5((Node 5))
-    N5 <--> N1
-    N2 <--> N4
-    N5 <--> N3
-    
-    style N1 fill:#f9f,stroke:#333
-    style N2 fill:#f9f,stroke:#333
-    style N3 fill:#f9f,stroke:#333
-    style N4 fill:#f9f,stroke:#333
-    style N5 fill:#f9f,stroke:#333
-```
+   The Trust Oracle is the nerve center of a KTP zone.  It performs
+   the calculations that make Digital Gravity possible:
 
-### Consensus Requirements
+   -  Collects Context Tensor measurements
 
-| Operation | Consensus Type | Latency Target |
-| :--- | :--- | :--- |
-| **Trust Proof Issuance** | Single Node (Async) | < 5ms |
-| **Zeroth Law Check** | Single Node (Async) | < 1ms |
-| **Trajectory Co-Signing** | Quorum (M-of-N) | < 50ms |
-| **$E_{base}$ Modification** | Quorum (M-of-N) | < 200ms |
-| **Zone Config Change** | Supermajority | < 500ms |
+   -  Calculates Risk Factor (R) and Environmental Stability (E)
 
----
+   -  Issues Trust Proofs to agents
 
-## Trust Proof Lifecycle
+   -  Co-signs trajectory chain transactions
 
-Trust Proofs are the "currency" of the zone. They are short-lived, signed attestations of an agent's right to act.
+   -  Enforces the Zeroth Law (A ≤ E)
 
-```mermaid
-sequenceDiagram
-    participant Agent
-    participant Oracle
-    participant Verifier
-    
-    Agent->>Oracle: Request Trust Proof
-    Oracle->>Oracle: Calculate E = E_base * (1-R)
-    Oracle->>Oracle: Sign Proof (Expires in 10s)
-    Oracle-->>Agent: Trust Proof (TP)
-    
-    Agent->>Verifier: Action Request + TP
-    Verifier->>Verifier: Verify Signature & Expiry
-    Verifier->>Verifier: Check A <= TP.E
-    
-    alt Valid
-        Verifier-->>Agent: Action Accepted
-    else Invalid
-        Verifier-->>Agent: Action Rejected
-    end
-```
+   -  Applies gravity constraints when needed
 
-### Proof Structure
-```json
-{
-  "proof_id": "tp-2025-12-03-001",
-  "agent_id": "agent:divergent:3gen:acme:abc123",
-  "trust_state": {
-    "e_base": 55,
-    "e_trust": 44,
-    "r_current": 0.2,
-    "tier": "analyst"
-  },
-  "constraints": {
-    "max_action_risk": 44
-  },
-  "signature": "sig:oracle:..."
-}
-```
+   -  Attests to agent behavior for Proof of Resilience
 
----
+   Without a functioning Trust Oracle, KTP cannot operate.  The Oracle
+   is both critical infrastructure and potential single point of
+   failure.  This specification addresses both the capabilities
+   required and the resilience necessary.
 
-## Threshold Signatures
+2.  Design Principles
 
-Critical operations (like changing the physics of the zone) require **Threshold Signatures**. No single Oracle node holds the full private key.
+   The Trust Oracle embodies these principles:
 
-- **Scheme**: Shamir's Secret Sharing with Threshold ECDSA.
-- **Configuration**: Typically 3-of-5 or 5-of-7.
-- **Key Ceremony**: A formal, witnessed process for generating and distributing key shares.
+   1.  Availability: The Oracle MUST be available for zone operation.
+       Downtime means agents cannot act.
 
----
+   2.  Integrity: Oracle decisions MUST be consistent and correct.
+       Corrupted Oracles corrupt the entire trust system.
 
-## Related Specifications
+   3.  Accountability: Oracles are themselves subject to KTP.  They
+       cannot exempt themselves from physics.
 
-<div class="grid cards" markdown>
+   4.  Transparency: Oracle operations MUST be auditable.  Trust
+       requires visibility.
 
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
+   5.  Resilience: Single Oracle failure MUST NOT disable the zone.
+       Redundancy is required.
 
-    ---
-    
-    Foundation protocol, Zeroth Law, and Trust Score calculation.
+   6.  Performance: Oracle latency MUST NOT bottleneck agent
+       operations.  Speed matters.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
+3.  Requirements Language
 
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
+   this document are to be interpreted as described in BCP 14
+   (RFC 2119 and RFC 8174).
 
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
+4.  Terminology
 
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
+   Attestation:
+      A signed statement by the Oracle confirming some fact about an
+      agent or transaction.
 
--   :material-lock:{ .lg .middle } **KTP-Crypto**
+   Consensus:
+      Agreement among multiple Oracle nodes on trust state.
 
-    ---
-    
-    Cryptographic primitives and signature schemes.
+   Oracle Mesh:
+      A network of connected Oracle nodes providing redundancy and
+      consensus.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
+   Oracle Node:
+      A single instance of Trust Oracle software and associated
+      cryptographic identity.
 
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
+   Quorum:
+      The minimum number of Oracle nodes required for valid decisions.
 
-    ---
-    
-    Network transport and Trust Proof propagation.
+   Split Brain:
+      A failure mode where Oracle nodes disagree and cannot reach
+      consensus.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
+   Threshold Signature:
+      A cryptographic signature requiring M-of-N participants to
+      produce.
 
-</div>
+   Trust Proof:
+      A signed attestation of an agent's current trust state, issued
+      by the Oracle.
 
----
+5.  Oracle Architecture
 
-## Official RFC Document
+5.1.  Single Node Architecture
 
-!!! quote "KTP-ORACLE: Trust Oracle Specification"
-    The following is the official raw text of the KTP-Oracle RFC.
+   A single Oracle node contains:
 
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-oracle.txt"
-        ```
+   +------------------------------------------------------------------+
+   |                      TRUST ORACLE NODE                           |
+   |                                                                  |
+   |  +------------------------------------------------------------+  |
+   |  |                    Tensor Collector                        |  |
+   |  |   Receives measurements from all six Context Tensors       |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                    Risk Calculator                         |  |
+   |  |   R = weighted_aggregate(tensor_risks)                     |  |
+   |  |   E = E_base × (1 - R)                                     |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Zeroth Law Engine                        |  |
+   |  |   Evaluates A ≤ E for every action request                 |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Gravity Calculator                       |  |
+   |  |   G = f(A, E, threshold) — determines constraint level     |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Trust Proof Issuer                       |  |
+   |  |   Issues signed Trust Proofs to agents                     |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Trajectory Co-Signer                     |  |
+   |  |   Co-signs agent transaction records                       |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Attestation Engine                       |  |
+   |  |   Issues Proof of Resilience attestations                  |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                    Key Management                          |  |
+   |  |   HSM-backed cryptographic operations                      |  |
+   |  +------------------------------------------------------------+  |
+   |                              |                                   |
+   |  +------------------------------------------------------------+  |
+   |  |                   Consensus Client                         |  |
+   |  |   Participates in Oracle Mesh consensus                    |  |
+   |  +------------------------------------------------------------+  |
+   |                                                                  |
+   +------------------------------------------------------------------+
+
+5.2.  Component Specifications
+
+5.2.1.  Tensor Collector
+
+   The Tensor Collector receives measurements from Context Tensor
+   instrumentation:
+
+   -  Input: Body Tensor
+      Source: Infrastructure monitoring
+      Rate: 1-100 Hz
+
+   -  Input: World Tensor
+      Source: Environmental sensors/simulation
+      Rate: 0.1-10 Hz
+
+   -  Input: Time Tensor
+      Source: Time subsystem
+      Rate: Per transaction
+
+   -  Input: Relational Tensor
+      Source: Relationship monitoring
+      Rate: Per interaction
+
+   -  Input: Signal Tensor
+      Source: Information environment monitoring
+      Rate: 1 Hz
+
+   The Collector MUST:
+
+   -  Validate incoming measurements
+
+   -  Detect anomalous or spoofed data
+
+   -  Maintain measurement history for smoothing
+
+   -  Provide current tensor state on demand
+
+5.2.2.  Risk Calculator
+
+   The Risk Calculator computes R from tensor measurements:
+
+      R = Σ(tensor_risk_i × weight_i) for i in tensors
+
+   Where weights sum to 1.0 (default):
+
+      soul_weight       = 0.25
+      body_weight       = 0.10
+      world_weight      = 0.15
+      time_weight       = 0.15
+      relational_weight = 0.20
+      signal_weight     = 0.15
+
+   The Calculator MUST:
+
+   -  Update R within 10ms of tensor change
+
+   -  Apply temporal smoothing to prevent oscillation
+
+   -  Handle missing tensor data gracefully
+
+   -  Log R changes for audit
+
+5.2.3.  Zeroth Law Engine
+
+   The Zeroth Law Engine evaluates A ≤ E for every action:
+
+   Input:
+
+      action_request {
+        agent_id,
+        action_type,
+        target,
+        parameters
+      }
+
+   Process:
+
+      1.  Calculate A = autonomy(action_request)
+      2.  Retrieve agent E_base
+      3.  Get current R
+      4.  Calculate E = E_base × (1 - R)
+      5.  Evaluate A ≤ E
+
+   Output:
+
+      {
+        permitted: boolean,
+        A: number,
+        E: number,
+        gravity_recommended: number
+      }
+
+   The Engine MUST:
+
+   -  Complete evaluation within 1ms
+
+   -  Be deterministic (same inputs → same outputs)
+
+   -  Log all evaluations
+
+   -  Handle concurrent requests
+
+5.2.4.  Trust Proof Issuer
+
+   The Trust Proof Issuer creates signed Trust Proofs:
+
+      {
+        "proof_id": "tp-2025-12-03-001",
+        "agent_id": "agent:divergent:3gen:acme:abc123",
+        "issued_at": "2025-12-03T14:32:15.123Z",
+        "expires_at": "2025-12-03T14:32:25.123Z",
+        "trust_state": {
+          "e_base": 55,
+          "e_trust": 44,
+          "r_current": 0.2,
+          "tier": "analyst",
+          "lineage": "divergent",
+          "generation": 3
+        },
+        "constraints": {
+          "max_action_risk": 44,
+          "restricted_actions": [],
+          "gravity_active": false
+        },
+        "oracle_id": "oracle:zone-blue-prod-01:primary",
+        "signature": "sig:oracle:..."
+      }
+
+   Trust Proofs MUST:
+
+   -  Have short expiration (default: 10 seconds)
+
+   -  Be signed by Oracle key
+
+   -  Include current trust state
+
+   -  Be verifiable by any party with Oracle public key
+
+5.2.5.  Trajectory Co-Signer
+
+   The Co-Signer adds Oracle attestation to trajectory records:
+
+   Input: transaction_record (agent-signed)
+
+   Process:
+
+      1.  Verify agent signature
+      2.  Verify action was permitted
+      3.  Verify state transitions are valid
+      4.  Capture tensor snapshot
+      5.  Add Oracle attestation
+      6.  Sign complete record
+
+   Output: transaction_record (co-signed)
+
+   The Co-Signer MUST:
+
+   -  Verify before signing (never blind sign)
+
+   -  Include tensor snapshot at time of transaction
+
+   -  Refuse to sign invalid records
+
+   -  Log all signing operations
+
+6.  Oracle Mesh
+
+6.1.  Mesh Topology
+
+   Production deployments MUST use multiple Oracle nodes in a mesh:
+
+   +------------------+      +------------------+
+   |   Oracle Node 1  |<---->|   Oracle Node 2  |
+   +------------------+      +------------------+
+            ^                         ^
+            |                         |
+            v                         v
+   +------------------+      +------------------+
+   |   Oracle Node 3  |<---->|   Oracle Node 4  |
+   +------------------+      +------------------+
+            ^                         ^
+            |                         |
+            v                         v
+   +------------------+      +------------------+
+   |   Oracle Node 5  |<---->|   Oracle Node 6  |
+   +------------------+      +------------------+
+
+              All-to-all connectivity for consensus
+
+6.2.  Mesh Requirements
+
+   -  Requirement: Geographic distribution
+      Minimum: 2 locations
+      Recommended: 3+ locations
+
+   -  Requirement: Network latency (inter-node)
+      Minimum: <100ms
+      Recommended: <50ms
+
+   -  Requirement: Quorum for operations
+      Minimum: (N/2)+1
+      Recommended: (2N/3)+1
+
+6.3.  Node Roles
+
+   All nodes are peers, but roles may be assigned:
+
+   -  Role: Primary
+      Responsibility: Receives requests, initiates consensus
+
+   -  Role: Secondary
+      Responsibility: Participates in consensus, can become primary
+
+   -  Role: Witness
+      Responsibility: Participates in consensus, does not serve
+      requests
+
+   Primary selection uses leader election:
+
+   -  Highest-uptime node becomes primary
+
+   -  Automatic failover on primary failure
+
+   -  No single primary required (multi-primary possible)
+
+7.  Consensus Mechanisms
+
+7.1.  Consensus Requirements
+
+   Oracle consensus must achieve:
+
+   1.  Agreement: All honest nodes reach same decision
+
+   2.  Validity: Decision reflects actual trust state
+
+   3.  Termination: Decision is reached in bounded time
+
+   4.  Fault tolerance: Tolerates f < N/3 Byzantine failures
+
+7.2.  Consensus Protocol
+
+   The Oracle Mesh uses a simplified PBFT-style consensus:
+
+   Phase 1: PRE-PREPARE
+
+      Primary receives request
+      Primary assigns sequence number
+      Primary broadcasts <PRE-PREPARE, seq, request> to all nodes
+
+   Phase 2: PREPARE
+
+      Nodes verify request
+      Nodes broadcast <PREPARE, seq, digest> to all nodes
+      Node enters PREPARED state when 2f+1 PREPARE messages received
+
+   Phase 3: COMMIT
+
+      Nodes broadcast <COMMIT, seq, digest> to all nodes
+      Node enters COMMITTED state when 2f+1 COMMIT messages received
+      Node executes request and responds to client
+
+7.3.  Consensus Scope
+
+   Not all operations require full consensus:
+
+   -  Operation: Zeroth Law evaluation
+      Consensus Required: No (single node sufficient)
+
+   -  Operation: Trust Proof issuance
+      Consensus Required: No (single node sufficient)
+
+   -  Operation: Trajectory co-signing
+      Consensus Required: Yes (quorum required)
+
+   -  Operation: E_base modification
+      Consensus Required: Yes (quorum required)
+
+   -  Operation: Agent Genesis
+      Consensus Required: Yes (quorum required)
+
+   -  Operation: Zone configuration change
+      Consensus Required: Yes (supermajority required)
+
+7.4.  Split Brain Prevention
+
+   Split brain occurs when network partition creates multiple
+   sub-quorums.  Prevention:
+
+   1.  Quorum requirement: Operations require (N/2)+1 nodes
+
+   2.  Fencing: Partitioned nodes fence themselves
+
+   3.  Witness nodes: Odd number of nodes prevents even splits
+
+   4.  Merge protocol: Reconciliation when partition heals
+
+8.  Threshold Signatures
+
+8.1.  Overview
+
+   Critical Oracle operations use threshold signatures—requiring M of
+   N Oracle nodes to produce a valid signature.
+
+      Standard signature: 1 key → 1 signature
+      Threshold signature: M of N key shares → 1 signature
+
+   Example (3-of-5):
+
+      Node 1 holds share 1
+      Node 2 holds share 2
+      Node 3 holds share 3
+      Node 4 holds share 4
+      Node 5 holds share 5
+
+      Any 3 nodes can combine shares to produce valid signature
+      No single node can sign alone
+      Signature is indistinguishable from standard signature
+
+8.2.  Threshold Scheme
+
+   The Oracle uses Shamir's Secret Sharing with threshold ECDSA:
+
+   -  Parameter: N
+      Description: Total number of nodes
+      Default: 5
+
+   -  Parameter: M
+      Description: Threshold for signing
+      Default: 3
+
+   -  Parameter: Curve
+      Description: Elliptic curve
+      Default: secp256k1
+
+   -  Parameter: Hash
+      Description: Hash algorithm
+      Default: SHA-256
+
+8.3.  Key Ceremony
+
+   Threshold keys are generated in a key ceremony:
+
+   1.  All N nodes generate random contributions
+
+   2.  Contributions are combined using DKG protocol
+
+   3.  Each node receives its key share
+
+   4.  No node ever sees complete private key
+
+   5.  Public key is published
+
+   6.  Ceremony is recorded and witnessed
+
+8.4.  Operations Requiring Threshold Signature
+
+   -  Operation: E_base modification
+      Threshold: 3-of-5
+
+   -  Operation: Zone configuration change
+      Threshold: 4-of-5
+
+   -  Operation: Oracle key rotation
+      Threshold: 4-of-5
+
+   -  Operation: Zone dissolution
+      Threshold: 5-of-5
+
+9.  Trust Proof Lifecycle
+
+9.1.  Issuance
+
+   Trust Proofs are issued on demand:
+
+      Agent → Oracle: RequestTrustProof(agent_id)
+
+      Oracle:
+        1.  Verify agent identity
+        2.  Calculate current E_trust
+        3.  Determine tier and constraints
+        4.  Create Trust Proof
+        5.  Sign with Oracle key
+
+      Oracle → Agent: TrustProof
+
+9.2.  Validation
+
+   Any party can validate a Trust Proof:
+
+      Validator:
+        1.  Check proof not expired
+        2.  Verify Oracle signature against known public key
+        3.  Verify agent_id matches expected agent
+        4.  Check constraints are appropriate for action
+
+9.3.  Refresh
+
+   Trust Proofs expire quickly and must be refreshed:
+
+   -  Zone Type: Blue
+      Default Expiration: 10 seconds
+      Refresh Recommendation: Every 5 seconds
+
+   -  Zone Type: Cyan
+      Default Expiration: 30 seconds
+      Refresh Recommendation: Every 15 seconds
+
+   -  Zone Type: Green
+      Default Expiration: 60 seconds
+      Refresh Recommendation: Every 30 seconds
+
+9.4.  Revocation
+
+   Trust Proofs can be revoked before expiration:
+
+      Oracle: RevokeTrustProof(proof_id, reason)
+        1.  Add proof_id to revocation list
+        2.  Broadcast revocation to mesh
+        3.  Notify agent
+        4.  Log revocation
+
+   Revocation reasons:
+
+   -  Agent violation detected
+
+   -  E_base reduced
+
+   -  Zone policy change
+
+   -  Security incident
+
+10.  Oracle Accountability
+
+10.1.  Oracles Under Gravity
+
+   The recursive constraint principle: Oracles are subject to KTP.
+
+   Oracle actions have autonomy (A):
+
+   -  Issuing Trust Proof: A = 10
+
+   -  Co-signing transaction: A = 20
+
+   -  Modifying E_base: A = 60
+
+   -  Changing zone config: A = 80
+
+   Oracle has E_base based on its own trajectory:
+
+   -  Uptime history
+
+   -  Decision accuracy
+
+   -  Consensus participation
+
+   -  No Byzantine behavior
+
+   Oracle actions are constrained: A_oracle ≤ E_oracle
+
+10.2.  Oracle Trajectory
+
+   Oracles maintain their own trajectory chains:
+
+      {
+        "oracle_id": "oracle:zone-blue-prod-01:node-1",
+        "trajectory": {
+          "genesis_date": "2025-01-15T00:00:00Z",
+          "uptime_percentage": 99.97,
+          "transactions_co-signed": 4847293,
+          "consensus_participation_rate": 0.998,
+          "byzantine_incidents": 0,
+          "e_base": 95
+        }
+      }
+
+10.3.  Oracle Audit
+
+   Oracle operations are logged to Flight Recorder:
+
+   -  Event: Transaction co-signed
+      Logged Data: Transaction hash, agent, result
+
+   -  Event: Zeroth Law evaluation
+      Logged Data: A, E, result, agent, action
+
+   -  Event: Consensus participation
+      Logged Data: Vote, sequence, outcome
+
+   -  Event: Configuration change
+      Logged Data: Change details, authorizer
+
+10.4.  Oracle Misbehavior
+
+   Detected misbehavior triggers consequences:
+
+   -  Misbehavior: Consensus equivocation
+      Detection: Protocol detection
+      Consequence: Removal from mesh
+
+   -  Misbehavior: Availability failure
+      Detection: Heartbeat timeout
+      Consequence: Temporary removal
+
+   -  Misbehavior: Byzantine behavior
+      Detection: BFT detection
+      Consequence: Permanent removal
+
+11.  Federation
+
+11.1.  Oracle-to-Oracle Federation
+
+   Oracles in different zones can federate:
+
+      Zone A Oracle <---> Zone B Oracle
+
+   Federation enables:
+
+   -  Cross-zone Trust Proof validation
+
+   -  Trajectory verification requests
+
+   -  Exit Attestation verification
+
+   -  Coordinated emergency response
+
+11.2.  Federation Establishment
+
+   1.  Zone A Oracle requests federation with Zone B
+
+   2.  Zone B reviews Zone A governance and attestations
+
+   3.  Both zones sign Federation Agreement
+
+   4.  Public keys exchanged
+
+   5.  Trust factors established
+
+   6.  Federation active
+
+11.3.  Federation Trust Factor
+
+   Trust is discounted across federation:
+
+      {
+        "federation": {
+          "zone_a": "zone-blue-prod-01",
+          "zone_b": "zone-blue-prod-02",
+          "trust_factor_a_to_b": 0.9,
+          "trust_factor_b_to_a": 0.9,
+          "established": "2025-06-01T00:00:00Z",
+          "last_verified": "2025-12-01T00:00:00Z"
+        }
+      }
+
+11.4.  Cross-Zone Operations
+
+   -  Operation: Verify foreign trajectory
+      Federation Requirement: Federation active
+
+   -  Operation: Accept Exit Attestation
+      Federation Requirement: Federation active
+
+   -  Operation: Cross-zone agent migration
+      Federation Requirement: Federation active
+
+12.  Performance Requirements
+
+12.1.  Latency Targets
+
+   -  Operation: Zeroth Law evaluation
+      Target: 1ms
+      Maximum: 5ms
+
+   -  Operation: Trust Proof issuance
+      Target: 5ms
+      Maximum: 20ms
+
+   -  Operation: Transaction co-signing
+      Target: 10ms
+      Maximum: 50ms
+
+   -  Operation: Consensus round
+      Target: 50ms
+      Maximum: 200ms
+
+12.2.  Throughput Targets
+
+   -  Metric: Evaluations/second
+      Target: 100,000
+      Notes: Per node
+
+   -  Metric: Co-signatures/second
+      Target: 1,000
+      Notes: Consensus limited
+
+12.3.  Availability Targets
+
+   -  Metric: Mesh availability
+      Target: 99.99%
+
+   -  Metric: Single node availability
+      Target: 99.9%
+
+   -  Metric: Recovery time (node failure)
+      Target: <10 seconds
+
+   -  Metric: Recovery time (quorum loss)
+      Target: <60 seconds
+
+13.  Deployment Models
+
+13.1.  Cloud Deployment
+
+   +------------------+    +------------------+    +------------------+
+   |    Region A      |    |    Region B      |    |    Region C      |
+   |   +----------+   |    |   +----------+   |    |   +----------+   |
+   |   | Oracle 1 |   |    |   | Oracle 2 |   |    |   | Oracle 3 |   |
+   |   +----------+   |    |   +----------+   |    |   +----------+   |
+   |   | Oracle 4 |   |    |   | Oracle 5 |   |    |                  |
+   |   +----------+   |    |   +----------+   |    |                  |
+   +------------------+    +------------------+    +------------------+
+
+13.2.  On-Premises Deployment
+
+   +------------------+    +------------------+
+   |  Data Center A   |    |  Data Center B   |
+   |   +----------+   |    |   +----------+   |
+   |   | Oracle 1 |   |    |   | Oracle 3 |   |
+   |   +----------+   |    |   +----------+   |
+   |   | Oracle 2 |   |    |   | Oracle 4 |   |
+   |   +----------+   |    |   +----------+   |
+   |                  |    |   | Oracle 5 |   |
+   |                  |    |   +----------+   |
+   +------------------+    +------------------+
+
+13.3.  Hybrid Deployment
+
+   +------------------+    +------------------+    +------------------+
+   |   On-Premises    |    |    Cloud A       |    |    Cloud B       |
+   |   +----------+   |    |   +----------+   |    |   +----------+   |
+   |   | Oracle 1 |   |    |   | Oracle 3 |   |    |   | Oracle 5 |   |
+   |   +----------+   |    |   +----------+   |    |   +----------+   |
+   |   | Oracle 2 |   |    |   | Oracle 4 |   |    |                  |
+   |   +----------+   |    |   +----------+   |    |                  |
+   +------------------+    +------------------+    +------------------+
+
+14.  Security Considerations
+
+14.1.  Key Protection
+
+   Oracle private keys MUST be protected:
+
+   -  HSM storage required for production
+
+   -  Key shares never assembled outside ceremony
+
+   -  Access controls on key operations
+
+   -  Audit logging of all key use
+
+14.2.  Network Security
+
+   Oracle mesh communication MUST be secured:
+
+   -  Mutual TLS between all nodes
+
+   -  Certificate pinning
+
+   -  Network isolation where possible
+
+   -  DDoS protection
+
+14.3.  Byzantine Fault Tolerance
+
+   The mesh tolerates Byzantine (malicious) nodes:
+
+   -  Up to f < N/3 Byzantine nodes tolerated
+
+   -  Byzantine behavior detected by protocol
+
+   -  Detected Byzantine nodes removed
+
+   -  Mesh continues with remaining honest nodes
+
+14.4.  Oracle Compromise Response
+
+   If Oracle compromise is detected:
+
+   1.  Isolate compromised node
+
+   2.  Revoke node's key share
+
+   3.  Issue key rotation if threshold compromised
+
+   4.  Audit all recent decisions
+
+   5.  Notify affected agents
+
+   6.  Post-incident review
+
+15.  IANA Considerations
+
+   This document has no IANA actions.
+
+16.  Back Matter
+
+Appendix A.  Oracle Node Specification
+
+   Hardware and software requirements for Oracle nodes.
+
+   Minimum Hardware:
+
+   -  Component: CPU
+      Requirement: 8 cores
+
+   -  Component: RAM
+      Requirement: 32 GB
+
+   -  Component: Storage
+      Requirement: 500 GB NVMe SSD
+
+   -  Component: Network
+      Requirement: 1 Gbps
+
+   -  Component: HSM
+      Requirement: FIPS 140-2 Level 3
+
+   Recommended Hardware:
+
+   -  Component: CPU
+      Requirement: 16+ cores
+
+   -  Component: RAM
+      Requirement: 64 GB
+
+   -  Component: Storage
+      Requirement: 1 TB NVMe SSD (RAID)
+
+   -  Component: Network
+      Requirement: 10 Gbps
+
+   -  Component: HSM
+      Requirement: FIPS 140-2 Level 3, HA
+
+Appendix B.  Consensus Protocol Details
+
+   Detailed specification of the consensus protocol.
+
+Appendix C.  Threshold Signature Implementation
+
+   Implementation guidance for threshold ECDSA.
+
+Acknowledgments
+
+   The Trust Oracle design draws on distributed systems research,
+   Byzantine fault tolerance literature, and production experience
+   with consensus systems.

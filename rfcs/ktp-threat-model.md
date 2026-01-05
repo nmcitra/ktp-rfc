@@ -142,10 +142,7 @@ graph TD
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-015: KTP-Threat Model (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-threat-model.txt)"
     ```text
-    --8<-- "rfcs/ktp-threat-model.txt"
+    --8<-- "rfcs-txt/ktp-threat-model.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

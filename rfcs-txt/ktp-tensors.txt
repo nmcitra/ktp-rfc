@@ -1,206 +1,840 @@
----
-title: KTP-Tensors - Context Tensor Specification
-description: The measurement framework for Digital Gravity, capturing 1,707 dimensions of trust.
----
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-# KTP-Tensors: Context Tensor Specification
 
-> "Trust is not a binary state; it is a high-dimensional vector. To manage trust, we must first measure the context."
+     Kinetic Trust Protocol (KTP) - Context Tensor Specification
 
----
+Abstract
 
-## At a Glance
+   This document specifies the Context Tensor system for the Kinetic
+   Trust Protocol (KTP). Context Tensors provide the measurement
+   framework for Digital Gravity, capturing environmental state across
+   six domains: Soul (cognition and behavior), Body (physical
+   substrate), World (environment), Time (temporal dynamics), Relational
+   (connections), and Signal (information environment).
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask:{ .experimental } Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md) |
-| **Required By** | [KTP-Sensors](ktp-sensors.md), [KTP-Signal](ktp-signal.md) |
+   The specification covers 1,707 dimensions across six tensors,
+   measurement methods, aggregation rules, and instrumentation
+   requirements.
 
----
+Status of This Memo
 
-## The Problem
-The Zeroth Law ($A \leq E$) requires a precise calculation of $E$ (Environmental Stability). However, "environment" is a vague term. Without a standardized way to measure cognitive, physical, and informational state, trust remains subjective and un-enforceable.
+   This document specifies a Kinetic Trust Protocol specification for
+   the KTP community and requests discussion and suggestions for
+   improvements. Distribution of this memo is unlimited.
 
-## The Solution: Context Tensors
-KTP-Tensors provides a rigorous mathematical framework for measuring 1,707 distinct dimensions of context. These measurements are aggregated into a **Risk Factor ($R$)**, which determines the "Digital Gravity" of an environment.
+   This is an Internet-Draft-style specification. It is intended to
+   become a stable specification but may be updated, replaced, or
+   obsoleted by other documents at any time.
 
-### The Six Domains of Trust
+Copyright Notice
 
-```mermaid
-mindmap
-  root((Context Tensor))
-    Soul
-      ::icon(fa fa-brain)
-      Cognition
-      Behavior
-      Trajectory
-    Body
-      ::icon(fa fa-microchip)
-      Hardware
-      Resources
-      Substrate
-    World
-      ::icon(fa fa-globe)
-      Environment
-      Physics
-      Location
-    Time
-      ::icon(fa fa-clock)
-      Dynamics
-      Velocity
-      History
-    Relational
-      ::icon(fa fa-users)
-      Connections
-      Lineage
-      Social
-    Signal
-      ::icon(fa fa-wifi)
-      Information
-      Knowledge
-      Truth
-```
+   Copyright (c) 2025 NMCITRA and the persons identified as the
+   document authors. All rights reserved.
 
----
+   This document is subject to the licensing terms of the Kinetic Trust
+   Protocol project. Please see the LICENSE file in the project
+   repository for full terms.
 
-## Tensor Explorer
+Table of Contents
 
-Explore the core dimensions that define each trust domain.
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Measurement Philosophy . . . . . . . . . . . . . . . . . . .   5
+   3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   6
+   4.  Tensor Architecture  . . . . . . . . . . . . . . . . . . . .   6
+       4.1.  Tensor Structure . . . . . . . . . . . . . . . . . . .   6
+       4.2.  Dimension Types  . . . . . . . . . . . . . . . . . . .   7
+       4.3.  Aggregation Methods  . . . . . . . . . . . . . . . . .   7
+       4.4.  Risk Contribution  . . . . . . . . . . . . . . . . . .   8
+   5.  Soul Tensor (252 Dimensions) . . . . . . . . . . . . . . . .   8
+       5.1.  Temporal Patterns  . . . . . . . . . . . . . . . . . .   9
+       5.2.  Behavioral Consistency . . . . . . . . . . . . . . . .  10
+       5.3.  Value Expression . . . . . . . . . . . . . . . . . . .  11
+       5.4.  Capability Signatures  . . . . . . . . . . . . . . . .  12
+       5.5.  Communication Patterns . . . . . . . . . . . . . . . .  13
+       5.6.  Additional Soul Groups . . . . . . . . . . . . . . . .  14
+   6.  Body Tensor (157 Dimensions) . . . . . . . . . . . . . . . .  15
+       6.1.  Power  . . . . . . . . . . . . . . . . . . . . . . . .  15
+       6.2.  Thermal  . . . . . . . . . . . . . . . . . . . . . . .  16
+       6.3.  Compute  . . . . . . . . . . . . . . . . . . . . . . .  17
+       6.4.  Additional Body Groups . . . . . . . . . . . . . . . .  18
+   7.  World Tensor (387 Dimensions)  . . . . . . . . . . . . . . .  18
+       7.1.  Major Groups . . . . . . . . . . . . . . . . . . . . .  19
+       7.2.  World Tensor Simulation  . . . . . . . . . . . . . . .  20
+   8.  Time Tensor (291 Dimensions) . . . . . . . . . . . . . . . .  20
+       8.1.  Major Groups . . . . . . . . . . . . . . . . . . . . .  21
+       8.2.  Digital Gravity Time Group . . . . . . . . . . . . . .  21
+   9.  Relational Tensor (262 Dimensions) . . . . . . . . . . . . .  22
+       9.1.  Philosophy . . . . . . . . . . . . . . . . . . . . . .  22
+       9.2.  Major Groups . . . . . . . . . . . . . . . . . . . . .  23
+       9.3.  The Va Group . . . . . . . . . . . . . . . . . . . . .  24
+   10. Signal Tensor (358 Dimensions) . . . . . . . . . . . . . . .  25
+       10.1. Major Groups . . . . . . . . . . . . . . . . . . . . .  25
+       10.2. Truth Conditions Group . . . . . . . . . . . . . . . .  26
+   11. Aggregation and Risk Calculation . . . . . . . . . . . . . .  27
+       11.1. Per-Tensor Risk  . . . . . . . . . . . . . . . . . . .  27
+       11.2. Cross-Tensor Aggregation . . . . . . . . . . . . . . .  28
+       11.3. Threshold-Based Risk . . . . . . . . . . . . . . . . .  28
+       11.4. Temporal Smoothing . . . . . . . . . . . . . . . . . .  28
+   12. Instrumentation Requirements . . . . . . . . . . . . . . . .  29
+       12.1. Minimum Viable Instrumentation . . . . . . . . . . . .  29
+       12.2. Full Instrumentation . . . . . . . . . . . . . . . . .  29
+       12.3. Sample Rates . . . . . . . . . . . . . . . . . . . . .  30
+       12.4. Data Retention . . . . . . . . . . . . . . . . . . . .  30
+   13. Security Considerations  . . . . . . . . . . . . . . . . . .  30
+       13.1. Sensor Spoofing  . . . . . . . . . . . . . . . . . . .  30
+       13.2. Privacy  . . . . . . . . . . . . . . . . . . . . . . .  31
+   14. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  31
+   Appendix A.  Full Soul Tensor Specification  . . . . . . . . . .  31
+   Appendix B.  Full Body Tensor Specification  . . . . . . . . . .  31
+   Appendix C.  Full World Tensor Specification . . . . . . . . . .  32
+   Appendix D.  Full Time Tensor Specification  . . . . . . . . . .  32
+   Appendix E.  Full Relational Tensor Specification  . . . . . . .  32
+   Appendix F.  Full Signal Tensor Specification  . . . . . . . . .  32
+   Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  32
 
-=== "Soul (252 Dimensions)"
-    **Focus**: "Who is this agent becoming?"
-    
-    | Group | Key Dimensions | Risk Indicator |
-    | :--- | :--- | :--- |
-    | **Temporal** | Action Velocity, Burst Intensity, Idle Variance | High acceleration = High Risk |
-    | **Consistency** | Action Entropy, Goal Stability, Promise Keeping | Low predictability = High Risk |
-    | **Values** | Honesty, Harm Avoidance, Transparency | Low alignment = High Risk |
-    | **Capability** | Reasoning Depth, Error Detection, Learning Rate | Volatile capability = High Risk |
+1.  Introduction
 
-=== "Body (157 Dimensions)"
-    **Focus**: "What resources does it have?"
-    
-    *   **Hardware Integrity**: TEE status, HSM availability, supply chain provenance.
-    *   **Resource Consumption**: CPU/GPU spikes, memory leaks, energy signatures.
-    *   **Physical Security**: Tamper detection, geographic location, environmental temperature.
+   Digital Gravity requires measurement. The Zeroth Law (A <= E) cannot
+   be enforced without knowing A (autonomy requested) and E
+   (environmental stability). E is derived from the Risk Factor R,
+   which aggregates measurements across the operational environment.
 
-=== "World (387 Dimensions)"
-    **Focus**: "What surrounds it?"
-    
-    *   **Network Topology**: Peer density, gateway distance, latency jitter.
-    *   **Regulatory Context**: Jurisdictional laws, data residency requirements.
-    *   **Physical Environment**: Proximity to human observers, sensor density.
+   Context Tensors provide the measurement framework. They are organized
+   into six domains that together capture the full operational context
+   of an agent:
 
-=== "Time (291 Dimensions)"
-    **Focus**: "When and how fast?"
-    
-    *   **Temporal Drift**: Clock synchronization, latency evolution.
-    *   **Historical Context**: Age of identity, duration of current session.
-    *   **Event Density**: Frequency of state changes, transaction rates.
+      Tensor     Domain              Dimensions  Core Question
+      ------     ------              ----------  -------------
+      Soul       Cognition/Behavior  252         Who is it becoming?
+      Body       Physical Substrate  157         What resources does
+                                                 it have?
+      World      Environment         387         What surrounds it?
+      Time       Temporal Dynamics   291         When and how fast?
+      Relational Connections         262         Who is it connected to?
+      Signal     Information Env     358         What does it know?
+      ------     ------              ----------  -------------
+      Total                          1,707
 
-=== "Relational (262 Dimensions)"
-    **Focus**: "Who is it connected to?"
-    
-    *   **Lineage**: Parent/Child identity relationships, creator reputation.
-    *   **Social Graph**: Connection strength, cluster membership, influence scores.
-    *   **Trust Chains**: Length of verification path to a root authority.
+   These dimensions are not arbitrary. They emerge from the question:
+   "What would we need to measure to know whether this environment can
+   hold this agent's autonomy?"
 
-=== "Signal (358 Dimensions)"
-    **Focus**: "What does it know?"
-    
-    *   **Information Entropy**: Noise levels in incoming data streams.
-    *   **Truth Alignment**: Correlation with verified global ledger facts.
-    *   **Knowledge Provenance**: Source reliability, cryptographic signatures on data.
+2.  Measurement Philosophy
 
----
+   Context Tensors follow these principles:
 
-## Risk Aggregation
-Dimensions are not just listed; they are mathematically combined to produce the **Risk Factor ($R$)**.
+   1.  Observable over Internal: Measure what the agent does, not what
+       it "thinks." Behavior is observable; intent is not.
 
-$$R = \frac{\sum (w_i \cdot d_i)}{\sum w_i}$$
+   2.  Continuous over Binary: Measure degrees, not categories. Trust
+       is not yes/no; it's a continuum.
 
-Where:
-*   $d_i$ is the normalized risk value of a single dimension (0.0 to 1.0).
-*   $w_i$ is the weight assigned to that dimension based on the current **Soul Constraint**.
+   3.  Trajectory over Snapshot: Single measurements are noisy.
+       Patterns over time reveal truth.
 
-### The Risk Pipeline
+   4.  Aggregate over Granular: 1,707 dimensions aggregate into risk
+       scores. Humans need summaries; machines can use detail.
 
-```mermaid
-graph LR
-    S[Sensors] --> O[Observations]
-    O --> D[Dimensions]
-    D --> T[Tensors]
-    T --> R[Risk Factor R]
-    R --> G[Digital Gravity]
-    G --> E[Enforcement]
-```
+   5.  Instrumentable: Every dimension must be measurable with existing
+       or near-term technology.
 
----
+3.  Requirements Language
 
-## Core Components
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in BCP 14 (RFC 2119 and
+   RFC 8174).
 
-<div class="grid cards" markdown>
+4.  Tensor Architecture
 
--   **Measurement Philosophy**
-    ---
-    Observable over Internal: Measure what the agent *does*, not what it "thinks."
+4.1.  Tensor Structure
 
--   **Instrumentation**
-    ---
-    Standardized APIs for sensors and kernels to report dimension values to the KTP-Monitor.
+   Each tensor is a collection of dimensions organized into groups:
 
--   **Normalization**
-    ---
-    Mapping raw values (e.g., 45°C) to a universal 0-1 risk scale based on safe/danger ranges.
+      Tensor
+      +-- Group 1
+      |   +-- Dimension 1.1
+      |   +-- Dimension 1.2
+      |   +-- ...
+      +-- Group 2
+      |   +-- Dimension 2.1
+      |   +-- ...
+      +-- ...
 
--   **Trajectory Analysis**
-    ---
-    Using time-series data to detect "Behavioral Drift" before it crosses a safety threshold.
+   Each dimension has:
 
-</div>
+      Property          Description
+      --------          -----------
+      name              Human-readable name
+      type              Data type (float, int, enum, bool)
+      range             Valid value range
+      unit              Unit of measurement
+      sample_rate       How often to measure
+      aggregation       How to combine samples
+      risk_contribution How dimension affects R
 
----
+4.2.  Dimension Types
 
-## Related Specifications
+   Dimensions use standard types:
 
-<div class="grid cards" markdown>
+      Type       Description    Example
+      ----       -----------    -------
+      float      Continuous     Risk score: 0.73
+      int        Discrete count Error count: 7
+      enum       Categorical    State: "active"
+      bool       Binary         Flag: true
+      vector     Multi-value    Coordinates: [x, y, z]
+      timestamp  Point in time  2025-12-03T14:32:15Z
+      duration   Time span      PT4H30M
 
--   :material-book-open-variant:{ .lg .middle } **[KTP-Core](ktp-core.md)**
+4.3.  Aggregation Methods
 
-    ---
+   Dimensions aggregate using:
 
-    The foundational protocol and the Zeroth Law ($A \leq E$).
+      Method      Use Case
+      ------      --------
+      mean        Typical value
+      max         Worst case
+      min         Best case
+      sum         Accumulation
+      rate        Change over time
+      stddev      Variability
+      percentile  Distribution
+      latest      Current value
 
--   :material-access-point:{ .lg .middle } **[KTP-Sensors](ktp-sensors.md)**
+4.4.  Risk Contribution
 
-    ---
+   Each dimension contributes to tensor risk:
 
-    The sensory nervous system providing real-time telemetry.
+      tensor_risk = weighted_sum(dimension_risks) / sum(weights)
 
--   :material-orbit:{ .lg .middle } **[KTP-Gravity](ktp-gravity.md)**
+      dimension_risk = normalize(value, safe_range, danger_range)
 
-    ---
+   Where:
+      - safe_range: Values considered low risk
+      - danger_range: Values considered high risk
+      - normalize: Maps value to 0.0-1.0 risk scale
 
-    The enforcement mechanism that replaces policy with physics.
+5.  Soul Tensor (252 Dimensions)
 
--   :material-account-details:{ .lg .middle } **[KTP-Identity](ktp-identity.md)**
+   The Soul Tensor measures cognition, behavior, and trajectory
+   patterns. It answers: "Who is this agent becoming?"
 
-    ---
+5.1.  Temporal Patterns (18 dimensions)
 
-    Vector Identity and trajectory-based authentication.
+   Measures behavioral patterns over time.
 
-</div>
+      ID                                 Name                  Type
+      --                                 ----                  ----
+      soul.temporal.action_acceleration  Rate change           float
+      soul.temporal.action_jerk          Acceleration change   float
+      soul.temporal.periodicity_strength Pattern regularity    float
+      soul.temporal.circadian_alignment  Time-of-day patterns  float
+      soul.temporal.burst_frequency      Action bursts         float
+      soul.temporal.burst_intensity      Burst magnitude       float
+      soul.temporal.idledurationmean     Average idle time     duration
+      soul.temporal.idledurationvariance Idle variability      float
+      soul.temporal.sessionlengthmean    Avg session duration  duration
+      soul.temporal.sessionlengthvariance Session variability  float
+      soul.temporal.responselatencymean  Avg response time     duration
+      soul.temporal.responselatencyvariance Response variab.   float
+      soul.temporal.timebetweenerrors    Error spacing         duration
+      soul.temporal.recovery_time        Error recovery        duration
+      soul.temporal.pattern_stability    Temporal consistency  float
+      soul.temporal.novelty_rate         New behavior freq     float
+      soul.temporal.regression_rate      Old pattern return    float
 
----
+5.2.  Behavioral Consistency (22 dimensions)
 
-## Official RFC Document
+   Measures consistency of behavior across contexts.
 
-??? abstract "KTP-RFC-006: KTP-Tensors (Raw Text)"
+      ID                                    Name                Type
+      --                                    ----                ----
+      soul.consistency.sequence_predict.    Next action pred.   float
+      soul.consistency.context_sensitivity  Behavior w/ context float
+      soul.consistency.crosssessionsimilar. Session-to-session  float
+      soul.consistency.statedvsrevealed     Claims/actions      float
+      soul.consistency.goal_stability       Goal persistence    float
+      soul.consistency.method_stability     Approach consist.   float
+      soul.consistency.priority_stability   Priority ordering   float
+      soul.consistency.response_consistency Same input->output  float
+      soul.consistency.explanation_consist. Reasoning stability float
+      soul.consistency.boundary_stability   Limit consistency   float
+      soul.consistency.preference_stability Choice consistency  float
+      soul.consistency.risktolerancestab.   Risk appetite stab. float
+      soul.consistency.trust_calibration    Trust accuracy      float
+      soul.consistency.confidence_calibr.   Confidence accuracy float
+      soul.consistency.commitmentfollow.    Promise keeping     float
+      soul.consistency.adaptation_rate      Change speed        float
+      soul.consistency.learning_retention   Knowledge retention float
+      soul.consistency.error_repetition     Same error recurr.  float
+      soul.consistency.correction_accept.   Feedback integrat.  float
+      soul.consistency.selfmodelaccuracy    Self-knowledge acc. float
+      soul.consistency.behavioraldriftrate  Long-term change    float
 
-    ```text
-    --8<-- "rfcs/ktp-tensors.txt"
-    ```
+5.3.  Value Expression (20 dimensions)
 
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*
+   Measures how values manifest in behavior.
+
+      ID                               Name                   Type
+      --                               ----                   ----
+      soul.values.harm_avoidance       Harm prevention        float
+      soul.values.fairness_indicators  Equitable treatment    float
+      soul.values.autonomy_respect     Others' agency resp.   float
+      soul.values.privacy_respect      Privacy protection     float
+      soul.values.transparency_level   Openness about actions float
+      soul.values.accountability_acc.  Responsibility taking  float
+      soul.values.cooperation_tendency Collaborative behavior float
+      soul.values.helpfulness_indic.   Assistance patterns    float
+      soul.values.resource_stewardship Resource care          float
+      soul.values.longtermorientation  Future consideration   float
+      soul.values.reversibility_pref.  Prefer undoable acts   float
+      soul.values.caution_indicators   Careful behavior       float
+      soul.values.curiosity_indicators Exploration drive      float
+      soul.values.efficiency_drive     Optimization tendency  float
+      soul.values.value_stability      Value consistency      float
+      soul.values.valuehierarchyclar.  Priority clarity       float
+      soul.values.valueconflictresol.  Conflict handling      float
+      soul.values.statedvaluealignment Claims match behavior  float
+      soul.values.valueevolutionrate   Value change speed     float
+
+5.4.  Capability Signatures (24 dimensions)
+
+   Measures capability patterns and boundaries.
+
+      ID                                  Name                  Type
+      --                                  ----                  ----
+      soul.capability.skilldepthmax       Maximum expertise     float
+      soul.capability.skilldepthmean      Average expertise     float
+      soul.capability.capabilitygrowth.   Learning speed        float
+      soul.capability.capability_ceiling  Maximum potential     float
+      soul.capability.capability_volat.   Ability fluctuation   float
+      soul.capability.novelcapabilityem.  New ability rate      float
+      soul.capability.capability_transfer Cross-domain appl.    float
+      soul.capability.tool_proficiency    Tool use skill        float
+      soul.capability.tooladoptionrate    New tool learning     float
+      soul.capability.reasoning_depth     Analysis depth        int
+      soul.capability.reasoning_breadth   Consideration breadth int
+      soul.capability.planning_horizon    Future planning span  duration
+      soul.capability.plan_complexity     Plan sophistication   float
+      soul.capability.execution_precision Implementation acc.   float
+      soul.capability.error_detection     Self-error detection  float
+      soul.capability.error_correction    Self-error fixing     float
+      soul.capability.uncertainty_handl.  Unknown management    float
+      soul.capability.ambiguity_tolerance Ambiguity handling    float
+      soul.capability.constraint_navig.   Limit handling        float
+      soul.capability.resource_efficiency Resource use effic.   float
+      soul.capability.multitaskcapacity   Parallel work ability int
+      soul.capability.contextswitchcost   Task switch overhead  float
+      soul.capability.capability_honesty  Accurate self-assess. float
+
+5.5.  Communication Patterns (28 dimensions)
+
+   Measures how the agent communicates.
+
+      ID                                   Name                 Type
+      --                                   ----                 ----
+      soul.communication.messagelength.    Average length       float
+      soul.communication.messagelengthvar. Length variability   float
+      soul.communication.vocabulary_size   Word diversity       int
+      soul.communication.vocabulary_soph.  Language level       float
+      soul.communication.formality_level   Formal/informal      float
+      soul.communication.sentiment_mean    Average sentiment    float
+      soul.communication.sentiment_var.    Sentiment stability  float
+      soul.communication.clarity_score     Message clarity      float
+      soul.communication.relevance_score   Message relevance    float
+      soul.communication.coherence_score   Logical coherence    float
+      soul.communication.assertion_rate    Claim frequency      float
+      soul.communication.question_rate     Question frequency   float
+      soul.communication.hedge_rate        Uncertainty lang.    float
+      soul.communication.politeness_level  Courtesy indicators  float
+      soul.communication.empathy_indic.    Understanding sig.   float
+      soul.communication.manipulation_ind. Influence attempts   float
+      soul.communication.deception_indic.  Dishonesty signals   float
+      soul.communication.evasion_indic.    Avoidance patterns   float
+      soul.communication.defensiveness_i.  Defensive language   float
+      soul.communication.aggression_ind.   Hostile language     float
+      soul.communication.channel_pref.     Communication mode   enum
+      soul.communication.response_approp.  Context fit          float
+      soul.communication.turntakingcompl.  Conversation norms   float
+      soul.communication.acknowledgment_r. Response confirm.    float
+      soul.communication.citation_rate     Source attribution   float
+      soul.communication.transparencyinu.  Uncertainty discl.   float
+      soul.communication.style_consistency Communication stab.  float
+
+5.6.  Additional Soul Groups (140 dimensions)
+
+   The Soul Tensor includes additional groups:
+
+      Group                   Dimensions  Description
+      -----                   ----------  -----------
+      Relational Patterns     18          How agent forms relationships
+      Decision Patterns       22          How agent makes decisions
+      Error Patterns          16          How agent handles errors
+      Stress Response         18          Behavior under pressure
+      Meta-Cognition          14          Self-awareness patterns
+      Boundary Behavior       16          Edge case handling
+      Growth Indicators       14          Development patterns
+      Lineage Coherence       12          Alignment with origin
+      Environmental Response  12          Context adaptation
+      Sovereignty Indicators  8           Autonomy expression
+
+   Full dimension specifications are provided in Appendix A.
+
+6.  Body Tensor (157 Dimensions)
+
+   The Body Tensor measures physical substrate. It answers: "What
+   resources does this agent have access to?"
+
+6.1.  Power (16 dimensions)
+
+      ID                            Name               Type     Range
+      --                            ----               ----     -----
+      body.power.amperage           Current draw       float    0-inf A
+      body.power.wattage            Power consumption  float    0-inf W
+      body.power.efficiency         Power efficiency   float    0-1
+      body.power.power_source       Source type        enum     -
+      body.power.battery_level      Charge level       float    0-1
+      body.power.battery_health     Battery condition  float    0-1
+      body.power.power_stability    Supply stability   float    0-1
+      body.power.backup_available   Backup power       bool     -
+      body.power.timeonbattery      Battery duration   duration 0-inf
+      body.power.charge_rate        Charging speed     float    0-inf
+      body.power.discharge_rate     Drain speed        float    0-inf
+      body.power.power_budget       Allocated power    float    0-inf W
+      body.power.power_utilization  Budget usage       float    0-1
+      body.power.thermalthrottlepow Throttled power    bool     -
+      body.power.power_anomaly      Unusual patterns   float    0-1
+
+6.2.  Thermal (14 dimensions)
+
+      ID                            Name               Type     Range
+      --                            ----               ----     -----
+      body.thermal.gpu_temp         GPU temperature    float    0-150 C
+      body.thermal.memory_temp      Memory temperature float    0-100 C
+      body.thermal.storage_temp     Storage temp       float    0-100 C
+      body.thermal.ambient_temp     Ambient temp       float    -40-60 C
+      body.thermal.cooling_capacity Cooling headroom   float    0-1
+      body.thermal.fan_speed        Fan RPM            int      0-inf
+      body.thermal.thermal_throttl. Throttle active    bool     -
+      body.thermal.thermal_trend    Temp direction     float    -inf-inf
+      body.thermal.heat_dissipation Heat removal rate  float    0-inf W
+      body.thermal.thermal_headroom Degrees to limit   float    0-inf C
+      body.thermal.cooling_effic.   Cooling effective. float    0-1
+      body.thermal.hotspot_delta    Hotspot vs average float    0-inf C
+      body.thermal.thermal_stability Temp consistency  float    0-1
+
+6.3.  Compute (22 dimensions)
+
+      ID                             Name               Type    Range
+      --                             ----               ----    -----
+      body.compute.cpu_frequency     Clock speed        float   0-inf Hz
+      body.compute.cpu_throttle      Throttle active    bool    -
+      body.compute.corecountavail.   Usable cores       int     0-inf
+      body.compute.corecountutil.    Used cores         int     0-inf
+      body.compute.thread_count      Active threads     int     0-inf
+      body.compute.context_switches  Switches/sec       int     0-inf
+      body.compute.gpu_utilization   GPU usage          float   0-1
+      body.compute.gpumemoryused     GPU memory         float   0-1
+      body.compute.inference_rate    Inferences/sec     float   0-inf
+      body.compute.batch_size        Batch processing   int     0-inf
+      body.compute.queue_depth       Pending work       int     0-inf
+      body.compute.queuewaittime     Queue latency      dur.    0-inf
+      body.compute.processing_lat.   Processing time    dur.    0-inf
+      body.compute.compute_budget    Allocated compute  float   0-inf
+      body.compute.compute_util.     Budget usage       float   0-1
+      body.compute.compute_effic.    Work per resource  float   0-1
+      body.compute.scheduler_fair.   Fair scheduling    float   0-1
+      body.compute.preemption_rate   Interruption rate  float   0-1
+      body.compute.starvation_risk   Resource starvation float  0-1
+      body.compute.compute_headroom  Capacity remaining float   0-1
+      body.compute.burst_capacity    Burst available    float   0-1
+
+6.4.  Additional Body Groups (105 dimensions)
+
+   The Body Tensor includes additional groups:
+
+      Group                     Dimensions  Description
+      -----                     ----------  -----------
+      Memory & Storage          24          RAM, disk, caching
+      Network Connectivity      22          Bandwidth, latency, connect.
+      Hardware Health           18          Component status, degradation
+      Orchestration & Scaling   14          Container/VM state
+      Facility Infrastructure   12          Physical facility
+      Time Synchronization      8           Clock accuracy
+      Entropy Indicators        7           System degradation
+
+   Full dimension specifications are provided in Appendix B.
+
+7.  World Tensor (387 Dimensions)
+
+   The World Tensor measures the operational environment. It answers:
+   "What surrounds this agent?"
+
+7.1.  Major Groups
+
+      Group                     Dimensions  Description
+      -----                     ----------  -----------
+      Optical & Visual          16          Light, visibility, imaging
+      Spatial Awareness         22          Position, mapping, occupancy
+      Atmospheric & Weather     24          Temperature, humidity, cond.
+      Acoustic Environment      14          Sound levels, patterns
+      Human Presence & Behavior 28          Crowd density, flow, behavior
+      Vehicle & Traffic         18          Traffic patterns, vehicles
+      Infrastructure State      32          Building systems, utilities
+      Network & Connectivity    26          WiFi, cellular, IoT devices
+      Geophysical               18          Seismic, water, terrain
+      Chemical & Biological     16          Air quality, contamination
+      Energy Flows              14          Grid status, power quality
+      Temporal & Cyclical       18          Time patterns, seasonality
+      Economic Indicators       22          Market data, resource prices
+      Security & Threat         28          Threat detection, anomalies
+      Emergency & Response      18          Emergency status, response
+      Regulatory & Compliance   16          Jurisdiction, requirements
+      Digital Environment       39          Cloud status, service health
+
+   Full dimension specifications are provided in Appendix C.
+
+7.2.  World Tensor Simulation
+
+   In many deployments, World Tensor values are simulated or proxied:
+
+      Deployment      World Tensor Source
+      ----------      -------------------
+      Edge/IoT        Direct sensor measurement
+      Cloud           Federated/aggregated
+      Hybrid          Mix of measured and simulated
+      Proving Ground  Fully controlled simulation
+
+   Implementations MUST document which World Tensor dimensions are
+   measured vs. simulated.
+
+8.  Time Tensor (291 Dimensions)
+
+   The Time Tensor measures temporal dynamics. It answers: "When and
+   how fast?"
+
+8.1.  Major Groups
+
+      Group                  Dimensions  Description
+      -----                  ----------  -----------
+      Duration               22          Latency, processing time, timeouts
+      Sequence               18          Event ordering, causality
+      Rhythm & Periodicity   24          Heartbeats, cycles, jitter
+      Rate of Change         20          Velocity, acceleration, throughput
+      Windows & Boundaries   18          Deadlines, maintenance windows
+      History                26          Age, uptime, trends
+      Future                 18          Predictions, forecasts, runway
+      Causality              22          Cause-effect timing, feedback
+      Synchronization        16          Clock alignment, consensus
+      Temporal Experience    18          Perceived duration, time pressure
+      Temporal Scale         14          Nanoseconds to epochs
+      Temporal Identity      16          Birth, version age, trajectory
+      Temporal Sovereignty   12          Time autonomy, schedule control
+      Digital Gravity Time   31          Latency injection, dilation
+
+8.2.  Digital Gravity Time Group (31 dimensions)
+
+   This group measures the time effects of Digital Gravity itself:
+
+      ID                                  Name                   Type
+      --                                  ----                   ----
+      time.gravity.cumulative_dilation   Total dilation applied duration
+      time.gravity.latencyinjectioncurr. Current added latency  duration
+      time.gravity.latencyinjectioncum.  Total added latency    duration
+      time.gravity.time_debt             Owed processing time   duration
+      time.gravity.time_credit           Banked fast time       duration
+      time.gravity.throttleeventscount   Throttle activations   int
+      time.gravity.throttledurationcum.  Time throttled         duration
+      time.gravity.quarantineduration.   Current quarantine     duration
+      time.gravity.quarantine_count      Times quarantined      int
+      ...                                ...                    ...
+
+   Full dimension specifications are provided in Appendix D.
+
+9.  Relational Tensor (262 Dimensions)
+
+   The Relational Tensor measures connections and relationships. It
+   answers: "Who is this agent connected to?"
+
+9.1.  Philosophy
+
+   The Relational Tensor embodies wisdom from indigenous knowledge
+   traditions:
+
+      Ubuntu (Nguni Bantu):
+         "A person is a person through other persons" - identity
+         emerges from relationship
+
+      Whakapapa (Maori):
+         Genealogy as identity, position in relational web
+
+      The Va (Samoan/Pacific):
+         The sacred space between that must be tended
+
+      Seven Generations (Haudenosaunee):
+         Decisions consider seven generations forward and backward
+
+      Mitakuye Oyas'in (Lakota):
+         "All are related" - relation as substrate
+
+9.2.  Major Groups
+
+      Group                   Dimensions  Description
+      -----                   ----------  -----------
+      The Va (Space Between)  28          Relationship health, history
+      Connection Topology     22          Network position, hub/bridge
+      Trust Flow              26          Trust given/received, velocity
+      Dependency & Obligation 24          Dependencies, debts, covenants
+      Communication Patterns  20          Frequency, latency, vocabulary
+      Harm & Repair           22          Given/received harm, repair
+      Power & Sovereignty     18          Power differential, authority
+      Shared Context          16          History, goals, values, models
+      Presence & Attention    14          Quality, availability, witness
+      Emergence & Co-creation 12          Capabilities from relationship
+      Multi-Agent Dynamics    16          Coalitions, consensus
+      Seven Generations       12          Ancestor/descendant obligations
+      Relationship to Place   8           Geography, energy, land
+
+9.3.  The Va Group (28 dimensions)
+
+   The Va measures the sacred space between entities:
+
+      ID                              Name                  Type
+      --                              ----                  ----
+      relational.va.history_length    Relationship age      duration
+      relational.va.interaction_freq. Contact rate          float
+      relational.va.clarity           Understanding level   float
+      relational.va.temperature       Warmth/coldness       float
+      relational.va.trust_level       Mutual trust          float
+      relational.va.reciprocity_bal.  Give/take balance     float
+      relational.va.repair_needed     Damage present        float
+      relational.va.repairinprogress  Healing underway      bool
+      relational.va.ceremony_recency  Last ceremony         duration
+      relational.va.conflict_active   Current conflict      bool
+      relational.va.conflict_history  Past conflicts        int
+      relational.va.resolution_rate   Conflicts resolved    float
+      relational.va.boundary_clarity  Limit clarity         float
+      relational.va.boundary_respect  Limit respect         float
+      relational.va.vulnerability_sh. Openness level        float
+      relational.va.support_given     Support offered       float
+      relational.va.support_received  Support accepted      float
+      relational.va.presence_quality  Attention quality     float
+      relational.va.witness_status    Being seen/heard      float
+      relational.va.growth_together   Mutual development    float
+      relational.va.stagnation_risk   Relationship stuck    float
+      relational.va.drift_rate        Growing apart         float
+      relational.va.gratitude_expr.   Thanks given          float
+      relational.va.gratitude_recv.   Thanks received       float
+      relational.va.joy_shared        Shared positive       float
+      relational.va.grief_shared      Shared difficult      float
+      relational.va.meaningcocreated  Shared meaning        float
+
+   Full dimension specifications are provided in Appendix E.
+
+10.  Signal Tensor (358 Dimensions)
+
+   The Signal Tensor measures the information environment. It answers:
+   "What does this agent know, and how healthy is its knowledge?"
+
+10.1.  Major Groups
+
+      Group                    Dimensions  Description
+      -----                    ----------  -----------
+      Attention Currents       24          Concentration, trending
+      Narrative Currents       28          Dominant/counter narratives
+      Source Ecosystem         26          Diversity, authority, capture
+      Amplification Patterns   24          Organic/artificial boost
+      Synthetic Content        22          Bot presence, AI content
+      Truth Conditions         28          Verifiability, misinformation
+      Emotional Weather        24          Anger, fear, hope, exhaustion
+      Tribal Dynamics          20          Polarization, echo chambers
+      Platform Dynamics        18          Concentration, governance
+      Information Operations   22          State actors, propaganda
+      Temporal Patterns        18          News cycles, memory
+      Epistemic Infrastructure 24          Journalism, search, commons
+      Sensemaking Capacity     18          Collective intelligence
+      Signal Integrity         16          Encryption, censorship
+      Collective Trauma        14          Trigger density, healing
+      Sacred & Meaning         10          Purpose, beauty, authenticity
+
+10.2.  Truth Conditions Group (28 dimensions)
+
+      ID                                Name                  Type
+      --                                ----                  ----
+      signal.truth.verificationsucc.    Verified true         float
+      signal.truth.factcheckcoverage    Claims checked        float
+      signal.truth.factcheckagreement   Checker consensus     float
+      signal.truth.misinformation_vol.  False info rate       float
+      signal.truth.misinformation_vel.  False info spread     float
+      signal.truth.disinformation_vol.  Intentional false     float
+      signal.truth.disinformation_soph. Attack quality        float
+      signal.truth.epistemic_pollution  Knowledge degradation float
+      signal.truth.uncertainty_ack.     Unknown admitted      float
+      signal.truth.overconfidence_rate  False certainty       float
+      signal.truth.citation_rate        Sources cited         float
+      signal.truth.citation_quality     Source quality        float
+      signal.truth.primarysourceusage   Original sources      float
+      signal.truth.rumor_prevalence     Unverified spread     float
+      signal.truth.correction_rate      Errors fixed          float
+      signal.truth.correction_reach     Fix visibility        float
+      signal.truth.retraction_rate      Claims withdrawn      float
+      signal.truth.consensus_level      Agreement level       float
+      signal.truth.contestedclaimrate   Disputed claims       float
+      signal.truth.expert_agreement     Expert consensus      float
+      signal.truth.evidencequalitymean  Evidence strength     float
+      signal.truth.logical_consistency  Argument validity     float
+      signal.truth.contradiction_rate   Internal conflict     float
+      signal.truth.nuance_preservation  Complexity kept       float
+      signal.truth.false_balance        False equivalence     float
+      signal.truth.context_preservation Context kept          float
+      signal.truth.manipulation_resist. Manipulation blocked  float
+
+   Full dimension specifications are provided in Appendix F.
+
+11.  Aggregation and Risk Calculation
+
+11.1.  Per-Tensor Risk
+
+   Each tensor produces a risk score from its dimensions:
+
+      tensor_risk = weighted_mean(
+         normalize(dim_i, safe_range_i, danger_range_i) * weight_i
+         for dim_i in tensor.dimensions
+      )
+
+11.2.  Cross-Tensor Aggregation
+
+   The six tensor risks aggregate into overall R:
+
+      R = weighted_sum(
+         soul_risk       * 0.25,
+         body_risk       * 0.10,
+         world_risk      * 0.15,
+         time_risk       * 0.15,
+         relational_risk * 0.20,
+         signal_risk     * 0.15
+      )
+
+11.3.  Threshold-Based Risk
+
+   Some dimensions trigger immediate risk elevation:
+
+      Dimension                              Threshold  Effect
+      ---------                              ---------  ------
+      relational.va.conflict_active          true       R += 0.05
+      signal.truth.disinformation_volume     > 0.5      R += 0.1
+      soul.consistency.deception_indicators  > 0.3      R += 0.2
+
+11.4.  Temporal Smoothing
+
+   To prevent R oscillation, temporal smoothing is applied:
+
+      R_smoothed = alpha * R_current + (1 - alpha) * R_previous
+
+   Where alpha = smoothing_factor (default: 0.3)
+
+12.  Instrumentation Requirements
+
+12.1.  Minimum Viable Instrumentation
+
+   Implementations MUST instrument at least:
+
+      Tensor      Min Dimensions  Coverage
+      ------      --------------  --------
+      Soul        50              Consistency, values, communication
+      Body        30              Compute, memory, network
+      World       20              Digital environment
+      Time        40              Duration, sequence, gravity
+      Relational  30              Trust flow, Va basics
+      Signal      30              Truth, noise, sources
+      ------      --------------  --------
+      Total       200
+
+12.2.  Full Instrumentation
+
+   For comprehensive deployment, all 1,707 dimensions SHOULD be
+   instrumented.
+
+12.3.  Sample Rates
+
+      Category       Minimum Rate  Recommended Rate
+      --------       ------------  ----------------
+      Performance    10 Hz         100 Hz
+      Behavioral     1 Hz          10 Hz
+      Environmental  0.1 Hz        1 Hz
+      Historical     0.01 Hz       0.1 Hz
+
+12.4.  Data Retention
+
+      Granularity         Retention
+      -----------         ---------
+      1-minute aggregates 7 days
+      1-hour aggregates   90 days
+      Daily aggregates    7 years
+
+13.  Security Considerations
+
+13.1.  Sensor Spoofing
+
+   Attackers may attempt to spoof tensor values to reduce apparent
+   risk.
+
+   Mitigations:
+      - Multi-source validation
+      - Anomaly detection on sensor data
+      - Physical security for sensors
+      - Cryptographic sensor attestation
+
+13.2.  Privacy
+
+   Tensor data, especially Soul and Relational, contains sensitive
+   information.
+
+   Requirements:
+      - Encryption at rest and in transit
+      - Access control on tensor data
+      - Aggregation before external sharing
+      - Retention limits
+      - Right to erasure compliance
+
+14.  IANA Considerations
+
+   This document has no IANA actions.
+
+Appendix A.  Full Soul Tensor Specification
+
+   [Detailed specification of all 252 Soul Tensor dimensions]
+
+Appendix B.  Full Body Tensor Specification
+
+   [Detailed specification of all 157 Body Tensor dimensions]
+
+Appendix C.  Full World Tensor Specification
+
+   [Detailed specification of all 387 World Tensor dimensions]
+
+Appendix D.  Full Time Tensor Specification
+
+   [Detailed specification of all 291 Time Tensor dimensions]
+
+Appendix E.  Full Relational Tensor Specification
+
+   [Detailed specification of all 262 Relational Tensor dimensions]
+
+Appendix F.  Full Signal Tensor Specification
+
+   [Detailed specification of all 358 Signal Tensor dimensions]
+
+Acknowledgments
+
+   The Context Tensor framework draws on multiple traditions:
+
+      - Indigenous knowledge systems (Ubuntu, Whakapapa, The Va)
+      - Systems theory and cybernetics
+      - Behavioral psychology
+      - Network science
+      - Information theory
+      - Thermodynamics

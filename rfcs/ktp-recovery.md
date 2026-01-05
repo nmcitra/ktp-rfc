@@ -97,10 +97,7 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-012: KTP-Recovery (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-recovery.txt)"
     ```text
-    --8<-- "rfcs/ktp-recovery.txt"
+    --8<-- "rfcs-txt/ktp-recovery.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

@@ -113,10 +113,7 @@ A formal JSON contract specifying trust factors, expiration dates, and dispute r
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-011: KTP-Federation (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-federation.txt)"
     ```text
-    --8<-- "rfcs/ktp-federation.txt"
+    --8<-- "rfcs-txt/ktp-federation.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

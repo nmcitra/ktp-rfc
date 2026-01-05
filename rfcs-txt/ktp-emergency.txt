@@ -1,154 +1,1110 @@
----
-title: KTP-Emergency
-description: Emergency response protocols, circuit breakers, and graceful degradation for KTP zones.
----
+Kinetic Trust Protocol                                      C. Perkins
+Specification Draft                                           NMCITRA
+Version: 0.1                                             November 2025
 
-# KTP-Emergency: Emergency Response Specification
 
-!!! info "Status: Experimental"
-    This document specifies how KTP zones respond to failure—from minor degradation to catastrophic collapse. It defines **Emergency Levels**, **Circuit Breakers**, and **Graceful Degradation**.
+   Kinetic Trust Protocol (KTP) - Emergency Response Specification
 
-## At a Glance
+Abstract
 
-| Property | Value |
-|----------|-------|
-| **Status** | :material-flask:{ .experimental } Experimental |
-| **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Zones](ktp-zones.md) |
-| **Required By** | [KTP-Recovery](ktp-recovery.md), [KTP-Audit](ktp-audit.md) |
+   This document specifies emergency response procedures for the Kinetic
+   Trust Protocol (KTP).  When normal operations fail—zone collapse,
+   mass agent compromise, Oracle failure, or coordinated attack—the
+   system must degrade gracefully and recover systematically.  The
+   specification covers emergency levels, circuit breakers, graceful
+   degradation, zone collapse protocols, mass compromise response,
+   recovery procedures, and post-incident analysis.
 
----
+Status of This Memo
 
-## Emergency Levels
+   This document specifies a Kinetic Trust Protocol specification for
+   the KTP community, describing emergency response procedures.
+   Distribution of this memo is unlimited.
 
-| Level | Name | Trigger | Response | Agent Impact |
-| :--- | :--- | :--- | :--- | :--- |
-| **1** | **Advisory** | $R > 0.4$ | Monitor | None |
-| **2** | **Warning** | $R > 0.6$ | Alert | $G += 0.5$ |
-| **3** | **Critical** | $R > 0.8$ | Isolate | Tier Demotion |
-| **4** | **Severe** | Compromise | Human Auth | Read-Only |
-| **5** | **Catastrophic** | Collapse | Shutdown | Evacuation |
+Copyright Notice
 
----
+   Copyright (c) 2025 NMCITRA and the persons identified as the document
+   authors.  All rights reserved.
 
-## Circuit Breakers
+   This document is subject to the licensing terms of the Kinetic Trust
+   Protocol specification and may be used, copied, and distributed
+   according to those terms.
 
-Like electrical breakers, these prevent cascading failure.
+Table of Contents
 
-```mermaid
-stateDiagram-v2
-    [*] --> Closed
-    
-    Closed --> Open: Failures > Threshold
-    Open --> HalfOpen: Cooldown Expired
-    
-    HalfOpen --> Closed: Success
-    HalfOpen --> Open: Failure
-    
-    state Closed {
-        [*] --> NormalOp
-    }
-    
-    state Open {
-        [*] --> Blocked
-    }
-```
+   1.  Introduction .................................................. 1
+   2.  Design Principles ............................................. 2
+   3.  Requirements Language ......................................... 2
+   4.  Terminology ................................................... 2
+   5.  Emergency Levels .............................................. 3
+       5.1.  Level Classification .................................... 3
+       5.2.  Level 1: Advisory ....................................... 3
+       5.3.  Level 2: Warning ........................................ 4
+       5.4.  Level 3: Critical ....................................... 4
+       5.5.  Level 4: Severe ......................................... 5
+       5.6.  Level 5: Catastrophic ................................... 5
+   6.  Circuit Breakers .............................................. 6
+       6.1.  Concept ................................................. 6
+       6.2.  Circuit Types ........................................... 6
+       6.3.  Circuit Configuration ................................... 7
+       6.4.  Circuit States .......................................... 7
+       6.5.  Agent-Specific Circuits ................................. 8
+   7.  Graceful Degradation .......................................... 8
+       7.1.  Degradation Ladder ...................................... 8
+       7.2.  Degradation Actions ..................................... 9
+       7.3.  Capability Preservation Priority ........................ 9
+       7.4.  Degradation Communication ............................... 10
+   8.  Zone Collapse Protocol ........................................ 10
+       8.1.  Definition .............................................. 10
+       8.2.  Collapse Detection ...................................... 11
+       8.3.  Collapse Sequence ....................................... 11
+       8.4.  Agent Evacuation ........................................ 12
+       8.5.  Post-Collapse ........................................... 13
+   9.  Mass Compromise Response ...................................... 13
+       9.1.  Definition .............................................. 13
+       9.2.  Detection ............................................... 13
+       9.3.  Response Protocol ....................................... 14
+       9.4.  Quarantine Protocol ..................................... 14
+       9.5.  Recovery Options ........................................ 15
+   10. Oracle Failure Response ....................................... 16
+       10.1. Single Node Failure ..................................... 16
+       10.2. Quorum Degradation ...................................... 16
+       10.3. Quorum Loss ............................................. 16
+       10.4. Emergency Quorum ........................................ 17
+   11. Recovery Procedures ........................................... 17
+       11.1. Recovery Phases ......................................... 17
+       11.2. Recovery Checklist ...................................... 18
+       11.3. Recovery Verification ................................... 18
+   12. Post-Incident Analysis ........................................ 19
+       12.1. Requirements ............................................ 19
+       12.2. Analysis Framework ...................................... 19
+       12.3. Post-Incident Report .................................... 20
+   13. Communication During Emergencies .............................. 21
+       13.1. Internal Communication .................................. 21
+       13.2. External Communication .................................. 21
+       13.3. Communication Templates ................................. 21
+   14. Security Considerations ....................................... 22
+       14.1. Emergency Protocol Security ............................. 22
+       14.2. Attack During Emergency ................................. 22
+       14.3. Emergency Credential Management ......................... 23
+   15. IANA Considerations ........................................... 23
+   Appendix A.  Emergency Runbooks ................................... 23
+   Appendix B.  Communication Templates .............................. 23
+   Appendix C.  Recovery Checklists .................................. 23
+   Acknowledgments ................................................... 24
 
-**Types:**
-- **Trust Proof Circuit**: Stops issuance if Oracle is erratic.
-- **Consensus Circuit**: Halts if quorum is lost.
-- **Agent Circuit**: Isolates specific agents with high violation rates.
+1.  Introduction
 
----
+   Systems fail.  The question is not whether KTP zones will experience
+   emergencies, but how they will respond when emergencies occur.
 
-## Graceful Degradation Ladder
+   Digital Gravity is designed to constrain agents during normal
+   operation.  But what happens when:
 
-As conditions worsen, the system sheds load to preserve core safety.
+   -  The Trust Oracle fails?
+   -  A majority of agents are compromised?
+   -  The zone itself is under attack?
+   -  Environmental stability (E) collapses to near-zero?
+   -  Multiple failures cascade simultaneously?
 
-1.  **Level 0**: Full Operation
-2.  **Level 1**: Elevated Monitoring
-3.  **Level 2**: Reduced Throughput (No new agents)
-4.  **Level 3**: Essential Only (No high-risk actions)
-5.  **Level 4**: Read Only
-6.  **Level 5**: Preservation Mode (Data freeze)
-7.  **Level 6**: Shutdown
+   This specification addresses these scenarios with structured
+   emergency response—protocols that maintain safety while enabling
+   recovery.
 
----
+2.  Design Principles
 
-## Zone Collapse Protocol
+   Emergency response embodies these principles:
 
-When a zone is lost, the goal shifts from *operation* to *preservation*.
+   1.  Fail Safe: When in doubt, constrain.  Uncertainty should reduce
+       autonomy, not increase it.
 
-```mermaid
-sequenceDiagram
-    participant Admin
-    participant Zone
-    participant Agents
-    participant Federation
-    
-    Admin->>Zone: Declare Collapse (Level 5)
-    Zone->>Federation: Notify Collapse
-    Zone->>Agents: Evacuation Order (15min window)
-    
-    Agents->>Federation: Exit Attestation (Evacuation)
-    
-    Zone->>Zone: Seal Flight Recorder
-    Zone->>Zone: Export Trajectory Chains
-    Zone->>Zone: Sever External Connections
-    Zone->>Zone: Shutdown
-```
+   2.  Graceful Degradation: Partial failure should not cause total
+       failure.  Preserve what can be preserved.
 
----
+   3.  Transparent Crisis: Emergencies should be visible.  Hidden
+       failures are more dangerous than visible ones.
 
-## Related Specifications
+   4.  Human Escalation: Sufficiently severe emergencies require human
+       judgment.  Machines cannot handle everything.
 
-<div class="grid cards" markdown>
+   5.  Recovery Path: Every emergency state must have a defined path
+       back to normal operation.
 
--   :material-scale-balance:{ .lg .middle } **KTP-Core**
+   6.  Learning: Every emergency is an opportunity to improve.
+       Post-incident analysis is mandatory.
 
-    ---
-    
-    Foundation protocol, Zeroth Law, and Trust Score calculation.
+3.  Requirements Language
 
-    [:octicons-arrow-right-24: Read Spec](ktp-core.md)
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in BCP 14 (RFC 2119 and
+   RFC 8174).
 
--   :material-fingerprint:{ .lg .middle } **KTP-Identity**
+4.  Terminology
 
-    ---
-    
-    Vector Identity, Proof of Resilience, and agent lineage.
+   Circuit Breaker:  An automatic mechanism that disables functionality
+      when failure thresholds are exceeded.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-identity.md)
+   Degraded Mode:  Operational state with reduced capabilities but
+      maintained safety.
 
--   :material-lock:{ .lg .middle } **KTP-Crypto**
+   Emergency Level:  Classification of emergency severity from Level 1
+      (minor) to Level 5 (catastrophic).
 
-    ---
-    
-    Cryptographic primitives and signature schemes.
+   Graceful Degradation:  Controlled reduction in capability while
+      maintaining core safety.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-crypto.md)
+   Mass Compromise:  Simultaneous compromise of multiple agents beyond
+      normal incident response capacity.
 
--   :material-swap-horizontal:{ .lg .middle } **KTP-Transport**
+   Recovery Protocol:  Structured procedure for returning from emergency
+      to normal operation.
 
-    ---
-    
-    Network transport and Trust Proof propagation.
+   Zone Collapse:  Complete loss of zone operational capability.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-transport.md)
+   Zone Isolation:  Severing of zone connections to prevent emergency
+      spread.
 
-</div>
+5.  Emergency Levels
 
----
+5.1.  Level Classification
 
-## Official RFC Document
+   Emergencies are classified by severity:
 
-!!! quote "KTP-EMERGENCY: Emergency Response Specification"
-    The following is the official raw text of the KTP-Emergency RFC.
+   +-------+--------------+---------------------------+----------------+
+   | Level | Name         | Trigger                   | Response Auth  |
+   +-------+--------------+---------------------------+----------------+
+   | 1     | Advisory     | Elevated indicators       | Automated      |
+   | 2     | Warning      | Component degradation     | Automated      |
+   | 3     | Critical     | Significant capability    | Automated +    |
+   |       |              | loss                      | Alert          |
+   | 4     | Severe       | Major system compromise   | Human required |
+   | 5     | Catastrophic | Zone survival threatened  | Human required |
+   +-------+--------------+---------------------------+----------------+
 
-    ??? abstract "Read full RFC text"
-        ```text
-        --8<-- "rfcs/ktp-emergency.txt"
-        ```
+5.2.  Level 1: Advisory
 
-    ??? abstract "Read full RFC text"
-        --8<-- "rfcs/ktp-emergency.txt"
+   Trigger conditions:
+
+   -  R > 0.4 sustained for 15 minutes
+   -  Single component degradation
+   -  Anomalous behavior pattern detected
+   -  External threat intelligence received
+
+   Automated response:
+
+   -  Increase monitoring frequency
+   -  Pre-position recovery resources
+   -  Alert on-call personnel
+   -  Log elevated state
+
+   Agent impact:
+
+   -  No immediate impact
+   -  Increased gravity sensitivity
+   -  More frequent Trust Proof refresh
+
+5.3.  Level 2: Warning
+
+   Trigger conditions:
+
+   -  R > 0.6 sustained for 10 minutes
+   -  Multiple component degradation
+   -  Failed recovery from Level 1
+   -  Coordinated anomalies detected
+
+   Automated response:
+
+   -  Activate secondary systems
+   -  Reduce non-essential operations
+   -  Escalate alerts
+   -  Begin incident documentation
+
+   Agent impact:
+
+   -  All agents experience G += 0.5
+   -  High-risk actions restricted
+   -  Trust Proof expiration shortened
+   -  New agent genesis paused
+
+5.4.  Level 3: Critical
+
+   Trigger conditions:
+
+   -  R > 0.8 sustained for 5 minutes
+   -  Oracle node failure (below quorum risk)
+   -  Confirmed security incident
+   -  Cascading failures detected
+
+   Automated response:
+
+   -  Activate all redundancy
+   -  Isolate affected components
+   -  Page all on-call personnel
+   -  Enable emergency logging
+
+   Agent impact:
+
+   -  All agents demoted one tier
+   -  Only essential actions permitted
+   -  Trust Proof expiration: 5 seconds
+   -  Inter-zone traffic restricted
+
+5.5.  Level 4: Severe
+
+   Trigger conditions:
+
+   -  Oracle quorum lost
+   -  Mass agent compromise confirmed
+   -  Zone boundary breach
+   -  R approaching 1.0
+
+   Required response:
+
+   -  Human authorization required for operations
+   -  Emergency governance activated
+   -  External notification (federation, regulators)
+   -  Consider zone isolation
+
+   Agent impact:
+
+   -  All agents restricted to Observer mode
+   -  Only read operations permitted
+   -  Trust Proofs frozen (no new issuance)
+   -  Prepare for potential evacuation
+
+5.6.  Level 5: Catastrophic
+
+   Trigger conditions:
+
+   -  Oracle mesh completely failed
+   -  Zone integrity compromised
+   -  Uncontrolled cascade in progress
+   -  No recovery path visible
+
+   Required response:
+
+   -  Zone shutdown authorized
+   -  Complete isolation
+   -  External incident command
+   -  Forensic preservation
+
+   Agent impact:
+
+   -  All agent operations halted
+   -  Zone evacuation initiated
+   -  Trajectory records preserved
+   -  Await recovery or dissolution
+
+6.  Circuit Breakers
+
+6.1.  Concept
+
+   Circuit breakers automatically disable functionality when failure
+   thresholds are exceeded.  Like electrical circuit breakers, they
+   prevent cascading failure.
+
+      Normal Operation
+            |
+            v
+      [Failure Counter]
+            |
+            | threshold exceeded
+            v
+      [Circuit OPEN] -----> Operations Blocked
+            |
+            | cooldown period
+            v
+      [Circuit HALF-OPEN] --> Test Operations
+            |
+            | success          | failure
+            v                  v
+      [Circuit CLOSED]    [Circuit OPEN]
+            |
+            v
+      Normal Operation
+
+6.2.  Circuit Types
+
+   +-------------+------------------------+----------------------------+
+   | Circuit     | Protects               | Trigger                    |
+   +-------------+------------------------+----------------------------+
+   | Consensus   | Oracle consensus       | Consensus failures > 3     |
+   |             |                        | consecutive                |
+   | Trajectory  | Transaction signing    | Signing failures > 5/sec   |
+   | Federation  | Cross-zone operations  | Federation errors > 10/min |
+   | Agent       | Agent operations       | Violations > threshold     |
+   | Action      |                        |                            |
+   +-------------+------------------------+----------------------------+
+
+6.3.  Circuit Configuration
+
+   {
+     "circuit_breakers": {
+       "trust_proof": {
+         "failure_threshold": 10,
+         "failure_window_seconds": 1,
+         "cooldown_seconds": 30,
+         "half_open_test_count": 3
+       },
+       "consensus": {
+         "failure_threshold": 3,
+         "failure_window_seconds": 60,
+         "cooldown_seconds": 120,
+         "half_open_test_count": 1
+       },
+       "trajectory": {
+         "failure_threshold": 5,
+         "failure_window_seconds": 1,
+         "cooldown_seconds": 60,
+         "half_open_test_count": 3
+       }
+     }
+   }
+
+6.4.  Circuit States
+
+   +-----------+-----------------------------------------------------+
+   | State     | Behavior                                            |
+   +-----------+-----------------------------------------------------+
+   | CLOSED    | Normal operation, failures counted                  |
+   | OPEN      | Operations blocked, cooldown active                 |
+   | HALF-OPEN | Limited test operations permitted                   |
+   +-----------+-----------------------------------------------------+
+
+6.5.  Agent-Specific Circuits
+
+   Individual agents have circuit breakers:
+
+   {
+     "agent_circuit": {
+       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "violation_threshold": 5,
+       "violation_window_seconds": 300,
+       "cooldown_seconds": 600,
+       "current_state": "CLOSED",
+       "violation_count": 2,
+       "last_violation": "2025-12-03T14:30:00Z"
+     }
+   }
+
+   When an agent's circuit opens:
+
+   -  Agent restricted to Observer mode
+   -  Alert sent to sponsor
+   -  Trajectory flagged for review
+   -  Manual reset required after cooldown
+
+7.  Graceful Degradation
+
+7.1.  Degradation Ladder
+
+   As conditions worsen, capabilities reduce in order:
+
+      Level 0: Full Operation
+            |
+            v (R > 0.3)
+      Level 1: Elevated Monitoring
+            |
+            v (R > 0.5)
+      Level 2: Reduced Throughput
+            |
+            v (R > 0.7)
+      Level 3: Essential Only
+            |
+            v (R > 0.9)
+      Level 4: Read Only
+            |
+            v (Oracle failure)
+      Level 5: Preservation Mode
+            |
+            v (Zone failure)
+      Level 6: Shutdown
+
+7.2.  Degradation Actions
+
+   +-------+----------------------------------------------------------+
+   | Level | Disabled Capabilities                                    |
+   +-------+----------------------------------------------------------+
+   | 2     | New agent genesis, bulk operations                       |
+   | 3     | Tier promotions, high-risk actions                       |
+   | 4     | All write operations, agent mobility                     |
+   | 5     | All agent operations (preserve data)                     |
+   | 6     | All operations (orderly shutdown)                        |
+   +-------+----------------------------------------------------------+
+
+7.3.  Capability Preservation Priority
+
+   When degrading, preserve in order:
+
+   1.  Safety (always preserved)
+
+       -  Zeroth Law enforcement
+       -  Circuit breakers
+       -  Audit logging
+
+   2.  Integrity (preserve if possible)
+
+       -  Trajectory chain consistency
+       -  Trust Proof validity
+       -  Consensus integrity
+
+   3.  Availability (degrade first)
+
+       -  New agent operations
+       -  High-risk actions
+       -  Non-essential features
+
+7.4.  Degradation Communication
+
+   Agents MUST be informed of degraded state:
+
+   {
+     "zone_status": {
+       "zone_id": "zone-blue-prod-01",
+       "status": "DEGRADED",
+       "degradation_level": 3,
+       "disabled_capabilities": [
+         "tier_promotion",
+         "high_risk_actions",
+         "new_genesis"
+       ],
+       "reason": "Elevated risk factor",
+       "r_current": 0.75,
+       "estimated_recovery": "2025-12-03T15:00:00Z",
+       "agent_guidance": "Limit operations to essential only"
+     }
+   }
+
+8.  Zone Collapse Protocol
+
+8.1.  Definition
+
+   Zone collapse occurs when a zone can no longer maintain basic
+   operations:
+
+   -  Oracle mesh completely unavailable
+   -  Zone integrity compromised beyond repair
+   -  Uncontrolled cascade with no recovery path
+   -  Governance decision to terminate zone
+
+8.2.  Collapse Detection
+
+   Automatic collapse detection:
+
+      IF oracle_quorum_available = false
+         AND recovery_attempts > max_attempts
+         AND time_since_quorum_loss > max_duration
+      THEN TRIGGER zone_collapse_protocol
+
+   Manual collapse declaration:
+
+   -  Zone administrator authorization (IAL3)
+   -  Federation notification
+   -  Regulatory notification if required
+
+8.3.  Collapse Sequence
+
+   T+0: Collapse declared
+
+   -  Zone status -> COLLAPSING
+   -  All operations halted
+   -  Federation notified
+   -  External communication blocked
+
+   T+1min: Agent notification
+
+   -  All agents notified of collapse
+   -  Evacuation window opens
+   -  Exit Attestations issued for eligible agents
+
+   T+5min: Trajectory preservation
+
+   -  All trajectory chains exported
+   -  Flight Recorder sealed
+   -  Cryptographic hashes published
+
+   T+15min: Agent evacuation
+
+   -  Agents may exit to federated zones
+   -  Trust transfer with collapse attestation
+   -  Agents without exit path -> frozen
+
+   T+30min: Zone isolation
+
+   -  All external connections severed
+   -  Zone boundary hardened
+   -  Internal operations continue for preservation
+
+   T+60min: Final preservation
+
+   -  Complete state snapshot
+   -  Forensic package created
+   -  Recovery point established
+
+   T+120min: Zone offline
+
+   -  All systems shut down
+   -  Zone status -> COLLAPSED
+   -  Post-mortem begins
+
+8.4.  Agent Evacuation
+
+   During collapse, agents can evacuate to federated zones:
+
+   {
+     "evacuation_attestation": {
+       "attestation_type": "zone_collapse_evacuation",
+       "origin_zone": "zone-blue-prod-01",
+       "collapse_timestamp": "2025-12-03T14:00:00Z",
+       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "agent_state_at_collapse": {
+         "e_base": 55,
+         "trajectory_length": 4721,
+         "lineage": "divergent",
+         "generation": 3
+       },
+       "trajectory_hash": "sha256:abc123...",
+       "destination_zone": "zone-blue-prod-02",
+       "transfer_terms": {
+         "e_base_transferred": 44,
+         "transfer_factor": 0.8,
+         "collapse_penalty": 0.0
+       },
+       "signatures": {
+         "origin_zone": "sig:zone-blue-prod-01:...",
+         "destination_zone": "sig:zone-blue-prod-02:..."
+       }
+     }
+   }
+
+8.5.  Post-Collapse
+
+   After collapse:
+
+   -  Trajectory data available via federation
+   -  Forensic package available for analysis
+   -  Zone may be re-established with new genesis
+   -  Agents may return after re-establishment
+
+9.  Mass Compromise Response
+
+9.1.  Definition
+
+   Mass compromise occurs when:
+
+   -  More than 10% of zone agents compromised
+   -  Coordinated attack affecting multiple agents
+   -  Systemic vulnerability exploitation
+   -  Compromised sponsor affecting all sponsored agents
+
+9.2.  Detection
+
+   Mass compromise indicators:
+
+   -  Sudden trajectory divergence across agents
+   -  Coordinated anomalous behavior
+   -  Simultaneous constraint violations
+   -  Common attack pattern detected
+
+   Detection threshold:
+
+   {
+     "mass_compromise_detection": {
+       "compromised_agent_threshold_percent": 10,
+       "coordinated_anomaly_threshold": 20,
+       "trajectory_divergence_threshold": 0.5,
+       "detection_window_seconds": 300
+     }
+   }
+
+9.3.  Response Protocol
+
+   T+0: Mass compromise detected
+
+   -  Emergency Level 4 declared
+   -  All agent operations paused
+   -  Forensic capture initiated
+
+   T+1min: Triage
+
+   -  Identify affected vs. unaffected agents
+   -  Isolate affected agents
+   -  Preserve affected trajectories
+
+   T+5min: Containment
+
+   -  Affected agents quarantined
+   -  Sponsorship chains reviewed
+   -  Common attack vector identified
+
+   T+15min: Scope assessment
+
+   -  Full impact determined
+   -  Recovery options evaluated
+   -  Communication to stakeholders
+
+   T+30min: Recovery decision
+
+   -  Option A: Selective remediation
+   -  Option B: Mass reset
+   -  Option C: Zone collapse
+
+   T+60min+: Execute decision
+
+   -  Implement chosen recovery path
+   -  Monitor for recurrence
+   -  Update defenses
+
+9.4.  Quarantine Protocol
+
+   Compromised agents are quarantined:
+
+   {
+     "quarantine": {
+       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "quarantine_start": "2025-12-03T14:05:00Z",
+       "reason": "mass_compromise_suspected",
+       "evidence": [
+         "trajectory_divergence: 0.7",
+         "coordinated_anomaly: true",
+         "attack_pattern_match: true"
+       ],
+       "quarantine_state": {
+         "operations_permitted": "none",
+         "monitoring_level": "maximum",
+         "trajectory_frozen": true,
+         "sponsor_notified": true
+       },
+       "release_conditions": [
+         "forensic_analysis_complete",
+         "remediation_verified",
+         "sponsor_authorization"
+       ]
+     }
+   }
+
+9.5.  Recovery Options
+
+   Option A: Selective Remediation
+
+   For limited compromise:
+
+   -  Identify and quarantine affected agents
+   -  Remediate root cause
+   -  Verify agent integrity
+   -  Gradual release from quarantine
+
+   Option B: Mass Reset
+
+   For widespread compromise:
+
+   -  All affected agents reset to genesis
+   -  E_base set to sponsored minimum
+   -  Trajectory chains preserved but flagged
+   -  Agents must re-earn trust
+
+   Option C: Zone Collapse
+
+   For unrecoverable compromise:
+
+   -  Zone collapse protocol initiated
+   -  All agents evacuated or frozen
+   -  Zone re-established fresh
+   -  New genesis ceremony required
+
+10.  Oracle Failure Response
+
+10.1.  Single Node Failure
+
+   Single node failure is routine:
+
+   Detection:  Heartbeat timeout (5 seconds)
+
+   Response:
+
+   1.  Remove failed node from active set
+   2.  Redistribute load to remaining nodes
+   3.  Alert operations
+   4.  Begin node recovery
+
+   Recovery:  Node rejoins after health check
+
+10.2.  Quorum Degradation
+
+   When nodes fail but quorum remains:
+
+   Detection:  Active nodes < recommended, >= minimum
+
+   Response:
+
+   1.  Alert: quorum degraded
+   2.  Reduce consensus requirements if allowed
+   3.  Prioritize critical operations
+   4.  Accelerate node recovery
+
+   Recovery:  Nodes rejoin, full quorum restored
+
+10.3.  Quorum Loss
+
+   When quorum is lost (active nodes < minimum):
+
+   Detection:  Cannot achieve consensus
+
+   Response:
+
+   1.  Emergency Level 4 declared
+   2.  All write operations halted
+   3.  Read operations from cache where possible
+   4.  Human escalation required
+
+   Recovery:
+
+   -  Option A: Restore nodes to regain quorum
+   -  Option B: Emergency quorum with reduced nodes
+   -  Option C: Zone collapse if unrecoverable
+
+10.4.  Emergency Quorum
+
+   If normal quorum cannot be restored:
+
+   {
+     "emergency_quorum": {
+       "authorization": "Human administrator (IAL3)",
+       "justification": "Normal quorum unrecoverable",
+       "temporary_quorum": {
+         "minimum_nodes": 2,
+         "required_for": "essential_operations_only",
+         "duration_max_hours": 24
+       },
+       "restrictions": [
+         "No new agent genesis",
+         "No E_base modifications",
+         "No zone configuration changes",
+         "Read operations prioritized"
+       ],
+       "recovery_requirement": "Full quorum must be restored within 24 hours"
+     }
+   }
+
+11.  Recovery Procedures
+
+11.1.  Recovery Phases
+
+   Phase 1: STABILIZE
+
+   -  Stop bleeding (prevent further damage)
+   -  Establish stable baseline
+   -  Assess current state
+
+   Phase 2: ASSESS
+
+   -  Full damage assessment
+   -  Root cause identification
+   -  Recovery options evaluation
+
+   Phase 3: PLAN
+
+   -  Recovery plan development
+   -  Resource allocation
+   -  Timeline establishment
+
+   Phase 4: EXECUTE
+
+   -  Systematic recovery execution
+   -  Continuous monitoring
+   -  Checkpoint verification
+
+   Phase 5: VERIFY
+
+   -  Recovery completeness check
+   -  Security verification
+   -  Performance validation
+
+   Phase 6: NORMALIZE
+
+   -  Return to normal operations
+   -  Remove emergency measures
+   -  Update documentation
+
+11.2.  Recovery Checklist
+
+   Pre-recovery:
+
+   -  [ ] Emergency contained
+   -  [ ] Root cause identified
+   -  [ ] Recovery plan approved
+   -  [ ] Resources available
+   -  [ ] Stakeholders notified
+
+   During recovery:
+
+   -  [ ] Progress tracked
+   -  [ ] Checkpoints verified
+   -  [ ] Anomalies investigated
+   -  [ ] Documentation updated
+
+   Post-recovery:
+
+   -  [ ] Full functionality verified
+   -  [ ] Security posture confirmed
+   -  [ ] Performance acceptable
+   -  [ ] Monitoring normal
+   -  [ ] Post-incident review scheduled
+
+11.3.  Recovery Verification
+
+   Before declaring recovery complete:
+
+   {
+     "recovery_verification": {
+       "oracle_health": {
+         "quorum_status": "full",
+         "node_health": "all_healthy",
+         "consensus_functioning": true
+       },
+       "agent_health": {
+         "agents_operational": 4721,
+         "agents_quarantined": 0,
+         "agents_evacuated": 0
+       },
+       "zone_health": {
+         "r_current": 0.15,
+         "degradation_level": 0,
+         "circuits_open": 0
+       },
+       "security_posture": {
+         "vulnerability_remediated": true,
+         "monitoring_enhanced": true,
+         "attack_vector_blocked": true
+       },
+       "verification_timestamp": "2025-12-03T16:00:00Z",
+       "verified_by": "admin:alice.smith"
+     }
+   }
+
+12.  Post-Incident Analysis
+
+12.1.  Requirements
+
+   Post-incident analysis is REQUIRED for:
+
+   -  Any Level 3 or higher emergency
+   -  Any zone collapse or near-collapse
+   -  Any mass compromise
+   -  Any Oracle quorum loss
+
+12.2.  Analysis Framework
+
+   1.  TIMELINE
+
+       -  Minute-by-minute reconstruction
+       -  Decision points identified
+       -  Delays documented
+
+   2.  ROOT CAUSE
+
+       -  Technical cause
+       -  Contributing factors
+       -  Systemic issues
+
+   3.  RESPONSE EVALUATION
+
+       -  What worked well
+       -  What didn't work
+       -  Near misses
+
+   4.  IMPACT ASSESSMENT
+
+       -  Agents affected
+       -  Trajectory impact
+       -  Trust impact
+       -  Business impact
+
+   5.  LESSONS LEARNED
+
+       -  What to improve
+       -  What to add
+       -  What to remove
+
+   6.  ACTION ITEMS
+
+       -  Specific improvements
+       -  Owners assigned
+       -  Deadlines set
+
+12.3.  Post-Incident Report
+
+   {
+     "incident_report": {
+       "incident_id": "INC-2025-12-03-001",
+       "zone_id": "zone-blue-prod-01",
+       "severity": "Level 3 - Critical",
+       "duration_minutes": 47,
+       "summary": "Oracle node failure led to temporary quorum degradation",
+       "timeline": [
+         {
+           "timestamp": "2025-12-03T14:00:00Z",
+           "event": "Oracle node 3 unresponsive"
+         },
+         {
+           "timestamp": "2025-12-03T14:00:05Z",
+           "event": "Node removed from active set"
+         }
+       ],
+       "root_cause": {
+         "primary": "Hardware failure in Oracle node 3",
+         "contributing": [
+           "Delayed hardware replacement",
+           "Insufficient geographic distribution"
+         ]
+       },
+       "impact": {
+         "agents_affected": 127,
+         "operations_delayed": 4721,
+         "trust_impact": "minimal"
+       },
+       "response_evaluation": {
+         "effective": [
+           "Automatic failover functioned correctly",
+           "Agent communication timely"
+         ],
+         "needs_improvement": [
+           "Recovery time exceeded target",
+           "Alert routing delayed"
+         ]
+       },
+       "action_items": [
+         {
+           "action": "Add sixth Oracle node",
+           "owner": "infrastructure_team",
+           "deadline": "2025-12-15"
+         },
+         {
+           "action": "Improve alert routing",
+           "owner": "operations_team",
+           "deadline": "2025-12-10"
+         }
+       ],
+       "report_author": "admin:bob.jones",
+       "report_date": "2025-12-04"
+     }
+   }
+
+13.  Communication During Emergencies
+
+13.1.  Internal Communication
+
+   +------------+---------------+-----------------------------------+
+   | Audience   | Channel       | Content                           |
+   +------------+---------------+-----------------------------------+
+   | Management | Email/Call    | Impact and timeline               |
+   | Engineers  | Chat/Bridge   | Technical coordination            |
+   | All Staff  | Broadcast     | Status and guidance               |
+   +------------+---------------+-----------------------------------+
+
+13.2.  External Communication
+
+   +------------+---------------------+------------------------------+
+   | Audience   | Channel             | Content                      |
+   +------------+---------------------+------------------------------+
+   | Regulators | Formal notification | Compliance-relevant details  |
+   | Agents     | Zone status API     | Operational guidance         |
+   | Sponsors   | Direct notification | Agent status                 |
+   +------------+---------------------+------------------------------+
+
+13.3.  Communication Templates
+
+   Emergency declaration:
+
+      EMERGENCY DECLARED - [Zone ID]
+      Level: [1-5]
+      Time: [timestamp]
+      Status: [brief description]
+      Agent Impact: [current restrictions]
+      Estimated Recovery: [time or "assessing"]
+      Next Update: [time]
+
+   Status update:
+
+      STATUS UPDATE - [Zone ID] - [Update #]
+      Level: [current level]
+      Progress: [recovery status]
+      Changes: [what's changed]
+      Agent Impact: [current restrictions]
+      Next Update: [time]
+
+   Recovery announcement:
+
+      RECOVERY COMPLETE - [Zone ID]
+      Duration: [total time]
+      Final Status: Normal operations resumed
+      Remaining Actions: [any ongoing items]
+      Post-Incident Review: [scheduled date]
+
+14.  Security Considerations
+
+14.1.  Emergency Protocol Security
+
+   Emergency procedures themselves must be secured:
+
+   -  Emergency credentials stored separately
+   -  Break-glass procedures audited
+   -  Emergency access time-limited
+   -  All emergency actions logged
+
+14.2.  Attack During Emergency
+
+   Attackers may exploit emergencies:
+
+   -  Increased monitoring during emergencies
+   -  No security shortcuts during recovery
+   -  Verify identity of "helpers"
+   -  Assume compromise until verified
+
+14.3.  Emergency Credential Management
+
+   {
+     "emergency_credentials": {
+       "type": "break_glass",
+       "holders": [
+         "admin:alice.smith",
+         "admin:bob.jones",
+         "admin:carol.williams"
+       ],
+       "activation_requires": "2_of_3",
+       "valid_duration_hours": 4,
+       "audit_level": "maximum",
+       "automatic_revocation": true
+     }
+   }
+
+15.  IANA Considerations
+
+   This document has no IANA actions.
+
+Appendix A.  Emergency Runbooks
+
+   Detailed step-by-step procedures for common emergencies.
+
+   Runbook: Oracle Node Failure
+
+   Runbook: Quorum Loss
+
+   Runbook: Mass Agent Compromise
+
+   Runbook: Zone Collapse
+
+Appendix B.  Communication Templates
+
+   Complete templates for emergency communications.
+
+Appendix C.  Recovery Checklists
+
+   Detailed checklists for recovery procedures.
+
+Acknowledgments
+
+   Emergency response procedures draw on incident management best
+   practices from SRE, NIST, and operational experience with distributed
+   systems.

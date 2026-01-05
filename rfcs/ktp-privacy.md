@@ -97,10 +97,7 @@ KTP adopts Helen Nissenbaum's **Contextual Integrity** framework. Privacy is not
 
 ## Official RFC Document
 
-??? abstract "KTP-RFC-018: KTP-Privacy (Raw Text)"
-
+??? note "View Complete RFC Text (ktp-privacy.txt)"
     ```text
-    --8<-- "rfcs/ktp-privacy.txt"
+    --8<-- "rfcs-txt/ktp-privacy.txt"
     ```
-
-    *(Note: The raw text above is the authoritative technical specification. This page provides a user-friendly interface for that content.)*

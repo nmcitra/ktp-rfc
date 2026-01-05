@@ -531,10 +531,7 @@ For high-volume sensors:
 
 ## Official RFC Document
 
-!!! abstract "IETF Submission Format"
-    The text below is the canonical RFC specification intended for IETF submission. It contains the complete, authoritative technical specification.
-
 ??? note "View Complete RFC Text (ktp-transport.txt)"
-    ```
-    --8<-- "rfcs/ktp-transport.txt"
+    ```text
+    --8<-- "rfcs-txt/ktp-transport.txt"
     ```

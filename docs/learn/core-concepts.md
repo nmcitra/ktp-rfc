@@ -184,34 +184,38 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 
 1. :material-star-four-points-circle: The complete Context Tensor specification spans 1,707 dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for measurement definitions, aggregation rules, and instrumentation requirements.
 
-### The Six Domains (1,707 dimensions)
+### The Seven Dimensions of Trust
 
-| Tensor | Dimensions | Core Question |
-|--------|------------|---------------|
-| **Soul** | 252 | Who is this agent becoming? |
-| **Body** | 157 | What resources does it have? |
-| **World** | 387 | What surrounds it? |
-| **Time** | 291 | When and how fast? |
-| **Relational** | 262 | Who is it connected to? |
-| **Signal** | 358 | What does it know? |
+The Context Tensor expresses trust across seven primary dimensions—each measurable, each contributing to the system's live trust geometry:
 
-**Total: 1,707 dimensions** measuring the full operational context.
+| Dimension | Icon | What It Measures | Example Signals | Behavioral Effect |
+|-----------|------|------------------|-----------------|-------------------|
+| **Mass** | :material-database: | Telemetry density and volume | Request volume, throughput, concurrent sessions | Establishes baseline stability; "weight" of the environment |
+| **Momentum** | :material-trending-up: | Direction and velocity of change | Trust deltas, rapid swings, step changes | Captures acceleration; prevents trust whiplash |
+| **Inertia** | :material-sine-wave: | Resistance to rapid shifts | Config stability, dependency consistency, service criticality | Dampens noise for high-impact systems |
+| **Heat** | :material-thermometer: | Environmental stress and anomaly load | Error spikes, adversarial indicators, resource contention | Fast signal that decays slowly; triggers dormancy |
+| **Time** | :material-clock: | Temporal context and decay | Session duration, latency trends, freshness windows | Governs trust decay and refresh cycles |
+| **Observer** | :material-eye: | Who is watching and view reliability | Audit coverage, peer visibility, attestations | Independent observers raise confidence |
+| **Soul** | :material-creation: | Constitutional constraints (non-negotiables) | Consent flags, jurisdictional vetoes, sovereignty labels | Hard vetoes that bypass numerical scoring |
 
-### Cross-Cutting Physics Lenses
+!!! tip "Dimension Interaction"
+    These dimensions don't operate in isolation. For example, high **Heat** combined with low **Inertia** creates rapid trust collapse, while high **Mass** with stable **Momentum** indicates a healthy, predictable system.
 
-Context Tensors also roll up into physics-style lenses that inform the Trust Equation and Risk Deflation:
+### Dimension-to-RFC Tensor Mapping
 
-| Physics Lens | Core Question | RFC Tensor Mapping | Example Signals | Why it matters |
-|--------------|---------------|--------------------|-----------------|----------------|
-| **Mass** | Volume and density of telemetry | Body + World | Packet rates, occupancy, RF absorption | Establishes how “heavy” the environment is; sets baseline stability. |
-| **Momentum** | Rate of change in trust | Time + Signal | Trust velocity, confidence deltas, surge patterns | Captures acceleration of trust up/down to prevent whiplash. |
-| **Inertia** | Resistance to trust fluctuation | Body + Relational | Service criticality, blast radius, dependency depth | Dampens sudden shifts for high-impact systems; enforces stability. |
-| **Heat** | Operational stress and anomaly detection | World + Signal | Error bursts, adversarial scans, resource contention | Reveals pressure that should lower autonomy or trigger dormancy. |
-| **Time** | Temporal patterns and decay | Time | Phase of event, freshness, decay curves | Governs how long trust holds and when it should decay or refresh. |
-| **Observer** | Perspective and vantage point | Relational + Signal | Audience, stakeholder expectations, locality | Adjusts trust by who is impacted and from where it’s measured. |
-| **Soul** | Constitutional constraints that cannot be overridden | Soul | Sovereignty labels, TK/OCAP/CARE rules | Hard vetoes enforced before any other calculation. |
+The seven dimensions aggregate signals from underlying RFC tensor categories (totaling 1,707 individual measurements):
 
-See the full tensor definitions and rollups in [KTP-TENSORS](../rfcs/ktp-tensors.md#tensor-explorer).
+| Dimension | Primary RFC Tensors | Core Question | Aggregation Pattern |
+|-----------|---------------------|---------------|---------------------|
+| **Mass** | Body + World | How "heavy" is the environment? | Volume normalization across infrastructure telemetry |
+| **Momentum** | Time + Signal | How fast is trust changing? | Delta calculation with exponential smoothing |
+| **Inertia** | Body + Relational | How resistant to rapid shifts? | Stability index based on drift and churn penalties |
+| **Heat** | World + Signal | How much stress is present? | Stress accumulation from errors and anomalies |
+| **Time** | Time | When and how fresh? | Temporal windowing with exponential decay |
+| **Observer** | Relational + Signal | Who is watching? | Observer-weighted coverage scoring |
+| **Soul** | Soul | What cannot be overridden? | Constitutional gate with veto authority |
+
+See the full tensor definitions and rollups in [KTP-TENSORS](../rfcs/ktp-tensors.md#tensor-explorer) and [Context Tensor](context-tensor.md) for deep dives into each dimension.
 
 ### Measurement Principles
 

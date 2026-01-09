@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ktp.example.org/schemas/sensor-config.json",
+  "title": "KTP Sensor Feed Configuration",
+  "description": "Configuration schema for Context Tensor sensor feeds",
+  "type": "object",
+  "required": ["dimension", "feeds"],
+  "properties": {
+    "dimension": {
+      "type": "string",
+      "enum": ["m", "p", "h", "t", "i", "o", "s"],
+      "description": "The tensor dimension this configuration applies to"
+    },
+    "feeds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feed"
+      },
+      "minItems": 1,
+      "description": "Array of sensor feeds for this dimension"
+    },
+    "aggregation": {
+      "type": "string",
+      "enum": ["weighted_average", "any_veto", "all_veto", "max", "min"],
+      "default": "weighted_average",
+      "description": "How to aggregate multiple feeds (Soul dimension must use any_veto)"
+    },
+    "default_on_failure": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Value to use if all feeds fail (conservative default)"
+    }
+  },
+  "$defs": {
+    "feed": {
+      "type": "object",
+      "required": ["id", "source", "enabled"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique identifier for this feed within the dimension"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["physical", "network", "security", "application", "governance"],
+          "description": "Category of sensor"
+        },
+        "source": {
+          "type": "string",
+          "description": "URI of the data source (mqtt://, https://, local://)"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this feed is active"
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "default": 1.0,
+          "description": "Weight of this feed in aggregation (for weighted dimensions)"
+        },
+        "normalization": {
+          "$ref": "#/$defs/normalization"
+        },
+        "refresh_interval_ms": {
+          "type": "integer",
+          "minimum": 100,
+          "description": "How often to poll this source (milliseconds)"
+        },
+        "stale_threshold_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "description": "How long before data is considered stale"
+        },
+        "veto_on_match": {
+          "type": "boolean",
+          "default": false,
+          "description": "For Soul dimension: whether a match triggers veto"
+        },
+        "transform": {
+          "type": "string",
+          "description": "Optional JSONPath or transformation expression"
+        }
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "number",
+          "description": "Raw value that maps to 0"
+        },
+        "max": {
+          "type": "number",
+          "description": "Raw value that maps to 1"
+        },
+        "invert": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to invert the scale (1 becomes 0, 0 becomes 1)"
+        },
+        "clamp": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to clamp values outside min/max to 0/1"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "dimension": "m",
+      "feeds": [
+        {
+          "id": "co2-sensor",
+          "type": "physical",
+          "source": "mqtt://sensors.local/building/co2",
+          "enabled": true,
+          "weight": 1.0,
+          "normalization": {
+            "min": 400,
+            "max": 2000,
+            "invert": false
+          },
+          "refresh_interval_ms": 30000,
+          "stale_threshold_ms": 120000
+        },
+        {
+          "id": "badge-count",
+          "type": "physical",
+          "source": "https://access.local/api/v1/count",
+          "enabled": true,
+          "weight": 1.5,
+          "normalization": {
+            "min": 0,
+            "max": 5000,
+            "invert": false
+          },
+          "refresh_interval_ms": 60000,
+          "stale_threshold_ms": 300000
+        }
+      ],
+      "aggregation": "weighted_average",
+      "default_on_failure": 0.8
+    },
+    {
+      "dimension": "s",
+      "feeds": [
+        {
+          "id": "tk-labels",
+          "type": "governance",
+          "source": "https://api.localcontexts.org/v1/labels",
+          "enabled": true,
+          "veto_on_match": true,
+          "refresh_interval_ms": 0,
+          "stale_threshold_ms": 0
+        },
+        {
+          "id": "ocap-registry",
+          "type": "governance",
+          "source": "https://ocap.example.org/api/check",
+          "enabled": true,
+          "veto_on_match": true,
+          "refresh_interval_ms": 0,
+          "stale_threshold_ms": 0
+        },
+        {
+          "id": "sacred-geofence",
+          "type": "governance",
+          "source": "local://geofence-service",
+          "enabled": true,
+          "veto_on_match": true,
+          "refresh_interval_ms": 0,
+          "stale_threshold_ms": 0
+        }
+      ],
+      "aggregation": "any_veto"
+    }
+  ]
+}

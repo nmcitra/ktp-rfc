@@ -1,0 +1,3646 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Digital Physics, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/learn/context-tensor/">
+      
+      
+        <link rel="prev" href="../core-concepts/">
+      
+      
+        <link rel="next" href="../telemetry/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Context Tensor - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-context-tensor" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Context Tensor
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Learn
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-seven-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Seven Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#incoming-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incoming Signals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dimension-lens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimension Lens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-arq-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ARQ Dimensions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ARQ Dimensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-arq-maps-into-the-tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How ARQ Maps into the Tensor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-telemetry-to-arq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapping Telemetry to ARQ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scale-update-cadence-and-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale, Update Cadence, and Normalization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-deflation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Deflation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../rfcs/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rfcs/ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/schemas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JSON Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-seven-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Seven Dimensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#incoming-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incoming Signals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dimension-lens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dimension Lens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-arq-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ARQ Dimensions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ARQ Dimensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-arq-maps-into-the-tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How ARQ Maps into the Tensor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mapping-telemetry-to-arq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mapping Telemetry to ARQ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scale-update-cadence-and-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scale, Update Cadence, and Normalization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk-deflation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk Deflation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/learn/context-tensor.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="the-context-tensor">The Context Tensor<a class="headerlink" href="#the-context-tensor" title="Permanent link">&para;</a></h1>
+<p><em>The Geometry of Trust in a Digital Universe</em></p>
+<p>Trust isn't a yes/no flag. It's a field. The <strong>Context Tensor</strong> is the mathematical structure that captures the real-time state of trust for any interaction—its weight, direction, and volatility—so authorization can respond like physics, not policy. Instead of static rules, KTP evaluates a living vector space that changes as conditions change.</p>
+<h2 id="the-seven-dimensions">The Seven Dimensions<a class="headerlink" href="#the-seven-dimensions" title="Permanent link">&para;</a></h2>
+<p>The Context Tensor is expressed across seven primary dimensions:</p>
+<ol>
+<li><strong>Mass</strong> — volume and density of telemetry</li>
+<li><strong>Momentum</strong> — rate of change in trust</li>
+<li><strong>Inertia</strong> — resistance to trust fluctuation</li>
+<li><strong>Heat</strong> — operational stress and anomaly detection</li>
+<li><strong>Time</strong> — temporal patterns and decay</li>
+<li><strong>Observer</strong> — perspective and vantage point</li>
+<li><strong>Soul</strong> — constitutional constraints that cannot be overridden</li>
+</ol>
+<p>Each dimension is measurable and contributes to the system's live trust geometry. For the full dimensional breakdown (1,707 measurements), see <strong><a href="../../rfcs/ktp-tensors/">KTP-Tensors</a></strong>.</p>
+<h2 id="incoming-signals">Incoming Signals<a class="headerlink" href="#incoming-signals" title="Permanent link">&para;</a></h2>
+<p>The tensor is fed by live signals. These are normalized, scored, and projected into the seven dimensions.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Packets</label><label for="__tabbed_1_2">Logs &amp; Events</label><label for="__tabbed_1_3">Metrics</label><label for="__tabbed_1_4">Attestations</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>Signals:</strong> latency, jitter, packet loss, handshake success, throughput.</p>
+<p><strong>Primary influence:</strong> Accessibility, Time, Mass.</p>
+<details class="info">
+<summary>All possible signals (collapsed)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Layer 4: Transport (L4)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- src_port (Ephemeral port of the client)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- Ephemeral Port Exhaustion
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>- Fixed Source Port
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>- Port Scan (Source)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>- dest_port (Service port)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>- Service Distribution
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>- Dark Port Access
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>- Port Scan (Dest)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>- High Port Usage
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>- tcp_flags (SYN, ACK, FIN, RST - Connection state)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>- SYN Flood
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>- RST Rate
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>- Null Scan
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>- Xmas Scan
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>- Handshake Completion
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>- window_size (TCP Receive Window)
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>- Zero Window
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>- Window Scaling
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>- Retransmission Correlation
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>- retransmission_rate (Packets resent due to loss/congestion)
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>- Retransmission Spike
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>- High Retransmission Host
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>- Global Retransmission
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>Layer 3.5: Flow (L3.5)
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>- flow_bytes_in (Inbound byte count)
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>- Inbound Volume
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>- Large Transfer
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>- Volume Spike
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>- Ratio Analysis
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>- flow_bytes_out (Outbound byte count)
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>- Outbound Volume
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>- Exfiltration Detection
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>- Upload Anomaly
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>- Asymmetric Flow
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>- flow_packets (Packet count per flow)
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>- Packet Volume
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>- Small Packet Flood
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>- Packet Size Avg
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>- Scan Detection
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>- flow_duration (Flow duration)
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>- Average Flow Duration
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>- Long-Lived Flows
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>- C2 Beaconing
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>- Tunnel Detection
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>- flow_start_time (Flow initiation timestamp)
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>- Flow Start Distribution
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>- Off-Hours Activity
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>- Burst Detection
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>- Time Correlation
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>- flow_end_reason (Flow termination reason)
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>- End Reason Distribution
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>- Timeout Flows
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>- RST/FIN Analysis
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>- Forced Closure
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>- application_id (DPI-identified application)
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>- App Distribution
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>- Shadow IT Detection
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>- New Application
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>- App Usage Trend
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>- flow_direction (Ingress/egress/internal flow direction)
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>- Direction Distribution
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>- Egress Anomaly
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>- Lateral Movement
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>- Internal Traffic
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>Layer 3: Network (L3)
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>- src_ip (Net: Source Identity)
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>- Unique Sources
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>- New Source Detection
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>- Top Talkers
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>- Source Reputation
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>- Internal vs External
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>- dest_ip (Net: Destination Target)
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>- Unique Destinations
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>- New Destination Alert
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>- Destination Reputation
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>- Beaconing Detection
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>- Rare Destination Access
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>- latency (Ops: RTT - primary health metric)
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>- Average Latency
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>- P50 Latency
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>- P95 Latency
+<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>- P99 Latency
+<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>- Latency Anomaly
+<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>- Latency Trend
+<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>- packet_loss (Ops: Indication of bad links or congestion)
+<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>- Loss Rate
+<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>- Loss Spike
+<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>- Loss Outliers
+<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>- Loss by Path
+<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>- P99 Loss
+<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>- hop_count (Net: TTL - detects routing loops)
+<a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>- Avg Path Length
+<a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a>- Path Change Detection
+<a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>- Excessive Hops
+<a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a>- TTL Expiry Rate
+<a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>- tos_dscp (QoS: Is voice traffic tagged correctly?)
+<a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a>- QoS Marking Distribution
+<a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a>- Voice Traffic Tagging
+<a id="__codelineno-0-102" name="__codelineno-0-102" href="#__codelineno-0-102"></a>- Mismarked Traffic
+<a id="__codelineno-0-103" name="__codelineno-0-103" href="#__codelineno-0-103"></a>- protocol_id (Net: TCP, UDP, ICMP, GRE, ESP)
+<a id="__codelineno-0-104" name="__codelineno-0-104" href="#__codelineno-0-104"></a>- Protocol Distribution
+<a id="__codelineno-0-105" name="__codelineno-0-105" href="#__codelineno-0-105"></a>- Unusual Protocol
+<a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a>- ICMP Volume
+<a id="__codelineno-0-107" name="__codelineno-0-107" href="#__codelineno-0-107"></a>- GRE/ESP Tunnels
+<a id="__codelineno-0-108" name="__codelineno-0-108" href="#__codelineno-0-108"></a>- icmp_type (Net: Destination Unreachable vs. Echo Request)
+<a id="__codelineno-0-109" name="__codelineno-0-109" href="#__codelineno-0-109"></a>- Unreachable Rate
+<a id="__codelineno-0-110" name="__codelineno-0-110" href="#__codelineno-0-110"></a>- Echo Request Volume
+<a id="__codelineno-0-111" name="__codelineno-0-111" href="#__codelineno-0-111"></a>- ICMP Flood Detection
+<a id="__codelineno-0-112" name="__codelineno-0-112" href="#__codelineno-0-112"></a>- Redirect Messages
+<a id="__codelineno-0-113" name="__codelineno-0-113" href="#__codelineno-0-113"></a>- bgp_peer_state (Routing: Established/Idle)
+<a id="__codelineno-0-114" name="__codelineno-0-114" href="#__codelineno-0-114"></a>- Peer Status
+<a id="__codelineno-0-115" name="__codelineno-0-115" href="#__codelineno-0-115"></a>- State Flap Detection
+<a id="__codelineno-0-116" name="__codelineno-0-116" href="#__codelineno-0-116"></a>- Idle Peer Alert
+<a id="__codelineno-0-117" name="__codelineno-0-117" href="#__codelineno-0-117"></a>- Prefix Count Change
+<a id="__codelineno-0-118" name="__codelineno-0-118" href="#__codelineno-0-118"></a>- Session Uptime
+<a id="__codelineno-0-119" name="__codelineno-0-119" href="#__codelineno-0-119"></a>- route_next_hop (Routing: Where is the traffic going next?)
+<a id="__codelineno-0-120" name="__codelineno-0-120" href="#__codelineno-0-120"></a>- Next Hop Distribution
+<a id="__codelineno-0-121" name="__codelineno-0-121" href="#__codelineno-0-121"></a>- Next Hop Change
+<a id="__codelineno-0-122" name="__codelineno-0-122" href="#__codelineno-0-122"></a>- Black Hole Routes
+<a id="__codelineno-0-123" name="__codelineno-0-123" href="#__codelineno-0-123"></a>- Path Symmetry
+<a id="__codelineno-0-124" name="__codelineno-0-124" href="#__codelineno-0-124"></a>- tunnel_id (SD-WAN: GRE/IPSec tunnel interface ID)
+<a id="__codelineno-0-125" name="__codelineno-0-125" href="#__codelineno-0-125"></a>- Tunnel Status
+<a id="__codelineno-0-126" name="__codelineno-0-126" href="#__codelineno-0-126"></a>- Tunnel Flap Detection
+<a id="__codelineno-0-127" name="__codelineno-0-127" href="#__codelineno-0-127"></a>- Tunnel Latency
+<a id="__codelineno-0-128" name="__codelineno-0-128" href="#__codelineno-0-128"></a>- Tunnel Throughput
+<a id="__codelineno-0-129" name="__codelineno-0-129" href="#__codelineno-0-129"></a>- Failover Events
+<a id="__codelineno-0-130" name="__codelineno-0-130" href="#__codelineno-0-130"></a>- vpc_id (Cloud: AWS/Azure Virtual Cloud ID)
+<a id="__codelineno-0-131" name="__codelineno-0-131" href="#__codelineno-0-131"></a>- VPC Traffic Distribution
+<a id="__codelineno-0-132" name="__codelineno-0-132" href="#__codelineno-0-132"></a>- Cross-VPC Traffic
+<a id="__codelineno-0-133" name="__codelineno-0-133" href="#__codelineno-0-133"></a>- New VPC Detection
+<a id="__codelineno-0-134" name="__codelineno-0-134" href="#__codelineno-0-134"></a>- VPC Flow Anomaly
+<a id="__codelineno-0-135" name="__codelineno-0-135" href="#__codelineno-0-135"></a>- security_group_id (Cloud: Firewall rules applied to the instance)
+<a id="__codelineno-0-136" name="__codelineno-0-136" href="#__codelineno-0-136"></a>- SG Rule Effectiveness
+<a id="__codelineno-0-137" name="__codelineno-0-137" href="#__codelineno-0-137"></a>- Overly Permissive SG
+<a id="__codelineno-0-138" name="__codelineno-0-138" href="#__codelineno-0-138"></a>- SG Change Detection
+<a id="__codelineno-0-139" name="__codelineno-0-139" href="#__codelineno-0-139"></a>- Unused SG Detection
+<a id="__codelineno-0-140" name="__codelineno-0-140" href="#__codelineno-0-140"></a>- SG Deny Spike
+<a id="__codelineno-0-141" name="__codelineno-0-141" href="#__codelineno-0-141"></a>
+<a id="__codelineno-0-142" name="__codelineno-0-142" href="#__codelineno-0-142"></a>Layer 2: Data Link (L2)
+<a id="__codelineno-0-143" name="__codelineno-0-143" href="#__codelineno-0-143"></a>- src_mac (Sec: Asset identification)
+<a id="__codelineno-0-144" name="__codelineno-0-144" href="#__codelineno-0-144"></a>- Unique MACs
+<a id="__codelineno-0-145" name="__codelineno-0-145" href="#__codelineno-0-145"></a>- New MAC Detection
+<a id="__codelineno-0-146" name="__codelineno-0-146" href="#__codelineno-0-146"></a>- MAC Spoofing Detection
+<a id="__codelineno-0-147" name="__codelineno-0-147" href="#__codelineno-0-147"></a>- OUI Distribution
+<a id="__codelineno-0-148" name="__codelineno-0-148" href="#__codelineno-0-148"></a>- Rogue Device Detection
+<a id="__codelineno-0-149" name="__codelineno-0-149" href="#__codelineno-0-149"></a>- vlan_id (Net: Broadcast domain segmentation)
+<a id="__codelineno-0-150" name="__codelineno-0-150" href="#__codelineno-0-150"></a>- VLAN Distribution
+<a id="__codelineno-0-151" name="__codelineno-0-151" href="#__codelineno-0-151"></a>- VLAN Hopping Detection
+<a id="__codelineno-0-152" name="__codelineno-0-152" href="#__codelineno-0-152"></a>- Native VLAN Traffic
+<a id="__codelineno-0-153" name="__codelineno-0-153" href="#__codelineno-0-153"></a>- Unused VLAN Detection
+<a id="__codelineno-0-154" name="__codelineno-0-154" href="#__codelineno-0-154"></a>- interface (Infra: Gi0/1, eth0 - physical location)
+<a id="__codelineno-0-155" name="__codelineno-0-155" href="#__codelineno-0-155"></a>- Port Utilization
+<a id="__codelineno-0-156" name="__codelineno-0-156" href="#__codelineno-0-156"></a>- Port Flapping
+<a id="__codelineno-0-157" name="__codelineno-0-157" href="#__codelineno-0-157"></a>- Broadcast Storm
+<a id="__codelineno-0-158" name="__codelineno-0-158" href="#__codelineno-0-158"></a>- Port Error Rate
+<a id="__codelineno-0-159" name="__codelineno-0-159" href="#__codelineno-0-159"></a>- Duplex Mismatch
+<a id="__codelineno-0-160" name="__codelineno-0-160" href="#__codelineno-0-160"></a>- frame_type (Net: Ethernet II, 802.3)
+<a id="__codelineno-0-161" name="__codelineno-0-161" href="#__codelineno-0-161"></a>- Frame Type Distribution
+<a id="__codelineno-0-162" name="__codelineno-0-162" href="#__codelineno-0-162"></a>- Unusual EtherType
+<a id="__codelineno-0-163" name="__codelineno-0-163" href="#__codelineno-0-163"></a>- ARP Traffic Volume
+<a id="__codelineno-0-164" name="__codelineno-0-164" href="#__codelineno-0-164"></a>- IPv6 Adoption
+<a id="__codelineno-0-165" name="__codelineno-0-165" href="#__codelineno-0-165"></a>- stp_state (Net: Blocking/Forwarding)
+<a id="__codelineno-0-166" name="__codelineno-0-166" href="#__codelineno-0-166"></a>- Blocking Port Count
+<a id="__codelineno-0-167" name="__codelineno-0-167" href="#__codelineno-0-167"></a>- STP Topology Change
+<a id="__codelineno-0-168" name="__codelineno-0-168" href="#__codelineno-0-168"></a>- Root Bridge Change
+<a id="__codelineno-0-169" name="__codelineno-0-169" href="#__codelineno-0-169"></a>- Port State Flap
+<a id="__codelineno-0-170" name="__codelineno-0-170" href="#__codelineno-0-170"></a>- Designated Port Ratio
+<a id="__codelineno-0-171" name="__codelineno-0-171" href="#__codelineno-0-171"></a>- link_status (Infra: UP/DOWN status)
+<a id="__codelineno-0-172" name="__codelineno-0-172" href="#__codelineno-0-172"></a>- Link Availability
+<a id="__codelineno-0-173" name="__codelineno-0-173" href="#__codelineno-0-173"></a>- Link Down Events
+<a id="__codelineno-0-174" name="__codelineno-0-174" href="#__codelineno-0-174"></a>- Flapping Detection
+<a id="__codelineno-0-175" name="__codelineno-0-175" href="#__codelineno-0-175"></a>- Critical Link Monitor
+<a id="__codelineno-0-176" name="__codelineno-0-176" href="#__codelineno-0-176"></a>- MTTR
+<a id="__codelineno-0-177" name="__codelineno-0-177" href="#__codelineno-0-177"></a>- input_discards (Net: Buffer overflows)
+<a id="__codelineno-0-178" name="__codelineno-0-178" href="#__codelineno-0-178"></a>- Discard Rate
+<a id="__codelineno-0-179" name="__codelineno-0-179" href="#__codelineno-0-179"></a>- Discard Spike
+<a id="__codelineno-0-180" name="__codelineno-0-180" href="#__codelineno-0-180"></a>- input_errors (Net: CRC errors)
+<a id="__codelineno-0-181" name="__codelineno-0-181" href="#__codelineno-0-181"></a>- Error Rate
+<a id="__codelineno-0-182" name="__codelineno-0-182" href="#__codelineno-0-182"></a>- CRC Error Spike
+<a id="__codelineno-0-183" name="__codelineno-0-183" href="#__codelineno-0-183"></a>- Error Trend
+<a id="__codelineno-0-184" name="__codelineno-0-184" href="#__codelineno-0-184"></a>- Hardware Failure
+<a id="__codelineno-0-185" name="__codelineno-0-185" href="#__codelineno-0-185"></a>- Error Distribution
+<a id="__codelineno-0-186" name="__codelineno-0-186" href="#__codelineno-0-186"></a>- neighbor_mac (Infra: LLDP/CDP detected neighbor)
+<a id="__codelineno-0-187" name="__codelineno-0-187" href="#__codelineno-0-187"></a>- Expected Neighbors
+<a id="__codelineno-0-188" name="__codelineno-0-188" href="#__codelineno-0-188"></a>- Neighbor Change
+<a id="__codelineno-0-189" name="__codelineno-0-189" href="#__codelineno-0-189"></a>- Missing Neighbor
+<a id="__codelineno-0-190" name="__codelineno-0-190" href="#__codelineno-0-190"></a>- New Neighbor Detection
+<a id="__codelineno-0-191" name="__codelineno-0-191" href="#__codelineno-0-191"></a>- arp_status (Net: Resolved/Incomplete)
+<a id="__codelineno-0-192" name="__codelineno-0-192" href="#__codelineno-0-192"></a>- Incomplete ARP Rate
+<a id="__codelineno-0-193" name="__codelineno-0-193" href="#__codelineno-0-193"></a>- ARP Timeout Spike
+<a id="__codelineno-0-194" name="__codelineno-0-194" href="#__codelineno-0-194"></a>- ARP Cache Size
+<a id="__codelineno-0-195" name="__codelineno-0-195" href="#__codelineno-0-195"></a>- Duplicate IP Detection
+<a id="__codelineno-0-196" name="__codelineno-0-196" href="#__codelineno-0-196"></a>
+<a id="__codelineno-0-197" name="__codelineno-0-197" href="#__codelineno-0-197"></a>Layer 1: Physical (L1)
+<a id="__codelineno-0-198" name="__codelineno-0-198" href="#__codelineno-0-198"></a>- rssi (WiFi: Signal strength)
+<a id="__codelineno-0-199" name="__codelineno-0-199" href="#__codelineno-0-199"></a>- Average RSSI
+<a id="__codelineno-0-200" name="__codelineno-0-200" href="#__codelineno-0-200"></a>- P10 RSSI (Worst 10%)
+<a id="__codelineno-0-201" name="__codelineno-0-201" href="#__codelineno-0-201"></a>- Low Signal Clients
+<a id="__codelineno-0-202" name="__codelineno-0-202" href="#__codelineno-0-202"></a>- RSSI Anomaly
+<a id="__codelineno-0-203" name="__codelineno-0-203" href="#__codelineno-0-203"></a>- Coverage Holes
+<a id="__codelineno-0-204" name="__codelineno-0-204" href="#__codelineno-0-204"></a>- RSSI Distribution
+<a id="__codelineno-0-205" name="__codelineno-0-205" href="#__codelineno-0-205"></a>- snr (WiFi: Signal quality vs background noise)
+<a id="__codelineno-0-206" name="__codelineno-0-206" href="#__codelineno-0-206"></a>- Average SNR
+<a id="__codelineno-0-207" name="__codelineno-0-207" href="#__codelineno-0-207"></a>- SNR Anomaly
+<a id="__codelineno-0-208" name="__codelineno-0-208" href="#__codelineno-0-208"></a>- Low SNR Clients
+<a id="__codelineno-0-209" name="__codelineno-0-209" href="#__codelineno-0-209"></a>- SNR vs Throughput
+<a id="__codelineno-0-210" name="__codelineno-0-210" href="#__codelineno-0-210"></a>- channel (WiFi: Congestion/Co-channel interference)
+<a id="__codelineno-0-211" name="__codelineno-0-211" href="#__codelineno-0-211"></a>- Channel Utilization
+<a id="__codelineno-0-212" name="__codelineno-0-212" href="#__codelineno-0-212"></a>- Co-Channel Interference
+<a id="__codelineno-0-213" name="__codelineno-0-213" href="#__codelineno-0-213"></a>- Channel Change Rate
+<a id="__codelineno-0-214" name="__codelineno-0-214" href="#__codelineno-0-214"></a>- DFS Event Rate
+<a id="__codelineno-0-215" name="__codelineno-0-215" href="#__codelineno-0-215"></a>- Channel Width
+<a id="__codelineno-0-216" name="__codelineno-0-216" href="#__codelineno-0-216"></a>- data_rate (WiFi: Negotiated speed)
+<a id="__codelineno-0-217" name="__codelineno-0-217" href="#__codelineno-0-217"></a>- Average Data Rate
+<a id="__codelineno-0-218" name="__codelineno-0-218" href="#__codelineno-0-218"></a>- P10 Data Rate
+<a id="__codelineno-0-219" name="__codelineno-0-219" href="#__codelineno-0-219"></a>- Low Rate Clients
+<a id="__codelineno-0-220" name="__codelineno-0-220" href="#__codelineno-0-220"></a>- Rate vs RSSI
+<a id="__codelineno-0-221" name="__codelineno-0-221" href="#__codelineno-0-221"></a>- retry_rate (WiFi: Percentage of frames re-sent)
+<a id="__codelineno-0-222" name="__codelineno-0-222" href="#__codelineno-0-222"></a>- Average Retry Rate
+<a id="__codelineno-0-223" name="__codelineno-0-223" href="#__codelineno-0-223"></a>- Retry Spike
+<a id="__codelineno-0-224" name="__codelineno-0-224" href="#__codelineno-0-224"></a>- High Retry APs
+<a id="__codelineno-0-225" name="__codelineno-0-225" href="#__codelineno-0-225"></a>- Retry vs Channel Util
+<a id="__codelineno-0-226" name="__codelineno-0-226" href="#__codelineno-0-226"></a>- noise_floor (WiFi: Background RF noise)
+<a id="__codelineno-0-227" name="__codelineno-0-227" href="#__codelineno-0-227"></a>- Average Noise Floor
+<a id="__codelineno-0-228" name="__codelineno-0-228" href="#__codelineno-0-228"></a>- Interference Spike
+<a id="__codelineno-0-229" name="__codelineno-0-229" href="#__codelineno-0-229"></a>- High Noise APs
+<a id="__codelineno-0-230" name="__codelineno-0-230" href="#__codelineno-0-230"></a>- Noise Trend
+<a id="__codelineno-0-231" name="__codelineno-0-231" href="#__codelineno-0-231"></a>- optical_rx_power (WAN: Fiber light levels)
+<a id="__codelineno-0-232" name="__codelineno-0-232" href="#__codelineno-0-232"></a>- Rx Power Level
+<a id="__codelineno-0-233" name="__codelineno-0-233" href="#__codelineno-0-233"></a>- Low Power Alert
+<a id="__codelineno-0-234" name="__codelineno-0-234" href="#__codelineno-0-234"></a>- Power Degradation
+<a id="__codelineno-0-235" name="__codelineno-0-235" href="#__codelineno-0-235"></a>- Link Margin
+<a id="__codelineno-0-236" name="__codelineno-0-236" href="#__codelineno-0-236"></a>- Asymmetric Power
+<a id="__codelineno-0-237" name="__codelineno-0-237" href="#__codelineno-0-237"></a>- transceiver_temp (Infra: SFP module temperature)
+<a id="__codelineno-0-238" name="__codelineno-0-238" href="#__codelineno-0-238"></a>- Average Temperature
+<a id="__codelineno-0-239" name="__codelineno-0-239" href="#__codelineno-0-239"></a>- Overheating Alert
+<a id="__codelineno-0-240" name="__codelineno-0-240" href="#__codelineno-0-240"></a>- Temperature Trend
+<a id="__codelineno-0-241" name="__codelineno-0-241" href="#__codelineno-0-241"></a>- Thermal Runaway
+<a id="__codelineno-0-242" name="__codelineno-0-242" href="#__codelineno-0-242"></a>- poe_power_draw (Infra: Watts used by APs/Cameras)
+<a id="__codelineno-0-243" name="__codelineno-0-243" href="#__codelineno-0-243"></a>- Power Per Device
+<a id="__codelineno-0-244" name="__codelineno-0-244" href="#__codelineno-0-244"></a>- Total Budget Usage
+<a id="__codelineno-0-245" name="__codelineno-0-245" href="#__codelineno-0-245"></a>- Power Anomaly
+<a id="__codelineno-0-246" name="__codelineno-0-246" href="#__codelineno-0-246"></a>- Class Mismatch
+<a id="__codelineno-0-247" name="__codelineno-0-247" href="#__codelineno-0-247"></a>- Power Trend
+<a id="__codelineno-0-248" name="__codelineno-0-248" href="#__codelineno-0-248"></a>- fan_status (Hardware: Critical cooling failure)
+<a id="__codelineno-0-249" name="__codelineno-0-249" href="#__codelineno-0-249"></a>- Fan Health
+<a id="__codelineno-0-250" name="__codelineno-0-250" href="#__codelineno-0-250"></a>- Fan Failure Alert
+<a id="__codelineno-0-251" name="__codelineno-0-251" href="#__codelineno-0-251"></a>- Fan Speed Anomaly
+<a id="__codelineno-0-252" name="__codelineno-0-252" href="#__codelineno-0-252"></a>- Degraded Cooling
+<a id="__codelineno-0-253" name="__codelineno-0-253" href="#__codelineno-0-253"></a>- psu_status (Hardware: Power Supply Unit health)
+<a id="__codelineno-0-254" name="__codelineno-0-254" href="#__codelineno-0-254"></a>- PSU Health
+<a id="__codelineno-0-255" name="__codelineno-0-255" href="#__codelineno-0-255"></a>- PSU Failure
+<a id="__codelineno-0-256" name="__codelineno-0-256" href="#__codelineno-0-256"></a>- Redundancy Status
+<a id="__codelineno-0-257" name="__codelineno-0-257" href="#__codelineno-0-257"></a>- Power Input Voltage
+<a id="__codelineno-0-258" name="__codelineno-0-258" href="#__codelineno-0-258"></a>- Load Balance
+</code></pre></div>
+</details>
+</div>
+<div class="tabbed-block">
+<p><strong>Signals:</strong> auth failures, policy violations, config changes, runtime errors.</p>
+<p><strong>Primary influence:</strong> Inertia, Heat, Observer.</p>
+<details class="info">
+<summary>All possible signals (collapsed)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Global / Session / Environment
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>- Phase: The current stage of the attack lifecycle (e.g., AUTH, RECON, LATERAL, ESCALATE, EXFIL, CLEANUP).
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>- Event Risk Level (R): The severity rating (0, 1, 2) assigned to each specific forensic event log entry.
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>- Zone: The network or security zone associated with a specific event (e.g., VPN, PCI-DSS).
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Layer 8: Identity (L8)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>- user_id (Unique identifier for the human/machine identity)
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>- Auth Volume by User
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>- Failed Login Rate
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>- Concurrent Sessions
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>- New Device Access
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>- role (RBAC role assigned to the identity)
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>- Privilege Escalation
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>- Role Change Frequency
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>- Toxic Combination
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>- Dormant Role Usage
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>- department (Organizational unit)
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>- Cross-Dept Access
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>- Dept Outlier Analysis
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>- Shadow IT by Dept
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>- geo_location (Physical location of the access)
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>- Impossible Travel
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>- New Country Access
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>- Geo-Velocity Anomaly
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>- High Risk Country
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>- device_id (Unique identifier for the endpoint)
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>- Device Trust Score
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>- New Device Rate
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>- Jailbroken Device
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>- BYOD Usage
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>Layer 7: Application (L7)
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>- http_method (GET, POST, PUT, DELETE)
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>- Method Distribution
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>- Unusual Method Usage
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>- High Volume POST
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>- Method vs Path Anomaly
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>- http_status (Response code: 200, 403, 500)
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>- Error Rate (5xx)
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>- Access Denied (403)
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>- Not Found Spike (404)
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>- Success Rate
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>- url_path (Resource path accessed)
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>- Path Traversal Attempt
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>- Admin Page Access
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>- Sensitive File Access
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>- High Cardinality Paths
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>- user_agent (Browser/Client string)
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>- Rare User Agent
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>- Bot/Scraper Detection
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>- Outdated Browser
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>- UA Spoofing
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>- referer (Previous page URL)
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>- Empty Referer
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>- Cross-Site Scripting
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>- External Referer
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>- cookie_id (Session or tracking cookie)
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>- Cookie Replay
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>- Cookie Theft
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>- Missing Secure Flag
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>- Session Fixation
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>Layer 6.5: API (L6.5)
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>- api_endpoint (Specific API route)
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>- Endpoint Usage
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>- Deprecated Endpoint
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>- Shadow API
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>- Endpoint Latency
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>- api_key_id (Identifier for the API client)
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>- Key Usage Volume
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>- Invalid Key Rate
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>- Key Rotation
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>- Concurrent Key Use
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>- response_size (Size of the API payload returned)
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>- Payload Size Avg
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>- Data Exfiltration
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>- Large Payload
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>- Zero Byte Response
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>- rate_limit_status (429 Too Many Requests status)
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>- Throttled Requests
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>- Quota Consumption
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>- Abusive Client
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>Layer 6: Presentation (L6)
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>- tls_version (SSL/TLS protocol version)
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>- Legacy Protocol
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>- TLS 1.3 Adoption
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>- Downgrade Attack
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>- cipher_suite (Encryption algorithm used)
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>- Weak Cipher Usage
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>- Cipher Distribution
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>- PFS Usage
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>- content_type (MIME type)
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>- MIME Type Mismatch
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>- Executable Download
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>- Unexpected Content
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>- encoding (Character set or compression)
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>- Compression Ratio
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>- Double Encoding
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>- Malformed Encoding
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>Layer 5: Session (L5)
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>- session_id (Unique identifier for a user session)
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>- Session Count
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>- Session Fixation
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>- Session Churn
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>- Concurrent Sessions
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>- session_duration (Length of time the session was active)
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>- Avg Session Length
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>- Short Sessions
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>- Long Sessions
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>- Session Timeout Rate
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>- login_status (Success/Failure of session initiation)
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>- Login Success Rate
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>- Brute Force
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>- Credential Stuffing
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>- Impossible Travel
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>- keepalive_status (Heartbeat status for long-lived connections)
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>- Keepalive Failures
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>- Zombie Sessions
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>Layer 0: Endpoint/Host (L0)
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a>- process_name (Executable name for process execution tracking)
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>- Process Execution Volume
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>- Rare Process Detection
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>- Process Spawn Rate
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a>- Living Off the Land
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>- process_hash (SHA256/MD5 hash for malware detection)
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>- Known Malware Match
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>- Unknown Hash Detection
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>- Hash Diversity
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>- First Seen Hash
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>- parent_process (Parent process for process tree analysis)
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a>- Process Tree Anomaly
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>- Suspicious Spawning
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>- Injection Detection
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>- Execution Chain Length
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a>- process_cmd_line (Full command line for obfuscation detection)
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>- Encoded Command
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>- Long Command Line
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>- Suspicious Patterns
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>- PowerShell Cmdlets
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>- registry_key (Windows registry path for persistence detection)
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a>- Run Key Modifications
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>- Service Registry Changes
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>- Persistence Detection
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>- Unusual Key Access
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>- file_operation (File create/modify/delete)
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>- File Operations Volume
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>- Mass File Changes
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>- Sensitive File Access
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>- Shadow Copy Deletion
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a>- network_connection_local (Host-based network connections)
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a>- Outbound Connections
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>- Rare Destination
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>- Beaconing Detection
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>- Port Anomaly
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>- usb_device_id (USB device identification)
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>- USB Insert Volume
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>- Unknown USB Device
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>- USB Write Volume
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>- After Hours USB
+</code></pre></div>
+</details>
+</div>
+<div class="tabbed-block">
+<p><strong>Signals:</strong> CPU/memory pressure, queue depth, saturation, error rate.</p>
+<p><strong>Primary influence:</strong> Heat, Momentum, Mass.</p>
+<details class="info">
+<summary>All possible signals (collapsed)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Global / Session / Environment
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>- Throughput: The velocity of session processing, measured in Sessions per Second (Sess/Sec).
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>- Trust Mass: The calculated capacity of the identity to withstand friction, derived as 100 - Accumulated Risk.
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>- Env Friction (Risk): The instantaneous resistance or risk score (0-100) applied by the environment at the current moment.
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>- Accumulated Risk: The total risk accrued over the duration of the session (0-100).
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>- Time (T+): The elapsed simulation time cursor (e.g., T+12.50).
+</code></pre></div>
+</details>
+</div>
+<div class="tabbed-block">
+<p><strong>Signals:</strong> signatures, audits, provenance trails, human approvals.</p>
+<p><strong>Primary influence:</strong> Observer, Soul.</p>
+<details class="info">
+<summary>All possible signals (collapsed)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Global / Session / Environment
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>- Trust Mass: The calculated capacity of the identity to withstand friction, derived as 100 - Accumulated Risk.
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>- Env Friction (Risk): The instantaneous resistance or risk score (0-100) applied by the environment at the current moment.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>- Accumulated Risk: The total risk accrued over the duration of the session (0-100).
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>Layer 8: Identity (L8)
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>- user_id (Unique identifier for the human/machine identity)
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>- role (RBAC role assigned to the identity)
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>- department (Organizational unit)
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>- geo_location (Physical location of the access)
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>- device_id (Unique identifier for the endpoint)
+</code></pre></div>
+</details>
+</div>
+</div>
+</div>
+<h2 id="dimension-lens">Dimension Lens<a class="headerlink" href="#dimension-lens" title="Permanent link">&para;</a></h2>
+<p>Each dimension has a distinct signal signature and behavioral effect.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:7"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><input id="__tabbed_2_6" name="__tabbed_2" type="radio" /><input id="__tabbed_2_7" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Mass</label><label for="__tabbed_2_2">Momentum</label><label for="__tabbed_2_3">Inertia</label><label for="__tabbed_2_4">Heat</label><label for="__tabbed_2_5">Time</label><label for="__tabbed_2_6">Observer</label><label for="__tabbed_2_7">Soul</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4M4 9v3c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4s-8-1.79-8-4m0 5v3c0 2.21 3.58 4 8 4s8-1.79 8-4v-3c0 2.21-3.58 4-8 4s-8-1.79-8-4"/></svg></span> <strong>What it measures:</strong> telemetry density and volume.</p>
+<p><strong>Typical inputs:</strong> request volume, data throughput, sustained activity levels.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>meta:
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  unit: normalized density
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  window: 1m / 5m / 1h
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  aggregation: local -&gt; cluster -&gt; global
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> request volume, throughput, concurrent sessions.</li>
+<li><strong>Failure mode:</strong> mass inflation from noisy traffic bursts.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Consistent volume over time increases Mass more than short spikes.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Sudden bursts can inflate Mass without improving trust.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 6 2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></span> <strong>What it measures:</strong> direction and velocity of change.</p>
+<p><strong>Typical inputs:</strong> trust delta per time window, volatility spikes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>meta:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  unit: delta per window
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  window: 30s / 5m
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  smoothing: ema(alpha=0.3)
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> trust deltas, rapid swings, step changes.</li>
+<li><strong>Failure mode:</strong> whiplash from oscillating inputs.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Momentum captures velocity, not total trust.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Oscillation without stabilization reduces confidence.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 21c-3 0-4.19-4.24-5.45-8.72C10.14 9.04 9 5 7.5 5 4.11 5 4 11.93 4 12H2c0-.37.06-9 5.5-9 3 0 4.21 4.25 5.47 8.74C13.83 14.8 15 19 16.5 19c3.44 0 3.53-6.93 3.53-7h2c0 .37-.06 9-5.53 9"/></svg></span> <strong>What it measures:</strong> resistance to rapid shifts.</p>
+<p><strong>Typical inputs:</strong> stability of behavior, config drift, dependency churn.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>meta:
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  unit: stability index
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  window: 1h / 24h
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  penalty: drift and churn
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> config stability, dependency consistency.</li>
+<li><strong>Failure mode:</strong> rapid drift signals fragility.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> High inertia dampens short-lived noise.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Low inertia indicates unstable behavior.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 13V5a3 3 0 0 0-6 0v8a5 5 0 1 0 6 0m-3-9a1 1 0 0 1 1 1v3h-2V5a1 1 0 0 1 1-1"/></svg></span> <strong>What it measures:</strong> environmental stress and anomaly load.</p>
+<p><strong>Typical inputs:</strong> error frequency, adversarial signals, load pressure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>meta:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  unit: stress index
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  window: 1m / 10m
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  sources: errors, anomalies, load
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> error spikes, adversarial indicators.</li>
+<li><strong>Failure mode:</strong> sustained heat collapses trust quickly.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Heat is a fast signal that decays slowly.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Recovery requires sustained cooling windows.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m4.2 14.2L11 13V7h1.5v5.2l4.5 2.7z"/></svg></span> <strong>What it measures:</strong> temporal context and decay.</p>
+<p><strong>Typical inputs:</strong> session length, latency trends, freshness windows.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>meta:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  unit: temporal context
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  window: session + historical
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  decay: exponential
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> freshness windows, session duration.</li>
+<li><strong>Failure mode:</strong> stale signals mislead trust.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> New signals outweigh stale history.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Long-lived sessions shift the baseline.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg></span> <strong>What it measures:</strong> who is watching and how reliable their view is.</p>
+<p><strong>Typical inputs:</strong> audit coverage, attestation recency, peer visibility.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>meta:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  unit: observation coverage
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  window: rolling attestation
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  trust: observer-weighted
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> audit logs, peer visibility, attestations.</li>
+<li><strong>Failure mode:</strong> blind spots reduce trust confidence.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Independent observers raise confidence.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Sparse visibility lowers trust reliability.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 1-1.26 2.75L15 5l2.74 1.26L19 9l1.25-2.74L23 5l-2.75-1.25M9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5M19 15l-1.26 2.74L15 19l2.74 1.25L19 23l1.25-2.75L23 19l-2.75-1.26"/></svg></span> <strong>What it measures:</strong> constitutional constraints and non-negotiables.</p>
+<p><strong>Typical inputs:</strong> jurisdictional flags, consent state, policy vetoes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>meta:
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  unit: constitutional gate
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  window: policy state
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  action: veto
+</code></pre></div>
+<ul>
+<li><strong>Signal examples:</strong> consent flags, jurisdictional vetoes.</li>
+<li><strong>Failure mode:</strong> violations override all other signals.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Soul violations bypass numerical trust scoring.</li>
+<li><span class="twemoji ktp-note-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V19a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-1.8c-1.79-1.04-3-2.98-3-5.2a6 6 0 0 1 6-6m2 15v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1zm6-10h3v2h-3zM1 11h3v2H1zM13 1v3h-2V1zM4.92 3.5l2.13 2.14-1.42 1.41L3.5 4.93zm12.03 2.13 2.12-2.13 1.43 1.43-2.13 2.12z"/></svg></span> Recovery requires explicit governance changes.</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="the-arq-dimensions">The ARQ Dimensions<a class="headerlink" href="#the-arq-dimensions" title="Permanent link">&para;</a></h2>
+<p>At the heart of the Context Tensor are the three foundational dimensions of digital experience, known as <strong>ARQ</strong>:</p>
+<ol>
+<li><strong>Accessibility (A)</strong>: Can the resource be reached? Is the path open?</li>
+<li><strong>Retainability (R)</strong>: Can the connection be sustained? Is it stable?</li>
+<li><strong>Quality (Q)</strong>: Is the interaction high-fidelity? Is it secure and performant?</li>
+</ol>
+<p>These three dimensions form the basis of the <strong>Experience Score (E)</strong>.</p>
+<h3 id="how-arq-maps-into-the-tensor">How ARQ Maps into the Tensor<a class="headerlink" href="#how-arq-maps-into-the-tensor" title="Permanent link">&para;</a></h3>
+<p>ARQ provides the base telemetry signals. Those signals are then projected into the seven-dimensional tensor based on which dimension they inform. For example:</p>
+<ul>
+<li>Accessibility influences <strong>Mass</strong> and <strong>Time</strong> (reachability and latency patterns).</li>
+<li>Retainability influences <strong>Inertia</strong> and <strong>Momentum</strong> (stability over time).</li>
+<li>Quality influences <strong>Heat</strong> and <strong>Observer</strong> (stress signals and validation signals).</li>
+</ul>
+<p>In practice, ARQ becomes the input stream that the tensor aggregates and normalizes.</p>
+<h3 id="mapping-telemetry-to-arq">Mapping Telemetry to ARQ<a class="headerlink" href="#mapping-telemetry-to-arq" title="Permanent link">&para;</a></h3>
+<p>Raw telemetry data is mapped onto these dimensions to form the tensor.</p>
+<pre class="mermaid"><code>graph LR
+    subgraph Telemetry Sources
+        P[Raw Packets]
+        L[Logs &amp; Events]
+        M[Real-time Metrics]
+    end
+
+    subgraph ARQ Dimensions
+        A[Accessibility]
+        R[Retainability]
+        Q[Quality]
+    end
+
+    subgraph Output
+        T[Context Tensor]
+    end
+
+    P --&gt; A
+    L --&gt; R
+    M --&gt; Q
+    A --&gt; T
+    R --&gt; T
+    Q --&gt; T</code></pre>
+<h2 id="scale-update-cadence-and-normalization">Scale, Update Cadence, and Normalization<a class="headerlink" href="#scale-update-cadence-and-normalization" title="Permanent link">&para;</a></h2>
+<p>The tensor is not a small vector. It is a <strong>1,707-dimensional</strong> structure updated continuously from live telemetry.</p>
+<ul>
+<li><strong>Update cadence</strong> varies by dimension (seconds for volatility, minutes for stability, hours for governance state).</li>
+<li><strong>Normalization</strong> keeps signals comparable by transforming raw values into bounded scores.</li>
+<li><strong>Aggregation</strong> blends local, cluster, and global measurements into a single state.</li>
+</ul>
+<p>These mechanics ensure the tensor remains stable while still reacting to real-world change.</p>
+<h2 id="risk-deflation">Risk Deflation<a class="headerlink" href="#risk-deflation" title="Permanent link">&para;</a></h2>
+<p>The Context Tensor is not just about positive signals. It also accounts for friction and resistance through <strong>Risk Deflation</strong>.</p>
+<ul>
+<li><strong>Security Risks</strong>: Vulnerabilities or threats reduce the effective "velocity" of trust.</li>
+<li><strong>Compliance Risks</strong>: Regulatory violations act as a drag coefficient.</li>
+</ul>
+<div class="arithmatex">\[ E_{final} = E_{raw} \times (1 - RiskFactor) \]</div>
+<p>This ensures that a high-performance connection that is insecure does not yield a high trust score.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

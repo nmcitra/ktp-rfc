@@ -53,7 +53,7 @@ KTP rests on three foundational concepts:
 
 ### 1. Trust Scores
 
-Trust is not granted—it's earned through survival. An agent's Trust Score reflects its demonstrated reliability over time, measured across six domains.(1)
+Trust is not granted—it's earned through survival. An agent's Trust Score reflects its demonstrated reliability over time, measured across seven dimensions.(1)
 { .annotate }
 
 1. :material-star-four-points-circle: Trust Score calculation methodology is defined in [KTP-CORE](../rfcs/ktp-core.md) Section 5, covering base trust, risk factors, and anti-Goodhart measures.
@@ -68,10 +68,10 @@ $$
 
 ### 2. Context Tensors
 
-Environmental state is captured through 1,707 dimensions organized into six tensors:(1)
+Environmental state is captured through 1,707 measurements organized into seven Context Tensor dimensions:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across six domains. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for complete measurement definitions.
+1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across seven trust dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for complete measurement definitions.
 
 | Physics Lens | Core Question | RFC Tensor Mapping | Example Signals | Why it matters |
 |--------------|---------------|--------------------|-----------------|----------------|

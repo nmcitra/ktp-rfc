@@ -2,6 +2,9 @@
 
 This section contains the JSON schemas for the Kinetic Trust Protocol.
 
+!!! info "Draft schemas — contributors welcome"
+    These schemas are in active draft. If you spot gaps or have suggestions, please open an issue or PR (see [Contributing](../community/contributing.md)) to collaborate on the structure and fields.
+
 ## Available Schemas
 
 ??? note "Context Tensor (context-tensor.json)"

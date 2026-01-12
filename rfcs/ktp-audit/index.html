@@ -1,0 +1,4283 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The immutable memory of the KTP system, recording every decision, veto, and state change.">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-audit/">
+      
+      
+        <link rel="prev" href="../ktp-enforce/">
+      
+      
+        <link rel="next" href="../ktp-recovery/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>KTP-Audit - Flight Recorder Specification - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ktp-audit-flight-recorder-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Audit - Flight Recorder Specification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/context-tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-the-flight-recorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: The Flight Recorder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: The Flight Recorder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decision-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision Geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#record-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forensic-reconstruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forensic Reconstruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../schemas/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/break-the-chain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break the Chain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-the-flight-recorder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: The Flight Recorder
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: The Flight Recorder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decision-geometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision Geometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#record-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forensic-reconstruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forensic Reconstruction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-audit.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ktp-audit-flight-recorder-specification">KTP-Audit: Flight Recorder Specification<a class="headerlink" href="#ktp-audit-flight-recorder-specification" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>"The invisible success problem: when security works, nothing happens. The Flight Recorder makes the invisible visible."</p>
+</blockquote>
+<hr />
+<h2 id="at-a-glance">At a Glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td><span class="twemoji draft"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 2.03v2.02c4.39.54 7.5 4.53 6.96 8.92-.46 3.64-3.32 6.53-6.96 6.96v2c5.5-.55 9.5-5.43 8.95-10.93-.45-4.75-4.22-8.5-8.95-8.97m-2 .03c-1.95.19-3.81.94-5.33 2.2L7.1 5.74c1.12-.9 2.47-1.48 3.9-1.68zM4.26 5.67A9.9 9.9 0 0 0 2.05 11h2c.19-1.42.75-2.77 1.64-3.9zM2.06 13c.2 1.96.97 3.81 2.21 5.33l1.42-1.43A8 8 0 0 1 4.06 13zm5.04 5.37-1.43 1.37A10 10 0 0 0 11 22v-2a8 8 0 0 1-3.9-1.63M12.5 7v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg></span> Draft</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td><a href="../ktp-core/">KTP-Core</a>, <a href="../ktp-transport/">KTP-Transport</a></td>
+</tr>
+<tr>
+<td><strong>Required By</strong></td>
+<td><a href="../ktp-governance/">KTP-Governance</a>, <a href="../ktp-conformance/">KTP-Conformance</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
+<p>Traditional logs are often incomplete, mutable, or unstructured. When an incident occurs (or is prevented), it is difficult to reconstruct exactly <em>why</em> a decision was made. Was it a policy error? A sensor failure? A malicious agent?</p>
+<h2 id="the-solution-the-flight-recorder">The Solution: The Flight Recorder<a class="headerlink" href="#the-solution-the-flight-recorder" title="Permanent link">&para;</a></h2>
+<p>KTP-Audit defines a system for recording <strong>Decision Geometry</strong>—a multi-dimensional snapshot of the agent, the environment, and the logic used at the exact moment of a decision. These records are cryptographically chained to ensure immutability.</p>
+<h3 id="decision-geometry">Decision Geometry<a class="headerlink" href="#decision-geometry" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;record_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dr-uuid-12345&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-11-25T14:32:07.123Z&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;chain&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">&quot;previous_hash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256:abc123...&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&quot;sequence_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1847392</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">&quot;agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agent:7gen:optimized:a1b2c3d4&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">&quot;e_base&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">87</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&quot;e_trust&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">&quot;tier&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;analyst&quot;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nt">&quot;context_tensor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;m&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.45</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;p&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.78</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;h&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.82</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="nt">&quot;risk_factor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.523</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="nt">&quot;decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">&quot;outcome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DENY&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;silent_veto&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">&quot;constraint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;soul_violation&quot;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="record-types">Record Types<a class="headerlink" href="#record-types" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Authorization Decision</label><label for="__tabbed_1_2">Trust Score Change</label><label for="__tabbed_1_3">Soul Veto</label><label for="__tabbed_1_4">System Event</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>The Core Record.</strong>
+Logged every time an agent requests an action. Captures the <span class="arithmatex">\(A \leq E\)</span> calculation.</p>
+<ul>
+<li><strong>Use Case</strong>: "Why was Agent X blocked from accessing the database?"</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>State Transition.</strong>
+Logged when an agent's <span class="arithmatex">\(E_{base}\)</span> or <span class="arithmatex">\(E_{trust}\)</span> changes significantly.</p>
+<ul>
+<li><strong>Use Case</strong>: "Why did Agent Y drop from Operator to Analyst tier?"</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Critical Event.</strong>
+Logged when the Soul constraint triggers a hard stop.</p>
+<ul>
+<li><strong>Use Case</strong>: "Investigate potential rogue agent behavior."</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Infrastructure Health.</strong>
+Logged when sensors fail, Oracles partition, or keys rotate.</p>
+<ul>
+<li><strong>Use Case</strong>: "Diagnose the root cause of the zone outage."</li>
+</ul>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="forensic-reconstruction">Forensic Reconstruction<a class="headerlink" href="#forensic-reconstruction" title="Permanent link">&para;</a></h2>
+<p>Because the Flight Recorder captures the full <strong>Environmental Snapshot</strong>, investigators can "replay" a decision.</p>
+<ol>
+<li><strong>Load Snapshot</strong>: Restore the exact state of the Context Tensor from the record.</li>
+<li><strong>Re-run Logic</strong>: Feed the agent's request into the policy engine.</li>
+<li><strong>Verify Outcome</strong>: Confirm that the decision matches the log.</li>
+</ol>
+<p>This capability is critical for proving that the system behaved correctly during a security incident.</p>
+<hr />
+<h2 id="core-components">Core Components<a class="headerlink" href="#core-components" title="Permanent link">&para;</a></h2>
+<details class="note" open="open">
+<summary>Cryptographic Chaining</summary>
+<p>Each record includes the hash of the previous record, creating a tamper-evident blockchain-like structure.</p>
+</details>
+<details class="note" open="open">
+<summary>Counterfactual Analysis</summary>
+<p>Records can include "what-if" data: "If the risk factor had been 0.1 lower, this action would have been allowed."</p>
+</details>
+<details class="note" open="open">
+<summary>Compliance Export</summary>
+<p>Standardized formats for exporting logs to external auditors or SIEM systems.</p>
+</details>
+<details class="note" open="open">
+<summary>Liability Attribution</summary>
+<p>Using the logs to determine if a failure was due to human negligence, agent error, or environmental force majeure.</p>
+</details>
+<hr />
+<details class="info">
+<summary>Related Specifications</summary>
+<ul>
+<li><strong><a href="../ktp-threat-model/">KTP-Threat Model</a></strong> — The threats that the Flight Recorder helps investigate.</li>
+<li><strong><a href="../ktp-tensors/">KTP-Tensors</a></strong> — The environmental data captured in every record.</li>
+<li><strong><a href="../ktp-identity/">KTP-Identity</a></strong> — The agent identity tracked across records.</li>
+<li><strong><a href="../ktp-recovery/">KTP-Recovery</a></strong> — How to use logs to reconstruct state after a failure.</li>
+</ul>
+</details>
+<hr />
+<h2 id="official-rfc-document">Official RFC Document<a class="headerlink" href="#official-rfc-document" title="Permanent link">&para;</a></h2>
+<details class="note">
+<summary>View Complete RFC Text (ktp-audit.txt)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Kinetic Trust Protocol                                      C. Perkins
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Specification Draft                                           NMCITRA
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Version: 0.1                                             November 2025
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     Kinetic Trust Protocol (KTP) - Flight Recorder Specification
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Abstract
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>   This document specifies the Flight Recorder system for the Kinetic
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>   Trust Protocol (KTP). The Flight Recorder provides immutable audit
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>   logging of all authorization decisions, enabling forensic analysis,
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>   compliance verification, and system learning.
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>   The specification covers Decision Geometry (the multi-dimensional
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>   record of each decision), storage requirements, query interfaces,
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>   retention policies, and integration with external audit systems.
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>Status of This Memo
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>   This document is a draft specification developed by the New Mexico
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>   Cyber Intelligence &amp; Threat Response Alliance (NMCITRA). It has not
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>   been submitted to the IETF and does not represent an Internet
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>   Standard or consensus of any standards body.
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>   Feedback and contributions are welcome at:
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>   https://github.com/nmcitra/ktp-rfc
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>Copyright Notice
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>   under the Apache License, Version 2.0.
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>Table of Contents
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>       1.1.  The Invisible Success Problem  . . . . . . . . . . . .   2
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>       1.2.  Flight Recorder Philosophy . . . . . . . . . . . . . .   3
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>       1.3.  Requirements Language  . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>   3.  Decision Geometry  . . . . . . . . . . . . . . . . . . . . .   5
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>       3.1.  Core Components  . . . . . . . . . . . . . . . . . . .   6
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>       3.2.  Environmental Snapshot . . . . . . . . . . . . . . . .   8
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>       3.3.  Agent Context  . . . . . . . . . . . . . . . . . . . .   9
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>       3.4.  Decision Outcome . . . . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>       3.5.  Counterfactual Analysis  . . . . . . . . . . . . . . .  11
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>   4.  Record Types . . . . . . . . . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>       4.1.  Authorization Decision . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>       4.2.  Trust Score Change . . . . . . . . . . . . . . . . . .  13
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>       4.3.  Tier Transition  . . . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>       4.4.  Soul Veto  . . . . . . . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>       4.5.  Attestation  . . . . . . . . . . . . . . . . . . . . .  16
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>   5.  Immutability Requirements  . . . . . . . . . . . . . . . . .  17
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>       5.1.  Append-Only Storage  . . . . . . . . . . . . . . . . .  17
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>       5.2.  Cryptographic Chaining . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>       5.3.  Tamper Detection . . . . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>   6.  Storage Architecture . . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>       6.1.  Hot Storage  . . . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>       6.2.  Warm Storage . . . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>       6.3.  Cold Storage . . . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>       6.4.  Retention Policies . . . . . . . . . . . . . . . . . .  22
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>   7.  Query Interface  . . . . . . . . . . . . . . . . . . . . . .  23
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>       7.1.  Query Language . . . . . . . . . . . . . . . . . . . .  23
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>       7.2.  Common Queries . . . . . . . . . . . . . . . . . . . .  25
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>       7.3.  Forensic Reconstruction  . . . . . . . . . . . . . . .  27
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>   8.  Accountability Analysis  . . . . . . . . . . . . . . . . . .  28
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>       8.1.  Human Negligence vs. Environmental Force . . . . . . .  28
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>       8.2.  Attribution Framework  . . . . . . . . . . . . . . . .  30
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>       8.3.  Liability Boundaries . . . . . . . . . . . . . . . . .  31
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>   9.  External Integration . . . . . . . . . . . . . . . . . . . .  32
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>       9.1.  SIEM Integration . . . . . . . . . . . . . . . . . . .  32
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>       9.2.  Compliance Export  . . . . . . . . . . . . . . . . . .  33
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>       9.3.  Machine Learning Pipeline  . . . . . . . . . . . . . .  34
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>   10. Security Considerations  . . . . . . . . . . . . . . . . . .  35
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>   11. References . . . . . . . . . . . . . . . . . . . . . . . . .  36
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>   Authors&#39; Addresses . . . . . . . . . . . . . . . . . . . . . . .  37
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>1.  Introduction
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>   The Flight Recorder is the memory of a KTP system. Every decision,
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>   every state change, every veto is recorded with full context,
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>   creating an immutable history that can be queried, analyzed, and used
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>   for both forensic investigation and system improvement.
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>1.1.  The Invisible Success Problem
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>   Traditional security systems suffer from an invisible success
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>   problem: when an attack is prevented, there is no incident to
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>   investigate. The prevented disaster is invisible, making it difficult
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>   to:
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>   -  Prove that security controls are working
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>   -  Learn from near-misses
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>   -  Justify security investments
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>   -  Distinguish luck from competence
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>   The Flight Recorder solves this by recording every Silent Veto with
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>   the same detail as an allowed action. A prevented attack is visible
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>   in the record:
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>      &quot;At 14:32:07, Agent X attempted action Y with risk 85.
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>       E_trust was 42 due to elevated Heat (0.78) from active
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>       attack indicators. Silent Veto triggered. Action denied.
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>       If this action had been permitted, blast radius would have
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>       included 47 downstream services.&quot;
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>   The disaster that didn&#39;t happen is now visible, auditable, and
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>   valuable for learning.
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>1.2.  Flight Recorder Philosophy
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>   The Flight Recorder follows these principles:
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>   1. Record Everything: Every authorization decision, not just denials
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>      or anomalies. The baseline is as important as the exceptions.
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>   2. Context Over Outcome: The outcome (allow/deny) is one bit. The
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>      context (why, what was the environment, what would have happened)
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>      is where the value lies.
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>   3. Immutability: Once written, records cannot be altered or deleted.
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>      This is essential for legal defensibility and forensic integrity.
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a>
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>   4. Queryability: Data that can&#39;t be queried is data that won&#39;t be
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>      used. The Flight Recorder must support rich queries for forensic
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>      analysis.
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a>
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>   5. Forward Secrecy: Records should be usable for learning without
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>      exposing sensitive operational details.
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>1.3.  Requirements Language
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a>   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>   &quot;OPTIONAL&quot; in this document are to be interpreted as described in BCP
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>   14 [RFC2119] [RFC8174].
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a>2.  Terminology
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>   Attestation: A cryptographically signed statement about an agent&#39;s
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>   behavior, issued by the Trust Oracle after successful transaction.
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>   Decision Geometry: The multi-dimensional record of a single
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a>   authorization decision, including agent context, environmental state,
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>   action details, and outcome.
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>   Flight Recorder: The immutable audit log system that records all KTP
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>   decisions and state changes.
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>   Forensic Reconstruction: The process of recreating the exact
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>   conditions that led to a specific decision, using Flight Recorder
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>   data.
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a>
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a>   Hot Storage: Fast, frequently accessed storage for recent records
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>   (hours to days).
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>   Cold Storage: Archival storage for historical records (months to
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>   years).
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>   Record Chain: A sequence of records cryptographically linked via hash
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>   pointers, ensuring tamper detection.
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>   Warm Storage: Intermediate storage for less frequently accessed
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a>   records (days to months).
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a>
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a>3.  Decision Geometry
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a>
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a>   Every authorization decision is recorded as a Decision Geometry - a
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>   multi-dimensional snapshot that captures not just what happened, but
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a>   why it happened and what would have happened under different
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a>   conditions.
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a>
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a>3.1.  Core Components
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a>
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a>   A Decision Geometry record contains:
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a>      {
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a>        &quot;record_id&quot;: &quot;dr-uuid-12345&quot;,
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a>        &quot;record_type&quot;: &quot;authorization_decision&quot;,
+<a id="__codelineno-1-180" name="__codelineno-1-180" href="#__codelineno-1-180"></a>        &quot;timestamp&quot;: &quot;2025-11-25T14:32:07.123Z&quot;,
+<a id="__codelineno-1-181" name="__codelineno-1-181" href="#__codelineno-1-181"></a>        &quot;chain&quot;: {
+<a id="__codelineno-1-182" name="__codelineno-1-182" href="#__codelineno-1-182"></a>          &quot;previous_hash&quot;: &quot;sha256:abc123...&quot;,
+<a id="__codelineno-1-183" name="__codelineno-1-183" href="#__codelineno-1-183"></a>          &quot;sequence_number&quot;: 1847392
+<a id="__codelineno-1-184" name="__codelineno-1-184" href="#__codelineno-1-184"></a>        },
+<a id="__codelineno-1-185" name="__codelineno-1-185" href="#__codelineno-1-185"></a>
+<a id="__codelineno-1-186" name="__codelineno-1-186" href="#__codelineno-1-186"></a>        &quot;agent&quot;: { ... },        // Agent context
+<a id="__codelineno-1-187" name="__codelineno-1-187" href="#__codelineno-1-187"></a>        &quot;environment&quot;: { ... },  // Environmental snapshot
+<a id="__codelineno-1-188" name="__codelineno-1-188" href="#__codelineno-1-188"></a>        &quot;action&quot;: { ... },       // Requested action
+<a id="__codelineno-1-189" name="__codelineno-1-189" href="#__codelineno-1-189"></a>        &quot;decision&quot;: { ... },     // Outcome and reasoning
+<a id="__codelineno-1-190" name="__codelineno-1-190" href="#__codelineno-1-190"></a>        &quot;counterfactual&quot;: { ... } // What-if analysis
+<a id="__codelineno-1-191" name="__codelineno-1-191" href="#__codelineno-1-191"></a>      }
+<a id="__codelineno-1-192" name="__codelineno-1-192" href="#__codelineno-1-192"></a>
+<a id="__codelineno-1-193" name="__codelineno-1-193" href="#__codelineno-1-193"></a>3.1.1.  Record Identification
+<a id="__codelineno-1-194" name="__codelineno-1-194" href="#__codelineno-1-194"></a>
+<a id="__codelineno-1-195" name="__codelineno-1-195" href="#__codelineno-1-195"></a>   record_id: Globally unique identifier for this record. Format: &quot;dr-&quot;
+<a id="__codelineno-1-196" name="__codelineno-1-196" href="#__codelineno-1-196"></a>   + UUIDv4 for decision records.
+<a id="__codelineno-1-197" name="__codelineno-1-197" href="#__codelineno-1-197"></a>
+<a id="__codelineno-1-198" name="__codelineno-1-198" href="#__codelineno-1-198"></a>   record_type: Type of record. One of:
+<a id="__codelineno-1-199" name="__codelineno-1-199" href="#__codelineno-1-199"></a>   -  authorization_decision
+<a id="__codelineno-1-200" name="__codelineno-1-200" href="#__codelineno-1-200"></a>   -  trust_score_change
+<a id="__codelineno-1-201" name="__codelineno-1-201" href="#__codelineno-1-201"></a>   -  tier_transition
+<a id="__codelineno-1-202" name="__codelineno-1-202" href="#__codelineno-1-202"></a>   -  soul_veto
+<a id="__codelineno-1-203" name="__codelineno-1-203" href="#__codelineno-1-203"></a>   -  attestation
+<a id="__codelineno-1-204" name="__codelineno-1-204" href="#__codelineno-1-204"></a>   -  system_event
+<a id="__codelineno-1-205" name="__codelineno-1-205" href="#__codelineno-1-205"></a>
+<a id="__codelineno-1-206" name="__codelineno-1-206" href="#__codelineno-1-206"></a>   timestamp: ISO 8601 timestamp with millisecond precision. MUST be in
+<a id="__codelineno-1-207" name="__codelineno-1-207" href="#__codelineno-1-207"></a>   UTC.
+<a id="__codelineno-1-208" name="__codelineno-1-208" href="#__codelineno-1-208"></a>
+<a id="__codelineno-1-209" name="__codelineno-1-209" href="#__codelineno-1-209"></a>3.1.2.  Chain Integrity
+<a id="__codelineno-1-210" name="__codelineno-1-210" href="#__codelineno-1-210"></a>
+<a id="__codelineno-1-211" name="__codelineno-1-211" href="#__codelineno-1-211"></a>   previous_hash: SHA-256 hash of the immediately preceding record.
+<a id="__codelineno-1-212" name="__codelineno-1-212" href="#__codelineno-1-212"></a>   Creates tamper-evident chain.
+<a id="__codelineno-1-213" name="__codelineno-1-213" href="#__codelineno-1-213"></a>
+<a id="__codelineno-1-214" name="__codelineno-1-214" href="#__codelineno-1-214"></a>   sequence_number: Monotonically increasing sequence number. Gaps
+<a id="__codelineno-1-215" name="__codelineno-1-215" href="#__codelineno-1-215"></a>   indicate potential tampering or data loss.
+<a id="__codelineno-1-216" name="__codelineno-1-216" href="#__codelineno-1-216"></a>
+<a id="__codelineno-1-217" name="__codelineno-1-217" href="#__codelineno-1-217"></a>3.2.  Environmental Snapshot
+<a id="__codelineno-1-218" name="__codelineno-1-218" href="#__codelineno-1-218"></a>
+<a id="__codelineno-1-219" name="__codelineno-1-219" href="#__codelineno-1-219"></a>   The environmental snapshot captures the complete Context Tensor state
+<a id="__codelineno-1-220" name="__codelineno-1-220" href="#__codelineno-1-220"></a>   at decision time:
+<a id="__codelineno-1-221" name="__codelineno-1-221" href="#__codelineno-1-221"></a>
+<a id="__codelineno-1-222" name="__codelineno-1-222" href="#__codelineno-1-222"></a>      &quot;environment&quot;: {
+<a id="__codelineno-1-223" name="__codelineno-1-223" href="#__codelineno-1-223"></a>        &quot;context_tensor&quot;: {
+<a id="__codelineno-1-224" name="__codelineno-1-224" href="#__codelineno-1-224"></a>          &quot;m&quot;: 0.45,
+<a id="__codelineno-1-225" name="__codelineno-1-225" href="#__codelineno-1-225"></a>          &quot;p&quot;: 0.78,
+<a id="__codelineno-1-226" name="__codelineno-1-226" href="#__codelineno-1-226"></a>          &quot;h&quot;: 0.82,
+<a id="__codelineno-1-227" name="__codelineno-1-227" href="#__codelineno-1-227"></a>          &quot;t&quot;: 0.30,
+<a id="__codelineno-1-228" name="__codelineno-1-228" href="#__codelineno-1-228"></a>          &quot;i&quot;: 0.25,
+<a id="__codelineno-1-229" name="__codelineno-1-229" href="#__codelineno-1-229"></a>          &quot;o&quot;: 0.15
+<a id="__codelineno-1-230" name="__codelineno-1-230" href="#__codelineno-1-230"></a>        },
+<a id="__codelineno-1-231" name="__codelineno-1-231" href="#__codelineno-1-231"></a>        &quot;r&quot;: 0.523,
+<a id="__codelineno-1-232" name="__codelineno-1-232" href="#__codelineno-1-232"></a>        &quot;soul&quot;: {
+<a id="__codelineno-1-233" name="__codelineno-1-233" href="#__codelineno-1-233"></a>          &quot;s&quot;: 0,
+<a id="__codelineno-1-234" name="__codelineno-1-234" href="#__codelineno-1-234"></a>          &quot;constraint_type&quot;: null
+<a id="__codelineno-1-235" name="__codelineno-1-235" href="#__codelineno-1-235"></a>        },
+<a id="__codelineno-1-236" name="__codelineno-1-236" href="#__codelineno-1-236"></a>        &quot;sensor_health&quot;: {
+<a id="__codelineno-1-237" name="__codelineno-1-237" href="#__codelineno-1-237"></a>          &quot;m_feeds_active&quot;: 4,
+<a id="__codelineno-1-238" name="__codelineno-1-238" href="#__codelineno-1-238"></a>          &quot;m_feeds_total&quot;: 5,
+<a id="__codelineno-1-239" name="__codelineno-1-239" href="#__codelineno-1-239"></a>          &quot;p_feeds_active&quot;: 3,
+<a id="__codelineno-1-240" name="__codelineno-1-240" href="#__codelineno-1-240"></a>          &quot;p_feeds_total&quot;: 3,
+<a id="__codelineno-1-241" name="__codelineno-1-241" href="#__codelineno-1-241"></a>          &quot;degraded_dimensions&quot;: [&quot;m&quot;]
+<a id="__codelineno-1-242" name="__codelineno-1-242" href="#__codelineno-1-242"></a>        },
+<a id="__codelineno-1-243" name="__codelineno-1-243" href="#__codelineno-1-243"></a>        &quot;trust_oracle&quot;: {
+<a id="__codelineno-1-244" name="__codelineno-1-244" href="#__codelineno-1-244"></a>          &quot;oracle_id&quot;: &quot;oracle-east-1&quot;,
+<a id="__codelineno-1-245" name="__codelineno-1-245" href="#__codelineno-1-245"></a>          &quot;quorum&quot;: &quot;3-of-5&quot;,
+<a id="__codelineno-1-246" name="__codelineno-1-246" href="#__codelineno-1-246"></a>          &quot;latency_ms&quot;: 3
+<a id="__codelineno-1-247" name="__codelineno-1-247" href="#__codelineno-1-247"></a>        },
+<a id="__codelineno-1-248" name="__codelineno-1-248" href="#__codelineno-1-248"></a>        &quot;zone&quot;: {
+<a id="__codelineno-1-249" name="__codelineno-1-249" href="#__codelineno-1-249"></a>          &quot;zone_id&quot;: &quot;zone-blue-prod-01&quot;,
+<a id="__codelineno-1-250" name="__codelineno-1-250" href="#__codelineno-1-250"></a>          &quot;zone_type&quot;: &quot;blue&quot;,
+<a id="__codelineno-1-251" name="__codelineno-1-251" href="#__codelineno-1-251"></a>          &quot;federation&quot;: [&quot;zone-blue-prod-02&quot;, &quot;zone-cyan-staging&quot;]
+<a id="__codelineno-1-252" name="__codelineno-1-252" href="#__codelineno-1-252"></a>        }
+<a id="__codelineno-1-253" name="__codelineno-1-253" href="#__codelineno-1-253"></a>      }
+<a id="__codelineno-1-254" name="__codelineno-1-254" href="#__codelineno-1-254"></a>
+<a id="__codelineno-1-255" name="__codelineno-1-255" href="#__codelineno-1-255"></a>   This snapshot enables forensic reconstruction: given the exact
+<a id="__codelineno-1-256" name="__codelineno-1-256" href="#__codelineno-1-256"></a>   environmental conditions, we can replay the decision logic and verify
+<a id="__codelineno-1-257" name="__codelineno-1-257" href="#__codelineno-1-257"></a>   that the correct outcome was reached.
+<a id="__codelineno-1-258" name="__codelineno-1-258" href="#__codelineno-1-258"></a>
+<a id="__codelineno-1-259" name="__codelineno-1-259" href="#__codelineno-1-259"></a>3.3.  Agent Context
+<a id="__codelineno-1-260" name="__codelineno-1-260" href="#__codelineno-1-260"></a>
+<a id="__codelineno-1-261" name="__codelineno-1-261" href="#__codelineno-1-261"></a>   Agent context captures the identity and state of the requesting
+<a id="__codelineno-1-262" name="__codelineno-1-262" href="#__codelineno-1-262"></a>   agent:
+<a id="__codelineno-1-263" name="__codelineno-1-263" href="#__codelineno-1-263"></a>
+<a id="__codelineno-1-264" name="__codelineno-1-264" href="#__codelineno-1-264"></a>      &quot;agent&quot;: {
+<a id="__codelineno-1-265" name="__codelineno-1-265" href="#__codelineno-1-265"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-266" name="__codelineno-1-266" href="#__codelineno-1-266"></a>        &quot;lineage&quot;: &quot;persistent&quot;,
+<a id="__codelineno-1-267" name="__codelineno-1-267" href="#__codelineno-1-267"></a>        &quot;generation&quot;: 7,
+<a id="__codelineno-1-268" name="__codelineno-1-268" href="#__codelineno-1-268"></a>        &quot;sponsor&quot;: null,
+<a id="__codelineno-1-269" name="__codelineno-1-269" href="#__codelineno-1-269"></a>        &quot;e_base&quot;: 87,
+<a id="__codelineno-1-270" name="__codelineno-1-270" href="#__codelineno-1-270"></a>        &quot;e_trust&quot;: 42,
+<a id="__codelineno-1-271" name="__codelineno-1-271" href="#__codelineno-1-271"></a>        &quot;de_dt&quot;: -2.3,
+<a id="__codelineno-1-272" name="__codelineno-1-272" href="#__codelineno-1-272"></a>        &quot;sigma&quot;: 0.15,
+<a id="__codelineno-1-273" name="__codelineno-1-273" href="#__codelineno-1-273"></a>        &quot;tier&quot;: &quot;analyst&quot;,
+<a id="__codelineno-1-274" name="__codelineno-1-274" href="#__codelineno-1-274"></a>        &quot;previous_tier&quot;: &quot;operator&quot;,
+<a id="__codelineno-1-275" name="__codelineno-1-275" href="#__codelineno-1-275"></a>        &quot;tier_duration_seconds&quot;: 847,
+<a id="__codelineno-1-276" name="__codelineno-1-276" href="#__codelineno-1-276"></a>        &quot;trajectory_hash&quot;: &quot;sha256:def456...&quot;,
+<a id="__codelineno-1-277" name="__codelineno-1-277" href="#__codelineno-1-277"></a>        &quot;resilience_score&quot;: 0.82,
+<a id="__codelineno-1-278" name="__codelineno-1-278" href="#__codelineno-1-278"></a>        &quot;session&quot;: {
+<a id="__codelineno-1-279" name="__codelineno-1-279" href="#__codelineno-1-279"></a>          &quot;session_id&quot;: &quot;sess-xyz789&quot;,
+<a id="__codelineno-1-280" name="__codelineno-1-280" href="#__codelineno-1-280"></a>          &quot;session_start&quot;: &quot;2025-11-25T13:00:00Z&quot;,
+<a id="__codelineno-1-281" name="__codelineno-1-281" href="#__codelineno-1-281"></a>          &quot;actions_this_session&quot;: 1247,
+<a id="__codelineno-1-282" name="__codelineno-1-282" href="#__codelineno-1-282"></a>          &quot;vetoes_this_session&quot;: 3
+<a id="__codelineno-1-283" name="__codelineno-1-283" href="#__codelineno-1-283"></a>        }
+<a id="__codelineno-1-284" name="__codelineno-1-284" href="#__codelineno-1-284"></a>      }
+<a id="__codelineno-1-285" name="__codelineno-1-285" href="#__codelineno-1-285"></a>
+<a id="__codelineno-1-286" name="__codelineno-1-286" href="#__codelineno-1-286"></a>   Key fields:
+<a id="__codelineno-1-287" name="__codelineno-1-287" href="#__codelineno-1-287"></a>
+<a id="__codelineno-1-288" name="__codelineno-1-288" href="#__codelineno-1-288"></a>   e_base: Agent&#39;s intrinsic capability (from Proof of Resilience)
+<a id="__codelineno-1-289" name="__codelineno-1-289" href="#__codelineno-1-289"></a>
+<a id="__codelineno-1-290" name="__codelineno-1-290" href="#__codelineno-1-290"></a>   e_trust: Effective Trust Score after environmental deflation
+<a id="__codelineno-1-291" name="__codelineno-1-291" href="#__codelineno-1-291"></a>
+<a id="__codelineno-1-292" name="__codelineno-1-292" href="#__codelineno-1-292"></a>   de_dt: Trust velocity (rate of change)
+<a id="__codelineno-1-293" name="__codelineno-1-293" href="#__codelineno-1-293"></a>
+<a id="__codelineno-1-294" name="__codelineno-1-294" href="#__codelineno-1-294"></a>   tier: Current Trust Tier
+<a id="__codelineno-1-295" name="__codelineno-1-295" href="#__codelineno-1-295"></a>
+<a id="__codelineno-1-296" name="__codelineno-1-296" href="#__codelineno-1-296"></a>   previous_tier: Tier before most recent transition (if recent)
+<a id="__codelineno-1-297" name="__codelineno-1-297" href="#__codelineno-1-297"></a>
+<a id="__codelineno-1-298" name="__codelineno-1-298" href="#__codelineno-1-298"></a>   trajectory_hash: Hash of agent&#39;s trajectory chain for verification
+<a id="__codelineno-1-299" name="__codelineno-1-299" href="#__codelineno-1-299"></a>
+<a id="__codelineno-1-300" name="__codelineno-1-300" href="#__codelineno-1-300"></a>3.4.  Decision Outcome
+<a id="__codelineno-1-301" name="__codelineno-1-301" href="#__codelineno-1-301"></a>
+<a id="__codelineno-1-302" name="__codelineno-1-302" href="#__codelineno-1-302"></a>   The decision outcome records what happened and why:
+<a id="__codelineno-1-303" name="__codelineno-1-303" href="#__codelineno-1-303"></a>
+<a id="__codelineno-1-304" name="__codelineno-1-304" href="#__codelineno-1-304"></a>      &quot;decision&quot;: {
+<a id="__codelineno-1-305" name="__codelineno-1-305" href="#__codelineno-1-305"></a>        &quot;outcome&quot;: &quot;deny&quot;,
+<a id="__codelineno-1-306" name="__codelineno-1-306" href="#__codelineno-1-306"></a>        &quot;reason&quot;: &quot;TRUST_INSUFFICIENT&quot;,
+<a id="__codelineno-1-307" name="__codelineno-1-307" href="#__codelineno-1-307"></a>        &quot;evaluation&quot;: {
+<a id="__codelineno-1-308" name="__codelineno-1-308" href="#__codelineno-1-308"></a>          &quot;soul_check&quot;: &quot;pass&quot;,
+<a id="__codelineno-1-309" name="__codelineno-1-309" href="#__codelineno-1-309"></a>          &quot;tier_check&quot;: &quot;pass&quot;,
+<a id="__codelineno-1-310" name="__codelineno-1-310" href="#__codelineno-1-310"></a>          &quot;zeroth_law_check&quot;: &quot;fail&quot;,
+<a id="__codelineno-1-311" name="__codelineno-1-311" href="#__codelineno-1-311"></a>          &quot;a&quot;: 85,
+<a id="__codelineno-1-312" name="__codelineno-1-312" href="#__codelineno-1-312"></a>          &quot;e_trust&quot;: 42,
+<a id="__codelineno-1-313" name="__codelineno-1-313" href="#__codelineno-1-313"></a>          &quot;gap&quot;: 43
+<a id="__codelineno-1-314" name="__codelineno-1-314" href="#__codelineno-1-314"></a>        },
+<a id="__codelineno-1-315" name="__codelineno-1-315" href="#__codelineno-1-315"></a>        &quot;enforcement_point&quot;: {
+<a id="__codelineno-1-316" name="__codelineno-1-316" href="#__codelineno-1-316"></a>          &quot;pep_id&quot;: &quot;pep-api-gateway-east&quot;,
+<a id="__codelineno-1-317" name="__codelineno-1-317" href="#__codelineno-1-317"></a>          &quot;pep_type&quot;: &quot;api_gateway&quot;,
+<a id="__codelineno-1-318" name="__codelineno-1-318" href="#__codelineno-1-318"></a>          &quot;latency_ms&quot;: 2
+<a id="__codelineno-1-319" name="__codelineno-1-319" href="#__codelineno-1-319"></a>        },
+<a id="__codelineno-1-320" name="__codelineno-1-320" href="#__codelineno-1-320"></a>        &quot;notification&quot;: {
+<a id="__codelineno-1-321" name="__codelineno-1-321" href="#__codelineno-1-321"></a>          &quot;agent_notified&quot;: true,
+<a id="__codelineno-1-322" name="__codelineno-1-322" href="#__codelineno-1-322"></a>          &quot;response_code&quot;: 403,
+<a id="__codelineno-1-323" name="__codelineno-1-323" href="#__codelineno-1-323"></a>          &quot;response_body_hash&quot;: &quot;sha256:ghi789...&quot;
+<a id="__codelineno-1-324" name="__codelineno-1-324" href="#__codelineno-1-324"></a>        }
+<a id="__codelineno-1-325" name="__codelineno-1-325" href="#__codelineno-1-325"></a>      }
+<a id="__codelineno-1-326" name="__codelineno-1-326" href="#__codelineno-1-326"></a>
+<a id="__codelineno-1-327" name="__codelineno-1-327" href="#__codelineno-1-327"></a>   Key fields:
+<a id="__codelineno-1-328" name="__codelineno-1-328" href="#__codelineno-1-328"></a>
+<a id="__codelineno-1-329" name="__codelineno-1-329" href="#__codelineno-1-329"></a>   outcome: &quot;allow&quot; or &quot;deny&quot;
+<a id="__codelineno-1-330" name="__codelineno-1-330" href="#__codelineno-1-330"></a>
+<a id="__codelineno-1-331" name="__codelineno-1-331" href="#__codelineno-1-331"></a>   reason: KTP error code if denied
+<a id="__codelineno-1-332" name="__codelineno-1-332" href="#__codelineno-1-332"></a>
+<a id="__codelineno-1-333" name="__codelineno-1-333" href="#__codelineno-1-333"></a>   evaluation: Step-by-step evaluation trace
+<a id="__codelineno-1-334" name="__codelineno-1-334" href="#__codelineno-1-334"></a>
+<a id="__codelineno-1-335" name="__codelineno-1-335" href="#__codelineno-1-335"></a>   gap: Difference between A and E_trust (how far from threshold)
+<a id="__codelineno-1-336" name="__codelineno-1-336" href="#__codelineno-1-336"></a>
+<a id="__codelineno-1-337" name="__codelineno-1-337" href="#__codelineno-1-337"></a>3.5.  Counterfactual Analysis
+<a id="__codelineno-1-338" name="__codelineno-1-338" href="#__codelineno-1-338"></a>
+<a id="__codelineno-1-339" name="__codelineno-1-339" href="#__codelineno-1-339"></a>   The counterfactual section records what would have happened under
+<a id="__codelineno-1-340" name="__codelineno-1-340" href="#__codelineno-1-340"></a>   different conditions:
+<a id="__codelineno-1-341" name="__codelineno-1-341" href="#__codelineno-1-341"></a>
+<a id="__codelineno-1-342" name="__codelineno-1-342" href="#__codelineno-1-342"></a>      &quot;counterfactual&quot;: {
+<a id="__codelineno-1-343" name="__codelineno-1-343" href="#__codelineno-1-343"></a>        &quot;if_allowed&quot;: {
+<a id="__codelineno-1-344" name="__codelineno-1-344" href="#__codelineno-1-344"></a>          &quot;blast_radius&quot;: {
+<a id="__codelineno-1-345" name="__codelineno-1-345" href="#__codelineno-1-345"></a>            &quot;services_affected&quot;: 47,
+<a id="__codelineno-1-346" name="__codelineno-1-346" href="#__codelineno-1-346"></a>            &quot;users_affected&quot;: 12500,
+<a id="__codelineno-1-347" name="__codelineno-1-347" href="#__codelineno-1-347"></a>            &quot;data_records_at_risk&quot;: 1847392
+<a id="__codelineno-1-348" name="__codelineno-1-348" href="#__codelineno-1-348"></a>          },
+<a id="__codelineno-1-349" name="__codelineno-1-349" href="#__codelineno-1-349"></a>          &quot;reversibility&quot;: &quot;partial&quot;,
+<a id="__codelineno-1-350" name="__codelineno-1-350" href="#__codelineno-1-350"></a>          &quot;estimated_recovery_time_minutes&quot;: 45
+<a id="__codelineno-1-351" name="__codelineno-1-351" href="#__codelineno-1-351"></a>        },
+<a id="__codelineno-1-352" name="__codelineno-1-352" href="#__codelineno-1-352"></a>        &quot;threshold_analysis&quot;: {
+<a id="__codelineno-1-353" name="__codelineno-1-353" href="#__codelineno-1-353"></a>          &quot;e_trust_needed&quot;: 85,
+<a id="__codelineno-1-354" name="__codelineno-1-354" href="#__codelineno-1-354"></a>          &quot;e_trust_actual&quot;: 42,
+<a id="__codelineno-1-355" name="__codelineno-1-355" href="#__codelineno-1-355"></a>          &quot;r_needed_for_allow&quot;: 0.03,
+<a id="__codelineno-1-356" name="__codelineno-1-356" href="#__codelineno-1-356"></a>          &quot;r_actual&quot;: 0.52,
+<a id="__codelineno-1-357" name="__codelineno-1-357" href="#__codelineno-1-357"></a>          &quot;primary_contributor&quot;: &quot;heat&quot;,
+<a id="__codelineno-1-358" name="__codelineno-1-358" href="#__codelineno-1-358"></a>          &quot;heat_value&quot;: 0.82,
+<a id="__codelineno-1-359" name="__codelineno-1-359" href="#__codelineno-1-359"></a>          &quot;heat_source&quot;: &quot;waf_blocks_elevated&quot;
+<a id="__codelineno-1-360" name="__codelineno-1-360" href="#__codelineno-1-360"></a>        }
+<a id="__codelineno-1-361" name="__codelineno-1-361" href="#__codelineno-1-361"></a>      }
+<a id="__codelineno-1-362" name="__codelineno-1-362" href="#__codelineno-1-362"></a>
+<a id="__codelineno-1-363" name="__codelineno-1-363" href="#__codelineno-1-363"></a>   This analysis is invaluable for:
+<a id="__codelineno-1-364" name="__codelineno-1-364" href="#__codelineno-1-364"></a>   -  Understanding near-misses
+<a id="__codelineno-1-365" name="__codelineno-1-365" href="#__codelineno-1-365"></a>   -  Quantifying prevented damage
+<a id="__codelineno-1-366" name="__codelineno-1-366" href="#__codelineno-1-366"></a>   -  Identifying which tensor dimension drove the decision
+<a id="__codelineno-1-367" name="__codelineno-1-367" href="#__codelineno-1-367"></a>
+<a id="__codelineno-1-368" name="__codelineno-1-368" href="#__codelineno-1-368"></a>4.  Record Types
+<a id="__codelineno-1-369" name="__codelineno-1-369" href="#__codelineno-1-369"></a>
+<a id="__codelineno-1-370" name="__codelineno-1-370" href="#__codelineno-1-370"></a>4.1.  Authorization Decision
+<a id="__codelineno-1-371" name="__codelineno-1-371" href="#__codelineno-1-371"></a>
+<a id="__codelineno-1-372" name="__codelineno-1-372" href="#__codelineno-1-372"></a>   The most common record type, created for every action request.
+<a id="__codelineno-1-373" name="__codelineno-1-373" href="#__codelineno-1-373"></a>
+<a id="__codelineno-1-374" name="__codelineno-1-374" href="#__codelineno-1-374"></a>   Schema:
+<a id="__codelineno-1-375" name="__codelineno-1-375" href="#__codelineno-1-375"></a>
+<a id="__codelineno-1-376" name="__codelineno-1-376" href="#__codelineno-1-376"></a>      {
+<a id="__codelineno-1-377" name="__codelineno-1-377" href="#__codelineno-1-377"></a>        &quot;record_type&quot;: &quot;authorization_decision&quot;,
+<a id="__codelineno-1-378" name="__codelineno-1-378" href="#__codelineno-1-378"></a>        &quot;action&quot;: {
+<a id="__codelineno-1-379" name="__codelineno-1-379" href="#__codelineno-1-379"></a>          &quot;method&quot;: &quot;DELETE&quot;,
+<a id="__codelineno-1-380" name="__codelineno-1-380" href="#__codelineno-1-380"></a>          &quot;resource&quot;: &quot;/api/users/12345&quot;,
+<a id="__codelineno-1-381" name="__codelineno-1-381" href="#__codelineno-1-381"></a>          &quot;action_class&quot;: &quot;delete_permanent&quot;,
+<a id="__codelineno-1-382" name="__codelineno-1-382" href="#__codelineno-1-382"></a>          &quot;action_risk&quot;: 85,
+<a id="__codelineno-1-383" name="__codelineno-1-383" href="#__codelineno-1-383"></a>          &quot;parameters&quot;: {
+<a id="__codelineno-1-384" name="__codelineno-1-384" href="#__codelineno-1-384"></a>            &quot;user_id&quot;: &quot;12345&quot;,
+<a id="__codelineno-1-385" name="__codelineno-1-385" href="#__codelineno-1-385"></a>            &quot;cascade&quot;: true
+<a id="__codelineno-1-386" name="__codelineno-1-386" href="#__codelineno-1-386"></a>          },
+<a id="__codelineno-1-387" name="__codelineno-1-387" href="#__codelineno-1-387"></a>          &quot;source_ip&quot;: &quot;10.0.1.45&quot;,
+<a id="__codelineno-1-388" name="__codelineno-1-388" href="#__codelineno-1-388"></a>          &quot;request_id&quot;: &quot;req-uuid-67890&quot;
+<a id="__codelineno-1-389" name="__codelineno-1-389" href="#__codelineno-1-389"></a>        },
+<a id="__codelineno-1-390" name="__codelineno-1-390" href="#__codelineno-1-390"></a>        &quot;agent&quot;: { ... },
+<a id="__codelineno-1-391" name="__codelineno-1-391" href="#__codelineno-1-391"></a>        &quot;environment&quot;: { ... },
+<a id="__codelineno-1-392" name="__codelineno-1-392" href="#__codelineno-1-392"></a>        &quot;decision&quot;: { ... },
+<a id="__codelineno-1-393" name="__codelineno-1-393" href="#__codelineno-1-393"></a>        &quot;counterfactual&quot;: { ... }
+<a id="__codelineno-1-394" name="__codelineno-1-394" href="#__codelineno-1-394"></a>      }
+<a id="__codelineno-1-395" name="__codelineno-1-395" href="#__codelineno-1-395"></a>
+<a id="__codelineno-1-396" name="__codelineno-1-396" href="#__codelineno-1-396"></a>4.2.  Trust Score Change
+<a id="__codelineno-1-397" name="__codelineno-1-397" href="#__codelineno-1-397"></a>
+<a id="__codelineno-1-398" name="__codelineno-1-398" href="#__codelineno-1-398"></a>   Recorded when an agent&#39;s E_trust changes significantly (threshold
+<a id="__codelineno-1-399" name="__codelineno-1-399" href="#__codelineno-1-399"></a>   configurable, default: change &gt;= 5 points or crosses tier boundary).
+<a id="__codelineno-1-400" name="__codelineno-1-400" href="#__codelineno-1-400"></a>
+<a id="__codelineno-1-401" name="__codelineno-1-401" href="#__codelineno-1-401"></a>   Schema:
+<a id="__codelineno-1-402" name="__codelineno-1-402" href="#__codelineno-1-402"></a>
+<a id="__codelineno-1-403" name="__codelineno-1-403" href="#__codelineno-1-403"></a>      {
+<a id="__codelineno-1-404" name="__codelineno-1-404" href="#__codelineno-1-404"></a>        &quot;record_type&quot;: &quot;trust_score_change&quot;,
+<a id="__codelineno-1-405" name="__codelineno-1-405" href="#__codelineno-1-405"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-406" name="__codelineno-1-406" href="#__codelineno-1-406"></a>        &quot;change&quot;: {
+<a id="__codelineno-1-407" name="__codelineno-1-407" href="#__codelineno-1-407"></a>          &quot;e_trust_before&quot;: 88,
+<a id="__codelineno-1-408" name="__codelineno-1-408" href="#__codelineno-1-408"></a>          &quot;e_trust_after&quot;: 72,
+<a id="__codelineno-1-409" name="__codelineno-1-409" href="#__codelineno-1-409"></a>          &quot;e_base&quot;: 95,
+<a id="__codelineno-1-410" name="__codelineno-1-410" href="#__codelineno-1-410"></a>          &quot;r_before&quot;: 0.07,
+<a id="__codelineno-1-411" name="__codelineno-1-411" href="#__codelineno-1-411"></a>          &quot;r_after&quot;: 0.24,
+<a id="__codelineno-1-412" name="__codelineno-1-412" href="#__codelineno-1-412"></a>          &quot;delta&quot;: -16,
+<a id="__codelineno-1-413" name="__codelineno-1-413" href="#__codelineno-1-413"></a>          &quot;velocity&quot;: -3.2
+<a id="__codelineno-1-414" name="__codelineno-1-414" href="#__codelineno-1-414"></a>        },
+<a id="__codelineno-1-415" name="__codelineno-1-415" href="#__codelineno-1-415"></a>        &quot;cause&quot;: {
+<a id="__codelineno-1-416" name="__codelineno-1-416" href="#__codelineno-1-416"></a>          &quot;primary_dimension&quot;: &quot;heat&quot;,
+<a id="__codelineno-1-417" name="__codelineno-1-417" href="#__codelineno-1-417"></a>          &quot;heat_before&quot;: 0.15,
+<a id="__codelineno-1-418" name="__codelineno-1-418" href="#__codelineno-1-418"></a>          &quot;heat_after&quot;: 0.65,
+<a id="__codelineno-1-419" name="__codelineno-1-419" href="#__codelineno-1-419"></a>          &quot;trigger_event&quot;: &quot;waf_block_spike&quot;,
+<a id="__codelineno-1-420" name="__codelineno-1-420" href="#__codelineno-1-420"></a>          &quot;trigger_details&quot;: {
+<a id="__codelineno-1-421" name="__codelineno-1-421" href="#__codelineno-1-421"></a>            &quot;waf_blocks_per_minute&quot;: 5420,
+<a id="__codelineno-1-422" name="__codelineno-1-422" href="#__codelineno-1-422"></a>            &quot;baseline&quot;: 200
+<a id="__codelineno-1-423" name="__codelineno-1-423" href="#__codelineno-1-423"></a>          }
+<a id="__codelineno-1-424" name="__codelineno-1-424" href="#__codelineno-1-424"></a>        },
+<a id="__codelineno-1-425" name="__codelineno-1-425" href="#__codelineno-1-425"></a>        &quot;impact&quot;: {
+<a id="__codelineno-1-426" name="__codelineno-1-426" href="#__codelineno-1-426"></a>          &quot;tier_before&quot;: &quot;operator&quot;,
+<a id="__codelineno-1-427" name="__codelineno-1-427" href="#__codelineno-1-427"></a>          &quot;tier_after&quot;: &quot;analyst&quot;,
+<a id="__codelineno-1-428" name="__codelineno-1-428" href="#__codelineno-1-428"></a>          &quot;capabilities_lost&quot;: [
+<a id="__codelineno-1-429" name="__codelineno-1-429" href="#__codelineno-1-429"></a>            &quot;write:production&quot;,
+<a id="__codelineno-1-430" name="__codelineno-1-430" href="#__codelineno-1-430"></a>            &quot;execute:deployments&quot;,
+<a id="__codelineno-1-431" name="__codelineno-1-431" href="#__codelineno-1-431"></a>            &quot;admin:config&quot;
+<a id="__codelineno-1-432" name="__codelineno-1-432" href="#__codelineno-1-432"></a>          ]
+<a id="__codelineno-1-433" name="__codelineno-1-433" href="#__codelineno-1-433"></a>        }
+<a id="__codelineno-1-434" name="__codelineno-1-434" href="#__codelineno-1-434"></a>      }
+<a id="__codelineno-1-435" name="__codelineno-1-435" href="#__codelineno-1-435"></a>
+<a id="__codelineno-1-436" name="__codelineno-1-436" href="#__codelineno-1-436"></a>4.3.  Tier Transition
+<a id="__codelineno-1-437" name="__codelineno-1-437" href="#__codelineno-1-437"></a>
+<a id="__codelineno-1-438" name="__codelineno-1-438" href="#__codelineno-1-438"></a>   Recorded when an agent crosses a Trust Tier boundary.
+<a id="__codelineno-1-439" name="__codelineno-1-439" href="#__codelineno-1-439"></a>
+<a id="__codelineno-1-440" name="__codelineno-1-440" href="#__codelineno-1-440"></a>   Schema:
+<a id="__codelineno-1-441" name="__codelineno-1-441" href="#__codelineno-1-441"></a>
+<a id="__codelineno-1-442" name="__codelineno-1-442" href="#__codelineno-1-442"></a>      {
+<a id="__codelineno-1-443" name="__codelineno-1-443" href="#__codelineno-1-443"></a>        &quot;record_type&quot;: &quot;tier_transition&quot;,
+<a id="__codelineno-1-444" name="__codelineno-1-444" href="#__codelineno-1-444"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-445" name="__codelineno-1-445" href="#__codelineno-1-445"></a>        &quot;transition&quot;: {
+<a id="__codelineno-1-446" name="__codelineno-1-446" href="#__codelineno-1-446"></a>          &quot;from_tier&quot;: &quot;operator&quot;,
+<a id="__codelineno-1-447" name="__codelineno-1-447" href="#__codelineno-1-447"></a>          &quot;to_tier&quot;: &quot;analyst&quot;,
+<a id="__codelineno-1-448" name="__codelineno-1-448" href="#__codelineno-1-448"></a>          &quot;direction&quot;: &quot;demotion&quot;,
+<a id="__codelineno-1-449" name="__codelineno-1-449" href="#__codelineno-1-449"></a>          &quot;e_trust_at_transition&quot;: 68,
+<a id="__codelineno-1-450" name="__codelineno-1-450" href="#__codelineno-1-450"></a>          &quot;threshold_crossed&quot;: 70
+<a id="__codelineno-1-451" name="__codelineno-1-451" href="#__codelineno-1-451"></a>        },
+<a id="__codelineno-1-452" name="__codelineno-1-452" href="#__codelineno-1-452"></a>        &quot;duration_in_previous_tier_seconds&quot;: 14832,
+<a id="__codelineno-1-453" name="__codelineno-1-453" href="#__codelineno-1-453"></a>        &quot;actions_in_previous_tier&quot;: 4721,
+<a id="__codelineno-1-454" name="__codelineno-1-454" href="#__codelineno-1-454"></a>        &quot;vetoes_in_previous_tier&quot;: 12,
+<a id="__codelineno-1-455" name="__codelineno-1-455" href="#__codelineno-1-455"></a>        &quot;agent_state&quot;: {
+<a id="__codelineno-1-456" name="__codelineno-1-456" href="#__codelineno-1-456"></a>          &quot;in_flight_operations&quot;: 2,
+<a id="__codelineno-1-457" name="__codelineno-1-457" href="#__codelineno-1-457"></a>          &quot;operations_cancelled&quot;: 1,
+<a id="__codelineno-1-458" name="__codelineno-1-458" href="#__codelineno-1-458"></a>          &quot;graceful_degradation&quot;: true
+<a id="__codelineno-1-459" name="__codelineno-1-459" href="#__codelineno-1-459"></a>        }
+<a id="__codelineno-1-460" name="__codelineno-1-460" href="#__codelineno-1-460"></a>      }
+<a id="__codelineno-1-461" name="__codelineno-1-461" href="#__codelineno-1-461"></a>
+<a id="__codelineno-1-462" name="__codelineno-1-462" href="#__codelineno-1-462"></a>4.4.  Soul Veto
+<a id="__codelineno-1-463" name="__codelineno-1-463" href="#__codelineno-1-463"></a>
+<a id="__codelineno-1-464" name="__codelineno-1-464" href="#__codelineno-1-464"></a>   Recorded when a sovereignty constraint blocks an action. These
+<a id="__codelineno-1-465" name="__codelineno-1-465" href="#__codelineno-1-465"></a>   records receive special handling due to their legal and cultural
+<a id="__codelineno-1-466" name="__codelineno-1-466" href="#__codelineno-1-466"></a>   significance.
+<a id="__codelineno-1-467" name="__codelineno-1-467" href="#__codelineno-1-467"></a>
+<a id="__codelineno-1-468" name="__codelineno-1-468" href="#__codelineno-1-468"></a>   Schema:
+<a id="__codelineno-1-469" name="__codelineno-1-469" href="#__codelineno-1-469"></a>
+<a id="__codelineno-1-470" name="__codelineno-1-470" href="#__codelineno-1-470"></a>      {
+<a id="__codelineno-1-471" name="__codelineno-1-471" href="#__codelineno-1-471"></a>        &quot;record_type&quot;: &quot;soul_veto&quot;,
+<a id="__codelineno-1-472" name="__codelineno-1-472" href="#__codelineno-1-472"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-473" name="__codelineno-1-473" href="#__codelineno-1-473"></a>        &quot;action&quot;: {
+<a id="__codelineno-1-474" name="__codelineno-1-474" href="#__codelineno-1-474"></a>          &quot;method&quot;: &quot;POST&quot;,
+<a id="__codelineno-1-475" name="__codelineno-1-475" href="#__codelineno-1-475"></a>          &quot;resource&quot;: &quot;/api/data/export&quot;,
+<a id="__codelineno-1-476" name="__codelineno-1-476" href="#__codelineno-1-476"></a>          &quot;action_class&quot;: &quot;read_sensitive&quot;,
+<a id="__codelineno-1-477" name="__codelineno-1-477" href="#__codelineno-1-477"></a>          &quot;action_risk&quot;: 40
+<a id="__codelineno-1-478" name="__codelineno-1-478" href="#__codelineno-1-478"></a>        },
+<a id="__codelineno-1-479" name="__codelineno-1-479" href="#__codelineno-1-479"></a>        &quot;soul_constraint&quot;: {
+<a id="__codelineno-1-480" name="__codelineno-1-480" href="#__codelineno-1-480"></a>          &quot;s&quot;: 1,
+<a id="__codelineno-1-481" name="__codelineno-1-481" href="#__codelineno-1-481"></a>          &quot;constraint_type&quot;: &quot;tk_label&quot;,
+<a id="__codelineno-1-482" name="__codelineno-1-482" href="#__codelineno-1-482"></a>          &quot;constraint_id&quot;: &quot;TK-NC-001&quot;,
+<a id="__codelineno-1-483" name="__codelineno-1-483" href="#__codelineno-1-483"></a>          &quot;constraint_name&quot;: &quot;TK Non-Commercial&quot;,
+<a id="__codelineno-1-484" name="__codelineno-1-484" href="#__codelineno-1-484"></a>          &quot;authority&quot;: &quot;https://localcontexts.org/label/tk-nc/&quot;,
+<a id="__codelineno-1-485" name="__codelineno-1-485" href="#__codelineno-1-485"></a>          &quot;community&quot;: &quot;Example Indigenous Community&quot;,
+<a id="__codelineno-1-486" name="__codelineno-1-486" href="#__codelineno-1-486"></a>          &quot;data_lineage&quot;: {
+<a id="__codelineno-1-487" name="__codelineno-1-487" href="#__codelineno-1-487"></a>            &quot;data_id&quot;: &quot;data-record-xyz&quot;,
+<a id="__codelineno-1-488" name="__codelineno-1-488" href="#__codelineno-1-488"></a>            &quot;origin&quot;: &quot;tribal-repository&quot;,
+<a id="__codelineno-1-489" name="__codelineno-1-489" href="#__codelineno-1-489"></a>            &quot;collection_date&quot;: &quot;2024-06-15&quot;,
+<a id="__codelineno-1-490" name="__codelineno-1-490" href="#__codelineno-1-490"></a>            &quot;labels_applied&quot;: [&quot;TK-NC&quot;, &quot;TK-A&quot;]
+<a id="__codelineno-1-491" name="__codelineno-1-491" href="#__codelineno-1-491"></a>          }
+<a id="__codelineno-1-492" name="__codelineno-1-492" href="#__codelineno-1-492"></a>        },
+<a id="__codelineno-1-493" name="__codelineno-1-493" href="#__codelineno-1-493"></a>        &quot;note&quot;: {
+<a id="__codelineno-1-494" name="__codelineno-1-494" href="#__codelineno-1-494"></a>          &quot;e_trust&quot;: 92,
+<a id="__codelineno-1-495" name="__codelineno-1-495" href="#__codelineno-1-495"></a>          &quot;action_risk&quot;: 40,
+<a id="__codelineno-1-496" name="__codelineno-1-496" href="#__codelineno-1-496"></a>          &quot;would_have_passed_zeroth_law&quot;: true,
+<a id="__codelineno-1-497" name="__codelineno-1-497" href="#__codelineno-1-497"></a>          &quot;blocked_by_sovereignty&quot;: true
+<a id="__codelineno-1-498" name="__codelineno-1-498" href="#__codelineno-1-498"></a>        },
+<a id="__codelineno-1-499" name="__codelineno-1-499" href="#__codelineno-1-499"></a>        &quot;remediation_provided&quot;: &quot;Contact community data steward&quot;
+<a id="__codelineno-1-500" name="__codelineno-1-500" href="#__codelineno-1-500"></a>      }
+<a id="__codelineno-1-501" name="__codelineno-1-501" href="#__codelineno-1-501"></a>
+<a id="__codelineno-1-502" name="__codelineno-1-502" href="#__codelineno-1-502"></a>   Soul Veto records MUST be:
+<a id="__codelineno-1-503" name="__codelineno-1-503" href="#__codelineno-1-503"></a>   -  Retained for minimum 7 years (or as required by jurisdiction)
+<a id="__codelineno-1-504" name="__codelineno-1-504" href="#__codelineno-1-504"></a>   -  Exportable for community review upon request
+<a id="__codelineno-1-505" name="__codelineno-1-505" href="#__codelineno-1-505"></a>   -  Protected from modification by any party
+<a id="__codelineno-1-506" name="__codelineno-1-506" href="#__codelineno-1-506"></a>
+<a id="__codelineno-1-507" name="__codelineno-1-507" href="#__codelineno-1-507"></a>4.5.  Attestation
+<a id="__codelineno-1-508" name="__codelineno-1-508" href="#__codelineno-1-508"></a>
+<a id="__codelineno-1-509" name="__codelineno-1-509" href="#__codelineno-1-509"></a>   Recorded when the Trust Oracle issues an attestation of successful
+<a id="__codelineno-1-510" name="__codelineno-1-510" href="#__codelineno-1-510"></a>   transaction, contributing to an agent&#39;s Proof of Resilience.
+<a id="__codelineno-1-511" name="__codelineno-1-511" href="#__codelineno-1-511"></a>
+<a id="__codelineno-1-512" name="__codelineno-1-512" href="#__codelineno-1-512"></a>   Schema:
+<a id="__codelineno-1-513" name="__codelineno-1-513" href="#__codelineno-1-513"></a>
+<a id="__codelineno-1-514" name="__codelineno-1-514" href="#__codelineno-1-514"></a>      {
+<a id="__codelineno-1-515" name="__codelineno-1-515" href="#__codelineno-1-515"></a>        &quot;record_type&quot;: &quot;attestation&quot;,
+<a id="__codelineno-1-516" name="__codelineno-1-516" href="#__codelineno-1-516"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-517" name="__codelineno-1-517" href="#__codelineno-1-517"></a>        &quot;attestation&quot;: {
+<a id="__codelineno-1-518" name="__codelineno-1-518" href="#__codelineno-1-518"></a>          &quot;attestation_id&quot;: &quot;att-uuid-12345&quot;,
+<a id="__codelineno-1-519" name="__codelineno-1-519" href="#__codelineno-1-519"></a>          &quot;action_completed&quot;: &quot;deploy_service_update&quot;,
+<a id="__codelineno-1-520" name="__codelineno-1-520" href="#__codelineno-1-520"></a>          &quot;action_risk&quot;: 75,
+<a id="__codelineno-1-521" name="__codelineno-1-521" href="#__codelineno-1-521"></a>          &quot;e_trust_at_action&quot;: 82,
+<a id="__codelineno-1-522" name="__codelineno-1-522" href="#__codelineno-1-522"></a>          &quot;environment_state&quot;: &quot;degraded&quot;,
+<a id="__codelineno-1-523" name="__codelineno-1-523" href="#__codelineno-1-523"></a>          &quot;r_at_action&quot;: 0.14,
+<a id="__codelineno-1-524" name="__codelineno-1-524" href="#__codelineno-1-524"></a>          &quot;resilience_contribution&quot;: 0.003
+<a id="__codelineno-1-525" name="__codelineno-1-525" href="#__codelineno-1-525"></a>        },
+<a id="__codelineno-1-526" name="__codelineno-1-526" href="#__codelineno-1-526"></a>        &quot;signatures&quot;: {
+<a id="__codelineno-1-527" name="__codelineno-1-527" href="#__codelineno-1-527"></a>          &quot;agent&quot;: &quot;sig:agent:abc123...&quot;,
+<a id="__codelineno-1-528" name="__codelineno-1-528" href="#__codelineno-1-528"></a>          &quot;oracle&quot;: &quot;sig:oracle:def456...&quot;,
+<a id="__codelineno-1-529" name="__codelineno-1-529" href="#__codelineno-1-529"></a>          &quot;timestamp_authority&quot;: &quot;sig:tsa:ghi789...&quot;
+<a id="__codelineno-1-530" name="__codelineno-1-530" href="#__codelineno-1-530"></a>        }
+<a id="__codelineno-1-531" name="__codelineno-1-531" href="#__codelineno-1-531"></a>      }
+<a id="__codelineno-1-532" name="__codelineno-1-532" href="#__codelineno-1-532"></a>
+<a id="__codelineno-1-533" name="__codelineno-1-533" href="#__codelineno-1-533"></a>5.  Immutability Requirements
+<a id="__codelineno-1-534" name="__codelineno-1-534" href="#__codelineno-1-534"></a>
+<a id="__codelineno-1-535" name="__codelineno-1-535" href="#__codelineno-1-535"></a>5.1.  Append-Only Storage
+<a id="__codelineno-1-536" name="__codelineno-1-536" href="#__codelineno-1-536"></a>
+<a id="__codelineno-1-537" name="__codelineno-1-537" href="#__codelineno-1-537"></a>   The Flight Recorder MUST use append-only storage:
+<a id="__codelineno-1-538" name="__codelineno-1-538" href="#__codelineno-1-538"></a>
+<a id="__codelineno-1-539" name="__codelineno-1-539" href="#__codelineno-1-539"></a>   1. Records can only be added, never modified or deleted
+<a id="__codelineno-1-540" name="__codelineno-1-540" href="#__codelineno-1-540"></a>
+<a id="__codelineno-1-541" name="__codelineno-1-541" href="#__codelineno-1-541"></a>   2. Storage system must enforce append-only at infrastructure level
+<a id="__codelineno-1-542" name="__codelineno-1-542" href="#__codelineno-1-542"></a>
+<a id="__codelineno-1-543" name="__codelineno-1-543" href="#__codelineno-1-543"></a>   3. Deletions are only permitted via retention policy expiration
+<a id="__codelineno-1-544" name="__codelineno-1-544" href="#__codelineno-1-544"></a>
+<a id="__codelineno-1-545" name="__codelineno-1-545" href="#__codelineno-1-545"></a>   4. Even expired records should be archived before deletion
+<a id="__codelineno-1-546" name="__codelineno-1-546" href="#__codelineno-1-546"></a>
+<a id="__codelineno-1-547" name="__codelineno-1-547" href="#__codelineno-1-547"></a>   Implementation options:
+<a id="__codelineno-1-548" name="__codelineno-1-548" href="#__codelineno-1-548"></a>
+<a id="__codelineno-1-549" name="__codelineno-1-549" href="#__codelineno-1-549"></a>   -  Append-only databases (e.g., Datomic, XTDB)
+<a id="__codelineno-1-550" name="__codelineno-1-550" href="#__codelineno-1-550"></a>   -  Immutable storage services (e.g., AWS S3 Object Lock)
+<a id="__codelineno-1-551" name="__codelineno-1-551" href="#__codelineno-1-551"></a>   -  Blockchain or distributed ledger (for highest assurance)
+<a id="__codelineno-1-552" name="__codelineno-1-552" href="#__codelineno-1-552"></a>   -  Write-once media (for air-gapped compliance)
+<a id="__codelineno-1-553" name="__codelineno-1-553" href="#__codelineno-1-553"></a>
+<a id="__codelineno-1-554" name="__codelineno-1-554" href="#__codelineno-1-554"></a>5.2.  Cryptographic Chaining
+<a id="__codelineno-1-555" name="__codelineno-1-555" href="#__codelineno-1-555"></a>
+<a id="__codelineno-1-556" name="__codelineno-1-556" href="#__codelineno-1-556"></a>   Records MUST be cryptographically chained:
+<a id="__codelineno-1-557" name="__codelineno-1-557" href="#__codelineno-1-557"></a>
+<a id="__codelineno-1-558" name="__codelineno-1-558" href="#__codelineno-1-558"></a>   1. Each record includes hash of previous record
+<a id="__codelineno-1-559" name="__codelineno-1-559" href="#__codelineno-1-559"></a>
+<a id="__codelineno-1-560" name="__codelineno-1-560" href="#__codelineno-1-560"></a>   2. Hash algorithm: SHA-256 (minimum)
+<a id="__codelineno-1-561" name="__codelineno-1-561" href="#__codelineno-1-561"></a>
+<a id="__codelineno-1-562" name="__codelineno-1-562" href="#__codelineno-1-562"></a>   3. Chain creates tamper-evident sequence
+<a id="__codelineno-1-563" name="__codelineno-1-563" href="#__codelineno-1-563"></a>
+<a id="__codelineno-1-564" name="__codelineno-1-564" href="#__codelineno-1-564"></a>   4. Any modification breaks the chain
+<a id="__codelineno-1-565" name="__codelineno-1-565" href="#__codelineno-1-565"></a>
+<a id="__codelineno-1-566" name="__codelineno-1-566" href="#__codelineno-1-566"></a>   Chain structure:
+<a id="__codelineno-1-567" name="__codelineno-1-567" href="#__codelineno-1-567"></a>
+<a id="__codelineno-1-568" name="__codelineno-1-568" href="#__codelineno-1-568"></a>      Record N:
+<a id="__codelineno-1-569" name="__codelineno-1-569" href="#__codelineno-1-569"></a>        previous_hash: SHA256(Record N-1)
+<a id="__codelineno-1-570" name="__codelineno-1-570" href="#__codelineno-1-570"></a>        sequence_number: N
+<a id="__codelineno-1-571" name="__codelineno-1-571" href="#__codelineno-1-571"></a>        content: { ... }
+<a id="__codelineno-1-572" name="__codelineno-1-572" href="#__codelineno-1-572"></a>        record_hash: SHA256(previous_hash + sequence_number + content)
+<a id="__codelineno-1-573" name="__codelineno-1-573" href="#__codelineno-1-573"></a>
+<a id="__codelineno-1-574" name="__codelineno-1-574" href="#__codelineno-1-574"></a>      Record N+1:
+<a id="__codelineno-1-575" name="__codelineno-1-575" href="#__codelineno-1-575"></a>        previous_hash: record_hash from Record N
+<a id="__codelineno-1-576" name="__codelineno-1-576" href="#__codelineno-1-576"></a>        sequence_number: N+1
+<a id="__codelineno-1-577" name="__codelineno-1-577" href="#__codelineno-1-577"></a>        ...
+<a id="__codelineno-1-578" name="__codelineno-1-578" href="#__codelineno-1-578"></a>
+<a id="__codelineno-1-579" name="__codelineno-1-579" href="#__codelineno-1-579"></a>   Chain verification:
+<a id="__codelineno-1-580" name="__codelineno-1-580" href="#__codelineno-1-580"></a>
+<a id="__codelineno-1-581" name="__codelineno-1-581" href="#__codelineno-1-581"></a>      For each record from oldest to newest:
+<a id="__codelineno-1-582" name="__codelineno-1-582" href="#__codelineno-1-582"></a>        1. Compute expected hash from content
+<a id="__codelineno-1-583" name="__codelineno-1-583" href="#__codelineno-1-583"></a>        2. Compare to stored hash
+<a id="__codelineno-1-584" name="__codelineno-1-584" href="#__codelineno-1-584"></a>        3. Verify previous_hash matches prior record&#39;s hash
+<a id="__codelineno-1-585" name="__codelineno-1-585" href="#__codelineno-1-585"></a>        4. Verify sequence numbers are contiguous
+<a id="__codelineno-1-586" name="__codelineno-1-586" href="#__codelineno-1-586"></a>
+<a id="__codelineno-1-587" name="__codelineno-1-587" href="#__codelineno-1-587"></a>5.3.  Tamper Detection
+<a id="__codelineno-1-588" name="__codelineno-1-588" href="#__codelineno-1-588"></a>
+<a id="__codelineno-1-589" name="__codelineno-1-589" href="#__codelineno-1-589"></a>   The Flight Recorder MUST detect tampering:
+<a id="__codelineno-1-590" name="__codelineno-1-590" href="#__codelineno-1-590"></a>
+<a id="__codelineno-1-591" name="__codelineno-1-591" href="#__codelineno-1-591"></a>   1. Periodic chain integrity verification (recommended: hourly)
+<a id="__codelineno-1-592" name="__codelineno-1-592" href="#__codelineno-1-592"></a>
+<a id="__codelineno-1-593" name="__codelineno-1-593" href="#__codelineno-1-593"></a>   2. Alert on any hash mismatch or sequence gap
+<a id="__codelineno-1-594" name="__codelineno-1-594" href="#__codelineno-1-594"></a>
+<a id="__codelineno-1-595" name="__codelineno-1-595" href="#__codelineno-1-595"></a>   3. Maintain chain anchors in external system (e.g., public blockchain
+<a id="__codelineno-1-596" name="__codelineno-1-596" href="#__codelineno-1-596"></a>      timestamp)
+<a id="__codelineno-1-597" name="__codelineno-1-597" href="#__codelineno-1-597"></a>
+<a id="__codelineno-1-598" name="__codelineno-1-598" href="#__codelineno-1-598"></a>   4. Support third-party audit of chain integrity
+<a id="__codelineno-1-599" name="__codelineno-1-599" href="#__codelineno-1-599"></a>
+<a id="__codelineno-1-600" name="__codelineno-1-600" href="#__codelineno-1-600"></a>   Tamper detection response:
+<a id="__codelineno-1-601" name="__codelineno-1-601" href="#__codelineno-1-601"></a>
+<a id="__codelineno-1-602" name="__codelineno-1-602" href="#__codelineno-1-602"></a>   1. Immediately alert security team
+<a id="__codelineno-1-603" name="__codelineno-1-603" href="#__codelineno-1-603"></a>
+<a id="__codelineno-1-604" name="__codelineno-1-604" href="#__codelineno-1-604"></a>   2. Preserve evidence (snapshot of tampered section)
+<a id="__codelineno-1-605" name="__codelineno-1-605" href="#__codelineno-1-605"></a>
+<a id="__codelineno-1-606" name="__codelineno-1-606" href="#__codelineno-1-606"></a>   3. Isolate affected storage
+<a id="__codelineno-1-607" name="__codelineno-1-607" href="#__codelineno-1-607"></a>
+<a id="__codelineno-1-608" name="__codelineno-1-608" href="#__codelineno-1-608"></a>   4. Begin forensic investigation
+<a id="__codelineno-1-609" name="__codelineno-1-609" href="#__codelineno-1-609"></a>
+<a id="__codelineno-1-610" name="__codelineno-1-610" href="#__codelineno-1-610"></a>   5. Do NOT attempt to &quot;fix&quot; the chain
+<a id="__codelineno-1-611" name="__codelineno-1-611" href="#__codelineno-1-611"></a>
+<a id="__codelineno-1-612" name="__codelineno-1-612" href="#__codelineno-1-612"></a>6.  Storage Architecture
+<a id="__codelineno-1-613" name="__codelineno-1-613" href="#__codelineno-1-613"></a>
+<a id="__codelineno-1-614" name="__codelineno-1-614" href="#__codelineno-1-614"></a>6.1.  Hot Storage
+<a id="__codelineno-1-615" name="__codelineno-1-615" href="#__codelineno-1-615"></a>
+<a id="__codelineno-1-616" name="__codelineno-1-616" href="#__codelineno-1-616"></a>   Hot storage holds recent records for fast query access.
+<a id="__codelineno-1-617" name="__codelineno-1-617" href="#__codelineno-1-617"></a>
+<a id="__codelineno-1-618" name="__codelineno-1-618" href="#__codelineno-1-618"></a>   Characteristics:
+<a id="__codelineno-1-619" name="__codelineno-1-619" href="#__codelineno-1-619"></a>   -  Retention: 24-72 hours
+<a id="__codelineno-1-620" name="__codelineno-1-620" href="#__codelineno-1-620"></a>   -  Latency: &lt; 10ms query response
+<a id="__codelineno-1-621" name="__codelineno-1-621" href="#__codelineno-1-621"></a>   -  Technology: In-memory database, SSD-backed store
+<a id="__codelineno-1-622" name="__codelineno-1-622" href="#__codelineno-1-622"></a>   -  Replication: Synchronous, multi-region
+<a id="__codelineno-1-623" name="__codelineno-1-623" href="#__codelineno-1-623"></a>
+<a id="__codelineno-1-624" name="__codelineno-1-624" href="#__codelineno-1-624"></a>   Use cases:
+<a id="__codelineno-1-625" name="__codelineno-1-625" href="#__codelineno-1-625"></a>   -  Real-time dashboards
+<a id="__codelineno-1-626" name="__codelineno-1-626" href="#__codelineno-1-626"></a>   -  Active incident investigation
+<a id="__codelineno-1-627" name="__codelineno-1-627" href="#__codelineno-1-627"></a>   -  Live query by agents
+<a id="__codelineno-1-628" name="__codelineno-1-628" href="#__codelineno-1-628"></a>
+<a id="__codelineno-1-629" name="__codelineno-1-629" href="#__codelineno-1-629"></a>6.2.  Warm Storage
+<a id="__codelineno-1-630" name="__codelineno-1-630" href="#__codelineno-1-630"></a>
+<a id="__codelineno-1-631" name="__codelineno-1-631" href="#__codelineno-1-631"></a>   Warm storage holds intermediate-age records.
+<a id="__codelineno-1-632" name="__codelineno-1-632" href="#__codelineno-1-632"></a>
+<a id="__codelineno-1-633" name="__codelineno-1-633" href="#__codelineno-1-633"></a>   Characteristics:
+<a id="__codelineno-1-634" name="__codelineno-1-634" href="#__codelineno-1-634"></a>   -  Retention: 7-90 days
+<a id="__codelineno-1-635" name="__codelineno-1-635" href="#__codelineno-1-635"></a>   -  Latency: &lt; 100ms query response
+<a id="__codelineno-1-636" name="__codelineno-1-636" href="#__codelineno-1-636"></a>   -  Technology: SSD-backed database, time-series DB
+<a id="__codelineno-1-637" name="__codelineno-1-637" href="#__codelineno-1-637"></a>   -  Replication: Asynchronous, multi-region
+<a id="__codelineno-1-638" name="__codelineno-1-638" href="#__codelineno-1-638"></a>
+<a id="__codelineno-1-639" name="__codelineno-1-639" href="#__codelineno-1-639"></a>   Use cases:
+<a id="__codelineno-1-640" name="__codelineno-1-640" href="#__codelineno-1-640"></a>   -  Trend analysis
+<a id="__codelineno-1-641" name="__codelineno-1-641" href="#__codelineno-1-641"></a>   -  Compliance reporting
+<a id="__codelineno-1-642" name="__codelineno-1-642" href="#__codelineno-1-642"></a>   -  Investigation of recent incidents
+<a id="__codelineno-1-643" name="__codelineno-1-643" href="#__codelineno-1-643"></a>
+<a id="__codelineno-1-644" name="__codelineno-1-644" href="#__codelineno-1-644"></a>6.3.  Cold Storage
+<a id="__codelineno-1-645" name="__codelineno-1-645" href="#__codelineno-1-645"></a>
+<a id="__codelineno-1-646" name="__codelineno-1-646" href="#__codelineno-1-646"></a>   Cold storage holds historical records for compliance and forensics.
+<a id="__codelineno-1-647" name="__codelineno-1-647" href="#__codelineno-1-647"></a>
+<a id="__codelineno-1-648" name="__codelineno-1-648" href="#__codelineno-1-648"></a>   Characteristics:
+<a id="__codelineno-1-649" name="__codelineno-1-649" href="#__codelineno-1-649"></a>   -  Retention: 1-7+ years (per policy)
+<a id="__codelineno-1-650" name="__codelineno-1-650" href="#__codelineno-1-650"></a>   -  Latency: Minutes to hours (acceptable for archival)
+<a id="__codelineno-1-651" name="__codelineno-1-651" href="#__codelineno-1-651"></a>   -  Technology: Object storage, tape archive
+<a id="__codelineno-1-652" name="__codelineno-1-652" href="#__codelineno-1-652"></a>   -  Replication: Cross-region, immutable
+<a id="__codelineno-1-653" name="__codelineno-1-653" href="#__codelineno-1-653"></a>
+<a id="__codelineno-1-654" name="__codelineno-1-654" href="#__codelineno-1-654"></a>   Use cases:
+<a id="__codelineno-1-655" name="__codelineno-1-655" href="#__codelineno-1-655"></a>   -  Legal discovery
+<a id="__codelineno-1-656" name="__codelineno-1-656" href="#__codelineno-1-656"></a>   -  Long-term compliance
+<a id="__codelineno-1-657" name="__codelineno-1-657" href="#__codelineno-1-657"></a>   -  Historical analysis
+<a id="__codelineno-1-658" name="__codelineno-1-658" href="#__codelineno-1-658"></a>
+<a id="__codelineno-1-659" name="__codelineno-1-659" href="#__codelineno-1-659"></a>6.4.  Retention Policies
+<a id="__codelineno-1-660" name="__codelineno-1-660" href="#__codelineno-1-660"></a>
+<a id="__codelineno-1-661" name="__codelineno-1-661" href="#__codelineno-1-661"></a>   Recommended minimum retention periods:
+<a id="__codelineno-1-662" name="__codelineno-1-662" href="#__codelineno-1-662"></a>
+<a id="__codelineno-1-663" name="__codelineno-1-663" href="#__codelineno-1-663"></a>   +---------------------------+------------+------------------------+
+<a id="__codelineno-1-664" name="__codelineno-1-664" href="#__codelineno-1-664"></a>   | Record Type               | Minimum    | Notes                  |
+<a id="__codelineno-1-665" name="__codelineno-1-665" href="#__codelineno-1-665"></a>   +---------------------------+------------+------------------------+
+<a id="__codelineno-1-666" name="__codelineno-1-666" href="#__codelineno-1-666"></a>   | Authorization Decision    | 1 year     | Standard audit         |
+<a id="__codelineno-1-667" name="__codelineno-1-667" href="#__codelineno-1-667"></a>   | Trust Score Change        | 1 year     | Standard audit         |
+<a id="__codelineno-1-668" name="__codelineno-1-668" href="#__codelineno-1-668"></a>   | Tier Transition           | 2 years    | Behavioral analysis    |
+<a id="__codelineno-1-669" name="__codelineno-1-669" href="#__codelineno-1-669"></a>   | Soul Veto                 | 7 years    | Legal/cultural         |
+<a id="__codelineno-1-670" name="__codelineno-1-670" href="#__codelineno-1-670"></a>   | Attestation               | 7 years    | Proof of Resilience    |
+<a id="__codelineno-1-671" name="__codelineno-1-671" href="#__codelineno-1-671"></a>   | System Event              | 90 days    | Operational            |
+<a id="__codelineno-1-672" name="__codelineno-1-672" href="#__codelineno-1-672"></a>   +---------------------------+------------+------------------------+
+<a id="__codelineno-1-673" name="__codelineno-1-673" href="#__codelineno-1-673"></a>
+<a id="__codelineno-1-674" name="__codelineno-1-674" href="#__codelineno-1-674"></a>   Retention policies MUST be:
+<a id="__codelineno-1-675" name="__codelineno-1-675" href="#__codelineno-1-675"></a>   -  Documented and versioned
+<a id="__codelineno-1-676" name="__codelineno-1-676" href="#__codelineno-1-676"></a>   -  Approved by legal/compliance
+<a id="__codelineno-1-677" name="__codelineno-1-677" href="#__codelineno-1-677"></a>   -  Enforced automatically
+<a id="__codelineno-1-678" name="__codelineno-1-678" href="#__codelineno-1-678"></a>   -  Auditable (who changed policy, when)
+<a id="__codelineno-1-679" name="__codelineno-1-679" href="#__codelineno-1-679"></a>
+<a id="__codelineno-1-680" name="__codelineno-1-680" href="#__codelineno-1-680"></a>7.  Query Interface
+<a id="__codelineno-1-681" name="__codelineno-1-681" href="#__codelineno-1-681"></a>
+<a id="__codelineno-1-682" name="__codelineno-1-682" href="#__codelineno-1-682"></a>7.1.  Query Language
+<a id="__codelineno-1-683" name="__codelineno-1-683" href="#__codelineno-1-683"></a>
+<a id="__codelineno-1-684" name="__codelineno-1-684" href="#__codelineno-1-684"></a>   The Flight Recorder MUST provide a query interface supporting:
+<a id="__codelineno-1-685" name="__codelineno-1-685" href="#__codelineno-1-685"></a>
+<a id="__codelineno-1-686" name="__codelineno-1-686" href="#__codelineno-1-686"></a>7.1.1.  Temporal Queries
+<a id="__codelineno-1-687" name="__codelineno-1-687" href="#__codelineno-1-687"></a>
+<a id="__codelineno-1-688" name="__codelineno-1-688" href="#__codelineno-1-688"></a>   Query records by time range:
+<a id="__codelineno-1-689" name="__codelineno-1-689" href="#__codelineno-1-689"></a>
+<a id="__codelineno-1-690" name="__codelineno-1-690" href="#__codelineno-1-690"></a>      {
+<a id="__codelineno-1-691" name="__codelineno-1-691" href="#__codelineno-1-691"></a>        &quot;query&quot;: &quot;temporal&quot;,
+<a id="__codelineno-1-692" name="__codelineno-1-692" href="#__codelineno-1-692"></a>        &quot;start&quot;: &quot;2025-11-25T00:00:00Z&quot;,
+<a id="__codelineno-1-693" name="__codelineno-1-693" href="#__codelineno-1-693"></a>        &quot;end&quot;: &quot;2025-11-25T23:59:59Z&quot;,
+<a id="__codelineno-1-694" name="__codelineno-1-694" href="#__codelineno-1-694"></a>        &quot;record_types&quot;: [&quot;authorization_decision&quot;, &quot;soul_veto&quot;]
+<a id="__codelineno-1-695" name="__codelineno-1-695" href="#__codelineno-1-695"></a>      }
+<a id="__codelineno-1-696" name="__codelineno-1-696" href="#__codelineno-1-696"></a>
+<a id="__codelineno-1-697" name="__codelineno-1-697" href="#__codelineno-1-697"></a>7.1.2.  Agent Queries
+<a id="__codelineno-1-698" name="__codelineno-1-698" href="#__codelineno-1-698"></a>
+<a id="__codelineno-1-699" name="__codelineno-1-699" href="#__codelineno-1-699"></a>   Query records for specific agent:
+<a id="__codelineno-1-700" name="__codelineno-1-700" href="#__codelineno-1-700"></a>
+<a id="__codelineno-1-701" name="__codelineno-1-701" href="#__codelineno-1-701"></a>      {
+<a id="__codelineno-1-702" name="__codelineno-1-702" href="#__codelineno-1-702"></a>        &quot;query&quot;: &quot;agent&quot;,
+<a id="__codelineno-1-703" name="__codelineno-1-703" href="#__codelineno-1-703"></a>        &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-704" name="__codelineno-1-704" href="#__codelineno-1-704"></a>        &quot;start&quot;: &quot;2025-11-01T00:00:00Z&quot;,
+<a id="__codelineno-1-705" name="__codelineno-1-705" href="#__codelineno-1-705"></a>        &quot;include&quot;: [&quot;decisions&quot;, &quot;tier_transitions&quot;, &quot;attestations&quot;]
+<a id="__codelineno-1-706" name="__codelineno-1-706" href="#__codelineno-1-706"></a>      }
+<a id="__codelineno-1-707" name="__codelineno-1-707" href="#__codelineno-1-707"></a>
+<a id="__codelineno-1-708" name="__codelineno-1-708" href="#__codelineno-1-708"></a>7.1.3.  Outcome Queries
+<a id="__codelineno-1-709" name="__codelineno-1-709" href="#__codelineno-1-709"></a>
+<a id="__codelineno-1-710" name="__codelineno-1-710" href="#__codelineno-1-710"></a>   Query by decision outcome:
+<a id="__codelineno-1-711" name="__codelineno-1-711" href="#__codelineno-1-711"></a>
+<a id="__codelineno-1-712" name="__codelineno-1-712" href="#__codelineno-1-712"></a>      {
+<a id="__codelineno-1-713" name="__codelineno-1-713" href="#__codelineno-1-713"></a>        &quot;query&quot;: &quot;outcome&quot;,
+<a id="__codelineno-1-714" name="__codelineno-1-714" href="#__codelineno-1-714"></a>        &quot;outcome&quot;: &quot;deny&quot;,
+<a id="__codelineno-1-715" name="__codelineno-1-715" href="#__codelineno-1-715"></a>        &quot;reason&quot;: &quot;TRUST_INSUFFICIENT&quot;,
+<a id="__codelineno-1-716" name="__codelineno-1-716" href="#__codelineno-1-716"></a>        &quot;start&quot;: &quot;2025-11-25T00:00:00Z&quot;
+<a id="__codelineno-1-717" name="__codelineno-1-717" href="#__codelineno-1-717"></a>      }
+<a id="__codelineno-1-718" name="__codelineno-1-718" href="#__codelineno-1-718"></a>
+<a id="__codelineno-1-719" name="__codelineno-1-719" href="#__codelineno-1-719"></a>7.1.4.  Environmental Queries
+<a id="__codelineno-1-720" name="__codelineno-1-720" href="#__codelineno-1-720"></a>
+<a id="__codelineno-1-721" name="__codelineno-1-721" href="#__codelineno-1-721"></a>   Query by environmental conditions:
+<a id="__codelineno-1-722" name="__codelineno-1-722" href="#__codelineno-1-722"></a>
+<a id="__codelineno-1-723" name="__codelineno-1-723" href="#__codelineno-1-723"></a>      {
+<a id="__codelineno-1-724" name="__codelineno-1-724" href="#__codelineno-1-724"></a>        &quot;query&quot;: &quot;environment&quot;,
+<a id="__codelineno-1-725" name="__codelineno-1-725" href="#__codelineno-1-725"></a>        &quot;conditions&quot;: {
+<a id="__codelineno-1-726" name="__codelineno-1-726" href="#__codelineno-1-726"></a>          &quot;heat&quot;: { &quot;gte&quot;: 0.7 },
+<a id="__codelineno-1-727" name="__codelineno-1-727" href="#__codelineno-1-727"></a>          &quot;r&quot;: { &quot;gte&quot;: 0.5 }
+<a id="__codelineno-1-728" name="__codelineno-1-728" href="#__codelineno-1-728"></a>        },
+<a id="__codelineno-1-729" name="__codelineno-1-729" href="#__codelineno-1-729"></a>        &quot;start&quot;: &quot;2025-11-25T00:00:00Z&quot;
+<a id="__codelineno-1-730" name="__codelineno-1-730" href="#__codelineno-1-730"></a>      }
+<a id="__codelineno-1-731" name="__codelineno-1-731" href="#__codelineno-1-731"></a>
+<a id="__codelineno-1-732" name="__codelineno-1-732" href="#__codelineno-1-732"></a>7.1.5.  Counterfactual Queries
+<a id="__codelineno-1-733" name="__codelineno-1-733" href="#__codelineno-1-733"></a>
+<a id="__codelineno-1-734" name="__codelineno-1-734" href="#__codelineno-1-734"></a>   Query by potential impact:
+<a id="__codelineno-1-735" name="__codelineno-1-735" href="#__codelineno-1-735"></a>
+<a id="__codelineno-1-736" name="__codelineno-1-736" href="#__codelineno-1-736"></a>      {
+<a id="__codelineno-1-737" name="__codelineno-1-737" href="#__codelineno-1-737"></a>        &quot;query&quot;: &quot;counterfactual&quot;,
+<a id="__codelineno-1-738" name="__codelineno-1-738" href="#__codelineno-1-738"></a>        &quot;if_allowed&quot;: {
+<a id="__codelineno-1-739" name="__codelineno-1-739" href="#__codelineno-1-739"></a>          &quot;blast_radius.services_affected&quot;: { &quot;gte&quot;: 10 }
+<a id="__codelineno-1-740" name="__codelineno-1-740" href="#__codelineno-1-740"></a>        },
+<a id="__codelineno-1-741" name="__codelineno-1-741" href="#__codelineno-1-741"></a>        &quot;outcome&quot;: &quot;deny&quot;,
+<a id="__codelineno-1-742" name="__codelineno-1-742" href="#__codelineno-1-742"></a>        &quot;start&quot;: &quot;2025-11-25T00:00:00Z&quot;
+<a id="__codelineno-1-743" name="__codelineno-1-743" href="#__codelineno-1-743"></a>      }
+<a id="__codelineno-1-744" name="__codelineno-1-744" href="#__codelineno-1-744"></a>
+<a id="__codelineno-1-745" name="__codelineno-1-745" href="#__codelineno-1-745"></a>7.2.  Common Queries
+<a id="__codelineno-1-746" name="__codelineno-1-746" href="#__codelineno-1-746"></a>
+<a id="__codelineno-1-747" name="__codelineno-1-747" href="#__codelineno-1-747"></a>7.2.1.  &quot;Show me all prevented incidents today&quot;
+<a id="__codelineno-1-748" name="__codelineno-1-748" href="#__codelineno-1-748"></a>
+<a id="__codelineno-1-749" name="__codelineno-1-749" href="#__codelineno-1-749"></a>      {
+<a id="__codelineno-1-750" name="__codelineno-1-750" href="#__codelineno-1-750"></a>        &quot;query&quot;: &quot;compound&quot;,
+<a id="__codelineno-1-751" name="__codelineno-1-751" href="#__codelineno-1-751"></a>        &quot;filters&quot;: [
+<a id="__codelineno-1-752" name="__codelineno-1-752" href="#__codelineno-1-752"></a>          { &quot;record_type&quot;: &quot;authorization_decision&quot; },
+<a id="__codelineno-1-753" name="__codelineno-1-753" href="#__codelineno-1-753"></a>          { &quot;outcome&quot;: &quot;deny&quot; },
+<a id="__codelineno-1-754" name="__codelineno-1-754" href="#__codelineno-1-754"></a>          { &quot;counterfactual.if_allowed.blast_radius.services_affected&quot;:
+<a id="__codelineno-1-755" name="__codelineno-1-755" href="#__codelineno-1-755"></a>            { &quot;gte&quot;: 5 } }
+<a id="__codelineno-1-756" name="__codelineno-1-756" href="#__codelineno-1-756"></a>        ],
+<a id="__codelineno-1-757" name="__codelineno-1-757" href="#__codelineno-1-757"></a>        &quot;start&quot;: &quot;2025-11-25T00:00:00Z&quot;,
+<a id="__codelineno-1-758" name="__codelineno-1-758" href="#__codelineno-1-758"></a>        &quot;sort&quot;: &quot;counterfactual.if_allowed.blast_radius.services_affected&quot;,
+<a id="__codelineno-1-759" name="__codelineno-1-759" href="#__codelineno-1-759"></a>        &quot;order&quot;: &quot;desc&quot;
+<a id="__codelineno-1-760" name="__codelineno-1-760" href="#__codelineno-1-760"></a>      }
+<a id="__codelineno-1-761" name="__codelineno-1-761" href="#__codelineno-1-761"></a>
+<a id="__codelineno-1-762" name="__codelineno-1-762" href="#__codelineno-1-762"></a>7.2.2.  &quot;What was Agent X doing when trust dropped?&quot;
+<a id="__codelineno-1-763" name="__codelineno-1-763" href="#__codelineno-1-763"></a>
+<a id="__codelineno-1-764" name="__codelineno-1-764" href="#__codelineno-1-764"></a>      {
+<a id="__codelineno-1-765" name="__codelineno-1-765" href="#__codelineno-1-765"></a>        &quot;query&quot;: &quot;correlation&quot;,
+<a id="__codelineno-1-766" name="__codelineno-1-766" href="#__codelineno-1-766"></a>        &quot;anchor&quot;: {
+<a id="__codelineno-1-767" name="__codelineno-1-767" href="#__codelineno-1-767"></a>          &quot;record_type&quot;: &quot;trust_score_change&quot;,
+<a id="__codelineno-1-768" name="__codelineno-1-768" href="#__codelineno-1-768"></a>          &quot;agent_id&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-769" name="__codelineno-1-769" href="#__codelineno-1-769"></a>          &quot;change.delta&quot;: { &quot;lte&quot;: -10 }
+<a id="__codelineno-1-770" name="__codelineno-1-770" href="#__codelineno-1-770"></a>        },
+<a id="__codelineno-1-771" name="__codelineno-1-771" href="#__codelineno-1-771"></a>        &quot;correlate&quot;: {
+<a id="__codelineno-1-772" name="__codelineno-1-772" href="#__codelineno-1-772"></a>          &quot;record_type&quot;: &quot;authorization_decision&quot;,
+<a id="__codelineno-1-773" name="__codelineno-1-773" href="#__codelineno-1-773"></a>          &quot;window_before_seconds&quot;: 300,
+<a id="__codelineno-1-774" name="__codelineno-1-774" href="#__codelineno-1-774"></a>          &quot;window_after_seconds&quot;: 60
+<a id="__codelineno-1-775" name="__codelineno-1-775" href="#__codelineno-1-775"></a>        }
+<a id="__codelineno-1-776" name="__codelineno-1-776" href="#__codelineno-1-776"></a>      }
+<a id="__codelineno-1-777" name="__codelineno-1-777" href="#__codelineno-1-777"></a>
+<a id="__codelineno-1-778" name="__codelineno-1-778" href="#__codelineno-1-778"></a>7.2.3.  &quot;Show all Soul vetoes for community X&quot;
+<a id="__codelineno-1-779" name="__codelineno-1-779" href="#__codelineno-1-779"></a>
+<a id="__codelineno-1-780" name="__codelineno-1-780" href="#__codelineno-1-780"></a>      {
+<a id="__codelineno-1-781" name="__codelineno-1-781" href="#__codelineno-1-781"></a>        &quot;query&quot;: &quot;soul_veto&quot;,
+<a id="__codelineno-1-782" name="__codelineno-1-782" href="#__codelineno-1-782"></a>        &quot;filters&quot;: [
+<a id="__codelineno-1-783" name="__codelineno-1-783" href="#__codelineno-1-783"></a>          { &quot;soul_constraint.community&quot;: &quot;Example Indigenous Community&quot; }
+<a id="__codelineno-1-784" name="__codelineno-1-784" href="#__codelineno-1-784"></a>        ],
+<a id="__codelineno-1-785" name="__codelineno-1-785" href="#__codelineno-1-785"></a>        &quot;start&quot;: &quot;2025-01-01T00:00:00Z&quot;
+<a id="__codelineno-1-786" name="__codelineno-1-786" href="#__codelineno-1-786"></a>      }
+<a id="__codelineno-1-787" name="__codelineno-1-787" href="#__codelineno-1-787"></a>
+<a id="__codelineno-1-788" name="__codelineno-1-788" href="#__codelineno-1-788"></a>7.2.4.  &quot;Agents with highest veto rate this week&quot;
+<a id="__codelineno-1-789" name="__codelineno-1-789" href="#__codelineno-1-789"></a>
+<a id="__codelineno-1-790" name="__codelineno-1-790" href="#__codelineno-1-790"></a>      {
+<a id="__codelineno-1-791" name="__codelineno-1-791" href="#__codelineno-1-791"></a>        &quot;query&quot;: &quot;aggregate&quot;,
+<a id="__codelineno-1-792" name="__codelineno-1-792" href="#__codelineno-1-792"></a>        &quot;record_type&quot;: &quot;authorization_decision&quot;,
+<a id="__codelineno-1-793" name="__codelineno-1-793" href="#__codelineno-1-793"></a>        &quot;group_by&quot;: &quot;agent_id&quot;,
+<a id="__codelineno-1-794" name="__codelineno-1-794" href="#__codelineno-1-794"></a>        &quot;metrics&quot;: [
+<a id="__codelineno-1-795" name="__codelineno-1-795" href="#__codelineno-1-795"></a>          { &quot;name&quot;: &quot;total_decisions&quot;, &quot;function&quot;: &quot;count&quot; },
+<a id="__codelineno-1-796" name="__codelineno-1-796" href="#__codelineno-1-796"></a>          { &quot;name&quot;: &quot;vetoes&quot;, &quot;function&quot;: &quot;count&quot;,
+<a id="__codelineno-1-797" name="__codelineno-1-797" href="#__codelineno-1-797"></a>            &quot;filter&quot;: { &quot;outcome&quot;: &quot;deny&quot; } },
+<a id="__codelineno-1-798" name="__codelineno-1-798" href="#__codelineno-1-798"></a>          { &quot;name&quot;: &quot;veto_rate&quot;, &quot;function&quot;: &quot;ratio&quot;,
+<a id="__codelineno-1-799" name="__codelineno-1-799" href="#__codelineno-1-799"></a>            &quot;numerator&quot;: &quot;vetoes&quot;, &quot;denominator&quot;: &quot;total_decisions&quot; }
+<a id="__codelineno-1-800" name="__codelineno-1-800" href="#__codelineno-1-800"></a>        ],
+<a id="__codelineno-1-801" name="__codelineno-1-801" href="#__codelineno-1-801"></a>        &quot;start&quot;: &quot;2025-11-18T00:00:00Z&quot;,
+<a id="__codelineno-1-802" name="__codelineno-1-802" href="#__codelineno-1-802"></a>        &quot;sort&quot;: &quot;veto_rate&quot;,
+<a id="__codelineno-1-803" name="__codelineno-1-803" href="#__codelineno-1-803"></a>        &quot;order&quot;: &quot;desc&quot;,
+<a id="__codelineno-1-804" name="__codelineno-1-804" href="#__codelineno-1-804"></a>        &quot;limit&quot;: 10
+<a id="__codelineno-1-805" name="__codelineno-1-805" href="#__codelineno-1-805"></a>      }
+<a id="__codelineno-1-806" name="__codelineno-1-806" href="#__codelineno-1-806"></a>
+<a id="__codelineno-1-807" name="__codelineno-1-807" href="#__codelineno-1-807"></a>7.3.  Forensic Reconstruction
+<a id="__codelineno-1-808" name="__codelineno-1-808" href="#__codelineno-1-808"></a>
+<a id="__codelineno-1-809" name="__codelineno-1-809" href="#__codelineno-1-809"></a>   The Flight Recorder MUST support forensic reconstruction: the ability
+<a id="__codelineno-1-810" name="__codelineno-1-810" href="#__codelineno-1-810"></a>   to recreate the exact conditions that led to a decision.
+<a id="__codelineno-1-811" name="__codelineno-1-811" href="#__codelineno-1-811"></a>
+<a id="__codelineno-1-812" name="__codelineno-1-812" href="#__codelineno-1-812"></a>   Reconstruction query:
+<a id="__codelineno-1-813" name="__codelineno-1-813" href="#__codelineno-1-813"></a>
+<a id="__codelineno-1-814" name="__codelineno-1-814" href="#__codelineno-1-814"></a>      {
+<a id="__codelineno-1-815" name="__codelineno-1-815" href="#__codelineno-1-815"></a>        &quot;query&quot;: &quot;reconstruct&quot;,
+<a id="__codelineno-1-816" name="__codelineno-1-816" href="#__codelineno-1-816"></a>        &quot;record_id&quot;: &quot;dr-uuid-12345&quot;,
+<a id="__codelineno-1-817" name="__codelineno-1-817" href="#__codelineno-1-817"></a>        &quot;include&quot;: [
+<a id="__codelineno-1-818" name="__codelineno-1-818" href="#__codelineno-1-818"></a>          &quot;full_context_tensor&quot;,
+<a id="__codelineno-1-819" name="__codelineno-1-819" href="#__codelineno-1-819"></a>          &quot;sensor_values&quot;,
+<a id="__codelineno-1-820" name="__codelineno-1-820" href="#__codelineno-1-820"></a>          &quot;agent_trajectory&quot;,
+<a id="__codelineno-1-821" name="__codelineno-1-821" href="#__codelineno-1-821"></a>          &quot;oracle_state&quot;,
+<a id="__codelineno-1-822" name="__codelineno-1-822" href="#__codelineno-1-822"></a>          &quot;pep_configuration&quot;
+<a id="__codelineno-1-823" name="__codelineno-1-823" href="#__codelineno-1-823"></a>        ]
+<a id="__codelineno-1-824" name="__codelineno-1-824" href="#__codelineno-1-824"></a>      }
+<a id="__codelineno-1-825" name="__codelineno-1-825" href="#__codelineno-1-825"></a>
+<a id="__codelineno-1-826" name="__codelineno-1-826" href="#__codelineno-1-826"></a>   Reconstruction output:
+<a id="__codelineno-1-827" name="__codelineno-1-827" href="#__codelineno-1-827"></a>
+<a id="__codelineno-1-828" name="__codelineno-1-828" href="#__codelineno-1-828"></a>      {
+<a id="__codelineno-1-829" name="__codelineno-1-829" href="#__codelineno-1-829"></a>        &quot;reconstruction&quot;: {
+<a id="__codelineno-1-830" name="__codelineno-1-830" href="#__codelineno-1-830"></a>          &quot;record_id&quot;: &quot;dr-uuid-12345&quot;,
+<a id="__codelineno-1-831" name="__codelineno-1-831" href="#__codelineno-1-831"></a>          &quot;timestamp&quot;: &quot;2025-11-25T14:32:07.123Z&quot;,
+<a id="__codelineno-1-832" name="__codelineno-1-832" href="#__codelineno-1-832"></a>          &quot;complete&quot;: true,
+<a id="__codelineno-1-833" name="__codelineno-1-833" href="#__codelineno-1-833"></a>          &quot;context_tensor&quot;: {
+<a id="__codelineno-1-834" name="__codelineno-1-834" href="#__codelineno-1-834"></a>            &quot;m&quot;: { &quot;value&quot;: 0.45, &quot;feeds&quot;: [...] },
+<a id="__codelineno-1-835" name="__codelineno-1-835" href="#__codelineno-1-835"></a>            &quot;p&quot;: { &quot;value&quot;: 0.78, &quot;feeds&quot;: [...] },
+<a id="__codelineno-1-836" name="__codelineno-1-836" href="#__codelineno-1-836"></a>            ...
+<a id="__codelineno-1-837" name="__codelineno-1-837" href="#__codelineno-1-837"></a>          },
+<a id="__codelineno-1-838" name="__codelineno-1-838" href="#__codelineno-1-838"></a>          &quot;agent_trajectory&quot;: {
+<a id="__codelineno-1-839" name="__codelineno-1-839" href="#__codelineno-1-839"></a>            &quot;last_100_actions&quot;: [...],
+<a id="__codelineno-1-840" name="__codelineno-1-840" href="#__codelineno-1-840"></a>            &quot;trust_history_1h&quot;: [...]
+<a id="__codelineno-1-841" name="__codelineno-1-841" href="#__codelineno-1-841"></a>          },
+<a id="__codelineno-1-842" name="__codelineno-1-842" href="#__codelineno-1-842"></a>          &quot;decision_replay&quot;: {
+<a id="__codelineno-1-843" name="__codelineno-1-843" href="#__codelineno-1-843"></a>            &quot;step_1_soul_check&quot;: &quot;pass&quot;,
+<a id="__codelineno-1-844" name="__codelineno-1-844" href="#__codelineno-1-844"></a>            &quot;step_2_tier_check&quot;: &quot;pass&quot;,
+<a id="__codelineno-1-845" name="__codelineno-1-845" href="#__codelineno-1-845"></a>            &quot;step_3_zeroth_law&quot;: &quot;fail&quot;,
+<a id="__codelineno-1-846" name="__codelineno-1-846" href="#__codelineno-1-846"></a>            &quot;deterministic&quot;: true,
+<a id="__codelineno-1-847" name="__codelineno-1-847" href="#__codelineno-1-847"></a>            &quot;same_outcome_on_replay&quot;: true
+<a id="__codelineno-1-848" name="__codelineno-1-848" href="#__codelineno-1-848"></a>          }
+<a id="__codelineno-1-849" name="__codelineno-1-849" href="#__codelineno-1-849"></a>        }
+<a id="__codelineno-1-850" name="__codelineno-1-850" href="#__codelineno-1-850"></a>      }
+<a id="__codelineno-1-851" name="__codelineno-1-851" href="#__codelineno-1-851"></a>
+<a id="__codelineno-1-852" name="__codelineno-1-852" href="#__codelineno-1-852"></a>8.  Accountability Analysis
+<a id="__codelineno-1-853" name="__codelineno-1-853" href="#__codelineno-1-853"></a>
+<a id="__codelineno-1-854" name="__codelineno-1-854" href="#__codelineno-1-854"></a>8.1.  Human Negligence vs. Environmental Force
+<a id="__codelineno-1-855" name="__codelineno-1-855" href="#__codelineno-1-855"></a>
+<a id="__codelineno-1-856" name="__codelineno-1-856" href="#__codelineno-1-856"></a>   A key use of the Flight Recorder is distinguishing between:
+<a id="__codelineno-1-857" name="__codelineno-1-857" href="#__codelineno-1-857"></a>
+<a id="__codelineno-1-858" name="__codelineno-1-858" href="#__codelineno-1-858"></a>   1. Human negligence: A human made a decision that violated policy or
+<a id="__codelineno-1-859" name="__codelineno-1-859" href="#__codelineno-1-859"></a>      caused harm through carelessness.
+<a id="__codelineno-1-860" name="__codelineno-1-860" href="#__codelineno-1-860"></a>
+<a id="__codelineno-1-861" name="__codelineno-1-861" href="#__codelineno-1-861"></a>   2. Environmental force majeure: The system correctly responded to
+<a id="__codelineno-1-862" name="__codelineno-1-862" href="#__codelineno-1-862"></a>      environmental conditions beyond anyone&#39;s control.
+<a id="__codelineno-1-863" name="__codelineno-1-863" href="#__codelineno-1-863"></a>
+<a id="__codelineno-1-864" name="__codelineno-1-864" href="#__codelineno-1-864"></a>   The Decision Geometry provides the evidence:
+<a id="__codelineno-1-865" name="__codelineno-1-865" href="#__codelineno-1-865"></a>
+<a id="__codelineno-1-866" name="__codelineno-1-866" href="#__codelineno-1-866"></a>   Negligence indicators:
+<a id="__codelineno-1-867" name="__codelineno-1-867" href="#__codelineno-1-867"></a>   -  Action was allowed despite high risk
+<a id="__codelineno-1-868" name="__codelineno-1-868" href="#__codelineno-1-868"></a>   -  Trust Score was artificially elevated
+<a id="__codelineno-1-869" name="__codelineno-1-869" href="#__codelineno-1-869"></a>   -  Sensor data was ignored or overridden
+<a id="__codelineno-1-870" name="__codelineno-1-870" href="#__codelineno-1-870"></a>   -  Policy was modified without authorization
+<a id="__codelineno-1-871" name="__codelineno-1-871" href="#__codelineno-1-871"></a>
+<a id="__codelineno-1-872" name="__codelineno-1-872" href="#__codelineno-1-872"></a>   Force majeure indicators:
+<a id="__codelineno-1-873" name="__codelineno-1-873" href="#__codelineno-1-873"></a>   -  Action was correctly vetoed by physics
+<a id="__codelineno-1-874" name="__codelineno-1-874" href="#__codelineno-1-874"></a>   -  Environmental conditions changed rapidly
+<a id="__codelineno-1-875" name="__codelineno-1-875" href="#__codelineno-1-875"></a>   -  All sensors functioning correctly
+<a id="__codelineno-1-876" name="__codelineno-1-876" href="#__codelineno-1-876"></a>   -  System behaved according to specification
+<a id="__codelineno-1-877" name="__codelineno-1-877" href="#__codelineno-1-877"></a>
+<a id="__codelineno-1-878" name="__codelineno-1-878" href="#__codelineno-1-878"></a>8.2.  Attribution Framework
+<a id="__codelineno-1-879" name="__codelineno-1-879" href="#__codelineno-1-879"></a>
+<a id="__codelineno-1-880" name="__codelineno-1-880" href="#__codelineno-1-880"></a>   The Flight Recorder enables precise attribution:
+<a id="__codelineno-1-881" name="__codelineno-1-881" href="#__codelineno-1-881"></a>
+<a id="__codelineno-1-882" name="__codelineno-1-882" href="#__codelineno-1-882"></a>   +------------------+--------------------------------------------+
+<a id="__codelineno-1-883" name="__codelineno-1-883" href="#__codelineno-1-883"></a>   | Question         | Flight Recorder Evidence                   |
+<a id="__codelineno-1-884" name="__codelineno-1-884" href="#__codelineno-1-884"></a>   +------------------+--------------------------------------------+
+<a id="__codelineno-1-885" name="__codelineno-1-885" href="#__codelineno-1-885"></a>   | Who requested?   | agent_id, session, source_ip               |
+<a id="__codelineno-1-886" name="__codelineno-1-886" href="#__codelineno-1-886"></a>   | What was asked?  | action.method, action.resource             |
+<a id="__codelineno-1-887" name="__codelineno-1-887" href="#__codelineno-1-887"></a>   | When?            | timestamp                                  |
+<a id="__codelineno-1-888" name="__codelineno-1-888" href="#__codelineno-1-888"></a>   | What was state?  | environment.context_tensor, e_trust        |
+<a id="__codelineno-1-889" name="__codelineno-1-889" href="#__codelineno-1-889"></a>   | What decided?    | decision.outcome, decision.reason          |
+<a id="__codelineno-1-890" name="__codelineno-1-890" href="#__codelineno-1-890"></a>   | Why?             | decision.evaluation, counterfactual        |
+<a id="__codelineno-1-891" name="__codelineno-1-891" href="#__codelineno-1-891"></a>   | What was impact? | counterfactual.if_allowed.blast_radius     |
+<a id="__codelineno-1-892" name="__codelineno-1-892" href="#__codelineno-1-892"></a>   +------------------+--------------------------------------------+
+<a id="__codelineno-1-893" name="__codelineno-1-893" href="#__codelineno-1-893"></a>
+<a id="__codelineno-1-894" name="__codelineno-1-894" href="#__codelineno-1-894"></a>8.3.  Liability Boundaries
+<a id="__codelineno-1-895" name="__codelineno-1-895" href="#__codelineno-1-895"></a>
+<a id="__codelineno-1-896" name="__codelineno-1-896" href="#__codelineno-1-896"></a>   The Flight Recorder creates clear liability boundaries:
+<a id="__codelineno-1-897" name="__codelineno-1-897" href="#__codelineno-1-897"></a>
+<a id="__codelineno-1-898" name="__codelineno-1-898" href="#__codelineno-1-898"></a>   If action was vetoed:
+<a id="__codelineno-1-899" name="__codelineno-1-899" href="#__codelineno-1-899"></a>   -  System functioned correctly
+<a id="__codelineno-1-900" name="__codelineno-1-900" href="#__codelineno-1-900"></a>   -  Damage was prevented
+<a id="__codelineno-1-901" name="__codelineno-1-901" href="#__codelineno-1-901"></a>   -  Liability lies with environmental conditions
+<a id="__codelineno-1-902" name="__codelineno-1-902" href="#__codelineno-1-902"></a>   -  No human negligence (unless sensors were manipulated)
+<a id="__codelineno-1-903" name="__codelineno-1-903" href="#__codelineno-1-903"></a>
+<a id="__codelineno-1-904" name="__codelineno-1-904" href="#__codelineno-1-904"></a>   If action was allowed and caused harm:
+<a id="__codelineno-1-905" name="__codelineno-1-905" href="#__codelineno-1-905"></a>   -  Was A correctly classified? (If not: policy author liable)
+<a id="__codelineno-1-906" name="__codelineno-1-906" href="#__codelineno-1-906"></a>   -  Was E_trust correctly calculated? (If not: Oracle operator liable)
+<a id="__codelineno-1-907" name="__codelineno-1-907" href="#__codelineno-1-907"></a>   -  Were sensors functioning? (If not: operations liable)
+<a id="__codelineno-1-908" name="__codelineno-1-908" href="#__codelineno-1-908"></a>   -  Was PEP functioning? (If not: infrastructure liable)
+<a id="__codelineno-1-909" name="__codelineno-1-909" href="#__codelineno-1-909"></a>   -  Were all systems correct? (If yes: environmental conditions
+<a id="__codelineno-1-910" name="__codelineno-1-910" href="#__codelineno-1-910"></a>      changed faster than system could respond - force majeure)
+<a id="__codelineno-1-911" name="__codelineno-1-911" href="#__codelineno-1-911"></a>
+<a id="__codelineno-1-912" name="__codelineno-1-912" href="#__codelineno-1-912"></a>9.  External Integration
+<a id="__codelineno-1-913" name="__codelineno-1-913" href="#__codelineno-1-913"></a>
+<a id="__codelineno-1-914" name="__codelineno-1-914" href="#__codelineno-1-914"></a>9.1.  SIEM Integration
+<a id="__codelineno-1-915" name="__codelineno-1-915" href="#__codelineno-1-915"></a>
+<a id="__codelineno-1-916" name="__codelineno-1-916" href="#__codelineno-1-916"></a>   Flight Recorder records SHOULD be exportable to SIEM systems:
+<a id="__codelineno-1-917" name="__codelineno-1-917" href="#__codelineno-1-917"></a>
+<a id="__codelineno-1-918" name="__codelineno-1-918" href="#__codelineno-1-918"></a>   Export format (CEF):
+<a id="__codelineno-1-919" name="__codelineno-1-919" href="#__codelineno-1-919"></a>
+<a id="__codelineno-1-920" name="__codelineno-1-920" href="#__codelineno-1-920"></a>      CEF:0|NMCITRA|KTP|1.0|DENY|Trust Insufficient|7|
+<a id="__codelineno-1-921" name="__codelineno-1-921" href="#__codelineno-1-921"></a>      src=10.0.1.45 suser=agent:7gen:optimized:a1b2c3d4
+<a id="__codelineno-1-922" name="__codelineno-1-922" href="#__codelineno-1-922"></a>      act=DELETE request=/api/users/12345 reason=TRUST_INSUFFICIENT
+<a id="__codelineno-1-923" name="__codelineno-1-923" href="#__codelineno-1-923"></a>      cs1=85 cs1Label=ActionRisk cs2=42 cs2Label=ETrust
+<a id="__codelineno-1-924" name="__codelineno-1-924" href="#__codelineno-1-924"></a>      cs3=0.52 cs3Label=RiskFactor
+<a id="__codelineno-1-925" name="__codelineno-1-925" href="#__codelineno-1-925"></a>
+<a id="__codelineno-1-926" name="__codelineno-1-926" href="#__codelineno-1-926"></a>   Export format (JSON):
+<a id="__codelineno-1-927" name="__codelineno-1-927" href="#__codelineno-1-927"></a>
+<a id="__codelineno-1-928" name="__codelineno-1-928" href="#__codelineno-1-928"></a>      {
+<a id="__codelineno-1-929" name="__codelineno-1-929" href="#__codelineno-1-929"></a>        &quot;event_type&quot;: &quot;ktp_authorization&quot;,
+<a id="__codelineno-1-930" name="__codelineno-1-930" href="#__codelineno-1-930"></a>        &quot;timestamp&quot;: &quot;2025-11-25T14:32:07.123Z&quot;,
+<a id="__codelineno-1-931" name="__codelineno-1-931" href="#__codelineno-1-931"></a>        &quot;agent&quot;: &quot;agent:7gen:optimized:a1b2c3d4&quot;,
+<a id="__codelineno-1-932" name="__codelineno-1-932" href="#__codelineno-1-932"></a>        &quot;action&quot;: &quot;DELETE /api/users/12345&quot;,
+<a id="__codelineno-1-933" name="__codelineno-1-933" href="#__codelineno-1-933"></a>        &quot;outcome&quot;: &quot;deny&quot;,
+<a id="__codelineno-1-934" name="__codelineno-1-934" href="#__codelineno-1-934"></a>        &quot;reason&quot;: &quot;TRUST_INSUFFICIENT&quot;,
+<a id="__codelineno-1-935" name="__codelineno-1-935" href="#__codelineno-1-935"></a>        &quot;action_risk&quot;: 85,
+<a id="__codelineno-1-936" name="__codelineno-1-936" href="#__codelineno-1-936"></a>        &quot;e_trust&quot;: 42,
+<a id="__codelineno-1-937" name="__codelineno-1-937" href="#__codelineno-1-937"></a>        &quot;r&quot;: 0.52
+<a id="__codelineno-1-938" name="__codelineno-1-938" href="#__codelineno-1-938"></a>      }
+<a id="__codelineno-1-939" name="__codelineno-1-939" href="#__codelineno-1-939"></a>
+<a id="__codelineno-1-940" name="__codelineno-1-940" href="#__codelineno-1-940"></a>9.2.  Compliance Export
+<a id="__codelineno-1-941" name="__codelineno-1-941" href="#__codelineno-1-941"></a>
+<a id="__codelineno-1-942" name="__codelineno-1-942" href="#__codelineno-1-942"></a>   Flight Recorder MUST support compliance-ready exports:
+<a id="__codelineno-1-943" name="__codelineno-1-943" href="#__codelineno-1-943"></a>
+<a id="__codelineno-1-944" name="__codelineno-1-944" href="#__codelineno-1-944"></a>   SOC 2 format:
+<a id="__codelineno-1-945" name="__codelineno-1-945" href="#__codelineno-1-945"></a>   -  Control evidence mapping
+<a id="__codelineno-1-946" name="__codelineno-1-946" href="#__codelineno-1-946"></a>   -  Exception reports
+<a id="__codelineno-1-947" name="__codelineno-1-947" href="#__codelineno-1-947"></a>   -  Access logs
+<a id="__codelineno-1-948" name="__codelineno-1-948" href="#__codelineno-1-948"></a>
+<a id="__codelineno-1-949" name="__codelineno-1-949" href="#__codelineno-1-949"></a>   GDPR format:
+<a id="__codelineno-1-950" name="__codelineno-1-950" href="#__codelineno-1-950"></a>   -  Data subject access requests
+<a id="__codelineno-1-951" name="__codelineno-1-951" href="#__codelineno-1-951"></a>   -  Processing activity records
+<a id="__codelineno-1-952" name="__codelineno-1-952" href="#__codelineno-1-952"></a>   -  Consent verification
+<a id="__codelineno-1-953" name="__codelineno-1-953" href="#__codelineno-1-953"></a>
+<a id="__codelineno-1-954" name="__codelineno-1-954" href="#__codelineno-1-954"></a>   HIPAA format:
+<a id="__codelineno-1-955" name="__codelineno-1-955" href="#__codelineno-1-955"></a>   -  Access audit trails
+<a id="__codelineno-1-956" name="__codelineno-1-956" href="#__codelineno-1-956"></a>   -  Disclosure tracking
+<a id="__codelineno-1-957" name="__codelineno-1-957" href="#__codelineno-1-957"></a>   -  Security incident documentation
+<a id="__codelineno-1-958" name="__codelineno-1-958" href="#__codelineno-1-958"></a>
+<a id="__codelineno-1-959" name="__codelineno-1-959" href="#__codelineno-1-959"></a>9.3.  Machine Learning Pipeline
+<a id="__codelineno-1-960" name="__codelineno-1-960" href="#__codelineno-1-960"></a>
+<a id="__codelineno-1-961" name="__codelineno-1-961" href="#__codelineno-1-961"></a>   Flight Recorder data can feed ML models for:
+<a id="__codelineno-1-962" name="__codelineno-1-962" href="#__codelineno-1-962"></a>
+<a id="__codelineno-1-963" name="__codelineno-1-963" href="#__codelineno-1-963"></a>   1. Anomaly detection: Learn normal patterns, alert on deviation
+<a id="__codelineno-1-964" name="__codelineno-1-964" href="#__codelineno-1-964"></a>
+<a id="__codelineno-1-965" name="__codelineno-1-965" href="#__codelineno-1-965"></a>   2. Trust prediction: Predict E_trust trajectory from current
+<a id="__codelineno-1-966" name="__codelineno-1-966" href="#__codelineno-1-966"></a>      conditions
+<a id="__codelineno-1-967" name="__codelineno-1-967" href="#__codelineno-1-967"></a>
+<a id="__codelineno-1-968" name="__codelineno-1-968" href="#__codelineno-1-968"></a>   3. Risk calibration: Learn optimal A values from historical outcomes
+<a id="__codelineno-1-969" name="__codelineno-1-969" href="#__codelineno-1-969"></a>
+<a id="__codelineno-1-970" name="__codelineno-1-970" href="#__codelineno-1-970"></a>   4. Sensor validation: Detect sensor drift or manipulation
+<a id="__codelineno-1-971" name="__codelineno-1-971" href="#__codelineno-1-971"></a>
+<a id="__codelineno-1-972" name="__codelineno-1-972" href="#__codelineno-1-972"></a>   ML export format:
+<a id="__codelineno-1-973" name="__codelineno-1-973" href="#__codelineno-1-973"></a>
+<a id="__codelineno-1-974" name="__codelineno-1-974" href="#__codelineno-1-974"></a>      {
+<a id="__codelineno-1-975" name="__codelineno-1-975" href="#__codelineno-1-975"></a>        &quot;features&quot;: {
+<a id="__codelineno-1-976" name="__codelineno-1-976" href="#__codelineno-1-976"></a>          &quot;agent_generation&quot;: 7,
+<a id="__codelineno-1-977" name="__codelineno-1-977" href="#__codelineno-1-977"></a>          &quot;e_base&quot;: 87,
+<a id="__codelineno-1-978" name="__codelineno-1-978" href="#__codelineno-1-978"></a>          &quot;r&quot;: 0.52,
+<a id="__codelineno-1-979" name="__codelineno-1-979" href="#__codelineno-1-979"></a>          &quot;m&quot;: 0.45, &quot;p&quot;: 0.78, &quot;h&quot;: 0.82,
+<a id="__codelineno-1-980" name="__codelineno-1-980" href="#__codelineno-1-980"></a>          &quot;t&quot;: 0.30, &quot;i&quot;: 0.25, &quot;o&quot;: 0.15,
+<a id="__codelineno-1-981" name="__codelineno-1-981" href="#__codelineno-1-981"></a>          &quot;action_risk&quot;: 85,
+<a id="__codelineno-1-982" name="__codelineno-1-982" href="#__codelineno-1-982"></a>          &quot;hour_of_day&quot;: 14,
+<a id="__codelineno-1-983" name="__codelineno-1-983" href="#__codelineno-1-983"></a>          &quot;day_of_week&quot;: 1
+<a id="__codelineno-1-984" name="__codelineno-1-984" href="#__codelineno-1-984"></a>        },
+<a id="__codelineno-1-985" name="__codelineno-1-985" href="#__codelineno-1-985"></a>        &quot;label&quot;: {
+<a id="__codelineno-1-986" name="__codelineno-1-986" href="#__codelineno-1-986"></a>          &quot;outcome&quot;: &quot;deny&quot;,
+<a id="__codelineno-1-987" name="__codelineno-1-987" href="#__codelineno-1-987"></a>          &quot;correct&quot;: true
+<a id="__codelineno-1-988" name="__codelineno-1-988" href="#__codelineno-1-988"></a>        }
+<a id="__codelineno-1-989" name="__codelineno-1-989" href="#__codelineno-1-989"></a>      }
+<a id="__codelineno-1-990" name="__codelineno-1-990" href="#__codelineno-1-990"></a>
+<a id="__codelineno-1-991" name="__codelineno-1-991" href="#__codelineno-1-991"></a>10.  Security Considerations
+<a id="__codelineno-1-992" name="__codelineno-1-992" href="#__codelineno-1-992"></a>
+<a id="__codelineno-1-993" name="__codelineno-1-993" href="#__codelineno-1-993"></a>10.1.  Record Confidentiality
+<a id="__codelineno-1-994" name="__codelineno-1-994" href="#__codelineno-1-994"></a>
+<a id="__codelineno-1-995" name="__codelineno-1-995" href="#__codelineno-1-995"></a>   Flight Recorder records contain sensitive information.
+<a id="__codelineno-1-996" name="__codelineno-1-996" href="#__codelineno-1-996"></a>
+<a id="__codelineno-1-997" name="__codelineno-1-997" href="#__codelineno-1-997"></a>   Mitigations:
+<a id="__codelineno-1-998" name="__codelineno-1-998" href="#__codelineno-1-998"></a>   -  Encrypt records at rest
+<a id="__codelineno-1-999" name="__codelineno-1-999" href="#__codelineno-1-999"></a>   -  Encrypt records in transit
+<a id="__codelineno-1-1000" name="__codelineno-1-1000" href="#__codelineno-1-1000"></a>   -  Implement role-based access to queries
+<a id="__codelineno-1-1001" name="__codelineno-1-1001" href="#__codelineno-1-1001"></a>   -  Audit all query access
+<a id="__codelineno-1-1002" name="__codelineno-1-1002" href="#__codelineno-1-1002"></a>   -  Redact sensitive fields for lower-privilege queries
+<a id="__codelineno-1-1003" name="__codelineno-1-1003" href="#__codelineno-1-1003"></a>
+<a id="__codelineno-1-1004" name="__codelineno-1-1004" href="#__codelineno-1-1004"></a>10.2.  Record Integrity
+<a id="__codelineno-1-1005" name="__codelineno-1-1005" href="#__codelineno-1-1005"></a>
+<a id="__codelineno-1-1006" name="__codelineno-1-1006" href="#__codelineno-1-1006"></a>   Attackers may attempt to modify records to hide activity.
+<a id="__codelineno-1-1007" name="__codelineno-1-1007" href="#__codelineno-1-1007"></a>
+<a id="__codelineno-1-1008" name="__codelineno-1-1008" href="#__codelineno-1-1008"></a>   Mitigations:
+<a id="__codelineno-1-1009" name="__codelineno-1-1009" href="#__codelineno-1-1009"></a>   -  Cryptographic chaining (Section 5.2)
+<a id="__codelineno-1-1010" name="__codelineno-1-1010" href="#__codelineno-1-1010"></a>   -  External chain anchors
+<a id="__codelineno-1-1011" name="__codelineno-1-1011" href="#__codelineno-1-1011"></a>   -  Multi-party signing of records
+<a id="__codelineno-1-1012" name="__codelineno-1-1012" href="#__codelineno-1-1012"></a>   -  Tamper detection alerts (Section 5.3)
+<a id="__codelineno-1-1013" name="__codelineno-1-1013" href="#__codelineno-1-1013"></a>
+<a id="__codelineno-1-1014" name="__codelineno-1-1014" href="#__codelineno-1-1014"></a>10.3.  Availability
+<a id="__codelineno-1-1015" name="__codelineno-1-1015" href="#__codelineno-1-1015"></a>
+<a id="__codelineno-1-1016" name="__codelineno-1-1016" href="#__codelineno-1-1016"></a>   The Flight Recorder is critical infrastructure.
+<a id="__codelineno-1-1017" name="__codelineno-1-1017" href="#__codelineno-1-1017"></a>
+<a id="__codelineno-1-1018" name="__codelineno-1-1018" href="#__codelineno-1-1018"></a>   Mitigations:
+<a id="__codelineno-1-1019" name="__codelineno-1-1019" href="#__codelineno-1-1019"></a>   -  Multi-region replication
+<a id="__codelineno-1-1020" name="__codelineno-1-1020" href="#__codelineno-1-1020"></a>   -  Async write path (don&#39;t block authorization on logging)
+<a id="__codelineno-1-1021" name="__codelineno-1-1021" href="#__codelineno-1-1021"></a>   -  Queue-based architecture for resilience
+<a id="__codelineno-1-1022" name="__codelineno-1-1022" href="#__codelineno-1-1022"></a>   -  Regular backup and recovery testing
+<a id="__codelineno-1-1023" name="__codelineno-1-1023" href="#__codelineno-1-1023"></a>
+<a id="__codelineno-1-1024" name="__codelineno-1-1024" href="#__codelineno-1-1024"></a>11.  References
+<a id="__codelineno-1-1025" name="__codelineno-1-1025" href="#__codelineno-1-1025"></a>
+<a id="__codelineno-1-1026" name="__codelineno-1-1026" href="#__codelineno-1-1026"></a>11.1.  Normative References
+<a id="__codelineno-1-1027" name="__codelineno-1-1027" href="#__codelineno-1-1027"></a>
+<a id="__codelineno-1-1028" name="__codelineno-1-1028" href="#__codelineno-1-1028"></a>   [KTP-CORE]
+<a id="__codelineno-1-1029" name="__codelineno-1-1029" href="#__codelineno-1-1029"></a>              Perkins, C., &quot;Kinetic Trust Protocol - Core
+<a id="__codelineno-1-1030" name="__codelineno-1-1030" href="#__codelineno-1-1030"></a>              Specification&quot;, NMCITRA, November 2025.
+<a id="__codelineno-1-1031" name="__codelineno-1-1031" href="#__codelineno-1-1031"></a>
+<a id="__codelineno-1-1032" name="__codelineno-1-1032" href="#__codelineno-1-1032"></a>   [KTP-ENFORCE]
+<a id="__codelineno-1-1033" name="__codelineno-1-1033" href="#__codelineno-1-1033"></a>              Perkins, C., &quot;Kinetic Trust Protocol - Enforcement Layer
+<a id="__codelineno-1-1034" name="__codelineno-1-1034" href="#__codelineno-1-1034"></a>              Specification&quot;, NMCITRA, November 2025.
+<a id="__codelineno-1-1035" name="__codelineno-1-1035" href="#__codelineno-1-1035"></a>
+<a id="__codelineno-1-1036" name="__codelineno-1-1036" href="#__codelineno-1-1036"></a>   [RFC2119]  Bradner, S., &quot;Key words for use in RFCs to Indicate
+<a id="__codelineno-1-1037" name="__codelineno-1-1037" href="#__codelineno-1-1037"></a>              Requirement Levels&quot;, BCP 14, RFC 2119, March 1997.
+<a id="__codelineno-1-1038" name="__codelineno-1-1038" href="#__codelineno-1-1038"></a>
+<a id="__codelineno-1-1039" name="__codelineno-1-1039" href="#__codelineno-1-1039"></a>Authors&#39; Addresses
+<a id="__codelineno-1-1040" name="__codelineno-1-1040" href="#__codelineno-1-1040"></a>
+<a id="__codelineno-1-1041" name="__codelineno-1-1041" href="#__codelineno-1-1041"></a>   Chris Perkins
+<a id="__codelineno-1-1042" name="__codelineno-1-1042" href="#__codelineno-1-1042"></a>   New Mexico Cyber Intelligence &amp; Threat Response Alliance (NMCITRA)
+<a id="__codelineno-1-1043" name="__codelineno-1-1043" href="#__codelineno-1-1043"></a>
+<a id="__codelineno-1-1044" name="__codelineno-1-1044" href="#__codelineno-1-1044"></a>   Email: cperkins@nmcitra.org
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/break-the-chain/">Break the Chain</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3993 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Digital Physics, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-legacy/">
+      
+      
+        <link rel="prev" href="../ktp-migration/">
+      
+      
+        <link rel="next" href="../ktp-conformance/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>KTP-Legacy - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ktp-legacy-legacy-integration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Legacy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/context-tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bridge-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Bridge Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Bridge Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../schemas/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/break-the-chain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break the Chain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-bridge-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Bridge Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Bridge Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-legacy.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ktp-legacy-legacy-integration">KTP-Legacy — Legacy Integration<a class="headerlink" href="#ktp-legacy-legacy-integration" title="Permanent link">&para;</a></h1>
+<p><em>Bridging the gap between static credentials and kinetic trust</em></p>
+<hr />
+<blockquote>
+<p><strong>The Bridge Principle</strong>: Trust must flow across boundaries, but it must be measured by the receiver's physics, not the sender's promise.</p>
+</blockquote>
+<p>Legacy integration is not just about compatibility; it is about translation. We translate static promises (tokens, keys) into kinetic realities (trust scores, tensors), applying necessary discounts for the loss of fidelity.</p>
+<hr />
+<h2 id="at-a-glance">At a Glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 22a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3zm-1-3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57l-2.29-3.96L14 17l-5.07-5.07-3.75 6.5c-.11.16-.18.36-.18.57m8-9a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1"/></svg></span> Experimental</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td><a href="../ktp-core/">KTP-Core</a>, <a href="../ktp-identity/">KTP-Identity</a></td>
+</tr>
+<tr>
+<td><strong>Key Concept</strong></td>
+<td>Trust Mapping &amp; Discounting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-bridge-architecture">The Bridge Architecture<a class="headerlink" href="#the-bridge-architecture" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Translating Trust</p>
+<p>KTP does not reject legacy systems; it contextualizes them. A legacy credential is just another signal input, albeit one with lower fidelity than a native KTP proof.</p>
+</div>
+<pre class="mermaid"><code>graph LR
+    subgraph Legacy World
+        OAuth[OAuth 2.0]
+        SAML[SAML 2.0]
+        API[API Keys]
+    end
+
+    subgraph KTP Bridge
+        Mapper[Trust Mapper]
+        Discount[Trust Discounter]
+        Translator[Credential Translator]
+    end
+
+    subgraph KTP World
+        Zone[KTP Zone]
+        Agent[KTP Agent]
+    end
+
+    OAuth --&gt; Mapper
+    SAML --&gt; Mapper
+    API --&gt; Mapper
+    Mapper --&gt; Discount
+    Discount --&gt; Translator
+    Translator --&gt; Zone
+    Zone --&gt; Agent
+
+    style Mapper fill:#f9f,stroke:#333,stroke-width:2px
+    style Discount fill:#f96,stroke:#333,stroke-width:2px</code></pre>
+<h3 id="key-components">Key Components<a class="headerlink" href="#key-components" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Trust Mapper</strong>: Identifies the type of legacy credential and extracts relevant claims.</li>
+<li><strong>Trust Discounter</strong>: Applies a "fidelity penalty" to the trust score because legacy credentials lack real-time context.</li>
+<li><strong>Credential Translator</strong>: Minting a short-lived KTP Trust Proof based on the discounted legacy signal.</li>
+</ol>
+<hr />
+<h2 id="related-specifications">Related Specifications<a class="headerlink" href="#related-specifications" title="Permanent link">&para;</a></h2>
+<details class="info">
+<summary>Related Specifications</summary>
+<ul>
+<li><a href="../ktp-core/">KTP-Core</a>: Baseline trust physics and <span class="arithmatex">\(A \leq E\)</span>.</li>
+<li><a href="../ktp-identity/">KTP-Identity</a>: Vector identity and lineage mapping.</li>
+<li><a href="../ktp-crypto/">KTP-Crypto</a>: Proof signing and legacy credential validation.</li>
+<li><a href="../ktp-transport/">KTP-Transport</a>: Delivery of translated trust proofs.</li>
+</ul>
+</details>
+<hr />
+<h2 id="official-rfc-document">Official RFC Document<a class="headerlink" href="#official-rfc-document" title="Permanent link">&para;</a></h2>
+<details class="note">
+<summary>View Complete RFC Text (ktp-legacy.txt)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Kinetic Trust Protocol                                      C. Perkins
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Specification Draft                                           NMCITRA
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Version: 0.1                                             November 2025
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   Kinetic Trust Protocol (KTP) - Legacy Integration Specification
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Abstract
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   This document specifies integration between the Kinetic Trust
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>   Protocol (KTP) and legacy authentication/authorization systems
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   including OAuth 2.0, OpenID Connect, SAML 2.0, mTLS, and API keys.
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>   The specification covers bidirectional bridging, trust mapping,
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>   credential translation, migration paths from legacy to KTP-native
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>   operation, and hybrid deployment patterns.
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>Status of This Memo
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>   This document specifies a Kinetic Trust Protocol specification for
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>   the KTP community, and requests discussion and suggestions for
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>   improvements.  Distribution of this memo is unlimited.
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>   This is an Internet-Draft-style specification.  It is intended to
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>   become a stable specification, but may be updated, replaced, or
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>   obsoleted by other documents at any time.
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>Copyright Notice
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>   Copyright (c) 2025 NMCITRA and the persons identified as the
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>   document authors.  All rights reserved.
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>   This document is subject to the licensing terms defined in the
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>   KTP repository LICENSE file.
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>Table of Contents
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>   2.  Design Principles  . . . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>   3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   3
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>   4.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   3
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>   5.  Trust Mapping Framework  . . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>       5.1.  The Mapping Problem  . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>       5.2.  Mapping Principles . . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>       5.3.  Trust Equivalence Table  . . . . . . . . . . . . . . .   5
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>       5.4.  E_base Modifiers . . . . . . . . . . . . . . . . . . .   5
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>       5.5.  Uncertainty Markers  . . . . . . . . . . . . . . . . .   6
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>   6.  OAuth 2.0 Integration  . . . . . . . . . . . . . . . . . . .   6
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>       6.1.  OAuth to KTP Bridge  . . . . . . . . . . . . . . . . .   6
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>       6.2.  Token Validation . . . . . . . . . . . . . . . . . . .   7
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>       6.3.  Scope to Tier Mapping  . . . . . . . . . . . . . . . .   7
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>       6.4.  KTP to OAuth Bridge  . . . . . . . . . . . . . . . . .   8
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>       6.5.  E_base to Scope Mapping  . . . . . . . . . . . . . . .   8
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>   7.  OpenID Connect Integration . . . . . . . . . . . . . . . . .   9
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>       7.1.  OIDC Claims to KTP Identity  . . . . . . . . . . . . .   9
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>       7.2.  ACR/AMR to E_base Modifiers  . . . . . . . . . . . . .   9
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>       7.3.  Sponsor Identity from OIDC . . . . . . . . . . . . . .  10
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>   8.  SAML 2.0 Integration . . . . . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>       8.1.  SAML to KTP Bridge . . . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>       8.2.  Assertion Processing . . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>       8.3.  Attribute Mapping  . . . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>       8.4.  Entitlement to Capability Mapping  . . . . . . . . . .  12
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>   9.  mTLS Integration . . . . . . . . . . . . . . . . . . . . . .  12
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>       9.1.  Certificate to Trust Mapping . . . . . . . . . . . . .  12
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>       9.2.  Certificate Chain Validation . . . . . . . . . . . . .  13
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>       9.3.  Hardware Key Attestation . . . . . . . . . . . . . . .  13
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>   10. API Key Integration  . . . . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>       10.1. API Key Limitations  . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>       10.2. API Key to Trust Mapping . . . . . . . . . . . . . . .  14
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>       10.3. API Key to Agent Binding . . . . . . . . . . . . . . .  15
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>   11. Hybrid Agents  . . . . . . . . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>       11.1. Definition . . . . . . . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>       11.2. Hybrid Agent Architecture  . . . . . . . . . . . . . .  16
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>       11.3. Context Detection  . . . . . . . . . . . . . . . . . .  17
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>       11.4. Trajectory Accumulation  . . . . . . . . . . . . . . .  17
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>   12. Migration Paths  . . . . . . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>       12.1. Migration Stages . . . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>       12.2. Migration Timeline . . . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>       12.3. Migration Checklist  . . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>       12.4. Trust Carryover  . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>   13. Bridge Deployment Patterns . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>       13.1. Sidecar Pattern  . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>       13.2. Gateway Pattern  . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>       13.3. Service Mesh Pattern . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>   14. Security Considerations  . . . . . . . . . . . . . . . . . .  22
+<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>       14.1. Bridge Security  . . . . . . . . . . . . . . . . . . .  22
+<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>       14.2. Trust Mapping Attacks  . . . . . . . . . . . . . . . .  22
+<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>       14.3. Migration Security . . . . . . . . . . . . . . . . . .  23
+<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>   15. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  23
+<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>   16. Acknowledgments  . . . . . . . . . . . . . . . . . . . . . .  23
+<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>   Appendix A.  Protocol-Specific Bridge Configurations . . . . . .  23
+<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>   Appendix B.  Trust Mapping Calibration . . . . . . . . . . . . .  23
+<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>   Appendix C.  Migration Runbooks  . . . . . . . . . . . . . . . .  24
+<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>
+<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>1.  Introduction
+<a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>
+<a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a>   KTP does not exist in isolation.  The world runs on OAuth, SAML,
+<a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>   mTLS, API keys, and countless other authentication and authorization
+<a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a>   systems.  For KTP to be adopted, it must integrate with—not replace—
+<a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>   existing infrastructure.
+<a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a>
+<a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a>   This specification addresses:
+<a id="__codelineno-0-102" name="__codelineno-0-102" href="#__codelineno-0-102"></a>
+<a id="__codelineno-0-103" name="__codelineno-0-103" href="#__codelineno-0-103"></a>   -  How legacy credentials map to KTP trust
+<a id="__codelineno-0-104" name="__codelineno-0-104" href="#__codelineno-0-104"></a>   -  How KTP agents interact with legacy systems
+<a id="__codelineno-0-105" name="__codelineno-0-105" href="#__codelineno-0-105"></a>   -  How legacy clients interact with KTP zones
+<a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a>   -  Migration paths from legacy to KTP-native
+<a id="__codelineno-0-107" name="__codelineno-0-107" href="#__codelineno-0-107"></a>   -  Hybrid deployments during transition
+<a id="__codelineno-0-108" name="__codelineno-0-108" href="#__codelineno-0-108"></a>
+<a id="__codelineno-0-109" name="__codelineno-0-109" href="#__codelineno-0-109"></a>2.  Design Principles
+<a id="__codelineno-0-110" name="__codelineno-0-110" href="#__codelineno-0-110"></a>
+<a id="__codelineno-0-111" name="__codelineno-0-111" href="#__codelineno-0-111"></a>   Legacy integration embodies these principles:
+<a id="__codelineno-0-112" name="__codelineno-0-112" href="#__codelineno-0-112"></a>
+<a id="__codelineno-0-113" name="__codelineno-0-113" href="#__codelineno-0-113"></a>   1.  Coexistence: KTP and legacy systems operate simultaneously.
+<a id="__codelineno-0-114" name="__codelineno-0-114" href="#__codelineno-0-114"></a>       Neither requires abandoning the other.
+<a id="__codelineno-0-115" name="__codelineno-0-115" href="#__codelineno-0-115"></a>
+<a id="__codelineno-0-116" name="__codelineno-0-116" href="#__codelineno-0-116"></a>   2.  Graceful Mapping: Trust concepts translate between systems with
+<a id="__codelineno-0-117" name="__codelineno-0-117" href="#__codelineno-0-117"></a>       appropriate discounting and constraints.
+<a id="__codelineno-0-118" name="__codelineno-0-118" href="#__codelineno-0-118"></a>
+<a id="__codelineno-0-119" name="__codelineno-0-119" href="#__codelineno-0-119"></a>   3.  No False Precision: Legacy systems provide less information than
+<a id="__codelineno-0-120" name="__codelineno-0-120" href="#__codelineno-0-120"></a>       KTP.  Mappings acknowledge this uncertainty.
+<a id="__codelineno-0-121" name="__codelineno-0-121" href="#__codelineno-0-121"></a>
+<a id="__codelineno-0-122" name="__codelineno-0-122" href="#__codelineno-0-122"></a>   4.  Migration Support: Organizations can migrate incrementally from
+<a id="__codelineno-0-123" name="__codelineno-0-123" href="#__codelineno-0-123"></a>       legacy to KTP-native over time.
+<a id="__codelineno-0-124" name="__codelineno-0-124" href="#__codelineno-0-124"></a>
+<a id="__codelineno-0-125" name="__codelineno-0-125" href="#__codelineno-0-125"></a>   5.  Security Preservation: Integration does not weaken either
+<a id="__codelineno-0-126" name="__codelineno-0-126" href="#__codelineno-0-126"></a>       system&#39;s security properties.
+<a id="__codelineno-0-127" name="__codelineno-0-127" href="#__codelineno-0-127"></a>
+<a id="__codelineno-0-128" name="__codelineno-0-128" href="#__codelineno-0-128"></a>3.  Requirements Language
+<a id="__codelineno-0-129" name="__codelineno-0-129" href="#__codelineno-0-129"></a>
+<a id="__codelineno-0-130" name="__codelineno-0-130" href="#__codelineno-0-130"></a>   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+<a id="__codelineno-0-131" name="__codelineno-0-131" href="#__codelineno-0-131"></a>   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this
+<a id="__codelineno-0-132" name="__codelineno-0-132" href="#__codelineno-0-132"></a>   document are to be interpreted as described in BCP 14 (RFC 2119 and
+<a id="__codelineno-0-133" name="__codelineno-0-133" href="#__codelineno-0-133"></a>   RFC 8174).
+<a id="__codelineno-0-134" name="__codelineno-0-134" href="#__codelineno-0-134"></a>
+<a id="__codelineno-0-135" name="__codelineno-0-135" href="#__codelineno-0-135"></a>4.  Terminology
+<a id="__codelineno-0-136" name="__codelineno-0-136" href="#__codelineno-0-136"></a>
+<a id="__codelineno-0-137" name="__codelineno-0-137" href="#__codelineno-0-137"></a>   Bridge:  A component that translates between KTP and legacy
+<a id="__codelineno-0-138" name="__codelineno-0-138" href="#__codelineno-0-138"></a>      protocols.
+<a id="__codelineno-0-139" name="__codelineno-0-139" href="#__codelineno-0-139"></a>
+<a id="__codelineno-0-140" name="__codelineno-0-140" href="#__codelineno-0-140"></a>   Credential Translation:  Converting legacy credentials to KTP Trust
+<a id="__codelineno-0-141" name="__codelineno-0-141" href="#__codelineno-0-141"></a>      Proofs or vice versa.
+<a id="__codelineno-0-142" name="__codelineno-0-142" href="#__codelineno-0-142"></a>
+<a id="__codelineno-0-143" name="__codelineno-0-143" href="#__codelineno-0-143"></a>   Hybrid Agent:  An agent that can operate in both KTP and legacy
+<a id="__codelineno-0-144" name="__codelineno-0-144" href="#__codelineno-0-144"></a>      contexts.
+<a id="__codelineno-0-145" name="__codelineno-0-145" href="#__codelineno-0-145"></a>
+<a id="__codelineno-0-146" name="__codelineno-0-146" href="#__codelineno-0-146"></a>   Legacy System:  Any authentication/authorization system predating
+<a id="__codelineno-0-147" name="__codelineno-0-147" href="#__codelineno-0-147"></a>      KTP.
+<a id="__codelineno-0-148" name="__codelineno-0-148" href="#__codelineno-0-148"></a>
+<a id="__codelineno-0-149" name="__codelineno-0-149" href="#__codelineno-0-149"></a>   Migration Path:  A defined sequence for transitioning from legacy to
+<a id="__codelineno-0-150" name="__codelineno-0-150" href="#__codelineno-0-150"></a>      KTP-native.
+<a id="__codelineno-0-151" name="__codelineno-0-151" href="#__codelineno-0-151"></a>
+<a id="__codelineno-0-152" name="__codelineno-0-152" href="#__codelineno-0-152"></a>   Trust Mapping:  Correspondence between legacy trust concepts and KTP
+<a id="__codelineno-0-153" name="__codelineno-0-153" href="#__codelineno-0-153"></a>      E_base.
+<a id="__codelineno-0-154" name="__codelineno-0-154" href="#__codelineno-0-154"></a>
+<a id="__codelineno-0-155" name="__codelineno-0-155" href="#__codelineno-0-155"></a>5.  Trust Mapping Framework
+<a id="__codelineno-0-156" name="__codelineno-0-156" href="#__codelineno-0-156"></a>
+<a id="__codelineno-0-157" name="__codelineno-0-157" href="#__codelineno-0-157"></a>5.1.  The Mapping Problem
+<a id="__codelineno-0-158" name="__codelineno-0-158" href="#__codelineno-0-158"></a>
+<a id="__codelineno-0-159" name="__codelineno-0-159" href="#__codelineno-0-159"></a>   Legacy systems and KTP use different trust models:
+<a id="__codelineno-0-160" name="__codelineno-0-160" href="#__codelineno-0-160"></a>
+<a id="__codelineno-0-161" name="__codelineno-0-161" href="#__codelineno-0-161"></a>   -  System: SAML; Trust Model: Assertions from identity provider
+<a id="__codelineno-0-162" name="__codelineno-0-162" href="#__codelineno-0-162"></a>   -  System: mTLS; Trust Model: Certificate validity and chain
+<a id="__codelineno-0-163" name="__codelineno-0-163" href="#__codelineno-0-163"></a>   -  System: API Keys; Trust Model: Secret possession
+<a id="__codelineno-0-164" name="__codelineno-0-164" href="#__codelineno-0-164"></a>   -  System: KTP; Trust Model: Trajectory-based earned trust
+<a id="__codelineno-0-165" name="__codelineno-0-165" href="#__codelineno-0-165"></a>
+<a id="__codelineno-0-166" name="__codelineno-0-166" href="#__codelineno-0-166"></a>   These models are fundamentally different.  Mapping is approximate.
+<a id="__codelineno-0-167" name="__codelineno-0-167" href="#__codelineno-0-167"></a>
+<a id="__codelineno-0-168" name="__codelineno-0-168" href="#__codelineno-0-168"></a>5.2.  Mapping Principles
+<a id="__codelineno-0-169" name="__codelineno-0-169" href="#__codelineno-0-169"></a>
+<a id="__codelineno-0-170" name="__codelineno-0-170" href="#__codelineno-0-170"></a>   1.  Conservative Translation: When uncertain, assume lower trust.
+<a id="__codelineno-0-171" name="__codelineno-0-171" href="#__codelineno-0-171"></a>
+<a id="__codelineno-0-172" name="__codelineno-0-172" href="#__codelineno-0-172"></a>   2.  Explicit Uncertainty: Mapped trust carries uncertainty markers.
+<a id="__codelineno-0-173" name="__codelineno-0-173" href="#__codelineno-0-173"></a>
+<a id="__codelineno-0-174" name="__codelineno-0-174" href="#__codelineno-0-174"></a>   3.  No Trust Amplification: Mapping cannot increase trust beyond
+<a id="__codelineno-0-175" name="__codelineno-0-175" href="#__codelineno-0-175"></a>       what the source system provides.
+<a id="__codelineno-0-176" name="__codelineno-0-176" href="#__codelineno-0-176"></a>
+<a id="__codelineno-0-177" name="__codelineno-0-177" href="#__codelineno-0-177"></a>   4.  Decay Over Time: Mapped trust decays if not refreshed from
+<a id="__codelineno-0-178" name="__codelineno-0-178" href="#__codelineno-0-178"></a>       source.
+<a id="__codelineno-0-179" name="__codelineno-0-179" href="#__codelineno-0-179"></a>
+<a id="__codelineno-0-180" name="__codelineno-0-180" href="#__codelineno-0-180"></a>5.3.  Trust Equivalence Table
+<a id="__codelineno-0-181" name="__codelineno-0-181" href="#__codelineno-0-181"></a>
+<a id="__codelineno-0-182" name="__codelineno-0-182" href="#__codelineno-0-182"></a>   Base mapping from legacy to KTP E_base:
+<a id="__codelineno-0-183" name="__codelineno-0-183" href="#__codelineno-0-183"></a>
+<a id="__codelineno-0-184" name="__codelineno-0-184" href="#__codelineno-0-184"></a>   -  Legacy Mechanism: API Key (rotated); Max E_base: 20;
+<a id="__codelineno-0-185" name="__codelineno-0-185" href="#__codelineno-0-185"></a>      Rationale: Some operational hygiene
+<a id="__codelineno-0-186" name="__codelineno-0-186" href="#__codelineno-0-186"></a>   -  Legacy Mechanism: OAuth token (public client); Max E_base: 20;
+<a id="__codelineno-0-187" name="__codelineno-0-187" href="#__codelineno-0-187"></a>      Rationale: User consent but weak client
+<a id="__codelineno-0-188" name="__codelineno-0-188" href="#__codelineno-0-188"></a>   -  Legacy Mechanism: OAuth token (confidential); Max E_base: 30;
+<a id="__codelineno-0-189" name="__codelineno-0-189" href="#__codelineno-0-189"></a>      Rationale: Client authenticated
+<a id="__codelineno-0-190" name="__codelineno-0-190" href="#__codelineno-0-190"></a>   -  Legacy Mechanism: OAuth + PKCE; Max E_base: 35;
+<a id="__codelineno-0-191" name="__codelineno-0-191" href="#__codelineno-0-191"></a>      Rationale: Stronger binding
+<a id="__codelineno-0-192" name="__codelineno-0-192" href="#__codelineno-0-192"></a>   -  Legacy Mechanism: mTLS (self-signed); Max E_base: 25;
+<a id="__codelineno-0-193" name="__codelineno-0-193" href="#__codelineno-0-193"></a>      Rationale: Cryptographic but unverified
+<a id="__codelineno-0-194" name="__codelineno-0-194" href="#__codelineno-0-194"></a>   -  Legacy Mechanism: mTLS (public CA); Max E_base: 35;
+<a id="__codelineno-0-195" name="__codelineno-0-195" href="#__codelineno-0-195"></a>      Rationale: Third-party verification
+<a id="__codelineno-0-196" name="__codelineno-0-196" href="#__codelineno-0-196"></a>   -  Legacy Mechanism: mTLS (private CA); Max E_base: 40;
+<a id="__codelineno-0-197" name="__codelineno-0-197" href="#__codelineno-0-197"></a>      Rationale: Organizational control
+<a id="__codelineno-0-198" name="__codelineno-0-198" href="#__codelineno-0-198"></a>   -  Legacy Mechanism: SAML assertion; Max E_base: 35;
+<a id="__codelineno-0-199" name="__codelineno-0-199" href="#__codelineno-0-199"></a>      Rationale: IdP-backed identity
+<a id="__codelineno-0-200" name="__codelineno-0-200" href="#__codelineno-0-200"></a>   -  Legacy Mechanism: SAML + MFA; Max E_base: 45;
+<a id="__codelineno-0-201" name="__codelineno-0-201" href="#__codelineno-0-201"></a>      Rationale: Stronger authentication
+<a id="__codelineno-0-202" name="__codelineno-0-202" href="#__codelineno-0-202"></a>   -  Legacy Mechanism: FIDO2/WebAuthn; Max E_base: 50;
+<a id="__codelineno-0-203" name="__codelineno-0-203" href="#__codelineno-0-203"></a>      Rationale: Hardware-backed
+<a id="__codelineno-0-204" name="__codelineno-0-204" href="#__codelineno-0-204"></a>
+<a id="__codelineno-0-205" name="__codelineno-0-205" href="#__codelineno-0-205"></a>5.4.  E_base Modifiers
+<a id="__codelineno-0-206" name="__codelineno-0-206" href="#__codelineno-0-206"></a>
+<a id="__codelineno-0-207" name="__codelineno-0-207" href="#__codelineno-0-207"></a>   Mapped E_base is adjusted by context:
+<a id="__codelineno-0-208" name="__codelineno-0-208" href="#__codelineno-0-208"></a>
+<a id="__codelineno-0-209" name="__codelineno-0-209" href="#__codelineno-0-209"></a>   -  Factor: Short-lived token; Modifier: +5;
+<a id="__codelineno-0-210" name="__codelineno-0-210" href="#__codelineno-0-210"></a>      Condition: Expiration &lt; 1 hour
+<a id="__codelineno-0-211" name="__codelineno-0-211" href="#__codelineno-0-211"></a>   -  Factor: IP binding; Modifier: +5;
+<a id="__codelineno-0-212" name="__codelineno-0-212" href="#__codelineno-0-212"></a>      Condition: Token bound to source IP
+<a id="__codelineno-0-213" name="__codelineno-0-213" href="#__codelineno-0-213"></a>   -  Factor: Device binding; Modifier: +10;
+<a id="__codelineno-0-214" name="__codelineno-0-214" href="#__codelineno-0-214"></a>      Condition: Token bound to device
+<a id="__codelineno-0-215" name="__codelineno-0-215" href="#__codelineno-0-215"></a>   -  Factor: Fresh authentication; Modifier: +5;
+<a id="__codelineno-0-216" name="__codelineno-0-216" href="#__codelineno-0-216"></a>      Condition: Auth within 5 minutes
+<a id="__codelineno-0-217" name="__codelineno-0-217" href="#__codelineno-0-217"></a>   -  Factor: Stale authentication; Modifier: -10;
+<a id="__codelineno-0-218" name="__codelineno-0-218" href="#__codelineno-0-218"></a>      Condition: Auth &gt; 24 hours ago
+<a id="__codelineno-0-219" name="__codelineno-0-219" href="#__codelineno-0-219"></a>   -  Factor: First use; Modifier: -10;
+<a id="__codelineno-0-220" name="__codelineno-0-220" href="#__codelineno-0-220"></a>      Condition: Never seen this identity
+<a id="__codelineno-0-221" name="__codelineno-0-221" href="#__codelineno-0-221"></a>   -  Factor: Repeated use; Modifier: +5;
+<a id="__codelineno-0-222" name="__codelineno-0-222" href="#__codelineno-0-222"></a>      Condition: Consistent behavior history
+<a id="__codelineno-0-223" name="__codelineno-0-223" href="#__codelineno-0-223"></a>
+<a id="__codelineno-0-224" name="__codelineno-0-224" href="#__codelineno-0-224"></a>5.5.  Uncertainty Markers
+<a id="__codelineno-0-225" name="__codelineno-0-225" href="#__codelineno-0-225"></a>
+<a id="__codelineno-0-226" name="__codelineno-0-226" href="#__codelineno-0-226"></a>   Mapped trust includes uncertainty:
+<a id="__codelineno-0-227" name="__codelineno-0-227" href="#__codelineno-0-227"></a>
+<a id="__codelineno-0-228" name="__codelineno-0-228" href="#__codelineno-0-228"></a>      {
+<a id="__codelineno-0-229" name="__codelineno-0-229" href="#__codelineno-0-229"></a>        &quot;trust_mapping&quot;: {
+<a id="__codelineno-0-230" name="__codelineno-0-230" href="#__codelineno-0-230"></a>          &quot;source_system&quot;: &quot;oauth2&quot;,
+<a id="__codelineno-0-231" name="__codelineno-0-231" href="#__codelineno-0-231"></a>          &quot;source_credential&quot;: &quot;bearer_token&quot;,
+<a id="__codelineno-0-232" name="__codelineno-0-232" href="#__codelineno-0-232"></a>          &quot;mapped_e_base&quot;: 30,
+<a id="__codelineno-0-233" name="__codelineno-0-233" href="#__codelineno-0-233"></a>          &quot;uncertainty&quot;: {
+<a id="__codelineno-0-234" name="__codelineno-0-234" href="#__codelineno-0-234"></a>            &quot;level&quot;: &quot;moderate&quot;,
+<a id="__codelineno-0-235" name="__codelineno-0-235" href="#__codelineno-0-235"></a>            &quot;reasons&quot;: [
+<a id="__codelineno-0-236" name="__codelineno-0-236" href="#__codelineno-0-236"></a>              &quot;no_trajectory_history&quot;,
+<a id="__codelineno-0-237" name="__codelineno-0-237" href="#__codelineno-0-237"></a>              &quot;no_behavioral_data&quot;,
+<a id="__codelineno-0-238" name="__codelineno-0-238" href="#__codelineno-0-238"></a>              &quot;point_in_time_auth&quot;
+<a id="__codelineno-0-239" name="__codelineno-0-239" href="#__codelineno-0-239"></a>            ]
+<a id="__codelineno-0-240" name="__codelineno-0-240" href="#__codelineno-0-240"></a>          },
+<a id="__codelineno-0-241" name="__codelineno-0-241" href="#__codelineno-0-241"></a>          &quot;constraints&quot;: {
+<a id="__codelineno-0-242" name="__codelineno-0-242" href="#__codelineno-0-242"></a>            &quot;max_action_risk&quot;: 25,
+<a id="__codelineno-0-243" name="__codelineno-0-243" href="#__codelineno-0-243"></a>            &quot;trajectory_start&quot;: &quot;fresh&quot;,
+<a id="__codelineno-0-244" name="__codelineno-0-244" href="#__codelineno-0-244"></a>            &quot;monitoring&quot;: &quot;enhanced&quot;
+<a id="__codelineno-0-245" name="__codelineno-0-245" href="#__codelineno-0-245"></a>          }
+<a id="__codelineno-0-246" name="__codelineno-0-246" href="#__codelineno-0-246"></a>        }
+<a id="__codelineno-0-247" name="__codelineno-0-247" href="#__codelineno-0-247"></a>      }
+<a id="__codelineno-0-248" name="__codelineno-0-248" href="#__codelineno-0-248"></a>
+<a id="__codelineno-0-249" name="__codelineno-0-249" href="#__codelineno-0-249"></a>6.  OAuth 2.0 Integration
+<a id="__codelineno-0-250" name="__codelineno-0-250" href="#__codelineno-0-250"></a>
+<a id="__codelineno-0-251" name="__codelineno-0-251" href="#__codelineno-0-251"></a>6.1.  OAuth to KTP Bridge
+<a id="__codelineno-0-252" name="__codelineno-0-252" href="#__codelineno-0-252"></a>
+<a id="__codelineno-0-253" name="__codelineno-0-253" href="#__codelineno-0-253"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-254" name="__codelineno-0-254" href="#__codelineno-0-254"></a>      |  OAuth Client  |----&gt;|  OAuth-KTP       |----&gt;|   KTP Zone     |
+<a id="__codelineno-0-255" name="__codelineno-0-255" href="#__codelineno-0-255"></a>      |                |     |  Bridge          |     |                |
+<a id="__codelineno-0-256" name="__codelineno-0-256" href="#__codelineno-0-256"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-257" name="__codelineno-0-257" href="#__codelineno-0-257"></a>                                      |
+<a id="__codelineno-0-258" name="__codelineno-0-258" href="#__codelineno-0-258"></a>                                      v
+<a id="__codelineno-0-259" name="__codelineno-0-259" href="#__codelineno-0-259"></a>                             Token validation
+<a id="__codelineno-0-260" name="__codelineno-0-260" href="#__codelineno-0-260"></a>                             Scope mapping
+<a id="__codelineno-0-261" name="__codelineno-0-261" href="#__codelineno-0-261"></a>                             Trust translation
+<a id="__codelineno-0-262" name="__codelineno-0-262" href="#__codelineno-0-262"></a>                             Trust Proof issuance
+<a id="__codelineno-0-263" name="__codelineno-0-263" href="#__codelineno-0-263"></a>
+<a id="__codelineno-0-264" name="__codelineno-0-264" href="#__codelineno-0-264"></a>6.2.  Token Validation
+<a id="__codelineno-0-265" name="__codelineno-0-265" href="#__codelineno-0-265"></a>
+<a id="__codelineno-0-266" name="__codelineno-0-266" href="#__codelineno-0-266"></a>   The bridge validates OAuth tokens:
+<a id="__codelineno-0-267" name="__codelineno-0-267" href="#__codelineno-0-267"></a>
+<a id="__codelineno-0-268" name="__codelineno-0-268" href="#__codelineno-0-268"></a>   1.  Verify token signature (if JWT) or introspect
+<a id="__codelineno-0-269" name="__codelineno-0-269" href="#__codelineno-0-269"></a>   2.  Check expiration
+<a id="__codelineno-0-270" name="__codelineno-0-270" href="#__codelineno-0-270"></a>   3.  Verify issuer against allowed list
+<a id="__codelineno-0-271" name="__codelineno-0-271" href="#__codelineno-0-271"></a>   4.  Extract scopes and claims
+<a id="__codelineno-0-272" name="__codelineno-0-272" href="#__codelineno-0-272"></a>   5.  Check for revocation
+<a id="__codelineno-0-273" name="__codelineno-0-273" href="#__codelineno-0-273"></a>
+<a id="__codelineno-0-274" name="__codelineno-0-274" href="#__codelineno-0-274"></a>6.3.  Scope to Tier Mapping
+<a id="__codelineno-0-275" name="__codelineno-0-275" href="#__codelineno-0-275"></a>
+<a id="__codelineno-0-276" name="__codelineno-0-276" href="#__codelineno-0-276"></a>   OAuth scopes map to KTP capability tiers:
+<a id="__codelineno-0-277" name="__codelineno-0-277" href="#__codelineno-0-277"></a>
+<a id="__codelineno-0-278" name="__codelineno-0-278" href="#__codelineno-0-278"></a>      {
+<a id="__codelineno-0-279" name="__codelineno-0-279" href="#__codelineno-0-279"></a>        &quot;scope_mapping&quot;: {
+<a id="__codelineno-0-280" name="__codelineno-0-280" href="#__codelineno-0-280"></a>          &quot;read&quot;: {
+<a id="__codelineno-0-281" name="__codelineno-0-281" href="#__codelineno-0-281"></a>            &quot;tier&quot;: &quot;observer&quot;,
+<a id="__codelineno-0-282" name="__codelineno-0-282" href="#__codelineno-0-282"></a>            &quot;max_action_risk&quot;: 10
+<a id="__codelineno-0-283" name="__codelineno-0-283" href="#__codelineno-0-283"></a>          },
+<a id="__codelineno-0-284" name="__codelineno-0-284" href="#__codelineno-0-284"></a>          &quot;write&quot;: {
+<a id="__codelineno-0-285" name="__codelineno-0-285" href="#__codelineno-0-285"></a>            &quot;tier&quot;: &quot;participant&quot;,
+<a id="__codelineno-0-286" name="__codelineno-0-286" href="#__codelineno-0-286"></a>            &quot;max_action_risk&quot;: 25
+<a id="__codelineno-0-287" name="__codelineno-0-287" href="#__codelineno-0-287"></a>          },
+<a id="__codelineno-0-288" name="__codelineno-0-288" href="#__codelineno-0-288"></a>          &quot;admin&quot;: {
+<a id="__codelineno-0-289" name="__codelineno-0-289" href="#__codelineno-0-289"></a>            &quot;tier&quot;: &quot;analyst&quot;,
+<a id="__codelineno-0-290" name="__codelineno-0-290" href="#__codelineno-0-290"></a>            &quot;max_action_risk&quot;: 40
+<a id="__codelineno-0-291" name="__codelineno-0-291" href="#__codelineno-0-291"></a>          },
+<a id="__codelineno-0-292" name="__codelineno-0-292" href="#__codelineno-0-292"></a>          &quot;superadmin&quot;: {
+<a id="__codelineno-0-293" name="__codelineno-0-293" href="#__codelineno-0-293"></a>            &quot;tier&quot;: &quot;operator&quot;,
+<a id="__codelineno-0-294" name="__codelineno-0-294" href="#__codelineno-0-294"></a>            &quot;max_action_risk&quot;: 60,
+<a id="__codelineno-0-295" name="__codelineno-0-295" href="#__codelineno-0-295"></a>            &quot;requires_additional_verification&quot;: true
+<a id="__codelineno-0-296" name="__codelineno-0-296" href="#__codelineno-0-296"></a>          }
+<a id="__codelineno-0-297" name="__codelineno-0-297" href="#__codelineno-0-297"></a>        }
+<a id="__codelineno-0-298" name="__codelineno-0-298" href="#__codelineno-0-298"></a>      }
+<a id="__codelineno-0-299" name="__codelineno-0-299" href="#__codelineno-0-299"></a>
+<a id="__codelineno-0-300" name="__codelineno-0-300" href="#__codelineno-0-300"></a>6.4.  KTP to OAuth Bridge
+<a id="__codelineno-0-301" name="__codelineno-0-301" href="#__codelineno-0-301"></a>
+<a id="__codelineno-0-302" name="__codelineno-0-302" href="#__codelineno-0-302"></a>   KTP agents accessing OAuth-protected resources:
+<a id="__codelineno-0-303" name="__codelineno-0-303" href="#__codelineno-0-303"></a>
+<a id="__codelineno-0-304" name="__codelineno-0-304" href="#__codelineno-0-304"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-305" name="__codelineno-0-305" href="#__codelineno-0-305"></a>      |   KTP Agent    |----&gt;|  KTP-OAuth       |----&gt;| OAuth Resource |
+<a id="__codelineno-0-306" name="__codelineno-0-306" href="#__codelineno-0-306"></a>      |                |     |  Bridge          |     |                |
+<a id="__codelineno-0-307" name="__codelineno-0-307" href="#__codelineno-0-307"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-308" name="__codelineno-0-308" href="#__codelineno-0-308"></a>                                      |
+<a id="__codelineno-0-309" name="__codelineno-0-309" href="#__codelineno-0-309"></a>                                      v
+<a id="__codelineno-0-310" name="__codelineno-0-310" href="#__codelineno-0-310"></a>                             Trust Proof validation
+<a id="__codelineno-0-311" name="__codelineno-0-311" href="#__codelineno-0-311"></a>                             E_base to scope mapping
+<a id="__codelineno-0-312" name="__codelineno-0-312" href="#__codelineno-0-312"></a>                             Token request (client credentials)
+<a id="__codelineno-0-313" name="__codelineno-0-313" href="#__codelineno-0-313"></a>                             Token caching
+<a id="__codelineno-0-314" name="__codelineno-0-314" href="#__codelineno-0-314"></a>
+<a id="__codelineno-0-315" name="__codelineno-0-315" href="#__codelineno-0-315"></a>6.5.  E_base to Scope Mapping
+<a id="__codelineno-0-316" name="__codelineno-0-316" href="#__codelineno-0-316"></a>
+<a id="__codelineno-0-317" name="__codelineno-0-317" href="#__codelineno-0-317"></a>      {
+<a id="__codelineno-0-318" name="__codelineno-0-318" href="#__codelineno-0-318"></a>        &quot;e_base_to_scope&quot;: {
+<a id="__codelineno-0-319" name="__codelineno-0-319" href="#__codelineno-0-319"></a>          &quot;ranges&quot;: [
+<a id="__codelineno-0-320" name="__codelineno-0-320" href="#__codelineno-0-320"></a>            {&quot;e_min&quot;: 0, &quot;e_max&quot;: 20, &quot;scopes&quot;: [&quot;read&quot;]},
+<a id="__codelineno-0-321" name="__codelineno-0-321" href="#__codelineno-0-321"></a>            {&quot;e_min&quot;: 21, &quot;e_max&quot;: 40, &quot;scopes&quot;: [&quot;read&quot;, &quot;write&quot;]},
+<a id="__codelineno-0-322" name="__codelineno-0-322" href="#__codelineno-0-322"></a>            {&quot;e_min&quot;: 41, &quot;e_max&quot;: 60, &quot;scopes&quot;: [&quot;read&quot;, &quot;write&quot;, &quot;admin&quot;]},
+<a id="__codelineno-0-323" name="__codelineno-0-323" href="#__codelineno-0-323"></a>            {&quot;e_min&quot;: 61, &quot;e_max&quot;: 100, &quot;scopes&quot;: [&quot;read&quot;, &quot;write&quot;, &quot;admin&quot;,
+<a id="__codelineno-0-324" name="__codelineno-0-324" href="#__codelineno-0-324"></a>              &quot;superadmin&quot;]}
+<a id="__codelineno-0-325" name="__codelineno-0-325" href="#__codelineno-0-325"></a>          ]
+<a id="__codelineno-0-326" name="__codelineno-0-326" href="#__codelineno-0-326"></a>        }
+<a id="__codelineno-0-327" name="__codelineno-0-327" href="#__codelineno-0-327"></a>      }
+<a id="__codelineno-0-328" name="__codelineno-0-328" href="#__codelineno-0-328"></a>
+<a id="__codelineno-0-329" name="__codelineno-0-329" href="#__codelineno-0-329"></a>7.  OpenID Connect Integration
+<a id="__codelineno-0-330" name="__codelineno-0-330" href="#__codelineno-0-330"></a>
+<a id="__codelineno-0-331" name="__codelineno-0-331" href="#__codelineno-0-331"></a>7.1.  OIDC Claims to KTP Identity
+<a id="__codelineno-0-332" name="__codelineno-0-332" href="#__codelineno-0-332"></a>
+<a id="__codelineno-0-333" name="__codelineno-0-333" href="#__codelineno-0-333"></a>   OIDC provides richer identity than OAuth:
+<a id="__codelineno-0-334" name="__codelineno-0-334" href="#__codelineno-0-334"></a>
+<a id="__codelineno-0-335" name="__codelineno-0-335" href="#__codelineno-0-335"></a>      {
+<a id="__codelineno-0-336" name="__codelineno-0-336" href="#__codelineno-0-336"></a>        &quot;oidc_mapping&quot;: {
+<a id="__codelineno-0-337" name="__codelineno-0-337" href="#__codelineno-0-337"></a>          &quot;sub&quot;: &quot;→ agent sponsor identity&quot;,
+<a id="__codelineno-0-338" name="__codelineno-0-338" href="#__codelineno-0-338"></a>          &quot;email&quot;: &quot;→ contact for sponsor&quot;,
+<a id="__codelineno-0-339" name="__codelineno-0-339" href="#__codelineno-0-339"></a>          &quot;email_verified&quot;: &quot;→ +5 E_base if true&quot;,
+<a id="__codelineno-0-340" name="__codelineno-0-340" href="#__codelineno-0-340"></a>          &quot;name&quot;: &quot;→ display name&quot;,
+<a id="__codelineno-0-341" name="__codelineno-0-341" href="#__codelineno-0-341"></a>          &quot;preferred_username&quot;: &quot;→ agent identifier hint&quot;,
+<a id="__codelineno-0-342" name="__codelineno-0-342" href="#__codelineno-0-342"></a>          &quot;acr&quot;: &quot;→ authentication strength modifier&quot;,
+<a id="__codelineno-0-343" name="__codelineno-0-343" href="#__codelineno-0-343"></a>          &quot;amr&quot;: &quot;→ authentication method modifier&quot;,
+<a id="__codelineno-0-344" name="__codelineno-0-344" href="#__codelineno-0-344"></a>          &quot;auth_time&quot;: &quot;→ freshness calculation&quot;
+<a id="__codelineno-0-345" name="__codelineno-0-345" href="#__codelineno-0-345"></a>        }
+<a id="__codelineno-0-346" name="__codelineno-0-346" href="#__codelineno-0-346"></a>      }
+<a id="__codelineno-0-347" name="__codelineno-0-347" href="#__codelineno-0-347"></a>
+<a id="__codelineno-0-348" name="__codelineno-0-348" href="#__codelineno-0-348"></a>7.2.  ACR/AMR to E_base Modifiers
+<a id="__codelineno-0-349" name="__codelineno-0-349" href="#__codelineno-0-349"></a>
+<a id="__codelineno-0-350" name="__codelineno-0-350" href="#__codelineno-0-350"></a>   Authentication Context Class Reference (acr) values:
+<a id="__codelineno-0-351" name="__codelineno-0-351" href="#__codelineno-0-351"></a>
+<a id="__codelineno-0-352" name="__codelineno-0-352" href="#__codelineno-0-352"></a>   -  ACR Value: urn:mace:incommon:iap:silver; E_base Modifier: +5
+<a id="__codelineno-0-353" name="__codelineno-0-353" href="#__codelineno-0-353"></a>   -  ACR Value: urn:mace:incommon:iap:gold; E_base Modifier: +10
+<a id="__codelineno-0-354" name="__codelineno-0-354" href="#__codelineno-0-354"></a>   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:Password;
+<a id="__codelineno-0-355" name="__codelineno-0-355" href="#__codelineno-0-355"></a>      E_base Modifier: +0
+<a id="__codelineno-0-356" name="__codelineno-0-356" href="#__codelineno-0-356"></a>   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:
+<a id="__codelineno-0-357" name="__codelineno-0-357" href="#__codelineno-0-357"></a>      PasswordProtectedTransport; E_base Modifier: +5
+<a id="__codelineno-0-358" name="__codelineno-0-358" href="#__codelineno-0-358"></a>   -  ACR Value: urn:oasis:names:tc:SAML:2.0:ac:classes:MultiFactor;
+<a id="__codelineno-0-359" name="__codelineno-0-359" href="#__codelineno-0-359"></a>      E_base Modifier: +15
+<a id="__codelineno-0-360" name="__codelineno-0-360" href="#__codelineno-0-360"></a>
+<a id="__codelineno-0-361" name="__codelineno-0-361" href="#__codelineno-0-361"></a>   Authentication Method Reference (amr) values:
+<a id="__codelineno-0-362" name="__codelineno-0-362" href="#__codelineno-0-362"></a>
+<a id="__codelineno-0-363" name="__codelineno-0-363" href="#__codelineno-0-363"></a>   -  AMR Value: otp; E_base Modifier: +5
+<a id="__codelineno-0-364" name="__codelineno-0-364" href="#__codelineno-0-364"></a>   -  AMR Value: sms; E_base Modifier: +3
+<a id="__codelineno-0-365" name="__codelineno-0-365" href="#__codelineno-0-365"></a>   -  AMR Value: hwk; E_base Modifier: +15
+<a id="__codelineno-0-366" name="__codelineno-0-366" href="#__codelineno-0-366"></a>   -  AMR Value: swk; E_base Modifier: +10
+<a id="__codelineno-0-367" name="__codelineno-0-367" href="#__codelineno-0-367"></a>   -  AMR Value: bio; E_base Modifier: +10
+<a id="__codelineno-0-368" name="__codelineno-0-368" href="#__codelineno-0-368"></a>   -  AMR Value: mfa; E_base Modifier: +10
+<a id="__codelineno-0-369" name="__codelineno-0-369" href="#__codelineno-0-369"></a>
+<a id="__codelineno-0-370" name="__codelineno-0-370" href="#__codelineno-0-370"></a>7.3.  Sponsor Identity from OIDC
+<a id="__codelineno-0-371" name="__codelineno-0-371" href="#__codelineno-0-371"></a>
+<a id="__codelineno-0-372" name="__codelineno-0-372" href="#__codelineno-0-372"></a>   Human sponsors can authenticate via OIDC:
+<a id="__codelineno-0-373" name="__codelineno-0-373" href="#__codelineno-0-373"></a>
+<a id="__codelineno-0-374" name="__codelineno-0-374" href="#__codelineno-0-374"></a>      {
+<a id="__codelineno-0-375" name="__codelineno-0-375" href="#__codelineno-0-375"></a>        &quot;sponsor_from_oidc&quot;: {
+<a id="__codelineno-0-376" name="__codelineno-0-376" href="#__codelineno-0-376"></a>          &quot;oidc_provider&quot;: &quot;https://idp.example.com&quot;,
+<a id="__codelineno-0-377" name="__codelineno-0-377" href="#__codelineno-0-377"></a>          &quot;subject&quot;: &quot;user@example.com&quot;,
+<a id="__codelineno-0-378" name="__codelineno-0-378" href="#__codelineno-0-378"></a>          &quot;verified_claims&quot;: [&quot;email&quot;, &quot;name&quot;],
+<a id="__codelineno-0-379" name="__codelineno-0-379" href="#__codelineno-0-379"></a>          &quot;ial_equivalent&quot;: &quot;IAL2&quot;,
+<a id="__codelineno-0-380" name="__codelineno-0-380" href="#__codelineno-0-380"></a>          &quot;sponsor_e_base&quot;: 75,
+<a id="__codelineno-0-381" name="__codelineno-0-381" href="#__codelineno-0-381"></a>          &quot;sponsored_agents_max&quot;: 10
+<a id="__codelineno-0-382" name="__codelineno-0-382" href="#__codelineno-0-382"></a>        }
+<a id="__codelineno-0-383" name="__codelineno-0-383" href="#__codelineno-0-383"></a>      }
+<a id="__codelineno-0-384" name="__codelineno-0-384" href="#__codelineno-0-384"></a>
+<a id="__codelineno-0-385" name="__codelineno-0-385" href="#__codelineno-0-385"></a>8.  SAML 2.0 Integration
+<a id="__codelineno-0-386" name="__codelineno-0-386" href="#__codelineno-0-386"></a>
+<a id="__codelineno-0-387" name="__codelineno-0-387" href="#__codelineno-0-387"></a>8.1.  SAML to KTP Bridge
+<a id="__codelineno-0-388" name="__codelineno-0-388" href="#__codelineno-0-388"></a>
+<a id="__codelineno-0-389" name="__codelineno-0-389" href="#__codelineno-0-389"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-390" name="__codelineno-0-390" href="#__codelineno-0-390"></a>      | SAML Service   |----&gt;|  SAML-KTP        |----&gt;|   KTP Zone     |
+<a id="__codelineno-0-391" name="__codelineno-0-391" href="#__codelineno-0-391"></a>      | Provider       |     |  Bridge          |     |                |
+<a id="__codelineno-0-392" name="__codelineno-0-392" href="#__codelineno-0-392"></a>      +----------------+     +------------------+     +----------------+
+<a id="__codelineno-0-393" name="__codelineno-0-393" href="#__codelineno-0-393"></a>                                      |
+<a id="__codelineno-0-394" name="__codelineno-0-394" href="#__codelineno-0-394"></a>                                      v
+<a id="__codelineno-0-395" name="__codelineno-0-395" href="#__codelineno-0-395"></a>                             Assertion validation
+<a id="__codelineno-0-396" name="__codelineno-0-396" href="#__codelineno-0-396"></a>                             Attribute mapping
+<a id="__codelineno-0-397" name="__codelineno-0-397" href="#__codelineno-0-397"></a>                             Trust translation
+<a id="__codelineno-0-398" name="__codelineno-0-398" href="#__codelineno-0-398"></a>                             Trust Proof issuance
+<a id="__codelineno-0-399" name="__codelineno-0-399" href="#__codelineno-0-399"></a>
+<a id="__codelineno-0-400" name="__codelineno-0-400" href="#__codelineno-0-400"></a>8.2.  Assertion Processing
+<a id="__codelineno-0-401" name="__codelineno-0-401" href="#__codelineno-0-401"></a>
+<a id="__codelineno-0-402" name="__codelineno-0-402" href="#__codelineno-0-402"></a>   The bridge processes SAML assertions:
+<a id="__codelineno-0-403" name="__codelineno-0-403" href="#__codelineno-0-403"></a>
+<a id="__codelineno-0-404" name="__codelineno-0-404" href="#__codelineno-0-404"></a>   1.  Validate assertion signature
+<a id="__codelineno-0-405" name="__codelineno-0-405" href="#__codelineno-0-405"></a>   2.  Verify issuer (IdP) against trusted list
+<a id="__codelineno-0-406" name="__codelineno-0-406" href="#__codelineno-0-406"></a>   3.  Check conditions (NotBefore, NotOnOrAfter, AudienceRestriction)
+<a id="__codelineno-0-407" name="__codelineno-0-407" href="#__codelineno-0-407"></a>   4.  Extract attributes
+<a id="__codelineno-0-408" name="__codelineno-0-408" href="#__codelineno-0-408"></a>   5.  Map to KTP identity and trust
+<a id="__codelineno-0-409" name="__codelineno-0-409" href="#__codelineno-0-409"></a>
+<a id="__codelineno-0-410" name="__codelineno-0-410" href="#__codelineno-0-410"></a>8.3.  Attribute Mapping
+<a id="__codelineno-0-411" name="__codelineno-0-411" href="#__codelineno-0-411"></a>
+<a id="__codelineno-0-412" name="__codelineno-0-412" href="#__codelineno-0-412"></a>      {
+<a id="__codelineno-0-413" name="__codelineno-0-413" href="#__codelineno-0-413"></a>        &quot;saml_attribute_mapping&quot;: {
+<a id="__codelineno-0-414" name="__codelineno-0-414" href="#__codelineno-0-414"></a>          &quot;urn:oid:0.9.2342.19200300.100.1.3&quot;: {
+<a id="__codelineno-0-415" name="__codelineno-0-415" href="#__codelineno-0-415"></a>            &quot;name&quot;: &quot;email&quot;,
+<a id="__codelineno-0-416" name="__codelineno-0-416" href="#__codelineno-0-416"></a>            &quot;ktp_use&quot;: &quot;sponsor_contact&quot;
+<a id="__codelineno-0-417" name="__codelineno-0-417" href="#__codelineno-0-417"></a>          },
+<a id="__codelineno-0-418" name="__codelineno-0-418" href="#__codelineno-0-418"></a>          &quot;urn:oid:2.5.4.42&quot;: {
+<a id="__codelineno-0-419" name="__codelineno-0-419" href="#__codelineno-0-419"></a>            &quot;name&quot;: &quot;givenName&quot;,
+<a id="__codelineno-0-420" name="__codelineno-0-420" href="#__codelineno-0-420"></a>            &quot;ktp_use&quot;: &quot;display&quot;
+<a id="__codelineno-0-421" name="__codelineno-0-421" href="#__codelineno-0-421"></a>          },
+<a id="__codelineno-0-422" name="__codelineno-0-422" href="#__codelineno-0-422"></a>          &quot;urn:oid:2.5.4.4&quot;: {
+<a id="__codelineno-0-423" name="__codelineno-0-423" href="#__codelineno-0-423"></a>            &quot;name&quot;: &quot;surname&quot;,
+<a id="__codelineno-0-424" name="__codelineno-0-424" href="#__codelineno-0-424"></a>            &quot;ktp_use&quot;: &quot;display&quot;
+<a id="__codelineno-0-425" name="__codelineno-0-425" href="#__codelineno-0-425"></a>          },
+<a id="__codelineno-0-426" name="__codelineno-0-426" href="#__codelineno-0-426"></a>          &quot;urn:oid:1.3.6.1.4.1.5923.1.1.1.7&quot;: {
+<a id="__codelineno-0-427" name="__codelineno-0-427" href="#__codelineno-0-427"></a>            &quot;name&quot;: &quot;eduPersonEntitlement&quot;,
+<a id="__codelineno-0-428" name="__codelineno-0-428" href="#__codelineno-0-428"></a>            &quot;ktp_use&quot;: &quot;capability_hint&quot;
+<a id="__codelineno-0-429" name="__codelineno-0-429" href="#__codelineno-0-429"></a>          },
+<a id="__codelineno-0-430" name="__codelineno-0-430" href="#__codelineno-0-430"></a>          &quot;urn:mace:dir:attribute-def:eduPersonAssurance&quot;: {
+<a id="__codelineno-0-431" name="__codelineno-0-431" href="#__codelineno-0-431"></a>            &quot;name&quot;: &quot;assurance&quot;,
+<a id="__codelineno-0-432" name="__codelineno-0-432" href="#__codelineno-0-432"></a>            &quot;ktp_use&quot;: &quot;e_base_modifier&quot;
+<a id="__codelineno-0-433" name="__codelineno-0-433" href="#__codelineno-0-433"></a>          }
+<a id="__codelineno-0-434" name="__codelineno-0-434" href="#__codelineno-0-434"></a>        }
+<a id="__codelineno-0-435" name="__codelineno-0-435" href="#__codelineno-0-435"></a>      }
+<a id="__codelineno-0-436" name="__codelineno-0-436" href="#__codelineno-0-436"></a>
+<a id="__codelineno-0-437" name="__codelineno-0-437" href="#__codelineno-0-437"></a>8.4.  Entitlement to Capability Mapping
+<a id="__codelineno-0-438" name="__codelineno-0-438" href="#__codelineno-0-438"></a>
+<a id="__codelineno-0-439" name="__codelineno-0-439" href="#__codelineno-0-439"></a>   SAML entitlements map to KTP capabilities:
+<a id="__codelineno-0-440" name="__codelineno-0-440" href="#__codelineno-0-440"></a>
+<a id="__codelineno-0-441" name="__codelineno-0-441" href="#__codelineno-0-441"></a>      {
+<a id="__codelineno-0-442" name="__codelineno-0-442" href="#__codelineno-0-442"></a>        &quot;entitlement_mapping&quot;: {
+<a id="__codelineno-0-443" name="__codelineno-0-443" href="#__codelineno-0-443"></a>          &quot;urn:example:ktp:tier:observer&quot;: {
+<a id="__codelineno-0-444" name="__codelineno-0-444" href="#__codelineno-0-444"></a>            &quot;tier&quot;: &quot;observer&quot;,
+<a id="__codelineno-0-445" name="__codelineno-0-445" href="#__codelineno-0-445"></a>            &quot;max_e_base&quot;: 30
+<a id="__codelineno-0-446" name="__codelineno-0-446" href="#__codelineno-0-446"></a>          },
+<a id="__codelineno-0-447" name="__codelineno-0-447" href="#__codelineno-0-447"></a>          &quot;urn:example:ktp:tier:participant&quot;: {
+<a id="__codelineno-0-448" name="__codelineno-0-448" href="#__codelineno-0-448"></a>            &quot;tier&quot;: &quot;participant&quot;,
+<a id="__codelineno-0-449" name="__codelineno-0-449" href="#__codelineno-0-449"></a>            &quot;max_e_base&quot;: 45
+<a id="__codelineno-0-450" name="__codelineno-0-450" href="#__codelineno-0-450"></a>          },
+<a id="__codelineno-0-451" name="__codelineno-0-451" href="#__codelineno-0-451"></a>          &quot;urn:example:ktp:tier:analyst&quot;: {
+<a id="__codelineno-0-452" name="__codelineno-0-452" href="#__codelineno-0-452"></a>            &quot;tier&quot;: &quot;analyst&quot;,
+<a id="__codelineno-0-453" name="__codelineno-0-453" href="#__codelineno-0-453"></a>            &quot;max_e_base&quot;: 60
+<a id="__codelineno-0-454" name="__codelineno-0-454" href="#__codelineno-0-454"></a>          },
+<a id="__codelineno-0-455" name="__codelineno-0-455" href="#__codelineno-0-455"></a>          &quot;urn:example:ktp:tier:operator&quot;: {
+<a id="__codelineno-0-456" name="__codelineno-0-456" href="#__codelineno-0-456"></a>            &quot;tier&quot;: &quot;operator&quot;,
+<a id="__codelineno-0-457" name="__codelineno-0-457" href="#__codelineno-0-457"></a>            &quot;max_e_base&quot;: 75
+<a id="__codelineno-0-458" name="__codelineno-0-458" href="#__codelineno-0-458"></a>          }
+<a id="__codelineno-0-459" name="__codelineno-0-459" href="#__codelineno-0-459"></a>        }
+<a id="__codelineno-0-460" name="__codelineno-0-460" href="#__codelineno-0-460"></a>      }
+<a id="__codelineno-0-461" name="__codelineno-0-461" href="#__codelineno-0-461"></a>
+<a id="__codelineno-0-462" name="__codelineno-0-462" href="#__codelineno-0-462"></a>9.  mTLS Integration
+<a id="__codelineno-0-463" name="__codelineno-0-463" href="#__codelineno-0-463"></a>
+<a id="__codelineno-0-464" name="__codelineno-0-464" href="#__codelineno-0-464"></a>9.1.  Certificate to Trust Mapping
+<a id="__codelineno-0-465" name="__codelineno-0-465" href="#__codelineno-0-465"></a>
+<a id="__codelineno-0-466" name="__codelineno-0-466" href="#__codelineno-0-466"></a>   mTLS provides cryptographic identity:
+<a id="__codelineno-0-467" name="__codelineno-0-467" href="#__codelineno-0-467"></a>
+<a id="__codelineno-0-468" name="__codelineno-0-468" href="#__codelineno-0-468"></a>      {
+<a id="__codelineno-0-469" name="__codelineno-0-469" href="#__codelineno-0-469"></a>        &quot;mtls_trust_mapping&quot;: {
+<a id="__codelineno-0-470" name="__codelineno-0-470" href="#__codelineno-0-470"></a>          &quot;certificate_attributes&quot;: {
+<a id="__codelineno-0-471" name="__codelineno-0-471" href="#__codelineno-0-471"></a>            &quot;subject_dn&quot;: &quot;→ agent identifier&quot;,
+<a id="__codelineno-0-472" name="__codelineno-0-472" href="#__codelineno-0-472"></a>            &quot;issuer_dn&quot;: &quot;→ trust anchor&quot;,
+<a id="__codelineno-0-473" name="__codelineno-0-473" href="#__codelineno-0-473"></a>            &quot;serial_number&quot;: &quot;→ credential reference&quot;,
+<a id="__codelineno-0-474" name="__codelineno-0-474" href="#__codelineno-0-474"></a>            &quot;not_before&quot;: &quot;→ credential start&quot;,
+<a id="__codelineno-0-475" name="__codelineno-0-475" href="#__codelineno-0-475"></a>            &quot;not_after&quot;: &quot;→ credential expiration&quot;,
+<a id="__codelineno-0-476" name="__codelineno-0-476" href="#__codelineno-0-476"></a>            &quot;key_usage&quot;: &quot;→ capability constraints&quot;,
+<a id="__codelineno-0-477" name="__codelineno-0-477" href="#__codelineno-0-477"></a>            &quot;san&quot;: &quot;→ alternative identities&quot;
+<a id="__codelineno-0-478" name="__codelineno-0-478" href="#__codelineno-0-478"></a>          },
+<a id="__codelineno-0-479" name="__codelineno-0-479" href="#__codelineno-0-479"></a>          &quot;trust_factors&quot;: {
+<a id="__codelineno-0-480" name="__codelineno-0-480" href="#__codelineno-0-480"></a>            &quot;ca_type&quot;: {
+<a id="__codelineno-0-481" name="__codelineno-0-481" href="#__codelineno-0-481"></a>              &quot;self_signed&quot;: 25,
+<a id="__codelineno-0-482" name="__codelineno-0-482" href="#__codelineno-0-482"></a>              &quot;public_ca&quot;: 35,
+<a id="__codelineno-0-483" name="__codelineno-0-483" href="#__codelineno-0-483"></a>              &quot;private_ca&quot;: 40,
+<a id="__codelineno-0-484" name="__codelineno-0-484" href="#__codelineno-0-484"></a>              &quot;qualified_ca&quot;: 50
+<a id="__codelineno-0-485" name="__codelineno-0-485" href="#__codelineno-0-485"></a>            },
+<a id="__codelineno-0-486" name="__codelineno-0-486" href="#__codelineno-0-486"></a>            &quot;key_strength&quot;: {
+<a id="__codelineno-0-487" name="__codelineno-0-487" href="#__codelineno-0-487"></a>              &quot;rsa_2048&quot;: 0,
+<a id="__codelineno-0-488" name="__codelineno-0-488" href="#__codelineno-0-488"></a>              &quot;rsa_4096&quot;: 5,
+<a id="__codelineno-0-489" name="__codelineno-0-489" href="#__codelineno-0-489"></a>              &quot;ec_p256&quot;: 5,
+<a id="__codelineno-0-490" name="__codelineno-0-490" href="#__codelineno-0-490"></a>              &quot;ec_p384&quot;: 10
+<a id="__codelineno-0-491" name="__codelineno-0-491" href="#__codelineno-0-491"></a>            },
+<a id="__codelineno-0-492" name="__codelineno-0-492" href="#__codelineno-0-492"></a>            &quot;validity_period&quot;: {
+<a id="__codelineno-0-493" name="__codelineno-0-493" href="#__codelineno-0-493"></a>              &quot;under_1_year&quot;: 5,
+<a id="__codelineno-0-494" name="__codelineno-0-494" href="#__codelineno-0-494"></a>              &quot;1_to_3_years&quot;: 0,
+<a id="__codelineno-0-495" name="__codelineno-0-495" href="#__codelineno-0-495"></a>              &quot;over_3_years&quot;: -5
+<a id="__codelineno-0-496" name="__codelineno-0-496" href="#__codelineno-0-496"></a>            }
+<a id="__codelineno-0-497" name="__codelineno-0-497" href="#__codelineno-0-497"></a>          }
+<a id="__codelineno-0-498" name="__codelineno-0-498" href="#__codelineno-0-498"></a>        }
+<a id="__codelineno-0-499" name="__codelineno-0-499" href="#__codelineno-0-499"></a>      }
+<a id="__codelineno-0-500" name="__codelineno-0-500" href="#__codelineno-0-500"></a>
+<a id="__codelineno-0-501" name="__codelineno-0-501" href="#__codelineno-0-501"></a>9.2.  Certificate Chain Validation
+<a id="__codelineno-0-502" name="__codelineno-0-502" href="#__codelineno-0-502"></a>
+<a id="__codelineno-0-503" name="__codelineno-0-503" href="#__codelineno-0-503"></a>   The bridge validates certificate chains:
+<a id="__codelineno-0-504" name="__codelineno-0-504" href="#__codelineno-0-504"></a>
+<a id="__codelineno-0-505" name="__codelineno-0-505" href="#__codelineno-0-505"></a>   1.  Build chain to trusted anchor
+<a id="__codelineno-0-506" name="__codelineno-0-506" href="#__codelineno-0-506"></a>   2.  Check each certificate&#39;s validity period
+<a id="__codelineno-0-507" name="__codelineno-0-507" href="#__codelineno-0-507"></a>   3.  Verify signatures up the chain
+<a id="__codelineno-0-508" name="__codelineno-0-508" href="#__codelineno-0-508"></a>   4.  Check revocation (CRL/OCSP)
+<a id="__codelineno-0-509" name="__codelineno-0-509" href="#__codelineno-0-509"></a>   5.  Validate key usage and constraints
+<a id="__codelineno-0-510" name="__codelineno-0-510" href="#__codelineno-0-510"></a>   6.  Map trust based on chain quality
+<a id="__codelineno-0-511" name="__codelineno-0-511" href="#__codelineno-0-511"></a>
+<a id="__codelineno-0-512" name="__codelineno-0-512" href="#__codelineno-0-512"></a>9.3.  Hardware Key Attestation
+<a id="__codelineno-0-513" name="__codelineno-0-513" href="#__codelineno-0-513"></a>
+<a id="__codelineno-0-514" name="__codelineno-0-514" href="#__codelineno-0-514"></a>   Hardware-backed keys increase trust:
+<a id="__codelineno-0-515" name="__codelineno-0-515" href="#__codelineno-0-515"></a>
+<a id="__codelineno-0-516" name="__codelineno-0-516" href="#__codelineno-0-516"></a>      {
+<a id="__codelineno-0-517" name="__codelineno-0-517" href="#__codelineno-0-517"></a>        &quot;hardware_attestation&quot;: {
+<a id="__codelineno-0-518" name="__codelineno-0-518" href="#__codelineno-0-518"></a>          &quot;attestation_type&quot;: &quot;TPM&quot;,
+<a id="__codelineno-0-519" name="__codelineno-0-519" href="#__codelineno-0-519"></a>          &quot;tpm_version&quot;: &quot;2.0&quot;,
+<a id="__codelineno-0-520" name="__codelineno-0-520" href="#__codelineno-0-520"></a>          &quot;key_in_tpm&quot;: true,
+<a id="__codelineno-0-521" name="__codelineno-0-521" href="#__codelineno-0-521"></a>          &quot;key_non_exportable&quot;: true,
+<a id="__codelineno-0-522" name="__codelineno-0-522" href="#__codelineno-0-522"></a>          &quot;e_base_bonus&quot;: 15
+<a id="__codelineno-0-523" name="__codelineno-0-523" href="#__codelineno-0-523"></a>        }
+<a id="__codelineno-0-524" name="__codelineno-0-524" href="#__codelineno-0-524"></a>      }
+<a id="__codelineno-0-525" name="__codelineno-0-525" href="#__codelineno-0-525"></a>
+<a id="__codelineno-0-526" name="__codelineno-0-526" href="#__codelineno-0-526"></a>10.  API Key Integration
+<a id="__codelineno-0-527" name="__codelineno-0-527" href="#__codelineno-0-527"></a>
+<a id="__codelineno-0-528" name="__codelineno-0-528" href="#__codelineno-0-528"></a>10.1.  API Key Limitations
+<a id="__codelineno-0-529" name="__codelineno-0-529" href="#__codelineno-0-529"></a>
+<a id="__codelineno-0-530" name="__codelineno-0-530" href="#__codelineno-0-530"></a>   API keys provide minimal trust signals:
+<a id="__codelineno-0-531" name="__codelineno-0-531" href="#__codelineno-0-531"></a>
+<a id="__codelineno-0-532" name="__codelineno-0-532" href="#__codelineno-0-532"></a>   -  No identity binding (shared secrets)
+<a id="__codelineno-0-533" name="__codelineno-0-533" href="#__codelineno-0-533"></a>   -  No behavior history
+<a id="__codelineno-0-534" name="__codelineno-0-534" href="#__codelineno-0-534"></a>   -  No expiration (typically)
+<a id="__codelineno-0-535" name="__codelineno-0-535" href="#__codelineno-0-535"></a>   -  No scope (typically)
+<a id="__codelineno-0-536" name="__codelineno-0-536" href="#__codelineno-0-536"></a>   -  Easily leaked
+<a id="__codelineno-0-537" name="__codelineno-0-537" href="#__codelineno-0-537"></a>
+<a id="__codelineno-0-538" name="__codelineno-0-538" href="#__codelineno-0-538"></a>10.2.  API Key to Trust Mapping
+<a id="__codelineno-0-539" name="__codelineno-0-539" href="#__codelineno-0-539"></a>
+<a id="__codelineno-0-540" name="__codelineno-0-540" href="#__codelineno-0-540"></a>      {
+<a id="__codelineno-0-541" name="__codelineno-0-541" href="#__codelineno-0-541"></a>        &quot;api_key_mapping&quot;: {
+<a id="__codelineno-0-542" name="__codelineno-0-542" href="#__codelineno-0-542"></a>          &quot;base_e&quot;: 15,
+<a id="__codelineno-0-543" name="__codelineno-0-543" href="#__codelineno-0-543"></a>          &quot;modifiers&quot;: {
+<a id="__codelineno-0-544" name="__codelineno-0-544" href="#__codelineno-0-544"></a>            &quot;rotated_regularly&quot;: {
+<a id="__codelineno-0-545" name="__codelineno-0-545" href="#__codelineno-0-545"></a>              &quot;condition&quot;: &quot;rotation_period &lt; 90 days&quot;,
+<a id="__codelineno-0-546" name="__codelineno-0-546" href="#__codelineno-0-546"></a>              &quot;modifier&quot;: 5
+<a id="__codelineno-0-547" name="__codelineno-0-547" href="#__codelineno-0-547"></a>            },
+<a id="__codelineno-0-548" name="__codelineno-0-548" href="#__codelineno-0-548"></a>            &quot;ip_restricted&quot;: {
+<a id="__codelineno-0-549" name="__codelineno-0-549" href="#__codelineno-0-549"></a>              &quot;condition&quot;: &quot;ip_whitelist defined&quot;,
+<a id="__codelineno-0-550" name="__codelineno-0-550" href="#__codelineno-0-550"></a>              &quot;modifier&quot;: 5
+<a id="__codelineno-0-551" name="__codelineno-0-551" href="#__codelineno-0-551"></a>            },
+<a id="__codelineno-0-552" name="__codelineno-0-552" href="#__codelineno-0-552"></a>            &quot;rate_limited&quot;: {
+<a id="__codelineno-0-553" name="__codelineno-0-553" href="#__codelineno-0-553"></a>              &quot;condition&quot;: &quot;rate_limit &lt; 1000/hour&quot;,
+<a id="__codelineno-0-554" name="__codelineno-0-554" href="#__codelineno-0-554"></a>              &quot;modifier&quot;: 3
+<a id="__codelineno-0-555" name="__codelineno-0-555" href="#__codelineno-0-555"></a>            },
+<a id="__codelineno-0-556" name="__codelineno-0-556" href="#__codelineno-0-556"></a>            &quot;audited&quot;: {
+<a id="__codelineno-0-557" name="__codelineno-0-557" href="#__codelineno-0-557"></a>              &quot;condition&quot;: &quot;usage_logging enabled&quot;,
+<a id="__codelineno-0-558" name="__codelineno-0-558" href="#__codelineno-0-558"></a>              &quot;modifier&quot;: 2
+<a id="__codelineno-0-559" name="__codelineno-0-559" href="#__codelineno-0-559"></a>            }
+<a id="__codelineno-0-560" name="__codelineno-0-560" href="#__codelineno-0-560"></a>          },
+<a id="__codelineno-0-561" name="__codelineno-0-561" href="#__codelineno-0-561"></a>          &quot;max_e_base&quot;: 30,
+<a id="__codelineno-0-562" name="__codelineno-0-562" href="#__codelineno-0-562"></a>          &quot;constraints&quot;: {
+<a id="__codelineno-0-563" name="__codelineno-0-563" href="#__codelineno-0-563"></a>            &quot;trajectory_start&quot;: &quot;fresh&quot;,
+<a id="__codelineno-0-564" name="__codelineno-0-564" href="#__codelineno-0-564"></a>            &quot;monitoring&quot;: &quot;enhanced&quot;,
+<a id="__codelineno-0-565" name="__codelineno-0-565" href="#__codelineno-0-565"></a>            &quot;max_action_risk&quot;: 20
+<a id="__codelineno-0-566" name="__codelineno-0-566" href="#__codelineno-0-566"></a>          }
+<a id="__codelineno-0-567" name="__codelineno-0-567" href="#__codelineno-0-567"></a>        }
+<a id="__codelineno-0-568" name="__codelineno-0-568" href="#__codelineno-0-568"></a>      }
+<a id="__codelineno-0-569" name="__codelineno-0-569" href="#__codelineno-0-569"></a>
+<a id="__codelineno-0-570" name="__codelineno-0-570" href="#__codelineno-0-570"></a>10.3.  API Key to Agent Binding
+<a id="__codelineno-0-571" name="__codelineno-0-571" href="#__codelineno-0-571"></a>
+<a id="__codelineno-0-572" name="__codelineno-0-572" href="#__codelineno-0-572"></a>   API keys can be bound to KTP agents:
+<a id="__codelineno-0-573" name="__codelineno-0-573" href="#__codelineno-0-573"></a>
+<a id="__codelineno-0-574" name="__codelineno-0-574" href="#__codelineno-0-574"></a>      {
+<a id="__codelineno-0-575" name="__codelineno-0-575" href="#__codelineno-0-575"></a>        &quot;api_key_binding&quot;: {
+<a id="__codelineno-0-576" name="__codelineno-0-576" href="#__codelineno-0-576"></a>          &quot;api_key_id&quot;: &quot;key_abc123&quot;,
+<a id="__codelineno-0-577" name="__codelineno-0-577" href="#__codelineno-0-577"></a>          &quot;bound_agent&quot;: &quot;agent:tethered:1gen:acme:xyz789&quot;,
+<a id="__codelineno-0-578" name="__codelineno-0-578" href="#__codelineno-0-578"></a>          &quot;binding_type&quot;: &quot;exclusive&quot;,
+<a id="__codelineno-0-579" name="__codelineno-0-579" href="#__codelineno-0-579"></a>          &quot;created_at&quot;: &quot;2025-12-01T00:00:00Z&quot;,
+<a id="__codelineno-0-580" name="__codelineno-0-580" href="#__codelineno-0-580"></a>          &quot;created_by&quot;: &quot;sponsor:alice.smith&quot;,
+<a id="__codelineno-0-581" name="__codelineno-0-581" href="#__codelineno-0-581"></a>          &quot;restrictions&quot;: {
+<a id="__codelineno-0-582" name="__codelineno-0-582" href="#__codelineno-0-582"></a>            &quot;source_ips&quot;: [&quot;10.0.0.0/8&quot;],
+<a id="__codelineno-0-583" name="__codelineno-0-583" href="#__codelineno-0-583"></a>            &quot;allowed_actions&quot;: [&quot;read&quot;, &quot;write&quot;],
+<a id="__codelineno-0-584" name="__codelineno-0-584" href="#__codelineno-0-584"></a>            &quot;max_rate&quot;: 100
+<a id="__codelineno-0-585" name="__codelineno-0-585" href="#__codelineno-0-585"></a>          }
+<a id="__codelineno-0-586" name="__codelineno-0-586" href="#__codelineno-0-586"></a>        }
+<a id="__codelineno-0-587" name="__codelineno-0-587" href="#__codelineno-0-587"></a>      }
+<a id="__codelineno-0-588" name="__codelineno-0-588" href="#__codelineno-0-588"></a>
+<a id="__codelineno-0-589" name="__codelineno-0-589" href="#__codelineno-0-589"></a>11.  Hybrid Agents
+<a id="__codelineno-0-590" name="__codelineno-0-590" href="#__codelineno-0-590"></a>
+<a id="__codelineno-0-591" name="__codelineno-0-591" href="#__codelineno-0-591"></a>11.1.  Definition
+<a id="__codelineno-0-592" name="__codelineno-0-592" href="#__codelineno-0-592"></a>
+<a id="__codelineno-0-593" name="__codelineno-0-593" href="#__codelineno-0-593"></a>   Hybrid agents operate in both KTP and legacy contexts:
+<a id="__codelineno-0-594" name="__codelineno-0-594" href="#__codelineno-0-594"></a>
+<a id="__codelineno-0-595" name="__codelineno-0-595" href="#__codelineno-0-595"></a>   -  Have KTP identity and trajectory
+<a id="__codelineno-0-596" name="__codelineno-0-596" href="#__codelineno-0-596"></a>   -  Can present legacy credentials when needed
+<a id="__codelineno-0-597" name="__codelineno-0-597" href="#__codelineno-0-597"></a>   -  Translate trust bidirectionally
+<a id="__codelineno-0-598" name="__codelineno-0-598" href="#__codelineno-0-598"></a>   -  Accumulate trajectory from all contexts
+<a id="__codelineno-0-599" name="__codelineno-0-599" href="#__codelineno-0-599"></a>
+<a id="__codelineno-0-600" name="__codelineno-0-600" href="#__codelineno-0-600"></a>11.2.  Hybrid Agent Architecture
+<a id="__codelineno-0-601" name="__codelineno-0-601" href="#__codelineno-0-601"></a>
+<a id="__codelineno-0-602" name="__codelineno-0-602" href="#__codelineno-0-602"></a>      +-------------------------------------------------------------------+
+<a id="__codelineno-0-603" name="__codelineno-0-603" href="#__codelineno-0-603"></a>      |                        HYBRID AGENT                               |
+<a id="__codelineno-0-604" name="__codelineno-0-604" href="#__codelineno-0-604"></a>      |                                                                   |
+<a id="__codelineno-0-605" name="__codelineno-0-605" href="#__codelineno-0-605"></a>      |  +------------------+     +------------------+                    |
+<a id="__codelineno-0-606" name="__codelineno-0-606" href="#__codelineno-0-606"></a>      |  |  KTP Identity    |     | Legacy Credentials|                   |
+<a id="__codelineno-0-607" name="__codelineno-0-607" href="#__codelineno-0-607"></a>      |  |  - Agent ID      |     | - OAuth tokens    |                   |
+<a id="__codelineno-0-608" name="__codelineno-0-608" href="#__codelineno-0-608"></a>      |  |  - Trajectory    |     | - SAML assertions |                   |
+<a id="__codelineno-0-609" name="__codelineno-0-609" href="#__codelineno-0-609"></a>      |  |  - Trust Proof   |     | - mTLS certs      |                   |
+<a id="__codelineno-0-610" name="__codelineno-0-610" href="#__codelineno-0-610"></a>      |  +------------------+     +------------------+                    |
+<a id="__codelineno-0-611" name="__codelineno-0-611" href="#__codelineno-0-611"></a>      |           |                       |                               |
+<a id="__codelineno-0-612" name="__codelineno-0-612" href="#__codelineno-0-612"></a>      |           v                       v                               |
+<a id="__codelineno-0-613" name="__codelineno-0-613" href="#__codelineno-0-613"></a>      |  +-----------------------------------------------+                |
+<a id="__codelineno-0-614" name="__codelineno-0-614" href="#__codelineno-0-614"></a>      |  |           Credential Manager                  |                |
+<a id="__codelineno-0-615" name="__codelineno-0-615" href="#__codelineno-0-615"></a>      |  |  - Context detection                          |                |
+<a id="__codelineno-0-616" name="__codelineno-0-616" href="#__codelineno-0-616"></a>      |  |  - Credential selection                       |                |
+<a id="__codelineno-0-617" name="__codelineno-0-617" href="#__codelineno-0-617"></a>      |  |  - Trust translation                          |                |
+<a id="__codelineno-0-618" name="__codelineno-0-618" href="#__codelineno-0-618"></a>      |  +-----------------------------------------------+                |
+<a id="__codelineno-0-619" name="__codelineno-0-619" href="#__codelineno-0-619"></a>      |           |                       |                               |
+<a id="__codelineno-0-620" name="__codelineno-0-620" href="#__codelineno-0-620"></a>      |           v                       v                               |
+<a id="__codelineno-0-621" name="__codelineno-0-621" href="#__codelineno-0-621"></a>      |  +------------------+     +------------------+                    |
+<a id="__codelineno-0-622" name="__codelineno-0-622" href="#__codelineno-0-622"></a>      |  |   KTP Context    |     |  Legacy Context  |                    |
+<a id="__codelineno-0-623" name="__codelineno-0-623" href="#__codelineno-0-623"></a>      |  |   Operations     |     |  Operations      |                    |
+<a id="__codelineno-0-624" name="__codelineno-0-624" href="#__codelineno-0-624"></a>      |  +------------------+     +------------------+                    |
+<a id="__codelineno-0-625" name="__codelineno-0-625" href="#__codelineno-0-625"></a>      |                                                                   |
+<a id="__codelineno-0-626" name="__codelineno-0-626" href="#__codelineno-0-626"></a>      +-------------------------------------------------------------------+
+<a id="__codelineno-0-627" name="__codelineno-0-627" href="#__codelineno-0-627"></a>
+<a id="__codelineno-0-628" name="__codelineno-0-628" href="#__codelineno-0-628"></a>11.3.  Context Detection
+<a id="__codelineno-0-629" name="__codelineno-0-629" href="#__codelineno-0-629"></a>
+<a id="__codelineno-0-630" name="__codelineno-0-630" href="#__codelineno-0-630"></a>   The agent detects which context applies:
+<a id="__codelineno-0-631" name="__codelineno-0-631" href="#__codelineno-0-631"></a>
+<a id="__codelineno-0-632" name="__codelineno-0-632" href="#__codelineno-0-632"></a>      {
+<a id="__codelineno-0-633" name="__codelineno-0-633" href="#__codelineno-0-633"></a>        &quot;context_detection&quot;: {
+<a id="__codelineno-0-634" name="__codelineno-0-634" href="#__codelineno-0-634"></a>          &quot;ktp_indicators&quot;: [
+<a id="__codelineno-0-635" name="__codelineno-0-635" href="#__codelineno-0-635"></a>            &quot;endpoint_in_zone_registry&quot;,
+<a id="__codelineno-0-636" name="__codelineno-0-636" href="#__codelineno-0-636"></a>            &quot;ktp_protocol_headers&quot;,
+<a id="__codelineno-0-637" name="__codelineno-0-637" href="#__codelineno-0-637"></a>            &quot;trust_proof_request&quot;
+<a id="__codelineno-0-638" name="__codelineno-0-638" href="#__codelineno-0-638"></a>          ],
+<a id="__codelineno-0-639" name="__codelineno-0-639" href="#__codelineno-0-639"></a>          &quot;legacy_indicators&quot;: [
+<a id="__codelineno-0-640" name="__codelineno-0-640" href="#__codelineno-0-640"></a>            &quot;oauth_token_required&quot;,
+<a id="__codelineno-0-641" name="__codelineno-0-641" href="#__codelineno-0-641"></a>            &quot;saml_sp_metadata&quot;,
+<a id="__codelineno-0-642" name="__codelineno-0-642" href="#__codelineno-0-642"></a>            &quot;mtls_client_auth&quot;,
+<a id="__codelineno-0-643" name="__codelineno-0-643" href="#__codelineno-0-643"></a>            &quot;api_key_header&quot;
+<a id="__codelineno-0-644" name="__codelineno-0-644" href="#__codelineno-0-644"></a>          ],
+<a id="__codelineno-0-645" name="__codelineno-0-645" href="#__codelineno-0-645"></a>          &quot;default_context&quot;: &quot;ktp&quot;,
+<a id="__codelineno-0-646" name="__codelineno-0-646" href="#__codelineno-0-646"></a>          &quot;fallback_behavior&quot;: &quot;attempt_ktp_then_legacy&quot;
+<a id="__codelineno-0-647" name="__codelineno-0-647" href="#__codelineno-0-647"></a>        }
+<a id="__codelineno-0-648" name="__codelineno-0-648" href="#__codelineno-0-648"></a>      }
+<a id="__codelineno-0-649" name="__codelineno-0-649" href="#__codelineno-0-649"></a>
+<a id="__codelineno-0-650" name="__codelineno-0-650" href="#__codelineno-0-650"></a>11.4.  Trajectory Accumulation
+<a id="__codelineno-0-651" name="__codelineno-0-651" href="#__codelineno-0-651"></a>
+<a id="__codelineno-0-652" name="__codelineno-0-652" href="#__codelineno-0-652"></a>   All actions contribute to trajectory:
+<a id="__codelineno-0-653" name="__codelineno-0-653" href="#__codelineno-0-653"></a>
+<a id="__codelineno-0-654" name="__codelineno-0-654" href="#__codelineno-0-654"></a>      {
+<a id="__codelineno-0-655" name="__codelineno-0-655" href="#__codelineno-0-655"></a>        &quot;hybrid_trajectory&quot;: {
+<a id="__codelineno-0-656" name="__codelineno-0-656" href="#__codelineno-0-656"></a>          &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-0-657" name="__codelineno-0-657" href="#__codelineno-0-657"></a>          &quot;trajectory_sources&quot;: [
+<a id="__codelineno-0-658" name="__codelineno-0-658" href="#__codelineno-0-658"></a>            {
+<a id="__codelineno-0-659" name="__codelineno-0-659" href="#__codelineno-0-659"></a>              &quot;source&quot;: &quot;ktp_native&quot;,
+<a id="__codelineno-0-660" name="__codelineno-0-660" href="#__codelineno-0-660"></a>              &quot;transactions&quot;: 4721,
+<a id="__codelineno-0-661" name="__codelineno-0-661" href="#__codelineno-0-661"></a>              &quot;weight&quot;: 1.0
+<a id="__codelineno-0-662" name="__codelineno-0-662" href="#__codelineno-0-662"></a>            },
+<a id="__codelineno-0-663" name="__codelineno-0-663" href="#__codelineno-0-663"></a>            {
+<a id="__codelineno-0-664" name="__codelineno-0-664" href="#__codelineno-0-664"></a>              &quot;source&quot;: &quot;oauth_bridge&quot;,
+<a id="__codelineno-0-665" name="__codelineno-0-665" href="#__codelineno-0-665"></a>              &quot;transactions&quot;: 1247,
+<a id="__codelineno-0-666" name="__codelineno-0-666" href="#__codelineno-0-666"></a>              &quot;weight&quot;: 0.8
+<a id="__codelineno-0-667" name="__codelineno-0-667" href="#__codelineno-0-667"></a>            },
+<a id="__codelineno-0-668" name="__codelineno-0-668" href="#__codelineno-0-668"></a>            {
+<a id="__codelineno-0-669" name="__codelineno-0-669" href="#__codelineno-0-669"></a>              &quot;source&quot;: &quot;saml_bridge&quot;,
+<a id="__codelineno-0-670" name="__codelineno-0-670" href="#__codelineno-0-670"></a>              &quot;transactions&quot;: 89,
+<a id="__codelineno-0-671" name="__codelineno-0-671" href="#__codelineno-0-671"></a>              &quot;weight&quot;: 0.8
+<a id="__codelineno-0-672" name="__codelineno-0-672" href="#__codelineno-0-672"></a>            },
+<a id="__codelineno-0-673" name="__codelineno-0-673" href="#__codelineno-0-673"></a>            {
+<a id="__codelineno-0-674" name="__codelineno-0-674" href="#__codelineno-0-674"></a>              &quot;source&quot;: &quot;mtls_bridge&quot;,
+<a id="__codelineno-0-675" name="__codelineno-0-675" href="#__codelineno-0-675"></a>              &quot;transactions&quot;: 2103,
+<a id="__codelineno-0-676" name="__codelineno-0-676" href="#__codelineno-0-676"></a>              &quot;weight&quot;: 0.9
+<a id="__codelineno-0-677" name="__codelineno-0-677" href="#__codelineno-0-677"></a>            }
+<a id="__codelineno-0-678" name="__codelineno-0-678" href="#__codelineno-0-678"></a>          ],
+<a id="__codelineno-0-679" name="__codelineno-0-679" href="#__codelineno-0-679"></a>          &quot;composite_trajectory_length&quot;: 7632
+<a id="__codelineno-0-680" name="__codelineno-0-680" href="#__codelineno-0-680"></a>        }
+<a id="__codelineno-0-681" name="__codelineno-0-681" href="#__codelineno-0-681"></a>      }
+<a id="__codelineno-0-682" name="__codelineno-0-682" href="#__codelineno-0-682"></a>
+<a id="__codelineno-0-683" name="__codelineno-0-683" href="#__codelineno-0-683"></a>12.  Migration Paths
+<a id="__codelineno-0-684" name="__codelineno-0-684" href="#__codelineno-0-684"></a>
+<a id="__codelineno-0-685" name="__codelineno-0-685" href="#__codelineno-0-685"></a>12.1.  Migration Stages
+<a id="__codelineno-0-686" name="__codelineno-0-686" href="#__codelineno-0-686"></a>
+<a id="__codelineno-0-687" name="__codelineno-0-687" href="#__codelineno-0-687"></a>   Stage 0: LEGACY ONLY
+<a id="__codelineno-0-688" name="__codelineno-0-688" href="#__codelineno-0-688"></a>   -  All operations use legacy auth
+<a id="__codelineno-0-689" name="__codelineno-0-689" href="#__codelineno-0-689"></a>   -  No KTP infrastructure
+<a id="__codelineno-0-690" name="__codelineno-0-690" href="#__codelineno-0-690"></a>   -  Baseline for migration
+<a id="__codelineno-0-691" name="__codelineno-0-691" href="#__codelineno-0-691"></a>
+<a id="__codelineno-0-692" name="__codelineno-0-692" href="#__codelineno-0-692"></a>   Stage 1: BRIDGE DEPLOYMENT
+<a id="__codelineno-0-693" name="__codelineno-0-693" href="#__codelineno-0-693"></a>   -  Legacy-KTP bridges deployed
+<a id="__codelineno-0-694" name="__codelineno-0-694" href="#__codelineno-0-694"></a>   -  Legacy clients continue unchanged
+<a id="__codelineno-0-695" name="__codelineno-0-695" href="#__codelineno-0-695"></a>   -  KTP zone operational in shadow
+<a id="__codelineno-0-696" name="__codelineno-0-696" href="#__codelineno-0-696"></a>
+<a id="__codelineno-0-697" name="__codelineno-0-697" href="#__codelineno-0-697"></a>   Stage 2: HYBRID OPERATION
+<a id="__codelineno-0-698" name="__codelineno-0-698" href="#__codelineno-0-698"></a>   -  Some clients use KTP-native
+<a id="__codelineno-0-699" name="__codelineno-0-699" href="#__codelineno-0-699"></a>   -  Some clients use bridges
+<a id="__codelineno-0-700" name="__codelineno-0-700" href="#__codelineno-0-700"></a>   -  Both paths fully supported
+<a id="__codelineno-0-701" name="__codelineno-0-701" href="#__codelineno-0-701"></a>
+<a id="__codelineno-0-702" name="__codelineno-0-702" href="#__codelineno-0-702"></a>   Stage 3: KTP PRIMARY
+<a id="__codelineno-0-703" name="__codelineno-0-703" href="#__codelineno-0-703"></a>   -  Most clients KTP-native
+<a id="__codelineno-0-704" name="__codelineno-0-704" href="#__codelineno-0-704"></a>   -  Bridges for legacy holdouts
+<a id="__codelineno-0-705" name="__codelineno-0-705" href="#__codelineno-0-705"></a>   -  Legacy deprecation announced
+<a id="__codelineno-0-706" name="__codelineno-0-706" href="#__codelineno-0-706"></a>
+<a id="__codelineno-0-707" name="__codelineno-0-707" href="#__codelineno-0-707"></a>   Stage 4: KTP ONLY
+<a id="__codelineno-0-708" name="__codelineno-0-708" href="#__codelineno-0-708"></a>   -  All clients KTP-native
+<a id="__codelineno-0-709" name="__codelineno-0-709" href="#__codelineno-0-709"></a>   -  Bridges removed
+<a id="__codelineno-0-710" name="__codelineno-0-710" href="#__codelineno-0-710"></a>   -  Legacy decommissioned
+<a id="__codelineno-0-711" name="__codelineno-0-711" href="#__codelineno-0-711"></a>
+<a id="__codelineno-0-712" name="__codelineno-0-712" href="#__codelineno-0-712"></a>12.2.  Migration Timeline
+<a id="__codelineno-0-713" name="__codelineno-0-713" href="#__codelineno-0-713"></a>
+<a id="__codelineno-0-714" name="__codelineno-0-714" href="#__codelineno-0-714"></a>   Recommended migration pace:
+<a id="__codelineno-0-715" name="__codelineno-0-715" href="#__codelineno-0-715"></a>
+<a id="__codelineno-0-716" name="__codelineno-0-716" href="#__codelineno-0-716"></a>   -  Stage: 1 → 2; Duration: 4-8 weeks; Milestone: 20% KTP-native
+<a id="__codelineno-0-717" name="__codelineno-0-717" href="#__codelineno-0-717"></a>   -  Stage: 2 → 3; Duration: 3-6 months; Milestone: 80% KTP-native
+<a id="__codelineno-0-718" name="__codelineno-0-718" href="#__codelineno-0-718"></a>   -  Stage: 3 → 4; Duration: 3-6 months; Milestone: 100% KTP-native
+<a id="__codelineno-0-719" name="__codelineno-0-719" href="#__codelineno-0-719"></a>
+<a id="__codelineno-0-720" name="__codelineno-0-720" href="#__codelineno-0-720"></a>12.3.  Migration Checklist
+<a id="__codelineno-0-721" name="__codelineno-0-721" href="#__codelineno-0-721"></a>
+<a id="__codelineno-0-722" name="__codelineno-0-722" href="#__codelineno-0-722"></a>   Pre-migration:
+<a id="__codelineno-0-723" name="__codelineno-0-723" href="#__codelineno-0-723"></a>   -  [ ] KTP zone deployed and tested
+<a id="__codelineno-0-724" name="__codelineno-0-724" href="#__codelineno-0-724"></a>   -  [ ] Bridges deployed and tested
+<a id="__codelineno-0-725" name="__codelineno-0-725" href="#__codelineno-0-725"></a>   -  [ ] Trust mappings configured
+<a id="__codelineno-0-726" name="__codelineno-0-726" href="#__codelineno-0-726"></a>   -  [ ] Fallback procedures documented
+<a id="__codelineno-0-727" name="__codelineno-0-727" href="#__codelineno-0-727"></a>
+<a id="__codelineno-0-728" name="__codelineno-0-728" href="#__codelineno-0-728"></a>   During migration:
+<a id="__codelineno-0-729" name="__codelineno-0-729" href="#__codelineno-0-729"></a>   -  [ ] Traffic monitored at bridges
+<a id="__codelineno-0-730" name="__codelineno-0-730" href="#__codelineno-0-730"></a>   -  [ ] Trust mapping accuracy verified
+<a id="__codelineno-0-731" name="__codelineno-0-731" href="#__codelineno-0-731"></a>   -  [ ] Agent trajectories accumulating
+<a id="__codelineno-0-732" name="__codelineno-0-732" href="#__codelineno-0-732"></a>   -  [ ] Issues logged and addressed
+<a id="__codelineno-0-733" name="__codelineno-0-733" href="#__codelineno-0-733"></a>
+<a id="__codelineno-0-734" name="__codelineno-0-734" href="#__codelineno-0-734"></a>   Post-migration:
+<a id="__codelineno-0-735" name="__codelineno-0-735" href="#__codelineno-0-735"></a>   -  [ ] All clients KTP-native
+<a id="__codelineno-0-736" name="__codelineno-0-736" href="#__codelineno-0-736"></a>   -  [ ] Bridges decommissioned
+<a id="__codelineno-0-737" name="__codelineno-0-737" href="#__codelineno-0-737"></a>   -  [ ] Legacy systems decommissioned
+<a id="__codelineno-0-738" name="__codelineno-0-738" href="#__codelineno-0-738"></a>   -  [ ] Documentation updated
+<a id="__codelineno-0-739" name="__codelineno-0-739" href="#__codelineno-0-739"></a>
+<a id="__codelineno-0-740" name="__codelineno-0-740" href="#__codelineno-0-740"></a>12.4.  Trust Carryover
+<a id="__codelineno-0-741" name="__codelineno-0-741" href="#__codelineno-0-741"></a>
+<a id="__codelineno-0-742" name="__codelineno-0-742" href="#__codelineno-0-742"></a>   Trajectory earned via bridges carries over:
+<a id="__codelineno-0-743" name="__codelineno-0-743" href="#__codelineno-0-743"></a>
+<a id="__codelineno-0-744" name="__codelineno-0-744" href="#__codelineno-0-744"></a>      {
+<a id="__codelineno-0-745" name="__codelineno-0-745" href="#__codelineno-0-745"></a>        &quot;migration_carryover&quot;: {
+<a id="__codelineno-0-746" name="__codelineno-0-746" href="#__codelineno-0-746"></a>          &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-0-747" name="__codelineno-0-747" href="#__codelineno-0-747"></a>          &quot;pre_migration_trajectory&quot;: {
+<a id="__codelineno-0-748" name="__codelineno-0-748" href="#__codelineno-0-748"></a>            &quot;source&quot;: &quot;oauth_bridge&quot;,
+<a id="__codelineno-0-749" name="__codelineno-0-749" href="#__codelineno-0-749"></a>            &quot;transactions&quot;: 5000,
+<a id="__codelineno-0-750" name="__codelineno-0-750" href="#__codelineno-0-750"></a>            &quot;e_base_earned&quot;: 35
+<a id="__codelineno-0-751" name="__codelineno-0-751" href="#__codelineno-0-751"></a>          },
+<a id="__codelineno-0-752" name="__codelineno-0-752" href="#__codelineno-0-752"></a>          &quot;carryover_factor&quot;: 0.7,
+<a id="__codelineno-0-753" name="__codelineno-0-753" href="#__codelineno-0-753"></a>          &quot;post_migration_e_base&quot;: 24.5,
+<a id="__codelineno-0-754" name="__codelineno-0-754" href="#__codelineno-0-754"></a>          &quot;carryover_attestation&quot;: &quot;signed_by_bridge_and_zone&quot;
+<a id="__codelineno-0-755" name="__codelineno-0-755" href="#__codelineno-0-755"></a>        }
+<a id="__codelineno-0-756" name="__codelineno-0-756" href="#__codelineno-0-756"></a>      }
+<a id="__codelineno-0-757" name="__codelineno-0-757" href="#__codelineno-0-757"></a>
+<a id="__codelineno-0-758" name="__codelineno-0-758" href="#__codelineno-0-758"></a>13.  Bridge Deployment Patterns
+<a id="__codelineno-0-759" name="__codelineno-0-759" href="#__codelineno-0-759"></a>
+<a id="__codelineno-0-760" name="__codelineno-0-760" href="#__codelineno-0-760"></a>13.1.  Sidecar Pattern
+<a id="__codelineno-0-761" name="__codelineno-0-761" href="#__codelineno-0-761"></a>
+<a id="__codelineno-0-762" name="__codelineno-0-762" href="#__codelineno-0-762"></a>   Bridge runs alongside application:
+<a id="__codelineno-0-763" name="__codelineno-0-763" href="#__codelineno-0-763"></a>
+<a id="__codelineno-0-764" name="__codelineno-0-764" href="#__codelineno-0-764"></a>      +-----------------------------------+
+<a id="__codelineno-0-765" name="__codelineno-0-765" href="#__codelineno-0-765"></a>      |           Application Pod         |
+<a id="__codelineno-0-766" name="__codelineno-0-766" href="#__codelineno-0-766"></a>      |  +-------------+  +-------------+ |
+<a id="__codelineno-0-767" name="__codelineno-0-767" href="#__codelineno-0-767"></a>      |  | Application |  |   Bridge    | |
+<a id="__codelineno-0-768" name="__codelineno-0-768" href="#__codelineno-0-768"></a>      |  |             |&lt;&gt;|             | |
+<a id="__codelineno-0-769" name="__codelineno-0-769" href="#__codelineno-0-769"></a>      |  +-------------+  +-------------+ |
+<a id="__codelineno-0-770" name="__codelineno-0-770" href="#__codelineno-0-770"></a>      +-----------------------------------+
+<a id="__codelineno-0-771" name="__codelineno-0-771" href="#__codelineno-0-771"></a>
+<a id="__codelineno-0-772" name="__codelineno-0-772" href="#__codelineno-0-772"></a>13.2.  Gateway Pattern
+<a id="__codelineno-0-773" name="__codelineno-0-773" href="#__codelineno-0-773"></a>
+<a id="__codelineno-0-774" name="__codelineno-0-774" href="#__codelineno-0-774"></a>   Bridge at API gateway:
+<a id="__codelineno-0-775" name="__codelineno-0-775" href="#__codelineno-0-775"></a>
+<a id="__codelineno-0-776" name="__codelineno-0-776" href="#__codelineno-0-776"></a>                          +---------------+
+<a id="__codelineno-0-777" name="__codelineno-0-777" href="#__codelineno-0-777"></a>                          |   API Gateway |
+<a id="__codelineno-0-778" name="__codelineno-0-778" href="#__codelineno-0-778"></a>                          |   + Bridge    |
+<a id="__codelineno-0-779" name="__codelineno-0-779" href="#__codelineno-0-779"></a>                          +---------------+
+<a id="__codelineno-0-780" name="__codelineno-0-780" href="#__codelineno-0-780"></a>                                |
+<a id="__codelineno-0-781" name="__codelineno-0-781" href="#__codelineno-0-781"></a>              +--------+--------+--------+
+<a id="__codelineno-0-782" name="__codelineno-0-782" href="#__codelineno-0-782"></a>              |        |        |        |
+<a id="__codelineno-0-783" name="__codelineno-0-783" href="#__codelineno-0-783"></a>              v        v        v        v
+<a id="__codelineno-0-784" name="__codelineno-0-784" href="#__codelineno-0-784"></a>          +------+ +------+ +------+ +------+
+<a id="__codelineno-0-785" name="__codelineno-0-785" href="#__codelineno-0-785"></a>          | Svc1 | | Svc2 | | Svc3 | | Svc4 |
+<a id="__codelineno-0-786" name="__codelineno-0-786" href="#__codelineno-0-786"></a>          +------+ +------+ +------+ +------+
+<a id="__codelineno-0-787" name="__codelineno-0-787" href="#__codelineno-0-787"></a>
+<a id="__codelineno-0-788" name="__codelineno-0-788" href="#__codelineno-0-788"></a>13.3.  Service Mesh Pattern
+<a id="__codelineno-0-789" name="__codelineno-0-789" href="#__codelineno-0-789"></a>
+<a id="__codelineno-0-790" name="__codelineno-0-790" href="#__codelineno-0-790"></a>   Bridge integrated with service mesh:
+<a id="__codelineno-0-791" name="__codelineno-0-791" href="#__codelineno-0-791"></a>
+<a id="__codelineno-0-792" name="__codelineno-0-792" href="#__codelineno-0-792"></a>      +-----------------------------------+
+<a id="__codelineno-0-793" name="__codelineno-0-793" href="#__codelineno-0-793"></a>      |        Service Mesh Control       |
+<a id="__codelineno-0-794" name="__codelineno-0-794" href="#__codelineno-0-794"></a>      |        + KTP Bridge Control       |
+<a id="__codelineno-0-795" name="__codelineno-0-795" href="#__codelineno-0-795"></a>      +-----------------------------------+
+<a id="__codelineno-0-796" name="__codelineno-0-796" href="#__codelineno-0-796"></a>                       |
+<a id="__codelineno-0-797" name="__codelineno-0-797" href="#__codelineno-0-797"></a>             +---------+---------+
+<a id="__codelineno-0-798" name="__codelineno-0-798" href="#__codelineno-0-798"></a>             |         |         |
+<a id="__codelineno-0-799" name="__codelineno-0-799" href="#__codelineno-0-799"></a>             v         v         v
+<a id="__codelineno-0-800" name="__codelineno-0-800" href="#__codelineno-0-800"></a>         +-------+ +-------+ +-------+
+<a id="__codelineno-0-801" name="__codelineno-0-801" href="#__codelineno-0-801"></a>         | Envoy | | Envoy | | Envoy |
+<a id="__codelineno-0-802" name="__codelineno-0-802" href="#__codelineno-0-802"></a>         |+Bridge| |+Bridge| |+Bridge|
+<a id="__codelineno-0-803" name="__codelineno-0-803" href="#__codelineno-0-803"></a>         +-------+ +-------+ +-------+
+<a id="__codelineno-0-804" name="__codelineno-0-804" href="#__codelineno-0-804"></a>             |         |         |
+<a id="__codelineno-0-805" name="__codelineno-0-805" href="#__codelineno-0-805"></a>             v         v         v
+<a id="__codelineno-0-806" name="__codelineno-0-806" href="#__codelineno-0-806"></a>         +-------+ +-------+ +-------+
+<a id="__codelineno-0-807" name="__codelineno-0-807" href="#__codelineno-0-807"></a>         | Svc A | | Svc B | | Svc C |
+<a id="__codelineno-0-808" name="__codelineno-0-808" href="#__codelineno-0-808"></a>         +-------+ +-------+ +-------+
+<a id="__codelineno-0-809" name="__codelineno-0-809" href="#__codelineno-0-809"></a>
+<a id="__codelineno-0-810" name="__codelineno-0-810" href="#__codelineno-0-810"></a>14.  Security Considerations
+<a id="__codelineno-0-811" name="__codelineno-0-811" href="#__codelineno-0-811"></a>
+<a id="__codelineno-0-812" name="__codelineno-0-812" href="#__codelineno-0-812"></a>14.1.  Bridge Security
+<a id="__codelineno-0-813" name="__codelineno-0-813" href="#__codelineno-0-813"></a>
+<a id="__codelineno-0-814" name="__codelineno-0-814" href="#__codelineno-0-814"></a>   Bridges are high-value targets:
+<a id="__codelineno-0-815" name="__codelineno-0-815" href="#__codelineno-0-815"></a>
+<a id="__codelineno-0-816" name="__codelineno-0-816" href="#__codelineno-0-816"></a>   -  Bridges MUST run in secure environments
+<a id="__codelineno-0-817" name="__codelineno-0-817" href="#__codelineno-0-817"></a>   -  Bridge credentials MUST be protected
+<a id="__codelineno-0-818" name="__codelineno-0-818" href="#__codelineno-0-818"></a>   -  Bridge operations MUST be logged
+<a id="__codelineno-0-819" name="__codelineno-0-819" href="#__codelineno-0-819"></a>   -  Bridge compromise affects all translations
+<a id="__codelineno-0-820" name="__codelineno-0-820" href="#__codelineno-0-820"></a>
+<a id="__codelineno-0-821" name="__codelineno-0-821" href="#__codelineno-0-821"></a>14.2.  Trust Mapping Attacks
+<a id="__codelineno-0-822" name="__codelineno-0-822" href="#__codelineno-0-822"></a>
+<a id="__codelineno-0-823" name="__codelineno-0-823" href="#__codelineno-0-823"></a>   Attackers may try to exploit mappings:
+<a id="__codelineno-0-824" name="__codelineno-0-824" href="#__codelineno-0-824"></a>
+<a id="__codelineno-0-825" name="__codelineno-0-825" href="#__codelineno-0-825"></a>   -  Claim inflation: claiming higher legacy trust than warranted
+<a id="__codelineno-0-826" name="__codelineno-0-826" href="#__codelineno-0-826"></a>   -  Scope smuggling: gaining capabilities not in original token
+<a id="__codelineno-0-827" name="__codelineno-0-827" href="#__codelineno-0-827"></a>   -  Replay attacks: reusing translated credentials
+<a id="__codelineno-0-828" name="__codelineno-0-828" href="#__codelineno-0-828"></a>
+<a id="__codelineno-0-829" name="__codelineno-0-829" href="#__codelineno-0-829"></a>   Mitigations:
+<a id="__codelineno-0-830" name="__codelineno-0-830" href="#__codelineno-0-830"></a>   -  Conservative translation
+<a id="__codelineno-0-831" name="__codelineno-0-831" href="#__codelineno-0-831"></a>   -  Short credential lifetimes
+<a id="__codelineno-0-832" name="__codelineno-0-832" href="#__codelineno-0-832"></a>   -  Binding to context (IP, device)
+<a id="__codelineno-0-833" name="__codelineno-0-833" href="#__codelineno-0-833"></a>   -  Continuous validation
+<a id="__codelineno-0-834" name="__codelineno-0-834" href="#__codelineno-0-834"></a>
+<a id="__codelineno-0-835" name="__codelineno-0-835" href="#__codelineno-0-835"></a>14.3.  Migration Security
+<a id="__codelineno-0-836" name="__codelineno-0-836" href="#__codelineno-0-836"></a>
+<a id="__codelineno-0-837" name="__codelineno-0-837" href="#__codelineno-0-837"></a>   During migration, both systems are attack surface:
+<a id="__codelineno-0-838" name="__codelineno-0-838" href="#__codelineno-0-838"></a>
+<a id="__codelineno-0-839" name="__codelineno-0-839" href="#__codelineno-0-839"></a>   -  Maintain security on both systems
+<a id="__codelineno-0-840" name="__codelineno-0-840" href="#__codelineno-0-840"></a>   -  Monitor for migration-related anomalies
+<a id="__codelineno-0-841" name="__codelineno-0-841" href="#__codelineno-0-841"></a>   -  Test fallback procedures
+<a id="__codelineno-0-842" name="__codelineno-0-842" href="#__codelineno-0-842"></a>   -  Plan for rollback if needed
+<a id="__codelineno-0-843" name="__codelineno-0-843" href="#__codelineno-0-843"></a>
+<a id="__codelineno-0-844" name="__codelineno-0-844" href="#__codelineno-0-844"></a>15.  IANA Considerations
+<a id="__codelineno-0-845" name="__codelineno-0-845" href="#__codelineno-0-845"></a>
+<a id="__codelineno-0-846" name="__codelineno-0-846" href="#__codelineno-0-846"></a>   This document has no IANA actions.
+<a id="__codelineno-0-847" name="__codelineno-0-847" href="#__codelineno-0-847"></a>
+<a id="__codelineno-0-848" name="__codelineno-0-848" href="#__codelineno-0-848"></a>16.  Acknowledgments
+<a id="__codelineno-0-849" name="__codelineno-0-849" href="#__codelineno-0-849"></a>
+<a id="__codelineno-0-850" name="__codelineno-0-850" href="#__codelineno-0-850"></a>   Legacy integration design draws on production experience with OAuth,
+<a id="__codelineno-0-851" name="__codelineno-0-851" href="#__codelineno-0-851"></a>   SAML, mTLS, and identity federation systems.
+<a id="__codelineno-0-852" name="__codelineno-0-852" href="#__codelineno-0-852"></a>
+<a id="__codelineno-0-853" name="__codelineno-0-853" href="#__codelineno-0-853"></a>Appendix A.  Protocol-Specific Bridge Configurations
+<a id="__codelineno-0-854" name="__codelineno-0-854" href="#__codelineno-0-854"></a>
+<a id="__codelineno-0-855" name="__codelineno-0-855" href="#__codelineno-0-855"></a>   Detailed configuration for each legacy protocol.
+<a id="__codelineno-0-856" name="__codelineno-0-856" href="#__codelineno-0-856"></a>
+<a id="__codelineno-0-857" name="__codelineno-0-857" href="#__codelineno-0-857"></a>Appendix B.  Trust Mapping Calibration
+<a id="__codelineno-0-858" name="__codelineno-0-858" href="#__codelineno-0-858"></a>
+<a id="__codelineno-0-859" name="__codelineno-0-859" href="#__codelineno-0-859"></a>   Guidance for tuning trust mappings to organizational context.
+<a id="__codelineno-0-860" name="__codelineno-0-860" href="#__codelineno-0-860"></a>
+<a id="__codelineno-0-861" name="__codelineno-0-861" href="#__codelineno-0-861"></a>Appendix C.  Migration Runbooks
+<a id="__codelineno-0-862" name="__codelineno-0-862" href="#__codelineno-0-862"></a>
+<a id="__codelineno-0-863" name="__codelineno-0-863" href="#__codelineno-0-863"></a>   Step-by-step procedures for migration stages.
+<a id="__codelineno-0-864" name="__codelineno-0-864" href="#__codelineno-0-864"></a>
+<a id="__codelineno-0-865" name="__codelineno-0-865" href="#__codelineno-0-865"></a>Authors&#39; Addresses
+<a id="__codelineno-0-866" name="__codelineno-0-866" href="#__codelineno-0-866"></a>
+<a id="__codelineno-0-867" name="__codelineno-0-867" href="#__codelineno-0-867"></a>   Cody Perkins
+<a id="__codelineno-0-868" name="__codelineno-0-868" href="#__codelineno-0-868"></a>   NMCITRA
+<a id="__codelineno-0-869" name="__codelineno-0-869" href="#__codelineno-0-869"></a>
+<a id="__codelineno-0-870" name="__codelineno-0-870" href="#__codelineno-0-870"></a>   Email: cody@nmcitra.com
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/break-the-chain/">Break the Chain</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

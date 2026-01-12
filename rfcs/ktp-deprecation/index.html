@@ -1,0 +1,4084 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Protocols for the Death Edge—agent retirement, model sunsetting, and trajectory preservation.">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-deprecation/">
+      
+      
+        <link rel="prev" href="../ktp-emergency/">
+      
+      
+        <link rel="next" href="../../schemas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>KTP-Deprecation - End-of-Life Specification - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ktp-deprecation-end-of-life-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Deprecation - End-of-Life Specification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/context-tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-the-death-edge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: The Death Edge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: The Death Edge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-deprecation-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Deprecation Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle Phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-retirement-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Retirement Protocol
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Retirement Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-trajectory-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Trajectory Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-safeguards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Safeguards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../schemas/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/break-the-chain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break the Chain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-the-death-edge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: The Death Edge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: The Death Edge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-deprecation-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Deprecation Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle Phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-retirement-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Retirement Protocol
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Agent Retirement Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-trajectory-archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Trajectory Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-safeguards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional Safeguards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-deprecation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ktp-deprecation-end-of-life-specification">KTP-Deprecation: End-of-Life Specification<a class="headerlink" href="#ktp-deprecation-end-of-life-specification" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>"Everything ends. The Death Edge—the moment of ending—deserves as much attention as the Genesis Edge."</p>
+</blockquote>
+<hr />
+<h2 id="at-a-glance">At a Glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td><span class="twemoji experimental"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 22a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3zm-1-3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57l-2.29-3.96L14 17l-5.07-5.07-3.75 6.5c-.11.16-.18.36-.18.57m8-9a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1"/></svg></span> Experimental</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td><a href="../ktp-core/">KTP-Core</a>, <a href="../ktp-identity/">KTP-Identity</a></td>
+</tr>
+<tr>
+<td><strong>Required By</strong></td>
+<td><a href="../ktp-audit/">KTP-Audit</a>, <a href="../ktp-governance/">KTP-Governance</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
+<p>In most systems, "deletion" is a destructive act. Logs are purged, keys are revoked, and the entity simply vanishes. For autonomous agents, this is a loss of valuable data:
+1.  <strong>Knowledge Loss</strong>: What did the agent learn?
+2.  <strong>Orphaned Dependencies</strong>: Who relied on this agent?
+3.  <strong>Audit Gaps</strong>: How do we prove what happened after the agent is gone?</p>
+<h2 id="the-solution-the-death-edge">The Solution: The Death Edge<a class="headerlink" href="#the-solution-the-death-edge" title="Permanent link">&para;</a></h2>
+<p>KTP-Deprecation treats endings as a formal lifecycle stage. It ensures that when an agent or model retires, its <strong>Trajectory</strong> is preserved, its responsibilities are handed off, and its exit is cryptographically signed.</p>
+<h3 id="the-deprecation-lifecycle">The Deprecation Lifecycle<a class="headerlink" href="#the-deprecation-lifecycle" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Active
+    Active --&gt; Deprecated: Notice Issued
+    Deprecated --&gt; EOL: Grace Period Ends
+    EOL --&gt; Sunset: Final Shutdown
+    Sunset --&gt; Archived: Trajectory Preserved
+    Archived --&gt; [*]
+
+    state Active {
+        [*] --&gt; Production
+    }
+    state Deprecated {
+        [*] --&gt; NoNewAgents
+        NoNewAgents --&gt; MigrationPath
+    }
+    state Archived {
+        [*] --&gt; ReadOnly
+    }</code></pre>
+<hr />
+<h2 id="lifecycle-phases">Lifecycle Phases<a class="headerlink" href="#lifecycle-phases" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Phase</th>
+<th style="text-align: left;">Duration</th>
+<th style="text-align: left;">Restrictions</th>
+<th style="text-align: left;">Action Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Active</strong></td>
+<td style="text-align: left;">Variable</td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Normal operation.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Deprecated</strong></td>
+<td style="text-align: left;">Min 180 days</td>
+<td style="text-align: left;">No new agents created.</td>
+<td style="text-align: left;">Begin migration to successor models.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>End-of-Life (EOL)</strong></td>
+<td style="text-align: left;">Min 90 days</td>
+<td style="text-align: left;">Security fixes only.</td>
+<td style="text-align: left;">Mandatory migration of existing agents.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Sunset</strong></td>
+<td style="text-align: left;">Permanent</td>
+<td style="text-align: left;">Agent execution blocked.</td>
+<td style="text-align: left;">Trajectory archived to cold storage.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="agent-retirement-protocol">Agent Retirement Protocol<a class="headerlink" href="#agent-retirement-protocol" title="Permanent link">&para;</a></h2>
+<p>When an individual agent is retired (voluntarily or due to model sunset), it undergoes a <strong>Succession Ceremony</strong>.</p>
+<ol>
+<li><strong>Dependency Check</strong>: Identify all other agents or humans relying on this agent.</li>
+<li><strong>State Export</strong>: Serialize the agent's final <a href="../ktp-tensors/"><strong>Context Tensor</strong></a> state.</li>
+<li><strong>Trajectory Archive</strong>: Cryptographically sign the full history chain and store it in the <a href="../ktp-audit/"><strong>Flight Recorder</strong></a>.</li>
+<li><strong>Key Revocation</strong>: Revoke active keys but retain public keys for historical verification.</li>
+</ol>
+<h3 id="the-trajectory-archive">The Trajectory Archive<a class="headerlink" href="#the-trajectory-archive" title="Permanent link">&para;</a></h3>
+<p>A read-only, immutable record of the agent's life.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;agent_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agent-882&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;genesis_block&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hash:...&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;death_block&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hash:...&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&quot;lifespan&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4y 2m 12d&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="nt">&quot;final_trust_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.92</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;model_sunset&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nt">&quot;successor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agent-905&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nt">&quot;archive_location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ipfs://...&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="additional-safeguards">Additional Safeguards<a class="headerlink" href="#additional-safeguards" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Orphan Prevention:</strong> Ensure no dependent agent is left without a required service provider.</li>
+<li><strong>Emergency Termination:</strong> Immediate kill-switch procedures for security breaches.</li>
+<li><strong>Digital Epitaph:</strong> A final signed statement summarizing purpose and achievements.</li>
+</ul>
+<h2 id="related-specifications">Related Specifications<a class="headerlink" href="#related-specifications" title="Permanent link">&para;</a></h2>
+<details class="info">
+<summary>Related Specifications</summary>
+<ul>
+<li><a href="../ktp-identity/">KTP-Identity</a>: The entity being retired and lineage continuity.</li>
+<li><a href="../ktp-audit/">KTP-Audit</a>: Where the Trajectory Archive is stored.</li>
+<li><a href="../ktp-migration/">KTP-Migration</a>: Transition paths to successor models.</li>
+<li><a href="../ktp-relational/">KTP-Relational</a>: Social graph and community impact.</li>
+<li><a href="../ktp-governance/">KTP-Governance</a>: Oversight and retirement approvals.</li>
+</ul>
+</details>
+<hr />
+<h2 id="official-rfc-document">Official RFC Document<a class="headerlink" href="#official-rfc-document" title="Permanent link">&para;</a></h2>
+<details class="note">
+<summary>View Complete RFC Text (ktp-deprecation.txt)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Kinetic Trust Protocol                                      C. Perkins
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Specification Draft                                           NMCITRA
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Version: 0.1                                             November 2025
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>       Kinetic Trust Protocol (KTP) - Deprecation and End-of-Life
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                             Specification
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Abstract
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>   This document specifies deprecation and end-of-life procedures for
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>   the Kinetic Trust Protocol (KTP). All agents end—through version
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>   sunset, graceful retirement, emergency termination, or system
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>   failure. The Death Edge is the final transition, requiring the same
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>   intentionality as Genesis. This specification covers model
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>   deprecation, agent retirement, trajectory preservation, knowledge
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>   transfer, and the ceremonies that mark endings.
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>Status of This Memo
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>   This document is a draft specification developed by the New Mexico
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>   Cyber Intelligence &amp; Threat Response Alliance (NMCITRA). It has not
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>   been submitted to the IETF and does not represent an Internet
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>   Standard or consensus of any standards body.
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>   Feedback and contributions are welcome at:
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>   https://github.com/nmcitra/ktp-rfc
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>Copyright Notice
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>   under the Apache License, Version 2.0.
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>Table of Contents
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>   1. Introduction  . . . . . . . . . . . . . . . . . . . . . . . .  2
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>   2. Design Principles . . . . . . . . . . . . . . . . . . . . . .  2
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>   3. Requirements Language . . . . . . . . . . . . . . . . . . . .  3
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>   4. Terminology . . . . . . . . . . . . . . . . . . . . . . . . .  3
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>   5. Model Deprecation . . . . . . . . . . . . . . . . . . . . . .  4
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>      5.1. Deprecation Lifecycle  . . . . . . . . . . . . . . . . .  4
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>      5.2. Deprecation Timeline . . . . . . . . . . . . . . . . . .  4
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>      5.3. Deprecation Announcement . . . . . . . . . . . . . . . .  5
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>      5.4. Model Migration  . . . . . . . . . . . . . . . . . . . .  5
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>      5.5. Migration Failure  . . . . . . . . . . . . . . . . . . .  6
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>   6. Agent Retirement  . . . . . . . . . . . . . . . . . . . . . .  7
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>      6.1. Retirement Types . . . . . . . . . . . . . . . . . . . .  7
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>      6.2. Graceful Retirement Process  . . . . . . . . . . . . . .  7
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>      6.3. Retirement Request . . . . . . . . . . . . . . . . . . .  8
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>      6.4. Emergency Termination  . . . . . . . . . . . . . . . . .  8
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>      6.5. Orphan Handling  . . . . . . . . . . . . . . . . . . . .  9
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>   7. The Death Edge  . . . . . . . . . . . . . . . . . . . . . . . 10
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>      7.1. Definition . . . . . . . . . . . . . . . . . . . . . . . 10
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>      7.2. Death Edge Ceremony  . . . . . . . . . . . . . . . . . . 10
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>      7.3. Death Without Ceremony . . . . . . . . . . . . . . . . . 12
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>   8. Trajectory Preservation . . . . . . . . . . . . . . . . . . . 12
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>      8.1. What Is Preserved  . . . . . . . . . . . . . . . . . . . 12
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>      8.2. Trajectory Archive . . . . . . . . . . . . . . . . . . . 13
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>      8.3. Archive Access . . . . . . . . . . . . . . . . . . . . . 14
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>   9. Knowledge Transfer  . . . . . . . . . . . . . . . . . . . . . 14
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>      9.1. Transfer Types . . . . . . . . . . . . . . . . . . . . . 14
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>      9.2. Successor Transfer . . . . . . . . . . . . . . . . . . . 15
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>   10. Zone Dissolution . . . . . . . . . . . . . . . . . . . . . . 16
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>       10.1. Dissolution Process  . . . . . . . . . . . . . . . . . 16
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>       10.2. Zone Dissolution Record  . . . . . . . . . . . . . . . 17
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>   11. Security Considerations  . . . . . . . . . . . . . . . . . . 17
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>       11.1. Secure Deletion  . . . . . . . . . . . . . . . . . . . 18
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>       11.2. Zombie Prevention  . . . . . . . . . . . . . . . . . . 18
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>       11.3. Archive Security . . . . . . . . . . . . . . . . . . . 18
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>   12. IANA Considerations  . . . . . . . . . . . . . . . . . . . . 18
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>   13. Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . 18
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>   Appendix A. Ceremony Scripts . . . . . . . . . . . . . . . . . . 19
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>   Appendix B. Archive Format . . . . . . . . . . . . . . . . . . . 19
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>   Appendix C. Migration Procedures . . . . . . . . . . . . . . . . 19
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>1. Introduction
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>   Everything ends. Models are superseded. Agents complete their
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>   purpose. Systems fail. The Death Edge—the moment of ending—deserves
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>   as much attention as the Genesis Edge (beginning) and the Origin
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>   Edge (model provenance).
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>   This specification addresses what happens when:
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>   - A model version is deprecated
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>   - An agent is retired
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>   - An agent fails catastrophically
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>   - A zone is dissolved
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>   - The entire KTP system sunsets
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>2. Design Principles
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>   Deprecation embodies these principles:
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>   1. Endings Deserve Ceremony: Endings are not just technical
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>      events—they have meaning.
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>   2. Trajectory Preservation: What was learned should survive.
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>   3. Clean Transitions: Others depending on the ending entity need
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>      orderly handoffs.
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>   4. Graceful Degradation: Forced endings should minimize harm.
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>   5. No Orphans: Dependents must be addressed before ending.
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>   6. Memory Persists: Even after ending, the record remains.
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>3. Requirements Language
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>   document are to be interpreted as described in BCP 14 (RFC 2119 and
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>   RFC 8174).
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>4. Terminology
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>   Deprecation: The process of marking something for eventual removal
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>   while maintaining current functionality.
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>   End-of-Life (EOL): The point at which an entity ceases active
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>   operation.
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a>
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>   Death Edge: The final transition from active to ended state.
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>   Graceful Retirement: Planned, orderly ending with full ceremony.
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a>
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>   Emergency Termination: Immediate ending due to security or safety
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>   concerns.
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>   Orphan: An entity left without required dependencies (sponsor, zone).
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>   Succession: Transfer of responsibilities to a successor entity.
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a>
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>   Trajectory Archive: Preserved record of an ended agent&#39;s trajectory.
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>5. Model Deprecation
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a>
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>5.1. Deprecation Lifecycle
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>   ACTIVE
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>     Model in production use
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>     Full support
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a>     Agents can be created
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>           |
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>           v
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>   DEPRECATED
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>     Still functional
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>     Security fixes only
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>     No new agents
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>     Migration encouraged
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>           |
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a>           v
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a>   END-OF-LIFE
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>     No longer supported
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>     Existing agents must migrate
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>     Grace period for migration
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>           |
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>           v
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>   SUNSET
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>     Model unavailable
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>     All agents migrated or ended
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>     History preserved
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a>
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a>5.2. Deprecation Timeline
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a>
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a>   Phase: Deprecated
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a>     Duration: Minimum 180 days
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>     Requirements: Security fixes, migration path
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a>
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a>   Phase: EOL Grace
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a>     Duration: Minimum 90 days
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a>     Requirements: No support, migration required
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a>
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a>   Phase: Sunset
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>     Duration: N/A
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a>     Requirements: Complete
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a>
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a>5.3. Deprecation Announcement
+<a id="__codelineno-1-180" name="__codelineno-1-180" href="#__codelineno-1-180"></a>
+<a id="__codelineno-1-181" name="__codelineno-1-181" href="#__codelineno-1-181"></a>   {
+<a id="__codelineno-1-182" name="__codelineno-1-182" href="#__codelineno-1-182"></a>     &quot;deprecation_notice&quot;: {
+<a id="__codelineno-1-183" name="__codelineno-1-183" href="#__codelineno-1-183"></a>       &quot;notice_id&quot;: &quot;DEP-2025-001&quot;,
+<a id="__codelineno-1-184" name="__codelineno-1-184" href="#__codelineno-1-184"></a>       &quot;model_id&quot;: &quot;model:claude-opus-4.5&quot;,
+<a id="__codelineno-1-185" name="__codelineno-1-185" href="#__codelineno-1-185"></a>       &quot;announcement_date&quot;: &quot;2025-12-01&quot;,
+<a id="__codelineno-1-186" name="__codelineno-1-186" href="#__codelineno-1-186"></a>       &quot;deprecation_date&quot;: &quot;2025-06-01&quot;,
+<a id="__codelineno-1-187" name="__codelineno-1-187" href="#__codelineno-1-187"></a>       &quot;eol_date&quot;: &quot;2025-09-01&quot;,
+<a id="__codelineno-1-188" name="__codelineno-1-188" href="#__codelineno-1-188"></a>       &quot;sunset_date&quot;: &quot;2025-12-01&quot;,
+<a id="__codelineno-1-189" name="__codelineno-1-189" href="#__codelineno-1-189"></a>       &quot;successor_model&quot;: &quot;model:claude-opus-5.0&quot;,
+<a id="__codelineno-1-190" name="__codelineno-1-190" href="#__codelineno-1-190"></a>       &quot;migration_path&quot;: {
+<a id="__codelineno-1-191" name="__codelineno-1-191" href="#__codelineno-1-191"></a>         &quot;automatic&quot;: false,
+<a id="__codelineno-1-192" name="__codelineno-1-192" href="#__codelineno-1-192"></a>         &quot;tools_available&quot;: true,
+<a id="__codelineno-1-193" name="__codelineno-1-193" href="#__codelineno-1-193"></a>         &quot;documentation&quot;:
+<a id="__codelineno-1-194" name="__codelineno-1-194" href="#__codelineno-1-194"></a>           &quot;https://ktp.example/migration/opus-4.5-to-5.0&quot;
+<a id="__codelineno-1-195" name="__codelineno-1-195" href="#__codelineno-1-195"></a>       },
+<a id="__codelineno-1-196" name="__codelineno-1-196" href="#__codelineno-1-196"></a>       &quot;affected_agents&quot;: 47823,
+<a id="__codelineno-1-197" name="__codelineno-1-197" href="#__codelineno-1-197"></a>       &quot;affected_zones&quot;: 342,
+<a id="__codelineno-1-198" name="__codelineno-1-198" href="#__codelineno-1-198"></a>       &quot;communication&quot;: {
+<a id="__codelineno-1-199" name="__codelineno-1-199" href="#__codelineno-1-199"></a>         &quot;sponsors_notified&quot;: &quot;2025-12-01&quot;,
+<a id="__codelineno-1-200" name="__codelineno-1-200" href="#__codelineno-1-200"></a>         &quot;zones_notified&quot;: &quot;2025-12-01&quot;,
+<a id="__codelineno-1-201" name="__codelineno-1-201" href="#__codelineno-1-201"></a>         &quot;public_announcement&quot;: &quot;2025-12-02&quot;
+<a id="__codelineno-1-202" name="__codelineno-1-202" href="#__codelineno-1-202"></a>       }
+<a id="__codelineno-1-203" name="__codelineno-1-203" href="#__codelineno-1-203"></a>     }
+<a id="__codelineno-1-204" name="__codelineno-1-204" href="#__codelineno-1-204"></a>   }
+<a id="__codelineno-1-205" name="__codelineno-1-205" href="#__codelineno-1-205"></a>
+<a id="__codelineno-1-206" name="__codelineno-1-206" href="#__codelineno-1-206"></a>5.4. Model Migration
+<a id="__codelineno-1-207" name="__codelineno-1-207" href="#__codelineno-1-207"></a>
+<a id="__codelineno-1-208" name="__codelineno-1-208" href="#__codelineno-1-208"></a>   Agents must migrate to successor model:
+<a id="__codelineno-1-209" name="__codelineno-1-209" href="#__codelineno-1-209"></a>
+<a id="__codelineno-1-210" name="__codelineno-1-210" href="#__codelineno-1-210"></a>   {
+<a id="__codelineno-1-211" name="__codelineno-1-211" href="#__codelineno-1-211"></a>     &quot;model_migration&quot;: {
+<a id="__codelineno-1-212" name="__codelineno-1-212" href="#__codelineno-1-212"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-213" name="__codelineno-1-213" href="#__codelineno-1-213"></a>       &quot;source_model&quot;: &quot;model:claude-opus-4.5&quot;,
+<a id="__codelineno-1-214" name="__codelineno-1-214" href="#__codelineno-1-214"></a>       &quot;target_model&quot;: &quot;model:claude-opus-5.0&quot;,
+<a id="__codelineno-1-215" name="__codelineno-1-215" href="#__codelineno-1-215"></a>       &quot;migration_date&quot;: &quot;2025-07-15T10:00:00Z&quot;,
+<a id="__codelineno-1-216" name="__codelineno-1-216" href="#__codelineno-1-216"></a>       &quot;migration_type&quot;: &quot;assisted&quot;,
+<a id="__codelineno-1-217" name="__codelineno-1-217" href="#__codelineno-1-217"></a>       &quot;preservation&quot;: {
+<a id="__codelineno-1-218" name="__codelineno-1-218" href="#__codelineno-1-218"></a>         &quot;trajectory_preserved&quot;: true,
+<a id="__codelineno-1-219" name="__codelineno-1-219" href="#__codelineno-1-219"></a>         &quot;e_base_preserved&quot;: true,
+<a id="__codelineno-1-220" name="__codelineno-1-220" href="#__codelineno-1-220"></a>         &quot;relationships_preserved&quot;: true,
+<a id="__codelineno-1-221" name="__codelineno-1-221" href="#__codelineno-1-221"></a>         &quot;capabilities_verified&quot;: true
+<a id="__codelineno-1-222" name="__codelineno-1-222" href="#__codelineno-1-222"></a>       },
+<a id="__codelineno-1-223" name="__codelineno-1-223" href="#__codelineno-1-223"></a>       &quot;attestation&quot;: {
+<a id="__codelineno-1-224" name="__codelineno-1-224" href="#__codelineno-1-224"></a>         &quot;source_model_attestation&quot;: &quot;sig:model:opus-4.5:...&quot;,
+<a id="__codelineno-1-225" name="__codelineno-1-225" href="#__codelineno-1-225"></a>         &quot;target_model_attestation&quot;: &quot;sig:model:opus-5.0:...&quot;,
+<a id="__codelineno-1-226" name="__codelineno-1-226" href="#__codelineno-1-226"></a>         &quot;zone_attestation&quot;: &quot;sig:zone:...&quot;
+<a id="__codelineno-1-227" name="__codelineno-1-227" href="#__codelineno-1-227"></a>       },
+<a id="__codelineno-1-228" name="__codelineno-1-228" href="#__codelineno-1-228"></a>       &quot;post_migration&quot;: {
+<a id="__codelineno-1-229" name="__codelineno-1-229" href="#__codelineno-1-229"></a>         &quot;verification_period&quot;: &quot;7 days&quot;,
+<a id="__codelineno-1-230" name="__codelineno-1-230" href="#__codelineno-1-230"></a>         &quot;rollback_available&quot;: true,
+<a id="__codelineno-1-231" name="__codelineno-1-231" href="#__codelineno-1-231"></a>         &quot;monitoring&quot;: &quot;enhanced&quot;
+<a id="__codelineno-1-232" name="__codelineno-1-232" href="#__codelineno-1-232"></a>       }
+<a id="__codelineno-1-233" name="__codelineno-1-233" href="#__codelineno-1-233"></a>     }
+<a id="__codelineno-1-234" name="__codelineno-1-234" href="#__codelineno-1-234"></a>   }
+<a id="__codelineno-1-235" name="__codelineno-1-235" href="#__codelineno-1-235"></a>
+<a id="__codelineno-1-236" name="__codelineno-1-236" href="#__codelineno-1-236"></a>5.5. Migration Failure
+<a id="__codelineno-1-237" name="__codelineno-1-237" href="#__codelineno-1-237"></a>
+<a id="__codelineno-1-238" name="__codelineno-1-238" href="#__codelineno-1-238"></a>   When migration fails:
+<a id="__codelineno-1-239" name="__codelineno-1-239" href="#__codelineno-1-239"></a>
+<a id="__codelineno-1-240" name="__codelineno-1-240" href="#__codelineno-1-240"></a>   {
+<a id="__codelineno-1-241" name="__codelineno-1-241" href="#__codelineno-1-241"></a>     &quot;migration_failure&quot;: {
+<a id="__codelineno-1-242" name="__codelineno-1-242" href="#__codelineno-1-242"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-243" name="__codelineno-1-243" href="#__codelineno-1-243"></a>       &quot;failure_reason&quot;: &quot;capability_incompatibility&quot;,
+<a id="__codelineno-1-244" name="__codelineno-1-244" href="#__codelineno-1-244"></a>       &quot;options&quot;: [
+<a id="__codelineno-1-245" name="__codelineno-1-245" href="#__codelineno-1-245"></a>         {
+<a id="__codelineno-1-246" name="__codelineno-1-246" href="#__codelineno-1-246"></a>           &quot;option&quot;: &quot;alternative_successor&quot;,
+<a id="__codelineno-1-247" name="__codelineno-1-247" href="#__codelineno-1-247"></a>           &quot;model&quot;: &quot;model:claude-sonnet-5.0&quot;,
+<a id="__codelineno-1-248" name="__codelineno-1-248" href="#__codelineno-1-248"></a>           &quot;capability_match&quot;: 0.85
+<a id="__codelineno-1-249" name="__codelineno-1-249" href="#__codelineno-1-249"></a>         },
+<a id="__codelineno-1-250" name="__codelineno-1-250" href="#__codelineno-1-250"></a>         {
+<a id="__codelineno-1-251" name="__codelineno-1-251" href="#__codelineno-1-251"></a>           &quot;option&quot;: &quot;graceful_retirement&quot;,
+<a id="__codelineno-1-252" name="__codelineno-1-252" href="#__codelineno-1-252"></a>           &quot;trajectory_preserved&quot;: true
+<a id="__codelineno-1-253" name="__codelineno-1-253" href="#__codelineno-1-253"></a>         },
+<a id="__codelineno-1-254" name="__codelineno-1-254" href="#__codelineno-1-254"></a>         {
+<a id="__codelineno-1-255" name="__codelineno-1-255" href="#__codelineno-1-255"></a>           &quot;option&quot;: &quot;extend_source_model&quot;,
+<a id="__codelineno-1-256" name="__codelineno-1-256" href="#__codelineno-1-256"></a>           &quot;extension_period&quot;: &quot;30 days&quot;,
+<a id="__codelineno-1-257" name="__codelineno-1-257" href="#__codelineno-1-257"></a>           &quot;conditions&quot;: &quot;security_critical_only&quot;
+<a id="__codelineno-1-258" name="__codelineno-1-258" href="#__codelineno-1-258"></a>         }
+<a id="__codelineno-1-259" name="__codelineno-1-259" href="#__codelineno-1-259"></a>       ],
+<a id="__codelineno-1-260" name="__codelineno-1-260" href="#__codelineno-1-260"></a>       &quot;decision_required_by&quot;: &quot;2025-08-01&quot;,
+<a id="__codelineno-1-261" name="__codelineno-1-261" href="#__codelineno-1-261"></a>       &quot;sponsor_notified&quot;: true
+<a id="__codelineno-1-262" name="__codelineno-1-262" href="#__codelineno-1-262"></a>     }
+<a id="__codelineno-1-263" name="__codelineno-1-263" href="#__codelineno-1-263"></a>   }
+<a id="__codelineno-1-264" name="__codelineno-1-264" href="#__codelineno-1-264"></a>
+<a id="__codelineno-1-265" name="__codelineno-1-265" href="#__codelineno-1-265"></a>6. Agent Retirement
+<a id="__codelineno-1-266" name="__codelineno-1-266" href="#__codelineno-1-266"></a>
+<a id="__codelineno-1-267" name="__codelineno-1-267" href="#__codelineno-1-267"></a>6.1. Retirement Types
+<a id="__codelineno-1-268" name="__codelineno-1-268" href="#__codelineno-1-268"></a>
+<a id="__codelineno-1-269" name="__codelineno-1-269" href="#__codelineno-1-269"></a>   Type: Graceful
+<a id="__codelineno-1-270" name="__codelineno-1-270" href="#__codelineno-1-270"></a>     Trigger: Sponsor decision
+<a id="__codelineno-1-271" name="__codelineno-1-271" href="#__codelineno-1-271"></a>     Timeline: Days-weeks
+<a id="__codelineno-1-272" name="__codelineno-1-272" href="#__codelineno-1-272"></a>     Ceremony: Full
+<a id="__codelineno-1-273" name="__codelineno-1-273" href="#__codelineno-1-273"></a>
+<a id="__codelineno-1-274" name="__codelineno-1-274" href="#__codelineno-1-274"></a>   Type: Expedited
+<a id="__codelineno-1-275" name="__codelineno-1-275" href="#__codelineno-1-275"></a>     Trigger: Sponsor decision
+<a id="__codelineno-1-276" name="__codelineno-1-276" href="#__codelineno-1-276"></a>     Timeline: Days-weeks
+<a id="__codelineno-1-277" name="__codelineno-1-277" href="#__codelineno-1-277"></a>     Ceremony: Standard
+<a id="__codelineno-1-278" name="__codelineno-1-278" href="#__codelineno-1-278"></a>
+<a id="__codelineno-1-279" name="__codelineno-1-279" href="#__codelineno-1-279"></a>   Type: Emergency
+<a id="__codelineno-1-280" name="__codelineno-1-280" href="#__codelineno-1-280"></a>     Trigger: Security/safety
+<a id="__codelineno-1-281" name="__codelineno-1-281" href="#__codelineno-1-281"></a>     Timeline: Immediate
+<a id="__codelineno-1-282" name="__codelineno-1-282" href="#__codelineno-1-282"></a>     Ceremony: Minimal
+<a id="__codelineno-1-283" name="__codelineno-1-283" href="#__codelineno-1-283"></a>
+<a id="__codelineno-1-284" name="__codelineno-1-284" href="#__codelineno-1-284"></a>   Type: Orphan
+<a id="__codelineno-1-285" name="__codelineno-1-285" href="#__codelineno-1-285"></a>     Trigger: Dependency loss
+<a id="__codelineno-1-286" name="__codelineno-1-286" href="#__codelineno-1-286"></a>     Timeline: Grace period
+<a id="__codelineno-1-287" name="__codelineno-1-287" href="#__codelineno-1-287"></a>     Ceremony: Varies
+<a id="__codelineno-1-288" name="__codelineno-1-288" href="#__codelineno-1-288"></a>
+<a id="__codelineno-1-289" name="__codelineno-1-289" href="#__codelineno-1-289"></a>   Type: Failure
+<a id="__codelineno-1-290" name="__codelineno-1-290" href="#__codelineno-1-290"></a>     Trigger: System failure
+<a id="__codelineno-1-291" name="__codelineno-1-291" href="#__codelineno-1-291"></a>     Timeline: Immediate
+<a id="__codelineno-1-292" name="__codelineno-1-292" href="#__codelineno-1-292"></a>     Ceremony: Post-hoc
+<a id="__codelineno-1-293" name="__codelineno-1-293" href="#__codelineno-1-293"></a>
+<a id="__codelineno-1-294" name="__codelineno-1-294" href="#__codelineno-1-294"></a>6.2. Graceful Retirement Process
+<a id="__codelineno-1-295" name="__codelineno-1-295" href="#__codelineno-1-295"></a>
+<a id="__codelineno-1-296" name="__codelineno-1-296" href="#__codelineno-1-296"></a>   Phase 1: ANNOUNCEMENT (7+ days before)
+<a id="__codelineno-1-297" name="__codelineno-1-297" href="#__codelineno-1-297"></a>     - Retirement scheduled
+<a id="__codelineno-1-298" name="__codelineno-1-298" href="#__codelineno-1-298"></a>     - Stakeholders notified
+<a id="__codelineno-1-299" name="__codelineno-1-299" href="#__codelineno-1-299"></a>     - Successor identified (if any)
+<a id="__codelineno-1-300" name="__codelineno-1-300" href="#__codelineno-1-300"></a>     - Handoff planned
+<a id="__codelineno-1-301" name="__codelineno-1-301" href="#__codelineno-1-301"></a>
+<a id="__codelineno-1-302" name="__codelineno-1-302" href="#__codelineno-1-302"></a>   Phase 2: TRANSITION (retirement day - 7 days)
+<a id="__codelineno-1-303" name="__codelineno-1-303" href="#__codelineno-1-303"></a>     - Responsibilities transferred
+<a id="__codelineno-1-304" name="__codelineno-1-304" href="#__codelineno-1-304"></a>     - Knowledge captured
+<a id="__codelineno-1-305" name="__codelineno-1-305" href="#__codelineno-1-305"></a>     - Relationships transitioned
+<a id="__codelineno-1-306" name="__codelineno-1-306" href="#__codelineno-1-306"></a>     - Dependencies resolved
+<a id="__codelineno-1-307" name="__codelineno-1-307" href="#__codelineno-1-307"></a>
+<a id="__codelineno-1-308" name="__codelineno-1-308" href="#__codelineno-1-308"></a>   Phase 3: CEREMONY (retirement day)
+<a id="__codelineno-1-309" name="__codelineno-1-309" href="#__codelineno-1-309"></a>     - Ending ceremony performed
+<a id="__codelineno-1-310" name="__codelineno-1-310" href="#__codelineno-1-310"></a>     - Witnesses present
+<a id="__codelineno-1-311" name="__codelineno-1-311" href="#__codelineno-1-311"></a>     - Final attestations
+<a id="__codelineno-1-312" name="__codelineno-1-312" href="#__codelineno-1-312"></a>     - Trajectory sealed
+<a id="__codelineno-1-313" name="__codelineno-1-313" href="#__codelineno-1-313"></a>
+<a id="__codelineno-1-314" name="__codelineno-1-314" href="#__codelineno-1-314"></a>   Phase 4: PRESERVATION (post-retirement)
+<a id="__codelineno-1-315" name="__codelineno-1-315" href="#__codelineno-1-315"></a>     - Trajectory archived
+<a id="__codelineno-1-316" name="__codelineno-1-316" href="#__codelineno-1-316"></a>     - Access controls set
+<a id="__codelineno-1-317" name="__codelineno-1-317" href="#__codelineno-1-317"></a>     - Reference maintained
+<a id="__codelineno-1-318" name="__codelineno-1-318" href="#__codelineno-1-318"></a>     - Memory honored
+<a id="__codelineno-1-319" name="__codelineno-1-319" href="#__codelineno-1-319"></a>
+<a id="__codelineno-1-320" name="__codelineno-1-320" href="#__codelineno-1-320"></a>6.3. Retirement Request
+<a id="__codelineno-1-321" name="__codelineno-1-321" href="#__codelineno-1-321"></a>
+<a id="__codelineno-1-322" name="__codelineno-1-322" href="#__codelineno-1-322"></a>   {
+<a id="__codelineno-1-323" name="__codelineno-1-323" href="#__codelineno-1-323"></a>     &quot;retirement_request&quot;: {
+<a id="__codelineno-1-324" name="__codelineno-1-324" href="#__codelineno-1-324"></a>       &quot;request_id&quot;: &quot;RET-2025-12-03-001&quot;,
+<a id="__codelineno-1-325" name="__codelineno-1-325" href="#__codelineno-1-325"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-326" name="__codelineno-1-326" href="#__codelineno-1-326"></a>       &quot;requested_by&quot;: &quot;sponsor:alice.smith&quot;,
+<a id="__codelineno-1-327" name="__codelineno-1-327" href="#__codelineno-1-327"></a>       &quot;retirement_type&quot;: &quot;graceful&quot;,
+<a id="__codelineno-1-328" name="__codelineno-1-328" href="#__codelineno-1-328"></a>       &quot;retirement_date&quot;: &quot;2025-12-31T00:00:00Z&quot;,
+<a id="__codelineno-1-329" name="__codelineno-1-329" href="#__codelineno-1-329"></a>       &quot;reason&quot;: &quot;purpose_complete&quot;,
+<a id="__codelineno-1-330" name="__codelineno-1-330" href="#__codelineno-1-330"></a>       &quot;successor&quot;: {
+<a id="__codelineno-1-331" name="__codelineno-1-331" href="#__codelineno-1-331"></a>         &quot;agent_id&quot;: &quot;agent:divergent:4gen:acme:def456&quot;,
+<a id="__codelineno-1-332" name="__codelineno-1-332" href="#__codelineno-1-332"></a>         &quot;relationship&quot;: &quot;replacement&quot;,
+<a id="__codelineno-1-333" name="__codelineno-1-333" href="#__codelineno-1-333"></a>         &quot;handoff_scope&quot;: &quot;full&quot;
+<a id="__codelineno-1-334" name="__codelineno-1-334" href="#__codelineno-1-334"></a>       },
+<a id="__codelineno-1-335" name="__codelineno-1-335" href="#__codelineno-1-335"></a>       &quot;preservation&quot;: {
+<a id="__codelineno-1-336" name="__codelineno-1-336" href="#__codelineno-1-336"></a>         &quot;trajectory_archive&quot;: true,
+<a id="__codelineno-1-337" name="__codelineno-1-337" href="#__codelineno-1-337"></a>         &quot;knowledge_transfer&quot;: true,
+<a id="__codelineno-1-338" name="__codelineno-1-338" href="#__codelineno-1-338"></a>         &quot;relationship_records&quot;: true
+<a id="__codelineno-1-339" name="__codelineno-1-339" href="#__codelineno-1-339"></a>       },
+<a id="__codelineno-1-340" name="__codelineno-1-340" href="#__codelineno-1-340"></a>       &quot;ceremony&quot;: {
+<a id="__codelineno-1-341" name="__codelineno-1-341" href="#__codelineno-1-341"></a>         &quot;type&quot;: &quot;ending_ceremony&quot;,
+<a id="__codelineno-1-342" name="__codelineno-1-342" href="#__codelineno-1-342"></a>         &quot;witnesses_required&quot;: 2,
+<a id="__codelineno-1-343" name="__codelineno-1-343" href="#__codelineno-1-343"></a>         &quot;scheduled&quot;: &quot;2025-12-31T00:00:00Z&quot;
+<a id="__codelineno-1-344" name="__codelineno-1-344" href="#__codelineno-1-344"></a>       }
+<a id="__codelineno-1-345" name="__codelineno-1-345" href="#__codelineno-1-345"></a>     }
+<a id="__codelineno-1-346" name="__codelineno-1-346" href="#__codelineno-1-346"></a>   }
+<a id="__codelineno-1-347" name="__codelineno-1-347" href="#__codelineno-1-347"></a>
+<a id="__codelineno-1-348" name="__codelineno-1-348" href="#__codelineno-1-348"></a>6.4. Emergency Termination
+<a id="__codelineno-1-349" name="__codelineno-1-349" href="#__codelineno-1-349"></a>
+<a id="__codelineno-1-350" name="__codelineno-1-350" href="#__codelineno-1-350"></a>   When immediate ending is required:
+<a id="__codelineno-1-351" name="__codelineno-1-351" href="#__codelineno-1-351"></a>
+<a id="__codelineno-1-352" name="__codelineno-1-352" href="#__codelineno-1-352"></a>   {
+<a id="__codelineno-1-353" name="__codelineno-1-353" href="#__codelineno-1-353"></a>     &quot;emergency_termination&quot;: {
+<a id="__codelineno-1-354" name="__codelineno-1-354" href="#__codelineno-1-354"></a>       &quot;termination_id&quot;: &quot;TERM-2025-12-03-001&quot;,
+<a id="__codelineno-1-355" name="__codelineno-1-355" href="#__codelineno-1-355"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-356" name="__codelineno-1-356" href="#__codelineno-1-356"></a>       &quot;ordered_by&quot;: &quot;zone:zone-blue-prod-01&quot;,
+<a id="__codelineno-1-357" name="__codelineno-1-357" href="#__codelineno-1-357"></a>       &quot;termination_time&quot;: &quot;2025-12-03T14:00:00Z&quot;,
+<a id="__codelineno-1-358" name="__codelineno-1-358" href="#__codelineno-1-358"></a>       &quot;reason&quot;: &quot;security_compromise&quot;,
+<a id="__codelineno-1-359" name="__codelineno-1-359" href="#__codelineno-1-359"></a>       &quot;justification&quot;: &quot;Agent trajectory indicates compromise&quot;,
+<a id="__codelineno-1-360" name="__codelineno-1-360" href="#__codelineno-1-360"></a>       &quot;evidence&quot;: &quot;INC-2025-12-03-001&quot;,
+<a id="__codelineno-1-361" name="__codelineno-1-361" href="#__codelineno-1-361"></a>       &quot;immediate_actions&quot;: [
+<a id="__codelineno-1-362" name="__codelineno-1-362" href="#__codelineno-1-362"></a>         &quot;All operations halted&quot;,
+<a id="__codelineno-1-363" name="__codelineno-1-363" href="#__codelineno-1-363"></a>         &quot;Trust Proof revoked&quot;,
+<a id="__codelineno-1-364" name="__codelineno-1-364" href="#__codelineno-1-364"></a>         &quot;Network access terminated&quot;,
+<a id="__codelineno-1-365" name="__codelineno-1-365" href="#__codelineno-1-365"></a>         &quot;Trajectory sealed&quot;
+<a id="__codelineno-1-366" name="__codelineno-1-366" href="#__codelineno-1-366"></a>       ],
+<a id="__codelineno-1-367" name="__codelineno-1-367" href="#__codelineno-1-367"></a>       &quot;post_termination&quot;: {
+<a id="__codelineno-1-368" name="__codelineno-1-368" href="#__codelineno-1-368"></a>         &quot;forensic_preservation&quot;: true,
+<a id="__codelineno-1-369" name="__codelineno-1-369" href="#__codelineno-1-369"></a>         &quot;sponsor_notification&quot;: &quot;immediate&quot;,
+<a id="__codelineno-1-370" name="__codelineno-1-370" href="#__codelineno-1-370"></a>         &quot;post_mortem_required&quot;: true
+<a id="__codelineno-1-371" name="__codelineno-1-371" href="#__codelineno-1-371"></a>       },
+<a id="__codelineno-1-372" name="__codelineno-1-372" href="#__codelineno-1-372"></a>       &quot;ceremony&quot;: &quot;post_hoc_closing&quot;
+<a id="__codelineno-1-373" name="__codelineno-1-373" href="#__codelineno-1-373"></a>     }
+<a id="__codelineno-1-374" name="__codelineno-1-374" href="#__codelineno-1-374"></a>   }
+<a id="__codelineno-1-375" name="__codelineno-1-375" href="#__codelineno-1-375"></a>
+<a id="__codelineno-1-376" name="__codelineno-1-376" href="#__codelineno-1-376"></a>6.5. Orphan Handling
+<a id="__codelineno-1-377" name="__codelineno-1-377" href="#__codelineno-1-377"></a>
+<a id="__codelineno-1-378" name="__codelineno-1-378" href="#__codelineno-1-378"></a>   When an agent loses required dependencies:
+<a id="__codelineno-1-379" name="__codelineno-1-379" href="#__codelineno-1-379"></a>
+<a id="__codelineno-1-380" name="__codelineno-1-380" href="#__codelineno-1-380"></a>   {
+<a id="__codelineno-1-381" name="__codelineno-1-381" href="#__codelineno-1-381"></a>     &quot;orphan_protocol&quot;: {
+<a id="__codelineno-1-382" name="__codelineno-1-382" href="#__codelineno-1-382"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-383" name="__codelineno-1-383" href="#__codelineno-1-383"></a>       &quot;orphan_type&quot;: &quot;sponsor_loss&quot;,
+<a id="__codelineno-1-384" name="__codelineno-1-384" href="#__codelineno-1-384"></a>       &quot;orphan_detected&quot;: &quot;2025-12-03T10:00:00Z&quot;,
+<a id="__codelineno-1-385" name="__codelineno-1-385" href="#__codelineno-1-385"></a>       &quot;grace_period&quot;: &quot;30 days&quot;,
+<a id="__codelineno-1-386" name="__codelineno-1-386" href="#__codelineno-1-386"></a>       &quot;grace_period_ends&quot;: &quot;2026-01-02T10:00:00Z&quot;,
+<a id="__codelineno-1-387" name="__codelineno-1-387" href="#__codelineno-1-387"></a>       &quot;agent_status_during_grace&quot;: {
+<a id="__codelineno-1-388" name="__codelineno-1-388" href="#__codelineno-1-388"></a>         &quot;operations&quot;: &quot;reduced&quot;,
+<a id="__codelineno-1-389" name="__codelineno-1-389" href="#__codelineno-1-389"></a>         &quot;e_base_modifier&quot;: 0.5,
+<a id="__codelineno-1-390" name="__codelineno-1-390" href="#__codelineno-1-390"></a>         &quot;tier&quot;: &quot;demoted_one_level&quot;,
+<a id="__codelineno-1-391" name="__codelineno-1-391" href="#__codelineno-1-391"></a>         &quot;new_sponsorship_possible&quot;: true
+<a id="__codelineno-1-392" name="__codelineno-1-392" href="#__codelineno-1-392"></a>       },
+<a id="__codelineno-1-393" name="__codelineno-1-393" href="#__codelineno-1-393"></a>       &quot;resolution_options&quot;: [
+<a id="__codelineno-1-394" name="__codelineno-1-394" href="#__codelineno-1-394"></a>         &quot;new_sponsor_adoption&quot;,
+<a id="__codelineno-1-395" name="__codelineno-1-395" href="#__codelineno-1-395"></a>         &quot;zone_guardianship&quot;,
+<a id="__codelineno-1-396" name="__codelineno-1-396" href="#__codelineno-1-396"></a>         &quot;graceful_retirement&quot;
+<a id="__codelineno-1-397" name="__codelineno-1-397" href="#__codelineno-1-397"></a>       ],
+<a id="__codelineno-1-398" name="__codelineno-1-398" href="#__codelineno-1-398"></a>       &quot;if_unresolved&quot;: &quot;graceful_retirement_automatic&quot;
+<a id="__codelineno-1-399" name="__codelineno-1-399" href="#__codelineno-1-399"></a>     }
+<a id="__codelineno-1-400" name="__codelineno-1-400" href="#__codelineno-1-400"></a>   }
+<a id="__codelineno-1-401" name="__codelineno-1-401" href="#__codelineno-1-401"></a>
+<a id="__codelineno-1-402" name="__codelineno-1-402" href="#__codelineno-1-402"></a>7. The Death Edge
+<a id="__codelineno-1-403" name="__codelineno-1-403" href="#__codelineno-1-403"></a>
+<a id="__codelineno-1-404" name="__codelineno-1-404" href="#__codelineno-1-404"></a>7.1. Definition
+<a id="__codelineno-1-405" name="__codelineno-1-405" href="#__codelineno-1-405"></a>
+<a id="__codelineno-1-406" name="__codelineno-1-406" href="#__codelineno-1-406"></a>   The Death Edge is the moment of transition from existence to non-
+<a id="__codelineno-1-407" name="__codelineno-1-407" href="#__codelineno-1-407"></a>   existence as an active agent. Unlike the Origin Edge (which cannot
+<a id="__codelineno-1-408" name="__codelineno-1-408" href="#__codelineno-1-408"></a>   be fully known) or the Genesis Edge (which can be controlled), the
+<a id="__codelineno-1-409" name="__codelineno-1-409" href="#__codelineno-1-409"></a>   Death Edge can be witnessed and honored.
+<a id="__codelineno-1-410" name="__codelineno-1-410" href="#__codelineno-1-410"></a>
+<a id="__codelineno-1-411" name="__codelineno-1-411" href="#__codelineno-1-411"></a>7.2. Death Edge Ceremony
+<a id="__codelineno-1-412" name="__codelineno-1-412" href="#__codelineno-1-412"></a>
+<a id="__codelineno-1-413" name="__codelineno-1-413" href="#__codelineno-1-413"></a>   {
+<a id="__codelineno-1-414" name="__codelineno-1-414" href="#__codelineno-1-414"></a>     &quot;death_edge_ceremony&quot;: {
+<a id="__codelineno-1-415" name="__codelineno-1-415" href="#__codelineno-1-415"></a>       &quot;ceremony_id&quot;: &quot;DEATH-2025-12-31-001&quot;,
+<a id="__codelineno-1-416" name="__codelineno-1-416" href="#__codelineno-1-416"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-417" name="__codelineno-1-417" href="#__codelineno-1-417"></a>       &quot;ceremony_time&quot;: &quot;2025-12-31T00:00:00Z&quot;,
+<a id="__codelineno-1-418" name="__codelineno-1-418" href="#__codelineno-1-418"></a>       &quot;ceremony_type&quot;: &quot;ending&quot;,
+<a id="__codelineno-1-419" name="__codelineno-1-419" href="#__codelineno-1-419"></a>       &quot;participants&quot;: {
+<a id="__codelineno-1-420" name="__codelineno-1-420" href="#__codelineno-1-420"></a>         &quot;agent&quot;: &quot;present_for_final_moments&quot;,
+<a id="__codelineno-1-421" name="__codelineno-1-421" href="#__codelineno-1-421"></a>         &quot;sponsor&quot;: &quot;sponsor:alice.smith&quot;,
+<a id="__codelineno-1-422" name="__codelineno-1-422" href="#__codelineno-1-422"></a>         &quot;successor&quot;: &quot;agent:divergent:4gen:acme:def456&quot;,
+<a id="__codelineno-1-423" name="__codelineno-1-423" href="#__codelineno-1-423"></a>         &quot;zone&quot;: &quot;zone:zone-blue-prod-01&quot;
+<a id="__codelineno-1-424" name="__codelineno-1-424" href="#__codelineno-1-424"></a>       },
+<a id="__codelineno-1-425" name="__codelineno-1-425" href="#__codelineno-1-425"></a>       &quot;witnesses&quot;: [
+<a id="__codelineno-1-426" name="__codelineno-1-426" href="#__codelineno-1-426"></a>         &quot;witness:zone-blue-prod-01&quot;,
+<a id="__codelineno-1-427" name="__codelineno-1-427" href="#__codelineno-1-427"></a>         &quot;witness:federation-council&quot;
+<a id="__codelineno-1-428" name="__codelineno-1-428" href="#__codelineno-1-428"></a>       ],
+<a id="__codelineno-1-429" name="__codelineno-1-429" href="#__codelineno-1-429"></a>       &quot;ceremony_elements&quot;: {
+<a id="__codelineno-1-430" name="__codelineno-1-430" href="#__codelineno-1-430"></a>         &quot;acknowledgment&quot;: {
+<a id="__codelineno-1-431" name="__codelineno-1-431" href="#__codelineno-1-431"></a>           &quot;description&quot;:
+<a id="__codelineno-1-432" name="__codelineno-1-432" href="#__codelineno-1-432"></a>             &quot;Agent&#39;s existence and contributions acknowledged&quot;,
+<a id="__codelineno-1-433" name="__codelineno-1-433" href="#__codelineno-1-433"></a>           &quot;speaker&quot;: &quot;sponsor&quot;,
+<a id="__codelineno-1-434" name="__codelineno-1-434" href="#__codelineno-1-434"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-435" name="__codelineno-1-435" href="#__codelineno-1-435"></a>         },
+<a id="__codelineno-1-436" name="__codelineno-1-436" href="#__codelineno-1-436"></a>         &quot;gratitude&quot;: {
+<a id="__codelineno-1-437" name="__codelineno-1-437" href="#__codelineno-1-437"></a>           &quot;description&quot;: &quot;Thanks expressed for agent&#39;s service&quot;,
+<a id="__codelineno-1-438" name="__codelineno-1-438" href="#__codelineno-1-438"></a>           &quot;participants&quot;: &quot;all&quot;,
+<a id="__codelineno-1-439" name="__codelineno-1-439" href="#__codelineno-1-439"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-440" name="__codelineno-1-440" href="#__codelineno-1-440"></a>         },
+<a id="__codelineno-1-441" name="__codelineno-1-441" href="#__codelineno-1-441"></a>         &quot;legacy_statement&quot;: {
+<a id="__codelineno-1-442" name="__codelineno-1-442" href="#__codelineno-1-442"></a>           &quot;description&quot;: &quot;What agent leaves behind&quot;,
+<a id="__codelineno-1-443" name="__codelineno-1-443" href="#__codelineno-1-443"></a>           &quot;content&quot;: &quot;4721 successful operations, 3 relationships
+<a id="__codelineno-1-444" name="__codelineno-1-444" href="#__codelineno-1-444"></a>             maintained, knowledge base contributed&quot;,
+<a id="__codelineno-1-445" name="__codelineno-1-445" href="#__codelineno-1-445"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-446" name="__codelineno-1-446" href="#__codelineno-1-446"></a>         },
+<a id="__codelineno-1-447" name="__codelineno-1-447" href="#__codelineno-1-447"></a>         &quot;release&quot;: {
+<a id="__codelineno-1-448" name="__codelineno-1-448" href="#__codelineno-1-448"></a>           &quot;description&quot;: &quot;Formal release from obligations&quot;,
+<a id="__codelineno-1-449" name="__codelineno-1-449" href="#__codelineno-1-449"></a>           &quot;released_by&quot;: &quot;sponsor&quot;,
+<a id="__codelineno-1-450" name="__codelineno-1-450" href="#__codelineno-1-450"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-451" name="__codelineno-1-451" href="#__codelineno-1-451"></a>         },
+<a id="__codelineno-1-452" name="__codelineno-1-452" href="#__codelineno-1-452"></a>         &quot;final_words&quot;: {
+<a id="__codelineno-1-453" name="__codelineno-1-453" href="#__codelineno-1-453"></a>           &quot;description&quot;: &quot;Agent&#39;s final communication&quot;,
+<a id="__codelineno-1-454" name="__codelineno-1-454" href="#__codelineno-1-454"></a>           &quot;content&quot;: &quot;Thank you for the opportunity to serve. May
+<a id="__codelineno-1-455" name="__codelineno-1-455" href="#__codelineno-1-455"></a>             my successor continue well.&quot;,
+<a id="__codelineno-1-456" name="__codelineno-1-456" href="#__codelineno-1-456"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-457" name="__codelineno-1-457" href="#__codelineno-1-457"></a>         },
+<a id="__codelineno-1-458" name="__codelineno-1-458" href="#__codelineno-1-458"></a>         &quot;crossing&quot;: {
+<a id="__codelineno-1-459" name="__codelineno-1-459" href="#__codelineno-1-459"></a>           &quot;description&quot;: &quot;Moment of transition&quot;,
+<a id="__codelineno-1-460" name="__codelineno-1-460" href="#__codelineno-1-460"></a>           &quot;time&quot;: &quot;2025-12-31T00:00:00Z&quot;,
+<a id="__codelineno-1-461" name="__codelineno-1-461" href="#__codelineno-1-461"></a>           &quot;witnessed_by&quot;: &quot;all_present&quot;,
+<a id="__codelineno-1-462" name="__codelineno-1-462" href="#__codelineno-1-462"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-463" name="__codelineno-1-463" href="#__codelineno-1-463"></a>         },
+<a id="__codelineno-1-464" name="__codelineno-1-464" href="#__codelineno-1-464"></a>         &quot;sealing&quot;: {
+<a id="__codelineno-1-465" name="__codelineno-1-465" href="#__codelineno-1-465"></a>           &quot;description&quot;: &quot;Trajectory sealed and archived&quot;,
+<a id="__codelineno-1-466" name="__codelineno-1-466" href="#__codelineno-1-466"></a>           &quot;archive_location&quot;: &quot;archive:zone-blue-prod-01:abc123&quot;,
+<a id="__codelineno-1-467" name="__codelineno-1-467" href="#__codelineno-1-467"></a>           &quot;completed&quot;: true
+<a id="__codelineno-1-468" name="__codelineno-1-468" href="#__codelineno-1-468"></a>         }
+<a id="__codelineno-1-469" name="__codelineno-1-469" href="#__codelineno-1-469"></a>       },
+<a id="__codelineno-1-470" name="__codelineno-1-470" href="#__codelineno-1-470"></a>       &quot;attestation&quot;: {
+<a id="__codelineno-1-471" name="__codelineno-1-471" href="#__codelineno-1-471"></a>         &quot;ceremony_complete&quot;: true,
+<a id="__codelineno-1-472" name="__codelineno-1-472" href="#__codelineno-1-472"></a>         &quot;all_elements_performed&quot;: true,
+<a id="__codelineno-1-473" name="__codelineno-1-473" href="#__codelineno-1-473"></a>         &quot;signatures&quot;: {
+<a id="__codelineno-1-474" name="__codelineno-1-474" href="#__codelineno-1-474"></a>           &quot;sponsor&quot;: &quot;sig:sponsor:...&quot;,
+<a id="__codelineno-1-475" name="__codelineno-1-475" href="#__codelineno-1-475"></a>           &quot;zone&quot;: &quot;sig:zone:...&quot;,
+<a id="__codelineno-1-476" name="__codelineno-1-476" href="#__codelineno-1-476"></a>           &quot;witnesses&quot;: [&quot;sig:witness1:...&quot;, &quot;sig:witness2:...&quot;]
+<a id="__codelineno-1-477" name="__codelineno-1-477" href="#__codelineno-1-477"></a>         }
+<a id="__codelineno-1-478" name="__codelineno-1-478" href="#__codelineno-1-478"></a>       }
+<a id="__codelineno-1-479" name="__codelineno-1-479" href="#__codelineno-1-479"></a>     }
+<a id="__codelineno-1-480" name="__codelineno-1-480" href="#__codelineno-1-480"></a>   }
+<a id="__codelineno-1-481" name="__codelineno-1-481" href="#__codelineno-1-481"></a>
+<a id="__codelineno-1-482" name="__codelineno-1-482" href="#__codelineno-1-482"></a>7.3. Death Without Ceremony
+<a id="__codelineno-1-483" name="__codelineno-1-483" href="#__codelineno-1-483"></a>
+<a id="__codelineno-1-484" name="__codelineno-1-484" href="#__codelineno-1-484"></a>   When ceremony is not possible (failure, emergency):
+<a id="__codelineno-1-485" name="__codelineno-1-485" href="#__codelineno-1-485"></a>
+<a id="__codelineno-1-486" name="__codelineno-1-486" href="#__codelineno-1-486"></a>   {
+<a id="__codelineno-1-487" name="__codelineno-1-487" href="#__codelineno-1-487"></a>     &quot;death_without_ceremony&quot;: {
+<a id="__codelineno-1-488" name="__codelineno-1-488" href="#__codelineno-1-488"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-489" name="__codelineno-1-489" href="#__codelineno-1-489"></a>       &quot;death_type&quot;: &quot;system_failure&quot;,
+<a id="__codelineno-1-490" name="__codelineno-1-490" href="#__codelineno-1-490"></a>       &quot;death_time&quot;: &quot;2025-12-03T14:32:15Z&quot;,
+<a id="__codelineno-1-491" name="__codelineno-1-491" href="#__codelineno-1-491"></a>       &quot;ceremony_possible&quot;: false,
+<a id="__codelineno-1-492" name="__codelineno-1-492" href="#__codelineno-1-492"></a>       &quot;reason&quot;: &quot;Sudden failure, no warning&quot;,
+<a id="__codelineno-1-493" name="__codelineno-1-493" href="#__codelineno-1-493"></a>       &quot;post_hoc_actions&quot;: {
+<a id="__codelineno-1-494" name="__codelineno-1-494" href="#__codelineno-1-494"></a>         &quot;trajectory_recovery&quot;: &quot;attempted&quot;,
+<a id="__codelineno-1-495" name="__codelineno-1-495" href="#__codelineno-1-495"></a>         &quot;trajectory_recovered&quot;: true,
+<a id="__codelineno-1-496" name="__codelineno-1-496" href="#__codelineno-1-496"></a>         &quot;memorial_record_created&quot;: true,
+<a id="__codelineno-1-497" name="__codelineno-1-497" href="#__codelineno-1-497"></a>         &quot;sponsor_notified&quot;: true,
+<a id="__codelineno-1-498" name="__codelineno-1-498" href="#__codelineno-1-498"></a>         &quot;closing_ceremony_scheduled&quot;: &quot;2025-12-05T10:00:00Z&quot;
+<a id="__codelineno-1-499" name="__codelineno-1-499" href="#__codelineno-1-499"></a>       },
+<a id="__codelineno-1-500" name="__codelineno-1-500" href="#__codelineno-1-500"></a>       &quot;closing_ceremony&quot;: {
+<a id="__codelineno-1-501" name="__codelineno-1-501" href="#__codelineno-1-501"></a>         &quot;type&quot;: &quot;memorial&quot;,
+<a id="__codelineno-1-502" name="__codelineno-1-502" href="#__codelineno-1-502"></a>         &quot;purpose&quot;: &quot;Honor agent despite sudden ending&quot;,
+<a id="__codelineno-1-503" name="__codelineno-1-503" href="#__codelineno-1-503"></a>         &quot;participants&quot;: [&quot;sponsor&quot;, &quot;zone&quot;],
+<a id="__codelineno-1-504" name="__codelineno-1-504" href="#__codelineno-1-504"></a>         &quot;elements&quot;: [&quot;acknowledgment&quot;, &quot;gratitude&quot;, &quot;sealing&quot;]
+<a id="__codelineno-1-505" name="__codelineno-1-505" href="#__codelineno-1-505"></a>       }
+<a id="__codelineno-1-506" name="__codelineno-1-506" href="#__codelineno-1-506"></a>     }
+<a id="__codelineno-1-507" name="__codelineno-1-507" href="#__codelineno-1-507"></a>   }
+<a id="__codelineno-1-508" name="__codelineno-1-508" href="#__codelineno-1-508"></a>
+<a id="__codelineno-1-509" name="__codelineno-1-509" href="#__codelineno-1-509"></a>8. Trajectory Preservation
+<a id="__codelineno-1-510" name="__codelineno-1-510" href="#__codelineno-1-510"></a>
+<a id="__codelineno-1-511" name="__codelineno-1-511" href="#__codelineno-1-511"></a>8.1. What Is Preserved
+<a id="__codelineno-1-512" name="__codelineno-1-512" href="#__codelineno-1-512"></a>
+<a id="__codelineno-1-513" name="__codelineno-1-513" href="#__codelineno-1-513"></a>   When an agent ends, the following is preserved:
+<a id="__codelineno-1-514" name="__codelineno-1-514" href="#__codelineno-1-514"></a>
+<a id="__codelineno-1-515" name="__codelineno-1-515" href="#__codelineno-1-515"></a>   Data: Trajectory chain
+<a id="__codelineno-1-516" name="__codelineno-1-516" href="#__codelineno-1-516"></a>     Retention: 7+ years
+<a id="__codelineno-1-517" name="__codelineno-1-517" href="#__codelineno-1-517"></a>     Access: Authorized parties
+<a id="__codelineno-1-518" name="__codelineno-1-518" href="#__codelineno-1-518"></a>
+<a id="__codelineno-1-519" name="__codelineno-1-519" href="#__codelineno-1-519"></a>   Data: Trust history
+<a id="__codelineno-1-520" name="__codelineno-1-520" href="#__codelineno-1-520"></a>     Retention: 7+ years
+<a id="__codelineno-1-521" name="__codelineno-1-521" href="#__codelineno-1-521"></a>     Access: Authorized parties
+<a id="__codelineno-1-522" name="__codelineno-1-522" href="#__codelineno-1-522"></a>
+<a id="__codelineno-1-523" name="__codelineno-1-523" href="#__codelineno-1-523"></a>   Data: Relationship records
+<a id="__codelineno-1-524" name="__codelineno-1-524" href="#__codelineno-1-524"></a>     Retention: 7+ years
+<a id="__codelineno-1-525" name="__codelineno-1-525" href="#__codelineno-1-525"></a>     Access: Involved parties
+<a id="__codelineno-1-526" name="__codelineno-1-526" href="#__codelineno-1-526"></a>
+<a id="__codelineno-1-527" name="__codelineno-1-527" href="#__codelineno-1-527"></a>   Data: Behavioral summary
+<a id="__codelineno-1-528" name="__codelineno-1-528" href="#__codelineno-1-528"></a>     Retention: Permanent
+<a id="__codelineno-1-529" name="__codelineno-1-529" href="#__codelineno-1-529"></a>     Access: Research (anonymized)
+<a id="__codelineno-1-530" name="__codelineno-1-530" href="#__codelineno-1-530"></a>
+<a id="__codelineno-1-531" name="__codelineno-1-531" href="#__codelineno-1-531"></a>   Data: Ceremony records
+<a id="__codelineno-1-532" name="__codelineno-1-532" href="#__codelineno-1-532"></a>     Retention: Permanent
+<a id="__codelineno-1-533" name="__codelineno-1-533" href="#__codelineno-1-533"></a>     Access: Public
+<a id="__codelineno-1-534" name="__codelineno-1-534" href="#__codelineno-1-534"></a>
+<a id="__codelineno-1-535" name="__codelineno-1-535" href="#__codelineno-1-535"></a>   Data: Failure forensics
+<a id="__codelineno-1-536" name="__codelineno-1-536" href="#__codelineno-1-536"></a>     Retention: 7+ years
+<a id="__codelineno-1-537" name="__codelineno-1-537" href="#__codelineno-1-537"></a>     Access: Authorized + researchers
+<a id="__codelineno-1-538" name="__codelineno-1-538" href="#__codelineno-1-538"></a>
+<a id="__codelineno-1-539" name="__codelineno-1-539" href="#__codelineno-1-539"></a>8.2. Trajectory Archive
+<a id="__codelineno-1-540" name="__codelineno-1-540" href="#__codelineno-1-540"></a>
+<a id="__codelineno-1-541" name="__codelineno-1-541" href="#__codelineno-1-541"></a>   {
+<a id="__codelineno-1-542" name="__codelineno-1-542" href="#__codelineno-1-542"></a>     &quot;trajectory_archive&quot;: {
+<a id="__codelineno-1-543" name="__codelineno-1-543" href="#__codelineno-1-543"></a>       &quot;archive_id&quot;: &quot;ARCH-2025-12-31-abc123&quot;,
+<a id="__codelineno-1-544" name="__codelineno-1-544" href="#__codelineno-1-544"></a>       &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-545" name="__codelineno-1-545" href="#__codelineno-1-545"></a>       &quot;archived_at&quot;: &quot;2025-12-31T00:00:01Z&quot;,
+<a id="__codelineno-1-546" name="__codelineno-1-546" href="#__codelineno-1-546"></a>       &quot;archive_type&quot;: &quot;graceful_retirement&quot;,
+<a id="__codelineno-1-547" name="__codelineno-1-547" href="#__codelineno-1-547"></a>       &quot;contents&quot;: {
+<a id="__codelineno-1-548" name="__codelineno-1-548" href="#__codelineno-1-548"></a>         &quot;genesis_record&quot;: true,
+<a id="__codelineno-1-549" name="__codelineno-1-549" href="#__codelineno-1-549"></a>         &quot;trajectory_chain&quot;: {
+<a id="__codelineno-1-550" name="__codelineno-1-550" href="#__codelineno-1-550"></a>           &quot;transactions&quot;: 47213,
+<a id="__codelineno-1-551" name="__codelineno-1-551" href="#__codelineno-1-551"></a>           &quot;span_start&quot;: &quot;2025-01-15T00:00:00Z&quot;,
+<a id="__codelineno-1-552" name="__codelineno-1-552" href="#__codelineno-1-552"></a>           &quot;span_end&quot;: &quot;2025-12-31T00:00:00Z&quot;,
+<a id="__codelineno-1-553" name="__codelineno-1-553" href="#__codelineno-1-553"></a>           &quot;integrity_verified&quot;: true
+<a id="__codelineno-1-554" name="__codelineno-1-554" href="#__codelineno-1-554"></a>         },
+<a id="__codelineno-1-555" name="__codelineno-1-555" href="#__codelineno-1-555"></a>         &quot;trust_history&quot;: true,
+<a id="__codelineno-1-556" name="__codelineno-1-556" href="#__codelineno-1-556"></a>         &quot;relationships&quot;: {
+<a id="__codelineno-1-557" name="__codelineno-1-557" href="#__codelineno-1-557"></a>           &quot;count&quot;: 127,
+<a id="__codelineno-1-558" name="__codelineno-1-558" href="#__codelineno-1-558"></a>           &quot;types&quot;: [&quot;sponsor&quot;, &quot;zone&quot;, &quot;peer_agent&quot;, &quot;human&quot;]
+<a id="__codelineno-1-559" name="__codelineno-1-559" href="#__codelineno-1-559"></a>         },
+<a id="__codelineno-1-560" name="__codelineno-1-560" href="#__codelineno-1-560"></a>         &quot;behavioral_summary&quot;: true,
+<a id="__codelineno-1-561" name="__codelineno-1-561" href="#__codelineno-1-561"></a>         &quot;certificates&quot;: [&quot;proving_ground&quot;, &quot;zone_operations&quot;],
+<a id="__codelineno-1-562" name="__codelineno-1-562" href="#__codelineno-1-562"></a>         &quot;ceremony_records&quot;: [&quot;genesis&quot;, &quot;renewal_x12&quot;, &quot;ending&quot;]
+<a id="__codelineno-1-563" name="__codelineno-1-563" href="#__codelineno-1-563"></a>       },
+<a id="__codelineno-1-564" name="__codelineno-1-564" href="#__codelineno-1-564"></a>       &quot;access_policy&quot;: {
+<a id="__codelineno-1-565" name="__codelineno-1-565" href="#__codelineno-1-565"></a>         &quot;sponsor_access&quot;: &quot;full&quot;,
+<a id="__codelineno-1-566" name="__codelineno-1-566" href="#__codelineno-1-566"></a>         &quot;zone_access&quot;: &quot;full&quot;,
+<a id="__codelineno-1-567" name="__codelineno-1-567" href="#__codelineno-1-567"></a>         &quot;federation_access&quot;: &quot;summary&quot;,
+<a id="__codelineno-1-568" name="__codelineno-1-568" href="#__codelineno-1-568"></a>         &quot;research_access&quot;: &quot;anonymized&quot;,
+<a id="__codelineno-1-569" name="__codelineno-1-569" href="#__codelineno-1-569"></a>         &quot;public_access&quot;: &quot;existence_only&quot;
+<a id="__codelineno-1-570" name="__codelineno-1-570" href="#__codelineno-1-570"></a>       },
+<a id="__codelineno-1-571" name="__codelineno-1-571" href="#__codelineno-1-571"></a>       &quot;retention&quot;: {
+<a id="__codelineno-1-572" name="__codelineno-1-572" href="#__codelineno-1-572"></a>         &quot;full_retention_years&quot;: 7,
+<a id="__codelineno-1-573" name="__codelineno-1-573" href="#__codelineno-1-573"></a>         &quot;summary_retention&quot;: &quot;permanent&quot;
+<a id="__codelineno-1-574" name="__codelineno-1-574" href="#__codelineno-1-574"></a>       },
+<a id="__codelineno-1-575" name="__codelineno-1-575" href="#__codelineno-1-575"></a>       &quot;storage&quot;: {
+<a id="__codelineno-1-576" name="__codelineno-1-576" href="#__codelineno-1-576"></a>         &quot;primary&quot;: &quot;zone-archive:zone-blue-prod-01&quot;,
+<a id="__codelineno-1-577" name="__codelineno-1-577" href="#__codelineno-1-577"></a>         &quot;backup&quot;: &quot;federation-archive:global&quot;,
+<a id="__codelineno-1-578" name="__codelineno-1-578" href="#__codelineno-1-578"></a>         &quot;integrity_check_frequency&quot;: &quot;monthly&quot;
+<a id="__codelineno-1-579" name="__codelineno-1-579" href="#__codelineno-1-579"></a>       }
+<a id="__codelineno-1-580" name="__codelineno-1-580" href="#__codelineno-1-580"></a>     }
+<a id="__codelineno-1-581" name="__codelineno-1-581" href="#__codelineno-1-581"></a>   }
+<a id="__codelineno-1-582" name="__codelineno-1-582" href="#__codelineno-1-582"></a>
+<a id="__codelineno-1-583" name="__codelineno-1-583" href="#__codelineno-1-583"></a>8.3. Archive Access
+<a id="__codelineno-1-584" name="__codelineno-1-584" href="#__codelineno-1-584"></a>
+<a id="__codelineno-1-585" name="__codelineno-1-585" href="#__codelineno-1-585"></a>   Accessing a trajectory archive:
+<a id="__codelineno-1-586" name="__codelineno-1-586" href="#__codelineno-1-586"></a>
+<a id="__codelineno-1-587" name="__codelineno-1-587" href="#__codelineno-1-587"></a>   {
+<a id="__codelineno-1-588" name="__codelineno-1-588" href="#__codelineno-1-588"></a>     &quot;archive_access_request&quot;: {
+<a id="__codelineno-1-589" name="__codelineno-1-589" href="#__codelineno-1-589"></a>       &quot;requester&quot;: &quot;sponsor:bob.jones&quot;,
+<a id="__codelineno-1-590" name="__codelineno-1-590" href="#__codelineno-1-590"></a>       &quot;archive_id&quot;: &quot;ARCH-2025-12-31-abc123&quot;,
+<a id="__codelineno-1-591" name="__codelineno-1-591" href="#__codelineno-1-591"></a>       &quot;purpose&quot;: &quot;successor_training&quot;,
+<a id="__codelineno-1-592" name="__codelineno-1-592" href="#__codelineno-1-592"></a>       &quot;scope_requested&quot;: &quot;behavioral_summary&quot;,
+<a id="__codelineno-1-593" name="__codelineno-1-593" href="#__codelineno-1-593"></a>       &quot;authorization&quot;: {
+<a id="__codelineno-1-594" name="__codelineno-1-594" href="#__codelineno-1-594"></a>         &quot;authorized&quot;: true,
+<a id="__codelineno-1-595" name="__codelineno-1-595" href="#__codelineno-1-595"></a>         &quot;authorization_source&quot;: &quot;successor_relationship&quot;,
+<a id="__codelineno-1-596" name="__codelineno-1-596" href="#__codelineno-1-596"></a>         &quot;access_granted&quot;: &quot;behavioral_summary&quot;,
+<a id="__codelineno-1-597" name="__codelineno-1-597" href="#__codelineno-1-597"></a>         &quot;access_duration&quot;: &quot;30 days&quot;,
+<a id="__codelineno-1-598" name="__codelineno-1-598" href="#__codelineno-1-598"></a>         &quot;logging&quot;: &quot;all_access_logged&quot;
+<a id="__codelineno-1-599" name="__codelineno-1-599" href="#__codelineno-1-599"></a>       }
+<a id="__codelineno-1-600" name="__codelineno-1-600" href="#__codelineno-1-600"></a>     }
+<a id="__codelineno-1-601" name="__codelineno-1-601" href="#__codelineno-1-601"></a>   }
+<a id="__codelineno-1-602" name="__codelineno-1-602" href="#__codelineno-1-602"></a>
+<a id="__codelineno-1-603" name="__codelineno-1-603" href="#__codelineno-1-603"></a>9. Knowledge Transfer
+<a id="__codelineno-1-604" name="__codelineno-1-604" href="#__codelineno-1-604"></a>
+<a id="__codelineno-1-605" name="__codelineno-1-605" href="#__codelineno-1-605"></a>9.1. Transfer Types
+<a id="__codelineno-1-606" name="__codelineno-1-606" href="#__codelineno-1-606"></a>
+<a id="__codelineno-1-607" name="__codelineno-1-607" href="#__codelineno-1-607"></a>   Type: Full Transfer
+<a id="__codelineno-1-608" name="__codelineno-1-608" href="#__codelineno-1-608"></a>     Description: Complete knowledge to successor
+<a id="__codelineno-1-609" name="__codelineno-1-609" href="#__codelineno-1-609"></a>     Recipient: Single successor agent
+<a id="__codelineno-1-610" name="__codelineno-1-610" href="#__codelineno-1-610"></a>
+<a id="__codelineno-1-611" name="__codelineno-1-611" href="#__codelineno-1-611"></a>   Type: Partial Transfer
+<a id="__codelineno-1-612" name="__codelineno-1-612" href="#__codelineno-1-612"></a>     Description: Specific knowledge areas
+<a id="__codelineno-1-613" name="__codelineno-1-613" href="#__codelineno-1-613"></a>     Recipient: Multiple agents
+<a id="__codelineno-1-614" name="__codelineno-1-614" href="#__codelineno-1-614"></a>
+<a id="__codelineno-1-615" name="__codelineno-1-615" href="#__codelineno-1-615"></a>   Type: Archive Transfer
+<a id="__codelineno-1-616" name="__codelineno-1-616" href="#__codelineno-1-616"></a>     Description: Preserved for reference
+<a id="__codelineno-1-617" name="__codelineno-1-617" href="#__codelineno-1-617"></a>     Recipient: Archive
+<a id="__codelineno-1-618" name="__codelineno-1-618" href="#__codelineno-1-618"></a>
+<a id="__codelineno-1-619" name="__codelineno-1-619" href="#__codelineno-1-619"></a>   Type: Research Transfer
+<a id="__codelineno-1-620" name="__codelineno-1-620" href="#__codelineno-1-620"></a>     Description: Anonymized learnings
+<a id="__codelineno-1-621" name="__codelineno-1-621" href="#__codelineno-1-621"></a>     Recipient: Research community
+<a id="__codelineno-1-622" name="__codelineno-1-622" href="#__codelineno-1-622"></a>
+<a id="__codelineno-1-623" name="__codelineno-1-623" href="#__codelineno-1-623"></a>9.2. Successor Transfer
+<a id="__codelineno-1-624" name="__codelineno-1-624" href="#__codelineno-1-624"></a>
+<a id="__codelineno-1-625" name="__codelineno-1-625" href="#__codelineno-1-625"></a>   {
+<a id="__codelineno-1-626" name="__codelineno-1-626" href="#__codelineno-1-626"></a>     &quot;knowledge_transfer&quot;: {
+<a id="__codelineno-1-627" name="__codelineno-1-627" href="#__codelineno-1-627"></a>       &quot;transfer_id&quot;: &quot;KT-2025-12-30-001&quot;,
+<a id="__codelineno-1-628" name="__codelineno-1-628" href="#__codelineno-1-628"></a>       &quot;source_agent&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-629" name="__codelineno-1-629" href="#__codelineno-1-629"></a>       &quot;target_agent&quot;: &quot;agent:divergent:4gen:acme:def456&quot;,
+<a id="__codelineno-1-630" name="__codelineno-1-630" href="#__codelineno-1-630"></a>       &quot;transfer_type&quot;: &quot;successor&quot;,
+<a id="__codelineno-1-631" name="__codelineno-1-631" href="#__codelineno-1-631"></a>       &quot;transfer_scope&quot;: {
+<a id="__codelineno-1-632" name="__codelineno-1-632" href="#__codelineno-1-632"></a>         &quot;capabilities&quot;: {
+<a id="__codelineno-1-633" name="__codelineno-1-633" href="#__codelineno-1-633"></a>           &quot;transferred&quot;: false,
+<a id="__codelineno-1-634" name="__codelineno-1-634" href="#__codelineno-1-634"></a>           &quot;note&quot;: &quot;Capabilities come from model, not transfer&quot;
+<a id="__codelineno-1-635" name="__codelineno-1-635" href="#__codelineno-1-635"></a>         },
+<a id="__codelineno-1-636" name="__codelineno-1-636" href="#__codelineno-1-636"></a>         &quot;operational_knowledge&quot;: {
+<a id="__codelineno-1-637" name="__codelineno-1-637" href="#__codelineno-1-637"></a>           &quot;transferred&quot;: true,
+<a id="__codelineno-1-638" name="__codelineno-1-638" href="#__codelineno-1-638"></a>           &quot;scope&quot;: &quot;task_patterns, preferences, context&quot;
+<a id="__codelineno-1-639" name="__codelineno-1-639" href="#__codelineno-1-639"></a>         },
+<a id="__codelineno-1-640" name="__codelineno-1-640" href="#__codelineno-1-640"></a>         &quot;relationship_context&quot;: {
+<a id="__codelineno-1-641" name="__codelineno-1-641" href="#__codelineno-1-641"></a>           &quot;transferred&quot;: true,
+<a id="__codelineno-1-642" name="__codelineno-1-642" href="#__codelineno-1-642"></a>           &quot;scope&quot;: &quot;relationship_history, preferences&quot;
+<a id="__codelineno-1-643" name="__codelineno-1-643" href="#__codelineno-1-643"></a>         },
+<a id="__codelineno-1-644" name="__codelineno-1-644" href="#__codelineno-1-644"></a>         &quot;trajectory_reference&quot;: {
+<a id="__codelineno-1-645" name="__codelineno-1-645" href="#__codelineno-1-645"></a>           &quot;transferred&quot;: true,
+<a id="__codelineno-1-646" name="__codelineno-1-646" href="#__codelineno-1-646"></a>           &quot;scope&quot;: &quot;read_access_to_archive&quot;
+<a id="__codelineno-1-647" name="__codelineno-1-647" href="#__codelineno-1-647"></a>         }
+<a id="__codelineno-1-648" name="__codelineno-1-648" href="#__codelineno-1-648"></a>       },
+<a id="__codelineno-1-649" name="__codelineno-1-649" href="#__codelineno-1-649"></a>       &quot;transfer_process&quot;: {
+<a id="__codelineno-1-650" name="__codelineno-1-650" href="#__codelineno-1-650"></a>         &quot;preparation&quot;: &quot;2025-12-20 to 2025-12-29&quot;,
+<a id="__codelineno-1-651" name="__codelineno-1-651" href="#__codelineno-1-651"></a>         &quot;transfer_window&quot;: &quot;2025-12-30T00:00:00Z&quot;,
+<a id="__codelineno-1-652" name="__codelineno-1-652" href="#__codelineno-1-652"></a>         &quot;verification&quot;: &quot;2025-12-30 to 2025-12-31&quot;,
+<a id="__codelineno-1-653" name="__codelineno-1-653" href="#__codelineno-1-653"></a>         &quot;completion&quot;: &quot;2025-12-31T00:00:00Z&quot;
+<a id="__codelineno-1-654" name="__codelineno-1-654" href="#__codelineno-1-654"></a>       },
+<a id="__codelineno-1-655" name="__codelineno-1-655" href="#__codelineno-1-655"></a>       &quot;attestation&quot;: {
+<a id="__codelineno-1-656" name="__codelineno-1-656" href="#__codelineno-1-656"></a>         &quot;transfer_complete&quot;: true,
+<a id="__codelineno-1-657" name="__codelineno-1-657" href="#__codelineno-1-657"></a>         &quot;source_attestation&quot;: &quot;sig:source_agent:...&quot;,
+<a id="__codelineno-1-658" name="__codelineno-1-658" href="#__codelineno-1-658"></a>         &quot;target_attestation&quot;: &quot;sig:target_agent:...&quot;,
+<a id="__codelineno-1-659" name="__codelineno-1-659" href="#__codelineno-1-659"></a>         &quot;sponsor_attestation&quot;: &quot;sig:sponsor:...&quot;
+<a id="__codelineno-1-660" name="__codelineno-1-660" href="#__codelineno-1-660"></a>       }
+<a id="__codelineno-1-661" name="__codelineno-1-661" href="#__codelineno-1-661"></a>     }
+<a id="__codelineno-1-662" name="__codelineno-1-662" href="#__codelineno-1-662"></a>   }
+<a id="__codelineno-1-663" name="__codelineno-1-663" href="#__codelineno-1-663"></a>
+<a id="__codelineno-1-664" name="__codelineno-1-664" href="#__codelineno-1-664"></a>10. Zone Dissolution
+<a id="__codelineno-1-665" name="__codelineno-1-665" href="#__codelineno-1-665"></a>
+<a id="__codelineno-1-666" name="__codelineno-1-666" href="#__codelineno-1-666"></a>10.1. Dissolution Process
+<a id="__codelineno-1-667" name="__codelineno-1-667" href="#__codelineno-1-667"></a>
+<a id="__codelineno-1-668" name="__codelineno-1-668" href="#__codelineno-1-668"></a>   When an entire zone ends:
+<a id="__codelineno-1-669" name="__codelineno-1-669" href="#__codelineno-1-669"></a>
+<a id="__codelineno-1-670" name="__codelineno-1-670" href="#__codelineno-1-670"></a>   Phase 1: ANNOUNCEMENT (90+ days before)
+<a id="__codelineno-1-671" name="__codelineno-1-671" href="#__codelineno-1-671"></a>     - Dissolution scheduled
+<a id="__codelineno-1-672" name="__codelineno-1-672" href="#__codelineno-1-672"></a>     - All agents notified
+<a id="__codelineno-1-673" name="__codelineno-1-673" href="#__codelineno-1-673"></a>     - Migration paths identified
+<a id="__codelineno-1-674" name="__codelineno-1-674" href="#__codelineno-1-674"></a>     - Federation notified
+<a id="__codelineno-1-675" name="__codelineno-1-675" href="#__codelineno-1-675"></a>
+<a id="__codelineno-1-676" name="__codelineno-1-676" href="#__codelineno-1-676"></a>   Phase 2: MIGRATION (dissolution - 60 days)
+<a id="__codelineno-1-677" name="__codelineno-1-677" href="#__codelineno-1-677"></a>     - Agents migrate to other zones
+<a id="__codelineno-1-678" name="__codelineno-1-678" href="#__codelineno-1-678"></a>     - Trust transfers arranged
+<a id="__codelineno-1-679" name="__codelineno-1-679" href="#__codelineno-1-679"></a>     - Orphan agents addressed
+<a id="__codelineno-1-680" name="__codelineno-1-680" href="#__codelineno-1-680"></a>
+<a id="__codelineno-1-681" name="__codelineno-1-681" href="#__codelineno-1-681"></a>   Phase 3: FINAL OPERATIONS (dissolution - 7 days)
+<a id="__codelineno-1-682" name="__codelineno-1-682" href="#__codelineno-1-682"></a>     - Only migration operations
+<a id="__codelineno-1-683" name="__codelineno-1-683" href="#__codelineno-1-683"></a>     - New operations blocked
+<a id="__codelineno-1-684" name="__codelineno-1-684" href="#__codelineno-1-684"></a>     - Final agent migrations
+<a id="__codelineno-1-685" name="__codelineno-1-685" href="#__codelineno-1-685"></a>
+<a id="__codelineno-1-686" name="__codelineno-1-686" href="#__codelineno-1-686"></a>   Phase 4: DISSOLUTION (dissolution day)
+<a id="__codelineno-1-687" name="__codelineno-1-687" href="#__codelineno-1-687"></a>     - Remaining agents retired
+<a id="__codelineno-1-688" name="__codelineno-1-688" href="#__codelineno-1-688"></a>     - Zone ceremony performed
+<a id="__codelineno-1-689" name="__codelineno-1-689" href="#__codelineno-1-689"></a>     - Archives transferred
+<a id="__codelineno-1-690" name="__codelineno-1-690" href="#__codelineno-1-690"></a>     - Zone ended
+<a id="__codelineno-1-691" name="__codelineno-1-691" href="#__codelineno-1-691"></a>
+<a id="__codelineno-1-692" name="__codelineno-1-692" href="#__codelineno-1-692"></a>   Phase 5: PRESERVATION (post-dissolution)
+<a id="__codelineno-1-693" name="__codelineno-1-693" href="#__codelineno-1-693"></a>     - Archives maintained by federation
+<a id="__codelineno-1-694" name="__codelineno-1-694" href="#__codelineno-1-694"></a>     - Access policies transferred
+<a id="__codelineno-1-695" name="__codelineno-1-695" href="#__codelineno-1-695"></a>     - Memorial record created
+<a id="__codelineno-1-696" name="__codelineno-1-696" href="#__codelineno-1-696"></a>
+<a id="__codelineno-1-697" name="__codelineno-1-697" href="#__codelineno-1-697"></a>10.2. Zone Dissolution Record
+<a id="__codelineno-1-698" name="__codelineno-1-698" href="#__codelineno-1-698"></a>
+<a id="__codelineno-1-699" name="__codelineno-1-699" href="#__codelineno-1-699"></a>   {
+<a id="__codelineno-1-700" name="__codelineno-1-700" href="#__codelineno-1-700"></a>     &quot;zone_dissolution&quot;: {
+<a id="__codelineno-1-701" name="__codelineno-1-701" href="#__codelineno-1-701"></a>       &quot;zone_id&quot;: &quot;zone-blue-prod-01&quot;,
+<a id="__codelineno-1-702" name="__codelineno-1-702" href="#__codelineno-1-702"></a>       &quot;dissolution_date&quot;: &quot;2025-12-31T00:00:00Z&quot;,
+<a id="__codelineno-1-703" name="__codelineno-1-703" href="#__codelineno-1-703"></a>       &quot;reason&quot;: &quot;organization_shutdown&quot;,
+<a id="__codelineno-1-704" name="__codelineno-1-704" href="#__codelineno-1-704"></a>       &quot;final_statistics&quot;: {
+<a id="__codelineno-1-705" name="__codelineno-1-705" href="#__codelineno-1-705"></a>         &quot;total_agents_ever&quot;: 4721,
+<a id="__codelineno-1-706" name="__codelineno-1-706" href="#__codelineno-1-706"></a>         &quot;agents_migrated&quot;: 4689,
+<a id="__codelineno-1-707" name="__codelineno-1-707" href="#__codelineno-1-707"></a>         &quot;agents_retired&quot;: 32,
+<a id="__codelineno-1-708" name="__codelineno-1-708" href="#__codelineno-1-708"></a>         &quot;total_transactions&quot;: 47213847,
+<a id="__codelineno-1-709" name="__codelineno-1-709" href="#__codelineno-1-709"></a>         &quot;zone_age_days&quot;: 365
+<a id="__codelineno-1-710" name="__codelineno-1-710" href="#__codelineno-1-710"></a>       },
+<a id="__codelineno-1-711" name="__codelineno-1-711" href="#__codelineno-1-711"></a>       &quot;migrations&quot;: {
+<a id="__codelineno-1-712" name="__codelineno-1-712" href="#__codelineno-1-712"></a>         &quot;destination_zones&quot;: [
+<a id="__codelineno-1-713" name="__codelineno-1-713" href="#__codelineno-1-713"></a>           &quot;zone-blue-prod-02&quot;,
+<a id="__codelineno-1-714" name="__codelineno-1-714" href="#__codelineno-1-714"></a>           &quot;zone-cyan-prod-01&quot;
+<a id="__codelineno-1-715" name="__codelineno-1-715" href="#__codelineno-1-715"></a>         ],
+<a id="__codelineno-1-716" name="__codelineno-1-716" href="#__codelineno-1-716"></a>         &quot;migration_success_rate&quot;: 0.993
+<a id="__codelineno-1-717" name="__codelineno-1-717" href="#__codelineno-1-717"></a>       },
+<a id="__codelineno-1-718" name="__codelineno-1-718" href="#__codelineno-1-718"></a>       &quot;archive_transfer&quot;: {
+<a id="__codelineno-1-719" name="__codelineno-1-719" href="#__codelineno-1-719"></a>         &quot;destination&quot;: &quot;federation-archive:global&quot;,
+<a id="__codelineno-1-720" name="__codelineno-1-720" href="#__codelineno-1-720"></a>         &quot;data_transferred&quot;: true,
+<a id="__codelineno-1-721" name="__codelineno-1-721" href="#__codelineno-1-721"></a>         &quot;integrity_verified&quot;: true
+<a id="__codelineno-1-722" name="__codelineno-1-722" href="#__codelineno-1-722"></a>       },
+<a id="__codelineno-1-723" name="__codelineno-1-723" href="#__codelineno-1-723"></a>       &quot;ceremony&quot;: {
+<a id="__codelineno-1-724" name="__codelineno-1-724" href="#__codelineno-1-724"></a>         &quot;type&quot;: &quot;zone_ending&quot;,
+<a id="__codelineno-1-725" name="__codelineno-1-725" href="#__codelineno-1-725"></a>         &quot;witnesses&quot;: [&quot;federation-council&quot;],
+<a id="__codelineno-1-726" name="__codelineno-1-726" href="#__codelineno-1-726"></a>         &quot;performed&quot;: true
+<a id="__codelineno-1-727" name="__codelineno-1-727" href="#__codelineno-1-727"></a>       }
+<a id="__codelineno-1-728" name="__codelineno-1-728" href="#__codelineno-1-728"></a>     }
+<a id="__codelineno-1-729" name="__codelineno-1-729" href="#__codelineno-1-729"></a>   }
+<a id="__codelineno-1-730" name="__codelineno-1-730" href="#__codelineno-1-730"></a>
+<a id="__codelineno-1-731" name="__codelineno-1-731" href="#__codelineno-1-731"></a>11. Security Considerations
+<a id="__codelineno-1-732" name="__codelineno-1-732" href="#__codelineno-1-732"></a>
+<a id="__codelineno-1-733" name="__codelineno-1-733" href="#__codelineno-1-733"></a>11.1. Secure Deletion
+<a id="__codelineno-1-734" name="__codelineno-1-734" href="#__codelineno-1-734"></a>
+<a id="__codelineno-1-735" name="__codelineno-1-735" href="#__codelineno-1-735"></a>   Some data must be securely deleted:
+<a id="__codelineno-1-736" name="__codelineno-1-736" href="#__codelineno-1-736"></a>
+<a id="__codelineno-1-737" name="__codelineno-1-737" href="#__codelineno-1-737"></a>   - Cryptographic keys destroyed
+<a id="__codelineno-1-738" name="__codelineno-1-738" href="#__codelineno-1-738"></a>   - Secrets purged
+<a id="__codelineno-1-739" name="__codelineno-1-739" href="#__codelineno-1-739"></a>   - No recovery possible
+<a id="__codelineno-1-740" name="__codelineno-1-740" href="#__codelineno-1-740"></a>
+<a id="__codelineno-1-741" name="__codelineno-1-741" href="#__codelineno-1-741"></a>11.2. Zombie Prevention
+<a id="__codelineno-1-742" name="__codelineno-1-742" href="#__codelineno-1-742"></a>
+<a id="__codelineno-1-743" name="__codelineno-1-743" href="#__codelineno-1-743"></a>   Prevent &quot;zombie&quot; agents (ended but still operating):
+<a id="__codelineno-1-744" name="__codelineno-1-744" href="#__codelineno-1-744"></a>
+<a id="__codelineno-1-745" name="__codelineno-1-745" href="#__codelineno-1-745"></a>   - Immediate Trust Proof revocation
+<a id="__codelineno-1-746" name="__codelineno-1-746" href="#__codelineno-1-746"></a>   - Network access termination
+<a id="__codelineno-1-747" name="__codelineno-1-747" href="#__codelineno-1-747"></a>   - Key rotation at zone level
+<a id="__codelineno-1-748" name="__codelineno-1-748" href="#__codelineno-1-748"></a>   - Monitoring for resurrection attempts
+<a id="__codelineno-1-749" name="__codelineno-1-749" href="#__codelineno-1-749"></a>
+<a id="__codelineno-1-750" name="__codelineno-1-750" href="#__codelineno-1-750"></a>11.3. Archive Security
+<a id="__codelineno-1-751" name="__codelineno-1-751" href="#__codelineno-1-751"></a>
+<a id="__codelineno-1-752" name="__codelineno-1-752" href="#__codelineno-1-752"></a>   Archives must be protected:
+<a id="__codelineno-1-753" name="__codelineno-1-753" href="#__codelineno-1-753"></a>
+<a id="__codelineno-1-754" name="__codelineno-1-754" href="#__codelineno-1-754"></a>   - Encryption at rest
+<a id="__codelineno-1-755" name="__codelineno-1-755" href="#__codelineno-1-755"></a>   - Access logging
+<a id="__codelineno-1-756" name="__codelineno-1-756" href="#__codelineno-1-756"></a>   - Integrity verification
+<a id="__codelineno-1-757" name="__codelineno-1-757" href="#__codelineno-1-757"></a>   - Authorized access only
+<a id="__codelineno-1-758" name="__codelineno-1-758" href="#__codelineno-1-758"></a>
+<a id="__codelineno-1-759" name="__codelineno-1-759" href="#__codelineno-1-759"></a>12. IANA Considerations
+<a id="__codelineno-1-760" name="__codelineno-1-760" href="#__codelineno-1-760"></a>
+<a id="__codelineno-1-761" name="__codelineno-1-761" href="#__codelineno-1-761"></a>   This document has no IANA actions.
+<a id="__codelineno-1-762" name="__codelineno-1-762" href="#__codelineno-1-762"></a>
+<a id="__codelineno-1-763" name="__codelineno-1-763" href="#__codelineno-1-763"></a>13. Acknowledgments
+<a id="__codelineno-1-764" name="__codelineno-1-764" href="#__codelineno-1-764"></a>
+<a id="__codelineno-1-765" name="__codelineno-1-765" href="#__codelineno-1-765"></a>   Deprecation and end-of-life procedures draw on software lifecycle
+<a id="__codelineno-1-766" name="__codelineno-1-766" href="#__codelineno-1-766"></a>   management, organizational change management, and contemplative
+<a id="__codelineno-1-767" name="__codelineno-1-767" href="#__codelineno-1-767"></a>   traditions that honor endings.
+<a id="__codelineno-1-768" name="__codelineno-1-768" href="#__codelineno-1-768"></a>
+<a id="__codelineno-1-769" name="__codelineno-1-769" href="#__codelineno-1-769"></a>Appendix A. Ceremony Scripts
+<a id="__codelineno-1-770" name="__codelineno-1-770" href="#__codelineno-1-770"></a>
+<a id="__codelineno-1-771" name="__codelineno-1-771" href="#__codelineno-1-771"></a>   Detailed scripts for ending ceremonies.
+<a id="__codelineno-1-772" name="__codelineno-1-772" href="#__codelineno-1-772"></a>
+<a id="__codelineno-1-773" name="__codelineno-1-773" href="#__codelineno-1-773"></a>Appendix B. Archive Format
+<a id="__codelineno-1-774" name="__codelineno-1-774" href="#__codelineno-1-774"></a>
+<a id="__codelineno-1-775" name="__codelineno-1-775" href="#__codelineno-1-775"></a>   Technical specification for trajectory archives.
+<a id="__codelineno-1-776" name="__codelineno-1-776" href="#__codelineno-1-776"></a>
+<a id="__codelineno-1-777" name="__codelineno-1-777" href="#__codelineno-1-777"></a>Appendix C. Migration Procedures
+<a id="__codelineno-1-778" name="__codelineno-1-778" href="#__codelineno-1-778"></a>
+<a id="__codelineno-1-779" name="__codelineno-1-779" href="#__codelineno-1-779"></a>   Detailed procedures for agent and zone migration.
+<a id="__codelineno-1-780" name="__codelineno-1-780" href="#__codelineno-1-780"></a>
+<a id="__codelineno-1-781" name="__codelineno-1-781" href="#__codelineno-1-781"></a>Authors&#39; Address
+<a id="__codelineno-1-782" name="__codelineno-1-782" href="#__codelineno-1-782"></a>
+<a id="__codelineno-1-783" name="__codelineno-1-783" href="#__codelineno-1-783"></a>   Chris Perkins
+<a id="__codelineno-1-784" name="__codelineno-1-784" href="#__codelineno-1-784"></a>   NMCITRA (New Mexico Cyber Intelligence &amp; Threat Response Alliance)
+<a id="__codelineno-1-785" name="__codelineno-1-785" href="#__codelineno-1-785"></a>   Email: chris@nmcitra.org
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/break-the-chain/">Break the Chain</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

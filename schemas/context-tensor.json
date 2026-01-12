@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ktp.example.org/schemas/context-tensor.json",
+  "title": "KTP Context Tensor",
+  "description": "Seven-dimensional physics lens for the Kinetic Trust Protocol context tensor",
+  "type": "object",
+  "required": ["m", "p", "i", "h", "t", "o", "s"],
+  "properties": {
+    "m": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Mass - Volume and density of telemetry. RFC Tensor Mapping: Body + World. Example signals: packet rates, occupancy, RF absorption. Why it matters: establishes how heavy the environment is and sets baseline stability."
+    },
+    "p": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Momentum - Rate of change in trust. RFC Tensor Mapping: Time + Signal. Example signals: trust velocity, confidence deltas, surge patterns. Why it matters: captures acceleration of trust up/down to prevent whiplash."
+    },
+    "i": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Inertia - Resistance to trust fluctuation. RFC Tensor Mapping: Body + Relational. Example signals: service criticality, blast radius, dependency depth. Why it matters: dampens sudden shifts for high-impact systems and enforces stability."
+    },
+    "h": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Heat - Operational stress and anomaly detection. RFC Tensor Mapping: World + Signal. Example signals: error bursts, adversarial scans, resource contention. Why it matters: reveals pressure that should lower autonomy or trigger dormancy."
+    },
+    "t": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Time - Temporal patterns and decay. RFC Tensor Mapping: Time. Example signals: phase of event, freshness, decay curves. Why it matters: governs how long trust holds and when it should decay or refresh."
+    },
+    "o": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Observer - Perspective and vantage point. RFC Tensor Mapping: Relational + Signal. Example signals: audience, stakeholder expectations, locality. Why it matters: adjusts trust by who is impacted and from where it is measured."
+    },
+    "s": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Soul - Constitutional constraints that cannot be overridden. RFC Tensor Mapping: Soul. Example signals: sovereignty labels, TK/OCAP/CARE rules. Why it matters: hard vetoes enforced before any other calculation."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "m": 0.875,
+      "p": 0.920,
+      "i": 0.100,
+      "h": 0.020,
+      "t": 1.000,
+      "o": 0.040,
+      "s": 0.900
+    },
+    {
+      "m": 0.100,
+      "p": 0.150,
+      "i": 0.050,
+      "h": 0.010,
+      "t": 0.200,
+      "o": 0.020,
+      "s": 0.700
+    }
+  ]
+}

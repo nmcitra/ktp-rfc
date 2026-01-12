@@ -1,0 +1,4349 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The Trust Oracle specification - the nerve center of KTP zones, handling trust proofs, consensus, and digital gravity enforcement.">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-oracle/">
+      
+      
+        <link rel="prev" href="../ktp-celestial/">
+      
+      
+        <link rel="next" href="../ktp-provenance/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>KTP-Oracle - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ktp-oracle-trust-oracle-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Oracle
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/context-tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-mesh-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle Mesh Topology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle Mesh Topology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consensus-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consensus Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-proof-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Proof Lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust Proof Lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proof-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proof Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#threshold-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threshold Signatures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../schemas/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/break-the-chain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break the Chain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oracle-mesh-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oracle Mesh Topology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Oracle Mesh Topology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consensus-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consensus Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-proof-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Proof Lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust Proof Lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proof-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proof Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#threshold-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threshold Signatures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-oracle.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ktp-oracle-trust-oracle-specification">KTP-Oracle: Trust Oracle Specification<a class="headerlink" href="#ktp-oracle-trust-oracle-specification" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Status: Experimental</p>
+<p>The Trust Oracle is the authoritative source of trust state within a zone. It issues Trust Proofs, enforces the Zeroth Law, and maintains consensus on the physics of the environment.</p>
+</div>
+<h2 id="at-a-glance">At a Glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td><span class="twemoji experimental"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 22a3 3 0 0 1-3-3c0-.6.18-1.16.5-1.63L9 7.81V6a1 1 0 0 1-1-1V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v1.81l5.5 9.56c.32.47.5 1.03.5 1.63a3 3 0 0 1-3 3zm-1-3a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1c0-.21-.07-.41-.18-.57l-2.29-3.96L14 17l-5.07-5.07-3.75 6.5c-.11.16-.18.36-.18.57m8-9a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1"/></svg></span> Experimental</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td><a href="../ktp-core/">KTP-Core</a>, <a href="../ktp-signal/">KTP-Signal</a></td>
+</tr>
+<tr>
+<td><strong>Required By</strong></td>
+<td><a href="../ktp-federation/">KTP-Federation</a>, <a href="../ktp-zones/">KTP-Zones</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="oracle-architecture">Oracle Architecture<a class="headerlink" href="#oracle-architecture" title="Permanent link">&para;</a></h2>
+<p>The Trust Oracle is not a single server but a distributed system. A single node consists of several critical engines.</p>
+<pre class="mermaid"><code>graph TD
+    subgraph Oracle Node
+        TC[Tensor Collector] --&gt;|Raw Data| RC[Risk Calculator]
+        RC --&gt;|R &amp; E| ZLE[Zeroth Law Engine]
+        RC --&gt;|R &amp; E| TPI[Trust Proof Issuer]
+
+        Req[Agent Request] --&gt; ZLE
+        Req --&gt; TPI
+
+        ZLE --&gt;|Permit/Deny| Out[Response]
+        TPI --&gt;|Signed Proof| Out
+
+        KM[Key Management HSM] -.-&gt; TPI
+        KM -.-&gt; TCS[Trajectory Co-Signer]
+
+        CC[Consensus Client] &lt;--&gt;|Mesh Traffic| Mesh
+    end
+
+    Sensors --&gt; TC</code></pre>
+<h3 id="component-functions">Component Functions<a class="headerlink" href="#component-functions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Tensor Collector</strong>: Aggregates data from Soul, Body, World, Time, Relational, and Signal tensors.</li>
+<li><strong>Risk Calculator</strong>: Computes Environmental Stability (<span class="arithmatex">\(E\)</span>) from Risk (<span class="arithmatex">\(R\)</span>).
+    $$ E = E_{base} \times (1 - R) $$</li>
+<li><strong>Zeroth Law Engine</strong>: The "physics engine" that evaluates every action.
+    $$ A \leq E $$</li>
+<li><strong>Trust Proof Issuer</strong>: Generates cryptographically signed proofs of trust state.</li>
+</ol>
+<hr />
+<h2 id="oracle-mesh-topology">Oracle Mesh Topology<a class="headerlink" href="#oracle-mesh-topology" title="Permanent link">&para;</a></h2>
+<p>To prevent a single point of failure and ensure integrity, Oracles operate in a mesh using Byzantine Fault Tolerance (BFT).</p>
+<pre class="mermaid"><code>graph LR
+    N1((Node 1)) &lt;--&gt; N2((Node 2))
+    N2 &lt;--&gt; N3((Node 3))
+    N3 &lt;--&gt; N1
+    N3 &lt;--&gt; N4((Node 4))
+    N4 &lt;--&gt; N5((Node 5))
+    N5 &lt;--&gt; N1
+    N2 &lt;--&gt; N4
+    N5 &lt;--&gt; N3
+
+    style N1 fill:#f9f,stroke:#333
+    style N2 fill:#f9f,stroke:#333
+    style N3 fill:#f9f,stroke:#333
+    style N4 fill:#f9f,stroke:#333
+    style N5 fill:#f9f,stroke:#333</code></pre>
+<h3 id="consensus-requirements">Consensus Requirements<a class="headerlink" href="#consensus-requirements" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">Consensus Type</th>
+<th style="text-align: left;">Latency Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Trust Proof Issuance</strong></td>
+<td style="text-align: left;">Single Node (Async)</td>
+<td style="text-align: left;">&lt; 5ms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Zeroth Law Check</strong></td>
+<td style="text-align: left;">Single Node (Async)</td>
+<td style="text-align: left;">&lt; 1ms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Trajectory Co-Signing</strong></td>
+<td style="text-align: left;">Quorum (M-of-N)</td>
+<td style="text-align: left;">&lt; 50ms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong><span class="arithmatex">\(E_{base}\)</span> Modification</strong></td>
+<td style="text-align: left;">Quorum (M-of-N)</td>
+<td style="text-align: left;">&lt; 200ms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Zone Config Change</strong></td>
+<td style="text-align: left;">Supermajority</td>
+<td style="text-align: left;">&lt; 500ms</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="trust-proof-lifecycle">Trust Proof Lifecycle<a class="headerlink" href="#trust-proof-lifecycle" title="Permanent link">&para;</a></h2>
+<p>Trust Proofs are the "currency" of the zone. They are short-lived, signed attestations of an agent's right to act.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant Agent
+    participant Oracle
+    participant Verifier
+
+    Agent-&gt;&gt;Oracle: Request Trust Proof
+    Oracle-&gt;&gt;Oracle: Calculate E = E_base * (1-R)
+    Oracle-&gt;&gt;Oracle: Sign Proof (Expires in 10s)
+    Oracle--&gt;&gt;Agent: Trust Proof (TP)
+
+    Agent-&gt;&gt;Verifier: Action Request + TP
+    Verifier-&gt;&gt;Verifier: Verify Signature &amp; Expiry
+    Verifier-&gt;&gt;Verifier: Check A &lt;= TP.E
+
+    alt Valid
+        Verifier--&gt;&gt;Agent: Action Accepted
+    else Invalid
+        Verifier--&gt;&gt;Agent: Action Rejected
+    end</code></pre>
+<h3 id="proof-structure">Proof Structure<a class="headerlink" href="#proof-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;proof_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tp-2025-12-03-001&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;agent_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;agent:divergent:3gen:acme:abc123&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;trust_state&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">&quot;e_base&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">55</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&quot;e_trust&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">&quot;r_current&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">&quot;tier&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;analyst&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">&quot;constraints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&quot;max_action_risk&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">44</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig:oracle:...&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="threshold-signatures">Threshold Signatures<a class="headerlink" href="#threshold-signatures" title="Permanent link">&para;</a></h2>
+<p>Critical operations (like changing the physics of the zone) require <strong>Threshold Signatures</strong>. No single Oracle node holds the full private key.</p>
+<ul>
+<li><strong>Scheme</strong>: Shamir's Secret Sharing with Threshold ECDSA.</li>
+<li><strong>Configuration</strong>: Typically 3-of-5 or 5-of-7.</li>
+<li><strong>Key Ceremony</strong>: A formal, witnessed process for generating and distributing key shares.</li>
+</ul>
+<hr />
+<h2 id="related-specifications">Related Specifications<a class="headerlink" href="#related-specifications" title="Permanent link">&para;</a></h2>
+<details class="info">
+<summary>Related Specifications</summary>
+<ul>
+<li><a href="../ktp-core/">KTP-Core</a>: Trust physics and Trust Score computation.</li>
+<li><a href="../ktp-identity/">KTP-Identity</a>: Identity proofs and lineage inputs.</li>
+<li><a href="../ktp-crypto/">KTP-Crypto</a>: Threshold signatures and key custody.</li>
+<li><a href="../ktp-transport/">KTP-Transport</a>: Trust Proof delivery and refresh.</li>
+</ul>
+</details>
+<hr />
+<h2 id="official-rfc-document">Official RFC Document<a class="headerlink" href="#official-rfc-document" title="Permanent link">&para;</a></h2>
+<details class="note">
+<summary>View Complete RFC Text (ktp-oracle.txt)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Kinetic Trust Protocol                                      C. Perkins
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Specification Draft                                           NMCITRA
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Version: 0.1                                             November 2025
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>      Kinetic Trust Protocol (KTP) - Trust Oracle Specification
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Abstract
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>   This document specifies the Trust Oracle for the Kinetic Trust
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>   Protocol (KTP).  The Trust Oracle is the authoritative source of
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>   trust state within a zone—issuing Trust Proofs, co-signing
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>   trajectory records, calculating environmental stability (E), and
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>   enforcing Digital Gravity.  The specification covers Oracle
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>   architecture, consensus mechanisms, threshold signatures, mesh
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>   topology, Oracle accountability, and Oracle-to-Oracle federation.
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>Status of This Memo
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>   This document specifies a Kinetic Trust Protocol specification for
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>   the KTP community, describing the Trust Oracle component and its
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>   operations within KTP zones.  Distribution of this memo is
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>   unlimited.
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>   This is a draft specification and may be updated, replaced, or
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>   made obsolete by other documents at any time.  It is inappropriate
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>   to use this document as reference material or to cite it other
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>   than as &quot;work in progress.&quot;
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>Copyright Notice
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>   Copyright (c) 2025 NMCITRA and the persons identified as the
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>   document authors.  All rights reserved.
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>   This document is subject to the licensing terms of the Kinetic
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>   Trust Protocol project, which permits use, modification, and
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>   distribution under the terms of the project license.
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>Table of Contents
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   1
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>   2.  Design Principles  . . . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>   3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>   4.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   3
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>   5.  Oracle Architecture  . . . . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>       5.1.  Single Node Architecture . . . . . . . . . . . . . . .   4
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>       5.2.  Component Specifications . . . . . . . . . . . . . . .   5
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>             5.2.1.  Tensor Collector . . . . . . . . . . . . . . .   5
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>             5.2.2.  Risk Calculator  . . . . . . . . . . . . . . .   6
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>             5.2.3.  Zeroth Law Engine  . . . . . . . . . . . . . .   6
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>             5.2.4.  Trust Proof Issuer . . . . . . . . . . . . . .   7
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>             5.2.5.  Trajectory Co-Signer . . . . . . . . . . . . .   8
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>   6.  Oracle Mesh  . . . . . . . . . . . . . . . . . . . . . . . .   8
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>       6.1.  Mesh Topology  . . . . . . . . . . . . . . . . . . . .   8
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>       6.2.  Mesh Requirements  . . . . . . . . . . . . . . . . . .   9
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>       6.3.  Node Roles . . . . . . . . . . . . . . . . . . . . . .   9
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>   7.  Consensus Mechanisms . . . . . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>       7.1.  Consensus Requirements . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>       7.2.  Consensus Protocol . . . . . . . . . . . . . . . . . .  10
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>       7.3.  Consensus Scope  . . . . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>       7.4.  Split Brain Prevention . . . . . . . . . . . . . . . .  11
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>   8.  Threshold Signatures . . . . . . . . . . . . . . . . . . . .  12
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>       8.1.  Overview . . . . . . . . . . . . . . . . . . . . . . .  12
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>       8.2.  Threshold Scheme . . . . . . . . . . . . . . . . . . .  12
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>       8.3.  Key Ceremony . . . . . . . . . . . . . . . . . . . . .  13
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>       8.4.  Operations Requiring Threshold Signature . . . . . . .  13
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>   9.  Trust Proof Lifecycle  . . . . . . . . . . . . . . . . . . .  13
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>       9.1.  Issuance . . . . . . . . . . . . . . . . . . . . . . .  13
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>       9.2.  Validation . . . . . . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>       9.3.  Refresh  . . . . . . . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>       9.4.  Revocation . . . . . . . . . . . . . . . . . . . . . .  14
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>   10. Oracle Accountability  . . . . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>       10.1. Oracles Under Gravity  . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>       10.2. Oracle Trajectory  . . . . . . . . . . . . . . . . . .  15
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>       10.3. Oracle Audit . . . . . . . . . . . . . . . . . . . . .  16
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>       10.4. Oracle Misbehavior . . . . . . . . . . . . . . . . . .  16
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>   11. Federation . . . . . . . . . . . . . . . . . . . . . . . . .  16
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>       11.1. Oracle-to-Oracle Federation  . . . . . . . . . . . . .  16
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>       11.2. Federation Establishment . . . . . . . . . . . . . . .  17
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>       11.3. Federation Trust Factor  . . . . . . . . . . . . . . .  17
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>       11.4. Cross-Zone Operations  . . . . . . . . . . . . . . . .  17
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>   12. Performance Requirements . . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>       12.1. Latency Targets  . . . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>       12.2. Throughput Targets . . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>       12.3. Availability Targets . . . . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>   13. Deployment Models  . . . . . . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>       13.1. Cloud Deployment . . . . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>       13.2. On-Premises Deployment . . . . . . . . . . . . . . . .  19
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>       13.3. Hybrid Deployment  . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>   14. Security Considerations  . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>       14.1. Key Protection . . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>       14.2. Network Security . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>       14.3. Byzantine Fault Tolerance  . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>       14.4. Oracle Compromise Response . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>   15. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>   16. Back Matter  . . . . . . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>   Appendix A.  Oracle Node Specification . . . . . . . . . . . . .  22
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>   Appendix B.  Consensus Protocol Details  . . . . . . . . . . . .  22
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>   Appendix C.  Threshold Signature Implementation  . . . . . . . .  22
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>   Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  22
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>1.  Introduction
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>   The Trust Oracle is the nerve center of a KTP zone.  It performs
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>   the calculations that make Digital Gravity possible:
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>   -  Collects Context Tensor measurements
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>   -  Calculates Risk Factor (R) and Environmental Stability (E)
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>   -  Issues Trust Proofs to agents
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>   -  Co-signs trajectory chain transactions
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>   -  Enforces the Zeroth Law (A ≤ E)
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>   -  Applies gravity constraints when needed
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>   -  Attests to agent behavior for Proof of Resilience
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>   Without a functioning Trust Oracle, KTP cannot operate.  The Oracle
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>   is both critical infrastructure and potential single point of
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a>   failure.  This specification addresses both the capabilities
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>   required and the resilience necessary.
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>2.  Design Principles
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a>
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>   The Trust Oracle embodies these principles:
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>   1.  Availability: The Oracle MUST be available for zone operation.
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>       Downtime means agents cannot act.
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>   2.  Integrity: Oracle decisions MUST be consistent and correct.
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a>       Corrupted Oracles corrupt the entire trust system.
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>   3.  Accountability: Oracles are themselves subject to KTP.  They
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>       cannot exempt themselves from physics.
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a>
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>   4.  Transparency: Oracle operations MUST be auditable.  Trust
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>       requires visibility.
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>   5.  Resilience: Single Oracle failure MUST NOT disable the zone.
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>       Redundancy is required.
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a>
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>   6.  Performance: Oracle latency MUST NOT bottleneck agent
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>       operations.  Speed matters.
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>3.  Requirements Language
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>   The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;,
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>   &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>   this document are to be interpreted as described in BCP 14
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a>   (RFC 2119 and RFC 8174).
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a>
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>4.  Terminology
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>   Attestation:
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>      A signed statement by the Oracle confirming some fact about an
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>      agent or transaction.
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>   Consensus:
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>      Agreement among multiple Oracle nodes on trust state.
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a>   Oracle Mesh:
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a>      A network of connected Oracle nodes providing redundancy and
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a>      consensus.
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a>
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a>   Oracle Node:
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>      A single instance of Trust Oracle software and associated
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a>      cryptographic identity.
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a>
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a>   Quorum:
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a>      The minimum number of Oracle nodes required for valid decisions.
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a>
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a>   Split Brain:
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>      A failure mode where Oracle nodes disagree and cannot reach
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a>      consensus.
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a>
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a>   Threshold Signature:
+<a id="__codelineno-1-180" name="__codelineno-1-180" href="#__codelineno-1-180"></a>      A cryptographic signature requiring M-of-N participants to
+<a id="__codelineno-1-181" name="__codelineno-1-181" href="#__codelineno-1-181"></a>      produce.
+<a id="__codelineno-1-182" name="__codelineno-1-182" href="#__codelineno-1-182"></a>
+<a id="__codelineno-1-183" name="__codelineno-1-183" href="#__codelineno-1-183"></a>   Trust Proof:
+<a id="__codelineno-1-184" name="__codelineno-1-184" href="#__codelineno-1-184"></a>      A signed attestation of an agent&#39;s current trust state, issued
+<a id="__codelineno-1-185" name="__codelineno-1-185" href="#__codelineno-1-185"></a>      by the Oracle.
+<a id="__codelineno-1-186" name="__codelineno-1-186" href="#__codelineno-1-186"></a>
+<a id="__codelineno-1-187" name="__codelineno-1-187" href="#__codelineno-1-187"></a>5.  Oracle Architecture
+<a id="__codelineno-1-188" name="__codelineno-1-188" href="#__codelineno-1-188"></a>
+<a id="__codelineno-1-189" name="__codelineno-1-189" href="#__codelineno-1-189"></a>5.1.  Single Node Architecture
+<a id="__codelineno-1-190" name="__codelineno-1-190" href="#__codelineno-1-190"></a>
+<a id="__codelineno-1-191" name="__codelineno-1-191" href="#__codelineno-1-191"></a>   A single Oracle node contains:
+<a id="__codelineno-1-192" name="__codelineno-1-192" href="#__codelineno-1-192"></a>
+<a id="__codelineno-1-193" name="__codelineno-1-193" href="#__codelineno-1-193"></a>   +------------------------------------------------------------------+
+<a id="__codelineno-1-194" name="__codelineno-1-194" href="#__codelineno-1-194"></a>   |                      TRUST ORACLE NODE                           |
+<a id="__codelineno-1-195" name="__codelineno-1-195" href="#__codelineno-1-195"></a>   |                                                                  |
+<a id="__codelineno-1-196" name="__codelineno-1-196" href="#__codelineno-1-196"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-197" name="__codelineno-1-197" href="#__codelineno-1-197"></a>   |  |                    Tensor Collector                        |  |
+<a id="__codelineno-1-198" name="__codelineno-1-198" href="#__codelineno-1-198"></a>   |  |   Receives measurements from all six Context Tensors       |  |
+<a id="__codelineno-1-199" name="__codelineno-1-199" href="#__codelineno-1-199"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-200" name="__codelineno-1-200" href="#__codelineno-1-200"></a>   |                              |                                   |
+<a id="__codelineno-1-201" name="__codelineno-1-201" href="#__codelineno-1-201"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-202" name="__codelineno-1-202" href="#__codelineno-1-202"></a>   |  |                    Risk Calculator                         |  |
+<a id="__codelineno-1-203" name="__codelineno-1-203" href="#__codelineno-1-203"></a>   |  |   R = weighted_aggregate(tensor_risks)                     |  |
+<a id="__codelineno-1-204" name="__codelineno-1-204" href="#__codelineno-1-204"></a>   |  |   E = E_base × (1 - R)                                     |  |
+<a id="__codelineno-1-205" name="__codelineno-1-205" href="#__codelineno-1-205"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-206" name="__codelineno-1-206" href="#__codelineno-1-206"></a>   |                              |                                   |
+<a id="__codelineno-1-207" name="__codelineno-1-207" href="#__codelineno-1-207"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-208" name="__codelineno-1-208" href="#__codelineno-1-208"></a>   |  |                   Zeroth Law Engine                        |  |
+<a id="__codelineno-1-209" name="__codelineno-1-209" href="#__codelineno-1-209"></a>   |  |   Evaluates A ≤ E for every action request                 |  |
+<a id="__codelineno-1-210" name="__codelineno-1-210" href="#__codelineno-1-210"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-211" name="__codelineno-1-211" href="#__codelineno-1-211"></a>   |                              |                                   |
+<a id="__codelineno-1-212" name="__codelineno-1-212" href="#__codelineno-1-212"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-213" name="__codelineno-1-213" href="#__codelineno-1-213"></a>   |  |                   Gravity Calculator                       |  |
+<a id="__codelineno-1-214" name="__codelineno-1-214" href="#__codelineno-1-214"></a>   |  |   G = f(A, E, threshold) — determines constraint level     |  |
+<a id="__codelineno-1-215" name="__codelineno-1-215" href="#__codelineno-1-215"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-216" name="__codelineno-1-216" href="#__codelineno-1-216"></a>   |                              |                                   |
+<a id="__codelineno-1-217" name="__codelineno-1-217" href="#__codelineno-1-217"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-218" name="__codelineno-1-218" href="#__codelineno-1-218"></a>   |  |                   Trust Proof Issuer                       |  |
+<a id="__codelineno-1-219" name="__codelineno-1-219" href="#__codelineno-1-219"></a>   |  |   Issues signed Trust Proofs to agents                     |  |
+<a id="__codelineno-1-220" name="__codelineno-1-220" href="#__codelineno-1-220"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-221" name="__codelineno-1-221" href="#__codelineno-1-221"></a>   |                              |                                   |
+<a id="__codelineno-1-222" name="__codelineno-1-222" href="#__codelineno-1-222"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-223" name="__codelineno-1-223" href="#__codelineno-1-223"></a>   |  |                   Trajectory Co-Signer                     |  |
+<a id="__codelineno-1-224" name="__codelineno-1-224" href="#__codelineno-1-224"></a>   |  |   Co-signs agent transaction records                       |  |
+<a id="__codelineno-1-225" name="__codelineno-1-225" href="#__codelineno-1-225"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-226" name="__codelineno-1-226" href="#__codelineno-1-226"></a>   |                              |                                   |
+<a id="__codelineno-1-227" name="__codelineno-1-227" href="#__codelineno-1-227"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-228" name="__codelineno-1-228" href="#__codelineno-1-228"></a>   |  |                   Attestation Engine                       |  |
+<a id="__codelineno-1-229" name="__codelineno-1-229" href="#__codelineno-1-229"></a>   |  |   Issues Proof of Resilience attestations                  |  |
+<a id="__codelineno-1-230" name="__codelineno-1-230" href="#__codelineno-1-230"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-231" name="__codelineno-1-231" href="#__codelineno-1-231"></a>   |                              |                                   |
+<a id="__codelineno-1-232" name="__codelineno-1-232" href="#__codelineno-1-232"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-233" name="__codelineno-1-233" href="#__codelineno-1-233"></a>   |  |                    Key Management                          |  |
+<a id="__codelineno-1-234" name="__codelineno-1-234" href="#__codelineno-1-234"></a>   |  |   HSM-backed cryptographic operations                      |  |
+<a id="__codelineno-1-235" name="__codelineno-1-235" href="#__codelineno-1-235"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-236" name="__codelineno-1-236" href="#__codelineno-1-236"></a>   |                              |                                   |
+<a id="__codelineno-1-237" name="__codelineno-1-237" href="#__codelineno-1-237"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-238" name="__codelineno-1-238" href="#__codelineno-1-238"></a>   |  |                   Consensus Client                         |  |
+<a id="__codelineno-1-239" name="__codelineno-1-239" href="#__codelineno-1-239"></a>   |  |   Participates in Oracle Mesh consensus                    |  |
+<a id="__codelineno-1-240" name="__codelineno-1-240" href="#__codelineno-1-240"></a>   |  +------------------------------------------------------------+  |
+<a id="__codelineno-1-241" name="__codelineno-1-241" href="#__codelineno-1-241"></a>   |                                                                  |
+<a id="__codelineno-1-242" name="__codelineno-1-242" href="#__codelineno-1-242"></a>   +------------------------------------------------------------------+
+<a id="__codelineno-1-243" name="__codelineno-1-243" href="#__codelineno-1-243"></a>
+<a id="__codelineno-1-244" name="__codelineno-1-244" href="#__codelineno-1-244"></a>5.2.  Component Specifications
+<a id="__codelineno-1-245" name="__codelineno-1-245" href="#__codelineno-1-245"></a>
+<a id="__codelineno-1-246" name="__codelineno-1-246" href="#__codelineno-1-246"></a>5.2.1.  Tensor Collector
+<a id="__codelineno-1-247" name="__codelineno-1-247" href="#__codelineno-1-247"></a>
+<a id="__codelineno-1-248" name="__codelineno-1-248" href="#__codelineno-1-248"></a>   The Tensor Collector receives measurements from Context Tensor
+<a id="__codelineno-1-249" name="__codelineno-1-249" href="#__codelineno-1-249"></a>   instrumentation:
+<a id="__codelineno-1-250" name="__codelineno-1-250" href="#__codelineno-1-250"></a>
+<a id="__codelineno-1-251" name="__codelineno-1-251" href="#__codelineno-1-251"></a>   -  Input: Body Tensor
+<a id="__codelineno-1-252" name="__codelineno-1-252" href="#__codelineno-1-252"></a>      Source: Infrastructure monitoring
+<a id="__codelineno-1-253" name="__codelineno-1-253" href="#__codelineno-1-253"></a>      Rate: 1-100 Hz
+<a id="__codelineno-1-254" name="__codelineno-1-254" href="#__codelineno-1-254"></a>
+<a id="__codelineno-1-255" name="__codelineno-1-255" href="#__codelineno-1-255"></a>   -  Input: World Tensor
+<a id="__codelineno-1-256" name="__codelineno-1-256" href="#__codelineno-1-256"></a>      Source: Environmental sensors/simulation
+<a id="__codelineno-1-257" name="__codelineno-1-257" href="#__codelineno-1-257"></a>      Rate: 0.1-10 Hz
+<a id="__codelineno-1-258" name="__codelineno-1-258" href="#__codelineno-1-258"></a>
+<a id="__codelineno-1-259" name="__codelineno-1-259" href="#__codelineno-1-259"></a>   -  Input: Time Tensor
+<a id="__codelineno-1-260" name="__codelineno-1-260" href="#__codelineno-1-260"></a>      Source: Time subsystem
+<a id="__codelineno-1-261" name="__codelineno-1-261" href="#__codelineno-1-261"></a>      Rate: Per transaction
+<a id="__codelineno-1-262" name="__codelineno-1-262" href="#__codelineno-1-262"></a>
+<a id="__codelineno-1-263" name="__codelineno-1-263" href="#__codelineno-1-263"></a>   -  Input: Relational Tensor
+<a id="__codelineno-1-264" name="__codelineno-1-264" href="#__codelineno-1-264"></a>      Source: Relationship monitoring
+<a id="__codelineno-1-265" name="__codelineno-1-265" href="#__codelineno-1-265"></a>      Rate: Per interaction
+<a id="__codelineno-1-266" name="__codelineno-1-266" href="#__codelineno-1-266"></a>
+<a id="__codelineno-1-267" name="__codelineno-1-267" href="#__codelineno-1-267"></a>   -  Input: Signal Tensor
+<a id="__codelineno-1-268" name="__codelineno-1-268" href="#__codelineno-1-268"></a>      Source: Information environment monitoring
+<a id="__codelineno-1-269" name="__codelineno-1-269" href="#__codelineno-1-269"></a>      Rate: 1 Hz
+<a id="__codelineno-1-270" name="__codelineno-1-270" href="#__codelineno-1-270"></a>
+<a id="__codelineno-1-271" name="__codelineno-1-271" href="#__codelineno-1-271"></a>   The Collector MUST:
+<a id="__codelineno-1-272" name="__codelineno-1-272" href="#__codelineno-1-272"></a>
+<a id="__codelineno-1-273" name="__codelineno-1-273" href="#__codelineno-1-273"></a>   -  Validate incoming measurements
+<a id="__codelineno-1-274" name="__codelineno-1-274" href="#__codelineno-1-274"></a>
+<a id="__codelineno-1-275" name="__codelineno-1-275" href="#__codelineno-1-275"></a>   -  Detect anomalous or spoofed data
+<a id="__codelineno-1-276" name="__codelineno-1-276" href="#__codelineno-1-276"></a>
+<a id="__codelineno-1-277" name="__codelineno-1-277" href="#__codelineno-1-277"></a>   -  Maintain measurement history for smoothing
+<a id="__codelineno-1-278" name="__codelineno-1-278" href="#__codelineno-1-278"></a>
+<a id="__codelineno-1-279" name="__codelineno-1-279" href="#__codelineno-1-279"></a>   -  Provide current tensor state on demand
+<a id="__codelineno-1-280" name="__codelineno-1-280" href="#__codelineno-1-280"></a>
+<a id="__codelineno-1-281" name="__codelineno-1-281" href="#__codelineno-1-281"></a>5.2.2.  Risk Calculator
+<a id="__codelineno-1-282" name="__codelineno-1-282" href="#__codelineno-1-282"></a>
+<a id="__codelineno-1-283" name="__codelineno-1-283" href="#__codelineno-1-283"></a>   The Risk Calculator computes R from tensor measurements:
+<a id="__codelineno-1-284" name="__codelineno-1-284" href="#__codelineno-1-284"></a>
+<a id="__codelineno-1-285" name="__codelineno-1-285" href="#__codelineno-1-285"></a>      R = Σ(tensor_risk_i × weight_i) for i in tensors
+<a id="__codelineno-1-286" name="__codelineno-1-286" href="#__codelineno-1-286"></a>
+<a id="__codelineno-1-287" name="__codelineno-1-287" href="#__codelineno-1-287"></a>   Where weights sum to 1.0 (default):
+<a id="__codelineno-1-288" name="__codelineno-1-288" href="#__codelineno-1-288"></a>
+<a id="__codelineno-1-289" name="__codelineno-1-289" href="#__codelineno-1-289"></a>      soul_weight       = 0.25
+<a id="__codelineno-1-290" name="__codelineno-1-290" href="#__codelineno-1-290"></a>      body_weight       = 0.10
+<a id="__codelineno-1-291" name="__codelineno-1-291" href="#__codelineno-1-291"></a>      world_weight      = 0.15
+<a id="__codelineno-1-292" name="__codelineno-1-292" href="#__codelineno-1-292"></a>      time_weight       = 0.15
+<a id="__codelineno-1-293" name="__codelineno-1-293" href="#__codelineno-1-293"></a>      relational_weight = 0.20
+<a id="__codelineno-1-294" name="__codelineno-1-294" href="#__codelineno-1-294"></a>      signal_weight     = 0.15
+<a id="__codelineno-1-295" name="__codelineno-1-295" href="#__codelineno-1-295"></a>
+<a id="__codelineno-1-296" name="__codelineno-1-296" href="#__codelineno-1-296"></a>   The Calculator MUST:
+<a id="__codelineno-1-297" name="__codelineno-1-297" href="#__codelineno-1-297"></a>
+<a id="__codelineno-1-298" name="__codelineno-1-298" href="#__codelineno-1-298"></a>   -  Update R within 10ms of tensor change
+<a id="__codelineno-1-299" name="__codelineno-1-299" href="#__codelineno-1-299"></a>
+<a id="__codelineno-1-300" name="__codelineno-1-300" href="#__codelineno-1-300"></a>   -  Apply temporal smoothing to prevent oscillation
+<a id="__codelineno-1-301" name="__codelineno-1-301" href="#__codelineno-1-301"></a>
+<a id="__codelineno-1-302" name="__codelineno-1-302" href="#__codelineno-1-302"></a>   -  Handle missing tensor data gracefully
+<a id="__codelineno-1-303" name="__codelineno-1-303" href="#__codelineno-1-303"></a>
+<a id="__codelineno-1-304" name="__codelineno-1-304" href="#__codelineno-1-304"></a>   -  Log R changes for audit
+<a id="__codelineno-1-305" name="__codelineno-1-305" href="#__codelineno-1-305"></a>
+<a id="__codelineno-1-306" name="__codelineno-1-306" href="#__codelineno-1-306"></a>5.2.3.  Zeroth Law Engine
+<a id="__codelineno-1-307" name="__codelineno-1-307" href="#__codelineno-1-307"></a>
+<a id="__codelineno-1-308" name="__codelineno-1-308" href="#__codelineno-1-308"></a>   The Zeroth Law Engine evaluates A ≤ E for every action:
+<a id="__codelineno-1-309" name="__codelineno-1-309" href="#__codelineno-1-309"></a>
+<a id="__codelineno-1-310" name="__codelineno-1-310" href="#__codelineno-1-310"></a>   Input:
+<a id="__codelineno-1-311" name="__codelineno-1-311" href="#__codelineno-1-311"></a>
+<a id="__codelineno-1-312" name="__codelineno-1-312" href="#__codelineno-1-312"></a>      action_request {
+<a id="__codelineno-1-313" name="__codelineno-1-313" href="#__codelineno-1-313"></a>        agent_id,
+<a id="__codelineno-1-314" name="__codelineno-1-314" href="#__codelineno-1-314"></a>        action_type,
+<a id="__codelineno-1-315" name="__codelineno-1-315" href="#__codelineno-1-315"></a>        target,
+<a id="__codelineno-1-316" name="__codelineno-1-316" href="#__codelineno-1-316"></a>        parameters
+<a id="__codelineno-1-317" name="__codelineno-1-317" href="#__codelineno-1-317"></a>      }
+<a id="__codelineno-1-318" name="__codelineno-1-318" href="#__codelineno-1-318"></a>
+<a id="__codelineno-1-319" name="__codelineno-1-319" href="#__codelineno-1-319"></a>   Process:
+<a id="__codelineno-1-320" name="__codelineno-1-320" href="#__codelineno-1-320"></a>
+<a id="__codelineno-1-321" name="__codelineno-1-321" href="#__codelineno-1-321"></a>      1.  Calculate A = autonomy(action_request)
+<a id="__codelineno-1-322" name="__codelineno-1-322" href="#__codelineno-1-322"></a>      2.  Retrieve agent E_base
+<a id="__codelineno-1-323" name="__codelineno-1-323" href="#__codelineno-1-323"></a>      3.  Get current R
+<a id="__codelineno-1-324" name="__codelineno-1-324" href="#__codelineno-1-324"></a>      4.  Calculate E = E_base × (1 - R)
+<a id="__codelineno-1-325" name="__codelineno-1-325" href="#__codelineno-1-325"></a>      5.  Evaluate A ≤ E
+<a id="__codelineno-1-326" name="__codelineno-1-326" href="#__codelineno-1-326"></a>
+<a id="__codelineno-1-327" name="__codelineno-1-327" href="#__codelineno-1-327"></a>   Output:
+<a id="__codelineno-1-328" name="__codelineno-1-328" href="#__codelineno-1-328"></a>
+<a id="__codelineno-1-329" name="__codelineno-1-329" href="#__codelineno-1-329"></a>      {
+<a id="__codelineno-1-330" name="__codelineno-1-330" href="#__codelineno-1-330"></a>        permitted: boolean,
+<a id="__codelineno-1-331" name="__codelineno-1-331" href="#__codelineno-1-331"></a>        A: number,
+<a id="__codelineno-1-332" name="__codelineno-1-332" href="#__codelineno-1-332"></a>        E: number,
+<a id="__codelineno-1-333" name="__codelineno-1-333" href="#__codelineno-1-333"></a>        gravity_recommended: number
+<a id="__codelineno-1-334" name="__codelineno-1-334" href="#__codelineno-1-334"></a>      }
+<a id="__codelineno-1-335" name="__codelineno-1-335" href="#__codelineno-1-335"></a>
+<a id="__codelineno-1-336" name="__codelineno-1-336" href="#__codelineno-1-336"></a>   The Engine MUST:
+<a id="__codelineno-1-337" name="__codelineno-1-337" href="#__codelineno-1-337"></a>
+<a id="__codelineno-1-338" name="__codelineno-1-338" href="#__codelineno-1-338"></a>   -  Complete evaluation within 1ms
+<a id="__codelineno-1-339" name="__codelineno-1-339" href="#__codelineno-1-339"></a>
+<a id="__codelineno-1-340" name="__codelineno-1-340" href="#__codelineno-1-340"></a>   -  Be deterministic (same inputs → same outputs)
+<a id="__codelineno-1-341" name="__codelineno-1-341" href="#__codelineno-1-341"></a>
+<a id="__codelineno-1-342" name="__codelineno-1-342" href="#__codelineno-1-342"></a>   -  Log all evaluations
+<a id="__codelineno-1-343" name="__codelineno-1-343" href="#__codelineno-1-343"></a>
+<a id="__codelineno-1-344" name="__codelineno-1-344" href="#__codelineno-1-344"></a>   -  Handle concurrent requests
+<a id="__codelineno-1-345" name="__codelineno-1-345" href="#__codelineno-1-345"></a>
+<a id="__codelineno-1-346" name="__codelineno-1-346" href="#__codelineno-1-346"></a>5.2.4.  Trust Proof Issuer
+<a id="__codelineno-1-347" name="__codelineno-1-347" href="#__codelineno-1-347"></a>
+<a id="__codelineno-1-348" name="__codelineno-1-348" href="#__codelineno-1-348"></a>   The Trust Proof Issuer creates signed Trust Proofs:
+<a id="__codelineno-1-349" name="__codelineno-1-349" href="#__codelineno-1-349"></a>
+<a id="__codelineno-1-350" name="__codelineno-1-350" href="#__codelineno-1-350"></a>      {
+<a id="__codelineno-1-351" name="__codelineno-1-351" href="#__codelineno-1-351"></a>        &quot;proof_id&quot;: &quot;tp-2025-12-03-001&quot;,
+<a id="__codelineno-1-352" name="__codelineno-1-352" href="#__codelineno-1-352"></a>        &quot;agent_id&quot;: &quot;agent:divergent:3gen:acme:abc123&quot;,
+<a id="__codelineno-1-353" name="__codelineno-1-353" href="#__codelineno-1-353"></a>        &quot;issued_at&quot;: &quot;2025-12-03T14:32:15.123Z&quot;,
+<a id="__codelineno-1-354" name="__codelineno-1-354" href="#__codelineno-1-354"></a>        &quot;expires_at&quot;: &quot;2025-12-03T14:32:25.123Z&quot;,
+<a id="__codelineno-1-355" name="__codelineno-1-355" href="#__codelineno-1-355"></a>        &quot;trust_state&quot;: {
+<a id="__codelineno-1-356" name="__codelineno-1-356" href="#__codelineno-1-356"></a>          &quot;e_base&quot;: 55,
+<a id="__codelineno-1-357" name="__codelineno-1-357" href="#__codelineno-1-357"></a>          &quot;e_trust&quot;: 44,
+<a id="__codelineno-1-358" name="__codelineno-1-358" href="#__codelineno-1-358"></a>          &quot;r_current&quot;: 0.2,
+<a id="__codelineno-1-359" name="__codelineno-1-359" href="#__codelineno-1-359"></a>          &quot;tier&quot;: &quot;analyst&quot;,
+<a id="__codelineno-1-360" name="__codelineno-1-360" href="#__codelineno-1-360"></a>          &quot;lineage&quot;: &quot;divergent&quot;,
+<a id="__codelineno-1-361" name="__codelineno-1-361" href="#__codelineno-1-361"></a>          &quot;generation&quot;: 3
+<a id="__codelineno-1-362" name="__codelineno-1-362" href="#__codelineno-1-362"></a>        },
+<a id="__codelineno-1-363" name="__codelineno-1-363" href="#__codelineno-1-363"></a>        &quot;constraints&quot;: {
+<a id="__codelineno-1-364" name="__codelineno-1-364" href="#__codelineno-1-364"></a>          &quot;max_action_risk&quot;: 44,
+<a id="__codelineno-1-365" name="__codelineno-1-365" href="#__codelineno-1-365"></a>          &quot;restricted_actions&quot;: [],
+<a id="__codelineno-1-366" name="__codelineno-1-366" href="#__codelineno-1-366"></a>          &quot;gravity_active&quot;: false
+<a id="__codelineno-1-367" name="__codelineno-1-367" href="#__codelineno-1-367"></a>        },
+<a id="__codelineno-1-368" name="__codelineno-1-368" href="#__codelineno-1-368"></a>        &quot;oracle_id&quot;: &quot;oracle:zone-blue-prod-01:primary&quot;,
+<a id="__codelineno-1-369" name="__codelineno-1-369" href="#__codelineno-1-369"></a>        &quot;signature&quot;: &quot;sig:oracle:...&quot;
+<a id="__codelineno-1-370" name="__codelineno-1-370" href="#__codelineno-1-370"></a>      }
+<a id="__codelineno-1-371" name="__codelineno-1-371" href="#__codelineno-1-371"></a>
+<a id="__codelineno-1-372" name="__codelineno-1-372" href="#__codelineno-1-372"></a>   Trust Proofs MUST:
+<a id="__codelineno-1-373" name="__codelineno-1-373" href="#__codelineno-1-373"></a>
+<a id="__codelineno-1-374" name="__codelineno-1-374" href="#__codelineno-1-374"></a>   -  Have short expiration (default: 10 seconds)
+<a id="__codelineno-1-375" name="__codelineno-1-375" href="#__codelineno-1-375"></a>
+<a id="__codelineno-1-376" name="__codelineno-1-376" href="#__codelineno-1-376"></a>   -  Be signed by Oracle key
+<a id="__codelineno-1-377" name="__codelineno-1-377" href="#__codelineno-1-377"></a>
+<a id="__codelineno-1-378" name="__codelineno-1-378" href="#__codelineno-1-378"></a>   -  Include current trust state
+<a id="__codelineno-1-379" name="__codelineno-1-379" href="#__codelineno-1-379"></a>
+<a id="__codelineno-1-380" name="__codelineno-1-380" href="#__codelineno-1-380"></a>   -  Be verifiable by any party with Oracle public key
+<a id="__codelineno-1-381" name="__codelineno-1-381" href="#__codelineno-1-381"></a>
+<a id="__codelineno-1-382" name="__codelineno-1-382" href="#__codelineno-1-382"></a>5.2.5.  Trajectory Co-Signer
+<a id="__codelineno-1-383" name="__codelineno-1-383" href="#__codelineno-1-383"></a>
+<a id="__codelineno-1-384" name="__codelineno-1-384" href="#__codelineno-1-384"></a>   The Co-Signer adds Oracle attestation to trajectory records:
+<a id="__codelineno-1-385" name="__codelineno-1-385" href="#__codelineno-1-385"></a>
+<a id="__codelineno-1-386" name="__codelineno-1-386" href="#__codelineno-1-386"></a>   Input: transaction_record (agent-signed)
+<a id="__codelineno-1-387" name="__codelineno-1-387" href="#__codelineno-1-387"></a>
+<a id="__codelineno-1-388" name="__codelineno-1-388" href="#__codelineno-1-388"></a>   Process:
+<a id="__codelineno-1-389" name="__codelineno-1-389" href="#__codelineno-1-389"></a>
+<a id="__codelineno-1-390" name="__codelineno-1-390" href="#__codelineno-1-390"></a>      1.  Verify agent signature
+<a id="__codelineno-1-391" name="__codelineno-1-391" href="#__codelineno-1-391"></a>      2.  Verify action was permitted
+<a id="__codelineno-1-392" name="__codelineno-1-392" href="#__codelineno-1-392"></a>      3.  Verify state transitions are valid
+<a id="__codelineno-1-393" name="__codelineno-1-393" href="#__codelineno-1-393"></a>      4.  Capture tensor snapshot
+<a id="__codelineno-1-394" name="__codelineno-1-394" href="#__codelineno-1-394"></a>      5.  Add Oracle attestation
+<a id="__codelineno-1-395" name="__codelineno-1-395" href="#__codelineno-1-395"></a>      6.  Sign complete record
+<a id="__codelineno-1-396" name="__codelineno-1-396" href="#__codelineno-1-396"></a>
+<a id="__codelineno-1-397" name="__codelineno-1-397" href="#__codelineno-1-397"></a>   Output: transaction_record (co-signed)
+<a id="__codelineno-1-398" name="__codelineno-1-398" href="#__codelineno-1-398"></a>
+<a id="__codelineno-1-399" name="__codelineno-1-399" href="#__codelineno-1-399"></a>   The Co-Signer MUST:
+<a id="__codelineno-1-400" name="__codelineno-1-400" href="#__codelineno-1-400"></a>
+<a id="__codelineno-1-401" name="__codelineno-1-401" href="#__codelineno-1-401"></a>   -  Verify before signing (never blind sign)
+<a id="__codelineno-1-402" name="__codelineno-1-402" href="#__codelineno-1-402"></a>
+<a id="__codelineno-1-403" name="__codelineno-1-403" href="#__codelineno-1-403"></a>   -  Include tensor snapshot at time of transaction
+<a id="__codelineno-1-404" name="__codelineno-1-404" href="#__codelineno-1-404"></a>
+<a id="__codelineno-1-405" name="__codelineno-1-405" href="#__codelineno-1-405"></a>   -  Refuse to sign invalid records
+<a id="__codelineno-1-406" name="__codelineno-1-406" href="#__codelineno-1-406"></a>
+<a id="__codelineno-1-407" name="__codelineno-1-407" href="#__codelineno-1-407"></a>   -  Log all signing operations
+<a id="__codelineno-1-408" name="__codelineno-1-408" href="#__codelineno-1-408"></a>
+<a id="__codelineno-1-409" name="__codelineno-1-409" href="#__codelineno-1-409"></a>6.  Oracle Mesh
+<a id="__codelineno-1-410" name="__codelineno-1-410" href="#__codelineno-1-410"></a>
+<a id="__codelineno-1-411" name="__codelineno-1-411" href="#__codelineno-1-411"></a>6.1.  Mesh Topology
+<a id="__codelineno-1-412" name="__codelineno-1-412" href="#__codelineno-1-412"></a>
+<a id="__codelineno-1-413" name="__codelineno-1-413" href="#__codelineno-1-413"></a>   Production deployments MUST use multiple Oracle nodes in a mesh:
+<a id="__codelineno-1-414" name="__codelineno-1-414" href="#__codelineno-1-414"></a>
+<a id="__codelineno-1-415" name="__codelineno-1-415" href="#__codelineno-1-415"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-416" name="__codelineno-1-416" href="#__codelineno-1-416"></a>   |   Oracle Node 1  |&lt;----&gt;|   Oracle Node 2  |
+<a id="__codelineno-1-417" name="__codelineno-1-417" href="#__codelineno-1-417"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-418" name="__codelineno-1-418" href="#__codelineno-1-418"></a>            ^                         ^
+<a id="__codelineno-1-419" name="__codelineno-1-419" href="#__codelineno-1-419"></a>            |                         |
+<a id="__codelineno-1-420" name="__codelineno-1-420" href="#__codelineno-1-420"></a>            v                         v
+<a id="__codelineno-1-421" name="__codelineno-1-421" href="#__codelineno-1-421"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-422" name="__codelineno-1-422" href="#__codelineno-1-422"></a>   |   Oracle Node 3  |&lt;----&gt;|   Oracle Node 4  |
+<a id="__codelineno-1-423" name="__codelineno-1-423" href="#__codelineno-1-423"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-424" name="__codelineno-1-424" href="#__codelineno-1-424"></a>            ^                         ^
+<a id="__codelineno-1-425" name="__codelineno-1-425" href="#__codelineno-1-425"></a>            |                         |
+<a id="__codelineno-1-426" name="__codelineno-1-426" href="#__codelineno-1-426"></a>            v                         v
+<a id="__codelineno-1-427" name="__codelineno-1-427" href="#__codelineno-1-427"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-428" name="__codelineno-1-428" href="#__codelineno-1-428"></a>   |   Oracle Node 5  |&lt;----&gt;|   Oracle Node 6  |
+<a id="__codelineno-1-429" name="__codelineno-1-429" href="#__codelineno-1-429"></a>   +------------------+      +------------------+
+<a id="__codelineno-1-430" name="__codelineno-1-430" href="#__codelineno-1-430"></a>
+<a id="__codelineno-1-431" name="__codelineno-1-431" href="#__codelineno-1-431"></a>              All-to-all connectivity for consensus
+<a id="__codelineno-1-432" name="__codelineno-1-432" href="#__codelineno-1-432"></a>
+<a id="__codelineno-1-433" name="__codelineno-1-433" href="#__codelineno-1-433"></a>6.2.  Mesh Requirements
+<a id="__codelineno-1-434" name="__codelineno-1-434" href="#__codelineno-1-434"></a>
+<a id="__codelineno-1-435" name="__codelineno-1-435" href="#__codelineno-1-435"></a>   -  Requirement: Geographic distribution
+<a id="__codelineno-1-436" name="__codelineno-1-436" href="#__codelineno-1-436"></a>      Minimum: 2 locations
+<a id="__codelineno-1-437" name="__codelineno-1-437" href="#__codelineno-1-437"></a>      Recommended: 3+ locations
+<a id="__codelineno-1-438" name="__codelineno-1-438" href="#__codelineno-1-438"></a>
+<a id="__codelineno-1-439" name="__codelineno-1-439" href="#__codelineno-1-439"></a>   -  Requirement: Network latency (inter-node)
+<a id="__codelineno-1-440" name="__codelineno-1-440" href="#__codelineno-1-440"></a>      Minimum: &lt;100ms
+<a id="__codelineno-1-441" name="__codelineno-1-441" href="#__codelineno-1-441"></a>      Recommended: &lt;50ms
+<a id="__codelineno-1-442" name="__codelineno-1-442" href="#__codelineno-1-442"></a>
+<a id="__codelineno-1-443" name="__codelineno-1-443" href="#__codelineno-1-443"></a>   -  Requirement: Quorum for operations
+<a id="__codelineno-1-444" name="__codelineno-1-444" href="#__codelineno-1-444"></a>      Minimum: (N/2)+1
+<a id="__codelineno-1-445" name="__codelineno-1-445" href="#__codelineno-1-445"></a>      Recommended: (2N/3)+1
+<a id="__codelineno-1-446" name="__codelineno-1-446" href="#__codelineno-1-446"></a>
+<a id="__codelineno-1-447" name="__codelineno-1-447" href="#__codelineno-1-447"></a>6.3.  Node Roles
+<a id="__codelineno-1-448" name="__codelineno-1-448" href="#__codelineno-1-448"></a>
+<a id="__codelineno-1-449" name="__codelineno-1-449" href="#__codelineno-1-449"></a>   All nodes are peers, but roles may be assigned:
+<a id="__codelineno-1-450" name="__codelineno-1-450" href="#__codelineno-1-450"></a>
+<a id="__codelineno-1-451" name="__codelineno-1-451" href="#__codelineno-1-451"></a>   -  Role: Primary
+<a id="__codelineno-1-452" name="__codelineno-1-452" href="#__codelineno-1-452"></a>      Responsibility: Receives requests, initiates consensus
+<a id="__codelineno-1-453" name="__codelineno-1-453" href="#__codelineno-1-453"></a>
+<a id="__codelineno-1-454" name="__codelineno-1-454" href="#__codelineno-1-454"></a>   -  Role: Secondary
+<a id="__codelineno-1-455" name="__codelineno-1-455" href="#__codelineno-1-455"></a>      Responsibility: Participates in consensus, can become primary
+<a id="__codelineno-1-456" name="__codelineno-1-456" href="#__codelineno-1-456"></a>
+<a id="__codelineno-1-457" name="__codelineno-1-457" href="#__codelineno-1-457"></a>   -  Role: Witness
+<a id="__codelineno-1-458" name="__codelineno-1-458" href="#__codelineno-1-458"></a>      Responsibility: Participates in consensus, does not serve
+<a id="__codelineno-1-459" name="__codelineno-1-459" href="#__codelineno-1-459"></a>      requests
+<a id="__codelineno-1-460" name="__codelineno-1-460" href="#__codelineno-1-460"></a>
+<a id="__codelineno-1-461" name="__codelineno-1-461" href="#__codelineno-1-461"></a>   Primary selection uses leader election:
+<a id="__codelineno-1-462" name="__codelineno-1-462" href="#__codelineno-1-462"></a>
+<a id="__codelineno-1-463" name="__codelineno-1-463" href="#__codelineno-1-463"></a>   -  Highest-uptime node becomes primary
+<a id="__codelineno-1-464" name="__codelineno-1-464" href="#__codelineno-1-464"></a>
+<a id="__codelineno-1-465" name="__codelineno-1-465" href="#__codelineno-1-465"></a>   -  Automatic failover on primary failure
+<a id="__codelineno-1-466" name="__codelineno-1-466" href="#__codelineno-1-466"></a>
+<a id="__codelineno-1-467" name="__codelineno-1-467" href="#__codelineno-1-467"></a>   -  No single primary required (multi-primary possible)
+<a id="__codelineno-1-468" name="__codelineno-1-468" href="#__codelineno-1-468"></a>
+<a id="__codelineno-1-469" name="__codelineno-1-469" href="#__codelineno-1-469"></a>7.  Consensus Mechanisms
+<a id="__codelineno-1-470" name="__codelineno-1-470" href="#__codelineno-1-470"></a>
+<a id="__codelineno-1-471" name="__codelineno-1-471" href="#__codelineno-1-471"></a>7.1.  Consensus Requirements
+<a id="__codelineno-1-472" name="__codelineno-1-472" href="#__codelineno-1-472"></a>
+<a id="__codelineno-1-473" name="__codelineno-1-473" href="#__codelineno-1-473"></a>   Oracle consensus must achieve:
+<a id="__codelineno-1-474" name="__codelineno-1-474" href="#__codelineno-1-474"></a>
+<a id="__codelineno-1-475" name="__codelineno-1-475" href="#__codelineno-1-475"></a>   1.  Agreement: All honest nodes reach same decision
+<a id="__codelineno-1-476" name="__codelineno-1-476" href="#__codelineno-1-476"></a>
+<a id="__codelineno-1-477" name="__codelineno-1-477" href="#__codelineno-1-477"></a>   2.  Validity: Decision reflects actual trust state
+<a id="__codelineno-1-478" name="__codelineno-1-478" href="#__codelineno-1-478"></a>
+<a id="__codelineno-1-479" name="__codelineno-1-479" href="#__codelineno-1-479"></a>   3.  Termination: Decision is reached in bounded time
+<a id="__codelineno-1-480" name="__codelineno-1-480" href="#__codelineno-1-480"></a>
+<a id="__codelineno-1-481" name="__codelineno-1-481" href="#__codelineno-1-481"></a>   4.  Fault tolerance: Tolerates f &lt; N/3 Byzantine failures
+<a id="__codelineno-1-482" name="__codelineno-1-482" href="#__codelineno-1-482"></a>
+<a id="__codelineno-1-483" name="__codelineno-1-483" href="#__codelineno-1-483"></a>7.2.  Consensus Protocol
+<a id="__codelineno-1-484" name="__codelineno-1-484" href="#__codelineno-1-484"></a>
+<a id="__codelineno-1-485" name="__codelineno-1-485" href="#__codelineno-1-485"></a>   The Oracle Mesh uses a simplified PBFT-style consensus:
+<a id="__codelineno-1-486" name="__codelineno-1-486" href="#__codelineno-1-486"></a>
+<a id="__codelineno-1-487" name="__codelineno-1-487" href="#__codelineno-1-487"></a>   Phase 1: PRE-PREPARE
+<a id="__codelineno-1-488" name="__codelineno-1-488" href="#__codelineno-1-488"></a>
+<a id="__codelineno-1-489" name="__codelineno-1-489" href="#__codelineno-1-489"></a>      Primary receives request
+<a id="__codelineno-1-490" name="__codelineno-1-490" href="#__codelineno-1-490"></a>      Primary assigns sequence number
+<a id="__codelineno-1-491" name="__codelineno-1-491" href="#__codelineno-1-491"></a>      Primary broadcasts &lt;PRE-PREPARE, seq, request&gt; to all nodes
+<a id="__codelineno-1-492" name="__codelineno-1-492" href="#__codelineno-1-492"></a>
+<a id="__codelineno-1-493" name="__codelineno-1-493" href="#__codelineno-1-493"></a>   Phase 2: PREPARE
+<a id="__codelineno-1-494" name="__codelineno-1-494" href="#__codelineno-1-494"></a>
+<a id="__codelineno-1-495" name="__codelineno-1-495" href="#__codelineno-1-495"></a>      Nodes verify request
+<a id="__codelineno-1-496" name="__codelineno-1-496" href="#__codelineno-1-496"></a>      Nodes broadcast &lt;PREPARE, seq, digest&gt; to all nodes
+<a id="__codelineno-1-497" name="__codelineno-1-497" href="#__codelineno-1-497"></a>      Node enters PREPARED state when 2f+1 PREPARE messages received
+<a id="__codelineno-1-498" name="__codelineno-1-498" href="#__codelineno-1-498"></a>
+<a id="__codelineno-1-499" name="__codelineno-1-499" href="#__codelineno-1-499"></a>   Phase 3: COMMIT
+<a id="__codelineno-1-500" name="__codelineno-1-500" href="#__codelineno-1-500"></a>
+<a id="__codelineno-1-501" name="__codelineno-1-501" href="#__codelineno-1-501"></a>      Nodes broadcast &lt;COMMIT, seq, digest&gt; to all nodes
+<a id="__codelineno-1-502" name="__codelineno-1-502" href="#__codelineno-1-502"></a>      Node enters COMMITTED state when 2f+1 COMMIT messages received
+<a id="__codelineno-1-503" name="__codelineno-1-503" href="#__codelineno-1-503"></a>      Node executes request and responds to client
+<a id="__codelineno-1-504" name="__codelineno-1-504" href="#__codelineno-1-504"></a>
+<a id="__codelineno-1-505" name="__codelineno-1-505" href="#__codelineno-1-505"></a>7.3.  Consensus Scope
+<a id="__codelineno-1-506" name="__codelineno-1-506" href="#__codelineno-1-506"></a>
+<a id="__codelineno-1-507" name="__codelineno-1-507" href="#__codelineno-1-507"></a>   Not all operations require full consensus:
+<a id="__codelineno-1-508" name="__codelineno-1-508" href="#__codelineno-1-508"></a>
+<a id="__codelineno-1-509" name="__codelineno-1-509" href="#__codelineno-1-509"></a>   -  Operation: Zeroth Law evaluation
+<a id="__codelineno-1-510" name="__codelineno-1-510" href="#__codelineno-1-510"></a>      Consensus Required: No (single node sufficient)
+<a id="__codelineno-1-511" name="__codelineno-1-511" href="#__codelineno-1-511"></a>
+<a id="__codelineno-1-512" name="__codelineno-1-512" href="#__codelineno-1-512"></a>   -  Operation: Trust Proof issuance
+<a id="__codelineno-1-513" name="__codelineno-1-513" href="#__codelineno-1-513"></a>      Consensus Required: No (single node sufficient)
+<a id="__codelineno-1-514" name="__codelineno-1-514" href="#__codelineno-1-514"></a>
+<a id="__codelineno-1-515" name="__codelineno-1-515" href="#__codelineno-1-515"></a>   -  Operation: Trajectory co-signing
+<a id="__codelineno-1-516" name="__codelineno-1-516" href="#__codelineno-1-516"></a>      Consensus Required: Yes (quorum required)
+<a id="__codelineno-1-517" name="__codelineno-1-517" href="#__codelineno-1-517"></a>
+<a id="__codelineno-1-518" name="__codelineno-1-518" href="#__codelineno-1-518"></a>   -  Operation: E_base modification
+<a id="__codelineno-1-519" name="__codelineno-1-519" href="#__codelineno-1-519"></a>      Consensus Required: Yes (quorum required)
+<a id="__codelineno-1-520" name="__codelineno-1-520" href="#__codelineno-1-520"></a>
+<a id="__codelineno-1-521" name="__codelineno-1-521" href="#__codelineno-1-521"></a>   -  Operation: Agent Genesis
+<a id="__codelineno-1-522" name="__codelineno-1-522" href="#__codelineno-1-522"></a>      Consensus Required: Yes (quorum required)
+<a id="__codelineno-1-523" name="__codelineno-1-523" href="#__codelineno-1-523"></a>
+<a id="__codelineno-1-524" name="__codelineno-1-524" href="#__codelineno-1-524"></a>   -  Operation: Zone configuration change
+<a id="__codelineno-1-525" name="__codelineno-1-525" href="#__codelineno-1-525"></a>      Consensus Required: Yes (supermajority required)
+<a id="__codelineno-1-526" name="__codelineno-1-526" href="#__codelineno-1-526"></a>
+<a id="__codelineno-1-527" name="__codelineno-1-527" href="#__codelineno-1-527"></a>7.4.  Split Brain Prevention
+<a id="__codelineno-1-528" name="__codelineno-1-528" href="#__codelineno-1-528"></a>
+<a id="__codelineno-1-529" name="__codelineno-1-529" href="#__codelineno-1-529"></a>   Split brain occurs when network partition creates multiple
+<a id="__codelineno-1-530" name="__codelineno-1-530" href="#__codelineno-1-530"></a>   sub-quorums.  Prevention:
+<a id="__codelineno-1-531" name="__codelineno-1-531" href="#__codelineno-1-531"></a>
+<a id="__codelineno-1-532" name="__codelineno-1-532" href="#__codelineno-1-532"></a>   1.  Quorum requirement: Operations require (N/2)+1 nodes
+<a id="__codelineno-1-533" name="__codelineno-1-533" href="#__codelineno-1-533"></a>
+<a id="__codelineno-1-534" name="__codelineno-1-534" href="#__codelineno-1-534"></a>   2.  Fencing: Partitioned nodes fence themselves
+<a id="__codelineno-1-535" name="__codelineno-1-535" href="#__codelineno-1-535"></a>
+<a id="__codelineno-1-536" name="__codelineno-1-536" href="#__codelineno-1-536"></a>   3.  Witness nodes: Odd number of nodes prevents even splits
+<a id="__codelineno-1-537" name="__codelineno-1-537" href="#__codelineno-1-537"></a>
+<a id="__codelineno-1-538" name="__codelineno-1-538" href="#__codelineno-1-538"></a>   4.  Merge protocol: Reconciliation when partition heals
+<a id="__codelineno-1-539" name="__codelineno-1-539" href="#__codelineno-1-539"></a>
+<a id="__codelineno-1-540" name="__codelineno-1-540" href="#__codelineno-1-540"></a>8.  Threshold Signatures
+<a id="__codelineno-1-541" name="__codelineno-1-541" href="#__codelineno-1-541"></a>
+<a id="__codelineno-1-542" name="__codelineno-1-542" href="#__codelineno-1-542"></a>8.1.  Overview
+<a id="__codelineno-1-543" name="__codelineno-1-543" href="#__codelineno-1-543"></a>
+<a id="__codelineno-1-544" name="__codelineno-1-544" href="#__codelineno-1-544"></a>   Critical Oracle operations use threshold signatures—requiring M of
+<a id="__codelineno-1-545" name="__codelineno-1-545" href="#__codelineno-1-545"></a>   N Oracle nodes to produce a valid signature.
+<a id="__codelineno-1-546" name="__codelineno-1-546" href="#__codelineno-1-546"></a>
+<a id="__codelineno-1-547" name="__codelineno-1-547" href="#__codelineno-1-547"></a>      Standard signature: 1 key → 1 signature
+<a id="__codelineno-1-548" name="__codelineno-1-548" href="#__codelineno-1-548"></a>      Threshold signature: M of N key shares → 1 signature
+<a id="__codelineno-1-549" name="__codelineno-1-549" href="#__codelineno-1-549"></a>
+<a id="__codelineno-1-550" name="__codelineno-1-550" href="#__codelineno-1-550"></a>   Example (3-of-5):
+<a id="__codelineno-1-551" name="__codelineno-1-551" href="#__codelineno-1-551"></a>
+<a id="__codelineno-1-552" name="__codelineno-1-552" href="#__codelineno-1-552"></a>      Node 1 holds share 1
+<a id="__codelineno-1-553" name="__codelineno-1-553" href="#__codelineno-1-553"></a>      Node 2 holds share 2
+<a id="__codelineno-1-554" name="__codelineno-1-554" href="#__codelineno-1-554"></a>      Node 3 holds share 3
+<a id="__codelineno-1-555" name="__codelineno-1-555" href="#__codelineno-1-555"></a>      Node 4 holds share 4
+<a id="__codelineno-1-556" name="__codelineno-1-556" href="#__codelineno-1-556"></a>      Node 5 holds share 5
+<a id="__codelineno-1-557" name="__codelineno-1-557" href="#__codelineno-1-557"></a>
+<a id="__codelineno-1-558" name="__codelineno-1-558" href="#__codelineno-1-558"></a>      Any 3 nodes can combine shares to produce valid signature
+<a id="__codelineno-1-559" name="__codelineno-1-559" href="#__codelineno-1-559"></a>      No single node can sign alone
+<a id="__codelineno-1-560" name="__codelineno-1-560" href="#__codelineno-1-560"></a>      Signature is indistinguishable from standard signature
+<a id="__codelineno-1-561" name="__codelineno-1-561" href="#__codelineno-1-561"></a>
+<a id="__codelineno-1-562" name="__codelineno-1-562" href="#__codelineno-1-562"></a>8.2.  Threshold Scheme
+<a id="__codelineno-1-563" name="__codelineno-1-563" href="#__codelineno-1-563"></a>
+<a id="__codelineno-1-564" name="__codelineno-1-564" href="#__codelineno-1-564"></a>   The Oracle uses Shamir&#39;s Secret Sharing with threshold ECDSA:
+<a id="__codelineno-1-565" name="__codelineno-1-565" href="#__codelineno-1-565"></a>
+<a id="__codelineno-1-566" name="__codelineno-1-566" href="#__codelineno-1-566"></a>   -  Parameter: N
+<a id="__codelineno-1-567" name="__codelineno-1-567" href="#__codelineno-1-567"></a>      Description: Total number of nodes
+<a id="__codelineno-1-568" name="__codelineno-1-568" href="#__codelineno-1-568"></a>      Default: 5
+<a id="__codelineno-1-569" name="__codelineno-1-569" href="#__codelineno-1-569"></a>
+<a id="__codelineno-1-570" name="__codelineno-1-570" href="#__codelineno-1-570"></a>   -  Parameter: M
+<a id="__codelineno-1-571" name="__codelineno-1-571" href="#__codelineno-1-571"></a>      Description: Threshold for signing
+<a id="__codelineno-1-572" name="__codelineno-1-572" href="#__codelineno-1-572"></a>      Default: 3
+<a id="__codelineno-1-573" name="__codelineno-1-573" href="#__codelineno-1-573"></a>
+<a id="__codelineno-1-574" name="__codelineno-1-574" href="#__codelineno-1-574"></a>   -  Parameter: Curve
+<a id="__codelineno-1-575" name="__codelineno-1-575" href="#__codelineno-1-575"></a>      Description: Elliptic curve
+<a id="__codelineno-1-576" name="__codelineno-1-576" href="#__codelineno-1-576"></a>      Default: secp256k1
+<a id="__codelineno-1-577" name="__codelineno-1-577" href="#__codelineno-1-577"></a>
+<a id="__codelineno-1-578" name="__codelineno-1-578" href="#__codelineno-1-578"></a>   -  Parameter: Hash
+<a id="__codelineno-1-579" name="__codelineno-1-579" href="#__codelineno-1-579"></a>      Description: Hash algorithm
+<a id="__codelineno-1-580" name="__codelineno-1-580" href="#__codelineno-1-580"></a>      Default: SHA-256
+<a id="__codelineno-1-581" name="__codelineno-1-581" href="#__codelineno-1-581"></a>
+<a id="__codelineno-1-582" name="__codelineno-1-582" href="#__codelineno-1-582"></a>8.3.  Key Ceremony
+<a id="__codelineno-1-583" name="__codelineno-1-583" href="#__codelineno-1-583"></a>
+<a id="__codelineno-1-584" name="__codelineno-1-584" href="#__codelineno-1-584"></a>   Threshold keys are generated in a key ceremony:
+<a id="__codelineno-1-585" name="__codelineno-1-585" href="#__codelineno-1-585"></a>
+<a id="__codelineno-1-586" name="__codelineno-1-586" href="#__codelineno-1-586"></a>   1.  All N nodes generate random contributions
+<a id="__codelineno-1-587" name="__codelineno-1-587" href="#__codelineno-1-587"></a>
+<a id="__codelineno-1-588" name="__codelineno-1-588" href="#__codelineno-1-588"></a>   2.  Contributions are combined using DKG protocol
+<a id="__codelineno-1-589" name="__codelineno-1-589" href="#__codelineno-1-589"></a>
+<a id="__codelineno-1-590" name="__codelineno-1-590" href="#__codelineno-1-590"></a>   3.  Each node receives its key share
+<a id="__codelineno-1-591" name="__codelineno-1-591" href="#__codelineno-1-591"></a>
+<a id="__codelineno-1-592" name="__codelineno-1-592" href="#__codelineno-1-592"></a>   4.  No node ever sees complete private key
+<a id="__codelineno-1-593" name="__codelineno-1-593" href="#__codelineno-1-593"></a>
+<a id="__codelineno-1-594" name="__codelineno-1-594" href="#__codelineno-1-594"></a>   5.  Public key is published
+<a id="__codelineno-1-595" name="__codelineno-1-595" href="#__codelineno-1-595"></a>
+<a id="__codelineno-1-596" name="__codelineno-1-596" href="#__codelineno-1-596"></a>   6.  Ceremony is recorded and witnessed
+<a id="__codelineno-1-597" name="__codelineno-1-597" href="#__codelineno-1-597"></a>
+<a id="__codelineno-1-598" name="__codelineno-1-598" href="#__codelineno-1-598"></a>8.4.  Operations Requiring Threshold Signature
+<a id="__codelineno-1-599" name="__codelineno-1-599" href="#__codelineno-1-599"></a>
+<a id="__codelineno-1-600" name="__codelineno-1-600" href="#__codelineno-1-600"></a>   -  Operation: E_base modification
+<a id="__codelineno-1-601" name="__codelineno-1-601" href="#__codelineno-1-601"></a>      Threshold: 3-of-5
+<a id="__codelineno-1-602" name="__codelineno-1-602" href="#__codelineno-1-602"></a>
+<a id="__codelineno-1-603" name="__codelineno-1-603" href="#__codelineno-1-603"></a>   -  Operation: Zone configuration change
+<a id="__codelineno-1-604" name="__codelineno-1-604" href="#__codelineno-1-604"></a>      Threshold: 4-of-5
+<a id="__codelineno-1-605" name="__codelineno-1-605" href="#__codelineno-1-605"></a>
+<a id="__codelineno-1-606" name="__codelineno-1-606" href="#__codelineno-1-606"></a>   -  Operation: Oracle key rotation
+<a id="__codelineno-1-607" name="__codelineno-1-607" href="#__codelineno-1-607"></a>      Threshold: 4-of-5
+<a id="__codelineno-1-608" name="__codelineno-1-608" href="#__codelineno-1-608"></a>
+<a id="__codelineno-1-609" name="__codelineno-1-609" href="#__codelineno-1-609"></a>   -  Operation: Zone dissolution
+<a id="__codelineno-1-610" name="__codelineno-1-610" href="#__codelineno-1-610"></a>      Threshold: 5-of-5
+<a id="__codelineno-1-611" name="__codelineno-1-611" href="#__codelineno-1-611"></a>
+<a id="__codelineno-1-612" name="__codelineno-1-612" href="#__codelineno-1-612"></a>9.  Trust Proof Lifecycle
+<a id="__codelineno-1-613" name="__codelineno-1-613" href="#__codelineno-1-613"></a>
+<a id="__codelineno-1-614" name="__codelineno-1-614" href="#__codelineno-1-614"></a>9.1.  Issuance
+<a id="__codelineno-1-615" name="__codelineno-1-615" href="#__codelineno-1-615"></a>
+<a id="__codelineno-1-616" name="__codelineno-1-616" href="#__codelineno-1-616"></a>   Trust Proofs are issued on demand:
+<a id="__codelineno-1-617" name="__codelineno-1-617" href="#__codelineno-1-617"></a>
+<a id="__codelineno-1-618" name="__codelineno-1-618" href="#__codelineno-1-618"></a>      Agent → Oracle: RequestTrustProof(agent_id)
+<a id="__codelineno-1-619" name="__codelineno-1-619" href="#__codelineno-1-619"></a>
+<a id="__codelineno-1-620" name="__codelineno-1-620" href="#__codelineno-1-620"></a>      Oracle:
+<a id="__codelineno-1-621" name="__codelineno-1-621" href="#__codelineno-1-621"></a>        1.  Verify agent identity
+<a id="__codelineno-1-622" name="__codelineno-1-622" href="#__codelineno-1-622"></a>        2.  Calculate current E_trust
+<a id="__codelineno-1-623" name="__codelineno-1-623" href="#__codelineno-1-623"></a>        3.  Determine tier and constraints
+<a id="__codelineno-1-624" name="__codelineno-1-624" href="#__codelineno-1-624"></a>        4.  Create Trust Proof
+<a id="__codelineno-1-625" name="__codelineno-1-625" href="#__codelineno-1-625"></a>        5.  Sign with Oracle key
+<a id="__codelineno-1-626" name="__codelineno-1-626" href="#__codelineno-1-626"></a>
+<a id="__codelineno-1-627" name="__codelineno-1-627" href="#__codelineno-1-627"></a>      Oracle → Agent: TrustProof
+<a id="__codelineno-1-628" name="__codelineno-1-628" href="#__codelineno-1-628"></a>
+<a id="__codelineno-1-629" name="__codelineno-1-629" href="#__codelineno-1-629"></a>9.2.  Validation
+<a id="__codelineno-1-630" name="__codelineno-1-630" href="#__codelineno-1-630"></a>
+<a id="__codelineno-1-631" name="__codelineno-1-631" href="#__codelineno-1-631"></a>   Any party can validate a Trust Proof:
+<a id="__codelineno-1-632" name="__codelineno-1-632" href="#__codelineno-1-632"></a>
+<a id="__codelineno-1-633" name="__codelineno-1-633" href="#__codelineno-1-633"></a>      Validator:
+<a id="__codelineno-1-634" name="__codelineno-1-634" href="#__codelineno-1-634"></a>        1.  Check proof not expired
+<a id="__codelineno-1-635" name="__codelineno-1-635" href="#__codelineno-1-635"></a>        2.  Verify Oracle signature against known public key
+<a id="__codelineno-1-636" name="__codelineno-1-636" href="#__codelineno-1-636"></a>        3.  Verify agent_id matches expected agent
+<a id="__codelineno-1-637" name="__codelineno-1-637" href="#__codelineno-1-637"></a>        4.  Check constraints are appropriate for action
+<a id="__codelineno-1-638" name="__codelineno-1-638" href="#__codelineno-1-638"></a>
+<a id="__codelineno-1-639" name="__codelineno-1-639" href="#__codelineno-1-639"></a>9.3.  Refresh
+<a id="__codelineno-1-640" name="__codelineno-1-640" href="#__codelineno-1-640"></a>
+<a id="__codelineno-1-641" name="__codelineno-1-641" href="#__codelineno-1-641"></a>   Trust Proofs expire quickly and must be refreshed:
+<a id="__codelineno-1-642" name="__codelineno-1-642" href="#__codelineno-1-642"></a>
+<a id="__codelineno-1-643" name="__codelineno-1-643" href="#__codelineno-1-643"></a>   -  Zone Type: Blue
+<a id="__codelineno-1-644" name="__codelineno-1-644" href="#__codelineno-1-644"></a>      Default Expiration: 10 seconds
+<a id="__codelineno-1-645" name="__codelineno-1-645" href="#__codelineno-1-645"></a>      Refresh Recommendation: Every 5 seconds
+<a id="__codelineno-1-646" name="__codelineno-1-646" href="#__codelineno-1-646"></a>
+<a id="__codelineno-1-647" name="__codelineno-1-647" href="#__codelineno-1-647"></a>   -  Zone Type: Cyan
+<a id="__codelineno-1-648" name="__codelineno-1-648" href="#__codelineno-1-648"></a>      Default Expiration: 30 seconds
+<a id="__codelineno-1-649" name="__codelineno-1-649" href="#__codelineno-1-649"></a>      Refresh Recommendation: Every 15 seconds
+<a id="__codelineno-1-650" name="__codelineno-1-650" href="#__codelineno-1-650"></a>
+<a id="__codelineno-1-651" name="__codelineno-1-651" href="#__codelineno-1-651"></a>   -  Zone Type: Green
+<a id="__codelineno-1-652" name="__codelineno-1-652" href="#__codelineno-1-652"></a>      Default Expiration: 60 seconds
+<a id="__codelineno-1-653" name="__codelineno-1-653" href="#__codelineno-1-653"></a>      Refresh Recommendation: Every 30 seconds
+<a id="__codelineno-1-654" name="__codelineno-1-654" href="#__codelineno-1-654"></a>
+<a id="__codelineno-1-655" name="__codelineno-1-655" href="#__codelineno-1-655"></a>9.4.  Revocation
+<a id="__codelineno-1-656" name="__codelineno-1-656" href="#__codelineno-1-656"></a>
+<a id="__codelineno-1-657" name="__codelineno-1-657" href="#__codelineno-1-657"></a>   Trust Proofs can be revoked before expiration:
+<a id="__codelineno-1-658" name="__codelineno-1-658" href="#__codelineno-1-658"></a>
+<a id="__codelineno-1-659" name="__codelineno-1-659" href="#__codelineno-1-659"></a>      Oracle: RevokeTrustProof(proof_id, reason)
+<a id="__codelineno-1-660" name="__codelineno-1-660" href="#__codelineno-1-660"></a>        1.  Add proof_id to revocation list
+<a id="__codelineno-1-661" name="__codelineno-1-661" href="#__codelineno-1-661"></a>        2.  Broadcast revocation to mesh
+<a id="__codelineno-1-662" name="__codelineno-1-662" href="#__codelineno-1-662"></a>        3.  Notify agent
+<a id="__codelineno-1-663" name="__codelineno-1-663" href="#__codelineno-1-663"></a>        4.  Log revocation
+<a id="__codelineno-1-664" name="__codelineno-1-664" href="#__codelineno-1-664"></a>
+<a id="__codelineno-1-665" name="__codelineno-1-665" href="#__codelineno-1-665"></a>   Revocation reasons:
+<a id="__codelineno-1-666" name="__codelineno-1-666" href="#__codelineno-1-666"></a>
+<a id="__codelineno-1-667" name="__codelineno-1-667" href="#__codelineno-1-667"></a>   -  Agent violation detected
+<a id="__codelineno-1-668" name="__codelineno-1-668" href="#__codelineno-1-668"></a>
+<a id="__codelineno-1-669" name="__codelineno-1-669" href="#__codelineno-1-669"></a>   -  E_base reduced
+<a id="__codelineno-1-670" name="__codelineno-1-670" href="#__codelineno-1-670"></a>
+<a id="__codelineno-1-671" name="__codelineno-1-671" href="#__codelineno-1-671"></a>   -  Zone policy change
+<a id="__codelineno-1-672" name="__codelineno-1-672" href="#__codelineno-1-672"></a>
+<a id="__codelineno-1-673" name="__codelineno-1-673" href="#__codelineno-1-673"></a>   -  Security incident
+<a id="__codelineno-1-674" name="__codelineno-1-674" href="#__codelineno-1-674"></a>
+<a id="__codelineno-1-675" name="__codelineno-1-675" href="#__codelineno-1-675"></a>10.  Oracle Accountability
+<a id="__codelineno-1-676" name="__codelineno-1-676" href="#__codelineno-1-676"></a>
+<a id="__codelineno-1-677" name="__codelineno-1-677" href="#__codelineno-1-677"></a>10.1.  Oracles Under Gravity
+<a id="__codelineno-1-678" name="__codelineno-1-678" href="#__codelineno-1-678"></a>
+<a id="__codelineno-1-679" name="__codelineno-1-679" href="#__codelineno-1-679"></a>   The recursive constraint principle: Oracles are subject to KTP.
+<a id="__codelineno-1-680" name="__codelineno-1-680" href="#__codelineno-1-680"></a>
+<a id="__codelineno-1-681" name="__codelineno-1-681" href="#__codelineno-1-681"></a>   Oracle actions have autonomy (A):
+<a id="__codelineno-1-682" name="__codelineno-1-682" href="#__codelineno-1-682"></a>
+<a id="__codelineno-1-683" name="__codelineno-1-683" href="#__codelineno-1-683"></a>   -  Issuing Trust Proof: A = 10
+<a id="__codelineno-1-684" name="__codelineno-1-684" href="#__codelineno-1-684"></a>
+<a id="__codelineno-1-685" name="__codelineno-1-685" href="#__codelineno-1-685"></a>   -  Co-signing transaction: A = 20
+<a id="__codelineno-1-686" name="__codelineno-1-686" href="#__codelineno-1-686"></a>
+<a id="__codelineno-1-687" name="__codelineno-1-687" href="#__codelineno-1-687"></a>   -  Modifying E_base: A = 60
+<a id="__codelineno-1-688" name="__codelineno-1-688" href="#__codelineno-1-688"></a>
+<a id="__codelineno-1-689" name="__codelineno-1-689" href="#__codelineno-1-689"></a>   -  Changing zone config: A = 80
+<a id="__codelineno-1-690" name="__codelineno-1-690" href="#__codelineno-1-690"></a>
+<a id="__codelineno-1-691" name="__codelineno-1-691" href="#__codelineno-1-691"></a>   Oracle has E_base based on its own trajectory:
+<a id="__codelineno-1-692" name="__codelineno-1-692" href="#__codelineno-1-692"></a>
+<a id="__codelineno-1-693" name="__codelineno-1-693" href="#__codelineno-1-693"></a>   -  Uptime history
+<a id="__codelineno-1-694" name="__codelineno-1-694" href="#__codelineno-1-694"></a>
+<a id="__codelineno-1-695" name="__codelineno-1-695" href="#__codelineno-1-695"></a>   -  Decision accuracy
+<a id="__codelineno-1-696" name="__codelineno-1-696" href="#__codelineno-1-696"></a>
+<a id="__codelineno-1-697" name="__codelineno-1-697" href="#__codelineno-1-697"></a>   -  Consensus participation
+<a id="__codelineno-1-698" name="__codelineno-1-698" href="#__codelineno-1-698"></a>
+<a id="__codelineno-1-699" name="__codelineno-1-699" href="#__codelineno-1-699"></a>   -  No Byzantine behavior
+<a id="__codelineno-1-700" name="__codelineno-1-700" href="#__codelineno-1-700"></a>
+<a id="__codelineno-1-701" name="__codelineno-1-701" href="#__codelineno-1-701"></a>   Oracle actions are constrained: A_oracle ≤ E_oracle
+<a id="__codelineno-1-702" name="__codelineno-1-702" href="#__codelineno-1-702"></a>
+<a id="__codelineno-1-703" name="__codelineno-1-703" href="#__codelineno-1-703"></a>10.2.  Oracle Trajectory
+<a id="__codelineno-1-704" name="__codelineno-1-704" href="#__codelineno-1-704"></a>
+<a id="__codelineno-1-705" name="__codelineno-1-705" href="#__codelineno-1-705"></a>   Oracles maintain their own trajectory chains:
+<a id="__codelineno-1-706" name="__codelineno-1-706" href="#__codelineno-1-706"></a>
+<a id="__codelineno-1-707" name="__codelineno-1-707" href="#__codelineno-1-707"></a>      {
+<a id="__codelineno-1-708" name="__codelineno-1-708" href="#__codelineno-1-708"></a>        &quot;oracle_id&quot;: &quot;oracle:zone-blue-prod-01:node-1&quot;,
+<a id="__codelineno-1-709" name="__codelineno-1-709" href="#__codelineno-1-709"></a>        &quot;trajectory&quot;: {
+<a id="__codelineno-1-710" name="__codelineno-1-710" href="#__codelineno-1-710"></a>          &quot;genesis_date&quot;: &quot;2025-01-15T00:00:00Z&quot;,
+<a id="__codelineno-1-711" name="__codelineno-1-711" href="#__codelineno-1-711"></a>          &quot;uptime_percentage&quot;: 99.97,
+<a id="__codelineno-1-712" name="__codelineno-1-712" href="#__codelineno-1-712"></a>          &quot;transactions_co-signed&quot;: 4847293,
+<a id="__codelineno-1-713" name="__codelineno-1-713" href="#__codelineno-1-713"></a>          &quot;consensus_participation_rate&quot;: 0.998,
+<a id="__codelineno-1-714" name="__codelineno-1-714" href="#__codelineno-1-714"></a>          &quot;byzantine_incidents&quot;: 0,
+<a id="__codelineno-1-715" name="__codelineno-1-715" href="#__codelineno-1-715"></a>          &quot;e_base&quot;: 95
+<a id="__codelineno-1-716" name="__codelineno-1-716" href="#__codelineno-1-716"></a>        }
+<a id="__codelineno-1-717" name="__codelineno-1-717" href="#__codelineno-1-717"></a>      }
+<a id="__codelineno-1-718" name="__codelineno-1-718" href="#__codelineno-1-718"></a>
+<a id="__codelineno-1-719" name="__codelineno-1-719" href="#__codelineno-1-719"></a>10.3.  Oracle Audit
+<a id="__codelineno-1-720" name="__codelineno-1-720" href="#__codelineno-1-720"></a>
+<a id="__codelineno-1-721" name="__codelineno-1-721" href="#__codelineno-1-721"></a>   Oracle operations are logged to Flight Recorder:
+<a id="__codelineno-1-722" name="__codelineno-1-722" href="#__codelineno-1-722"></a>
+<a id="__codelineno-1-723" name="__codelineno-1-723" href="#__codelineno-1-723"></a>   -  Event: Transaction co-signed
+<a id="__codelineno-1-724" name="__codelineno-1-724" href="#__codelineno-1-724"></a>      Logged Data: Transaction hash, agent, result
+<a id="__codelineno-1-725" name="__codelineno-1-725" href="#__codelineno-1-725"></a>
+<a id="__codelineno-1-726" name="__codelineno-1-726" href="#__codelineno-1-726"></a>   -  Event: Zeroth Law evaluation
+<a id="__codelineno-1-727" name="__codelineno-1-727" href="#__codelineno-1-727"></a>      Logged Data: A, E, result, agent, action
+<a id="__codelineno-1-728" name="__codelineno-1-728" href="#__codelineno-1-728"></a>
+<a id="__codelineno-1-729" name="__codelineno-1-729" href="#__codelineno-1-729"></a>   -  Event: Consensus participation
+<a id="__codelineno-1-730" name="__codelineno-1-730" href="#__codelineno-1-730"></a>      Logged Data: Vote, sequence, outcome
+<a id="__codelineno-1-731" name="__codelineno-1-731" href="#__codelineno-1-731"></a>
+<a id="__codelineno-1-732" name="__codelineno-1-732" href="#__codelineno-1-732"></a>   -  Event: Configuration change
+<a id="__codelineno-1-733" name="__codelineno-1-733" href="#__codelineno-1-733"></a>      Logged Data: Change details, authorizer
+<a id="__codelineno-1-734" name="__codelineno-1-734" href="#__codelineno-1-734"></a>
+<a id="__codelineno-1-735" name="__codelineno-1-735" href="#__codelineno-1-735"></a>10.4.  Oracle Misbehavior
+<a id="__codelineno-1-736" name="__codelineno-1-736" href="#__codelineno-1-736"></a>
+<a id="__codelineno-1-737" name="__codelineno-1-737" href="#__codelineno-1-737"></a>   Detected misbehavior triggers consequences:
+<a id="__codelineno-1-738" name="__codelineno-1-738" href="#__codelineno-1-738"></a>
+<a id="__codelineno-1-739" name="__codelineno-1-739" href="#__codelineno-1-739"></a>   -  Misbehavior: Consensus equivocation
+<a id="__codelineno-1-740" name="__codelineno-1-740" href="#__codelineno-1-740"></a>      Detection: Protocol detection
+<a id="__codelineno-1-741" name="__codelineno-1-741" href="#__codelineno-1-741"></a>      Consequence: Removal from mesh
+<a id="__codelineno-1-742" name="__codelineno-1-742" href="#__codelineno-1-742"></a>
+<a id="__codelineno-1-743" name="__codelineno-1-743" href="#__codelineno-1-743"></a>   -  Misbehavior: Availability failure
+<a id="__codelineno-1-744" name="__codelineno-1-744" href="#__codelineno-1-744"></a>      Detection: Heartbeat timeout
+<a id="__codelineno-1-745" name="__codelineno-1-745" href="#__codelineno-1-745"></a>      Consequence: Temporary removal
+<a id="__codelineno-1-746" name="__codelineno-1-746" href="#__codelineno-1-746"></a>
+<a id="__codelineno-1-747" name="__codelineno-1-747" href="#__codelineno-1-747"></a>   -  Misbehavior: Byzantine behavior
+<a id="__codelineno-1-748" name="__codelineno-1-748" href="#__codelineno-1-748"></a>      Detection: BFT detection
+<a id="__codelineno-1-749" name="__codelineno-1-749" href="#__codelineno-1-749"></a>      Consequence: Permanent removal
+<a id="__codelineno-1-750" name="__codelineno-1-750" href="#__codelineno-1-750"></a>
+<a id="__codelineno-1-751" name="__codelineno-1-751" href="#__codelineno-1-751"></a>11.  Federation
+<a id="__codelineno-1-752" name="__codelineno-1-752" href="#__codelineno-1-752"></a>
+<a id="__codelineno-1-753" name="__codelineno-1-753" href="#__codelineno-1-753"></a>11.1.  Oracle-to-Oracle Federation
+<a id="__codelineno-1-754" name="__codelineno-1-754" href="#__codelineno-1-754"></a>
+<a id="__codelineno-1-755" name="__codelineno-1-755" href="#__codelineno-1-755"></a>   Oracles in different zones can federate:
+<a id="__codelineno-1-756" name="__codelineno-1-756" href="#__codelineno-1-756"></a>
+<a id="__codelineno-1-757" name="__codelineno-1-757" href="#__codelineno-1-757"></a>      Zone A Oracle &lt;---&gt; Zone B Oracle
+<a id="__codelineno-1-758" name="__codelineno-1-758" href="#__codelineno-1-758"></a>
+<a id="__codelineno-1-759" name="__codelineno-1-759" href="#__codelineno-1-759"></a>   Federation enables:
+<a id="__codelineno-1-760" name="__codelineno-1-760" href="#__codelineno-1-760"></a>
+<a id="__codelineno-1-761" name="__codelineno-1-761" href="#__codelineno-1-761"></a>   -  Cross-zone Trust Proof validation
+<a id="__codelineno-1-762" name="__codelineno-1-762" href="#__codelineno-1-762"></a>
+<a id="__codelineno-1-763" name="__codelineno-1-763" href="#__codelineno-1-763"></a>   -  Trajectory verification requests
+<a id="__codelineno-1-764" name="__codelineno-1-764" href="#__codelineno-1-764"></a>
+<a id="__codelineno-1-765" name="__codelineno-1-765" href="#__codelineno-1-765"></a>   -  Exit Attestation verification
+<a id="__codelineno-1-766" name="__codelineno-1-766" href="#__codelineno-1-766"></a>
+<a id="__codelineno-1-767" name="__codelineno-1-767" href="#__codelineno-1-767"></a>   -  Coordinated emergency response
+<a id="__codelineno-1-768" name="__codelineno-1-768" href="#__codelineno-1-768"></a>
+<a id="__codelineno-1-769" name="__codelineno-1-769" href="#__codelineno-1-769"></a>11.2.  Federation Establishment
+<a id="__codelineno-1-770" name="__codelineno-1-770" href="#__codelineno-1-770"></a>
+<a id="__codelineno-1-771" name="__codelineno-1-771" href="#__codelineno-1-771"></a>   1.  Zone A Oracle requests federation with Zone B
+<a id="__codelineno-1-772" name="__codelineno-1-772" href="#__codelineno-1-772"></a>
+<a id="__codelineno-1-773" name="__codelineno-1-773" href="#__codelineno-1-773"></a>   2.  Zone B reviews Zone A governance and attestations
+<a id="__codelineno-1-774" name="__codelineno-1-774" href="#__codelineno-1-774"></a>
+<a id="__codelineno-1-775" name="__codelineno-1-775" href="#__codelineno-1-775"></a>   3.  Both zones sign Federation Agreement
+<a id="__codelineno-1-776" name="__codelineno-1-776" href="#__codelineno-1-776"></a>
+<a id="__codelineno-1-777" name="__codelineno-1-777" href="#__codelineno-1-777"></a>   4.  Public keys exchanged
+<a id="__codelineno-1-778" name="__codelineno-1-778" href="#__codelineno-1-778"></a>
+<a id="__codelineno-1-779" name="__codelineno-1-779" href="#__codelineno-1-779"></a>   5.  Trust factors established
+<a id="__codelineno-1-780" name="__codelineno-1-780" href="#__codelineno-1-780"></a>
+<a id="__codelineno-1-781" name="__codelineno-1-781" href="#__codelineno-1-781"></a>   6.  Federation active
+<a id="__codelineno-1-782" name="__codelineno-1-782" href="#__codelineno-1-782"></a>
+<a id="__codelineno-1-783" name="__codelineno-1-783" href="#__codelineno-1-783"></a>11.3.  Federation Trust Factor
+<a id="__codelineno-1-784" name="__codelineno-1-784" href="#__codelineno-1-784"></a>
+<a id="__codelineno-1-785" name="__codelineno-1-785" href="#__codelineno-1-785"></a>   Trust is discounted across federation:
+<a id="__codelineno-1-786" name="__codelineno-1-786" href="#__codelineno-1-786"></a>
+<a id="__codelineno-1-787" name="__codelineno-1-787" href="#__codelineno-1-787"></a>      {
+<a id="__codelineno-1-788" name="__codelineno-1-788" href="#__codelineno-1-788"></a>        &quot;federation&quot;: {
+<a id="__codelineno-1-789" name="__codelineno-1-789" href="#__codelineno-1-789"></a>          &quot;zone_a&quot;: &quot;zone-blue-prod-01&quot;,
+<a id="__codelineno-1-790" name="__codelineno-1-790" href="#__codelineno-1-790"></a>          &quot;zone_b&quot;: &quot;zone-blue-prod-02&quot;,
+<a id="__codelineno-1-791" name="__codelineno-1-791" href="#__codelineno-1-791"></a>          &quot;trust_factor_a_to_b&quot;: 0.9,
+<a id="__codelineno-1-792" name="__codelineno-1-792" href="#__codelineno-1-792"></a>          &quot;trust_factor_b_to_a&quot;: 0.9,
+<a id="__codelineno-1-793" name="__codelineno-1-793" href="#__codelineno-1-793"></a>          &quot;established&quot;: &quot;2025-06-01T00:00:00Z&quot;,
+<a id="__codelineno-1-794" name="__codelineno-1-794" href="#__codelineno-1-794"></a>          &quot;last_verified&quot;: &quot;2025-12-01T00:00:00Z&quot;
+<a id="__codelineno-1-795" name="__codelineno-1-795" href="#__codelineno-1-795"></a>        }
+<a id="__codelineno-1-796" name="__codelineno-1-796" href="#__codelineno-1-796"></a>      }
+<a id="__codelineno-1-797" name="__codelineno-1-797" href="#__codelineno-1-797"></a>
+<a id="__codelineno-1-798" name="__codelineno-1-798" href="#__codelineno-1-798"></a>11.4.  Cross-Zone Operations
+<a id="__codelineno-1-799" name="__codelineno-1-799" href="#__codelineno-1-799"></a>
+<a id="__codelineno-1-800" name="__codelineno-1-800" href="#__codelineno-1-800"></a>   -  Operation: Verify foreign trajectory
+<a id="__codelineno-1-801" name="__codelineno-1-801" href="#__codelineno-1-801"></a>      Federation Requirement: Federation active
+<a id="__codelineno-1-802" name="__codelineno-1-802" href="#__codelineno-1-802"></a>
+<a id="__codelineno-1-803" name="__codelineno-1-803" href="#__codelineno-1-803"></a>   -  Operation: Accept Exit Attestation
+<a id="__codelineno-1-804" name="__codelineno-1-804" href="#__codelineno-1-804"></a>      Federation Requirement: Federation active
+<a id="__codelineno-1-805" name="__codelineno-1-805" href="#__codelineno-1-805"></a>
+<a id="__codelineno-1-806" name="__codelineno-1-806" href="#__codelineno-1-806"></a>   -  Operation: Cross-zone agent migration
+<a id="__codelineno-1-807" name="__codelineno-1-807" href="#__codelineno-1-807"></a>      Federation Requirement: Federation active
+<a id="__codelineno-1-808" name="__codelineno-1-808" href="#__codelineno-1-808"></a>
+<a id="__codelineno-1-809" name="__codelineno-1-809" href="#__codelineno-1-809"></a>12.  Performance Requirements
+<a id="__codelineno-1-810" name="__codelineno-1-810" href="#__codelineno-1-810"></a>
+<a id="__codelineno-1-811" name="__codelineno-1-811" href="#__codelineno-1-811"></a>12.1.  Latency Targets
+<a id="__codelineno-1-812" name="__codelineno-1-812" href="#__codelineno-1-812"></a>
+<a id="__codelineno-1-813" name="__codelineno-1-813" href="#__codelineno-1-813"></a>   -  Operation: Zeroth Law evaluation
+<a id="__codelineno-1-814" name="__codelineno-1-814" href="#__codelineno-1-814"></a>      Target: 1ms
+<a id="__codelineno-1-815" name="__codelineno-1-815" href="#__codelineno-1-815"></a>      Maximum: 5ms
+<a id="__codelineno-1-816" name="__codelineno-1-816" href="#__codelineno-1-816"></a>
+<a id="__codelineno-1-817" name="__codelineno-1-817" href="#__codelineno-1-817"></a>   -  Operation: Trust Proof issuance
+<a id="__codelineno-1-818" name="__codelineno-1-818" href="#__codelineno-1-818"></a>      Target: 5ms
+<a id="__codelineno-1-819" name="__codelineno-1-819" href="#__codelineno-1-819"></a>      Maximum: 20ms
+<a id="__codelineno-1-820" name="__codelineno-1-820" href="#__codelineno-1-820"></a>
+<a id="__codelineno-1-821" name="__codelineno-1-821" href="#__codelineno-1-821"></a>   -  Operation: Transaction co-signing
+<a id="__codelineno-1-822" name="__codelineno-1-822" href="#__codelineno-1-822"></a>      Target: 10ms
+<a id="__codelineno-1-823" name="__codelineno-1-823" href="#__codelineno-1-823"></a>      Maximum: 50ms
+<a id="__codelineno-1-824" name="__codelineno-1-824" href="#__codelineno-1-824"></a>
+<a id="__codelineno-1-825" name="__codelineno-1-825" href="#__codelineno-1-825"></a>   -  Operation: Consensus round
+<a id="__codelineno-1-826" name="__codelineno-1-826" href="#__codelineno-1-826"></a>      Target: 50ms
+<a id="__codelineno-1-827" name="__codelineno-1-827" href="#__codelineno-1-827"></a>      Maximum: 200ms
+<a id="__codelineno-1-828" name="__codelineno-1-828" href="#__codelineno-1-828"></a>
+<a id="__codelineno-1-829" name="__codelineno-1-829" href="#__codelineno-1-829"></a>12.2.  Throughput Targets
+<a id="__codelineno-1-830" name="__codelineno-1-830" href="#__codelineno-1-830"></a>
+<a id="__codelineno-1-831" name="__codelineno-1-831" href="#__codelineno-1-831"></a>   -  Metric: Evaluations/second
+<a id="__codelineno-1-832" name="__codelineno-1-832" href="#__codelineno-1-832"></a>      Target: 100,000
+<a id="__codelineno-1-833" name="__codelineno-1-833" href="#__codelineno-1-833"></a>      Notes: Per node
+<a id="__codelineno-1-834" name="__codelineno-1-834" href="#__codelineno-1-834"></a>
+<a id="__codelineno-1-835" name="__codelineno-1-835" href="#__codelineno-1-835"></a>   -  Metric: Co-signatures/second
+<a id="__codelineno-1-836" name="__codelineno-1-836" href="#__codelineno-1-836"></a>      Target: 1,000
+<a id="__codelineno-1-837" name="__codelineno-1-837" href="#__codelineno-1-837"></a>      Notes: Consensus limited
+<a id="__codelineno-1-838" name="__codelineno-1-838" href="#__codelineno-1-838"></a>
+<a id="__codelineno-1-839" name="__codelineno-1-839" href="#__codelineno-1-839"></a>12.3.  Availability Targets
+<a id="__codelineno-1-840" name="__codelineno-1-840" href="#__codelineno-1-840"></a>
+<a id="__codelineno-1-841" name="__codelineno-1-841" href="#__codelineno-1-841"></a>   -  Metric: Mesh availability
+<a id="__codelineno-1-842" name="__codelineno-1-842" href="#__codelineno-1-842"></a>      Target: 99.99%
+<a id="__codelineno-1-843" name="__codelineno-1-843" href="#__codelineno-1-843"></a>
+<a id="__codelineno-1-844" name="__codelineno-1-844" href="#__codelineno-1-844"></a>   -  Metric: Single node availability
+<a id="__codelineno-1-845" name="__codelineno-1-845" href="#__codelineno-1-845"></a>      Target: 99.9%
+<a id="__codelineno-1-846" name="__codelineno-1-846" href="#__codelineno-1-846"></a>
+<a id="__codelineno-1-847" name="__codelineno-1-847" href="#__codelineno-1-847"></a>   -  Metric: Recovery time (node failure)
+<a id="__codelineno-1-848" name="__codelineno-1-848" href="#__codelineno-1-848"></a>      Target: &lt;10 seconds
+<a id="__codelineno-1-849" name="__codelineno-1-849" href="#__codelineno-1-849"></a>
+<a id="__codelineno-1-850" name="__codelineno-1-850" href="#__codelineno-1-850"></a>   -  Metric: Recovery time (quorum loss)
+<a id="__codelineno-1-851" name="__codelineno-1-851" href="#__codelineno-1-851"></a>      Target: &lt;60 seconds
+<a id="__codelineno-1-852" name="__codelineno-1-852" href="#__codelineno-1-852"></a>
+<a id="__codelineno-1-853" name="__codelineno-1-853" href="#__codelineno-1-853"></a>13.  Deployment Models
+<a id="__codelineno-1-854" name="__codelineno-1-854" href="#__codelineno-1-854"></a>
+<a id="__codelineno-1-855" name="__codelineno-1-855" href="#__codelineno-1-855"></a>13.1.  Cloud Deployment
+<a id="__codelineno-1-856" name="__codelineno-1-856" href="#__codelineno-1-856"></a>
+<a id="__codelineno-1-857" name="__codelineno-1-857" href="#__codelineno-1-857"></a>   +------------------+    +------------------+    +------------------+
+<a id="__codelineno-1-858" name="__codelineno-1-858" href="#__codelineno-1-858"></a>   |    Region A      |    |    Region B      |    |    Region C      |
+<a id="__codelineno-1-859" name="__codelineno-1-859" href="#__codelineno-1-859"></a>   |   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-860" name="__codelineno-1-860" href="#__codelineno-1-860"></a>   |   | Oracle 1 |   |    |   | Oracle 2 |   |    |   | Oracle 3 |   |
+<a id="__codelineno-1-861" name="__codelineno-1-861" href="#__codelineno-1-861"></a>   |   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-862" name="__codelineno-1-862" href="#__codelineno-1-862"></a>   |   | Oracle 4 |   |    |   | Oracle 5 |   |    |                  |
+<a id="__codelineno-1-863" name="__codelineno-1-863" href="#__codelineno-1-863"></a>   |   +----------+   |    |   +----------+   |    |                  |
+<a id="__codelineno-1-864" name="__codelineno-1-864" href="#__codelineno-1-864"></a>   +------------------+    +------------------+    +------------------+
+<a id="__codelineno-1-865" name="__codelineno-1-865" href="#__codelineno-1-865"></a>
+<a id="__codelineno-1-866" name="__codelineno-1-866" href="#__codelineno-1-866"></a>13.2.  On-Premises Deployment
+<a id="__codelineno-1-867" name="__codelineno-1-867" href="#__codelineno-1-867"></a>
+<a id="__codelineno-1-868" name="__codelineno-1-868" href="#__codelineno-1-868"></a>   +------------------+    +------------------+
+<a id="__codelineno-1-869" name="__codelineno-1-869" href="#__codelineno-1-869"></a>   |  Data Center A   |    |  Data Center B   |
+<a id="__codelineno-1-870" name="__codelineno-1-870" href="#__codelineno-1-870"></a>   |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-871" name="__codelineno-1-871" href="#__codelineno-1-871"></a>   |   | Oracle 1 |   |    |   | Oracle 3 |   |
+<a id="__codelineno-1-872" name="__codelineno-1-872" href="#__codelineno-1-872"></a>   |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-873" name="__codelineno-1-873" href="#__codelineno-1-873"></a>   |   | Oracle 2 |   |    |   | Oracle 4 |   |
+<a id="__codelineno-1-874" name="__codelineno-1-874" href="#__codelineno-1-874"></a>   |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-875" name="__codelineno-1-875" href="#__codelineno-1-875"></a>   |                  |    |   | Oracle 5 |   |
+<a id="__codelineno-1-876" name="__codelineno-1-876" href="#__codelineno-1-876"></a>   |                  |    |   +----------+   |
+<a id="__codelineno-1-877" name="__codelineno-1-877" href="#__codelineno-1-877"></a>   +------------------+    +------------------+
+<a id="__codelineno-1-878" name="__codelineno-1-878" href="#__codelineno-1-878"></a>
+<a id="__codelineno-1-879" name="__codelineno-1-879" href="#__codelineno-1-879"></a>13.3.  Hybrid Deployment
+<a id="__codelineno-1-880" name="__codelineno-1-880" href="#__codelineno-1-880"></a>
+<a id="__codelineno-1-881" name="__codelineno-1-881" href="#__codelineno-1-881"></a>   +------------------+    +------------------+    +------------------+
+<a id="__codelineno-1-882" name="__codelineno-1-882" href="#__codelineno-1-882"></a>   |   On-Premises    |    |    Cloud A       |    |    Cloud B       |
+<a id="__codelineno-1-883" name="__codelineno-1-883" href="#__codelineno-1-883"></a>   |   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-884" name="__codelineno-1-884" href="#__codelineno-1-884"></a>   |   | Oracle 1 |   |    |   | Oracle 3 |   |    |   | Oracle 5 |   |
+<a id="__codelineno-1-885" name="__codelineno-1-885" href="#__codelineno-1-885"></a>   |   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-1-886" name="__codelineno-1-886" href="#__codelineno-1-886"></a>   |   | Oracle 2 |   |    |   | Oracle 4 |   |    |                  |
+<a id="__codelineno-1-887" name="__codelineno-1-887" href="#__codelineno-1-887"></a>   |   +----------+   |    |   +----------+   |    |                  |
+<a id="__codelineno-1-888" name="__codelineno-1-888" href="#__codelineno-1-888"></a>   +------------------+    +------------------+    +------------------+
+<a id="__codelineno-1-889" name="__codelineno-1-889" href="#__codelineno-1-889"></a>
+<a id="__codelineno-1-890" name="__codelineno-1-890" href="#__codelineno-1-890"></a>14.  Security Considerations
+<a id="__codelineno-1-891" name="__codelineno-1-891" href="#__codelineno-1-891"></a>
+<a id="__codelineno-1-892" name="__codelineno-1-892" href="#__codelineno-1-892"></a>14.1.  Key Protection
+<a id="__codelineno-1-893" name="__codelineno-1-893" href="#__codelineno-1-893"></a>
+<a id="__codelineno-1-894" name="__codelineno-1-894" href="#__codelineno-1-894"></a>   Oracle private keys MUST be protected:
+<a id="__codelineno-1-895" name="__codelineno-1-895" href="#__codelineno-1-895"></a>
+<a id="__codelineno-1-896" name="__codelineno-1-896" href="#__codelineno-1-896"></a>   -  HSM storage required for production
+<a id="__codelineno-1-897" name="__codelineno-1-897" href="#__codelineno-1-897"></a>
+<a id="__codelineno-1-898" name="__codelineno-1-898" href="#__codelineno-1-898"></a>   -  Key shares never assembled outside ceremony
+<a id="__codelineno-1-899" name="__codelineno-1-899" href="#__codelineno-1-899"></a>
+<a id="__codelineno-1-900" name="__codelineno-1-900" href="#__codelineno-1-900"></a>   -  Access controls on key operations
+<a id="__codelineno-1-901" name="__codelineno-1-901" href="#__codelineno-1-901"></a>
+<a id="__codelineno-1-902" name="__codelineno-1-902" href="#__codelineno-1-902"></a>   -  Audit logging of all key use
+<a id="__codelineno-1-903" name="__codelineno-1-903" href="#__codelineno-1-903"></a>
+<a id="__codelineno-1-904" name="__codelineno-1-904" href="#__codelineno-1-904"></a>14.2.  Network Security
+<a id="__codelineno-1-905" name="__codelineno-1-905" href="#__codelineno-1-905"></a>
+<a id="__codelineno-1-906" name="__codelineno-1-906" href="#__codelineno-1-906"></a>   Oracle mesh communication MUST be secured:
+<a id="__codelineno-1-907" name="__codelineno-1-907" href="#__codelineno-1-907"></a>
+<a id="__codelineno-1-908" name="__codelineno-1-908" href="#__codelineno-1-908"></a>   -  Mutual TLS between all nodes
+<a id="__codelineno-1-909" name="__codelineno-1-909" href="#__codelineno-1-909"></a>
+<a id="__codelineno-1-910" name="__codelineno-1-910" href="#__codelineno-1-910"></a>   -  Certificate pinning
+<a id="__codelineno-1-911" name="__codelineno-1-911" href="#__codelineno-1-911"></a>
+<a id="__codelineno-1-912" name="__codelineno-1-912" href="#__codelineno-1-912"></a>   -  Network isolation where possible
+<a id="__codelineno-1-913" name="__codelineno-1-913" href="#__codelineno-1-913"></a>
+<a id="__codelineno-1-914" name="__codelineno-1-914" href="#__codelineno-1-914"></a>   -  DDoS protection
+<a id="__codelineno-1-915" name="__codelineno-1-915" href="#__codelineno-1-915"></a>
+<a id="__codelineno-1-916" name="__codelineno-1-916" href="#__codelineno-1-916"></a>14.3.  Byzantine Fault Tolerance
+<a id="__codelineno-1-917" name="__codelineno-1-917" href="#__codelineno-1-917"></a>
+<a id="__codelineno-1-918" name="__codelineno-1-918" href="#__codelineno-1-918"></a>   The mesh tolerates Byzantine (malicious) nodes:
+<a id="__codelineno-1-919" name="__codelineno-1-919" href="#__codelineno-1-919"></a>
+<a id="__codelineno-1-920" name="__codelineno-1-920" href="#__codelineno-1-920"></a>   -  Up to f &lt; N/3 Byzantine nodes tolerated
+<a id="__codelineno-1-921" name="__codelineno-1-921" href="#__codelineno-1-921"></a>
+<a id="__codelineno-1-922" name="__codelineno-1-922" href="#__codelineno-1-922"></a>   -  Byzantine behavior detected by protocol
+<a id="__codelineno-1-923" name="__codelineno-1-923" href="#__codelineno-1-923"></a>
+<a id="__codelineno-1-924" name="__codelineno-1-924" href="#__codelineno-1-924"></a>   -  Detected Byzantine nodes removed
+<a id="__codelineno-1-925" name="__codelineno-1-925" href="#__codelineno-1-925"></a>
+<a id="__codelineno-1-926" name="__codelineno-1-926" href="#__codelineno-1-926"></a>   -  Mesh continues with remaining honest nodes
+<a id="__codelineno-1-927" name="__codelineno-1-927" href="#__codelineno-1-927"></a>
+<a id="__codelineno-1-928" name="__codelineno-1-928" href="#__codelineno-1-928"></a>14.4.  Oracle Compromise Response
+<a id="__codelineno-1-929" name="__codelineno-1-929" href="#__codelineno-1-929"></a>
+<a id="__codelineno-1-930" name="__codelineno-1-930" href="#__codelineno-1-930"></a>   If Oracle compromise is detected:
+<a id="__codelineno-1-931" name="__codelineno-1-931" href="#__codelineno-1-931"></a>
+<a id="__codelineno-1-932" name="__codelineno-1-932" href="#__codelineno-1-932"></a>   1.  Isolate compromised node
+<a id="__codelineno-1-933" name="__codelineno-1-933" href="#__codelineno-1-933"></a>
+<a id="__codelineno-1-934" name="__codelineno-1-934" href="#__codelineno-1-934"></a>   2.  Revoke node&#39;s key share
+<a id="__codelineno-1-935" name="__codelineno-1-935" href="#__codelineno-1-935"></a>
+<a id="__codelineno-1-936" name="__codelineno-1-936" href="#__codelineno-1-936"></a>   3.  Issue key rotation if threshold compromised
+<a id="__codelineno-1-937" name="__codelineno-1-937" href="#__codelineno-1-937"></a>
+<a id="__codelineno-1-938" name="__codelineno-1-938" href="#__codelineno-1-938"></a>   4.  Audit all recent decisions
+<a id="__codelineno-1-939" name="__codelineno-1-939" href="#__codelineno-1-939"></a>
+<a id="__codelineno-1-940" name="__codelineno-1-940" href="#__codelineno-1-940"></a>   5.  Notify affected agents
+<a id="__codelineno-1-941" name="__codelineno-1-941" href="#__codelineno-1-941"></a>
+<a id="__codelineno-1-942" name="__codelineno-1-942" href="#__codelineno-1-942"></a>   6.  Post-incident review
+<a id="__codelineno-1-943" name="__codelineno-1-943" href="#__codelineno-1-943"></a>
+<a id="__codelineno-1-944" name="__codelineno-1-944" href="#__codelineno-1-944"></a>15.  IANA Considerations
+<a id="__codelineno-1-945" name="__codelineno-1-945" href="#__codelineno-1-945"></a>
+<a id="__codelineno-1-946" name="__codelineno-1-946" href="#__codelineno-1-946"></a>   This document has no IANA actions.
+<a id="__codelineno-1-947" name="__codelineno-1-947" href="#__codelineno-1-947"></a>
+<a id="__codelineno-1-948" name="__codelineno-1-948" href="#__codelineno-1-948"></a>16.  Back Matter
+<a id="__codelineno-1-949" name="__codelineno-1-949" href="#__codelineno-1-949"></a>
+<a id="__codelineno-1-950" name="__codelineno-1-950" href="#__codelineno-1-950"></a>Appendix A.  Oracle Node Specification
+<a id="__codelineno-1-951" name="__codelineno-1-951" href="#__codelineno-1-951"></a>
+<a id="__codelineno-1-952" name="__codelineno-1-952" href="#__codelineno-1-952"></a>   Hardware and software requirements for Oracle nodes.
+<a id="__codelineno-1-953" name="__codelineno-1-953" href="#__codelineno-1-953"></a>
+<a id="__codelineno-1-954" name="__codelineno-1-954" href="#__codelineno-1-954"></a>   Minimum Hardware:
+<a id="__codelineno-1-955" name="__codelineno-1-955" href="#__codelineno-1-955"></a>
+<a id="__codelineno-1-956" name="__codelineno-1-956" href="#__codelineno-1-956"></a>   -  Component: CPU
+<a id="__codelineno-1-957" name="__codelineno-1-957" href="#__codelineno-1-957"></a>      Requirement: 8 cores
+<a id="__codelineno-1-958" name="__codelineno-1-958" href="#__codelineno-1-958"></a>
+<a id="__codelineno-1-959" name="__codelineno-1-959" href="#__codelineno-1-959"></a>   -  Component: RAM
+<a id="__codelineno-1-960" name="__codelineno-1-960" href="#__codelineno-1-960"></a>      Requirement: 32 GB
+<a id="__codelineno-1-961" name="__codelineno-1-961" href="#__codelineno-1-961"></a>
+<a id="__codelineno-1-962" name="__codelineno-1-962" href="#__codelineno-1-962"></a>   -  Component: Storage
+<a id="__codelineno-1-963" name="__codelineno-1-963" href="#__codelineno-1-963"></a>      Requirement: 500 GB NVMe SSD
+<a id="__codelineno-1-964" name="__codelineno-1-964" href="#__codelineno-1-964"></a>
+<a id="__codelineno-1-965" name="__codelineno-1-965" href="#__codelineno-1-965"></a>   -  Component: Network
+<a id="__codelineno-1-966" name="__codelineno-1-966" href="#__codelineno-1-966"></a>      Requirement: 1 Gbps
+<a id="__codelineno-1-967" name="__codelineno-1-967" href="#__codelineno-1-967"></a>
+<a id="__codelineno-1-968" name="__codelineno-1-968" href="#__codelineno-1-968"></a>   -  Component: HSM
+<a id="__codelineno-1-969" name="__codelineno-1-969" href="#__codelineno-1-969"></a>      Requirement: FIPS 140-2 Level 3
+<a id="__codelineno-1-970" name="__codelineno-1-970" href="#__codelineno-1-970"></a>
+<a id="__codelineno-1-971" name="__codelineno-1-971" href="#__codelineno-1-971"></a>   Recommended Hardware:
+<a id="__codelineno-1-972" name="__codelineno-1-972" href="#__codelineno-1-972"></a>
+<a id="__codelineno-1-973" name="__codelineno-1-973" href="#__codelineno-1-973"></a>   -  Component: CPU
+<a id="__codelineno-1-974" name="__codelineno-1-974" href="#__codelineno-1-974"></a>      Requirement: 16+ cores
+<a id="__codelineno-1-975" name="__codelineno-1-975" href="#__codelineno-1-975"></a>
+<a id="__codelineno-1-976" name="__codelineno-1-976" href="#__codelineno-1-976"></a>   -  Component: RAM
+<a id="__codelineno-1-977" name="__codelineno-1-977" href="#__codelineno-1-977"></a>      Requirement: 64 GB
+<a id="__codelineno-1-978" name="__codelineno-1-978" href="#__codelineno-1-978"></a>
+<a id="__codelineno-1-979" name="__codelineno-1-979" href="#__codelineno-1-979"></a>   -  Component: Storage
+<a id="__codelineno-1-980" name="__codelineno-1-980" href="#__codelineno-1-980"></a>      Requirement: 1 TB NVMe SSD (RAID)
+<a id="__codelineno-1-981" name="__codelineno-1-981" href="#__codelineno-1-981"></a>
+<a id="__codelineno-1-982" name="__codelineno-1-982" href="#__codelineno-1-982"></a>   -  Component: Network
+<a id="__codelineno-1-983" name="__codelineno-1-983" href="#__codelineno-1-983"></a>      Requirement: 10 Gbps
+<a id="__codelineno-1-984" name="__codelineno-1-984" href="#__codelineno-1-984"></a>
+<a id="__codelineno-1-985" name="__codelineno-1-985" href="#__codelineno-1-985"></a>   -  Component: HSM
+<a id="__codelineno-1-986" name="__codelineno-1-986" href="#__codelineno-1-986"></a>      Requirement: FIPS 140-2 Level 3, HA
+<a id="__codelineno-1-987" name="__codelineno-1-987" href="#__codelineno-1-987"></a>
+<a id="__codelineno-1-988" name="__codelineno-1-988" href="#__codelineno-1-988"></a>Appendix B.  Consensus Protocol Details
+<a id="__codelineno-1-989" name="__codelineno-1-989" href="#__codelineno-1-989"></a>
+<a id="__codelineno-1-990" name="__codelineno-1-990" href="#__codelineno-1-990"></a>   Detailed specification of the consensus protocol.
+<a id="__codelineno-1-991" name="__codelineno-1-991" href="#__codelineno-1-991"></a>
+<a id="__codelineno-1-992" name="__codelineno-1-992" href="#__codelineno-1-992"></a>Appendix C.  Threshold Signature Implementation
+<a id="__codelineno-1-993" name="__codelineno-1-993" href="#__codelineno-1-993"></a>
+<a id="__codelineno-1-994" name="__codelineno-1-994" href="#__codelineno-1-994"></a>   Implementation guidance for threshold ECDSA.
+<a id="__codelineno-1-995" name="__codelineno-1-995" href="#__codelineno-1-995"></a>
+<a id="__codelineno-1-996" name="__codelineno-1-996" href="#__codelineno-1-996"></a>Acknowledgments
+<a id="__codelineno-1-997" name="__codelineno-1-997" href="#__codelineno-1-997"></a>
+<a id="__codelineno-1-998" name="__codelineno-1-998" href="#__codelineno-1-998"></a>   The Trust Oracle design draws on distributed systems research,
+<a id="__codelineno-1-999" name="__codelineno-1-999" href="#__codelineno-1-999"></a>   Byzantine fault tolerance literature, and production experience
+<a id="__codelineno-1-1000" name="__codelineno-1-1000" href="#__codelineno-1-1000"></a>   with consensus systems.
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/break-the-chain/">Break the Chain</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

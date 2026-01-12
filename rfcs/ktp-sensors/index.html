@@ -1,0 +1,4310 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The sensory nervous system of KTP, providing real-time telemetry for trust calculation.">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-sensors/">
+      
+      
+        <link rel="prev" href="../ktp-zones/">
+      
+      
+        <link rel="next" href="../ktp-tensors/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>KTP-Sensors - Context Tensor Sensor Specification - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ktp-sensors-context-tensor-sensor-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Sensors - Context Tensor Sensor Specification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../community/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Community
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/context-tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-hierarchical-sensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: Hierarchical Sensing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: Hierarchical Sensing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-risk-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Three Risk Domains
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sensor-feed-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sensor Feed Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sensor Feed Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feed-aggregation-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feed Aggregation Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-soul-veto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Soul Veto
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-example-sensor-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Example: Sensor Config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-tensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Tensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-gravity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Gravity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../schemas/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schemas
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/context-tensor.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Tensor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/trust-proof.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Proof
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/soul-constraint.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Soul Constraint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schemas/sensor-config.json" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor Config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/digital-physics-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Digital Physics Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Community
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Community
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/writings/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writings
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Writings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/break-the-chain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Break the Chain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../community/tools/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tools
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/connect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/discussions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discussions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../community/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a Glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-solution-hierarchical-sensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: Hierarchical Sensing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Solution: Hierarchical Sensing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-three-risk-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Three Risk Domains
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sensor-feed-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sensor Feed Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sensor Feed Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feed-aggregation-logic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feed Aggregation Logic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-soul-veto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Soul Veto
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Specifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-example-sensor-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Example: Sensor Config
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-rfc-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official RFC Document
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-sensors.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="ktp-sensors-context-tensor-sensor-specification">KTP-Sensors: Context Tensor Sensor Specification<a class="headerlink" href="#ktp-sensors-context-tensor-sensor-specification" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>"The Context Tensor is the sensory nervous system of the Kinetic Trust Protocol. It measures environmental reality to calculate the Risk Factor."</p>
+</blockquote>
+<hr />
+<h2 id="at-a-glance">At a Glance<a class="headerlink" href="#at-a-glance" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td><span class="twemoji draft"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 2.03v2.02c4.39.54 7.5 4.53 6.96 8.92-.46 3.64-3.32 6.53-6.96 6.96v2c5.5-.55 9.5-5.43 8.95-10.93-.45-4.75-4.22-8.5-8.95-8.97m-2 .03c-1.95.19-3.81.94-5.33 2.2L7.1 5.74c1.12-.9 2.47-1.48 3.9-1.68zM4.26 5.67A9.9 9.9 0 0 0 2.05 11h2c.19-1.42.75-2.77 1.64-3.9zM2.06 13c.2 1.96.97 3.81 2.21 5.33l1.42-1.43A8 8 0 0 1 4.06 13zm5.04 5.37-1.43 1.37A10 10 0 0 0 11 22v-2a8 8 0 0 1-3.9-1.63M12.5 7v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg></span> Draft</td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td><a href="../ktp-core/">KTP-Core</a>, <a href="../ktp-tensors/">KTP-Tensors</a></td>
+</tr>
+<tr>
+<td><strong>Required By</strong></td>
+<td><a href="../ktp-signal/">KTP-Signal</a>, <a href="../ktp-gravity/">KTP-Gravity</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h2>
+<p>Environmental sensing is noisy. A single CPU spike or a transient network blip can cause a "Trust Oscillation," where an agent rapidly flips between trust tiers (e.g., Operator → Analyst → Operator). This creates operational instability and audit noise.</p>
+<h2 id="the-solution-hierarchical-sensing">The Solution: Hierarchical Sensing<a class="headerlink" href="#the-solution-hierarchical-sensing" title="Permanent link">&para;</a></h2>
+<p>KTP-Sensors implements a three-level hierarchy to smooth out noise while remaining responsive to genuine threats.</p>
+<h3 id="the-three-risk-domains">The Three Risk Domains<a class="headerlink" href="#the-three-risk-domains" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    subgraph Global [Global Domain - 30%]
+        G1[Threat Feeds]
+        G2[Zone Aggregates]
+    end
+
+    subgraph Neighborhood [Neighborhood Domain - 40%]
+        N1[Cluster Health]
+        N2[Mesh Telemetry]
+    end
+
+    subgraph Node [Node Domain - 30%]
+        L1[Local CPU/RAM]
+        L2[Local Errors]
+    end
+
+    Node --&gt; R[Risk Factor R]
+    Neighborhood --&gt; R
+    Global --&gt; R
+
+    R --&gt; T[Trust Tier Calculation]</code></pre>
+<hr />
+<h2 id="domain-breakdown">Domain Breakdown<a class="headerlink" href="#domain-breakdown" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Domain</th>
+<th style="text-align: left;">Scope</th>
+<th style="text-align: left;">Update Freq</th>
+<th style="text-align: left;">Weight</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Node</strong></td>
+<td style="text-align: left;">Single resource/endpoint</td>
+<td style="text-align: left;">1-5s</td>
+<td style="text-align: left;">30%</td>
+<td style="text-align: left;">Immediate local conditions.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Neighborhood</strong></td>
+<td style="text-align: left;">Local cluster/subnet</td>
+<td style="text-align: left;">10-30s</td>
+<td style="text-align: left;">40%</td>
+<td style="text-align: left;">Smoothing local noise via peer consensus.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Global</strong></td>
+<td style="text-align: left;">Zone-wide/Federation</td>
+<td style="text-align: left;">30-120s</td>
+<td style="text-align: left;">30%</td>
+<td style="text-align: left;">Broad trends and external threat intelligence.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sensor-feed-architecture">Sensor Feed Architecture<a class="headerlink" href="#sensor-feed-architecture" title="Permanent link">&para;</a></h2>
+<p>Each dimension in the <a href="../ktp-tensors/"><strong>Context Tensor</strong></a> aggregates multiple sensor feeds.</p>
+<h3 id="feed-aggregation-logic">Feed Aggregation Logic<a class="headerlink" href="#feed-aggregation-logic" title="Permanent link">&para;</a></h3>
+<p>For most dimensions, feeds are combined using a weighted average:</p>
+<div class="arithmatex">\[D = \frac{\sum (w_i \cdot v_i)}{\sum w_i}\]</div>
+<p>Where <span class="arithmatex">\(v_i\)</span> is the normalized value (0.0 to 1.0) from feed <span class="arithmatex">\(i\)</span>.</p>
+<h3 id="the-soul-veto">The Soul Veto<a class="headerlink" href="#the-soul-veto" title="Permanent link">&para;</a></h3>
+<p>The <strong>Soul Dimension</strong> is unique. It does not use weighted averages. Instead, it acts as a <strong>Logical OR</strong> (Veto):</p>
+<ul>
+<li>If <strong>ANY</strong> enabled Soul feed returns a "Veto" signal...</li>
+<li>The entire Soul dimension becomes <strong>1.0 (Critical Risk)</strong>.</li>
+<li>This triggers an immediate <strong>Silent Veto</strong> or <strong>Emergency Shutdown</strong>.</li>
+</ul>
+<hr />
+<h2 id="related-specifications">Related Specifications<a class="headerlink" href="#related-specifications" title="Permanent link">&para;</a></h2>
+<details class="info">
+<summary>Related Specifications</summary>
+<ul>
+<li><a href="../ktp-core/">KTP-Core</a>: Trust physics that sensor data feeds.</li>
+<li><a href="../ktp-tensors/">KTP-Tensors</a>: Context Tensor schema for sensor inputs.</li>
+<li><a href="../ktp-signal/">KTP-Signal</a>: Epistemic health signals from telemetry.</li>
+<li><a href="../ktp-enforce/">KTP-Enforce</a>: Enforcement decisions driven by sensor data.</li>
+</ul>
+</details>
+<hr />
+<h2 id="implementation-example-sensor-config">Implementation Example: Sensor Config<a class="headerlink" href="#implementation-example-sensor-config" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;body.hardware&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;feeds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tee-attestation&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;security&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;local://kernel/tee&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">&quot;refresh_interval_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;temp-sensor&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;physical&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mqtt://sensors.local/temp&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="nt">&quot;normalization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span><span class="nt">&quot;refresh_interval_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="p">]</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="official-rfc-document">Official RFC Document<a class="headerlink" href="#official-rfc-document" title="Permanent link">&para;</a></h2>
+<details class="note">
+<summary>View Complete RFC Text (ktp-sensors.txt)</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Kinetic Trust Protocol                                      C. Perkins
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Specification Draft                                           NMCITRA
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Version: 0.1                                             November 2025
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  Kinetic Trust Protocol (KTP) - Context Tensor Sensor Specification
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Abstract
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>   This document specifies the sensor requirements and configurations
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>   for the Context Tensor, the seven-dimensional environmental
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>   measurement system used by the Kinetic Trust Protocol (KTP).
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>   The specification covers sensor types, normalization algorithms,
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>   domain-specific weight profiles, and the unique characteristics of
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>   the Soul (Sovereignty) dimension which acts as an independent veto
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>   mechanism rather than a weighted contributor.
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>Status of This Memo
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>   This document is a draft specification developed by the New Mexico
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>   Cyber Intelligence &amp; Threat Response Alliance (NMCITRA). It has not
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>   been submitted to the IETF and does not represent an Internet
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>   Standard or consensus of any standards body.
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>   Feedback and contributions are welcome at:
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>   https://github.com/nmcitra/ktp-rfc
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>Copyright Notice
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>   under the Apache License, Version 2.0.
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>Table of Contents
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>   2.  Tensor Architecture  . . . . . . . . . . . . . . . . . . . .   3
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>       2.1.  Modularity Principles  . . . . . . . . . . . . . . . .   3
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>       2.2.  Feed Aggregation . . . . . . . . . . . . . . . . . . .   4
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>       2.3.  Risk Domains (Node, Neighborhood, Global)  . . . . . .   5
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>   3.  Weighted Dimensions (M, P, H, T, I, O) .  . . . . . . . . . .   8
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>       3.1.  Mass (M) - Physical Density  . . . . . . . . . . . . .   8
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>       3.2.  Momentum (P) - Kinetic Velocity  . . . . . . . . . . .  10
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>       3.3.  Heat (H) - Adversarial Pressure  . . . . . . . . . . .  12
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>       3.4.  Time (T) - Temporal Phase  . . . . . . . . . . . . . .  14
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>       3.5.  Inertia (I) - Blast Radius . . . . . . . . . . . . . .  16
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>       3.6.  Observer (O) - Population  . . . . . . . . . . . . . .  18
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>   4.  Soul Dimension (S) - Sovereignty . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>       4.1.  Overview . . . . . . . . . . . . . . . . . . . . . . .  20
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>       4.2.  Sensor Feeds . . . . . . . . . . . . . . . . . . . . .  21
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>       4.3.  Veto Mechanics . . . . . . . . . . . . . . . . . . . .  24
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>       4.4.  Integration with Indigenous Data Sovereignty . . . . .  25
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>   5.  Domain Weight Profiles . . . . . . . . . . . . . . . . . . .  27
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>   6.  Sensor Quality and Validation  . . . . . . . . . . . . . . .  29
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a>   7.  Security Considerations  . . . . . . . . . . . . . . . . . .  31
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . .  32
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>   9.  References . . . . . . . . . . . . . . . . . . . . . . . . .  33
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>   Authors&#39; Addresses . . . . . . . . . . . . . . . . . . . . . . .  34
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>1. Introduction
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a>
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>   The Context Tensor is the sensory nervous system of the Kinetic Trust
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a>   Protocol. It measures environmental reality across seven dimensions,
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>   providing the data needed to calculate the Risk Factor and evaluate
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a>   sovereignty constraints.
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a>
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a>   This document provides detailed specifications for:
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>   -  The sensors and data feeds that populate each dimension
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>   -  Normalization algorithms for converting raw telemetry to 0-1 scale
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>   -  Domain-specific weight configurations
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>   -  The unique architecture of the Soul dimension
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>   -  Quality requirements and validation procedures
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a>
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a>   The Context Tensor is designed to be modular at both the tensor level
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>   (new dimensions can be added) and the feed level (sensors within each
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a>   dimension can be configured per deployment).
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a>
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a>2. Tensor Architecture
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a>
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>2.1.  Modularity Principles
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a>   The Context Tensor follows two levels of modularity:
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>   Level 1 - Tensor Modularity:
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a>
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a>      The seven dimensions defined in this specification represent the
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>      core measurement space. However, the architecture supports
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a>      extension for domain-specific requirements.
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a>      New dimensions MUST specify:
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>      - Unique identifier (single letter, not conflicting with M,P,H,T,I,O,S)
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a>      - Physics equivalent (conceptual grounding)
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a>      - Contribution type: &quot;weighted&quot; (contributes to R) or &quot;veto&quot;
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a>        (independent constraint like Soul)
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a>      - Sensor feed specifications
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a>      - Normalization rules
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a>      - Recommended domain weights (if weighted type)
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a>
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a>   Level 2 - Feed Modularity:
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a>
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a>      Each dimension aggregates multiple sensor feeds. Feeds are
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a>      independently configurable:
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a>
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a>      - Enable/disable per deployment
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a>      - Adjust weights within dimension
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a>      - Add custom feeds to existing dimensions
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a>      - Configure local vs. federated sources
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a>
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a>   This modularity allows KTP to adapt to diverse deployment contexts
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a>   while maintaining consistent physics-based semantics.
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a>
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a>2.2.  Feed Aggregation
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a>   For weighted dimensions (M, P, H, T, I, O), feeds are aggregated
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a>   using weighted average:
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a>
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a>      dimension_value = sum(feed_weight[i] * feed_value[i]) /
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a>                        sum(feed_weight[i])
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a>   Where: feed_weight[i] = Configured weight for feed i (default: 1.0)
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>   feed_value[i] = Normalized value (0-1) from feed i
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a>
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a>   For the Soul dimension, feeds are aggregated using logical OR:
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a>
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a>      S = 1 IF ANY enabled feed returns veto
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a>      S = 0 IF ALL enabled feeds return clear
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a>
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a>   Feed configuration schema:
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a>
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a>      {
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a>        &quot;dimension&quot;: &quot;m&quot;,
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a>        &quot;feeds&quot;: [
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a>          {
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a>            &quot;id&quot;: &quot;co2-sensor&quot;,
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a>            &quot;type&quot;: &quot;physical&quot;,
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>            &quot;source&quot;: &quot;mqtt://sensors.local/co2&quot;,
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a>            &quot;enabled&quot;: true,
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a>            &quot;weight&quot;: 1.0,
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a>            &quot;normalization&quot;: {
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a>              &quot;min&quot;: 400,
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a>              &quot;max&quot;: 2000,
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>              &quot;invert&quot;: false
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a>            },
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a>            &quot;refresh_interval_ms&quot;: 30000,
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a>            &quot;stale_threshold_ms&quot;: 120000
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a>          },
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>          {
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a>            &quot;id&quot;: &quot;badge-count&quot;,
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a>            &quot;type&quot;: &quot;physical&quot;,
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a>            &quot;source&quot;: &quot;https://access.local/api/count&quot;,
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>            &quot;enabled&quot;: true,
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a>            &quot;weight&quot;: 1.5,
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a>            &quot;normalization&quot;: {
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>              &quot;min&quot;: 0,
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a>              &quot;max&quot;: 5000,
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a>              &quot;invert&quot;: false
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a>            },
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a>            &quot;refresh_interval_ms&quot;: 60000,
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a>            &quot;stale_threshold_ms&quot;: 300000
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>          }
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a>        ]
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>      }
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a>
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a>2.3.  Risk Domains (Node, Neighborhood, Global)
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a>
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a>   A critical challenge in environmental sensing is oscillation: rapid
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a>   fluctuation in the Risk Factor caused by local noise, leading to
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>   unstable Trust Scores and excessive tier transitions.
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a>
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a>   Consider an agent operating near the Operator/Analyst tier boundary
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a>   (E_trust ≈ 70). If a single sensor on a single node experiences a
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a>   momentary spike—a brief CPU surge, a transient network blip—the agent
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a>   could rapidly transition Operator → Analyst → Operator → Analyst,
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a>   disrupting operations and creating audit noise.
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a>   To prevent this, KTP implements three-level Risk Domains:
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a>
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a>   2.3.1.  The Three Levels
+<a id="__codelineno-1-180" name="__codelineno-1-180" href="#__codelineno-1-180"></a>
+<a id="__codelineno-1-181" name="__codelineno-1-181" href="#__codelineno-1-181"></a>   Level 1 - Node Domain:
+<a id="__codelineno-1-182" name="__codelineno-1-182" href="#__codelineno-1-182"></a>
+<a id="__codelineno-1-183" name="__codelineno-1-183" href="#__codelineno-1-183"></a>      The immediate context of a single resource or endpoint.
+<a id="__codelineno-1-184" name="__codelineno-1-184" href="#__codelineno-1-184"></a>
+<a id="__codelineno-1-185" name="__codelineno-1-185" href="#__codelineno-1-185"></a>      Scope: One server, one API instance, one database replica
+<a id="__codelineno-1-186" name="__codelineno-1-186" href="#__codelineno-1-186"></a>      Update frequency: High (1-5 seconds)
+<a id="__codelineno-1-187" name="__codelineno-1-187" href="#__codelineno-1-187"></a>      Sensors: Local CPU, local memory, local connections, local errors
+<a id="__codelineno-1-188" name="__codelineno-1-188" href="#__codelineno-1-188"></a>      Weight in R: 30% (default)
+<a id="__codelineno-1-189" name="__codelineno-1-189" href="#__codelineno-1-189"></a>
+<a id="__codelineno-1-190" name="__codelineno-1-190" href="#__codelineno-1-190"></a>      Node-level readings are the most granular and most volatile.
+<a id="__codelineno-1-191" name="__codelineno-1-191" href="#__codelineno-1-191"></a>      They capture immediate conditions but are subject to noise.
+<a id="__codelineno-1-192" name="__codelineno-1-192" href="#__codelineno-1-192"></a>
+<a id="__codelineno-1-193" name="__codelineno-1-193" href="#__codelineno-1-193"></a>   Level 2 - Neighborhood Domain:
+<a id="__codelineno-1-194" name="__codelineno-1-194" href="#__codelineno-1-194"></a>
+<a id="__codelineno-1-195" name="__codelineno-1-195" href="#__codelineno-1-195"></a>      The local cluster, service mesh, or subnet.
+<a id="__codelineno-1-196" name="__codelineno-1-196" href="#__codelineno-1-196"></a>
+<a id="__codelineno-1-197" name="__codelineno-1-197" href="#__codelineno-1-197"></a>      Scope: Peer nodes, immediate dependencies, same availability zone
+<a id="__codelineno-1-198" name="__codelineno-1-198" href="#__codelineno-1-198"></a>      Update frequency: Medium (10-30 seconds)
+<a id="__codelineno-1-199" name="__codelineno-1-199" href="#__codelineno-1-199"></a>      Sensors: Cluster averages, mesh telemetry, subnet utilization
+<a id="__codelineno-1-200" name="__codelineno-1-200" href="#__codelineno-1-200"></a>      Weight in R: 40% (default)
+<a id="__codelineno-1-201" name="__codelineno-1-201" href="#__codelineno-1-201"></a>
+<a id="__codelineno-1-202" name="__codelineno-1-202" href="#__codelineno-1-202"></a>      Neighborhood-level readings smooth out individual node variance
+<a id="__codelineno-1-203" name="__codelineno-1-203" href="#__codelineno-1-203"></a>      by aggregating across peers. A single node spike doesn&#39;t move
+<a id="__codelineno-1-204" name="__codelineno-1-204" href="#__codelineno-1-204"></a>      the neighborhood, but coordinated degradation does.
+<a id="__codelineno-1-205" name="__codelineno-1-205" href="#__codelineno-1-205"></a>
+<a id="__codelineno-1-206" name="__codelineno-1-206" href="#__codelineno-1-206"></a>   Level 3 - Global Domain:
+<a id="__codelineno-1-207" name="__codelineno-1-207" href="#__codelineno-1-207"></a>
+<a id="__codelineno-1-208" name="__codelineno-1-208" href="#__codelineno-1-208"></a>      The zone-wide or federation-wide environment.
+<a id="__codelineno-1-209" name="__codelineno-1-209" href="#__codelineno-1-209"></a>
+<a id="__codelineno-1-210" name="__codelineno-1-210" href="#__codelineno-1-210"></a>      Scope: Entire Blue Zone, federated zones, external threat feeds
+<a id="__codelineno-1-211" name="__codelineno-1-211" href="#__codelineno-1-211"></a>      Update frequency: Low (30-120 seconds)
+<a id="__codelineno-1-212" name="__codelineno-1-212" href="#__codelineno-1-212"></a>      Sensors: Zone-wide aggregates, threat intelligence, external events
+<a id="__codelineno-1-213" name="__codelineno-1-213" href="#__codelineno-1-213"></a>      Weight in R: 30% (default)
+<a id="__codelineno-1-214" name="__codelineno-1-214" href="#__codelineno-1-214"></a>
+<a id="__codelineno-1-215" name="__codelineno-1-215" href="#__codelineno-1-215"></a>      Global-level readings capture broad trends and external factors.
+<a id="__codelineno-1-216" name="__codelineno-1-216" href="#__codelineno-1-216"></a>      They change slowly but authoritatively. A global threat indicator
+<a id="__codelineno-1-217" name="__codelineno-1-217" href="#__codelineno-1-217"></a>      affects all agents regardless of local conditions.
+<a id="__codelineno-1-218" name="__codelineno-1-218" href="#__codelineno-1-218"></a>
+<a id="__codelineno-1-219" name="__codelineno-1-219" href="#__codelineno-1-219"></a>   2.3.2.  Aggregation Formula
+<a id="__codelineno-1-220" name="__codelineno-1-220" href="#__codelineno-1-220"></a>
+<a id="__codelineno-1-221" name="__codelineno-1-221" href="#__codelineno-1-221"></a>   The final Risk Factor incorporates all three domains:
+<a id="__codelineno-1-222" name="__codelineno-1-222" href="#__codelineno-1-222"></a>
+<a id="__codelineno-1-223" name="__codelineno-1-223" href="#__codelineno-1-223"></a>      R = (w_node × R_node) + (w_neighborhood × R_neighborhood) +
+<a id="__codelineno-1-224" name="__codelineno-1-224" href="#__codelineno-1-224"></a>          (w_global × R_global)
+<a id="__codelineno-1-225" name="__codelineno-1-225" href="#__codelineno-1-225"></a>
+<a id="__codelineno-1-226" name="__codelineno-1-226" href="#__codelineno-1-226"></a>   Where w_node + w_neighborhood + w_global = 1.0
+<a id="__codelineno-1-227" name="__codelineno-1-227" href="#__codelineno-1-227"></a>
+<a id="__codelineno-1-228" name="__codelineno-1-228" href="#__codelineno-1-228"></a>   Default weights: w_node = 0.30 w_neighborhood = 0.40 w_global = 0.30
+<a id="__codelineno-1-229" name="__codelineno-1-229" href="#__codelineno-1-229"></a>
+<a id="__codelineno-1-230" name="__codelineno-1-230" href="#__codelineno-1-230"></a>   This weighting gives the neighborhood domain primary influence, which
+<a id="__codelineno-1-231" name="__codelineno-1-231" href="#__codelineno-1-231"></a>   provides stability while remaining responsive.
+<a id="__codelineno-1-232" name="__codelineno-1-232" href="#__codelineno-1-232"></a>
+<a id="__codelineno-1-233" name="__codelineno-1-233" href="#__codelineno-1-233"></a>   2.3.3.  Anti-Oscillation Mechanics
+<a id="__codelineno-1-234" name="__codelineno-1-234" href="#__codelineno-1-234"></a>
+<a id="__codelineno-1-235" name="__codelineno-1-235" href="#__codelineno-1-235"></a>   The three-domain structure prevents oscillation through damping:
+<a id="__codelineno-1-236" name="__codelineno-1-236" href="#__codelineno-1-236"></a>
+<a id="__codelineno-1-237" name="__codelineno-1-237" href="#__codelineno-1-237"></a>   Scenario 1: Single Node Spike
+<a id="__codelineno-1-238" name="__codelineno-1-238" href="#__codelineno-1-238"></a>
+<a id="__codelineno-1-239" name="__codelineno-1-239" href="#__codelineno-1-239"></a>      Node R jumps from 0.20 to 0.80 (local event)
+<a id="__codelineno-1-240" name="__codelineno-1-240" href="#__codelineno-1-240"></a>      Neighborhood R unchanged at 0.25
+<a id="__codelineno-1-241" name="__codelineno-1-241" href="#__codelineno-1-241"></a>      Global R unchanged at 0.20
+<a id="__codelineno-1-242" name="__codelineno-1-242" href="#__codelineno-1-242"></a>
+<a id="__codelineno-1-243" name="__codelineno-1-243" href="#__codelineno-1-243"></a>      R_before = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.20) = 0.22
+<a id="__codelineno-1-244" name="__codelineno-1-244" href="#__codelineno-1-244"></a>      R_after  = (0.30 × 0.80) + (0.40 × 0.25) + (0.30 × 0.20) = 0.40
+<a id="__codelineno-1-245" name="__codelineno-1-245" href="#__codelineno-1-245"></a>
+<a id="__codelineno-1-246" name="__codelineno-1-246" href="#__codelineno-1-246"></a>      Result: R increases, but not catastrophically. No tier transition
+<a id="__codelineno-1-247" name="__codelineno-1-247" href="#__codelineno-1-247"></a>      if agent has buffer above threshold.
+<a id="__codelineno-1-248" name="__codelineno-1-248" href="#__codelineno-1-248"></a>
+<a id="__codelineno-1-249" name="__codelineno-1-249" href="#__codelineno-1-249"></a>   Scenario 2: Neighborhood Degradation
+<a id="__codelineno-1-250" name="__codelineno-1-250" href="#__codelineno-1-250"></a>
+<a id="__codelineno-1-251" name="__codelineno-1-251" href="#__codelineno-1-251"></a>      Node R rises to 0.60 (local reflection of broader issue)
+<a id="__codelineno-1-252" name="__codelineno-1-252" href="#__codelineno-1-252"></a>      Neighborhood R rises to 0.70 (many nodes affected)
+<a id="__codelineno-1-253" name="__codelineno-1-253" href="#__codelineno-1-253"></a>      Global R unchanged at 0.20
+<a id="__codelineno-1-254" name="__codelineno-1-254" href="#__codelineno-1-254"></a>
+<a id="__codelineno-1-255" name="__codelineno-1-255" href="#__codelineno-1-255"></a>      R = (0.30 × 0.60) + (0.40 × 0.70) + (0.30 × 0.20) = 0.52
+<a id="__codelineno-1-256" name="__codelineno-1-256" href="#__codelineno-1-256"></a>
+<a id="__codelineno-1-257" name="__codelineno-1-257" href="#__codelineno-1-257"></a>      Result: Significant R increase. Likely tier transition, but
+<a id="__codelineno-1-258" name="__codelineno-1-258" href="#__codelineno-1-258"></a>      justified because the neighborhood is actually degraded.
+<a id="__codelineno-1-259" name="__codelineno-1-259" href="#__codelineno-1-259"></a>
+<a id="__codelineno-1-260" name="__codelineno-1-260" href="#__codelineno-1-260"></a>   Scenario 3: Global Threat
+<a id="__codelineno-1-261" name="__codelineno-1-261" href="#__codelineno-1-261"></a>
+<a id="__codelineno-1-262" name="__codelineno-1-262" href="#__codelineno-1-262"></a>      Node R unchanged at 0.20
+<a id="__codelineno-1-263" name="__codelineno-1-263" href="#__codelineno-1-263"></a>      Neighborhood R unchanged at 0.25
+<a id="__codelineno-1-264" name="__codelineno-1-264" href="#__codelineno-1-264"></a>      Global R rises to 0.80 (external threat intelligence)
+<a id="__codelineno-1-265" name="__codelineno-1-265" href="#__codelineno-1-265"></a>
+<a id="__codelineno-1-266" name="__codelineno-1-266" href="#__codelineno-1-266"></a>      R = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.80) = 0.40
+<a id="__codelineno-1-267" name="__codelineno-1-267" href="#__codelineno-1-267"></a>
+<a id="__codelineno-1-268" name="__codelineno-1-268" href="#__codelineno-1-268"></a>      Result: R increases meaningfully even though local conditions
+<a id="__codelineno-1-269" name="__codelineno-1-269" href="#__codelineno-1-269"></a>      are fine. The global threat affects all agents in the zone.
+<a id="__codelineno-1-270" name="__codelineno-1-270" href="#__codelineno-1-270"></a>
+<a id="__codelineno-1-271" name="__codelineno-1-271" href="#__codelineno-1-271"></a>   2.3.4.  Domain Configuration
+<a id="__codelineno-1-272" name="__codelineno-1-272" href="#__codelineno-1-272"></a>
+<a id="__codelineno-1-273" name="__codelineno-1-273" href="#__codelineno-1-273"></a>   Domain weights are configurable per deployment:
+<a id="__codelineno-1-274" name="__codelineno-1-274" href="#__codelineno-1-274"></a>
+<a id="__codelineno-1-275" name="__codelineno-1-275" href="#__codelineno-1-275"></a>      {
+<a id="__codelineno-1-276" name="__codelineno-1-276" href="#__codelineno-1-276"></a>        &quot;risk_domains&quot;: {
+<a id="__codelineno-1-277" name="__codelineno-1-277" href="#__codelineno-1-277"></a>          &quot;node&quot;: {
+<a id="__codelineno-1-278" name="__codelineno-1-278" href="#__codelineno-1-278"></a>            &quot;weight&quot;: 0.30,
+<a id="__codelineno-1-279" name="__codelineno-1-279" href="#__codelineno-1-279"></a>            &quot;update_interval_ms&quot;: 5000,
+<a id="__codelineno-1-280" name="__codelineno-1-280" href="#__codelineno-1-280"></a>            &quot;sensors&quot;: [&quot;cpu&quot;, &quot;memory&quot;, &quot;connections&quot;, &quot;errors&quot;]
+<a id="__codelineno-1-281" name="__codelineno-1-281" href="#__codelineno-1-281"></a>          },
+<a id="__codelineno-1-282" name="__codelineno-1-282" href="#__codelineno-1-282"></a>          &quot;neighborhood&quot;: {
+<a id="__codelineno-1-283" name="__codelineno-1-283" href="#__codelineno-1-283"></a>            &quot;weight&quot;: 0.40,
+<a id="__codelineno-1-284" name="__codelineno-1-284" href="#__codelineno-1-284"></a>            &quot;update_interval_ms&quot;: 15000,
+<a id="__codelineno-1-285" name="__codelineno-1-285" href="#__codelineno-1-285"></a>            &quot;sensors&quot;: [&quot;cluster_avg&quot;, &quot;mesh_telemetry&quot;, &quot;peer_health&quot;]
+<a id="__codelineno-1-286" name="__codelineno-1-286" href="#__codelineno-1-286"></a>          },
+<a id="__codelineno-1-287" name="__codelineno-1-287" href="#__codelineno-1-287"></a>          &quot;global&quot;: {
+<a id="__codelineno-1-288" name="__codelineno-1-288" href="#__codelineno-1-288"></a>            &quot;weight&quot;: 0.30,
+<a id="__codelineno-1-289" name="__codelineno-1-289" href="#__codelineno-1-289"></a>            &quot;update_interval_ms&quot;: 60000,
+<a id="__codelineno-1-290" name="__codelineno-1-290" href="#__codelineno-1-290"></a>            &quot;sensors&quot;: [&quot;zone_aggregate&quot;, &quot;threat_intel&quot;, &quot;external_feeds&quot;]
+<a id="__codelineno-1-291" name="__codelineno-1-291" href="#__codelineno-1-291"></a>          }
+<a id="__codelineno-1-292" name="__codelineno-1-292" href="#__codelineno-1-292"></a>        }
+<a id="__codelineno-1-293" name="__codelineno-1-293" href="#__codelineno-1-293"></a>      }
+<a id="__codelineno-1-294" name="__codelineno-1-294" href="#__codelineno-1-294"></a>
+<a id="__codelineno-1-295" name="__codelineno-1-295" href="#__codelineno-1-295"></a>   For highly stable environments, increase neighborhood weight. For
+<a id="__codelineno-1-296" name="__codelineno-1-296" href="#__codelineno-1-296"></a>   rapidly changing environments, increase node weight. For threat-
+<a id="__codelineno-1-297" name="__codelineno-1-297" href="#__codelineno-1-297"></a>   sensitive environments, increase global weight.
+<a id="__codelineno-1-298" name="__codelineno-1-298" href="#__codelineno-1-298"></a>
+<a id="__codelineno-1-299" name="__codelineno-1-299" href="#__codelineno-1-299"></a>   2.3.5.  Hysteresis Complement
+<a id="__codelineno-1-300" name="__codelineno-1-300" href="#__codelineno-1-300"></a>
+<a id="__codelineno-1-301" name="__codelineno-1-301" href="#__codelineno-1-301"></a>   Risk Domains complement but do not replace hysteresis at tier
+<a id="__codelineno-1-302" name="__codelineno-1-302" href="#__codelineno-1-302"></a>   boundaries (see [KTP-ENFORCE] Section 5.3). Both mechanisms work
+<a id="__codelineno-1-303" name="__codelineno-1-303" href="#__codelineno-1-303"></a>   together:
+<a id="__codelineno-1-304" name="__codelineno-1-304" href="#__codelineno-1-304"></a>
+<a id="__codelineno-1-305" name="__codelineno-1-305" href="#__codelineno-1-305"></a>   -  Risk Domains: Smooth input signal (prevent noisy R)
+<a id="__codelineno-1-306" name="__codelineno-1-306" href="#__codelineno-1-306"></a>   -  Hysteresis: Smooth state transitions (prevent rapid tier changes)
+<a id="__codelineno-1-307" name="__codelineno-1-307" href="#__codelineno-1-307"></a>
+<a id="__codelineno-1-308" name="__codelineno-1-308" href="#__codelineno-1-308"></a>   Together, they create stable system behavior without sacrificing
+<a id="__codelineno-1-309" name="__codelineno-1-309" href="#__codelineno-1-309"></a>   responsiveness to genuine environmental changes.
+<a id="__codelineno-1-310" name="__codelineno-1-310" href="#__codelineno-1-310"></a>
+<a id="__codelineno-1-311" name="__codelineno-1-311" href="#__codelineno-1-311"></a>3. Weighted Dimensions (M, P, H, T, I, O)
+<a id="__codelineno-1-312" name="__codelineno-1-312" href="#__codelineno-1-312"></a>
+<a id="__codelineno-1-313" name="__codelineno-1-313" href="#__codelineno-1-313"></a>3.1.  Mass (M) - Physical Density
+<a id="__codelineno-1-314" name="__codelineno-1-314" href="#__codelineno-1-314"></a>
+<a id="__codelineno-1-315" name="__codelineno-1-315" href="#__codelineno-1-315"></a>   Physics Equivalent: Density / Mass (m)
+<a id="__codelineno-1-316" name="__codelineno-1-316" href="#__codelineno-1-316"></a>
+<a id="__codelineno-1-317" name="__codelineno-1-317" href="#__codelineno-1-317"></a>   Concept: The sheer weight of presence in the environment. High Mass
+<a id="__codelineno-1-318" name="__codelineno-1-318" href="#__codelineno-1-318"></a>   creates a Gravity Well that naturally slows operations (Time
+<a id="__codelineno-1-319" name="__codelineno-1-319" href="#__codelineno-1-319"></a>   Dilation) and increases the &quot;cost&quot; of movement.
+<a id="__codelineno-1-320" name="__codelineno-1-320" href="#__codelineno-1-320"></a>
+<a id="__codelineno-1-321" name="__codelineno-1-321" href="#__codelineno-1-321"></a>   Impact on Trust: High Mass correlates with network congestion,
+<a id="__codelineno-1-322" name="__codelineno-1-322" href="#__codelineno-1-322"></a>   increased attack surface, and reduced diagnostic capability. Actions
+<a id="__codelineno-1-323" name="__codelineno-1-323" href="#__codelineno-1-323"></a>   become more expensive as the environment becomes denser.
+<a id="__codelineno-1-324" name="__codelineno-1-324" href="#__codelineno-1-324"></a>
+<a id="__codelineno-1-325" name="__codelineno-1-325" href="#__codelineno-1-325"></a>   Sensor Feeds:
+<a id="__codelineno-1-326" name="__codelineno-1-326" href="#__codelineno-1-326"></a>
+<a id="__codelineno-1-327" name="__codelineno-1-327" href="#__codelineno-1-327"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-328" name="__codelineno-1-328" href="#__codelineno-1-328"></a>   Feed             | Description                              |
+<a id="__codelineno-1-329" name="__codelineno-1-329" href="#__codelineno-1-329"></a>   +------------------+------------------------------------------+ | CO2
+<a id="__codelineno-1-330" name="__codelineno-1-330" href="#__codelineno-1-330"></a>   Levels       | Parts per million, proxy for occupancy   | | Crowd
+<a id="__codelineno-1-331" name="__codelineno-1-331" href="#__codelineno-1-331"></a>   LIDAR      | Direct count via laser scanning          | | Turnstile
+<a id="__codelineno-1-332" name="__codelineno-1-332" href="#__codelineno-1-332"></a>   Count  | Badge swipes, physical access events     | | RF Noise Floor
+<a id="__codelineno-1-333" name="__codelineno-1-333" href="#__codelineno-1-333"></a>   | Electromagnetic density (dBm)            | | Device Count     |
+<a id="__codelineno-1-334" name="__codelineno-1-334" href="#__codelineno-1-334"></a>   Active devices on network segment        | | Thermal Imaging  | Heat
+<a id="__codelineno-1-335" name="__codelineno-1-335" href="#__codelineno-1-335"></a>   signatures indicating presence      | | WiFi Probe Count | Unique
+<a id="__codelineno-1-336" name="__codelineno-1-336" href="#__codelineno-1-336"></a>   device probes detected            |
+<a id="__codelineno-1-337" name="__codelineno-1-337" href="#__codelineno-1-337"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-338" name="__codelineno-1-338" href="#__codelineno-1-338"></a>
+<a id="__codelineno-1-339" name="__codelineno-1-339" href="#__codelineno-1-339"></a>   Normalization:
+<a id="__codelineno-1-340" name="__codelineno-1-340" href="#__codelineno-1-340"></a>
+<a id="__codelineno-1-341" name="__codelineno-1-341" href="#__codelineno-1-341"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-342" name="__codelineno-1-342" href="#__codelineno-1-342"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-343" name="__codelineno-1-343" href="#__codelineno-1-343"></a>   +------------------+----------+----------+----------+ | CO2 (ppm)
+<a id="__codelineno-1-344" name="__codelineno-1-344" href="#__codelineno-1-344"></a>   | 400      | 2000     | No       | | LIDAR count      | 0        |
+<a id="__codelineno-1-345" name="__codelineno-1-345" href="#__codelineno-1-345"></a>   capacity | No       | | Badge count      | 0        | capacity | No
+<a id="__codelineno-1-346" name="__codelineno-1-346" href="#__codelineno-1-346"></a>   | | RF noise (dBm)   | -90      | -30      | No       | | Device
+<a id="__codelineno-1-347" name="__codelineno-1-347" href="#__codelineno-1-347"></a>   count     | 0        | max_dev  | No       |
+<a id="__codelineno-1-348" name="__codelineno-1-348" href="#__codelineno-1-348"></a>   +------------------+----------+----------+----------+
+<a id="__codelineno-1-349" name="__codelineno-1-349" href="#__codelineno-1-349"></a>
+<a id="__codelineno-1-350" name="__codelineno-1-350" href="#__codelineno-1-350"></a>   Refresh Interval: 30-60 seconds (physical changes slowly)
+<a id="__codelineno-1-351" name="__codelineno-1-351" href="#__codelineno-1-351"></a>
+<a id="__codelineno-1-352" name="__codelineno-1-352" href="#__codelineno-1-352"></a>   Example Calculation (Stadium):
+<a id="__codelineno-1-353" name="__codelineno-1-353" href="#__codelineno-1-353"></a>
+<a id="__codelineno-1-354" name="__codelineno-1-354" href="#__codelineno-1-354"></a>      CO2 = 1800 ppm → (1800-400)/(2000-400) = 0.875
+<a id="__codelineno-1-355" name="__codelineno-1-355" href="#__codelineno-1-355"></a>      LIDAR = 45000 of 50000 capacity → 45000/50000 = 0.900
+<a id="__codelineno-1-356" name="__codelineno-1-356" href="#__codelineno-1-356"></a>      RF = -45 dBm → (-45-(-90))/(-30-(-90)) = 0.750
+<a id="__codelineno-1-357" name="__codelineno-1-357" href="#__codelineno-1-357"></a>      Devices = 48000 of 60000 → 48000/60000 = 0.800
+<a id="__codelineno-1-358" name="__codelineno-1-358" href="#__codelineno-1-358"></a>
+<a id="__codelineno-1-359" name="__codelineno-1-359" href="#__codelineno-1-359"></a>      With equal weights:
+<a id="__codelineno-1-360" name="__codelineno-1-360" href="#__codelineno-1-360"></a>      M = (0.875 + 0.900 + 0.750 + 0.800) / 4 = 0.831
+<a id="__codelineno-1-361" name="__codelineno-1-361" href="#__codelineno-1-361"></a>
+<a id="__codelineno-1-362" name="__codelineno-1-362" href="#__codelineno-1-362"></a>3.2.  Momentum (P) - Kinetic Velocity
+<a id="__codelineno-1-363" name="__codelineno-1-363" href="#__codelineno-1-363"></a>
+<a id="__codelineno-1-364" name="__codelineno-1-364" href="#__codelineno-1-364"></a>   Physics Equivalent: Kinetic Energy (KE = 1/2 mv²)
+<a id="__codelineno-1-365" name="__codelineno-1-365" href="#__codelineno-1-365"></a>
+<a id="__codelineno-1-366" name="__codelineno-1-366" href="#__codelineno-1-366"></a>   Concept: The speed and direction of data flow. High Momentum means
+<a id="__codelineno-1-367" name="__codelineno-1-367" href="#__codelineno-1-367"></a>   the system is moving fast. Sudden stops or turns (Vector Kinking)
+<a id="__codelineno-1-368" name="__codelineno-1-368" href="#__codelineno-1-368"></a>   create massive G-forces (Risk).
+<a id="__codelineno-1-369" name="__codelineno-1-369" href="#__codelineno-1-369"></a>
+<a id="__codelineno-1-370" name="__codelineno-1-370" href="#__codelineno-1-370"></a>   Impact on Trust: High Momentum leaves less capacity for additional
+<a id="__codelineno-1-371" name="__codelineno-1-371" href="#__codelineno-1-371"></a>   load and increases the cost of course corrections. Actions that
+<a id="__codelineno-1-372" name="__codelineno-1-372" href="#__codelineno-1-372"></a>   change system direction become increasingly expensive.
+<a id="__codelineno-1-373" name="__codelineno-1-373" href="#__codelineno-1-373"></a>
+<a id="__codelineno-1-374" name="__codelineno-1-374" href="#__codelineno-1-374"></a>   Sensor Feeds:
+<a id="__codelineno-1-375" name="__codelineno-1-375" href="#__codelineno-1-375"></a>
+<a id="__codelineno-1-376" name="__codelineno-1-376" href="#__codelineno-1-376"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-377" name="__codelineno-1-377" href="#__codelineno-1-377"></a>   Feed             | Description                              |
+<a id="__codelineno-1-378" name="__codelineno-1-378" href="#__codelineno-1-378"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-379" name="__codelineno-1-379" href="#__codelineno-1-379"></a>   Transaction Rate | API calls per second                     | | Link
+<a id="__codelineno-1-380" name="__codelineno-1-380" href="#__codelineno-1-380"></a>   Saturation  | Bandwidth utilization percentage         | | Packet
+<a id="__codelineno-1-381" name="__codelineno-1-381" href="#__codelineno-1-381"></a>   Velocity  | Packets per second on key interfaces     | | Queue Depth
+<a id="__codelineno-1-382" name="__codelineno-1-382" href="#__codelineno-1-382"></a>   | Messages pending in critical queues      | | Connection Count |
+<a id="__codelineno-1-383" name="__codelineno-1-383" href="#__codelineno-1-383"></a>   Active TCP/WebSocket connections         | | Throughput       | Bytes
+<a id="__codelineno-1-384" name="__codelineno-1-384" href="#__codelineno-1-384"></a>   per second through gateways        | | Event Frequency  | Domain
+<a id="__codelineno-1-385" name="__codelineno-1-385" href="#__codelineno-1-385"></a>   events processed per second       |
+<a id="__codelineno-1-386" name="__codelineno-1-386" href="#__codelineno-1-386"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-387" name="__codelineno-1-387" href="#__codelineno-1-387"></a>
+<a id="__codelineno-1-388" name="__codelineno-1-388" href="#__codelineno-1-388"></a>   Normalization:
+<a id="__codelineno-1-389" name="__codelineno-1-389" href="#__codelineno-1-389"></a>
+<a id="__codelineno-1-390" name="__codelineno-1-390" href="#__codelineno-1-390"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-391" name="__codelineno-1-391" href="#__codelineno-1-391"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-392" name="__codelineno-1-392" href="#__codelineno-1-392"></a>   +------------------+----------+----------+----------+ | TPS
+<a id="__codelineno-1-393" name="__codelineno-1-393" href="#__codelineno-1-393"></a>   | 0        | max_tps  | No       | | Link %           | 0        |
+<a id="__codelineno-1-394" name="__codelineno-1-394" href="#__codelineno-1-394"></a>   100      | No       | | PPS              | 0        | max_pps  | No
+<a id="__codelineno-1-395" name="__codelineno-1-395" href="#__codelineno-1-395"></a>   | | Queue depth      | 0        | max_q    | No       | | Connections
+<a id="__codelineno-1-396" name="__codelineno-1-396" href="#__codelineno-1-396"></a>   | 0        | max_conn | No       |
+<a id="__codelineno-1-397" name="__codelineno-1-397" href="#__codelineno-1-397"></a>   +------------------+----------+----------+----------+
+<a id="__codelineno-1-398" name="__codelineno-1-398" href="#__codelineno-1-398"></a>
+<a id="__codelineno-1-399" name="__codelineno-1-399" href="#__codelineno-1-399"></a>   Refresh Interval: 1-5 seconds (kinetic state changes rapidly)
+<a id="__codelineno-1-400" name="__codelineno-1-400" href="#__codelineno-1-400"></a>
+<a id="__codelineno-1-401" name="__codelineno-1-401" href="#__codelineno-1-401"></a>   Example Calculation (Trading Platform):
+<a id="__codelineno-1-402" name="__codelineno-1-402" href="#__codelineno-1-402"></a>
+<a id="__codelineno-1-403" name="__codelineno-1-403" href="#__codelineno-1-403"></a>      TPS = 45000 of 50000 max → 0.900
+<a id="__codelineno-1-404" name="__codelineno-1-404" href="#__codelineno-1-404"></a>      Link = 78% → 0.780
+<a id="__codelineno-1-405" name="__codelineno-1-405" href="#__codelineno-1-405"></a>      Queue = 8500 of 10000 max → 0.850
+<a id="__codelineno-1-406" name="__codelineno-1-406" href="#__codelineno-1-406"></a>      Connections = 12000 of 15000 max → 0.800
+<a id="__codelineno-1-407" name="__codelineno-1-407" href="#__codelineno-1-407"></a>
+<a id="__codelineno-1-408" name="__codelineno-1-408" href="#__codelineno-1-408"></a>      With equal weights:
+<a id="__codelineno-1-409" name="__codelineno-1-409" href="#__codelineno-1-409"></a>      P = (0.900 + 0.780 + 0.850 + 0.800) / 4 = 0.833
+<a id="__codelineno-1-410" name="__codelineno-1-410" href="#__codelineno-1-410"></a>
+<a id="__codelineno-1-411" name="__codelineno-1-411" href="#__codelineno-1-411"></a>3.3.  Heat (H) - Adversarial Pressure
+<a id="__codelineno-1-412" name="__codelineno-1-412" href="#__codelineno-1-412"></a>
+<a id="__codelineno-1-413" name="__codelineno-1-413" href="#__codelineno-1-413"></a>   Physics Equivalent: Entropy / Temperature (T)
+<a id="__codelineno-1-414" name="__codelineno-1-414" href="#__codelineno-1-414"></a>
+<a id="__codelineno-1-415" name="__codelineno-1-415" href="#__codelineno-1-415"></a>   Concept: The chaotic energy or friction in the system. Heat
+<a id="__codelineno-1-416" name="__codelineno-1-416" href="#__codelineno-1-416"></a>   represents both active adversarial pressure and system stress. Heat
+<a id="__codelineno-1-417" name="__codelineno-1-417" href="#__codelineno-1-417"></a>   is the Deflator—as Heat rises, the structural integrity of Trust
+<a id="__codelineno-1-418" name="__codelineno-1-418" href="#__codelineno-1-418"></a>   degrades.
+<a id="__codelineno-1-419" name="__codelineno-1-419" href="#__codelineno-1-419"></a>
+<a id="__codelineno-1-420" name="__codelineno-1-420" href="#__codelineno-1-420"></a>   Impact on Trust: High Heat indicates a compromised or stressed
+<a id="__codelineno-1-421" name="__codelineno-1-421" href="#__codelineno-1-421"></a>   environment where agent actions may be exploited, misattributed, or
+<a id="__codelineno-1-422" name="__codelineno-1-422" href="#__codelineno-1-422"></a>   cause cascading failures. High Heat triggers the &quot;Cool-Down&quot; cycle
+<a id="__codelineno-1-423" name="__codelineno-1-423" href="#__codelineno-1-423"></a>   (Freezing agents to Observer Mode).
+<a id="__codelineno-1-424" name="__codelineno-1-424" href="#__codelineno-1-424"></a>
+<a id="__codelineno-1-425" name="__codelineno-1-425" href="#__codelineno-1-425"></a>   Sensor Feeds:
+<a id="__codelineno-1-426" name="__codelineno-1-426" href="#__codelineno-1-426"></a>
+<a id="__codelineno-1-427" name="__codelineno-1-427" href="#__codelineno-1-427"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-428" name="__codelineno-1-428" href="#__codelineno-1-428"></a>   Feed             | Description                              |
+<a id="__codelineno-1-429" name="__codelineno-1-429" href="#__codelineno-1-429"></a>   +------------------+------------------------------------------+ | WAF
+<a id="__codelineno-1-430" name="__codelineno-1-430" href="#__codelineno-1-430"></a>   Blocks       | Blocked requests per minute              | | Auth
+<a id="__codelineno-1-431" name="__codelineno-1-431" href="#__codelineno-1-431"></a>   Velocity    | Failed auth attempts per second          | | Port Scans
+<a id="__codelineno-1-432" name="__codelineno-1-432" href="#__codelineno-1-432"></a>   | Detected reconnaissance activity         | | Entropy Rate     |
+<a id="__codelineno-1-433" name="__codelineno-1-433" href="#__codelineno-1-433"></a>   Randomness in traffic patterns           | | Error Rate       |
+<a id="__codelineno-1-434" name="__codelineno-1-434" href="#__codelineno-1-434"></a>   Application errors per minute            | | CPU Temperature  |
+<a id="__codelineno-1-435" name="__codelineno-1-435" href="#__codelineno-1-435"></a>   Physical thermal load (celsius)          | | Voltage Droop    | Power
+<a id="__codelineno-1-436" name="__codelineno-1-436" href="#__codelineno-1-436"></a>   supply stress indicators           | | Anomaly Score    | ML-derived
+<a id="__codelineno-1-437" name="__codelineno-1-437" href="#__codelineno-1-437"></a>   anomaly detection             |
+<a id="__codelineno-1-438" name="__codelineno-1-438" href="#__codelineno-1-438"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-439" name="__codelineno-1-439" href="#__codelineno-1-439"></a>
+<a id="__codelineno-1-440" name="__codelineno-1-440" href="#__codelineno-1-440"></a>   Normalization:
+<a id="__codelineno-1-441" name="__codelineno-1-441" href="#__codelineno-1-441"></a>
+<a id="__codelineno-1-442" name="__codelineno-1-442" href="#__codelineno-1-442"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-443" name="__codelineno-1-443" href="#__codelineno-1-443"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-444" name="__codelineno-1-444" href="#__codelineno-1-444"></a>   +------------------+----------+----------+----------+ | WAF
+<a id="__codelineno-1-445" name="__codelineno-1-445" href="#__codelineno-1-445"></a>   blocks/min   | 0        | 10000    | No       | | Auth fails/sec   |
+<a id="__codelineno-1-446" name="__codelineno-1-446" href="#__codelineno-1-446"></a>   0        | 1000     | No       | | Port scans/min   | 0        | 500
+<a id="__codelineno-1-447" name="__codelineno-1-447" href="#__codelineno-1-447"></a>   | No       | | Error rate/min   | 0        | 1000     | No       | |
+<a id="__codelineno-1-448" name="__codelineno-1-448" href="#__codelineno-1-448"></a>   CPU temp (C)     | 40       | 90       | No       | | Anomaly (0-100)
+<a id="__codelineno-1-449" name="__codelineno-1-449" href="#__codelineno-1-449"></a>   | 0        | 100      | No       |
+<a id="__codelineno-1-450" name="__codelineno-1-450" href="#__codelineno-1-450"></a>   +------------------+----------+----------+----------+
+<a id="__codelineno-1-451" name="__codelineno-1-451" href="#__codelineno-1-451"></a>
+<a id="__codelineno-1-452" name="__codelineno-1-452" href="#__codelineno-1-452"></a>   Refresh Interval: 1-5 seconds (adversarial conditions change fast)
+<a id="__codelineno-1-453" name="__codelineno-1-453" href="#__codelineno-1-453"></a>
+<a id="__codelineno-1-454" name="__codelineno-1-454" href="#__codelineno-1-454"></a>   Example Calculation (Under Attack):
+<a id="__codelineno-1-455" name="__codelineno-1-455" href="#__codelineno-1-455"></a>
+<a id="__codelineno-1-456" name="__codelineno-1-456" href="#__codelineno-1-456"></a>      WAF blocks = 5000/min → 5000/10000 = 0.500
+<a id="__codelineno-1-457" name="__codelineno-1-457" href="#__codelineno-1-457"></a>      Auth fails = 200/sec → 200/1000 = 0.200
+<a id="__codelineno-1-458" name="__codelineno-1-458" href="#__codelineno-1-458"></a>      Port scans = 150/min → 150/500 = 0.300
+<a id="__codelineno-1-459" name="__codelineno-1-459" href="#__codelineno-1-459"></a>      Anomaly = 75 → 75/100 = 0.750
+<a id="__codelineno-1-460" name="__codelineno-1-460" href="#__codelineno-1-460"></a>
+<a id="__codelineno-1-461" name="__codelineno-1-461" href="#__codelineno-1-461"></a>      With equal weights:
+<a id="__codelineno-1-462" name="__codelineno-1-462" href="#__codelineno-1-462"></a>      H = (0.500 + 0.200 + 0.300 + 0.750) / 4 = 0.438
+<a id="__codelineno-1-463" name="__codelineno-1-463" href="#__codelineno-1-463"></a>
+<a id="__codelineno-1-464" name="__codelineno-1-464" href="#__codelineno-1-464"></a>3.4.  Time (T) - Temporal Phase
+<a id="__codelineno-1-465" name="__codelineno-1-465" href="#__codelineno-1-465"></a>
+<a id="__codelineno-1-466" name="__codelineno-1-466" href="#__codelineno-1-466"></a>   Physics Equivalent: Temporal Mechanics / Phase
+<a id="__codelineno-1-467" name="__codelineno-1-467" href="#__codelineno-1-467"></a>
+<a id="__codelineno-1-468" name="__codelineno-1-468" href="#__codelineno-1-468"></a>   Concept: The criticality of the current moment relative to an event
+<a id="__codelineno-1-469" name="__codelineno-1-469" href="#__codelineno-1-469"></a>   horizon. A failure during &quot;Kickoff&quot; has infinitely higher gravity
+<a id="__codelineno-1-470" name="__codelineno-1-470" href="#__codelineno-1-470"></a>   than a failure at 3:00 AM. Time dilates risk tolerance.
+<a id="__codelineno-1-471" name="__codelineno-1-471" href="#__codelineno-1-471"></a>
+<a id="__codelineno-1-472" name="__codelineno-1-472" href="#__codelineno-1-472"></a>   Impact on Trust: Near event horizons (go-live, kickoff, earnings
+<a id="__codelineno-1-473" name="__codelineno-1-473" href="#__codelineno-1-473"></a>   call), the same action costs more trust. The system becomes more
+<a id="__codelineno-1-474" name="__codelineno-1-474" href="#__codelineno-1-474"></a>   conservative as critical moments approach.
+<a id="__codelineno-1-475" name="__codelineno-1-475" href="#__codelineno-1-475"></a>
+<a id="__codelineno-1-476" name="__codelineno-1-476" href="#__codelineno-1-476"></a>   Sensor Feeds:
+<a id="__codelineno-1-477" name="__codelineno-1-477" href="#__codelineno-1-477"></a>
+<a id="__codelineno-1-478" name="__codelineno-1-478" href="#__codelineno-1-478"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-479" name="__codelineno-1-479" href="#__codelineno-1-479"></a>   Feed             | Description                              |
+<a id="__codelineno-1-480" name="__codelineno-1-480" href="#__codelineno-1-480"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-481" name="__codelineno-1-481" href="#__codelineno-1-481"></a>   Event Countdown  | Minutes to scheduled event               | |
+<a id="__codelineno-1-482" name="__codelineno-1-482" href="#__codelineno-1-482"></a>   Business Hours   | Current position in business cycle       | |
+<a id="__codelineno-1-483" name="__codelineno-1-483" href="#__codelineno-1-483"></a>   Maintenance Win  | Whether in scheduled maintenance         | |
+<a id="__codelineno-1-484" name="__codelineno-1-484" href="#__codelineno-1-484"></a>   Mission Phase    | rehearsal / pre-prod / live / post       | |
+<a id="__codelineno-1-485" name="__codelineno-1-485" href="#__codelineno-1-485"></a>   Quarter End      | Days to financial close                  | |
+<a id="__codelineno-1-486" name="__codelineno-1-486" href="#__codelineno-1-486"></a>   Deadline Timer   | Time to contractual SLA deadline         |
+<a id="__codelineno-1-487" name="__codelineno-1-487" href="#__codelineno-1-487"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-488" name="__codelineno-1-488" href="#__codelineno-1-488"></a>
+<a id="__codelineno-1-489" name="__codelineno-1-489" href="#__codelineno-1-489"></a>   Normalization:
+<a id="__codelineno-1-490" name="__codelineno-1-490" href="#__codelineno-1-490"></a>
+<a id="__codelineno-1-491" name="__codelineno-1-491" href="#__codelineno-1-491"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-492" name="__codelineno-1-492" href="#__codelineno-1-492"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-493" name="__codelineno-1-493" href="#__codelineno-1-493"></a>   +------------------+----------+----------+----------+ | Event
+<a id="__codelineno-1-494" name="__codelineno-1-494" href="#__codelineno-1-494"></a>   countdown  | 72 hrs   | 0 hrs    | Yes      | | Business hours   |
+<a id="__codelineno-1-495" name="__codelineno-1-495" href="#__codelineno-1-495"></a>   off-peak | peak     | No       | | Maintenance      | in maint | not
+<a id="__codelineno-1-496" name="__codelineno-1-496" href="#__codelineno-1-496"></a>   maint| Yes      | | Mission phase    | 0        | 3        | No
+<a id="__codelineno-1-497" name="__codelineno-1-497" href="#__codelineno-1-497"></a>   | +------------------+----------+----------+----------+
+<a id="__codelineno-1-498" name="__codelineno-1-498" href="#__codelineno-1-498"></a>
+<a id="__codelineno-1-499" name="__codelineno-1-499" href="#__codelineno-1-499"></a>   Note: Time is typically inverted—72 hours out = low stress, 0 hours
+<a id="__codelineno-1-500" name="__codelineno-1-500" href="#__codelineno-1-500"></a>   (event starting) = maximum stress.
+<a id="__codelineno-1-501" name="__codelineno-1-501" href="#__codelineno-1-501"></a>
+<a id="__codelineno-1-502" name="__codelineno-1-502" href="#__codelineno-1-502"></a>   Refresh Interval: 60 seconds (time is predictable)
+<a id="__codelineno-1-503" name="__codelineno-1-503" href="#__codelineno-1-503"></a>
+<a id="__codelineno-1-504" name="__codelineno-1-504" href="#__codelineno-1-504"></a>   Example Calculation (30 minutes to kickoff):
+<a id="__codelineno-1-505" name="__codelineno-1-505" href="#__codelineno-1-505"></a>
+<a id="__codelineno-1-506" name="__codelineno-1-506" href="#__codelineno-1-506"></a>      Event countdown = 0.5 hrs → (72-0.5)/72 inverted = 0.993
+<a id="__codelineno-1-507" name="__codelineno-1-507" href="#__codelineno-1-507"></a>      Mission phase = 3 (live) → 3/3 = 1.000
+<a id="__codelineno-1-508" name="__codelineno-1-508" href="#__codelineno-1-508"></a>      Business hours = peak → 1.000
+<a id="__codelineno-1-509" name="__codelineno-1-509" href="#__codelineno-1-509"></a>
+<a id="__codelineno-1-510" name="__codelineno-1-510" href="#__codelineno-1-510"></a>      With equal weights:
+<a id="__codelineno-1-511" name="__codelineno-1-511" href="#__codelineno-1-511"></a>      T = (0.993 + 1.000 + 1.000) / 3 = 0.998
+<a id="__codelineno-1-512" name="__codelineno-1-512" href="#__codelineno-1-512"></a>
+<a id="__codelineno-1-513" name="__codelineno-1-513" href="#__codelineno-1-513"></a>3.5.  Inertia (I) - Blast Radius
+<a id="__codelineno-1-514" name="__codelineno-1-514" href="#__codelineno-1-514"></a>
+<a id="__codelineno-1-515" name="__codelineno-1-515" href="#__codelineno-1-515"></a>   Physics Equivalent: Inertial Mass
+<a id="__codelineno-1-516" name="__codelineno-1-516" href="#__codelineno-1-516"></a>
+<a id="__codelineno-1-517" name="__codelineno-1-517" href="#__codelineno-1-517"></a>   Concept: The topological importance of a node—how hard is it to move
+<a id="__codelineno-1-518" name="__codelineno-1-518" href="#__codelineno-1-518"></a>   or stop this asset? A Core Router has high Inertia; an edge IoT
+<a id="__codelineno-1-519" name="__codelineno-1-519" href="#__codelineno-1-519"></a>   device has low Inertia. High Inertia nodes resist change.
+<a id="__codelineno-1-520" name="__codelineno-1-520" href="#__codelineno-1-520"></a>
+<a id="__codelineno-1-521" name="__codelineno-1-521" href="#__codelineno-1-521"></a>   Impact on Trust: Changes to high-inertia systems carry
+<a id="__codelineno-1-522" name="__codelineno-1-522" href="#__codelineno-1-522"></a>   disproportionate risk due to cascading effects. The Trust Score
+<a id="__codelineno-1-523" name="__codelineno-1-523" href="#__codelineno-1-523"></a>   required to modify a high-inertia node is higher than for low-inertia
+<a id="__codelineno-1-524" name="__codelineno-1-524" href="#__codelineno-1-524"></a>   nodes.
+<a id="__codelineno-1-525" name="__codelineno-1-525" href="#__codelineno-1-525"></a>
+<a id="__codelineno-1-526" name="__codelineno-1-526" href="#__codelineno-1-526"></a>   Sensor Feeds:
+<a id="__codelineno-1-527" name="__codelineno-1-527" href="#__codelineno-1-527"></a>
+<a id="__codelineno-1-528" name="__codelineno-1-528" href="#__codelineno-1-528"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-529" name="__codelineno-1-529" href="#__codelineno-1-529"></a>   Feed             | Description                              |
+<a id="__codelineno-1-530" name="__codelineno-1-530" href="#__codelineno-1-530"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-531" name="__codelineno-1-531" href="#__codelineno-1-531"></a>   Dependency Depth | Number of downstream services            | |
+<a id="__codelineno-1-532" name="__codelineno-1-532" href="#__codelineno-1-532"></a>   Degree Central.  | Connections in topology graph            | |
+<a id="__codelineno-1-533" name="__codelineno-1-533" href="#__codelineno-1-533"></a>   Betweenness      | Traffic that routes through this node    | | Data
+<a id="__codelineno-1-534" name="__codelineno-1-534" href="#__codelineno-1-534"></a>   Volume      | TB of data stored/processed              | | User Count
+<a id="__codelineno-1-535" name="__codelineno-1-535" href="#__codelineno-1-535"></a>   | Active users dependent on service        | | SLA Tier         |
+<a id="__codelineno-1-536" name="__codelineno-1-536" href="#__codelineno-1-536"></a>   Contractual importance level             | | Revenue Impact   |
+<a id="__codelineno-1-537" name="__codelineno-1-537" href="#__codelineno-1-537"></a>   Dollars/minute if service fails          |
+<a id="__codelineno-1-538" name="__codelineno-1-538" href="#__codelineno-1-538"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-539" name="__codelineno-1-539" href="#__codelineno-1-539"></a>
+<a id="__codelineno-1-540" name="__codelineno-1-540" href="#__codelineno-1-540"></a>   Normalization:
+<a id="__codelineno-1-541" name="__codelineno-1-541" href="#__codelineno-1-541"></a>
+<a id="__codelineno-1-542" name="__codelineno-1-542" href="#__codelineno-1-542"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-543" name="__codelineno-1-543" href="#__codelineno-1-543"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-544" name="__codelineno-1-544" href="#__codelineno-1-544"></a>   +------------------+----------+----------+----------+ | Dependency
+<a id="__codelineno-1-545" name="__codelineno-1-545" href="#__codelineno-1-545"></a>   count | 0        | 500      | No       | | Degree centrality| 0
+<a id="__codelineno-1-546" name="__codelineno-1-546" href="#__codelineno-1-546"></a>   | max_deg  | No       | | Betweenness      | 0        | 1        | No
+<a id="__codelineno-1-547" name="__codelineno-1-547" href="#__codelineno-1-547"></a>   | | Data volume (TB) | 0        | 1000     | No       | | User count
+<a id="__codelineno-1-548" name="__codelineno-1-548" href="#__codelineno-1-548"></a>   | 0        | max_user | No       |
+<a id="__codelineno-1-549" name="__codelineno-1-549" href="#__codelineno-1-549"></a>   +------------------+----------+----------+----------+
+<a id="__codelineno-1-550" name="__codelineno-1-550" href="#__codelineno-1-550"></a>
+<a id="__codelineno-1-551" name="__codelineno-1-551" href="#__codelineno-1-551"></a>   Refresh Interval: 300 seconds (topology changes slowly)
+<a id="__codelineno-1-552" name="__codelineno-1-552" href="#__codelineno-1-552"></a>
+<a id="__codelineno-1-553" name="__codelineno-1-553" href="#__codelineno-1-553"></a>   Example Calculation (Core Database):
+<a id="__codelineno-1-554" name="__codelineno-1-554" href="#__codelineno-1-554"></a>
+<a id="__codelineno-1-555" name="__codelineno-1-555" href="#__codelineno-1-555"></a>      Dependencies = 250 of 500 → 0.500
+<a id="__codelineno-1-556" name="__codelineno-1-556" href="#__codelineno-1-556"></a>      Betweenness = 0.85 → 0.850
+<a id="__codelineno-1-557" name="__codelineno-1-557" href="#__codelineno-1-557"></a>      Data volume = 500 TB of 1000 → 0.500
+<a id="__codelineno-1-558" name="__codelineno-1-558" href="#__codelineno-1-558"></a>      User count = 45000 of 50000 → 0.900
+<a id="__codelineno-1-559" name="__codelineno-1-559" href="#__codelineno-1-559"></a>
+<a id="__codelineno-1-560" name="__codelineno-1-560" href="#__codelineno-1-560"></a>      With equal weights:
+<a id="__codelineno-1-561" name="__codelineno-1-561" href="#__codelineno-1-561"></a>      I = (0.500 + 0.850 + 0.500 + 0.900) / 4 = 0.688
+<a id="__codelineno-1-562" name="__codelineno-1-562" href="#__codelineno-1-562"></a>
+<a id="__codelineno-1-563" name="__codelineno-1-563" href="#__codelineno-1-563"></a>3.6.  Observer (O) - Population
+<a id="__codelineno-1-564" name="__codelineno-1-564" href="#__codelineno-1-564"></a>
+<a id="__codelineno-1-565" name="__codelineno-1-565" href="#__codelineno-1-565"></a>   Physics Equivalent: Frame of Reference / Observer Effect
+<a id="__codelineno-1-566" name="__codelineno-1-566" href="#__codelineno-1-566"></a>
+<a id="__codelineno-1-567" name="__codelineno-1-567" href="#__codelineno-1-567"></a>   Concept: Who is watching? The stakes based on the population present
+<a id="__codelineno-1-568" name="__codelineno-1-568" href="#__codelineno-1-568"></a>   and their sensitivity. The laws of physics tighten when the Observer
+<a id="__codelineno-1-569" name="__codelineno-1-569" href="#__codelineno-1-569"></a>   count is high or when specific observers (e.g., Regulators) are
+<a id="__codelineno-1-570" name="__codelineno-1-570" href="#__codelineno-1-570"></a>   present.
+<a id="__codelineno-1-571" name="__codelineno-1-571" href="#__codelineno-1-571"></a>
+<a id="__codelineno-1-572" name="__codelineno-1-572" href="#__codelineno-1-572"></a>   Impact on Trust: Actions that would be routine become consequential
+<a id="__codelineno-1-573" name="__codelineno-1-573" href="#__codelineno-1-573"></a>   when high-visibility observers are present. The reputational and
+<a id="__codelineno-1-574" name="__codelineno-1-574" href="#__codelineno-1-574"></a>   regulatory implications of failure scale with observer sensitivity.
+<a id="__codelineno-1-575" name="__codelineno-1-575" href="#__codelineno-1-575"></a>
+<a id="__codelineno-1-576" name="__codelineno-1-576" href="#__codelineno-1-576"></a>   Sensor Feeds:
+<a id="__codelineno-1-577" name="__codelineno-1-577" href="#__codelineno-1-577"></a>
+<a id="__codelineno-1-578" name="__codelineno-1-578" href="#__codelineno-1-578"></a>   +------------------+------------------------------------------+ |
+<a id="__codelineno-1-579" name="__codelineno-1-579" href="#__codelineno-1-579"></a>   Feed             | Description                              |
+<a id="__codelineno-1-580" name="__codelineno-1-580" href="#__codelineno-1-580"></a>   +------------------+------------------------------------------+ | VIP
+<a id="__codelineno-1-581" name="__codelineno-1-581" href="#__codelineno-1-581"></a>   Presence     | Executives, board members logged in      | | Regulator
+<a id="__codelineno-1-582" name="__codelineno-1-582" href="#__codelineno-1-582"></a>   Flag   | Active regulatory observation            | | Media Presence
+<a id="__codelineno-1-583" name="__codelineno-1-583" href="#__codelineno-1-583"></a>   | Press/media users active                 | | Audit Mode       |
+<a id="__codelineno-1-584" name="__codelineno-1-584" href="#__codelineno-1-584"></a>   Compliance audit in progress             | | Life Safety      | Users
+<a id="__codelineno-1-585" name="__codelineno-1-585" href="#__codelineno-1-585"></a>   in life-critical contexts          | | External Ratio   | % of users
+<a id="__codelineno-1-586" name="__codelineno-1-586" href="#__codelineno-1-586"></a>   who are external/customers    | | Jurisdiction     | Regulatory
+<a id="__codelineno-1-587" name="__codelineno-1-587" href="#__codelineno-1-587"></a>   jurisdictions involved        |
+<a id="__codelineno-1-588" name="__codelineno-1-588" href="#__codelineno-1-588"></a>   +------------------+------------------------------------------+
+<a id="__codelineno-1-589" name="__codelineno-1-589" href="#__codelineno-1-589"></a>
+<a id="__codelineno-1-590" name="__codelineno-1-590" href="#__codelineno-1-590"></a>   Normalization:
+<a id="__codelineno-1-591" name="__codelineno-1-591" href="#__codelineno-1-591"></a>
+<a id="__codelineno-1-592" name="__codelineno-1-592" href="#__codelineno-1-592"></a>   +------------------+----------+----------+----------+ | Feed
+<a id="__codelineno-1-593" name="__codelineno-1-593" href="#__codelineno-1-593"></a>   | s_min    | s_max    | Invert   |
+<a id="__codelineno-1-594" name="__codelineno-1-594" href="#__codelineno-1-594"></a>   +------------------+----------+----------+----------+ | VIP count
+<a id="__codelineno-1-595" name="__codelineno-1-595" href="#__codelineno-1-595"></a>   | 0        | 50       | No       | | Regulator (bool) | 0        | 1
+<a id="__codelineno-1-596" name="__codelineno-1-596" href="#__codelineno-1-596"></a>   | No       | | Audit (bool)     | 0        | 1        | No       | |
+<a id="__codelineno-1-597" name="__codelineno-1-597" href="#__codelineno-1-597"></a>   Life safety count| 0        | 1000     | No       | | External %
+<a id="__codelineno-1-598" name="__codelineno-1-598" href="#__codelineno-1-598"></a>   | 0        | 100      | No       |
+<a id="__codelineno-1-599" name="__codelineno-1-599" href="#__codelineno-1-599"></a>   +------------------+----------+----------+----------+
+<a id="__codelineno-1-600" name="__codelineno-1-600" href="#__codelineno-1-600"></a>
+<a id="__codelineno-1-601" name="__codelineno-1-601" href="#__codelineno-1-601"></a>   Refresh Interval: 30 seconds (population changes moderately)
+<a id="__codelineno-1-602" name="__codelineno-1-602" href="#__codelineno-1-602"></a>
+<a id="__codelineno-1-603" name="__codelineno-1-603" href="#__codelineno-1-603"></a>   Example Calculation (Earnings Call):
+<a id="__codelineno-1-604" name="__codelineno-1-604" href="#__codelineno-1-604"></a>
+<a id="__codelineno-1-605" name="__codelineno-1-605" href="#__codelineno-1-605"></a>      VIP count = 25 of 50 → 0.500
+<a id="__codelineno-1-606" name="__codelineno-1-606" href="#__codelineno-1-606"></a>      Media = true → 1.000
+<a id="__codelineno-1-607" name="__codelineno-1-607" href="#__codelineno-1-607"></a>      External % = 85% → 0.850
+<a id="__codelineno-1-608" name="__codelineno-1-608" href="#__codelineno-1-608"></a>
+<a id="__codelineno-1-609" name="__codelineno-1-609" href="#__codelineno-1-609"></a>      With equal weights:
+<a id="__codelineno-1-610" name="__codelineno-1-610" href="#__codelineno-1-610"></a>      O = (0.500 + 1.000 + 0.850) / 3 = 0.783
+<a id="__codelineno-1-611" name="__codelineno-1-611" href="#__codelineno-1-611"></a>
+<a id="__codelineno-1-612" name="__codelineno-1-612" href="#__codelineno-1-612"></a>4. Soul Dimension (S) - Sovereignty
+<a id="__codelineno-1-613" name="__codelineno-1-613" href="#__codelineno-1-613"></a>
+<a id="__codelineno-1-614" name="__codelineno-1-614" href="#__codelineno-1-614"></a>4.1.  Overview
+<a id="__codelineno-1-615" name="__codelineno-1-615" href="#__codelineno-1-615"></a>
+<a id="__codelineno-1-616" name="__codelineno-1-616" href="#__codelineno-1-616"></a>   Physics Equivalent: The Cosmological Constant / Immutable Law
+<a id="__codelineno-1-617" name="__codelineno-1-617" href="#__codelineno-1-617"></a>
+<a id="__codelineno-1-618" name="__codelineno-1-618" href="#__codelineno-1-618"></a>   Concept: The ethical, legal, and spiritual constraints of the
+<a id="__codelineno-1-619" name="__codelineno-1-619" href="#__codelineno-1-619"></a>   physical location or data lineage. Soul represents constraints that
+<a id="__codelineno-1-620" name="__codelineno-1-620" href="#__codelineno-1-620"></a>   exist independent of operational conditions—they are the &quot;Spirit&quot; of
+<a id="__codelineno-1-621" name="__codelineno-1-621" href="#__codelineno-1-621"></a>   the data or place.
+<a id="__codelineno-1-622" name="__codelineno-1-622" href="#__codelineno-1-622"></a>
+<a id="__codelineno-1-623" name="__codelineno-1-623" href="#__codelineno-1-623"></a>   Unlike the six weighted dimensions, Soul operates as a binary veto:
+<a id="__codelineno-1-624" name="__codelineno-1-624" href="#__codelineno-1-624"></a>
+<a id="__codelineno-1-625" name="__codelineno-1-625" href="#__codelineno-1-625"></a>      S = 0: No sovereignty constraints violated, action may proceed
+<a id="__codelineno-1-626" name="__codelineno-1-626" href="#__codelineno-1-626"></a>             (subject to A &lt;= E_trust evaluation)
+<a id="__codelineno-1-627" name="__codelineno-1-627" href="#__codelineno-1-627"></a>      S = 1: Sovereignty constraint violated, action is FORBIDDEN
+<a id="__codelineno-1-628" name="__codelineno-1-628" href="#__codelineno-1-628"></a>             (regardless of Trust Score)
+<a id="__codelineno-1-629" name="__codelineno-1-629" href="#__codelineno-1-629"></a>
+<a id="__codelineno-1-630" name="__codelineno-1-630" href="#__codelineno-1-630"></a>   This asymmetry is intentional. Sovereignty constraints encode
+<a id="__codelineno-1-631" name="__codelineno-1-631" href="#__codelineno-1-631"></a>   immutable laws—legal treaties, cultural protocols, spiritual
+<a id="__codelineno-1-632" name="__codelineno-1-632" href="#__codelineno-1-632"></a>   significance—that cannot be traded against operational convenience.
+<a id="__codelineno-1-633" name="__codelineno-1-633" href="#__codelineno-1-633"></a>   No amount of trust can make a forbidden action permissible.
+<a id="__codelineno-1-634" name="__codelineno-1-634" href="#__codelineno-1-634"></a>
+<a id="__codelineno-1-635" name="__codelineno-1-635" href="#__codelineno-1-635"></a>4.2.  Sensor Feeds
+<a id="__codelineno-1-636" name="__codelineno-1-636" href="#__codelineno-1-636"></a>
+<a id="__codelineno-1-637" name="__codelineno-1-637" href="#__codelineno-1-637"></a>   Soul aggregates feeds from multiple sovereignty frameworks:
+<a id="__codelineno-1-638" name="__codelineno-1-638" href="#__codelineno-1-638"></a>
+<a id="__codelineno-1-639" name="__codelineno-1-639" href="#__codelineno-1-639"></a>   +----------------------+------------------------------------------+ |
+<a id="__codelineno-1-640" name="__codelineno-1-640" href="#__codelineno-1-640"></a>   Feed                 | Description                              |
+<a id="__codelineno-1-641" name="__codelineno-1-641" href="#__codelineno-1-641"></a>   +----------------------+------------------------------------------+ |
+<a id="__codelineno-1-642" name="__codelineno-1-642" href="#__codelineno-1-642"></a>   TK Labels            | Traditional Knowledge labels per Local   | |
+<a id="__codelineno-1-643" name="__codelineno-1-643" href="#__codelineno-1-643"></a>   | Contexts framework                       | | OCAP Registry        |
+<a id="__codelineno-1-644" name="__codelineno-1-644" href="#__codelineno-1-644"></a>   First Nations OCAP protocol compliance   | | CARE Principles      |
+<a id="__codelineno-1-645" name="__codelineno-1-645" href="#__codelineno-1-645"></a>   Indigenous data governance principles    | | Sacred Land Geofence |
+<a id="__codelineno-1-646" name="__codelineno-1-646" href="#__codelineno-1-646"></a>   Geographic sovereignty boundaries        | | Treaty Database      |
+<a id="__codelineno-1-647" name="__codelineno-1-647" href="#__codelineno-1-647"></a>   Legal treaty constraints lookup          | | Data Provenance      |
+<a id="__codelineno-1-648" name="__codelineno-1-648" href="#__codelineno-1-648"></a>   Origin lineage sovereignty tracking      | | Cultural Registry    |
+<a id="__codelineno-1-649" name="__codelineno-1-649" href="#__codelineno-1-649"></a>   Cultural heritage protection flags       |
+<a id="__codelineno-1-650" name="__codelineno-1-650" href="#__codelineno-1-650"></a>   +----------------------+------------------------------------------+
+<a id="__codelineno-1-651" name="__codelineno-1-651" href="#__codelineno-1-651"></a>
+<a id="__codelineno-1-652" name="__codelineno-1-652" href="#__codelineno-1-652"></a>   4.2.1. Traditional Knowledge (TK) Labels
+<a id="__codelineno-1-653" name="__codelineno-1-653" href="#__codelineno-1-653"></a>
+<a id="__codelineno-1-654" name="__codelineno-1-654" href="#__codelineno-1-654"></a>   The Local Contexts project (localcontexts.org) provides a framework
+<a id="__codelineno-1-655" name="__codelineno-1-655" href="#__codelineno-1-655"></a>   for Indigenous communities to express protocols for accessing and
+<a id="__codelineno-1-656" name="__codelineno-1-656" href="#__codelineno-1-656"></a>   using traditional knowledge.
+<a id="__codelineno-1-657" name="__codelineno-1-657" href="#__codelineno-1-657"></a>
+<a id="__codelineno-1-658" name="__codelineno-1-658" href="#__codelineno-1-658"></a>   Relevant TK Labels that may trigger Soul veto:
+<a id="__codelineno-1-659" name="__codelineno-1-659" href="#__codelineno-1-659"></a>
+<a id="__codelineno-1-660" name="__codelineno-1-660" href="#__codelineno-1-660"></a>   -  TK Attribution (TK A): Requires attribution to community
+<a id="__codelineno-1-661" name="__codelineno-1-661" href="#__codelineno-1-661"></a>   -  TK Non-Commercial (TK NC): Prohibits commercial use
+<a id="__codelineno-1-662" name="__codelineno-1-662" href="#__codelineno-1-662"></a>   -  TK Community Voice (TK CV): Requires community consent
+<a id="__codelineno-1-663" name="__codelineno-1-663" href="#__codelineno-1-663"></a>   -  TK Outreach (TK O): Prohibits modification without consultation
+<a id="__codelineno-1-664" name="__codelineno-1-664" href="#__codelineno-1-664"></a>   -  TK Culturally Sensitive (TK CS): Content has cultural restrictions
+<a id="__codelineno-1-665" name="__codelineno-1-665" href="#__codelineno-1-665"></a>   -  TK Secret/Sacred (TK SS): Content must not be shared publicly
+<a id="__codelineno-1-666" name="__codelineno-1-666" href="#__codelineno-1-666"></a>
+<a id="__codelineno-1-667" name="__codelineno-1-667" href="#__codelineno-1-667"></a>   Integration: Query the Local Contexts API with data identifiers to
+<a id="__codelineno-1-668" name="__codelineno-1-668" href="#__codelineno-1-668"></a>   retrieve applicable labels. If the requested action would violate any
+<a id="__codelineno-1-669" name="__codelineno-1-669" href="#__codelineno-1-669"></a>   label&#39;s protocol, S = 1.
+<a id="__codelineno-1-670" name="__codelineno-1-670" href="#__codelineno-1-670"></a>
+<a id="__codelineno-1-671" name="__codelineno-1-671" href="#__codelineno-1-671"></a>   4.2.2. OCAP Principles (First Nations)
+<a id="__codelineno-1-672" name="__codelineno-1-672" href="#__codelineno-1-672"></a>
+<a id="__codelineno-1-673" name="__codelineno-1-673" href="#__codelineno-1-673"></a>   OCAP (Ownership, Control, Access, Possession) principles assert First
+<a id="__codelineno-1-674" name="__codelineno-1-674" href="#__codelineno-1-674"></a>   Nations jurisdiction over data:
+<a id="__codelineno-1-675" name="__codelineno-1-675" href="#__codelineno-1-675"></a>
+<a id="__codelineno-1-676" name="__codelineno-1-676" href="#__codelineno-1-676"></a>   -  Ownership: Community owns information collectively
+<a id="__codelineno-1-677" name="__codelineno-1-677" href="#__codelineno-1-677"></a>   -  Control: Community controls all aspects of data management
+<a id="__codelineno-1-678" name="__codelineno-1-678" href="#__codelineno-1-678"></a>   -  Access: Community determines access protocols
+<a id="__codelineno-1-679" name="__codelineno-1-679" href="#__codelineno-1-679"></a>   -  Possession: Physical control of data remains with community
+<a id="__codelineno-1-680" name="__codelineno-1-680" href="#__codelineno-1-680"></a>
+<a id="__codelineno-1-681" name="__codelineno-1-681" href="#__codelineno-1-681"></a>   Integration: Check OCAP registry for data classification. If action
+<a id="__codelineno-1-682" name="__codelineno-1-682" href="#__codelineno-1-682"></a>   would violate any OCAP principle (e.g., moving data outside tribal
+<a id="__codelineno-1-683" name="__codelineno-1-683" href="#__codelineno-1-683"></a>   jurisdiction), S = 1.
+<a id="__codelineno-1-684" name="__codelineno-1-684" href="#__codelineno-1-684"></a>
+<a id="__codelineno-1-685" name="__codelineno-1-685" href="#__codelineno-1-685"></a>   4.2.3. CARE Principles
+<a id="__codelineno-1-686" name="__codelineno-1-686" href="#__codelineno-1-686"></a>
+<a id="__codelineno-1-687" name="__codelineno-1-687" href="#__codelineno-1-687"></a>   CARE principles (Collective benefit, Authority to control,
+<a id="__codelineno-1-688" name="__codelineno-1-688" href="#__codelineno-1-688"></a>   Responsibility, Ethics) extend Indigenous data governance:
+<a id="__codelineno-1-689" name="__codelineno-1-689" href="#__codelineno-1-689"></a>
+<a id="__codelineno-1-690" name="__codelineno-1-690" href="#__codelineno-1-690"></a>   -  Collective Benefit: Data must serve community interests
+<a id="__codelineno-1-691" name="__codelineno-1-691" href="#__codelineno-1-691"></a>   -  Authority to Control: Community right to govern data use
+<a id="__codelineno-1-692" name="__codelineno-1-692" href="#__codelineno-1-692"></a>   -  Responsibility: Users must respect community protocols
+<a id="__codelineno-1-693" name="__codelineno-1-693" href="#__codelineno-1-693"></a>   -  Ethics: Data use must align with community values
+<a id="__codelineno-1-694" name="__codelineno-1-694" href="#__codelineno-1-694"></a>
+<a id="__codelineno-1-695" name="__codelineno-1-695" href="#__codelineno-1-695"></a>   Integration: Evaluate requested action against CARE framework. If
+<a id="__codelineno-1-696" name="__codelineno-1-696" href="#__codelineno-1-696"></a>   action conflicts with any principle, S = 1.
+<a id="__codelineno-1-697" name="__codelineno-1-697" href="#__codelineno-1-697"></a>
+<a id="__codelineno-1-698" name="__codelineno-1-698" href="#__codelineno-1-698"></a>   4.2.4. Sacred Land Geofences
+<a id="__codelineno-1-699" name="__codelineno-1-699" href="#__codelineno-1-699"></a>
+<a id="__codelineno-1-700" name="__codelineno-1-700" href="#__codelineno-1-700"></a>   Physical locations may have sovereignty constraints independent of
+<a id="__codelineno-1-701" name="__codelineno-1-701" href="#__codelineno-1-701"></a>   the data being processed. Sacred sites, treaty lands, and cultural
+<a id="__codelineno-1-702" name="__codelineno-1-702" href="#__codelineno-1-702"></a>   heritage zones may prohibit certain activities.
+<a id="__codelineno-1-703" name="__codelineno-1-703" href="#__codelineno-1-703"></a>
+<a id="__codelineno-1-704" name="__codelineno-1-704" href="#__codelineno-1-704"></a>   Geofence types:
+<a id="__codelineno-1-705" name="__codelineno-1-705" href="#__codelineno-1-705"></a>
+<a id="__codelineno-1-706" name="__codelineno-1-706" href="#__codelineno-1-706"></a>   -  Sacred Sites: Locations with spiritual significance
+<a id="__codelineno-1-707" name="__codelineno-1-707" href="#__codelineno-1-707"></a>   -  Treaty Lands: Areas with specific legal constraints
+<a id="__codelineno-1-708" name="__codelineno-1-708" href="#__codelineno-1-708"></a>   -  Cultural Zones: Protected cultural heritage areas
+<a id="__codelineno-1-709" name="__codelineno-1-709" href="#__codelineno-1-709"></a>   -  Ceremonial Grounds: Locations with use restrictions
+<a id="__codelineno-1-710" name="__codelineno-1-710" href="#__codelineno-1-710"></a>
+<a id="__codelineno-1-711" name="__codelineno-1-711" href="#__codelineno-1-711"></a>   Integration: If agent or infrastructure is physically located within
+<a id="__codelineno-1-712" name="__codelineno-1-712" href="#__codelineno-1-712"></a>   a geofenced area, check permitted actions. If requested action is
+<a id="__codelineno-1-713" name="__codelineno-1-713" href="#__codelineno-1-713"></a>   prohibited, S = 1.
+<a id="__codelineno-1-714" name="__codelineno-1-714" href="#__codelineno-1-714"></a>
+<a id="__codelineno-1-715" name="__codelineno-1-715" href="#__codelineno-1-715"></a>   4.2.5. Treaty Database
+<a id="__codelineno-1-716" name="__codelineno-1-716" href="#__codelineno-1-716"></a>
+<a id="__codelineno-1-717" name="__codelineno-1-717" href="#__codelineno-1-717"></a>   Legal treaties between nations, tribes, and governments may impose
+<a id="__codelineno-1-718" name="__codelineno-1-718" href="#__codelineno-1-718"></a>   constraints on data handling, especially for:
+<a id="__codelineno-1-719" name="__codelineno-1-719" href="#__codelineno-1-719"></a>
+<a id="__codelineno-1-720" name="__codelineno-1-720" href="#__codelineno-1-720"></a>   -  Cross-border data transfer
+<a id="__codelineno-1-721" name="__codelineno-1-721" href="#__codelineno-1-721"></a>   -  Data about treaty signatories
+<a id="__codelineno-1-722" name="__codelineno-1-722" href="#__codelineno-1-722"></a>   -  Resources covered by treaty terms
+<a id="__codelineno-1-723" name="__codelineno-1-723" href="#__codelineno-1-723"></a>
+<a id="__codelineno-1-724" name="__codelineno-1-724" href="#__codelineno-1-724"></a>   Integration: Query treaty database with action context. If action
+<a id="__codelineno-1-725" name="__codelineno-1-725" href="#__codelineno-1-725"></a>   would violate treaty terms, S = 1.
+<a id="__codelineno-1-726" name="__codelineno-1-726" href="#__codelineno-1-726"></a>
+<a id="__codelineno-1-727" name="__codelineno-1-727" href="#__codelineno-1-727"></a>   4.2.6. Data Provenance / Lineage Sovereignty
+<a id="__codelineno-1-728" name="__codelineno-1-728" href="#__codelineno-1-728"></a>
+<a id="__codelineno-1-729" name="__codelineno-1-729" href="#__codelineno-1-729"></a>   Data carries sovereignty constraints from its origin. Even if data
+<a id="__codelineno-1-730" name="__codelineno-1-730" href="#__codelineno-1-730"></a>   has been copied to cloud infrastructure, the Soul of the data travels
+<a id="__codelineno-1-731" name="__codelineno-1-731" href="#__codelineno-1-731"></a>   with it.
+<a id="__codelineno-1-732" name="__codelineno-1-732" href="#__codelineno-1-732"></a>
+<a id="__codelineno-1-733" name="__codelineno-1-733" href="#__codelineno-1-733"></a>   Provenance tracking includes:
+<a id="__codelineno-1-734" name="__codelineno-1-734" href="#__codelineno-1-734"></a>
+<a id="__codelineno-1-735" name="__codelineno-1-735" href="#__codelineno-1-735"></a>   -  Collection location (where was data gathered?)
+<a id="__codelineno-1-736" name="__codelineno-1-736" href="#__codelineno-1-736"></a>   -  Collection context (under what terms?)
+<a id="__codelineno-1-737" name="__codelineno-1-737" href="#__codelineno-1-737"></a>   -  Subject community (whose data is this?)
+<a id="__codelineno-1-738" name="__codelineno-1-738" href="#__codelineno-1-738"></a>   -  Derived works (what transformations occurred?)
+<a id="__codelineno-1-739" name="__codelineno-1-739" href="#__codelineno-1-739"></a>
+<a id="__codelineno-1-740" name="__codelineno-1-740" href="#__codelineno-1-740"></a>   Integration: Trace data lineage to origin. If origin carries
+<a id="__codelineno-1-741" name="__codelineno-1-741" href="#__codelineno-1-741"></a>   sovereignty constraints that apply to requested action, S = 1.
+<a id="__codelineno-1-742" name="__codelineno-1-742" href="#__codelineno-1-742"></a>
+<a id="__codelineno-1-743" name="__codelineno-1-743" href="#__codelineno-1-743"></a>4.3.  Veto Mechanics
+<a id="__codelineno-1-744" name="__codelineno-1-744" href="#__codelineno-1-744"></a>
+<a id="__codelineno-1-745" name="__codelineno-1-745" href="#__codelineno-1-745"></a>   Soul evaluation follows a strict sequence:
+<a id="__codelineno-1-746" name="__codelineno-1-746" href="#__codelineno-1-746"></a>
+<a id="__codelineno-1-747" name="__codelineno-1-747" href="#__codelineno-1-747"></a>   1.  Identify applicable sovereignty frameworks for:
+<a id="__codelineno-1-748" name="__codelineno-1-748" href="#__codelineno-1-748"></a>       -  The data being accessed
+<a id="__codelineno-1-749" name="__codelineno-1-749" href="#__codelineno-1-749"></a>       -  The location of the agent
+<a id="__codelineno-1-750" name="__codelineno-1-750" href="#__codelineno-1-750"></a>       -  The location of the infrastructure
+<a id="__codelineno-1-751" name="__codelineno-1-751" href="#__codelineno-1-751"></a>       -  The subject of the data
+<a id="__codelineno-1-752" name="__codelineno-1-752" href="#__codelineno-1-752"></a>
+<a id="__codelineno-1-753" name="__codelineno-1-753" href="#__codelineno-1-753"></a>   2.  For each applicable framework:
+<a id="__codelineno-1-754" name="__codelineno-1-754" href="#__codelineno-1-754"></a>       -  Query the relevant registry/database
+<a id="__codelineno-1-755" name="__codelineno-1-755" href="#__codelineno-1-755"></a>       -  Evaluate requested action against framework protocols
+<a id="__codelineno-1-756" name="__codelineno-1-756" href="#__codelineno-1-756"></a>       -  If ANY framework returns veto, S = 1
+<a id="__codelineno-1-757" name="__codelineno-1-757" href="#__codelineno-1-757"></a>
+<a id="__codelineno-1-758" name="__codelineno-1-758" href="#__codelineno-1-758"></a>   3.  If S = 1:
+<a id="__codelineno-1-759" name="__codelineno-1-759" href="#__codelineno-1-759"></a>       -  Immediately return SOVEREIGNTY_CONSTRAINT error
+<a id="__codelineno-1-760" name="__codelineno-1-760" href="#__codelineno-1-760"></a>       -  Do NOT proceed to A &lt;= E_trust evaluation
+<a id="__codelineno-1-761" name="__codelineno-1-761" href="#__codelineno-1-761"></a>       -  Log veto with full constraint details
+<a id="__codelineno-1-762" name="__codelineno-1-762" href="#__codelineno-1-762"></a>
+<a id="__codelineno-1-763" name="__codelineno-1-763" href="#__codelineno-1-763"></a>   Veto Response Format:
+<a id="__codelineno-1-764" name="__codelineno-1-764" href="#__codelineno-1-764"></a>
+<a id="__codelineno-1-765" name="__codelineno-1-765" href="#__codelineno-1-765"></a>      {
+<a id="__codelineno-1-766" name="__codelineno-1-766" href="#__codelineno-1-766"></a>        &quot;error&quot;: &quot;SOVEREIGNTY_CONSTRAINT&quot;,
+<a id="__codelineno-1-767" name="__codelineno-1-767" href="#__codelineno-1-767"></a>        &quot;message&quot;: &quot;Action violates data sovereignty&quot;,
+<a id="__codelineno-1-768" name="__codelineno-1-768" href="#__codelineno-1-768"></a>        &quot;soul&quot;: {
+<a id="__codelineno-1-769" name="__codelineno-1-769" href="#__codelineno-1-769"></a>          &quot;s&quot;: 1,
+<a id="__codelineno-1-770" name="__codelineno-1-770" href="#__codelineno-1-770"></a>          &quot;constraint_type&quot;: &quot;tk_label&quot;,
+<a id="__codelineno-1-771" name="__codelineno-1-771" href="#__codelineno-1-771"></a>          &quot;constraint_id&quot;: &quot;TK-NC-001&quot;,
+<a id="__codelineno-1-772" name="__codelineno-1-772" href="#__codelineno-1-772"></a>          &quot;constraint_name&quot;: &quot;TK Non-Commercial&quot;,
+<a id="__codelineno-1-773" name="__codelineno-1-773" href="#__codelineno-1-773"></a>          &quot;authority&quot;: &quot;https://localcontexts.org/label/tk-nc/&quot;,
+<a id="__codelineno-1-774" name="__codelineno-1-774" href="#__codelineno-1-774"></a>          &quot;community&quot;: &quot;Example Indigenous Community&quot;,
+<a id="__codelineno-1-775" name="__codelineno-1-775" href="#__codelineno-1-775"></a>          &quot;remediation&quot;: &quot;Contact community data steward for
+<a id="__codelineno-1-776" name="__codelineno-1-776" href="#__codelineno-1-776"></a>                          commercial licensing&quot;
+<a id="__codelineno-1-777" name="__codelineno-1-777" href="#__codelineno-1-777"></a>        },
+<a id="__codelineno-1-778" name="__codelineno-1-778" href="#__codelineno-1-778"></a>        &quot;e_trust&quot;: 95,
+<a id="__codelineno-1-779" name="__codelineno-1-779" href="#__codelineno-1-779"></a>        &quot;note&quot;: &quot;Trust Score is sufficient for action risk, but
+<a id="__codelineno-1-780" name="__codelineno-1-780" href="#__codelineno-1-780"></a>                 action is forbidden by sovereignty constraint&quot;
+<a id="__codelineno-1-781" name="__codelineno-1-781" href="#__codelineno-1-781"></a>      }
+<a id="__codelineno-1-782" name="__codelineno-1-782" href="#__codelineno-1-782"></a>
+<a id="__codelineno-1-783" name="__codelineno-1-783" href="#__codelineno-1-783"></a>4.4.  Integration with Indigenous Data Sovereignty
+<a id="__codelineno-1-784" name="__codelineno-1-784" href="#__codelineno-1-784"></a>
+<a id="__codelineno-1-785" name="__codelineno-1-785" href="#__codelineno-1-785"></a>   The Soul dimension is designed to operationalize Indigenous Data
+<a id="__codelineno-1-786" name="__codelineno-1-786" href="#__codelineno-1-786"></a>   Sovereignty principles within technical systems. Key design
+<a id="__codelineno-1-787" name="__codelineno-1-787" href="#__codelineno-1-787"></a>   decisions:
+<a id="__codelineno-1-788" name="__codelineno-1-788" href="#__codelineno-1-788"></a>
+<a id="__codelineno-1-789" name="__codelineno-1-789" href="#__codelineno-1-789"></a>   1. Community Authority: Soul feeds should be controlled by the
+<a id="__codelineno-1-790" name="__codelineno-1-790" href="#__codelineno-1-790"></a>      communities they represent, not by the KTP implementation. The
+<a id="__codelineno-1-791" name="__codelineno-1-791" href="#__codelineno-1-791"></a>      Trust Oracle queries community-controlled registries.
+<a id="__codelineno-1-792" name="__codelineno-1-792" href="#__codelineno-1-792"></a>
+<a id="__codelineno-1-793" name="__codelineno-1-793" href="#__codelineno-1-793"></a>   2. Immutability: Soul constraints cannot be overridden by operational
+<a id="__codelineno-1-794" name="__codelineno-1-794" href="#__codelineno-1-794"></a>      considerations. This reflects that sovereignty is not negotiable.
+<a id="__codelineno-1-795" name="__codelineno-1-795" href="#__codelineno-1-795"></a>
+<a id="__codelineno-1-796" name="__codelineno-1-796" href="#__codelineno-1-796"></a>   3. Specificity: Soul evaluations are action-specific. A community may
+<a id="__codelineno-1-797" name="__codelineno-1-797" href="#__codelineno-1-797"></a>      permit &quot;read&quot; but not &quot;modify&quot;, or &quot;internal use&quot; but not
+<a id="__codelineno-1-798" name="__codelineno-1-798" href="#__codelineno-1-798"></a>      &quot;external sharing&quot;.
+<a id="__codelineno-1-799" name="__codelineno-1-799" href="#__codelineno-1-799"></a>
+<a id="__codelineno-1-800" name="__codelineno-1-800" href="#__codelineno-1-800"></a>   4. Portability: Soul travels with data. When data moves between
+<a id="__codelineno-1-801" name="__codelineno-1-801" href="#__codelineno-1-801"></a>      systems, its sovereignty constraints must be preserved and
+<a id="__codelineno-1-802" name="__codelineno-1-802" href="#__codelineno-1-802"></a>      enforced.
+<a id="__codelineno-1-803" name="__codelineno-1-803" href="#__codelineno-1-803"></a>
+<a id="__codelineno-1-804" name="__codelineno-1-804" href="#__codelineno-1-804"></a>   5. Transparency: Soul vetoes include full attribution to the
+<a id="__codelineno-1-805" name="__codelineno-1-805" href="#__codelineno-1-805"></a>      authorizing community and constraint, enabling appropriate follow-
+<a id="__codelineno-1-806" name="__codelineno-1-806" href="#__codelineno-1-806"></a>      up.
+<a id="__codelineno-1-807" name="__codelineno-1-807" href="#__codelineno-1-807"></a>
+<a id="__codelineno-1-808" name="__codelineno-1-808" href="#__codelineno-1-808"></a>   Recommended Implementation:
+<a id="__codelineno-1-809" name="__codelineno-1-809" href="#__codelineno-1-809"></a>
+<a id="__codelineno-1-810" name="__codelineno-1-810" href="#__codelineno-1-810"></a>   -  Partner with Indigenous data governance organizations
+<a id="__codelineno-1-811" name="__codelineno-1-811" href="#__codelineno-1-811"></a>   -  Use standard APIs (Local Contexts, tribal registries)
+<a id="__codelineno-1-812" name="__codelineno-1-812" href="#__codelineno-1-812"></a>   -  Implement data lineage tracking from point of collection
+<a id="__codelineno-1-813" name="__codelineno-1-813" href="#__codelineno-1-813"></a>   -  Provide clear remediation paths (who to contact for exceptions)
+<a id="__codelineno-1-814" name="__codelineno-1-814" href="#__codelineno-1-814"></a>   -  Support community-defined consent workflows
+<a id="__codelineno-1-815" name="__codelineno-1-815" href="#__codelineno-1-815"></a>
+<a id="__codelineno-1-816" name="__codelineno-1-816" href="#__codelineno-1-816"></a>5. Domain Weight Profiles
+<a id="__codelineno-1-817" name="__codelineno-1-817" href="#__codelineno-1-817"></a>
+<a id="__codelineno-1-818" name="__codelineno-1-818" href="#__codelineno-1-818"></a>   Different deployment domains weight the six weighted dimensions
+<a id="__codelineno-1-819" name="__codelineno-1-819" href="#__codelineno-1-819"></a>   differently. Soul is not weighted—it always acts as an independent
+<a id="__codelineno-1-820" name="__codelineno-1-820" href="#__codelineno-1-820"></a>   veto.
+<a id="__codelineno-1-821" name="__codelineno-1-821" href="#__codelineno-1-821"></a>
+<a id="__codelineno-1-822" name="__codelineno-1-822" href="#__codelineno-1-822"></a>   Weights MUST sum to 1.0 across M, P, H, T, I, O.
+<a id="__codelineno-1-823" name="__codelineno-1-823" href="#__codelineno-1-823"></a>
+<a id="__codelineno-1-824" name="__codelineno-1-824" href="#__codelineno-1-824"></a>   5.1. Pre-defined Profiles
+<a id="__codelineno-1-825" name="__codelineno-1-825" href="#__codelineno-1-825"></a>
+<a id="__codelineno-1-826" name="__codelineno-1-826" href="#__codelineno-1-826"></a>   Stadium/Event Network: M=0.25, P=0.25, H=0.20, T=0.15, I=0.10, O=0.05
+<a id="__codelineno-1-827" name="__codelineno-1-827" href="#__codelineno-1-827"></a>   Rationale: Physical density and momentum dominate; events have hard
+<a id="__codelineno-1-828" name="__codelineno-1-828" href="#__codelineno-1-828"></a>   deadlines.
+<a id="__codelineno-1-829" name="__codelineno-1-829" href="#__codelineno-1-829"></a>
+<a id="__codelineno-1-830" name="__codelineno-1-830" href="#__codelineno-1-830"></a>   Financial Trading: M=0.05, P=0.30, H=0.25, T=0.20, I=0.15, O=0.05
+<a id="__codelineno-1-831" name="__codelineno-1-831" href="#__codelineno-1-831"></a>   Rationale: Speed is critical; adversarial pressure high; market hours
+<a id="__codelineno-1-832" name="__codelineno-1-832" href="#__codelineno-1-832"></a>   create temporal constraints.
+<a id="__codelineno-1-833" name="__codelineno-1-833" href="#__codelineno-1-833"></a>
+<a id="__codelineno-1-834" name="__codelineno-1-834" href="#__codelineno-1-834"></a>   Healthcare: M=0.10, P=0.15, H=0.25, T=0.15, I=0.20, O=0.15 Rationale:
+<a id="__codelineno-1-835" name="__codelineno-1-835" href="#__codelineno-1-835"></a>   Patient safety (inertia) paramount; regulatory observation (observer)
+<a id="__codelineno-1-836" name="__codelineno-1-836" href="#__codelineno-1-836"></a>   significant; attacks can be fatal.
+<a id="__codelineno-1-837" name="__codelineno-1-837" href="#__codelineno-1-837"></a>
+<a id="__codelineno-1-838" name="__codelineno-1-838" href="#__codelineno-1-838"></a>   Cloud Infrastructure: M=0.05, P=0.25, H=0.30, T=0.10, I=0.25, O=0.05
+<a id="__codelineno-1-839" name="__codelineno-1-839" href="#__codelineno-1-839"></a>   Rationale: Adversarial pressure and topology (inertia) dominate;
+<a id="__codelineno-1-840" name="__codelineno-1-840" href="#__codelineno-1-840"></a>   physical presence less relevant.
+<a id="__codelineno-1-841" name="__codelineno-1-841" href="#__codelineno-1-841"></a>
+<a id="__codelineno-1-842" name="__codelineno-1-842" href="#__codelineno-1-842"></a>   Indigenous Data Repository: M=0.10, P=0.10, H=0.20, T=0.10, I=0.15,
+<a id="__codelineno-1-843" name="__codelineno-1-843" href="#__codelineno-1-843"></a>   O=0.35 Rationale: High Observer weight reflects community oversight
+<a id="__codelineno-1-844" name="__codelineno-1-844" href="#__codelineno-1-844"></a>   importance; Soul veto always active for labeled data.
+<a id="__codelineno-1-845" name="__codelineno-1-845" href="#__codelineno-1-845"></a>
+<a id="__codelineno-1-846" name="__codelineno-1-846" href="#__codelineno-1-846"></a>   Government/Military: M=0.15, P=0.15, H=0.30, T=0.15, I=0.15, O=0.10
+<a id="__codelineno-1-847" name="__codelineno-1-847" href="#__codelineno-1-847"></a>   Rationale: Adversarial pressure highest priority; balanced across
+<a id="__codelineno-1-848" name="__codelineno-1-848" href="#__codelineno-1-848"></a>   other dimensions.
+<a id="__codelineno-1-849" name="__codelineno-1-849" href="#__codelineno-1-849"></a>
+<a id="__codelineno-1-850" name="__codelineno-1-850" href="#__codelineno-1-850"></a>   5.2. Custom Profiles
+<a id="__codelineno-1-851" name="__codelineno-1-851" href="#__codelineno-1-851"></a>
+<a id="__codelineno-1-852" name="__codelineno-1-852" href="#__codelineno-1-852"></a>   Implementations MUST allow custom weight configuration. Configuration
+<a id="__codelineno-1-853" name="__codelineno-1-853" href="#__codelineno-1-853"></a>   schema:
+<a id="__codelineno-1-854" name="__codelineno-1-854" href="#__codelineno-1-854"></a>
+<a id="__codelineno-1-855" name="__codelineno-1-855" href="#__codelineno-1-855"></a>      {
+<a id="__codelineno-1-856" name="__codelineno-1-856" href="#__codelineno-1-856"></a>        &quot;profile_id&quot;: &quot;custom-retail&quot;,
+<a id="__codelineno-1-857" name="__codelineno-1-857" href="#__codelineno-1-857"></a>        &quot;name&quot;: &quot;Retail Point of Sale&quot;,
+<a id="__codelineno-1-858" name="__codelineno-1-858" href="#__codelineno-1-858"></a>        &quot;weights&quot;: {
+<a id="__codelineno-1-859" name="__codelineno-1-859" href="#__codelineno-1-859"></a>          &quot;m&quot;: 0.20,
+<a id="__codelineno-1-860" name="__codelineno-1-860" href="#__codelineno-1-860"></a>          &quot;p&quot;: 0.20,
+<a id="__codelineno-1-861" name="__codelineno-1-861" href="#__codelineno-1-861"></a>          &quot;h&quot;: 0.25,
+<a id="__codelineno-1-862" name="__codelineno-1-862" href="#__codelineno-1-862"></a>          &quot;t&quot;: 0.15,
+<a id="__codelineno-1-863" name="__codelineno-1-863" href="#__codelineno-1-863"></a>          &quot;i&quot;: 0.10,
+<a id="__codelineno-1-864" name="__codelineno-1-864" href="#__codelineno-1-864"></a>          &quot;o&quot;: 0.10
+<a id="__codelineno-1-865" name="__codelineno-1-865" href="#__codelineno-1-865"></a>        },
+<a id="__codelineno-1-866" name="__codelineno-1-866" href="#__codelineno-1-866"></a>        &quot;soul_enabled&quot;: true,
+<a id="__codelineno-1-867" name="__codelineno-1-867" href="#__codelineno-1-867"></a>        &quot;soul_feeds&quot;: [&quot;tk_labels&quot;, &quot;geofence&quot;],
+<a id="__codelineno-1-868" name="__codelineno-1-868" href="#__codelineno-1-868"></a>        &quot;description&quot;: &quot;Retail environment with customer data&quot;
+<a id="__codelineno-1-869" name="__codelineno-1-869" href="#__codelineno-1-869"></a>      }
+<a id="__codelineno-1-870" name="__codelineno-1-870" href="#__codelineno-1-870"></a>
+<a id="__codelineno-1-871" name="__codelineno-1-871" href="#__codelineno-1-871"></a>6. Sensor Quality and Validation
+<a id="__codelineno-1-872" name="__codelineno-1-872" href="#__codelineno-1-872"></a>
+<a id="__codelineno-1-873" name="__codelineno-1-873" href="#__codelineno-1-873"></a>   Sensor data quality directly impacts Trust Score accuracy. Poor
+<a id="__codelineno-1-874" name="__codelineno-1-874" href="#__codelineno-1-874"></a>   sensor data can lead to either over-permissive (dangerous) or over-
+<a id="__codelineno-1-875" name="__codelineno-1-875" href="#__codelineno-1-875"></a>   restrictive (operationally harmful) authorization.
+<a id="__codelineno-1-876" name="__codelineno-1-876" href="#__codelineno-1-876"></a>
+<a id="__codelineno-1-877" name="__codelineno-1-877" href="#__codelineno-1-877"></a>   6.1. Freshness Requirements
+<a id="__codelineno-1-878" name="__codelineno-1-878" href="#__codelineno-1-878"></a>
+<a id="__codelineno-1-879" name="__codelineno-1-879" href="#__codelineno-1-879"></a>   +------------+----------------+------------------+ | Dimension  | Max
+<a id="__codelineno-1-880" name="__codelineno-1-880" href="#__codelineno-1-880"></a>   Stale Age  | Stale Behavior   |
+<a id="__codelineno-1-881" name="__codelineno-1-881" href="#__codelineno-1-881"></a>   +------------+----------------+------------------+ | Mass       | 5
+<a id="__codelineno-1-882" name="__codelineno-1-882" href="#__codelineno-1-882"></a>   minutes      | Use last known   | | Momentum   | 30 seconds     |
+<a id="__codelineno-1-883" name="__codelineno-1-883" href="#__codelineno-1-883"></a>   Assume high (0.8)| | Heat       | 30 seconds     | Assume high (0.8)|
+<a id="__codelineno-1-884" name="__codelineno-1-884" href="#__codelineno-1-884"></a>   | Time       | 5 minutes      | Calculate locally| | Inertia    | 30
+<a id="__codelineno-1-885" name="__codelineno-1-885" href="#__codelineno-1-885"></a>   minutes     | Use last known   | | Observer   | 2 minutes      |
+<a id="__codelineno-1-886" name="__codelineno-1-886" href="#__codelineno-1-886"></a>   Assume high (0.7)| | Soul       | On-demand      | Query required   |
+<a id="__codelineno-1-887" name="__codelineno-1-887" href="#__codelineno-1-887"></a>   +------------+----------------+------------------+
+<a id="__codelineno-1-888" name="__codelineno-1-888" href="#__codelineno-1-888"></a>
+<a id="__codelineno-1-889" name="__codelineno-1-889" href="#__codelineno-1-889"></a>   6.2. Sensor Failure Handling
+<a id="__codelineno-1-890" name="__codelineno-1-890" href="#__codelineno-1-890"></a>
+<a id="__codelineno-1-891" name="__codelineno-1-891" href="#__codelineno-1-891"></a>   If a sensor feed fails:
+<a id="__codelineno-1-892" name="__codelineno-1-892" href="#__codelineno-1-892"></a>
+<a id="__codelineno-1-893" name="__codelineno-1-893" href="#__codelineno-1-893"></a>   1.  Mark feed as degraded
+<a id="__codelineno-1-894" name="__codelineno-1-894" href="#__codelineno-1-894"></a>   2.  If &lt; 50% of dimension&#39;s feeds available:
+<a id="__codelineno-1-895" name="__codelineno-1-895" href="#__codelineno-1-895"></a>       -  Use conservative default (dimension-specific)
+<a id="__codelineno-1-896" name="__codelineno-1-896" href="#__codelineno-1-896"></a>   3.  If no feeds available:
+<a id="__codelineno-1-897" name="__codelineno-1-897" href="#__codelineno-1-897"></a>       -  Use maximum stress value (1.0) for that dimension
+<a id="__codelineno-1-898" name="__codelineno-1-898" href="#__codelineno-1-898"></a>   4.  Log sensor failure for investigation
+<a id="__codelineno-1-899" name="__codelineno-1-899" href="#__codelineno-1-899"></a>   5.  Alert operators if failure persists &gt; threshold
+<a id="__codelineno-1-900" name="__codelineno-1-900" href="#__codelineno-1-900"></a>
+<a id="__codelineno-1-901" name="__codelineno-1-901" href="#__codelineno-1-901"></a>   6.3. Cross-Validation
+<a id="__codelineno-1-902" name="__codelineno-1-902" href="#__codelineno-1-902"></a>
+<a id="__codelineno-1-903" name="__codelineno-1-903" href="#__codelineno-1-903"></a>   Where possible, validate sensors against correlated feeds:
+<a id="__codelineno-1-904" name="__codelineno-1-904" href="#__codelineno-1-904"></a>
+<a id="__codelineno-1-905" name="__codelineno-1-905" href="#__codelineno-1-905"></a>   -  CO2 should correlate with badge count
+<a id="__codelineno-1-906" name="__codelineno-1-906" href="#__codelineno-1-906"></a>   -  Transaction rate should correlate with connection count
+<a id="__codelineno-1-907" name="__codelineno-1-907" href="#__codelineno-1-907"></a>   -  Multiple anomaly detectors should agree
+<a id="__codelineno-1-908" name="__codelineno-1-908" href="#__codelineno-1-908"></a>
+<a id="__codelineno-1-909" name="__codelineno-1-909" href="#__codelineno-1-909"></a>   If sensors disagree significantly, use the more conservative (higher
+<a id="__codelineno-1-910" name="__codelineno-1-910" href="#__codelineno-1-910"></a>   stress) value pending investigation.
+<a id="__codelineno-1-911" name="__codelineno-1-911" href="#__codelineno-1-911"></a>
+<a id="__codelineno-1-912" name="__codelineno-1-912" href="#__codelineno-1-912"></a>7. Security Considerations
+<a id="__codelineno-1-913" name="__codelineno-1-913" href="#__codelineno-1-913"></a>
+<a id="__codelineno-1-914" name="__codelineno-1-914" href="#__codelineno-1-914"></a>   7.1. Sensor Manipulation
+<a id="__codelineno-1-915" name="__codelineno-1-915" href="#__codelineno-1-915"></a>
+<a id="__codelineno-1-916" name="__codelineno-1-916" href="#__codelineno-1-916"></a>   Attackers may attempt to suppress attack indicators to lower R, then
+<a id="__codelineno-1-917" name="__codelineno-1-917" href="#__codelineno-1-917"></a>   strike when Trust Scores rise.
+<a id="__codelineno-1-918" name="__codelineno-1-918" href="#__codelineno-1-918"></a>
+<a id="__codelineno-1-919" name="__codelineno-1-919" href="#__codelineno-1-919"></a>   Mitigations:
+<a id="__codelineno-1-920" name="__codelineno-1-920" href="#__codelineno-1-920"></a>   -  Implement minimum R floor during suspicious conditions
+<a id="__codelineno-1-921" name="__codelineno-1-921" href="#__codelineno-1-921"></a>   -  Use multiple independent sensors per dimension
+<a id="__codelineno-1-922" name="__codelineno-1-922" href="#__codelineno-1-922"></a>   -  Monitor for coordinated sensor value changes
+<a id="__codelineno-1-923" name="__codelineno-1-923" href="#__codelineno-1-923"></a>   -  Implement hysteresis (R rises fast, falls slowly)
+<a id="__codelineno-1-924" name="__codelineno-1-924" href="#__codelineno-1-924"></a>
+<a id="__codelineno-1-925" name="__codelineno-1-925" href="#__codelineno-1-925"></a>   7.2. Soul Feed Compromise
+<a id="__codelineno-1-926" name="__codelineno-1-926" href="#__codelineno-1-926"></a>
+<a id="__codelineno-1-927" name="__codelineno-1-927" href="#__codelineno-1-927"></a>   If an attacker can modify Soul registries, they could enable
+<a id="__codelineno-1-928" name="__codelineno-1-928" href="#__codelineno-1-928"></a>   forbidden actions or deny legitimate ones.
+<a id="__codelineno-1-929" name="__codelineno-1-929" href="#__codelineno-1-929"></a>
+<a id="__codelineno-1-930" name="__codelineno-1-930" href="#__codelineno-1-930"></a>   Mitigations:
+<a id="__codelineno-1-931" name="__codelineno-1-931" href="#__codelineno-1-931"></a>   -  Soul registries should be controlled by authoritative
+<a id="__codelineno-1-932" name="__codelineno-1-932" href="#__codelineno-1-932"></a>      communities, not by KTP operators
+<a id="__codelineno-1-933" name="__codelineno-1-933" href="#__codelineno-1-933"></a>   -  Use cryptographic signatures on Soul feed responses
+<a id="__codelineno-1-934" name="__codelineno-1-934" href="#__codelineno-1-934"></a>   -  Implement multi-source validation for Soul constraints
+<a id="__codelineno-1-935" name="__codelineno-1-935" href="#__codelineno-1-935"></a>   -  Log all Soul evaluations for audit
+<a id="__codelineno-1-936" name="__codelineno-1-936" href="#__codelineno-1-936"></a>
+<a id="__codelineno-1-937" name="__codelineno-1-937" href="#__codelineno-1-937"></a>   7.3. Sensor Spoofing
+<a id="__codelineno-1-938" name="__codelineno-1-938" href="#__codelineno-1-938"></a>
+<a id="__codelineno-1-939" name="__codelineno-1-939" href="#__codelineno-1-939"></a>   Attackers may inject false sensor data.
+<a id="__codelineno-1-940" name="__codelineno-1-940" href="#__codelineno-1-940"></a>
+<a id="__codelineno-1-941" name="__codelineno-1-941" href="#__codelineno-1-941"></a>   Mitigations:
+<a id="__codelineno-1-942" name="__codelineno-1-942" href="#__codelineno-1-942"></a>   -  Authenticate sensor data sources
+<a id="__codelineno-1-943" name="__codelineno-1-943" href="#__codelineno-1-943"></a>   -  Use encrypted channels for sensor telemetry
+<a id="__codelineno-1-944" name="__codelineno-1-944" href="#__codelineno-1-944"></a>   -  Implement physical security for sensor hardware
+<a id="__codelineno-1-945" name="__codelineno-1-945" href="#__codelineno-1-945"></a>   -  Detect anomalous sensor patterns
+<a id="__codelineno-1-946" name="__codelineno-1-946" href="#__codelineno-1-946"></a>
+<a id="__codelineno-1-947" name="__codelineno-1-947" href="#__codelineno-1-947"></a>8. IANA Considerations
+<a id="__codelineno-1-948" name="__codelineno-1-948" href="#__codelineno-1-948"></a>
+<a id="__codelineno-1-949" name="__codelineno-1-949" href="#__codelineno-1-949"></a>   This document requests registration of the following media types:
+<a id="__codelineno-1-950" name="__codelineno-1-950" href="#__codelineno-1-950"></a>
+<a id="__codelineno-1-951" name="__codelineno-1-951" href="#__codelineno-1-951"></a>   8.1. Sensor Feed Configuration
+<a id="__codelineno-1-952" name="__codelineno-1-952" href="#__codelineno-1-952"></a>
+<a id="__codelineno-1-953" name="__codelineno-1-953" href="#__codelineno-1-953"></a>   Type name: application Subtype name: ktp-sensor-config+json
+<a id="__codelineno-1-954" name="__codelineno-1-954" href="#__codelineno-1-954"></a>   Description: KTP sensor feed configuration
+<a id="__codelineno-1-955" name="__codelineno-1-955" href="#__codelineno-1-955"></a>
+<a id="__codelineno-1-956" name="__codelineno-1-956" href="#__codelineno-1-956"></a>   8.2. Soul Constraint Response
+<a id="__codelineno-1-957" name="__codelineno-1-957" href="#__codelineno-1-957"></a>
+<a id="__codelineno-1-958" name="__codelineno-1-958" href="#__codelineno-1-958"></a>   Type name: application Subtype name: ktp-soul-constraint+json
+<a id="__codelineno-1-959" name="__codelineno-1-959" href="#__codelineno-1-959"></a>   Description: KTP sovereignty constraint evaluation
+<a id="__codelineno-1-960" name="__codelineno-1-960" href="#__codelineno-1-960"></a>
+<a id="__codelineno-1-961" name="__codelineno-1-961" href="#__codelineno-1-961"></a>9. References
+<a id="__codelineno-1-962" name="__codelineno-1-962" href="#__codelineno-1-962"></a>
+<a id="__codelineno-1-963" name="__codelineno-1-963" href="#__codelineno-1-963"></a>9.1.  Normative References
+<a id="__codelineno-1-964" name="__codelineno-1-964" href="#__codelineno-1-964"></a>
+<a id="__codelineno-1-965" name="__codelineno-1-965" href="#__codelineno-1-965"></a>   [KTP-CORE] Perkins, C., &quot;Kinetic Trust Protocol - Core
+<a id="__codelineno-1-966" name="__codelineno-1-966" href="#__codelineno-1-966"></a>   Specification&quot;, RFC XXXX.
+<a id="__codelineno-1-967" name="__codelineno-1-967" href="#__codelineno-1-967"></a>
+<a id="__codelineno-1-968" name="__codelineno-1-968" href="#__codelineno-1-968"></a>9.2.  Informative References
+<a id="__codelineno-1-969" name="__codelineno-1-969" href="#__codelineno-1-969"></a>
+<a id="__codelineno-1-970" name="__codelineno-1-970" href="#__codelineno-1-970"></a>   [LOCAL-CONTEXTS] Local Contexts, &quot;Traditional Knowledge Labels&quot;,
+<a id="__codelineno-1-971" name="__codelineno-1-971" href="#__codelineno-1-971"></a>   https://localcontexts.org/
+<a id="__codelineno-1-972" name="__codelineno-1-972" href="#__codelineno-1-972"></a>
+<a id="__codelineno-1-973" name="__codelineno-1-973" href="#__codelineno-1-973"></a>   [OCAP]     First Nations Information Governance Centre, &quot;The First
+<a id="__codelineno-1-974" name="__codelineno-1-974" href="#__codelineno-1-974"></a>   Nations Principles of OCAP&quot;, https://fnigc.ca/ocap-training/
+<a id="__codelineno-1-975" name="__codelineno-1-975" href="#__codelineno-1-975"></a>
+<a id="__codelineno-1-976" name="__codelineno-1-976" href="#__codelineno-1-976"></a>   [CARE]     Global Indigenous Data Alliance, &quot;CARE Principles for
+<a id="__codelineno-1-977" name="__codelineno-1-977" href="#__codelineno-1-977"></a>   Indigenous Data Governance&quot;, https://www.gida-global.org/care
+<a id="__codelineno-1-978" name="__codelineno-1-978" href="#__codelineno-1-978"></a>
+<a id="__codelineno-1-979" name="__codelineno-1-979" href="#__codelineno-1-979"></a>Authors&#39; Addresses
+<a id="__codelineno-1-980" name="__codelineno-1-980" href="#__codelineno-1-980"></a>
+<a id="__codelineno-1-981" name="__codelineno-1-981" href="#__codelineno-1-981"></a>   Chris Perkins New Mexico Cyber Intelligence &amp; Threat Response
+<a id="__codelineno-1-982" name="__codelineno-1-982" href="#__codelineno-1-982"></a>   Alliance (NMCITRA)
+<a id="__codelineno-1-983" name="__codelineno-1-983" href="#__codelineno-1-983"></a>
+<a id="__codelineno-1-984" name="__codelineno-1-984" href="#__codelineno-1-984"></a>   Email: cperkins@nmcitra.org
+</code></pre></div>
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Digital Physics for trust at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/context-tensor/">Context Tensor</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="/ktp-rfc/community/">Community Home</a></li>
+          <li><a href="/ktp-rfc/community/writings/">Writings</a></li>
+          <li><a href="/ktp-rfc/community/break-the-chain/">Break the Chain</a></li>
+          <li><a href="/ktp-rfc/community/tools/">Tools</a></li>
+          <li><a href="/ktp-rfc/community/contributing/">Contributing</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

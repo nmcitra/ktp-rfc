@@ -211,7 +211,7 @@ Digital Trust is continuous and contextual. It updates in real time as telemetry
 
 Kinetic decisions must be tethered to the real, multi-dimensional state of the environment. The Context Tensor makes the environment measurable and enforceable.
 
-The first six dimensions shape risk. The seventh — **Soul** — sits outside the equation as immutable constraint.
+Six operational dimensions shape risk. The seventh — **Soul** — sits outside the equation as immutable constraint.
 
 === "Mandate"
     !!! info "The Mandate"
@@ -222,7 +222,7 @@ The first six dimensions shape risk. The seventh — **Soul** — sits outside t
 
     $$C = \{Mass, Momentum, Heat, Time, Inertia, Observer, Soul\}$$
 
-    The first six dimensions are weighted contributors to the Risk Factor. The seventh — **Soul** — operates outside the equation as immutable constraint.
+    Six operational dimensions are weighted contributors to the Risk Factor. The seventh — **Soul** — operates outside the equation as immutable constraint.
 
 === "Dimensions"
     #### I. Mass

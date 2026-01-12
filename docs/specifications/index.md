@@ -14,7 +14,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     27 Request for Comments documents covering every protocol component. Browse the source.
 
-    [:octicons-arrow-right-24: Browse RFCs](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs){ target="_blank" }
+    [:octicons-arrow-right-24: Browse RFCs](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs-txt){ target="_blank" }
 
 -   :material-shield-check:{ .lg .middle } **Blue Zones**
 

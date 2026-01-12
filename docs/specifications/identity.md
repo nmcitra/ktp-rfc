@@ -14,7 +14,7 @@ KTP Identity binds entities to their behavior over time and space, not just to s
 ## Jump into the specs
 
 - [KTP-Identity](../rfcs/ktp-identity.md){ .md-button .md-button--primary }
-- [KTP-Core: Vector Identity](../rfcs/ktp-core.md#vector-identity){ .md-button }
+- [KTP-Identity: Vector Identity](../rfcs/ktp-identity.md){ .md-button }
 - [KTP-Federation](../rfcs/ktp-federation.md){ .md-button }
 
 ## Build with it

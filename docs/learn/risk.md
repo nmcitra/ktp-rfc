@@ -199,17 +199,10 @@ Different trust tiers have different risk tolerances. As risk increases, agents 
     </div>
   </div>
   <div class="risk-tier risk-tier--observer">
-    <div class="risk-tier-badge">≤50%</div>
+    <div class="risk-tier-badge">>30%</div>
     <div class="risk-tier-content">
       <strong>Observer</strong>
-      <span>Read-only enforcement</span>
-    </div>
-  </div>
-  <div class="risk-tier risk-tier--hibernation">
-    <div class="risk-tier-badge">>50%</div>
-    <div class="risk-tier-content">
-      <strong>Hibernation</strong>
-      <span>Dormant, no actions permitted</span>
+      <span>Read-only enforcement, then dormant — the agent hibernates and awaits recovery</span>
     </div>
   </div>
 </div>

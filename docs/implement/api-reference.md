@@ -115,7 +115,7 @@ Request a cryptographically signed trust proof for an agent.
 |-------|------|-------------|
 | `proof_id` | string | Unique proof identifier |
 | `trust_score` | integer | Effective trust score ($E_{trust}$), 0-100 |
-| `tier` | string | Trust tier: `observer`, `analyst`, `operator`, `architect`, `god-mode` |
+| `tier` | string | Trust tier: `observer`, `analyst`, `operator`, `god-mode` |
 | `e_base` | integer | Base trust score, 0-100 |
 | `risk_factor` | float | Environmental risk factor ($R$), 0.0-1.0 |
 | `expires_at` | timestamp | Proof expiration (typically 30 seconds) |
@@ -480,7 +480,7 @@ Exceeding rate limits returns `429 Too Many Requests`.
   "proof_id": "string (uuid)",
   "agent_id": "string",
   "trust_score": "integer (0-100)",
-  "tier": "enum(observer|analyst|operator|architect|god-mode)",
+  "tier": "enum(observer|analyst|operator|god-mode)",
   "e_base": "integer (0-100)",
   "e_trust": "integer (0-100)",
   "risk_factor": "float (0.0-1.0)",

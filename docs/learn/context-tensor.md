@@ -148,7 +148,7 @@ Every signal entering the system falls into one of four categories. Each categor
 <div class="signal-category-cards">
   <a href="#__tabbed_1_1" class="signal-category-card">
     <div class="signal-category-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
     </div>
     <div class="signal-category-content">
       <div class="signal-category-header">
@@ -166,7 +166,7 @@ Every signal entering the system falls into one of four categories. Each categor
   </a>
   <a href="#__tabbed_1_2" class="signal-category-card">
     <div class="signal-category-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
     </div>
     <div class="signal-category-content">
       <div class="signal-category-header">
@@ -184,7 +184,7 @@ Every signal entering the system falls into one of four categories. Each categor
   </a>
   <a href="#__tabbed_1_3" class="signal-category-card">
     <div class="signal-category-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M19.88 18.47c.44-.7.7-1.51.7-2.39 0-2.49-2.01-4.5-4.5-4.5s-4.5 2.01-4.5 4.5 2.01 4.5 4.5 4.5c.88 0 1.69-.26 2.39-.7L21.58 23 23 21.58l-3.12-3.11zm-3.8.11c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm-.36-8.5c-.74.02-1.45.18-2.1.45l-.55-.83-3.8 6.18-3.01-3.52-3.63 5.81L1 17l5-8 3 3.5L13 6l2.72 4.08zm2.59.5c-.64-.28-1.33-.45-2.05-.49L21.38 2 23 3.18l-4.69 7.4z"/></svg>
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M19.88 18.47c.44-.7.7-1.51.7-2.39 0-2.49-2.01-4.5-4.5-4.5s-4.5 2.01-4.5 4.5 2.01 4.5 4.5 4.5c.88 0 1.69-.26 2.39-.7L21.58 23 23 21.58l-3.12-3.11zm-3.8.11c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm-.36-8.5c-.74.02-1.45.18-2.1.45l-.55-.83-3.8 6.18-3.01-3.52-3.63 5.81L1 17l5-8 3 3.5L13 6l2.72 4.08zm2.59.5c-.64-.28-1.33-.45-2.05-.49L21.38 2 23 3.18l-4.69 7.4z"/></svg>
     </div>
     <div class="signal-category-content">
       <div class="signal-category-header">
@@ -202,7 +202,7 @@ Every signal entering the system falls into one of four categories. Each categor
   </a>
   <a href="#__tabbed_1_4" class="signal-category-card">
     <div class="signal-category-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21.04l3.4 1.46 1.89-3.2 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg>
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21.04l3.4 1.46 1.89-3.2 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg>
     </div>
     <div class="signal-category-content">
       <div class="signal-category-header">
@@ -855,7 +855,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
   <div class="arq-pipeline-flow">
     <div class="arq-pipeline-stage arq-pipeline-stage--input">
       <div class="arq-pipeline-stage-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M3 17V19H5V17H3M7 17V19H9V17H7M11 17V19H13V17H11M3 13V15H5V13H3M7 13V15H9V13H7M11 13V15H13V13H11M15 13V15H17V13H15M3 9V11H5V9H3M7 9V11H9V9H7M11 9V11H13V9H11M15 9V11H17V9H15M19 9V11H21V9H19M3 5V7H5V5H3M7 5V7H9V5H7M11 5V7H13V5H11M15 5V7H17V5H15M19 5V7H21V5H19M15 17V19H17V17H15M19 13V15H21V13H19"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M3 17V19H5V17H3M7 17V19H9V17H7M11 17V19H13V17H11M3 13V15H5V13H3M7 13V15H9V13H7M11 13V15H13V13H11M15 13V15H17V13H15M3 9V11H5V9H3M7 9V11H9V9H7M11 9V11H13V9H11M15 9V11H17V9H15M19 9V11H21V9H19M3 5V7H5V5H3M7 5V7H9V5H7M11 5V7H13V5H11M15 5V7H17V5H15M19 5V7H21V5H19M15 17V19H17V17H15M19 13V15H21V13H19"/></svg>
       </div>
       <div class="arq-pipeline-stage-label">Telemetry</div>
       <div class="arq-pipeline-stage-sub">Packets, Logs,<br>Metrics, Attestations</div>
@@ -863,7 +863,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
     <div class="arq-pipeline-arrow">→</div>
     <div class="arq-pipeline-stage arq-pipeline-stage--arq">
       <div class="arq-pipeline-stage-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M14.76 20.83L17.6 18L14.76 15.17L16.17 13.76L19 16.57L21.83 13.76L23.24 15.17L20.43 18L23.24 20.83L21.83 22.24L19 19.41L16.17 22.24L14.76 20.83M12 12V19.88C12.04 20.18 11.94 20.5 11.71 20.71C11.32 21.1 10.69 21.1 10.3 20.71L8.29 18.7C8.06 18.47 7.96 18.16 8 17.87V12H7.97L2.21 4.62C1.87 4.19 1.95 3.56 2.38 3.22C2.57 3.08 2.78 3 3 3H17C17.22 3 17.43 3.08 17.62 3.22C18.05 3.56 18.13 4.19 17.79 4.62L12.03 12H12Z"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M14.76 20.83L17.6 18L14.76 15.17L16.17 13.76L19 16.57L21.83 13.76L23.24 15.17L20.43 18L23.24 20.83L21.83 22.24L19 19.41L16.17 22.24L14.76 20.83M12 12V19.88C12.04 20.18 11.94 20.5 11.71 20.71C11.32 21.1 10.69 21.1 10.3 20.71L8.29 18.7C8.06 18.47 7.96 18.16 8 17.87V12H7.97L2.21 4.62C1.87 4.19 1.95 3.56 2.38 3.22C2.57 3.08 2.78 3 3 3H17C17.22 3 17.43 3.08 17.62 3.22C18.05 3.56 18.13 4.19 17.79 4.62L12.03 12H12Z"/></svg>
       </div>
       <div class="arq-pipeline-stage-label">ARQ Classify</div>
       <div class="arq-pipeline-stage-sub">Accessibility<br>Retainability, Quality</div>
@@ -871,7 +871,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
     <div class="arq-pipeline-arrow">→</div>
     <div class="arq-pipeline-stage arq-pipeline-stage--tensor">
       <div class="arq-pipeline-stage-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
           <!-- 3D Tensor/Cube with axes -->
           <path d="M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.94 12.21 22 12 22C11.79 22 11.59 21.94 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.06 11.79 2 12 2C12.21 2 12.41 2.06 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
           <path d="M12 22V12M3 7.5L12 12L21 7.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
@@ -884,7 +884,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
     <div class="arq-pipeline-arrow">→</div>
     <div class="arq-pipeline-stage arq-pipeline-stage--output">
       <div class="arq-pipeline-stage-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/></svg>
       </div>
       <div class="arq-pipeline-stage-label">Trust Score</div>
       <div class="arq-pipeline-stage-sub">E = 0–100<br>Action permitted?</div>
@@ -1388,7 +1388,7 @@ Even a perfect operational score can be crushed by unaddressed risk:
   <div class="risk-example">
     <div class="risk-example-header">
       <span class="risk-example-icon risk-example-icon--security">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M12 7C13.4 7 14.8 8.1 14.8 9.5V11C15.4 11 16 11.6 16 12.3V15.8C16 16.4 15.4 17 14.7 17H9.2C8.6 17 8 16.4 8 15.7V12.2C8 11.6 8.6 11 9.2 11V9.5C9.2 8.1 10.6 7 12 7M12 8.2C11.2 8.2 10.5 8.7 10.5 9.5V11H13.5V9.5C13.5 8.7 12.8 8.2 12 8.2Z"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M12 7C13.4 7 14.8 8.1 14.8 9.5V11C15.4 11 16 11.6 16 12.3V15.8C16 16.4 15.4 17 14.7 17H9.2C8.6 17 8 16.4 8 15.7V12.2C8 11.6 8.6 11 9.2 11V9.5C9.2 8.1 10.6 7 12 7M12 8.2C11.2 8.2 10.5 8.7 10.5 9.5V11H13.5V9.5C13.5 8.7 12.8 8.2 12 8.2Z"/></svg>
       </span>
       <strong>Security Risk</strong>
     </div>
@@ -1405,7 +1405,7 @@ Even a perfect operational score can be crushed by unaddressed risk:
   <div class="risk-example">
     <div class="risk-example-header">
       <span class="risk-example-icon risk-example-icon--compliance">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V5C19 3.9 18.1 3 17 3M17 19H7V5H17V19M8 12H16V14H8V12M8 16H13V18H8V16M8 8H16V10H8V8Z"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17 3H7C5.9 3 5 3.9 5 5V19C5 20.1 5.9 21 7 21H17C18.1 21 19 20.1 19 19V5C19 3.9 18.1 3 17 3M17 19H7V5H17V19M8 12H16V14H8V12M8 16H13V18H8V16M8 8H16V10H8V8Z"/></svg>
       </span>
       <strong>Compliance Risk</strong>
     </div>
@@ -1422,7 +1422,7 @@ Even a perfect operational score can be crushed by unaddressed risk:
   <div class="risk-example">
     <div class="risk-example-header">
       <span class="risk-example-icon risk-example-icon--behavioral">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M11 7H13V13H11V7M11 15H13V17H11V15Z"/></svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M11 7H13V13H11V7M11 15H13V17H11V15Z"/></svg>
       </span>
       <strong>Behavioral Risk</strong>
     </div>

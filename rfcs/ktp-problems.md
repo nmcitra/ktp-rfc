@@ -13,7 +13,7 @@ description: Open problems, anticipated critiques, and known limitations of the 
 | Property | Value |
 |----------|-------|
 | **Status** | :material-book-open-variant: Living Document |
-| **Version** | 0.1 |
+| **Version** | 0.2 |
 | **Dependencies** | [KTP-Core](ktp-core.md) |
 | **Required By** | All KTP Stakeholders |
 
@@ -21,12 +21,24 @@ description: Open problems, anticipated critiques, and known limitations of the 
 
 ## 1. The Heisenberg Penalty (Observer Effect)
 
+The observer-effect critique decomposes into two separate questions. The first (latency) is solved; the second (state perturbation) is open and falsifiable as TFE prediction #24.
+
+### 1a. Latency under measurement
+
 **Critique:** "Measuring everything introduces massive latency. Your cure is worse than the disease."
 
 **Response:** **Separation of Calculation and Enforcement.**
 - $E_{trust}$ is calculated asynchronously (background).
 - Enforcement ($A \le E$) is a simple integer comparison (nanoseconds).
 - **Verdict:** SOLVED.
+
+### 1b. State perturbation under structured measurement
+
+**Critique:** "Structured measurement of agent behavior — flight recorders, full provenance trails, mechanistic probes — may perturb the trust state it is trying to measure, in a way the latency answer cannot address."
+
+**Response:** **Open empirical question.** This is the same observer-effect umbrella but a different question. The latency answer in §1a does not foreclose it. The Trust Force Equation falsification register tracks it as prediction #24, with an A/B observability comparison at agent scale and deck-as-event reactivity at relational scale as the test design.
+
+- **Verdict:** OPEN (developing). See the A4 bridge memo (filed 2026-05-15) for the workplan.
 
 ## 2. The Hypervisor Opaque Wall
 

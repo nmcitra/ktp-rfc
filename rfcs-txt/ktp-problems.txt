@@ -1,6 +1,6 @@
 Kinetic Trust Protocol                                      C. Perkins
 Specification Draft                                           NMCITRA
-Version: 0.1                                             November 2025
+Version: 0.2                                                 July 2026
 
 
 Kinetic Trust Protocol (KTP) - Open Problems and Anticipated Critiques
@@ -33,8 +33,8 @@ Status of This Memo
 
 Copyright Notice
 
-   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
-   under the Apache License, Version 2.0.
+   Copyright (c) 2025-2026 Chris Perkins / NMCITRA. This work is
+   licensed under the Apache License, Version 2.0.
 
 Table of Contents
 
@@ -279,10 +279,40 @@ Table of Contents
 
 3.6.  Verdict
 
-   SOLVED. The architectural separation of calculation (background) from
-   enforcement (inline) eliminates the Heisenberg Penalty. Mathematical
-   analysis confirms efficiency gains for typical workloads. Remaining
-   questions are optimization, not feasibility.
+   SOLVED, for the latency half of the critique. The architectural
+   separation of calculation (background) from enforcement (inline)
+   eliminates the Heisenberg Penalty as a performance objection.
+   Mathematical analysis confirms efficiency gains for typical
+   workloads. Remaining questions are optimization, not feasibility.
+
+   The observer-effect umbrella contains a second, distinct question
+   that this verdict does not cover. See Section 3.7.
+
+3.7.  Distinct Open Question: State Perturbation
+
+   The latency answer in Sections 3.3-3.6 addresses the cost of
+   measurement. It does not address a separate question: whether
+   structured measurement of agent behavior -- flight recorders, full
+   provenance trails, mechanistic probes -- perturbs the trust state it
+   is trying to measure.
+
+   This is the same observer-effect umbrella but a different physics.
+   An agent that knows its trajectory is durably recorded may behave
+   differently than an unobserved agent, in ways that change the very
+   E_base the measurement exists to establish. The perturbation cannot
+   be engineered away by making enforcement fast, because it is not a
+   function of latency.
+
+   Status: OPEN (developing). The Trust Force Equation falsification
+   register tracks this as prediction #24 ("Measurement Perturbation"),
+   with a proposed A/B observability comparison at agent scale. See:
+
+   https://kinetic-trust-protocol.net/research/falsification
+
+   Verdict: OPEN. Honest classification: this may be a fundamental
+   tradeoff rather than a solvable problem. If so, the framework must
+   quantify the perturbation and carry it as a known error term, not
+   claim to eliminate it.
 
 ========================================================================
               PROBLEM 2: THE HYPERVISOR OPAQUE WALL

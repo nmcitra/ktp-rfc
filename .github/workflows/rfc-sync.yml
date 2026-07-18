@@ -1,0 +1,23 @@
+name: RFC Sync Check
+
+on:
+  pull_request:
+    paths:
+      - "rfcs/**"
+      - "rfcs-txt/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check rfcs/ and rfcs-txt/ stay in sync
+        run: scripts/check-rfc-sync.sh "origin/${{ github.base_ref }}"

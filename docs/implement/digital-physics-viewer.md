@@ -9,4 +9,4 @@ In the meantime:
 
 - Review the data shapes in the [JSON Schemas](../schemas/index.md).
 - Explore the protocol flow in the [Specifications](../specifications/index.md).
-- Want to help? See [Contributing](../community/contributing.md) or open an issue with feature ideas.
+- Want to help? See [Contributing](https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md) or open an issue with feature ideas.

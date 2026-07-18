@@ -13,7 +13,7 @@ description: Open problems, anticipated critiques, and known limitations of the 
 | Property | Value |
 |----------|-------|
 | **Status** | :material-book-open-variant: Living Document |
-| **Version** | 0.1 |
+| **Version** | 0.2 |
 | **Dependencies** | [KTP-Core](ktp-core.md) |
 | **Required By** | All KTP Stakeholders |
 
@@ -21,12 +21,24 @@ description: Open problems, anticipated critiques, and known limitations of the 
 
 ## 1. The Heisenberg Penalty (Observer Effect)
 
+The observer-effect critique decomposes into two separate questions. The first (latency) is solved; the second (state perturbation) is open and falsifiable as TFE prediction #24.
+
+### 1a. Latency under measurement
+
 **Critique:** "Measuring everything introduces massive latency. Your cure is worse than the disease."
 
 **Response:** **Separation of Calculation and Enforcement.**
 - $E_{trust}$ is calculated asynchronously (background).
 - Enforcement ($A \le E$) is a simple integer comparison (nanoseconds).
 - **Verdict:** SOLVED.
+
+### 1b. State perturbation under structured measurement
+
+**Critique:** "Structured measurement of agent behavior — flight recorders, full provenance trails, mechanistic probes — may perturb the trust state it is trying to measure, in a way the latency answer cannot address."
+
+**Response:** **Open empirical question.** This is the same observer-effect umbrella but a different question. The latency answer in §1a does not foreclose it. The Trust Force Equation falsification register tracks it as [prediction #24](https://kinetic-trust-protocol.net/research/falsification) ("Measurement Perturbation").
+
+- **Verdict:** OPEN (developing). See the [Falsification Register](https://kinetic-trust-protocol.net/research/falsification) for the test design.
 
 ## 2. The Hypervisor Opaque Wall
 
@@ -62,6 +74,25 @@ description: Open problems, anticipated critiques, and known limitations of the 
 - No single Oracle node has the key.
 - Requires compromising $M$ of $N$ nodes simultaneously.
 - **Verdict:** MITIGATED.
+
+---
+
+## Related: The Falsification Register
+
+The critiques above are answered plainly, for a spec reader. A separate, more
+rigorous companion exists for researchers who want to try to break KTP
+empirically: the [**Falsification Register**](https://kinetic-trust-protocol.net/research/falsification) —
+a pre-registered set of predictions across five layers (L1–L5) whose failure
+would force revision or abandonment of a specific part of the framework,
+plus the **Failure Lattice**, a completeness claim that every trust-system
+failure is one of three forces (Trust, Information, Consequence-coupling)
+either starving or running open-loop.
+
+This document and the Falsification Register are not kept in lockstep by
+design — this page stays a quick-answer companion to the spec; the register
+is the living empirical research program. Where a critique here connects to
+a specific numbered prediction, it is cited by number (see §1b above) rather
+than restated.
 
 ---
 

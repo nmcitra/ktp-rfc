@@ -13,11 +13,13 @@
 #   scripts/check-rfc-sync.sh              # version parity only
 #   scripts/check-rfc-sync.sh origin/main  # + touch parity vs that ref
 #
-# KNOWN DEBT (2026-07-18): ten .txt files are one major revision behind
-# their .md counterparts (the 2026-03-26 expansion, commit 59cb0fa,
-# +7,287 lines across tensors/gravity/oracle/provenance/signal/emergency/
-# governance/legacy/deprecation/relational). Touch parity prevents NEW
-# drift; the March backlog needs a content port, tracked separately.
+# NOTE (2026-07-18, corrected diagnosis): the ten .txt files touched by
+# branch commit 59cb0fa (2026-03-26) are NOT stale — they already carry
+# the expanded specs. 59cb0fa holds the kramdown-rfc (IETF Internet-
+# Draft) SOURCE versions of those same specs, stranded on
+# chore/docs-nav-refresh and slightly newer in places (e.g. relational's
+# THRIVING row, governance's PROHIBITED row). Rescuing those sources
+# onto main is tracked separately.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."

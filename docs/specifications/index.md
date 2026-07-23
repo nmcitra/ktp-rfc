@@ -24,6 +24,14 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     [:octicons-arrow-right-24: Explore Blue Zones](blue-zones.md)
 
+-   :material-robot-industrial:{ .lg .middle } **Kinetic Envelope**
+
+    ---
+
+    Physics-aware authorization: A ≤ E evaluated per action, graduated deautomation, and a seven-vector conformance suite.
+
+    [:octicons-arrow-right-24: Read the spec](kinetic-envelope.md)
+
 -   :material-code-json:{ .lg .middle } **Schemas**
 
     ---

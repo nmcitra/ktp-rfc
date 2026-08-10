@@ -163,7 +163,7 @@ Where:
 
 Seven dimensions of environmental reality:
 
-| Dimension | Symbol | Physics Equivalent | Measures | Sensors |
+| Dimension | Symbol | Analogy (informative) | Measures | Sensors |
 |-----------|--------|-------------------|----------|---------|
 | Mass | M | Density/Mass | Physical density | CO2, LIDAR, RF noise, device count |
 | Momentum | P | Kinetic Energy | Data flow velocity | TPS, link saturation, packet velocity |

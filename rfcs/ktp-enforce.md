@@ -100,13 +100,16 @@ Every action has an intrinsic risk score ($A$), independent of who performs it.
 
 ---
 
-## Mass Ceiling & Anti-Accumulation
+## Concentration Ceiling & Anti-Accumulation
 
-To prevent "Too Big To Fail" scenarios, KTP enforces a **Mass Ceiling**. As an agent's footprint grows, its gravity increases, making movement harder.
+To prevent "Too Big To Fail" scenarios, KTP enforces a **Concentration Ceiling**. As an agent's operational footprint grows, the standing required for each additional action rises — accumulation is progressively harder, not impossible.
 
-$$ G_{agent} \propto \text{Mass} $$
+> **Editorial note (v2):** an earlier revision of this summary asserted a
+> proportionality, $G \propto \text{Mass}$, that appears in no normative
+> document. It is withdrawn. The mechanism below — mitosis or progressive
+> taxation above a threshold — is what KTP-Enforce actually specifies.
 
-If an agent becomes too massive, it must undergo **Mitosis** (split into smaller agents) or face **Progressive Trust Taxation** (higher $E$ required for same actions).
+If an agent's concentration exceeds the ceiling, it must undergo **Mitosis** (split into smaller agents) or face **Progressive Trust Taxation** (higher $E$ required for same actions).
 
 ---
 

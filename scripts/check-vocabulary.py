@@ -168,15 +168,37 @@ def scan():
 
 
 def filenames():
-    """A spec named for a retired object is a permanent URL asserting it."""
+    """Paths retired on ticket #65 (2026-08-10). These must stay dead.
+
+    A path is an identifier and a title is a claim; #65 retired both together,
+    renamed outright with no redirects. Removing a path is decay, and these
+    carried zero measured traffic. If one comes back, the object comes back
+    with it — hence a check rather than a note.
+
+    Note what this function must NOT say. It previously asserted that
+    ktp-gravity was "named for a retired object" while "Digital Gravity" was
+    absent from RETIRED above — a rule no decision record contained. The word
+    is not retired. VOCAB-01 kept gravity as conventional network language and
+    killed it only as the framework's dynamics, conditioned on whether a given
+    surface asserts the strong version. That is why the reason travels with
+    each path here: retirement attaches to the assertion, not to the word.
+    """
+    retired = (
+        ("ktp-tensors", "ktp-signals",
+         "'Context Tensor' retired by D2 — nothing transforms tensorially."),
+        ("ktp-signal", "ktp-information",
+         "the domain became `information` and 'Context Signals' now names "
+         "the catalogue; the old path was ambiguous, not merely stale."),
+        ("ktp-gravity", "ktp-attenuation",
+         "the WORD survives (conventional in networking). This document "
+         "asserted the killed L4 dynamics across 774 normative lines."),
+    )
     bad = []
-    for name, why in (("ktp-tensors", "Context Tensor Specification"),
-                      ("ktp-gravity", "Digital Gravity Specification"),
-                      ("ktp-signal", "Signal Environment Specification")):
+    for old, new, why in retired:
         for sub, ext in (("rfcs", ".md"), ("rfcs-txt", ".txt")):
-            p = os.path.join(HERE, sub, name + ext)
+            p = os.path.join(HERE, sub, old + ext)
             if os.path.exists(p):
-                bad.append((os.path.relpath(p, HERE), why))
+                bad.append((os.path.relpath(p, HERE), f"-> {new}: {why}"))
     return bad
 
 
@@ -198,8 +220,8 @@ def main():
         print(f"{rule['term']:<24}{n:>14}{flag}   {rule['why'][:56]}")
     print()
     if named:
-        print("Spec files named for a retired object "
-              "(renaming breaks published URLs — that is a decision, not a fix):")
+        print("Retired spec paths that came back (#65 renamed these outright, "
+              "no redirects — a returning path re-asserts the object):")
         for rel, why in named:
             print(f"  {rel:<34} {why}")
         print()
@@ -213,7 +235,7 @@ def main():
 
     total = len(hits)
     print(f"[{total} unmarked occurrence(s) in normative text, "
-          f"{len(named)} file(s) named for a retired object]")
+          f"{len(named)} retired path(s) present]")
     print("[in scope: rfcs/ rfcs-txt/ docs/ — they have to match]")
     print("[exempt by design: the essay/drafts corpus IN FULL (voice, no "
           "publication gate), ktp/src/content (mirror), rest of ktp/src "

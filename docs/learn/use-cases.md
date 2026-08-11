@@ -105,7 +105,7 @@ Risks include:
 During high-volatility events, the HEAT dimension of the Context Tensor rises, automatically constraining agent autonomy:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The HEAT dimension measures adversarial pressure and environmental stress. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 3.3.
+1. :material-star-four-points-circle: The HEAT dimension measures adversarial pressure and environmental stress. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 3.3.
 
 ```
 Normal Conditions:
@@ -154,7 +154,7 @@ Sovereignty requirements include:
 The SOUL tensor dimension(1) enforces non-negotiable constraints:
 { .annotate }
 
-1. :material-star-four-points-circle: The Soul dimension implements data sovereignty constraints. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 2.7 and [Constitution](constitution.md) Article VIII.
+1. :material-star-four-points-circle: The Soul dimension implements data sovereignty constraints. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 2.7 and [Constitution](constitution.md) Article VIII.
 
 ```
 Patient Record Request: PATIENT-2847

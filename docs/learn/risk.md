@@ -50,7 +50,7 @@ Your effective trust is always less than or equal to your base performance:
 KTP recognizes four distinct risk categories, each measured and applied independently:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Risk category taxonomy aligns with the Context Tensor dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 4, "Heat Dimension."
+1. :material-star-four-points-circle: Risk category taxonomy aligns with the Context Tensor dimensions. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 4, "Heat Dimension."
 
 </div>
 

@@ -14,7 +14,7 @@ description: The Trust Oracle specification - the nerve center of KTP zones, han
 |----------|-------|
 | **Status** | :material-flask:{ .experimental } Experimental |
 | **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Signal](ktp-signal.md) |
+| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Information](ktp-information.md) |
 | **Required By** | [KTP-Federation](ktp-federation.md), [KTP-Zones](ktp-zones.md) |
 
 ---

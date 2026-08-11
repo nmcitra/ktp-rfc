@@ -92,7 +92,7 @@ graph TD
     
     *   **Vector**: DDoS, resource exhaustion.
     *   **Mitigation**:
-        *   [**KTP-Gravity**](ktp-gravity.md): Latency injection slows down attackers automatically.
+        *   [**KTP-Attenuation**](ktp-attenuation.md): Latency injection slows down attackers automatically.
         *   **Fail-Closed**: If the Oracle is unreachable, the zone defaults to safety (blocking actions).
 
 === "Elevation of Privilege"

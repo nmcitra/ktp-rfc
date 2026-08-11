@@ -128,7 +128,7 @@ The Silent Veto is not a punishment or denial message—it's physics. The agent 
 If the Zeroth Law is the constraint, Digital Gravity is the enforcement mechanism. When autonomy approaches environmental limits, agents experience increasing resistance.(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Digital Gravity mechanics are fully specified in [KTP-GRAVITY](../rfcs/ktp-gravity.md), covering gravity wells, constraint types, and response curves.
+1. :material-star-four-points-circle: Digital Gravity mechanics are fully specified in [KTP-ATTENUATION](../rfcs/ktp-attenuation.md), covering gravity wells, constraint types, and response curves.
 
 </div>
 
@@ -324,7 +324,7 @@ Each phase requires demonstrated survival under real conditions—trust cannot b
 To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environmental capacity). Context Tensors provide the measurement framework.(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The complete Context Tensor specification spans 1,707 dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for measurement definitions, aggregation rules, and instrumentation requirements.
+1. :material-star-four-points-circle: The complete Context Tensor specification spans 1,707 dimensions. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for measurement definitions, aggregation rules, and instrumentation requirements.
 
 </div>
 

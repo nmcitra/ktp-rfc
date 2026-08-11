@@ -78,15 +78,15 @@ the complete KTP specification. Each link points to the RFC's summary page in
 | RFC | Title | Lines | Description |
 |-----|-------|-------|-------------|
 | [KTP-Identity](rfcs/ktp-identity.md) | Vector Identity | 1,472 | Trajectory Chains, Proof of Resilience, Sponsorship, NIST 800-63 Identity Proofing |
-| [KTP-Tensors](rfcs/ktp-tensors.md) | Context Tensor Specification | 840 | The measurement framework: dimensions across the six domains |
+| [KTP-Signals](rfcs/ktp-signals.md) | Context Tensor Specification | 840 | The measurement framework: dimensions across the six domains |
 | [KTP-Sensors](rfcs/ktp-sensors.md) | Context Tensor Sensors | 984 | Sensor specifications, Risk Domains, normalization, domain profiles |
-| [KTP-Signal](rfcs/ktp-signal.md) | Signal Environment | 599 | Information-environment measurement, truth conditions, epistemic health |
+| [KTP-Information](rfcs/ktp-information.md) | Signal Environment | 599 | Information-environment measurement, truth conditions, epistemic health |
 
 ### Enforcement & Audit
 
 | RFC | Title | Lines | Description |
 |-----|-------|-------|-------------|
-| [KTP-Gravity](rfcs/ktp-gravity.md) | Digital Gravity | 774 | Gravity wells, constraint types, real-time enforcement, the physics of denial |
+| [KTP-Attenuation](rfcs/ktp-attenuation.md) | Digital Gravity | 774 | Gravity wells, constraint types, real-time enforcement, the physics of denial |
 | [KTP-Enforce](rfcs/ktp-enforce.md) | Enforcement Layer | 1,234 | Policy Enforcement Points, Trust Tiers, Adaptive Dormancy, Mass Ceiling |
 | [KTP-Audit](rfcs/ktp-audit.md) | Flight Recorder | 1,044 | Decision Geometry, immutable logging, forensics, counterfactual analysis |
 | [KTP-Emergency](rfcs/ktp-emergency.md) | Emergency & Circuit Breakers | 1,110 | Emergency levels, circuit breakers, graceful degradation, zone collapse |

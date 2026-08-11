@@ -107,7 +107,7 @@ The Context Tensor is expressed across seven primary dimensions. Click any dimen
   </a>
 </div>
 
-<p class="dimension-cards-note">For the full dimensional breakdown (1,707 measurements), see <a href="../../rfcs/ktp-tensors/">KTP-Tensors RFC</a>.</p>
+<p class="dimension-cards-note">For the full dimensional breakdown (1,707 measurements), see <a href="../../rfcs/ktp-signals/">KTP-Signals RFC</a>.</p>
 
 ## Incoming Signals { #incoming-signals }
 
@@ -1046,7 +1046,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     <div class="dimension-links" markdown>
     **Explore Further**
-    [KTP-Tensors RFC](../rfcs/ktp-tensors.md) <span class="separator">·</span>
+    [KTP-Signals RFC](../rfcs/ktp-signals.md) <span class="separator">·</span>
     [Telemetry Pipeline](telemetry.md) <span class="separator">·</span>
     [Use Cases](use-cases.md)
     </div>
@@ -1096,7 +1096,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     <div class="dimension-links" markdown>
     **Explore Further**
-    [KTP-Tensors RFC](../rfcs/ktp-tensors.md) <span class="separator">·</span>
+    [KTP-Signals RFC](../rfcs/ktp-signals.md) <span class="separator">·</span>
     [Telemetry Pipeline](telemetry.md) <span class="separator">·</span>
     [Trust Tiers](risk.md#risk-thresholds)
     </div>
@@ -1146,7 +1146,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     <div class="dimension-links" markdown>
     **Explore Further**
-    [KTP-Tensors RFC](../rfcs/ktp-tensors.md) <span class="separator">·</span>
+    [KTP-Signals RFC](../rfcs/ktp-signals.md) <span class="separator">·</span>
     [Vector Identity](../specifications/identity.md) <span class="separator">·</span>
     [Proof of Resilience](../rfcs/ktp-identity.md)
     </div>
@@ -1246,7 +1246,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     <div class="dimension-links" markdown>
     **Explore Further**
-    [KTP-Tensors RFC](../rfcs/ktp-tensors.md) <span class="separator">·</span>
+    [KTP-Signals RFC](../rfcs/ktp-signals.md) <span class="separator">·</span>
     [Telemetry Pipeline](telemetry.md) <span class="separator">·</span>
     [Experience Calculator](../implement/experience-calculator.md)
     </div>

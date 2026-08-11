@@ -1,9 +1,9 @@
 ---
-title: KTP-Tensors - Context Tensor Specification
-description: The measurement framework for Digital Gravity, capturing 1,707 dimensions of trust.
+title: KTP-Signals - Context Signals Specification
+description: The catalogue of measurable context signals across six domains.
 ---
 
-# KTP-Tensors: Context Tensor Specification
+# KTP-Signals: Context Signals Specification
 
 > "Trust is not a binary state; it is a high-dimensional vector. To manage trust, we must first measure the context."
 
@@ -16,7 +16,7 @@ description: The measurement framework for Digital Gravity, capturing 1,707 dime
 | **Status** | :material-flask:{ .experimental } Experimental |
 | **Version** | 0.1 |
 | **Dependencies** | [KTP-Core](ktp-core.md) |
-| **Required By** | [KTP-Sensors](ktp-sensors.md), [KTP-Signal](ktp-signal.md) |
+| **Required By** | [KTP-Sensors](ktp-sensors.md), [KTP-Information](ktp-information.md) |
 
 ---
 
@@ -24,7 +24,7 @@ description: The measurement framework for Digital Gravity, capturing 1,707 dime
 The Zeroth Law ($A \leq E$) requires a precise calculation of $E$ (Environmental Stability). However, "environment" is a vague term. Without a standardized way to measure cognitive, physical, and informational state, trust remains subjective and un-enforceable.
 
 ## The Solution: Context Tensors
-KTP-Tensors provides a rigorous mathematical framework for measuring 1,707 distinct dimensions of context. These measurements are aggregated into a **Risk Factor ($R$)**, which determines the "Digital Gravity" of an environment.
+KTP-Signals provides a rigorous mathematical framework for measuring 1,707 distinct dimensions of context. These measurements are aggregated into a **Risk Factor ($R$)**, which determines the "Digital Gravity" of an environment.
 
 ### The Six Domains of Trust
 
@@ -158,14 +158,14 @@ graph LR
 ??? info "Related Specifications"
     - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
     - **[KTP-Sensors](ktp-sensors.md)** — The sensory nervous system providing real-time telemetry.
-    - **[KTP-Gravity](ktp-gravity.md)** — The enforcement mechanism that replaces policy with physics.
+    - **[KTP-Attenuation](ktp-attenuation.md)** — The enforcement mechanism that replaces policy with physics.
     - **[KTP-Identity](ktp-identity.md)** — Vector Identity and trajectory-based authentication.
 
 ---
 
 ## Official RFC Document
 
-??? note "View Complete RFC Text (ktp-tensors.txt)"
+??? note "View Complete RFC Text (ktp-signals.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-tensors.txt"
+    --8<-- "rfcs-txt/ktp-signals.txt"
     ```

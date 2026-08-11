@@ -14,7 +14,7 @@ description: The Enforcement Layer specification - Policy Enforcement Points (PE
 |----------|-------|
 | **Status** | :material-flask:{ .experimental } Experimental |
 | **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Gravity](ktp-gravity.md) |
+| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Attenuation](ktp-attenuation.md) |
 | **Required By** | [KTP-Emergency](ktp-emergency.md), [KTP-Audit](ktp-audit.md) |
 
 ---
@@ -117,7 +117,7 @@ If an agent's concentration exceeds the ceiling, it must undergo **Mitosis** (sp
 
 ??? info "Related Specifications"
     - [KTP-Core](ktp-core.md): Trust physics enforced by PEPs.
-    - [KTP-Gravity](ktp-gravity.md): Environmental drag and constraint mechanics.
+    - [KTP-Attenuation](ktp-attenuation.md): Environmental drag and constraint mechanics.
     - [KTP-Emergency](ktp-emergency.md): Break-glass enforcement paths.
     - [KTP-Audit](ktp-audit.md): Flight Recorder logs for enforcement actions.
 

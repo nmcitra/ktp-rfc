@@ -72,7 +72,7 @@ KTP adopts Helen Nissenbaum's **Contextual Integrity** framework. Privacy is not
 ## Core Components
 
 ???+ note "Privacy Impact Assessment (PIA)"
-    A mandatory review process for any new sensor or data feed added to the [**Context Tensor**](ktp-tensors.md).
+    A mandatory review process for any new sensor or data feed added to the [**Context Tensor**](ktp-signals.md).
 
 ???+ note "Differential Privacy"
     Adding statistical noise to aggregate reports so that individual agent behavior cannot be reverse-engineered.
@@ -89,7 +89,7 @@ KTP adopts Helen Nissenbaum's **Contextual Integrity** framework. Privacy is not
     - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
     - **[KTP-Audit](ktp-audit.md)** — The Flight Recorder specification for immutable decision logging.
     - **[KTP-Identity](ktp-identity.md)** — Identity management to support pseudonymity and lineage.
-    - **[KTP-Tensors](ktp-tensors.md)** — The data collection engine that requires strict privacy controls.
+    - **[KTP-Signals](ktp-signals.md)** — The data collection engine that requires strict privacy controls.
     - **[KTP-Human](ktp-human.md)** — The interface between the system and human rights.
     - **[KTP-Governance](ktp-governance.md)** — The governance framework for policy evolution.
 

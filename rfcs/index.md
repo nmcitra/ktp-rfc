@@ -52,21 +52,21 @@ This section contains the complete technical specifications for the Kinetic Trus
 
     [:octicons-arrow-right-24: Read Spec](ktp-sensors.md)
 
--   :material-cube-outline:{ .lg .middle } **KTP-Tensors**
+-   :material-cube-outline:{ .lg .middle } **KTP-Signals**
 
     ---
     
     Complete Context Tensor specification (1,707 dimensions).
 
-    [:octicons-arrow-right-24: Read Spec](ktp-tensors.md)
+    [:octicons-arrow-right-24: Read Spec](ktp-signals.md)
 
--   :material-signal:{ .lg .middle } **KTP-Signal**
+-   :material-signal:{ .lg .middle } **KTP-Information**
 
     ---
     
     Trust signal propagation and analysis.
 
-    [:octicons-arrow-right-24: Read Spec](ktp-signal.md)
+    [:octicons-arrow-right-24: Read Spec](ktp-information.md)
 
 -   :material-earth:{ .lg .middle } **KTP-Federation**
 

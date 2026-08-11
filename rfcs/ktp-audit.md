@@ -113,7 +113,7 @@ This capability is critical for proving that the system behaved correctly during
 
 ??? info "Related Specifications"
     - **[KTP-Threat Model](ktp-threat-model.md)** — The threats that the Flight Recorder helps investigate.
-    - **[KTP-Tensors](ktp-tensors.md)** — The environmental data captured in every record.
+    - **[KTP-Signals](ktp-signals.md)** — The environmental data captured in every record.
     - **[KTP-Identity](ktp-identity.md)** — The agent identity tracked across records.
     - **[KTP-Recovery](ktp-recovery.md)** — How to use logs to reconstruct state after a failure.
 

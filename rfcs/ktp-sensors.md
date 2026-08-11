@@ -1,9 +1,9 @@
 ---
-title: KTP-Sensors - Context Tensor Sensor Specification
+title: KTP-Sensors - Context Signal Sensor Specification
 description: The sensory nervous system of KTP, providing real-time telemetry for trust calculation.
 ---
 
-# KTP-Sensors: Context Tensor Sensor Specification
+# KTP-Sensors: Context Signal Sensor Specification
 
 > "The Context Tensor is the sensory nervous system of the Kinetic Trust Protocol. It measures environmental reality to calculate the Risk Factor."
 
@@ -15,8 +15,8 @@ description: The sensory nervous system of KTP, providing real-time telemetry fo
 |----------|-------|
 | **Status** | :material-progress-clock:{ .draft } Draft |
 | **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Tensors](ktp-tensors.md) |
-| **Required By** | [KTP-Signal](ktp-signal.md), [KTP-Gravity](ktp-gravity.md) |
+| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Signals](ktp-signals.md) |
+| **Required By** | [KTP-Information](ktp-information.md), [KTP-Attenuation](ktp-attenuation.md) |
 
 ---
 
@@ -65,7 +65,7 @@ graph TD
 ---
 
 ## Sensor Feed Architecture
-Each dimension in the [**Context Tensor**](ktp-tensors.md) aggregates multiple sensor feeds.
+Each dimension in the [**Context Tensor**](ktp-signals.md) aggregates multiple sensor feeds.
 
 ### Feed Aggregation Logic
 For most dimensions, feeds are combined using a weighted average:
@@ -87,8 +87,8 @@ The **Soul Dimension** is unique. It does not use weighted averages. Instead, it
 
 ??? info "Related Specifications"
     - [KTP-Core](ktp-core.md): Trust physics that sensor data feeds.
-    - [KTP-Tensors](ktp-tensors.md): Context Tensor schema for sensor inputs.
-    - [KTP-Signal](ktp-signal.md): Epistemic health signals from telemetry.
+    - [KTP-Signals](ktp-signals.md): Context Tensor schema for sensor inputs.
+    - [KTP-Information](ktp-information.md): Epistemic health signals from telemetry.
     - [KTP-Enforce](ktp-enforce.md): Enforcement decisions driven by sensor data.
 
 ---

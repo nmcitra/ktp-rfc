@@ -146,7 +146,7 @@ Trust is not granted—it's earned through survival. An agent's Trust Score refl
 Environmental state is captured through 1,707 measurements organized into seven dimensions:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across seven trust dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for complete measurement definitions.
+1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across seven trust dimensions. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
 
 </div>
 

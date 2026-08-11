@@ -505,7 +505,7 @@ sequenceDiagram
     - **[KTP-Identity](ktp-identity.md)** — Vector Identity, Proof of Resilience, and agent lineage.
     - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and signature schemes.
     - **[KTP-Transport](ktp-transport.md)** — Network transport and Trust Proof propagation.
-    - **[KTP-Tensors](ktp-tensors.md)** — Complete Context Tensor specification (1,707 dimensions).
+    - **[KTP-Signals](ktp-signals.md)** — Complete Context Tensor specification (1,707 dimensions).
     - **[KTP-Conformance](ktp-conformance.md)** — Compliance levels and certification criteria.
 
 ---

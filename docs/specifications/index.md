@@ -54,7 +54,7 @@ Different readers need different entry points. Select the journey that matches y
     **Foundation** → **Identity** → **Environment** → **Compliance**
     
     1. [KTP-Core](../rfcs/ktp-core.md) → [KTP-Crypto](../rfcs/ktp-crypto.md) → [KTP-Transport](../rfcs/ktp-transport.md)
-    2. [KTP-Identity](../rfcs/ktp-identity.md) → [KTP-Tensors](../rfcs/ktp-tensors.md)
+    2. [KTP-Identity](../rfcs/ktp-identity.md) → [KTP-Signals](../rfcs/ktp-signals.md)
     3. [KTP-Zones](../rfcs/ktp-zones.md) → [KTP-Federation](../rfcs/ktp-federation.md)
     4. [KTP-Conformance](../rfcs/ktp-conformance.md) → [KTP-Audit](../rfcs/ktp-audit.md)
 
@@ -73,7 +73,7 @@ Different readers need different entry points. Select the journey that matches y
     **Philosophy** → **Mechanics** → **Innovation**
     
     1. [KTP-Core](../rfcs/ktp-core.md) (Sections 1-4) → [Constitution](../learn/constitution.md)
-    2. [KTP-Tensors](../rfcs/ktp-tensors.md) → [KTP-Gravity](../rfcs/ktp-gravity.md) → [KTP-Signal](../rfcs/ktp-signal.md)
+    2. [KTP-Signals](../rfcs/ktp-signals.md) → [KTP-Attenuation](../rfcs/ktp-attenuation.md) → [KTP-Information](../rfcs/ktp-information.md)
     3. [KTP-Oracle](../rfcs/ktp-oracle.md) → [KTP-Celestial](../rfcs/ktp-celestial.md)
 
 ---
@@ -100,9 +100,9 @@ Different readers need different entry points. Select the journey that matches y
     
     | Specification | Status | Description |
     |--------------|--------|-------------|
-    | [KTP-Tensors](../rfcs/ktp-tensors.md) | :material-check-circle:{ .stable } Stable | Context Tensor specification (1,707 dimensions) |
-    | [KTP-Gravity](../rfcs/ktp-gravity.md) | :material-progress-clock:{ .draft } Draft | Digital Gravity enforcement mechanisms |
-    | [KTP-Signal](../rfcs/ktp-signal.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
+    | [KTP-Signals](../rfcs/ktp-signals.md) | :material-check-circle:{ .stable } Stable | Context Tensor specification (1,707 dimensions) |
+    | [KTP-Attenuation](../rfcs/ktp-attenuation.md) | :material-progress-clock:{ .draft } Draft | Digital Gravity enforcement mechanisms |
+    | [KTP-Information](../rfcs/ktp-information.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
     | [KTP-Relational](../rfcs/ktp-relational.md) | :material-progress-clock:{ .draft } Draft | Agent-to-agent trust relationships |
     | [KTP-Oracle](../rfcs/ktp-oracle.md) | :material-flask:{ .experimental } Experimental | Trust oracles and external attestation |
     
@@ -229,7 +229,7 @@ For the full JSON schema definition, see [context-tensor.json](../schemas/contex
 ## Quick Reference
 
 !!! quote "Most Referenced"
-    [KTP-Core](../rfcs/ktp-core.md) · [KTP-Identity](../rfcs/ktp-identity.md) · [KTP-Zones](../rfcs/ktp-zones.md) · [KTP-Tensors](../rfcs/ktp-tensors.md)
+    [KTP-Core](../rfcs/ktp-core.md) · [KTP-Identity](../rfcs/ktp-identity.md) · [KTP-Zones](../rfcs/ktp-zones.md) · [KTP-Signals](../rfcs/ktp-signals.md)
 
 !!! example "Complete RFC Index"
     For a flat listing of all specifications, visit the [GitHub RFC directory](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs){ target="_blank" }.

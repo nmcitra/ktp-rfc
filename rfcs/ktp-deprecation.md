@@ -69,7 +69,7 @@ stateDiagram-v2
 When an individual agent is retired (voluntarily or due to model sunset), it undergoes a **Succession Ceremony**.
 
 1.  **Dependency Check**: Identify all other agents or humans relying on this agent.
-2.  **State Export**: Serialize the agent's final [**Context Tensor**](ktp-tensors.md) state.
+2.  **State Export**: Serialize the agent's final [**Context Tensor**](ktp-signals.md) state.
 3.  **Trajectory Archive**: Cryptographically sign the full history chain and store it in the [**Flight Recorder**](ktp-audit.md).
 4.  **Key Revocation**: Revoke active keys but retain public keys for historical verification.
 

@@ -295,7 +295,7 @@ Six operational dimensions shape risk. The seventh — **Soul** — sits outside
     **The digital world does not stop at the API gateway.**
 
 === "Implementation"
-    The Context Tensor is specified in [KTP-TENSORS](../rfcs/ktp-tensors.md).
+    The Context Tensor is specified in [KTP-SIGNALS](../rfcs/ktp-signals.md).
 
 ---
 
@@ -690,7 +690,7 @@ The Constitution is **self-enforcing**. No external authority is required to giv
 | Article | Implementing RFC |
 |---------|-----------------|
 | Article I (Zeroth Law) | [KTP-CORE](../rfcs/ktp-core.md) Section 4 |
-| Article III (Context Tensor) | [KTP-TENSORS](../rfcs/ktp-tensors.md) |
+| Article III (Context Tensor) | [KTP-SIGNALS](../rfcs/ktp-signals.md) |
 | Article IV (Kinetic Identity) | [KTP-IDENTITY](../rfcs/ktp-identity.md) |
 | Article VIII (Distributed Oracle) | [KTP-ORACLE](../rfcs/ktp-oracle.md) |
 | Article IX (Blue Zones) | [KTP-ZONES](../rfcs/ktp-zones.md) |

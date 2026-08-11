@@ -1,9 +1,9 @@
 ---
-title: KTP-Gravity - Digital Gravity Specification
-description: The enforcement mechanism that replaces policy with physics, ensuring A ≤ E.
+title: KTP-Attenuation - Capability Attenuation Specification
+description: Graduated resistance — latency, throttling, isolation and capability reduction as A approaches E.
 ---
 
-# KTP-Gravity: Digital Gravity Specification
+# KTP-Attenuation: Capability Attenuation Specification
 
 > "In physical gravity, mass curves spacetime. In Digital Gravity, risk curves the operational environment. The physics is the governance."
 
@@ -15,7 +15,7 @@ description: The enforcement mechanism that replaces policy with physics, ensuri
 |----------|-------|
 | **Status** | :material-flask:{ .experimental } Experimental |
 | **Version** | 0.1 |
-| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Signal](ktp-signal.md) |
+| **Dependencies** | [KTP-Core](ktp-core.md), [KTP-Information](ktp-information.md) |
 | **Required By** | [KTP-Enforce](ktp-enforce.md), [KTP-Emergency](ktp-emergency.md) |
 
 ---
@@ -37,7 +37,7 @@ $$A \leq E$$
 Where:
 *   **$A$ (Autonomy)**: The risk level of the agent's attempted action.
 *   **$E$ (Environment)**: The environment's current capacity to absorb risk.
-*   **$E = E_{base} \times (1 - R)$**: Where $R$ is the Risk Factor from [**Context Tensors**](ktp-tensors.md).
+*   **$E = E_{base} \times (1 - R)$**: Where $R$ is the Risk Factor from [**Context Tensors**](ktp-signals.md).
 
 ---
 
@@ -84,7 +84,7 @@ graph TD
 
 ??? info "Related Specifications"
     - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
-    - **[KTP-Tensors](ktp-tensors.md)** — Data source for calculating the Risk Factor $R$.
+    - **[KTP-Signals](ktp-signals.md)** — Data source for calculating the Risk Factor $R$.
     - **[KTP-Enforce](ktp-enforce.md)** — Enforcement mechanisms for Digital Physics.
     - **[KTP-Emergency](ktp-emergency.md)** — Emergency protocols and the Silent Veto mechanism.
     - **[KTP-Sensors](ktp-sensors.md)** — Interfaces that report environmental state.
@@ -94,7 +94,7 @@ graph TD
 
 ## Official RFC Document
 
-??? note "View Complete RFC Text (ktp-gravity.txt)"
+??? note "View Complete RFC Text (ktp-attenuation.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-gravity.txt"
+    --8<-- "rfcs-txt/ktp-attenuation.txt"
     ```

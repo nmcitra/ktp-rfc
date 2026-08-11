@@ -1,0 +1,23 @@
+name: Repo Hygiene
+
+# The repo is the canonical normative artifact. A file that a future RFC reader
+# does not need enlarges the citable surface and cannot be quietly withdrawn
+# once published. The gate is an allowlist, so a new *kind* of file has to be
+# named on purpose before it can land.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check only essential files are tracked
+        run: python3 scripts/check-repo-hygiene.py

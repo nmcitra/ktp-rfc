@@ -50,6 +50,35 @@ The KTP-RFC project accepts contributions in several forms:
 
 8. **Merge approval**: Your PR will be merged once it has been approved by at least one maintainer and all CI checks pass.
 
+## What belongs in this repository
+
+This repository is the canonical normative artifact. Everything tracked here is
+something a future RFC reader, an IETF submission, or a citation resolves
+against — so a file that is not needed for that has a cost and no benefit. It
+enlarges the citable surface, it is one more thing to keep in parity, and once
+published it cannot be quietly withdrawn.
+
+`scripts/check-repo-hygiene.py` enforces this, and it runs on every pull
+request. It is an **allowlist**, not a denylist: a denylist only ever catches
+the junk somebody already thought of, so a new *kind* of file has to be named in
+the script, on purpose, with a reason, before it can land. Four categories exist
+today:
+
+| category | what it covers |
+|---|---|
+| **normative** | `rfcs/`, `rfcs-txt/`, and the root-level companions (`glossary.md`, `constitution.txt`) |
+| **site** | `docs/`, `mkdocs.yml`, and the theme assets the build needs |
+| **governance** | licence, attribution, versioning, the DOI record |
+| **tooling** | `scripts/`, `.github/`, `.gitignore` |
+
+If your change adds a file that does not fit one of these, that is a decision to
+make deliberately — add the category with its reason, or leave the file out.
+Deleting a file to satisfy the script is never the right move on its own.
+
+Editor backups (`*.bak`, `*~`, `*.orig`), build output (`site/`), virtualenvs,
+and transient logs never land, whatever else is true. These are accidents rather
+than decisions, and `.gitignore` covers them so the question does not come up.
+
 ## Specification Governance
 
 Changes to the core protocol specifications (particularly KTP-CORE, KTP-IDENTITY, KTP-CRYPTO) require careful consideration and may involve broader community discussion. Please see [KTP-GOVERNANCE](rfcs/ktp-governance.txt) for details on the specification amendment process.

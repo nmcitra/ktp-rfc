@@ -177,10 +177,14 @@ Base Trust represents intrinsic capability, independent of current conditions:
     E_base = (PoR_score × 0.70) + (Lineage_cap × 0.20) + (Sponsor_contribution × 0.10)
     
     Where:
-      PoR_score = f(transaction_count, crisis_ratio, max_friction)
+      PoR_score = the Proof of Resilience contribution, computed as
+                  specified in [KTP-IDENTITY] Section 5.3. This
+                  document MUST NOT restate that computation.
       Lineage_cap = min(generation × 15, 100)
       Sponsor_contribution = Sponsor_E_base × stake_percentage
     ```
+
+Proof of Resilience is a function of attestations earned under friction, not of transaction volume. An agent's transaction count bounds $E_{base}$ through the trajectory-length requirement of *Trust Score Integrity*; it is not an input to `PoR_score`. See [KTP-IDENTITY] Section 5.4.
 
 ### Risk Factor ($R$)
 

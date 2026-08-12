@@ -456,9 +456,16 @@ Table of Contents
       E_base = (PoR_score * 0.70) + (Lineage_cap * 0.20) +
                (Sponsor_contribution * 0.10)
 
-   Where: PoR_score = f(transaction_count, crisis_ratio, max_friction)
-   Lineage_cap = min(generation * 15, 100) Sponsor_contribution =
-   Sponsor_E_base * stake_percentage
+   Where: PoR_score = the Proof of Resilience contribution, computed as
+   specified in [KTP-IDENTITY] Section 5.3. This document MUST NOT
+   restate that computation. Lineage_cap = min(generation * 15, 100)
+   Sponsor_contribution = Sponsor_E_base * stake_percentage
+
+   Proof of Resilience is a function of attestations earned under
+   friction, not of transaction volume. An agent's transaction count
+   bounds E_base through the trajectory-length requirement of
+   Section 5.5.6; it is not an input to PoR_score. See [KTP-IDENTITY]
+   Section 5.4.
 
    E_base MUST be recalculated when: - New Proof of Resilience
    attestations are received - Agent generation advances - Sponsorship
@@ -1634,10 +1641,10 @@ Table of Contents
    2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017,
    <https://www.rfc-editor.org/info/rfc8174>.
 
-12.2.  Informative References
-
    [KTP-IDENTITY] Perkins, C., "Kinetic Trust Protocol - Vector
    Identity", Work in Progress.
+
+12.2.  Informative References
 
    [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Tensor
    Sensors", Work in Progress.

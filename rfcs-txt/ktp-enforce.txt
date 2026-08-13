@@ -214,7 +214,7 @@ Table of Contents
    4. PEP extracts Soul constraint status (S)
 
    5. IF S = 1:
-      - DENY with SOVEREIGNTY_CONSTRAINT
+      - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT
       - Log to Flight Recorder
       - STOP
 
@@ -223,16 +223,20 @@ Table of Contents
    7. PEP looks up Action Risk (A) for requested action
 
    8. IF A > E_trust:
-      - DENY with TRUST_INSUFFICIENT (Silent Veto)
+      - supervision = silent_veto, reason TRUST_INSUFFICIENT
+        (Silent Veto)
       - Log to Flight Recorder
       - STOP
 
    9. IF action not permitted for Trust Tier:
-      - DENY with TIER_RESTRICTION
+      - supervision = silent_veto, reason TIER_RESTRICTION
       - Log to Flight Recorder
       - STOP
 
-   10. ALLOW action to proceed
+   10. RETURN the decision result - supervision and
+       tightenedConstraints - per [KTP-CORE] Section 6.6; the action
+       proceeds under the tightened envelope, at the returned
+       supervision level
 
    11. Log success to Flight Recorder
 
@@ -793,25 +797,28 @@ Table of Contents
    1. Trust Proof Validation
       - Signature valid?
       - Not expired?
-      - If NO: DENY with INVALID_TRUST_PROOF
+      - If NO: supervision = silent_veto, reason INVALID_TRUST_PROOF
 
    2. Soul Veto (Sovereignty Check)
       - S = 1?
-      - If YES: DENY with SOVEREIGNTY_CONSTRAINT
+      - If YES: supervision = silent_veto,
+        reason SOVEREIGNTY_CONSTRAINT
 
    3. Trust Tier Eligibility
       - Is action class permitted for tier?
-      - If NO: DENY with TIER_RESTRICTION
+      - If NO: supervision = silent_veto, reason TIER_RESTRICTION
 
    4. Zeroth Law (A <= E_trust)
       - Is A <= E_trust?
-      - If NO: DENY with TRUST_INSUFFICIENT
+      - If NO: supervision = silent_veto, reason TRUST_INSUFFICIENT
 
    5. Custom Policy (Optional)
       - Any additional policy constraints?
-      - If violated: DENY with POLICY_VIOLATION
+      - If violated: supervision = silent_veto,
+        reason POLICY_VIOLATION
 
-   6. ALLOW
+   6. RETURN the decision result - supervision and
+      tightenedConstraints - per [KTP-CORE] Section 6.6
 
    This order ensures that sovereignty constraints are always evaluated
    first, followed by environment-derived constraints, followed by

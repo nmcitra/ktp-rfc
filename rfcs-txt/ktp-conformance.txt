@@ -740,9 +740,10 @@ Table of Contents
 
    1.  Extract E_trust from Trust Proof
    2.  Determine action risk (A) from classification
-   3.  Compare A to E_trust
-   4.  If A > E_trust: DENY (Silent Veto)
-   5.  If A <= E_trust: ALLOW (proceed to other checks)
+   3.  Compute the Zeroth Law margin from A and E_trust
+   4.  If margin <= M_veto: supervision = silent_veto (Silent Veto)
+   5.  Otherwise: derive supervision and tightenedConstraints from the
+       margin per [KTP-CORE] Section 6.6 (proceed to other checks)
 
    Implementation MUST NOT:
 
@@ -761,7 +762,8 @@ Table of Contents
    Before Zeroth Law evaluation:
 
    1.  Check Soul constraint (S) from Trust Proof
-   2.  If S = 1: DENY (Soul Veto), skip Zeroth Law
+   2.  If S = 1: supervision = silent_veto with
+       SOVEREIGNTY_CONSTRAINT (Soul Veto), skip Zeroth Law
    3.  If S = 0: Proceed to Zeroth Law
 
    Soul Veto MUST:

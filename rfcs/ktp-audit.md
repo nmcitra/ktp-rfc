@@ -47,8 +47,8 @@ KTP-Audit defines a system for recording **Decision Geometry**—a multi-dimensi
     "risk_factor": 0.523
   },
   "decision": {
-    "outcome": "DENY",
-    "reason": "silent_veto",
+    "supervision": "silent_veto",
+    "reason": "SOVEREIGNTY_CONSTRAINT",
     "constraint": "soul_violation"
   }
 }

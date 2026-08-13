@@ -114,9 +114,9 @@ Table of Contents
    1. Record Everything: Every authorization decision, not just denials
       or anomalies. The baseline is as important as the exceptions.
 
-   2. Context Over Outcome: The outcome (allow/deny) is one bit. The
-      context (why, what was the environment, what would have happened)
-      is where the value lies.
+   2. Context Over Outcome: The derived decision verb is one bit's
+      worth of reading. The context (why, what was the environment,
+      what would have happened) is where the value lies.
 
    3. Immutability: Once written, records cannot be altered or deleted.
       This is essential for legal defensibility and forensic integrity.
@@ -302,8 +302,10 @@ Table of Contents
    The decision outcome records what happened and why:
 
       "decision": {
-        "outcome": "deny",
+        "supervision": "silent_veto",
         "reason": "TRUST_INSUFFICIENT",
+        "margin": -1.02,
+        "tightened_constraints": {},
         "evaluation": {
           "soul_check": "pass",
           "tier_check": "pass",
@@ -326,13 +328,24 @@ Table of Contents
 
    Key fields:
 
-   outcome: "allow" or "deny"
+   supervision: the returned supervision level (stable, metacognitive,
+   assisted, regulated, or silent_veto), per [KTP-CORE] Section 6.6
 
-   reason: KTP error code if denied
+   tightened_constraints: the tighten-only constraint set on the
+   result; present on every decision
+
+   margin: the Zeroth Law margin the supervision was derived from
+
+   reason: KTP error code when supervision is silent_veto
 
    evaluation: Step-by-step evaluation trace
 
    gap: Difference between A and E_trust (how far from threshold)
+
+   The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from
+   supervision and tightened_constraints per [KTP-CORE] Section 6.6
+   and is not stored; the record carries the result the verb is read
+   from.
 
 3.5.  Counterfactual Analysis
 
@@ -707,11 +720,12 @@ Table of Contents
 
 7.1.3.  Outcome Queries
 
-   Query by decision outcome:
+   Query by decision result.  The stored fields are supervision and
+   reason; a verb-level query derives from them:
 
       {
-        "query": "outcome",
-        "outcome": "deny",
+        "query": "supervision",
+        "supervision": "silent_veto",
         "reason": "TRUST_INSUFFICIENT",
         "start": "2025-11-25T00:00:00Z"
       }
@@ -738,7 +752,7 @@ Table of Contents
         "if_allowed": {
           "blast_radius.services_affected": { "gte": 10 }
         },
-        "outcome": "deny",
+        "supervision": "silent_veto",
         "start": "2025-11-25T00:00:00Z"
       }
 
@@ -750,7 +764,7 @@ Table of Contents
         "query": "compound",
         "filters": [
           { "record_type": "authorization_decision" },
-          { "outcome": "deny" },
+          { "supervision": "silent_veto" },
           { "counterfactual.if_allowed.blast_radius.services_affected":
             { "gte": 5 } }
         ],
@@ -794,7 +808,7 @@ Table of Contents
         "metrics": [
           { "name": "total_decisions", "function": "count" },
           { "name": "vetoes", "function": "count",
-            "filter": { "outcome": "deny" } },
+            "filter": { "supervision": "silent_veto" } },
           { "name": "veto_rate", "function": "ratio",
             "numerator": "vetoes", "denominator": "total_decisions" }
         ],
@@ -930,7 +944,7 @@ Table of Contents
         "timestamp": "2025-11-25T14:32:07.123Z",
         "agent": "agent:7gen:optimized:a1b2c3d4",
         "action": "DELETE /api/users/12345",
-        "outcome": "deny",
+        "supervision": "silent_veto",
         "reason": "TRUST_INSUFFICIENT",
         "action_risk": 85,
         "e_trust": 42,
@@ -983,7 +997,7 @@ Table of Contents
           "day_of_week": 1
         },
         "label": {
-          "outcome": "deny",
+          "supervision": "silent_veto",
           "correct": true
         }
       }

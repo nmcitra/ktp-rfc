@@ -1140,6 +1140,13 @@ Table of Contents
 
 12.2.  Error Codes
 
+   Every code in this registry is wire-visible unless listed as
+   evidence-only.  An evidence-only code MUST NOT appear in any
+   response returned to the agentic system; it is recorded in the
+   evidence record (see [KTP-AUDIT]) so that its cause reads apart in
+   audit.  The wire response for a decision carrying an evidence-only
+   code is the ordinary response for its supervision level.
+
    Authentication errors (AUTH_*):
    +-------------------------------------------------------------------+
    | Code                    | HTTP | Description                      |
@@ -1159,6 +1166,18 @@ Table of Contents
    | AUTHZ_TIER_INSUFFICIENT | 403  | Tier too low for action          |
    | AUTHZ_HIBERNATING       | 403  | Agent in hibernation             |
    +-------------------------------------------------------------------+
+
+   Evidence-only codes (never on the wire):
+   +-------------------------------------------------------------------+
+   | Code                       | HTTP | Description                   |
+   +-------------------------------------------------------------------+
+   | KINETIC_CAPACITY_EXCEEDED  | -    | Kinematic veto [KTP-AUDIT]    |
+   +-------------------------------------------------------------------+
+
+   KINETIC_CAPACITY_EXCEEDED marks a kinematic veto - a silent_veto
+   raised by the kinetic envelope - so that it reads apart from an
+   ordinary limit violation in audit, without disclosing to the
+   agentic system which limit vetoed it.
 
    Trust errors (TRUST_*):
    +-------------------------------------------------------------------+
@@ -1276,6 +1295,9 @@ Table of Contents
 
    [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
    Representation (CBOR)", RFC 8949, December 2020.
+
+   [KTP-AUDIT] Perkins, C., "Kinetic Trust Protocol - Flight
+   Recorder", Work in Progress.
 
 16.2.  Informative References
 

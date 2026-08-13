@@ -1208,7 +1208,8 @@ Table of Contents
    Step 1: Soul Veto Check (MUST be first)
 
       IF S > 0 THEN
-        RETURN DENY with SOVEREIGNTY_CONSTRAINT
+        RETURN supervision = silent_veto
+               with reason SOVEREIGNTY_CONSTRAINT
       END IF
 
    Step 2: Risk Factor Calculation
@@ -1220,13 +1221,42 @@ Table of Contents
 
       E_trust = E_base * (1 - R)
 
-   Step 4: Zeroth Law Check
+   Step 4: Zeroth Law Check and Decision Result
 
-      IF A > E_trust THEN
-        RETURN DENY with TRUST_INSUFFICIENT
+      margin = 1 - (A / E_trust)
+        (margin <= 0 when A >= E_trust, or when E_trust = 0)
+
+      IF margin <= M_veto THEN
+        RETURN supervision = silent_veto
+               with reason TRUST_INSUFFICIENT
       ELSE
-        RETURN ALLOW
+        RETURN supervision derived from margin against the declared
+               profile thresholds, with tightenedConstraints,
+               per [KINETIC-ENVELOPE]
       END IF
+
+   The result of every evaluation is a supervision level and a
+   tighten-only constraint set (tightenedConstraints), as specified in
+   [KINETIC-ENVELOPE].  Supervision is a floor: a consumer MAY raise
+   it and MUST NOT lower a level already set.  tightenedConstraints
+   never widens the granted envelope.  A deployment MUST declare its
+   profile thresholds M_veto < M_allow; a deployment that declares
+   none evaluates with M_veto = M_allow = 0, which reproduces the
+   binary v1 behavior (veto at or below zero margin, stable above it).
+
+   The four decision verbs are derived readings of this result, by
+   precedence, and are not a four-valued enumeration:
+
+      1.  supervision = silent_veto                     -> VETO
+      2.  supervision raised above stable               -> DEAUTOMATE
+      3.  stable, tightenedConstraints strictly
+          tightened relative to the granted envelope    -> SHAPE
+      4.  stable, not tightened                         -> ALLOW
+
+   Every decision reads as exactly one verb.  A specification, schema,
+   or record in this series MUST NOT encode the verbs as an enumerated
+   decision type; the result (supervision and tightenedConstraints) is
+   the normative object and the verb is derived from it.
 
    The Soul veto is evaluated first because sovereignty constraints are
    immutable - no amount of trust can override them. This ordering
@@ -1675,6 +1705,11 @@ Table of Contents
 
    [KTP-IDENTITY] Perkins, C., "Kinetic Trust Protocol - Vector
    Identity", Work in Progress.
+
+   [KINETIC-ENVELOPE] Perkins, C., "The Kinetic Envelope - A
+   Kinematics-Aware Authorization Layer for Agentic Systems",
+   canonical KTP specification, docs/specifications/
+   kinetic-envelope.md, Work in Progress.
 
 12.2.  Informative References
 

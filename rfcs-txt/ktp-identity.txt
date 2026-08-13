@@ -688,6 +688,12 @@ Table of Contents
       (The sponsored agent receives only half the staked amount;
       the other half is held as collateral)
 
+      This halving is bond accounting: it fixes the collateral half
+      against which penalties are assessed (Section 6.4). It is not an
+      input to the E_base composition; the External Root term derived
+      from this bond is computed as specified in [KTP-CORE]
+      Section 5.1 and does not apply this halving.
+
    3. Bond is registered with Trust Oracle:
       Oracle records bond, monitors both agents, tracks violations
 
@@ -976,6 +982,11 @@ Table of Contents
 
    At intrinsic_E_base = 60, sponsor contributes only 25% of original
    stake to agent's E_base.
+
+   This taper tracks the sponsor's remaining liability as the agent's
+   intrinsic standing grows. It is bond accounting, not a composition
+   input: the External Root term in [KTP-CORE] Section 5.1 carries a
+   constant share and does not apply this taper.
 
    Identifier format:
    agent:divergent:<generation>gen:<lineage>:<unique_id>

@@ -250,6 +250,8 @@ When a sponsor stakes trust on a new agent:
 2. **Sponsored agent receives initial trust**: `sponsored_E_base = stake_amount × 0.5`
 3. **Bond registered with Trust Oracle**: Monitors both agents, tracks violations
 
+The halving in step 2 is bond accounting — it fixes the collateral half against which penalties are assessed. It is not an input to the $E_{base}$ composition; the External Root term derived from the bond is computed as specified in [KTP-CORE] Section 5.1 and does not apply it.
+
 ??? warning "Penalty for Bad Actors"
     If the sponsored agent commits a violation:
     

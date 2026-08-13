@@ -760,6 +760,25 @@ Table of Contents
        -  Query the relevant registry/database
        -  Evaluate requested action against framework protocols
        -  If ANY framework returns veto, S = 1
+       -  If ANY query is UNDETERMINED, S = 1
+
+   A query is UNDETERMINED when no answer arrived: the registry was
+   unreachable, returned an error, timed out, or returned nothing.
+   These cases do not separate. A channel that returns nothing and a
+   channel that was never reachable are indistinguishable to this
+   decision, and an adversary who can produce one can produce the
+   other, so an implementation MUST NOT branch on the difference.
+   Only a framework that answers - including an answer of "no
+   applicable constraint" - has returned a clearance. No cached or
+   prior clearance substitutes for a current answer: Soul is queried
+   on demand and has no staleness threshold (Section 6.1).
+
+   An unanswered sovereignty query is an undefined input under
+   [KTP-CORE] Section 6.7: it MUST NOT resolve toward permission, and
+   the veto is the only more restrictive outcome this decision point
+   offers. The undetermined state MUST be recorded on the decision
+   record, so a veto raised for silence reads apart from a veto
+   returned by a framework in audit.
 
    3.  If S = 1:
        -  Immediately return SOVEREIGNTY_CONSTRAINT error
@@ -785,6 +804,11 @@ Table of Contents
         "note": "Trust Score is sufficient for action risk, but
                  action is forbidden by sovereignty constraint"
       }
+
+   A veto raised for an UNDETERMINED query does not fabricate an
+   answering authority. The response names the registry that was
+   queried and the failure observed, and its remediation is retry or
+   escalation to the registry operator rather than community contact.
 
 4.4.  Integration with Indigenous Data Sovereignty
 

@@ -28,7 +28,7 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 
 ### Recovery Principles
 
-1.  **Fail Closed**: When in doubt, deny. Lost availability is recoverable; a security breach is not.
+1.  **Fail Closed**: An undefined input resolves toward the more restrictive outcome available, never toward permission (KTP-Core §6.7) — deny where nothing short of denial is more restrictive. Lost availability is recoverable; a security breach is not.
 2.  **No Single Point of Failure**: Redundancy at every layer (Threshold Cryptography, Distributed Sensors).
 3.  **Defense in Depth**: Backup the backups. Verify the verifications.
 4.  **Known-Good State**: Restore to a verified clean state, not just the "last" state.

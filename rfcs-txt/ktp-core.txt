@@ -69,6 +69,7 @@ Table of Contents
        6.4.  Domain Weights . . . . . . . . . . . . . . . . . . . .  26
        6.5.  Tensor Modularity  . . . . . . . . . . . . . . . . . .  27
        6.6.  Aggregation Algorithm  . . . . . . . . . . . . . . . .  28
+       6.7.  Undefined Inputs . . . . . . . . . . . . . . . . . . .  29
    7.  Trust Proof Token  . . . . . . . . . . . . . . . . . . . . .  29
        7.1.  Token Format . . . . . . . . . . . . . . . . . . . . .  29
        7.2.  Claims . . . . . . . . . . . . . . . . . . . . . . . .  30
@@ -502,6 +503,8 @@ Table of Contents
    deployment cannot currently observe is 1.0, and that a deployment
    MUST NOT substitute 0 for an unobserved term. Zero is a measurement
    of perfect conditions, not a statement that conditions are unknown.
+   Section 6.7 states this rule for the class of undefined inputs;
+   this section is its application to Risk Factor terms.
 
    Each Risk Factor is a named aggregation over a declared subset of
    Context Signals. A signal reporting unknown MUST NOT contribute to
@@ -1283,6 +1286,32 @@ Table of Contents
    Implementations MAY cache aggregated R values for up to 100ms to
    reduce computational load. Soul evaluations SHOULD NOT be cached as
    they are context-specific.
+
+6.7.  Undefined Inputs
+
+   An input that is absent, unanswered, stale beyond its declared
+   refresh, or otherwise undefined MUST NOT resolve toward permission.
+   It resolves toward the more restrictive outcome available at that
+   decision point, and the undefined state MUST be recorded on the
+   decision record. Substituting a measured value for an undefined
+   one - including zero - is prohibited (Section 5.2).
+
+   "Toward permission" is the operative phrase. Failing closed does
+   not mean denying on every unknown. Where a decision point offers a
+   graded outcome - the supervision ladder of Section 6.6 - an
+   undefined input clamps the result to a more supervised level, per
+   [KINETIC-ENVELOPE]: an unknown environment reads as low capacity,
+   not high. Denial is the terminal case, reached only where no more
+   restrictive outcome short of denial exists at that decision point.
+   The Soul veto (Section 6.2) is a decision point with exactly that
+   shape - its outcomes are veto and no veto - so an undefined
+   sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
+
+   Silence and absence do not separate. A channel that returns
+   nothing and a channel that was never reachable are
+   indistinguishable to the decision, and an adversary who can
+   produce one can produce the other. An implementation MUST NOT
+   resolve an unanswered input differently from an absent one.
 
 7. Trust Proof Token
 

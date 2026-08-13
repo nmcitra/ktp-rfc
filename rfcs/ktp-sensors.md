@@ -80,6 +80,7 @@ The **Soul Veto** is unique. It does not use weighted averages. Instead, it acts
 *   If **ANY** enabled Soul feed returns a "Veto" signal...
 *   The entire Soul input becomes **1.0 (Critical Risk)**.
 *   This triggers an immediate **Silent Veto** or **Emergency Shutdown**.
+*   An **unanswered** sovereignty query is not a clearance. A registry that is unreachable, errors, times out, or returns nothing resolves to the veto (§4.3, under KTP-Core §6.7), and no cached clearance substitutes for a current answer. Silence reads as the veto, never as consent.
 
 ---
 

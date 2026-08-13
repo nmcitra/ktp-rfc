@@ -196,6 +196,8 @@ Where $w_i$ are domain weights and $s_i$ are normalized sensor values.
 
 Every $s_i$ is a **stress** term: 1 is maximum stress, 0 is its absence, whatever the dimension is named. The conservative substitute for a term that cannot currently be observed is therefore 1.0 — never 0, which measures perfect conditions rather than unknown ones.
 
+This is one instance of the class rule stated in §6.7: an input that is absent, unanswered, stale beyond its declared refresh, or otherwise undefined MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point — a clamp to a more supervised level where a ladder exists, the veto where the decision is binary — and the undefined state is recorded on the decision record.
+
 | $R$ Value | Interpretation | Effect on $E_{trust}$ |
 |-----------|----------------|----------------------|
 | 0.0 | Perfect conditions | No reduction |

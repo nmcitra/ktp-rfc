@@ -42,6 +42,10 @@ ALLOWED = [
      "the catalogue's hand-authored halves — the index's normative rules and "
      "each domain's conventions prose (D5/#66, built by #108)"),
 
+    ("source", r"^rfc-src/[^/]+\.md$",
+     "kramdown-rfc source for all 27 specs (#78) — authored here once the "
+     "format-spine flip runs; until then derived from rfcs-txt at HEAD by "
+     "108-build-rfc-src.py, and the flip is scripts/flip-format-spine.sh"),
     ("source", r"^catalog/[^/]+\.json$",
      "the canonical form of the Context Signals catalogue — JSON is source "
      "(D5/#66); the markdown tables are generated from it"),

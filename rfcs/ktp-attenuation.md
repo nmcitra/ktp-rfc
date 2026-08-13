@@ -26,8 +26,8 @@ Traditional security relies on **Policy**—access control lists, firewall rules
 2.  **Complexity**: Policies are brittle and easily bypassed or misconfigured.
 3.  **Binary Nature**: Policy is usually "Allow" or "Deny," with no middle ground for nuanced risk.
 
-## The Solution: Digital Gravity
-Digital Gravity replaces policy with **Physics**. Instead of deciding whether to allow an action, the environment applies physical constraints that make excessive autonomy impossible. The agent doesn't hit a wall; it experiences increasing resistance.
+## The Solution: Attenuation
+Attenuated capability replaces policy with **environment-derived constraint**. Instead of deciding whether to allow an action, the environment applies constraints that make excessive autonomy impossible. The agent doesn't hit a wall; it experiences increasing resistance.
 
 ### The Zeroth Law
 The fundamental inequality that governs all KTP operations:

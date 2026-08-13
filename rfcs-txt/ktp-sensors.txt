@@ -924,6 +924,20 @@ Table of Contents
    4.  Log sensor failure for investigation
    5.  Alert operators if failure persists > threshold
 
+   A feed is AVAILABLE only if it has both answered and returned an
+   observation that is current under Section 6.1. A feed that has
+   failed and a feed whose most recent observation has passed its
+   staleness threshold are equally unavailable, and an implementation
+   MUST NOT count either as available in step 2's fraction. This is
+   the same count reported as feeds_active in the audit record (see
+   [KTP-AUDIT] Section 3.2), so two conformant implementations
+   observing the same environment record the same number.
+
+   Availability is a property of the feed. Section 5.2 of [KTP-CORE]
+   states the rule for the Context Signal a feed populates and for the
+   Risk Factor the signals aggregate into; a signal may be unavailable
+   while every feed populating it is healthy.
+
    6.3. Cross-Validation
 
    Where possible, validate sensors against correlated feeds:
@@ -990,6 +1004,9 @@ Table of Contents
 
    [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core
    Specification", RFC XXXX.
+
+   [KTP-AUDIT] Perkins, C., "Kinetic Trust Protocol - Flight
+   Recorder", RFC XXXX.
 
 9.2.  Informative References
 

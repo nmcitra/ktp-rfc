@@ -504,6 +504,27 @@ Table of Contents
    MUST NOT substitute 0 for an unobserved term. Zero is a measurement
    of perfect conditions, not a statement that conditions are unknown.
 
+   Each Risk Factor is a named aggregation over a declared subset of
+   Context Signals. A signal reporting unknown MUST NOT contribute to
+   that aggregation as though it had observed zero risk, and a Risk
+   Factor whose declared subset cannot be populated is unobservable
+   and takes 1.0.
+
+   Unobservability is therefore checked at three layers, and a
+   deployment MUST apply the rule at each:
+
+   1.  The FEED, per [KTP-SENSORS] Section 6.1 and 6.2 - a source
+       that has failed or whose observation has passed its staleness
+       threshold.
+   2.  The SIGNAL - a Context Signal whose observation is unavailable,
+       which includes a rate whose set of eligible events is empty.
+       An empty denominator is unknown, not zero.
+   3.  The TERM, above - the Risk Factor the signals aggregate into.
+
+   The layers do not collapse into one another. A signal may be
+   unavailable while every feed populating it is healthy, which is why
+   a feed-level rule alone is insufficient.
+
    The multiplicative relationship between R and E_base (see Section
    5.3) is critical. R is not subtracted from E_base; it deflates it.
    This means:

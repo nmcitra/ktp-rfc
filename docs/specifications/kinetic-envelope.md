@@ -81,11 +81,19 @@ The authorizing gateway consumes `supervision` as a **floor** on its authorizati
 
 ## A and E are implementation-defined
 
-This spec does not publish the formula for A or E. A conformant provider satisfies six properties:
+This spec does not publish the formula for A or E. A conformant provider satisfies six properties.
+Four are substrate-general. Two are substrate-bound, and the substrate's declaration is normative
+in their place — a provider that declares nothing has not partially failed, it has not stated what
+conformance would mean for it.
 
 1. `A >= 0`, `E >= 0`.
-2. `A` is non-decreasing in each kinetic magnitude (velocity, force, torque, jerk, angular velocity, energy).
-3. `E` is non-increasing as proximity shrinks, a human enters the path, reversibility falls, or novelty rises.
+2. `A` is non-decreasing in each **declared autonomy-demand magnitude** — the quantities the
+   action's demand on the environment can raise. The ROS2 reference profile declares six: velocity,
+   force, torque, jerk, angular velocity, energy. A software substrate declares its own
+   (`ktp-runtime#3`).
+3. `E` is non-increasing as each **declared capacity-reducing condition** worsens. The ROS2
+   reference profile declares four: proximity shrinking, a human entering the path, reversibility
+   falling, novelty rising. A software substrate declares its own (`ktp-runtime#4`).
 4. Determinism: the same action context yields the same result.
 5. No-loosen: lowering `E` or tightening any input never loosens the outcome.
 6. Common scale, so `A/E` is dimensionless.

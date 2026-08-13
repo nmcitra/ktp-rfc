@@ -264,6 +264,8 @@ The halving in step 2 is bond accounting — it fixes the collateral half agains
     | SEVERE | 0.7 | System disruption |
     | CRITICAL | 1.0 | Security breach, data loss |
 
+A sponsor terminating a bond before release **must** state whether the termination is for cause. Without cause, the bond becomes irrevocably non-renewable and runs to its declared duration with the stake at risk throughout — the declared duration is the bond's notice period. For cause, the External Root term derived from the bond zeroes immediately; the claim is subject to the misattestation adjudication in [KTP-CORE] Section 5.1, a false claim is priced from the held collateral, and a claim with no finding at the bond's expiry lapses unresolved with no penalty.
+
 ### Anti-Botnet Properties
 
 !!! success "Economics Prevent Mass Agent Creation"

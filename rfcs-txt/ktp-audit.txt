@@ -238,7 +238,8 @@ Table of Contents
           "m_feeds_total": 5,
           "p_feeds_active": 3,
           "p_feeds_total": 3,
-          "degraded_dimensions": ["m"]
+          "degraded_dimensions": ["m"],
+          "normalization_profile": "prod-standard@3"
         },
         "trust_oracle": {
           "oracle_id": "oracle-east-1",
@@ -251,6 +252,13 @@ Table of Contents
           "federation": ["zone-blue-prod-02", "zone-cyan-staging"]
         }
       }
+
+   sensor_health carries the normalization-profile identifier,
+   <profile_id>@<version> per the deployment profile specification: the
+   record self-flags which declared normalization and alias choices its
+   values were computed under, so a value computed under one profile is
+   never replayed against another (the unit-mismatch class the
+   measurement-envelope ruling named).
 
    This snapshot enables forensic reconstruction: given the exact
    environmental conditions, we can replay the decision logic and verify

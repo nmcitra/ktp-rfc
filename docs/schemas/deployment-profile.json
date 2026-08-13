@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/deployment-profile.json",
+  "title": "KTP Deployment Profile",
+  "description": "The declaration surface for a KTP deployment (docs/specifications/deployment-profile.md, built under nmcitra/ktp-rfc#108). One object carrying every deployment-level declaration the series requires. This schema constrains shape; identifier-level validity (signal IDs exist, alias-set membership, synthetic-signal normalization coverage) is validated against catalog/ by scripts/check-declarations.py — the catalogue stays the single source of those lists.",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "version",
+    "risk_factors",
+    "soul_veto",
+    "peer_share",
+    "external_root",
+    "standing_decay_rate"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "description": "Stable identifier for this deployment profile. Records reference the profile as <profile_id>@<version> — the normalization-profile identifier carried by [KTP-AUDIT] 3.2 sensor_health (per #72)."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonic profile version. Any change to any declaration increments it; a value computed under one profile version must not be replayed against another."
+    },
+    "risk_factors": {
+      "type": "object",
+      "description": "The D2 bridge: each Risk Factor is a named aggregation over a declared subset of Context Signals. The required array is the #83 arity: six weighted inputs. The Soul veto is not a term and is declared in soul_veto.",
+      "required": [
+        "evidence_density",
+        "trust_trend",
+        "adversarial_pressure",
+        "update_resistance",
+        "attestation_coverage",
+        "moment_criticality"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_density": { "$ref": "#/$defs/factor" },
+        "trust_trend": { "$ref": "#/$defs/factor" },
+        "adversarial_pressure": { "$ref": "#/$defs/factor" },
+        "update_resistance": { "$ref": "#/$defs/factor" },
+        "attestation_coverage": { "$ref": "#/$defs/factor" },
+        "moment_criticality": { "$ref": "#/$defs/factor" }
+      }
+    },
+    "soul_veto": {
+      "type": "object",
+      "description": "The sovereignty frameworks queried before aggregation ([KTP-SENSORS] 4.3). Evaluated before R; any veto or any UNDETERMINED query reads S = 1 (per #83, #105).",
+      "required": ["frameworks"],
+      "additionalProperties": false,
+      "properties": {
+        "frameworks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Identifiers of the sovereignty registries/frameworks queried."
+        }
+      }
+    },
+    "feeds": {
+      "type": "object",
+      "description": "The wire-to-catalogue mapping (#106): which catalogue signals each configured feed populates. Keys are feed ids as configured in [KTP-SENSORS] 2.2 / sensor-config.json. Stays in configuration; does not ride the wire.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["populates"],
+        "additionalProperties": false,
+        "properties": {
+          "populates": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "$ref": "#/$defs/signal_id" }
+          }
+        }
+      }
+    },
+    "aliases": {
+      "type": "object",
+      "description": "For each alias set (catalog/index.json alias_sets) of which this deployment populates any member: the member it populates. Keys are set names; values are the populated signal ID, which check-declarations.py validates as a member of the named set.",
+      "additionalProperties": { "$ref": "#/$defs/signal_id" }
+    },
+    "normalization": {
+      "type": "object",
+      "description": "Per aggregated synthetic bare-0-1 signal (zero_one: 'synthetic' in catalog/*.json): the normalization function. Ratio rows declare a population on the catalogue row instead; determined rows declare neither.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["method"],
+        "additionalProperties": false,
+        "properties": {
+          "method": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Named normalization method (e.g. min-max over a declared source range, z-score to logistic, vendor-documented mapping)."
+          },
+          "parameters": {
+            "type": "object",
+            "description": "The method's parameters, sufficient for a relying party to reproduce the mapping."
+          }
+        }
+      },
+      "propertyNames": { "pattern": "^(world|information|time|soul|relational|body)\\.[a-z0-9_]+\\.[a-z0-9_]+$" }
+    },
+    "label_sets": {
+      "type": "object",
+      "description": "Per aggregated categorical signal, and per denominator predicate (declared under the signal whose denominator it gates): the label set populated (#68). Derived signals inherit the label set's cardinality.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["labels"],
+        "additionalProperties": false,
+        "properties": {
+          "labels": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "source": {
+            "type": "string",
+            "description": "Citation or registry identifier for the taxonomy, where one exists."
+          },
+          "predicate": {
+            "type": "string",
+            "description": "Where this entry declares a denominator predicate rather than the signal's own value categories: the predicate word (e.g. 'healthy')."
+          }
+        }
+      },
+      "propertyNames": { "pattern": "^(world|information|time|soul|relational|body)\\.[a-z0-9_]+\\.[a-z0-9_]+$" }
+    },
+    "peer_share": {
+      "description": "The peer-signal share of E_base, in points (ktp-core 5.1). Zero where peer validation is not implemented; otherwise within 5.5.5's 10-20. Echoed in the Trust Proof; no cross-deployment magnitude comparison across differing shares.",
+      "oneOf": [
+        { "const": 0 },
+        { "type": "number", "minimum": 10, "maximum": 20 }
+      ]
+    },
+    "external_root": {
+      "type": "object",
+      "required": ["hop_bound", "adjudicator"],
+      "additionalProperties": false,
+      "properties": {
+        "hop_bound": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "description": "Maximum accountability-chain length accepted; the normative ceiling is 12 (ktp-core 5.1). An attestation whose chain exceeds it computes as zero."
+        },
+        "adjudicator": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The declared adjudicator for findings of misattestation, including for-cause withdrawal claims. MUST be neither the attestor nor the subject agent."
+        }
+      }
+    },
+    "standing_decay_rate": {
+      "type": "number",
+      "minimum": 2,
+      "maximum": 20,
+      "description": "Standing decay in PoR points lost per year of inactivity (#59). RECOMMENDED 16. Lambda derives as 10^(-D/3650); mechanism in [KTP-IDENTITY] 5.3."
+    },
+    "envelope_thresholds": {
+      "type": "object",
+      "description": "Supervision thresholds for the decision contract (ktp-core 6.6, per #82). Optional: a deployment that declares none evaluates with m_veto = m_allow = 0, the binary v1 behavior. m_veto < m_allow is checked by check-declarations.py (not expressible in JSON Schema).",
+      "required": ["m_veto", "m_allow"],
+      "additionalProperties": false,
+      "properties": {
+        "m_veto": { "type": "number" },
+        "m_allow": { "type": "number" }
+      }
+    }
+  },
+  "$defs": {
+    "signal_id": {
+      "type": "string",
+      "pattern": "^(world|information|time|soul|relational|body)\\.[a-z0-9_]+\\.[a-z0-9_]+$",
+      "description": "A Context Signal ID, domain.group.name, resolved against catalog/*.json."
+    },
+    "factor": {
+      "type": "object",
+      "required": ["signals", "aggregation", "weight"],
+      "additionalProperties": false,
+      "properties": {
+        "signals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/signal_id" },
+          "description": "The declared subset of Context Signals feeding this factor. MUST NOT include more than one ID from an alias set."
+        },
+        "aggregation": {
+          "type": "object",
+          "required": ["method"],
+          "additionalProperties": false,
+          "properties": {
+            "method": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The named aggregation (e.g. weighted_average, max, min)."
+            },
+            "parameters": {
+              "type": "object",
+              "description": "The method's parameters (e.g. per-signal weights), sufficient for a relying party to reproduce the aggregation."
+            }
+          }
+        },
+        "weight": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "The factor's weight w_i in R = sum(w_i * s_i)."
+        }
+      }
+    }
+  }
+}

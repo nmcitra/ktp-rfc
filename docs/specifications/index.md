@@ -32,6 +32,14 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     [:octicons-arrow-right-24: Read the spec](kinetic-envelope.md)
 
+-   :material-clipboard-check:{ .lg .middle } **Deployment Profile**
+
+    ---
+
+    The declaration surface: one object carrying every declaration the series requires of a deployment — the Risk Factor bridge, feed mapping, aliases, normalization, and the declared parameters.
+
+    [:octicons-arrow-right-24: Read the spec](deployment-profile.md)
+
 -   :material-code-json:{ .lg .middle } **Schemas**
 
     ---

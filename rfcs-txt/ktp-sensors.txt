@@ -159,8 +159,14 @@ Table of Contents
             "refresh_interval_ms": 60000,
             "stale_threshold_ms": 300000
           }
-        ]
+        ],
+        "aggregation": "weighted_average",
+        "default_on_failure": 0.8
       }
+
+   Both feeds above declare a stale_threshold_ms of four to five times
+   their refresh_interval_ms, which is the ratio Section 6.1 makes the
+   default.
 
 2.3.  Risk Domains (Node, Neighborhood, Global)
 
@@ -876,15 +882,35 @@ Table of Contents
 
    6.1. Freshness Requirements
 
-   +------------+----------------+------------------+ | Dimension  | Max
-   Stale Age  | Stale Behavior   |
-   +------------+----------------+------------------+ | Mass       | 5
-   minutes      | Use last known   | | Momentum   | 30 seconds     |
-   Assume high (0.8)| | Heat       | 30 seconds     | Assume high (0.8)|
-   | Time       | 5 minutes      | Calculate locally| | Inertia    | 30
-   minutes     | Use last known   | | Observer   | 2 minutes      |
-   Assume high (0.7)| | Soul       | On-demand      | Query required   |
-   +------------+----------------+------------------+
+   Freshness is a property of the individual feed, not of the Risk
+   Factor it contributes to. A single Risk Factor aggregates feeds
+   whose refresh rates differ by orders of magnitude, so no single
+   staleness figure describes the set. Each feed therefore declares
+   its own.
+
+   Every feed declares refresh_interval_ms and stale_threshold_ms (see
+   Section 2.2). Where stale_threshold_ms is not declared, it DEFAULTS
+   to five times that feed's refresh_interval_ms. A deployment MAY
+   declare a shorter threshold. A deployment MUST NOT declare a longer
+   one without recording the reason in the sensor configuration.
+
+   A feed whose most recent observation is older than its
+   stale_threshold_ms is UNAVAILABLE for the purposes of Section 6.2.
+   There is no separate stale behavior: a reading too old to be
+   current is not a reading, and Section 6.2 governs it.
+
+   An implementation MUST NOT substitute the last known value for an
+   observation that has passed its staleness threshold. A stale value
+   is not a conservative value. Whoever can suppress a feed also
+   chooses the moment at which it is suppressed, so a frozen reading
+   is selected by the adversary rather than by the environment. This
+   is the attack named in Section 7.1, and holding a value past its
+   threshold is what enables it.
+
+   Soul is queried on demand and has no staleness threshold. A current
+   query is REQUIRED. A sovereignty registry that does not answer has
+   not returned a clearance, and an implementation MUST NOT treat an
+   unanswered query as the absence of a veto.
 
    6.2. Sensor Failure Handling
 

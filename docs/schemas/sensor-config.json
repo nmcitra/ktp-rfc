@@ -27,11 +27,34 @@
     },
     "default_on_failure": {
       "type": "number",
-      "minimum": 0,
+      "minimum": 0.5,
       "maximum": 1,
-      "description": "Value to use if all feeds fail (conservative default)"
+      "default": 1,
+      "description": "Substitute value for feeds that are unavailable or stale. This stands in for an UNKNOWN observation, not for a measurement of zero risk, so it is floored at 0.5 - the value ktp-core 5.2 glosses as moderate stress. Zero is a measurement of perfect conditions and MUST NOT be used to represent an absent one; a deployment able to declare it could raise its own trust score by disabling sensors. Required unless aggregation is any_veto."
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "aggregation": { "not": { "const": "any_veto" } } }
+      },
+      "then": { "required": ["default_on_failure"] }
+    },
+    {
+      "if": {
+        "properties": { "aggregation": { "const": "any_veto" } },
+        "required": ["aggregation"]
+      },
+      "then": {
+        "properties": {
+          "default_on_failure": {
+            "const": 1,
+            "description": "A veto-aggregated dimension has no partial state. If its feeds are unavailable, no clearance has been returned and the veto stands."
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "feed": {
       "type": "object",
@@ -66,13 +89,19 @@
         },
         "refresh_interval_ms": {
           "type": "integer",
-          "minimum": 100,
-          "description": "How often to poll this source (milliseconds)"
+          "anyOf": [
+            { "const": 0 },
+            { "minimum": 100 }
+          ],
+          "description": "How often to poll this source (milliseconds). 0 means the feed is not polled and is queried on demand at decision time, which is how the sovereignty feeds are configured."
         },
         "stale_threshold_ms": {
           "type": "integer",
-          "minimum": 1000,
-          "description": "How long before data is considered stale"
+          "anyOf": [
+            { "const": 0 },
+            { "minimum": 1000 }
+          ],
+          "description": "How long before an observation is no longer current. Past this age the feed is UNAVAILABLE and ktp-sensors 6.2 governs; the last known value MUST NOT be substituted. 0 means no cached observation is ever current - the pairing for an on-demand feed. Where this is omitted it defaults to five times refresh_interval_ms (ktp-sensors 6.1)."
         },
         "veto_on_match": {
           "type": "boolean",

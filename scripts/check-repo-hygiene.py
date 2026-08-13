@@ -53,6 +53,9 @@ ALLOWED = [
      "licensing, attribution, and the DOI record"),
     ("governance", r"^(CONTRIBUTING|CODE_OF_CONDUCT|PROVENANCE|VERSIONING|README)\.md$",
      "how the set is contributed to, versioned, and cited"),
+    ("governance", r"^SECURITY-NOTES\.md$",
+     "defects found in a published tag, readable before the release that "
+     "corrects them — tags never move, so this is the only place they can go"),
 
     ("tooling", r"^scripts/[^/]+\.(py|sh)$",
      "the executable success criteria — checkable or they are aspirations"),

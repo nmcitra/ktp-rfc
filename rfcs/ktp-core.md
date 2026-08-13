@@ -194,6 +194,8 @@ $$R = \sum_{i} w_i \times s_i$$
 
 Where $w_i$ are domain weights and $s_i$ are normalized sensor values.
 
+Every $s_i$ is a **stress** term: 1 is maximum stress, 0 is its absence, whatever the dimension is named. The conservative substitute for a term that cannot currently be observed is therefore 1.0 — never 0, which measures perfect conditions rather than unknown ones.
+
 | $R$ Value | Interpretation | Effect on $E_{trust}$ |
 |-----------|----------------|----------------------|
 | 0.0 | Perfect conditions | No reduction |

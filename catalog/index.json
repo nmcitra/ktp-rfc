@@ -1,0 +1,210 @@
+{
+  "$comment": "Index of the Context Signals catalogue. Canonical as JSON (D5/#66). Versions with the release set; removing or renaming a signal ID is MAJOR. The normative declaration rules live in catalog/index.md.",
+  "catalogue": "Context Signals",
+  "count": 1627,
+  "domains": {
+    "world": 369,
+    "information": 336,
+    "time": 275,
+    "soul": 252,
+    "relational": 238,
+    "body": 157
+  },
+  "classes": {
+    "A": 117,
+    "D": 211,
+    "N": 1160,
+    "P": 23,
+    "S": 116
+  },
+  "observation_classes": [
+    "D",
+    "N",
+    "A",
+    "P",
+    "S"
+  ],
+  "alias_sets": [
+    {
+      "set": "network_interface_count",
+      "quantity": "Network interface count",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.interface_count"
+      ],
+      "aliases": [
+        "world.network.interface_count"
+      ]
+    },
+    {
+      "set": "packet_loss",
+      "quantity": "Packet loss",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.packet_loss"
+      ],
+      "aliases": [
+        "world.network.packet_loss"
+      ],
+      "unit_action": "unified to 0-1 (NORMALIZATION-01 SA, applied SG)",
+      "note": "information.integrity.packet_loss_rate remains an undeclared third member — flagged by NORMALIZATION-01 SF, never ruled into the set. Carried as a flag, not a membership."
+    },
+    {
+      "set": "round_trip_latency",
+      "quantity": "Round-trip latency",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.reference_rtt"
+      ],
+      "aliases": [
+        "world.network.round_trip_latency"
+      ]
+    },
+    {
+      "set": "delay_variation",
+      "quantity": "Delay variation",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.reference_jitter"
+      ],
+      "aliases": [
+        "world.network.jitter"
+      ]
+    },
+    {
+      "set": "transmit_rate",
+      "quantity": "Transmit rate",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.transmit_rate"
+      ],
+      "aliases": [
+        "world.network.transmit_throughput"
+      ],
+      "unit_action": "unified to bit/s (NORMALIZATION-01 SA, applied SG)"
+    },
+    {
+      "set": "receive_rate",
+      "quantity": "Receive rate",
+      "shape": "duplicate",
+      "canonical": [
+        "body.network.receive_rate"
+      ],
+      "aliases": [
+        "world.network.receive_throughput"
+      ],
+      "unit_action": "unified to bit/s (NORMALIZATION-01 SA, applied SG)"
+    },
+    {
+      "set": "clock_offset",
+      "quantity": "Clock offset",
+      "shape": "duplicate",
+      "canonical": [
+        "time.sync.clock_offset"
+      ],
+      "aliases": [
+        "body.clock.offset_magnitude",
+        "world.network.time_sync_error"
+      ],
+      "unit_action": "unified to signed -inf-inf ms (NORMALIZATION-01 SA, applied SG)"
+    },
+    {
+      "set": "clock_drift",
+      "quantity": "Clock drift",
+      "shape": "duplicate",
+      "canonical": [
+        "time.sync.drift_rate"
+      ],
+      "aliases": [
+        "body.clock.frequency_error"
+      ],
+      "unit_action": "unified to signed -inf-inf ppm (NORMALIZATION-01 SA, applied SG)"
+    },
+    {
+      "set": "clock_uncertainty",
+      "quantity": "Clock uncertainty",
+      "shape": "duplicate",
+      "canonical": [
+        "time.sync.clock_uncertainty"
+      ],
+      "aliases": [
+        "body.clock.uncertainty"
+      ]
+    },
+    {
+      "set": "sync_age",
+      "quantity": "Sync age",
+      "shape": "duplicate",
+      "canonical": [
+        "time.sync.sync_age"
+      ],
+      "aliases": [
+        "body.clock.last_sync_age"
+      ]
+    },
+    {
+      "set": "time_source_count",
+      "quantity": "Time-source count",
+      "shape": "duplicate",
+      "canonical": [
+        "time.sync.source_count"
+      ],
+      "aliases": [
+        "body.clock.reference_count"
+      ]
+    },
+    {
+      "set": "storage_io_latency",
+      "quantity": "Storage I/O latency",
+      "shape": "duplicate",
+      "canonical": [
+        "body.memory.read_latency",
+        "body.memory.write_latency"
+      ],
+      "aliases": [
+        "time.duration.storage_io"
+      ],
+      "note": "the alias covers both canonical rows; a deployment declares which (NORMALIZATION-01 SA)"
+    },
+    {
+      "set": "delivery_latency",
+      "quantity": "Delivery latency",
+      "shape": "collision",
+      "members": [
+        "relational.communication.delivery_latency",
+        "information.integrity.delivery_latency"
+      ],
+      "note": "different subjects: a relationship's channel vs the information environment's transport (#86)"
+    },
+    {
+      "set": "jurisdiction_count",
+      "quantity": "Applicable jurisdiction count",
+      "shape": "collision",
+      "members": [
+        "relational.power.jurisdiction_count",
+        "world.regulatory.jurisdiction_count"
+      ],
+      "note": "different subjects: jurisdictions binding a relationship's parties vs binding the environment/action (#86)"
+    },
+    {
+      "set": "duplicate_rate",
+      "quantity": "Message duplication",
+      "shape": "collision",
+      "members": [
+        "relational.communication.duplicate_rate",
+        "information.integrity.duplicate_rate"
+      ],
+      "note": "same quantity under two glosses, different subjects (#86)"
+    },
+    {
+      "set": "business_hours_active",
+      "quantity": "Business hours active",
+      "shape": "collision",
+      "members": [
+        "world.cyclical.business_hours_active",
+        "time.window.business_hours_active"
+      ],
+      "note": "pending: #86 flagged, without deciding, whether world.cyclical's 'Configured business hours' is configuration rather than observation; if configuration, it drops out of the catalogue and this set dissolves"
+    }
+  ]
+}

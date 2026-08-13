@@ -1,0 +1,1063 @@
+{
+  "$comment": "Canonical form of the Context Signals catalogue, this domain. JSON is source (D5/#66); the markdown tables are generated from this file. A row-level 'class' overrides the group default. 'zero_one' records the three-way bare-0-1 sort (front matter SS6). 'p' transcribes the [P] mark, whose rule #67 owns.",
+  "domain": "body",
+  "title": "Body — the agent's computational embodiment",
+  "count": 157,
+  "classes": {
+    "A": 5,
+    "D": 40,
+    "N": 90,
+    "S": 22
+  },
+  "groups": [
+    {
+      "group": "power",
+      "class": "D",
+      "signals": [
+        {
+          "id": "body.power.amperage",
+          "name": "Current draw",
+          "type": "float",
+          "range": "0-inf A"
+        },
+        {
+          "id": "body.power.wattage",
+          "name": "Power consumption",
+          "type": "float",
+          "range": "0-inf W"
+        },
+        {
+          "id": "body.power.efficiency",
+          "name": "Power efficiency",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.power.power_source",
+          "name": "Source type",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.power.battery_level",
+          "name": "Charge level",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.power.battery_health",
+          "name": "Battery condition",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.power.power_stability",
+          "name": "Supply stability",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.power.backup_available",
+          "name": "Backup power",
+          "type": "bool",
+          "class": "S"
+        },
+        {
+          "id": "body.power.time_on_battery",
+          "name": "Battery duration",
+          "type": "duration",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.power.charge_rate",
+          "name": "Charging speed",
+          "type": "float",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.power.discharge_rate",
+          "name": "Drain speed",
+          "type": "float",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.power.power_budget",
+          "name": "Allocated power",
+          "type": "float",
+          "range": "0-inf W",
+          "class": "S"
+        },
+        {
+          "id": "body.power.power_utilization",
+          "name": "Budget usage",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.power.thermal_throttle_power",
+          "name": "Throttled power",
+          "type": "bool"
+        },
+        {
+          "id": "body.power.power_anomaly",
+          "name": "Unusual patterns",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.power.voltage",
+          "name": "Input voltage",
+          "type": "float",
+          "range": "0-inf V"
+        }
+      ],
+      "title": "Power — missing dimension"
+    },
+    {
+      "group": "thermal",
+      "class": "D",
+      "signals": [
+        {
+          "id": "body.thermal.gpu_temp",
+          "name": "GPU temperature",
+          "type": "float",
+          "range": "0-150 C"
+        },
+        {
+          "id": "body.thermal.memory_temp",
+          "name": "Memory temperature",
+          "type": "float",
+          "range": "0-100 C"
+        },
+        {
+          "id": "body.thermal.storage_temp",
+          "name": "Storage temp",
+          "type": "float",
+          "range": "0-100 C"
+        },
+        {
+          "id": "body.thermal.ambient_temp",
+          "name": "Ambient temp",
+          "type": "float",
+          "range": "-40-60 C"
+        },
+        {
+          "id": "body.thermal.cooling_capacity",
+          "name": "Cooling headroom",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.thermal.fan_speed",
+          "name": "Fan RPM",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.thermal.thermal_throttle",
+          "name": "Throttle active",
+          "type": "bool"
+        },
+        {
+          "id": "body.thermal.thermal_trend",
+          "name": "Temp direction",
+          "type": "float",
+          "range": "-inf-inf"
+        },
+        {
+          "id": "body.thermal.heat_dissipation",
+          "name": "Heat removal rate",
+          "type": "float",
+          "range": "0-inf W"
+        },
+        {
+          "id": "body.thermal.thermal_headroom",
+          "name": "Degrees to limit",
+          "type": "float",
+          "range": "0-inf C"
+        },
+        {
+          "id": "body.thermal.cooling_efficiency",
+          "name": "Cooling effective.",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.thermal.hotspot_delta",
+          "name": "Hotspot vs average",
+          "type": "float",
+          "range": "0-inf C"
+        },
+        {
+          "id": "body.thermal.thermal_stability",
+          "name": "Temp consistency",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.thermal.cpu_temp",
+          "name": "CPU temperature",
+          "type": "float",
+          "range": "-40-150 C"
+        }
+      ],
+      "title": "Thermal — missing dimension"
+    },
+    {
+      "group": "compute",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.compute.cpu_frequency",
+          "name": "Clock speed",
+          "type": "float",
+          "range": "0-inf Hz",
+          "class": "D"
+        },
+        {
+          "id": "body.compute.cpu_throttle",
+          "name": "Throttle active",
+          "type": "bool",
+          "class": "D"
+        },
+        {
+          "id": "body.compute.core_count_available",
+          "name": "Usable cores",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.core_count_utilized",
+          "name": "Used cores",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.thread_count",
+          "name": "Active threads",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.context_switches",
+          "name": "Switches/sec",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.gpu_utilization",
+          "name": "GPU usage",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.gpu_memory_used",
+          "name": "GPU memory",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.inference_rate",
+          "name": "Inferences/sec",
+          "type": "float",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.batch_size",
+          "name": "Batch processing",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.queue_depth",
+          "name": "Pending work",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.queue_wait_time",
+          "name": "Queue latency",
+          "type": "duration",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.processing_latency",
+          "name": "Processing time",
+          "type": "duration",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.compute.compute_budget",
+          "name": "Allocated compute",
+          "type": "float",
+          "range": "0-inf",
+          "class": "S"
+        },
+        {
+          "id": "body.compute.compute_utilization",
+          "name": "Budget usage",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.compute_efficiency",
+          "name": "Work per resource",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.compute.scheduler_fairness",
+          "name": "Fair scheduling",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.compute.preemption_rate",
+          "name": "Interruption rate",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.starvation_risk",
+          "name": "Resource starvation",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.compute.compute_headroom",
+          "name": "Capacity remaining",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.burst_capacity",
+          "name": "Burst available",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.compute.cpu_steal_ratio",
+          "name": "CPU steal ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        }
+      ],
+      "title": "Compute — arithmetic completion"
+    },
+    {
+      "group": "memory",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.memory.ram_capacity",
+          "name": "Physical RAM",
+          "type": "int",
+          "range": "0-inf B",
+          "class": "S"
+        },
+        {
+          "id": "body.memory.ram_available",
+          "name": "Available RAM",
+          "type": "int",
+          "range": "0-inf B"
+        },
+        {
+          "id": "body.memory.commit_limit",
+          "name": "Commit limit",
+          "type": "int",
+          "range": "0-inf B",
+          "class": "S"
+        },
+        {
+          "id": "body.memory.committed_bytes",
+          "name": "Committed memory",
+          "type": "int",
+          "range": "0-inf B"
+        },
+        {
+          "id": "body.memory.swap_capacity",
+          "name": "Swap capacity",
+          "type": "int",
+          "range": "0-inf B",
+          "class": "S"
+        },
+        {
+          "id": "body.memory.swap_used",
+          "name": "Swap used",
+          "type": "int",
+          "range": "0-inf B"
+        },
+        {
+          "id": "body.memory.page_fault_rate",
+          "name": "Page fault rate",
+          "type": "float",
+          "range": "0-inf faults/s"
+        },
+        {
+          "id": "body.memory.major_fault_rate",
+          "name": "Major fault rate",
+          "type": "float",
+          "range": "0-inf faults/s"
+        },
+        {
+          "id": "body.memory.pressure_state",
+          "name": "Memory pressure",
+          "type": "enum"
+        },
+        {
+          "id": "body.memory.oom_kill_events",
+          "name": "OOM kills",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.ecc_corrected_errors",
+          "name": "Corrected ECC errors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.ecc_uncorrected_errors",
+          "name": "Uncorrected ECC errors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.storage_capacity",
+          "name": "Storage capacity",
+          "type": "int",
+          "range": "0-inf B",
+          "class": "S"
+        },
+        {
+          "id": "body.memory.storage_free",
+          "name": "Free storage",
+          "type": "int",
+          "range": "0-inf B"
+        },
+        {
+          "id": "body.memory.read_throughput",
+          "name": "Read throughput",
+          "type": "float",
+          "range": "0-inf B/s"
+        },
+        {
+          "id": "body.memory.write_throughput",
+          "name": "Write throughput",
+          "type": "float",
+          "range": "0-inf B/s"
+        },
+        {
+          "id": "body.memory.read_latency",
+          "name": "Read latency",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.memory.write_latency",
+          "name": "Write latency",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.memory.io_queue_depth",
+          "name": "I/O queue depth",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.io_errors",
+          "name": "I/O errors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.readonly_mounts",
+          "name": "Read-only mounts",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.memory.inode_free_ratio",
+          "name": "Free inode ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.memory.endurance_remaining",
+          "name": "Write endurance left",
+          "type": "float",
+          "range": "0-1",
+          "class": "D",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.memory.cache_hit_ratio",
+          "name": "Cache hit ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        }
+      ],
+      "title": "Memory & Storage"
+    },
+    {
+      "group": "network",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.network.interface_count",
+          "name": "Network interfaces",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.network.operational_interfaces",
+          "name": "Operational interfaces",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.network.default_route_present",
+          "name": "Default route present",
+          "type": "bool",
+          "class": "S"
+        },
+        {
+          "id": "body.network.endpoint_reachability",
+          "name": "Required endpoint reachability",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.reference_rtt",
+          "name": "Reference RTT",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.network.reference_jitter",
+          "name": "Reference jitter",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.network.packet_loss",
+          "name": "Reference packet loss",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.egress_bandwidth",
+          "name": "Available egress bandwidth",
+          "type": "float",
+          "range": "0-inf bit/s"
+        },
+        {
+          "id": "body.network.ingress_bandwidth",
+          "name": "Available ingress bandwidth",
+          "type": "float",
+          "range": "0-inf bit/s"
+        },
+        {
+          "id": "body.network.transmit_rate",
+          "name": "Transmit rate",
+          "type": "float",
+          "range": "0-inf bit/s"
+        },
+        {
+          "id": "body.network.receive_rate",
+          "name": "Receive rate",
+          "type": "float",
+          "range": "0-inf bit/s"
+        },
+        {
+          "id": "body.network.retransmit_ratio",
+          "name": "Transport retransmit ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.dns_latency",
+          "name": "DNS resolution latency",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.network.dns_failure_ratio",
+          "name": "DNS failure ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.connection_failure_ratio",
+          "name": "Connection failure ratio",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.active_connections",
+          "name": "Active connections",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.network.conntrack_utilization",
+          "name": "Conntrack utilization",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.port_utilization",
+          "name": "Ephemeral port utilization",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "ratio"
+        },
+        {
+          "id": "body.network.route_change_events",
+          "name": "Route changes",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.network.link_flap_events",
+          "name": "Link flaps",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.network.tunnel_state",
+          "name": "Secure tunnel state",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.network.endpoint_contact_age",
+          "name": "Required endpoint contact age",
+          "type": "duration",
+          "range": "0-inf s"
+        }
+      ],
+      "title": "Network Connectivity"
+    },
+    {
+      "group": "hardware",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.hardware.cpu_machine_checks",
+          "name": "CPU machine checks",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.pcie_corrected_errors",
+          "name": "PCIe corrected errors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.pcie_uncorrected_errors",
+          "name": "PCIe uncorrected errors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.accelerator_faults",
+          "name": "Accelerator faults",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.peripheral_resets",
+          "name": "Peripheral resets",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.bus_timeouts",
+          "name": "Bus timeouts",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.watchdog_resets",
+          "name": "Watchdog resets",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.unplanned_reboots",
+          "name": "Unplanned reboots",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.reset_reason",
+          "name": "Last reset reason",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.hardware.post_result",
+          "name": "Boot self-test result",
+          "type": "enum",
+          "class": "A"
+        },
+        {
+          "id": "body.hardware.bmc_reachable",
+          "name": "Management controller reachable",
+          "type": "bool"
+        },
+        {
+          "id": "body.hardware.active_alarms",
+          "name": "Active platform alarms",
+          "type": "int",
+          "range": "0-inf",
+          "class": "A"
+        },
+        {
+          "id": "body.hardware.firmware_update_age",
+          "name": "Firmware update age",
+          "type": "duration",
+          "range": "0-inf d",
+          "class": "S"
+        },
+        {
+          "id": "body.hardware.firmware_integrity",
+          "name": "Firmware integrity",
+          "type": "bool",
+          "class": "A"
+        },
+        {
+          "id": "body.hardware.degraded_components",
+          "name": "Degraded components",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.failed_components",
+          "name": "Failed components",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.unavailable_sensors",
+          "name": "Unavailable hardware sensors",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.hardware.inventory_drift",
+          "name": "Hardware inventory drift",
+          "type": "bool"
+        }
+      ],
+      "title": "Hardware Health"
+    },
+    {
+      "group": "orchestration",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.orchestration.control_plane_reachable",
+          "name": "Control plane reachable",
+          "type": "bool"
+        },
+        {
+          "id": "body.orchestration.workload_phase",
+          "name": "Workload phase",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.desired_instances",
+          "name": "Desired instances",
+          "type": "int",
+          "range": "0-inf",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.ready_instances",
+          "name": "Ready instances",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.orchestration.failed_instances",
+          "name": "Failed instances",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.orchestration.pending_instances",
+          "name": "Pending instances",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.orchestration.restart_events",
+          "name": "Restart events",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.orchestration.eviction_events",
+          "name": "Eviction events",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.orchestration.autoscaler_state",
+          "name": "Autoscaler state",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.maximum_instances",
+          "name": "Maximum instances",
+          "type": "int",
+          "range": "0-inf",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.cpu_quota_available",
+          "name": "Available CPU quota",
+          "type": "float",
+          "range": "0-inf cores",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.memory_quota_available",
+          "name": "Available memory quota",
+          "type": "int",
+          "range": "0-inf B",
+          "class": "S"
+        },
+        {
+          "id": "body.orchestration.scheduling_latency",
+          "name": "Scheduling latency",
+          "type": "duration",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.orchestration.placement_constraints_met",
+          "name": "Placement constraints met",
+          "type": "bool"
+        }
+      ],
+      "title": "Orchestration & Scaling"
+    },
+    {
+      "group": "facility",
+      "class": "D",
+      "signals": [
+        {
+          "id": "body.facility.utility_feed_state",
+          "name": "Utility feed state",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.facility.generator_state",
+          "name": "Generator state",
+          "type": "enum"
+        },
+        {
+          "id": "body.facility.hvac_state",
+          "name": "HVAC state",
+          "type": "enum"
+        },
+        {
+          "id": "body.facility.cooling_redundancy",
+          "name": "Cooling redundancy",
+          "type": "int",
+          "range": "0-inf",
+          "class": "N"
+        },
+        {
+          "id": "body.facility.relative_humidity",
+          "name": "Relative humidity",
+          "type": "float",
+          "range": "0-100 %RH"
+        },
+        {
+          "id": "body.facility.particulate_concentration",
+          "name": "Airborne particulates",
+          "type": "float",
+          "range": "0-inf ug/m3"
+        },
+        {
+          "id": "body.facility.vibration_rms",
+          "name": "Vibration RMS",
+          "type": "float",
+          "range": "0-inf mm/s"
+        },
+        {
+          "id": "body.facility.smoke_alarm",
+          "name": "Smoke alarm",
+          "type": "bool",
+          "class": "A"
+        },
+        {
+          "id": "body.facility.water_leak_alarm",
+          "name": "Water leak alarm",
+          "type": "bool",
+          "class": "A"
+        },
+        {
+          "id": "body.facility.fire_suppression_ready",
+          "name": "Fire suppression ready",
+          "type": "bool"
+        },
+        {
+          "id": "body.facility.rack_door_open",
+          "name": "Rack door open",
+          "type": "bool"
+        },
+        {
+          "id": "body.facility.access_control_state",
+          "name": "Access control state",
+          "type": "enum",
+          "class": "S"
+        }
+      ],
+      "title": "Facility Infrastructure"
+    },
+    {
+      "group": "clock",
+      "class": "D",
+      "signals": [
+        {
+          "id": "body.clock.sync_state",
+          "name": "Synchronization state",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.clock.reference_source",
+          "name": "Reference source",
+          "type": "enum",
+          "class": "S"
+        },
+        {
+          "id": "body.clock.reference_count",
+          "name": "Usable time sources",
+          "type": "int",
+          "range": "0-inf",
+          "class": "N"
+        },
+        {
+          "id": "body.clock.offset_magnitude",
+          "name": "Clock offset (signed)",
+          "type": "float",
+          "range": "-inf-inf ms"
+        },
+        {
+          "id": "body.clock.uncertainty",
+          "name": "Clock uncertainty",
+          "type": "float",
+          "range": "0-inf ms"
+        },
+        {
+          "id": "body.clock.frequency_error",
+          "name": "Frequency error (signed)",
+          "type": "float",
+          "range": "-inf-inf ppm"
+        },
+        {
+          "id": "body.clock.last_sync_age",
+          "name": "Last synchronization age",
+          "type": "duration",
+          "range": "0-inf s",
+          "class": "N"
+        },
+        {
+          "id": "body.clock.backward_step_events",
+          "name": "Backward clock steps",
+          "type": "int",
+          "range": "0-inf",
+          "class": "N"
+        }
+      ],
+      "title": "Time Synchronization"
+    },
+    {
+      "group": "entropy",
+      "class": "N",
+      "signals": [
+        {
+          "id": "body.entropy.config_drift_items",
+          "name": "Configuration drift items",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.entropy.orphaned_allocations",
+          "name": "Orphaned allocations",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.entropy.zombie_processes",
+          "name": "Zombie processes",
+          "type": "int",
+          "range": "0-inf"
+        },
+        {
+          "id": "body.entropy.memory_leak_rate",
+          "name": "Memory leak rate",
+          "type": "float",
+          "range": "0-inf B/s"
+        },
+        {
+          "id": "body.entropy.handle_leak_rate",
+          "name": "Handle leak rate",
+          "type": "float",
+          "range": "0-inf handles/s"
+        },
+        {
+          "id": "body.entropy.filesystem_fragmentation",
+          "name": "Filesystem fragmentation",
+          "type": "float",
+          "range": "0-1",
+          "zero_one": "synthetic"
+        },
+        {
+          "id": "body.entropy.unhandled_error_rate",
+          "name": "Unhandled error rate",
+          "type": "float",
+          "range": "0-inf events/s"
+        }
+      ],
+      "title": "Entropy Indicators"
+    }
+  ]
+}

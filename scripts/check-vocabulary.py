@@ -61,7 +61,7 @@ import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",))]
+SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)), ("catalog", (".md", ".json"))]
 
 # Lines carrying one of these are recording history, not making a claim.
 HISTORICAL = re.compile(
@@ -260,7 +260,7 @@ def main():
     total = len(hits)
     print(f"[{total} unmarked occurrence(s) in normative text, "
           f"{len(named)} retired path(s) present]")
-    print("[in scope: rfcs/ rfcs-txt/ docs/ — they have to match]")
+    print("[in scope: rfcs/ rfcs-txt/ docs/ catalog/ — they have to match]")
     print("[exempt by design: the essay/drafts corpus IN FULL (voice, no "
           "publication gate), ktp/src/content (mirror), rest of ktp/src "
           "(separate pass)]")

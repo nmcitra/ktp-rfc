@@ -38,6 +38,17 @@ ALLOWED = [
      "the canonical .txt half; parity with rfcs/ is checked separately"),
     ("normative", r"^(glossary\.md|constitution\.txt)$",
      "root-level normative companions to the set"),
+    ("normative", r"^catalog/[^/]+\.md$",
+     "the catalogue's hand-authored halves — the index's normative rules and "
+     "each domain's conventions prose (D5/#66, built by #108)"),
+
+    ("source", r"^catalog/[^/]+\.json$",
+     "the canonical form of the Context Signals catalogue — JSON is source "
+     "(D5/#66); the markdown tables are generated from it"),
+    ("generated", r"^catalog/generated/[^/]+\.md$",
+     "catalogue tables generated from catalog/*.json by "
+     "scripts/gen-catalog-tables.py — never hand-edited; "
+     "gen-catalog-tables.py --check is the gate"),
 
     ("site", r"^docs/.*\.(md|json)$",
      "mkdocs content the site mirrors; docs/ is in vocabulary scope (#64, D)"),
@@ -110,7 +121,7 @@ def main():
     print("Repo hygiene — only what a future RFC reader needs\n")
     print(f"{'category':<14}{'files':>7}   what it is for")
     print("-" * 92)
-    for cat in ("normative", "site", "governance", "tooling"):
+    for cat in ("normative", "source", "generated", "site", "governance", "tooling"):
         reasons = [why for c, _, why in ALLOWED if c == cat]
         print(f"{cat:<14}{len(ok.get(cat, [])):>7}   {reasons[0][:60]}")
     print()
@@ -129,7 +140,7 @@ def main():
         print()
 
     if verbose:
-        for cat in ("normative", "site", "governance", "tooling"):
+        for cat in ("normative", "source", "generated", "site", "governance", "tooling"):
             print(f"\n--- {cat} ({len(ok.get(cat, []))})")
             for p in ok.get(cat, []):
                 print(f"  {p}")

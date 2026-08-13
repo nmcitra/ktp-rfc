@@ -1,6 +1,6 @@
 # Implement
 
-*Build with Digital Physics*
+*Build with the Kinetic Trust Protocol*
 
 ---
 
@@ -72,7 +72,7 @@
 
     Working code samples and reference implementations. Integration patterns for common frameworks and platforms.
 
--   :material-monitor-eye:{ .lg .middle } **[Digital Physics Viewer](digital-physics-viewer.md)**
+-   :material-monitor-eye:{ .lg .middle } **[Trust Flow Viewer](trust-flow-viewer.md)**
 
     ---
 
@@ -124,7 +124,7 @@ Understanding how KTP components work together:
 graph TD
     A[Your Application]
     O[Trust Oracle]
-    T[Context Tensor]
+    T[Context Signals]
     P[Policy Enforcement Point]
     R[Resource]
     S[Sensors]
@@ -152,7 +152,7 @@ graph TD
 
 - **Trust Oracle**: Calculates trust scores based on context tensors
 - **Policy Enforcement Point (PEP)**: Enforces $A \leq E$ at decision time
-- **Context Tensor**: Multi-dimensional environmental measurement
+- **Context Signals**: Environmental measurement catalogue
 - **Flight Recorder**: Immutable audit log of all decisions
 
 ---

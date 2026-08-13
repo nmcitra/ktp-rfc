@@ -3,11 +3,13 @@ hide:
   - toc
 ---
 
-# The Context Tensor
+# Context Signals & Risk Factors
+
+> Formerly *The Context Tensor*; the catalogue (Context Signals) and the scoring layer (Risk Factors) it conflated are now named separately. The page URL is unchanged.
 
 *The Geometry of Trust in a Digital Universe*
 
-Trust isn't a yes/no flag. It's a field. The **Context Tensor** is the mathematical structure that captures the real-time state of trust for any interaction—its weight, direction, and volatility—so authorization can respond like physics, not policy. Instead of static rules, KTP evaluates a living vector space that changes as conditions change.
+Trust isn't a yes/no flag. It's a field. **Context Signals** capture the real-time state of trust for any interaction—its weight, direction, and volatility—so authorization can respond structurally, not by policy. Instead of static rules, KTP evaluates a living vector space that changes as conditions change.
 
 <div id="tensor-viz-container">
   <div class="tensor-viz-header">
@@ -39,7 +41,7 @@ Trust isn't a yes/no flag. It's a field. The **Context Tensor** is the mathemati
 
 ## The Seven Dimensions
 
-The Context Tensor is expressed across seven primary dimensions. Click any dimension to explore its mechanics.
+The Risk Factors are expressed across seven named inputs. Click any input to explore its mechanics.
 
 <div class="dimension-cards-grid">
   <a href="#__tabbed_2_1" class="dimension-card-mini">
@@ -107,11 +109,11 @@ The Context Tensor is expressed across seven primary dimensions. Click any dimen
   </a>
 </div>
 
-<p class="dimension-cards-note">For the full dimensional breakdown (1,707 measurements), see <a href="../../rfcs/ktp-signals/">KTP-Signals RFC</a>.</p>
+<p class="dimension-cards-note">For the full signal breakdown (1,627 signals), see <a href="../../rfcs/ktp-signals/">KTP-Signals RFC</a>.</p>
 
 ## Incoming Signals { #incoming-signals }
 
-The Context Tensor doesn't operate in a vacuum—it's fed by a continuous stream of **live telemetry** from across your infrastructure. These signals are normalized, classified through ARQ, and projected into the seven-dimensional trust geometry.
+Context Signals don't operate in a vacuum—they're fed by a continuous stream of **live telemetry** from across your infrastructure. These signals are normalized, classified through ARQ, and projected into the Risk Factor inputs.
 
 <div class="signal-flow-visual ktp-animate">
   <div class="signal-flow-title">
@@ -120,7 +122,7 @@ The Context Tensor doesn't operate in a vacuum—it's fed by a continuous stream
   </div>
   <div class="signal-flow-stages">
     <div class="signal-flow-stage">
-      <div class="signal-flow-count">1,707</div>
+      <div class="signal-flow-count">1,627</div>
       <div class="signal-flow-label">Discrete Signals</div>
     </div>
     <div class="signal-flow-arrow">→</div>
@@ -296,7 +298,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     <div class="signal-arq-bars">
       <div class="signal-arq-bar">
-        <span class="signal-arq-label">Accessibility</span>
+        <span class="signal-arq-label">Availability</span>
         <div class="signal-arq-track">
           <div class="signal-arq-fill signal-arq-fill--high" style="width: 40%;"></div>
         </div>
@@ -459,7 +461,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     <div class="signal-arq-bars">
       <div class="signal-arq-bar">
-        <span class="signal-arq-label">Accessibility</span>
+        <span class="signal-arq-label">Availability</span>
         <div class="signal-arq-track">
           <div class="signal-arq-fill signal-arq-fill--low" style="width: 20%;"></div>
         </div>
@@ -624,7 +626,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     <div class="signal-arq-bars">
       <div class="signal-arq-bar">
-        <span class="signal-arq-label">Accessibility</span>
+        <span class="signal-arq-label">Availability</span>
         <div class="signal-arq-track">
           <div class="signal-arq-fill signal-arq-fill--med" style="width: 30%;"></div>
         </div>
@@ -713,7 +715,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     Attestation telemetry captures **cryptographic proofs and human validations**. Digital signatures, audit certifications, provenance trails, and explicit approvals all provide external verification that grounds trust in something more than self-reported behavior.
 
-    This is the only signal category that can directly influence the Soul dimension—attestations carry the weight of constitutional constraints, jurisdictional requirements, and consent verification.
+    This is the only signal category that can directly influence the Soul veto—attestations carry the weight of constitutional constraints, jurisdictional requirements, and consent verification.
 
     #### Why It Matters
 
@@ -773,7 +775,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     <div class="signal-arq-bars">
       <div class="signal-arq-bar">
-        <span class="signal-arq-label">Accessibility</span>
+        <span class="signal-arq-label">Availability</span>
         <div class="signal-arq-track">
           <div class="signal-arq-fill signal-arq-fill--low" style="width: 10%;"></div>
         </div>
@@ -845,7 +847,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
 ## The Signal Pipeline: From Telemetry to Trust { #signal-pipeline }
 
-Before signals reach the seven-dimensional tensor, they pass through a classification layer called **ARQ** — the foundational physics of digital experience.
+Before signals reach the Risk Factor inputs, they pass through a classification layer called **ARQ** — the foundational grammar of digital experience.
 
 <div class="arq-pipeline ktp-animate">
   <div class="arq-pipeline-title">
@@ -866,7 +868,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M14.76 20.83L17.6 18L14.76 15.17L16.17 13.76L19 16.57L21.83 13.76L23.24 15.17L20.43 18L23.24 20.83L21.83 22.24L19 19.41L16.17 22.24L14.76 20.83M12 12V19.88C12.04 20.18 11.94 20.5 11.71 20.71C11.32 21.1 10.69 21.1 10.3 20.71L8.29 18.7C8.06 18.47 7.96 18.16 8 17.87V12H7.97L2.21 4.62C1.87 4.19 1.95 3.56 2.38 3.22C2.57 3.08 2.78 3 3 3H17C17.22 3 17.43 3.08 17.62 3.22C18.05 3.56 18.13 4.19 17.79 4.62L12.03 12H12Z"/></svg>
       </div>
       <div class="arq-pipeline-stage-label">ARQ Classify</div>
-      <div class="arq-pipeline-stage-sub">Accessibility<br>Retainability, Quality</div>
+      <div class="arq-pipeline-stage-sub">Availability<br>Retainability, Quality</div>
     </div>
     <div class="arq-pipeline-arrow">→</div>
     <div class="arq-pipeline-stage arq-pipeline-stage--tensor">
@@ -878,7 +880,7 @@ Before signals reach the seven-dimensional tensor, they pass through a classific
           <circle cx="12" cy="12" r="2" fill="currentColor"/>
         </svg>
       </div>
-      <div class="arq-pipeline-stage-label">Context Tensor</div>
+      <div class="arq-pipeline-stage-label">Risk Factors</div>
       <div class="arq-pipeline-stage-sub">Multidimensional<br>trust geometry</div>
     </div>
     <div class="arq-pipeline-arrow">→</div>
@@ -903,7 +905,7 @@ Every signal entering the system is classified by three fundamental questions ab
         <span class="mono-primary">A</span><span class="mono-secondary">c</span>
       </div>
       <div class="arq-card-title">
-        <strong>Accessibility</strong>
+        <strong>Availability</strong>
         <em>Reachability</em>
       </div>
     </div>
@@ -961,7 +963,7 @@ Every signal entering the system is classified by three fundamental questions ab
 
 ### ARQ-to-Tensor Projection Matrix
 
-Each ARQ classification feeds specific tensor dimensions. The mapping is not 1:1 — signals often influence multiple dimensions with different weights.
+Each ARQ classification feeds specific Risk Factor inputs. The mapping is not 1:1 — signals often influence multiple inputs with different weights.
 
 <div class="arq-matrix">
   <table>
@@ -975,7 +977,7 @@ Each ARQ classification feeds specific tensor dimensions. The mapping is not 1:1
     </thead>
     <tbody>
       <tr>
-        <td>Accessibility</td>
+        <td>Availability</td>
         <td><span class="dimension-tag">Mass</span> <span class="dimension-tag">Time</span></td>
         <td>Momentum</td>
         <td>Latency, packet loss, reachability, handshake success</td>
@@ -997,7 +999,7 @@ Each ARQ classification feeds specific tensor dimensions. The mapping is not 1:1
 </div>
 
 <div class="arq-soul-note">
-  <strong>What about Soul?</strong> The Soul dimension stands apart from the ARQ pipeline. It is not derived from telemetry signals — it represents constitutional constraints (jurisdiction, consent, sovereignty) that exist outside the physics of network performance. Soul is checked separately and can veto any action regardless of ARQ-derived trust scores.
+  <strong>What about Soul?</strong> The Soul veto stands apart from the ARQ pipeline. It is not derived from telemetry signals — it represents constitutional constraints (jurisdiction, consent, sovereignty) that exist outside the mechanics of network performance. Soul is checked separately and can veto any action regardless of ARQ-derived trust scores.
 </div>
 
 ---
@@ -1320,7 +1322,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     ### How It Works
 
-    Soul is the **constitutional veto layer**. Unlike the other six dimensions (which contribute weighted values to trust calculations), Soul operates as a binary gate. If a Soul constraint is violated, the action is forbidden—regardless of how high the trust score is.
+    Soul is the **constitutional veto layer**. Unlike the six weighted inputs (which contribute weighted values to trust calculations), Soul operates as a binary gate. If a Soul constraint is violated, the action is forbidden—regardless of how high the trust score is.
 
     Soul encodes immutable constraints: jurisdictional requirements, consent state, Indigenous data sovereignty (TK Labels, OCAP/CARE), sacred land protections, and governance vetoes. These are the laws of the digital universe that cannot be negotiated away for operational convenience.
 

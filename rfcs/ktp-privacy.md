@@ -72,7 +72,7 @@ KTP adopts Helen Nissenbaum's **Contextual Integrity** framework. Privacy is not
 ## Core Components
 
 ???+ note "Privacy Impact Assessment (PIA)"
-    A mandatory review process for any new sensor or data feed added to the [**Context Tensor**](ktp-signals.md).
+    A mandatory review process for any new sensor or data feed added to the [**Context Signals catalogue**](ktp-signals.md).
 
 ???+ note "Differential Privacy"
     Adding statistical noise to aggregate reports so that individual agent behavior cannot be reverse-engineered.

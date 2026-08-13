@@ -4,7 +4,7 @@
 
 ---
 
-> **The Bridge Principle**: Trust must flow across boundaries, but it must be measured by the receiver's physics, not the sender's promise.
+> **The Bridge Principle**: Trust must flow across boundaries, but it must be measured by the receiver's constraints, not the sender's promise.
 
 Legacy integration is not just about compatibility; it is about translation. We translate static promises (tokens, keys) into kinetic realities (trust scores, tensors), applying necessary discounts for the loss of fidelity.
 
@@ -68,7 +68,7 @@ graph LR
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Baseline trust physics and $A \leq E$.
+    - [KTP-Core](ktp-core.md): The baseline trust mechanics and $A \leq E$.
     - [KTP-Identity](ktp-identity.md): Vector identity and lineage mapping.
     - [KTP-Crypto](ktp-crypto.md): Proof signing and legacy credential validation.
     - [KTP-Transport](ktp-transport.md): Delivery of translated trust proofs.

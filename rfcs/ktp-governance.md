@@ -21,7 +21,7 @@ description: Governance structures, recursive constraints, and dispute resolutio
 
 ## The Recursive Constraint
 
-The fundamental innovation of KTP governance is that it is **not** outside the system. Governors are agents *within* the system, subject to the same physics as the agents they govern.
+The fundamental innovation of KTP governance is that it is **not** outside the system. Governors are agents *within* the system, subject to the same constraints as the agents they govern.
 
 $$ A_{governor} \leq E_{governor} $$
 
@@ -29,7 +29,7 @@ Where:
 - $A_{governor}$ is the autonomy cost of a governance action (e.g., changing a parameter).
 - $E_{governor}$ is the governor's environmental stability (Trust Score).
 
-This prevents "God Mode" administration where operators can bypass safety constraints. To change the physics, a governor must have sufficient trust *within* the physics.
+This prevents "God Mode" administration where operators can bypass safety constraints. To change the constraints, a governor must have sufficient trust *within* the constraints.
 
 ### Governance Action Costs
 
@@ -150,7 +150,7 @@ sequenceDiagram
 
 ## Dispute Resolution
 
-When physics is not enough, human judgment is required.
+When the constraints are not enough, human judgment is required.
 
 1. **Agent vs. Zone**: Agent disputes a governance decision.
 2. **Governor vs. Governor**: Disagreement within the council.
@@ -179,7 +179,7 @@ graph TD
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics and enforcement baseline.
+    - [KTP-Core](ktp-core.md): The trust mechanics and enforcement baseline.
     - [KTP-Identity](ktp-identity.md): Agent lineage and accountability.
     - [KTP-Crypto](ktp-crypto.md): Signature schemes and key custody.
     - [KTP-Transport](ktp-transport.md): Proof propagation across networks.

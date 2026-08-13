@@ -1,6 +1,6 @@
 # KTP-Core — The Foundation Protocol
 
-*Where authorization becomes physics*
+*Where authorization follows the environment*
 
 ---
 
@@ -42,7 +42,7 @@ These flaws create catastrophic risk. An autonomous agent executing thousands of
 
 ## The Solution
 
-KTP treats authorization as **physics**, not policy.
+KTP treats authorization as a property of the **environment**, not a policy choice.
 
 === "The Insight"
     
@@ -84,10 +84,10 @@ KTP treats authorization as **physics**, not policy.
     
     [Jump to section](#trust-score-calculation)
 
-???+ note "Context Tensor"
-    Seven-dimensional environmental measurement framework.
+???+ note "Risk Factors"
+    Six weighted environmental inputs plus the Soul veto.
     
-    [Jump to section](#context-tensor)
+    [Jump to section](#risk-factors)
 
 ???+ note "Trust Proof"
     Cryptographically signed token carrying real-time trust state.
@@ -95,7 +95,7 @@ KTP treats authorization as **physics**, not policy.
     [Jump to section](#trust-proof-token)
 
 ???+ note "Silent Veto"
-    Automatic action denial when $A > E_{trust}$ — physics, not policy.
+    Automatic action denial when $A > E_{trust}$ — structure, not policy.
     
     [Jump to section](#silent-veto-mechanism)
 
@@ -188,7 +188,7 @@ Proof of Resilience is a function of attestations earned under friction, not of 
 
 ### Risk Factor ($R$)
 
-The Risk Factor aggregates environmental stress from the Context Tensor:
+The Risk Factor aggregates environmental stress from the six weighted inputs:
 
 $$R = \sum_{i} w_i \times s_i$$
 
@@ -273,9 +273,9 @@ The rate of change provides predictive information:
 
 ---
 
-## Context Tensor
+## Risk Factors
 
-Environmental state is measured across seven dimensions:
+Environmental state is aggregated into six weighted inputs and the Soul veto:
 
 === ":material-weight: Mass (M)"
     
@@ -398,8 +398,8 @@ The Trust Proof extends JWT with real-time trust state:
 | `r` | Float | Current Risk Factor (0-1) |
 | `e_trust` | Float | Effective Trust Score |
 | `de_dt` | Float | Trust Velocity |
-| `tier` | String | Trust Tier (god/operator/analyst/observer) |
-| `tensor_hash` | String | Hash of Context Tensor used |
+| `tier` | String | Trust Tier (admin/operator/analyst/observer) |
+| `tensor_hash` | String | Hash of the Risk Factor input set used |
 | `soul_clear` | Boolean | No Soul veto constraints |
 
 ---
@@ -463,7 +463,7 @@ flowchart TB
 
 ### Responsibilities
 
-1. **Calculate** Trust Scores from Context Tensor data
+1. **Calculate** Trust Scores from Context Signals data
 2. **Sign** Trust Proofs with threshold signatures
 3. **Attest** to agent transactions for Proof of Resilience
 4. **Detect** anomalies and potential gaming attempts
@@ -511,7 +511,7 @@ sequenceDiagram
     - **[KTP-Identity](ktp-identity.md)** — Vector Identity, Proof of Resilience, and agent lineage.
     - **[KTP-Crypto](ktp-crypto.md)** — Cryptographic primitives and signature schemes.
     - **[KTP-Transport](ktp-transport.md)** — Network transport and Trust Proof propagation.
-    - **[KTP-Signals](ktp-signals.md)** — Complete Context Tensor specification (1,707 dimensions).
+    - **[KTP-Signals](ktp-signals.md)** — Complete Context Signals specification (1,627 signals).
     - **[KTP-Conformance](ktp-conformance.md)** — Compliance levels and certification criteria.
 
 ---

@@ -44,7 +44,7 @@ Table of Contents
        3.4.  Level Comparison . . . . . . . . . . . . . . . . . . .  11
    4.  Component Requirements . . . . . . . . . . . . . . . . . . .  12
        4.1.  Trust Oracle Requirements  . . . . . . . . . . . . . .  12
-       4.2.  Context Tensor Requirements  . . . . . . . . . . . . .  15
+       4.2.  Risk Factor Requirements. . . . . . . . . . . . . . .   15
        4.3.  Policy Enforcement Point Requirements  . . . . . . . .  17
        4.4.  Flight Recorder Requirements . . . . . . . . . . . . .  19
        4.5.  Agent Requirements . . . . . . . . . . . . . . . . . .  21
@@ -79,7 +79,8 @@ Table of Contents
 1.1.  Purpose
 
    The Kinetic Trust Protocol comprises multiple components (Trust
-   Oracle, Context Tensor, PEPs, Flight Recorder) that must work
+   Oracle, Context Signal sensors, PEPs, Flight Recorder) that must
+   work
    together correctly. Implementations from different vendors or
    development teams must interoperate.
 
@@ -160,11 +161,11 @@ Table of Contents
    -  Single Oracle (no mesh required)
    -  Trust Score calculation (E_trust = E_base × (1 - R))
    -  Trust Proof generation and signing
-   -  Minimum 3 Context Tensor dimensions
+   -  Minimum 3 Risk Factor inputs
 
-   Context Tensor:
+   Risk Factors:
 
-   -  Minimum 3 dimensions (Heat, Momentum, one other)
+   -  Minimum 3 weighted inputs (Heat, Momentum, one other)
    -  Basic normalization (min/max scaling)
    -  Single risk domain (no Node/Neighborhood/Global separation)
 
@@ -198,7 +199,7 @@ Table of Contents
    Basic conformance does NOT require:
 
    -  Oracle mesh or threshold signatures
-   -  Soul dimension or sovereignty constraints
+   -  Soul veto or sovereignty constraints
    -  Trust tiers (just binary allow/deny)
    -  Federation capabilities
    -  Cryptographic chaining in Flight Recorder
@@ -222,12 +223,12 @@ Table of Contents
    -  Threshold signatures (2-of-3 minimum)
    -  Full Trust Score calculation
    -  Trust velocity tracking (dE/dt)
-   -  All 6 weighted Context Tensor dimensions
+   -  All 6 weighted Risk Factor inputs
 
-   Context Tensor:
+   Risk Factors:
 
-   -  All 6 weighted dimensions (M, P, H, T, I, O)
-   -  Soul dimension (S) support
+   -  All 6 weighted inputs (M, P, H, T, I, O)
+   -  Soul veto (S) support
    -  Risk domain separation (Node, Neighborhood, Global)
    -  Feed aggregation with configurable weights
 
@@ -290,9 +291,9 @@ Table of Contents
    -  Real-time consensus protocol
    -  Cryptographic audit trail
 
-   Context Tensor:
+   Risk Factors:
 
-   -  All 7 dimensions (including Soul)
+   -  All 7 inputs (including Soul)
    -  Full Indigenous Data Sovereignty support
    -  Sub-second sensor refresh for critical dimensions
    -  Sensor health monitoring and failover
@@ -344,7 +345,7 @@ Table of Contents
    | Oracle mesh               | -      | 3+ nodes | 5+   |
    | Threshold signatures      | -      | 2-of-3   | 3-of-5|
    | Context dimensions        | 3+     | 6+       | 7    |
-   | Soul dimension            | -      | Yes      | Yes  |
+   | Soul veto                 | -      | Yes      | Yes  |
    | Risk domains              | 1      | 3        | 3    |
    | Trust tiers               | -      | 5        | 5    |
    | Flight Recorder chaining  | -      | Yes      | Yes  |
@@ -368,7 +369,7 @@ Table of Contents
 
    MUST:
 
-   -  Accept Context Tensor input
+   -  Accept Risk Factor input
    -  Calculate Risk Factor: R = Σ(w_i × D_i)
    -  Calculate E_trust: E_trust = E_base × (1 - R)
    -  Generate signed Trust Proofs
@@ -396,7 +397,7 @@ Table of Contents
    -  Operate as mesh (minimum 3 nodes)
    -  Implement threshold signatures (2-of-3)
    -  Support all 6 weighted dimensions
-   -  Support Soul dimension (veto)
+   -  Support the Soul veto
    -  Calculate and track dE/dt (Trust velocity)
    -  Support agent lineage tracking
    -  Calculate Proof of Resilience
@@ -429,9 +430,9 @@ Table of Contents
    -  Formal verification of consensus logic
    -  Hardware security module (HSM) for keys
 
-4.2.  Context Tensor Requirements
+4.2.  Risk Factor Requirements
 
-4.2.1.  Basic Tensor Requirements
+4.2.1.  Basic Requirements
 
    MUST:
 
@@ -456,7 +457,7 @@ Table of Contents
    MUST:
 
    -  Support all 6 weighted dimensions (M, P, H, T, I, O)
-   -  Support Soul dimension (S) with veto logic
+   -  Support the Soul veto (S)
    -  Implement 3 risk domains (Node, Neighborhood, Global)
    -  Weighted aggregation across domains
    -  Feed-level configuration
@@ -778,7 +779,7 @@ Table of Contents
    +-------------+-----------------+
    | Tier        | E_trust Range   |
    +-------------+-----------------+
-   | God Mode    | >= 95           |
+   | Admin Mode  | >= 95           |
    | Operator    | >= 85, < 95     |
    | Analyst     | >= 70, < 85     |
    | Observer    | >= 50, < 70     |
@@ -888,7 +889,7 @@ Table of Contents
    -  TO-F-003: Geographic distribution handling
    -  TO-F-004: Extended proof generation (celestial)
 
-6.2.2.  Context Tensor Unit Tests
+6.2.2.  Risk Factor Unit Tests
 
    Basic:
 
@@ -899,7 +900,7 @@ Table of Contents
 
    Standard:
 
-   -  CT-S-001: All 7 dimension support
+   -  CT-S-001: All 7 input support
    -  CT-S-002: Risk domain aggregation
    -  CT-S-003: Feed weighting
    -  CT-S-004: Soul veto logic
@@ -1205,7 +1206,7 @@ Table of Contents
               Specification", NMCITRA, November 2025.
 
    [KTP-SENSORS]
-              Perkins, C., "Kinetic Trust Protocol - Context Tensor
+              Perkins, C., "Kinetic Trust Protocol - Context Signal
               Sensor Specification", NMCITRA, November 2025.
 
    [KTP-ENFORCE]

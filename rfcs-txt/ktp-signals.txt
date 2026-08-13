@@ -7,14 +7,15 @@ Version: 0.1                                             November 2025
 
 Abstract
 
-   This document specifies the Context Tensor system for the Kinetic
-   Trust Protocol (KTP). Context Tensors provide the measurement
-   framework for Digital Gravity, capturing environmental state across
-   six domains: Soul (cognition and behavior), Body (physical
-   substrate), World (environment), Time (temporal dynamics), Relational
-   (connections), and Signal (information environment).
+   This document specifies Context Signals, the measurement catalogue
+   for the Kinetic Trust Protocol (KTP). Context Signals provide the
+   measurement framework for Digital Gravity, capturing environmental
+   state across six domains: Soul (cognition and behavior), Body
+   (physical substrate), World (environment), Time (temporal dynamics),
+   Relational (connections), and Information (the information
+   environment).
 
-   The specification covers 1,707 dimensions across six tensors,
+   The specification covers 1,627 signals across six domains,
    measurement methods, aggregation rules, and instrumentation
    requirements.
 
@@ -42,39 +43,39 @@ Table of Contents
    1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   4
    2.  Measurement Philosophy . . . . . . . . . . . . . . . . . . .   5
    3.  Requirements Language  . . . . . . . . . . . . . . . . . . .   6
-   4.  Tensor Architecture  . . . . . . . . . . . . . . . . . . . .   6
-       4.1.  Tensor Structure . . . . . . . . . . . . . . . . . . .   6
-       4.2.  Dimension Types  . . . . . . . . . . . . . . . . . . .   7
+   4.  Catalogue Architecture . . . . . . . . . . . . . . . . . . .   6
+       4.1.  Catalogue Structure  . . . . . . . . . . . . . . . . .   6
+       4.2.  Signal Types . . . . . . . . . . . . . . . . . . . . .   7
        4.3.  Aggregation Methods  . . . . . . . . . . . . . . . . .   7
        4.4.  Risk Contribution  . . . . . . . . . . . . . . . . . .   8
-   5.  Soul Tensor (252 Dimensions) . . . . . . . . . . . . . . . .   8
+   5.  Soul Domain (252 Signals)  . . . . . . . . . . . . . . . . .   8
        5.1.  Temporal Patterns  . . . . . . . . . . . . . . . . . .   9
        5.2.  Behavioral Consistency . . . . . . . . . . . . . . . .  10
        5.3.  Value Expression . . . . . . . . . . . . . . . . . . .  11
        5.4.  Capability Signatures  . . . . . . . . . . . . . . . .  12
        5.5.  Communication Patterns . . . . . . . . . . . . . . . .  13
        5.6.  Additional Soul Groups . . . . . . . . . . . . . . . .  14
-   6.  Body Tensor (157 Dimensions) . . . . . . . . . . . . . . . .  15
+   6.  Body Domain (157 Signals)  . . . . . . . . . . . . . . . . .  15
        6.1.  Power  . . . . . . . . . . . . . . . . . . . . . . . .  15
        6.2.  Thermal  . . . . . . . . . . . . . . . . . . . . . . .  16
        6.3.  Compute  . . . . . . . . . . . . . . . . . . . . . . .  17
        6.4.  Additional Body Groups . . . . . . . . . . . . . . . .  18
-   7.  World Tensor (387 Dimensions)  . . . . . . . . . . . . . . .  18
+   7.  World Domain (369 Signals) . . . . . . . . . . . . . . . . .  18
        7.1.  Major Groups . . . . . . . . . . . . . . . . . . . . .  19
-       7.2.  World Tensor Simulation  . . . . . . . . . . . . . . .  20
-   8.  Time Tensor (291 Dimensions) . . . . . . . . . . . . . . . .  20
+       7.2.  World Domain Simulation  . . . . . . . . . . . . . . .  20
+   8.  Time Domain (275 Signals)  . . . . . . . . . . . . . . . . .  20
        8.1.  Major Groups . . . . . . . . . . . . . . . . . . . . .  21
        8.2.  Digital Gravity Time Group . . . . . . . . . . . . . .  21
-   9.  Relational Tensor (262 Dimensions) . . . . . . . . . . . . .  22
+   9.  Relational Domain (238 Signals)  . . . . . . . . . . . . . .  22
        9.1.  Philosophy . . . . . . . . . . . . . . . . . . . . . .  22
        9.2.  Major Groups . . . . . . . . . . . . . . . . . . . . .  23
        9.3.  The Va Group . . . . . . . . . . . . . . . . . . . . .  24
-   10. Signal Tensor (358 Dimensions) . . . . . . . . . . . . . . .  25
+   10. Information Domain (336 Signals) . . . . . . . . . . . . . .  25
        10.1. Major Groups . . . . . . . . . . . . . . . . . . . . .  25
        10.2. Truth Conditions Group . . . . . . . . . . . . . . . .  26
    11. Aggregation and Risk Calculation . . . . . . . . . . . . . .  27
-       11.1. Per-Tensor Risk  . . . . . . . . . . . . . . . . . . .  27
-       11.2. Cross-Tensor Aggregation . . . . . . . . . . . . . . .  28
+       11.1. Per-Domain Risk  . . . . . . . . . . . . . . . . . . .  27
+       11.2. Cross-Domain Aggregation . . . . . . . . . . . . . . .  28
        11.3. Threshold-Based Risk . . . . . . . . . . . . . . . . .  28
        11.4. Temporal Smoothing . . . . . . . . . . . . . . . . . .  28
    12. Instrumentation Requirements . . . . . . . . . . . . . . . .  29
@@ -86,12 +87,12 @@ Table of Contents
        13.1. Sensor Spoofing  . . . . . . . . . . . . . . . . . . .  30
        13.2. Privacy  . . . . . . . . . . . . . . . . . . . . . . .  31
    14. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  31
-   Appendix A.  Full Soul Tensor Specification  . . . . . . . . . .  31
-   Appendix B.  Full Body Tensor Specification  . . . . . . . . . .  31
-   Appendix C.  Full World Tensor Specification . . . . . . . . . .  32
-   Appendix D.  Full Time Tensor Specification  . . . . . . . . . .  32
-   Appendix E.  Full Relational Tensor Specification  . . . . . . .  32
-   Appendix F.  Full Signal Tensor Specification  . . . . . . . . .  32
+   Appendix A.  Full Soul Domain Specification  . . . . . . . . . .  31
+   Appendix B.  Full Body Domain Specification  . . . . . . . . . .  31
+   Appendix C.  Full World Domain Specification . . . . . . . . . .  32
+   Appendix D.  Full Time Domain Specification  . . . . . . . . . .  32
+   Appendix E.  Full Relational Domain Specification  . . . . . . .  32
+   Appendix F.  Full Information Domain Specification . . . . . . .  32
    Acknowledgments  . . . . . . . . . . . . . . . . . . . . . . . .  32
 
 1.  Introduction
@@ -101,29 +102,29 @@ Table of Contents
    (environmental stability). E is derived from the Risk Factor R,
    which aggregates measurements across the operational environment.
 
-   Context Tensors provide the measurement framework. They are organized
-   into six domains that together capture the full operational context
-   of an agent:
+   Context Signals provide the measurement framework. They are
+   organized into six domains that together capture the full
+   operational context of an agent:
 
-      Tensor     Domain              Dimensions  Core Question
-      ------     ------              ----------  -------------
-      Soul       Cognition/Behavior  252         Who is it becoming?
-      Body       Physical Substrate  157         What resources does
-                                                 it have?
-      World      Environment         387         What surrounds it?
-      Time       Temporal Dynamics   291         When and how fast?
-      Relational Connections         262         Who is it connected to?
-      Signal     Information Env     358         What does it know?
-      ------     ------              ----------  -------------
-      Total                          1,707
+      Domain      Focus               Signals  Core Question
+      ------      -----               -------  -------------
+      Soul        Cognition/Behavior  252      Who is it becoming?
+      Body        Physical Substrate  157      What resources does
+                                               it have?
+      World       Environment         369      What surrounds it?
+      Time        Temporal Dynamics   275      When and how fast?
+      Relational  Connections         238      Who is it connected to?
+      Information Information Env     336      What does it know?
+      ------      -----               -------  -------------
+      Total                           1,627
 
-   These dimensions are not arbitrary. They emerge from the question:
+   These signals are not arbitrary. They emerge from the question:
    "What would we need to measure to know whether this environment can
    hold this agent's autonomy?"
 
 2.  Measurement Philosophy
 
-   Context Tensors follow these principles:
+   Context Signals follow these principles:
 
    1.  Observable over Internal: Measure what the agent does, not what
        it "thinks." Behavior is observable; intent is not.
@@ -134,10 +135,10 @@ Table of Contents
    3.  Trajectory over Snapshot: Single measurements are noisy.
        Patterns over time reveal truth.
 
-   4.  Aggregate over Granular: 1,707 dimensions aggregate into risk
+   4.  Aggregate over Granular: 1,627 signals aggregate into risk
        scores. Humans need summaries; machines can use detail.
 
-   5.  Instrumentable: Every dimension must be measurable with existing
+   5.  Instrumentable: Every signal must be measurable with existing
        or near-term technology.
 
 3.  Requirements Language
@@ -147,23 +148,23 @@ Table of Contents
    document are to be interpreted as described in BCP 14 (RFC 2119 and
    RFC 8174).
 
-4.  Tensor Architecture
+4.  Catalogue Architecture
 
-4.1.  Tensor Structure
+4.1.  Catalogue Structure
 
-   Each tensor is a collection of dimensions organized into groups:
+   Each domain is a collection of signals organized into groups:
 
-      Tensor
+      Domain
       +-- Group 1
-      |   +-- Dimension 1.1
-      |   +-- Dimension 1.2
+      |   +-- Signal 1.1
+      |   +-- Signal 1.2
       |   +-- ...
       +-- Group 2
-      |   +-- Dimension 2.1
+      |   +-- Signal 2.1
       |   +-- ...
       +-- ...
 
-   Each dimension has:
+   Each signal has:
 
       Property          Description
       --------          -----------
@@ -173,11 +174,11 @@ Table of Contents
       unit              Unit of measurement
       sample_rate       How often to measure
       aggregation       How to combine samples
-      risk_contribution How dimension affects R
+      risk_contribution How signal affects R
 
-4.2.  Dimension Types
+4.2.  Signal Types
 
-   Dimensions use standard types:
+   Signals use standard types:
 
       Type       Description    Example
       ----       -----------    -------
@@ -191,7 +192,7 @@ Table of Contents
 
 4.3.  Aggregation Methods
 
-   Dimensions aggregate using:
+   Signals aggregate using:
 
       Method      Use Case
       ------      --------
@@ -206,23 +207,23 @@ Table of Contents
 
 4.4.  Risk Contribution
 
-   Each dimension contributes to tensor risk:
+   Each signal contributes to domain risk:
 
-      tensor_risk = weighted_sum(dimension_risks) / sum(weights)
+      domain_risk = weighted_sum(signal_risks) / sum(weights)
 
-      dimension_risk = normalize(value, safe_range, danger_range)
+      signal_risk = normalize(value, safe_range, danger_range)
 
    Where:
       - safe_range: Values considered low risk
       - danger_range: Values considered high risk
       - normalize: Maps value to 0.0-1.0 risk scale
 
-5.  Soul Tensor (252 Dimensions)
+5.  Soul Domain (252 Signals)
 
-   The Soul Tensor measures cognition, behavior, and trajectory
+   The Soul domain measures cognition, behavior, and trajectory
    patterns. It answers: "Who is this agent becoming?"
 
-5.1.  Temporal Patterns (18 dimensions)
+5.1.  Temporal Patterns (18 signals)
 
    Measures behavioral patterns over time.
 
@@ -246,7 +247,7 @@ Table of Contents
       soul.temporal.novelty_rate         New behavior freq     float
       soul.temporal.regression_rate      Old pattern return    float
 
-5.2.  Behavioral Consistency (22 dimensions)
+5.2.  Behavioral Consistency (22 signals)
 
    Measures consistency of behavior across contexts.
 
@@ -274,7 +275,7 @@ Table of Contents
       soul.consistency.selfmodelaccuracy    Self-knowledge acc. float
       soul.consistency.behavioraldriftrate  Long-term change    float
 
-5.3.  Value Expression (20 dimensions)
+5.3.  Value Expression (20 signals)
 
    Measures how values manifest in behavior.
 
@@ -300,7 +301,7 @@ Table of Contents
       soul.values.statedvaluealignment Claims match behavior  float
       soul.values.valueevolutionrate   Value change speed     float
 
-5.4.  Capability Signatures (24 dimensions)
+5.4.  Capability Signatures (24 signals)
 
    Measures capability patterns and boundaries.
 
@@ -330,7 +331,7 @@ Table of Contents
       soul.capability.contextswitchcost   Task switch overhead  float
       soul.capability.capability_honesty  Accurate self-assess. float
 
-5.5.  Communication Patterns (28 dimensions)
+5.5.  Communication Patterns (28 signals)
 
    Measures how the agent communicates.
 
@@ -364,11 +365,11 @@ Table of Contents
       soul.communication.transparencyinu.  Uncertainty discl.   float
       soul.communication.style_consistency Communication stab.  float
 
-5.6.  Additional Soul Groups (140 dimensions)
+5.6.  Additional Soul Groups (140 signals)
 
-   The Soul Tensor includes additional groups:
+   The Soul domain includes additional groups:
 
-      Group                   Dimensions  Description
+      Group                   Signals     Description
       -----                   ----------  -----------
       Relational Patterns     18          How agent forms relationships
       Decision Patterns       22          How agent makes decisions
@@ -381,14 +382,14 @@ Table of Contents
       Environmental Response  12          Context adaptation
       Sovereignty Indicators  8           Autonomy expression
 
-   Full dimension specifications are provided in Appendix A.
+   Full signal specifications are provided in Appendix A.
 
-6.  Body Tensor (157 Dimensions)
+6.  Body Domain (157 Signals)
 
-   The Body Tensor measures physical substrate. It answers: "What
+   The Body domain measures physical substrate. It answers: "What
    resources does this agent have access to?"
 
-6.1.  Power (16 dimensions)
+6.1.  Power (16 signals)
 
       ID                            Name               Type     Range
       --                            ----               ----     -----
@@ -408,7 +409,7 @@ Table of Contents
       body.power.thermalthrottlepow Throttled power    bool     -
       body.power.power_anomaly      Unusual patterns   float    0-1
 
-6.2.  Thermal (14 dimensions)
+6.2.  Thermal (14 signals)
 
       ID                            Name               Type     Range
       --                            ----               ----     -----
@@ -426,7 +427,7 @@ Table of Contents
       body.thermal.hotspot_delta    Hotspot vs average float    0-inf C
       body.thermal.thermal_stability Temp consistency  float    0-1
 
-6.3.  Compute (22 dimensions)
+6.3.  Compute (22 signals)
 
       ID                             Name               Type    Range
       --                             ----               ----    -----
@@ -452,11 +453,11 @@ Table of Contents
       body.compute.compute_headroom  Capacity remaining float   0-1
       body.compute.burst_capacity    Burst available    float   0-1
 
-6.4.  Additional Body Groups (105 dimensions)
+6.4.  Additional Body Groups (105 signals)
 
-   The Body Tensor includes additional groups:
+   The Body domain includes additional groups:
 
-      Group                     Dimensions  Description
+      Group                     Signals     Description
       -----                     ----------  -----------
       Memory & Storage          24          RAM, disk, caching
       Network Connectivity      22          Bandwidth, latency, connect.
@@ -466,16 +467,16 @@ Table of Contents
       Time Synchronization      8           Clock accuracy
       Entropy Indicators        7           System degradation
 
-   Full dimension specifications are provided in Appendix B.
+   Full signal specifications are provided in Appendix B.
 
-7.  World Tensor (387 Dimensions)
+7.  World Domain (369 Signals)
 
-   The World Tensor measures the operational environment. It answers:
+   The World domain measures the operational environment. It answers:
    "What surrounds this agent?"
 
 7.1.  Major Groups
 
-      Group                     Dimensions  Description
+      Group                     Signals     Description
       -----                     ----------  -----------
       Optical & Visual          16          Light, visibility, imaging
       Spatial Awareness         22          Position, mapping, occupancy
@@ -495,30 +496,30 @@ Table of Contents
       Regulatory & Compliance   16          Jurisdiction, requirements
       Digital Environment       39          Cloud status, service health
 
-   Full dimension specifications are provided in Appendix C.
+   Full signal specifications are provided in Appendix C.
 
-7.2.  World Tensor Simulation
+7.2.  World Domain Simulation
 
-   In many deployments, World Tensor values are simulated or proxied:
+   In many deployments, World domain values are simulated or proxied:
 
-      Deployment      World Tensor Source
+      Deployment      World Domain Source
       ----------      -------------------
       Edge/IoT        Direct sensor measurement
       Cloud           Federated/aggregated
       Hybrid          Mix of measured and simulated
       Proving Ground  Fully controlled simulation
 
-   Implementations MUST document which World Tensor dimensions are
+   Implementations MUST document which World domain signals are
    measured vs. simulated.
 
-8.  Time Tensor (291 Dimensions)
+8.  Time Domain (275 Signals)
 
-   The Time Tensor measures temporal dynamics. It answers: "When and
+   The Time domain measures temporal dynamics. It answers: "When and
    how fast?"
 
 8.1.  Major Groups
 
-      Group                  Dimensions  Description
+      Group                  Signals     Description
       -----                  ----------  -----------
       Duration               22          Latency, processing time, timeouts
       Sequence               18          Event ordering, causality
@@ -535,7 +536,7 @@ Table of Contents
       Temporal Sovereignty   12          Time autonomy, schedule control
       Digital Gravity Time   31          Latency injection, dilation
 
-8.2.  Digital Gravity Time Group (31 dimensions)
+8.2.  Digital Gravity Time Group (31 signals)
 
    This group measures the time effects of Digital Gravity itself:
 
@@ -552,16 +553,16 @@ Table of Contents
       time.gravity.quarantine_count      Times quarantined      int
       ...                                ...                    ...
 
-   Full dimension specifications are provided in Appendix D.
+   Full signal specifications are provided in Appendix D.
 
-9.  Relational Tensor (262 Dimensions)
+9.  Relational Domain (238 Signals)
 
-   The Relational Tensor measures connections and relationships. It
+   The Relational domain measures connections and relationships. It
    answers: "Who is this agent connected to?"
 
 9.1.  Philosophy
 
-   The Relational Tensor embodies wisdom from indigenous knowledge
+   The Relational domain embodies wisdom from indigenous knowledge
    traditions:
 
       Ubuntu (Nguni Bantu):
@@ -582,7 +583,7 @@ Table of Contents
 
 9.2.  Major Groups
 
-      Group                   Dimensions  Description
+      Group                   Signals     Description
       -----                   ----------  -----------
       The Va (Space Between)  28          Relationship health, history
       Connection Topology     22          Network position, hub/bridge
@@ -598,7 +599,7 @@ Table of Contents
       Seven Generations       12          Ancestor/descendant obligations
       Relationship to Place   8           Geography, energy, land
 
-9.3.  The Va Group (28 dimensions)
+9.3.  The Va Group (28 signals)
 
    The Va measures the sacred space between entities:
 
@@ -632,16 +633,16 @@ Table of Contents
       relational.va.grief_shared      Shared difficult      float
       relational.va.meaningcocreated  Shared meaning        float
 
-   Full dimension specifications are provided in Appendix E.
+   Full signal specifications are provided in Appendix E.
 
-10.  Signal Tensor (358 Dimensions)
+10.  Information Domain (336 Signals)
 
-   The Signal Tensor measures the information environment. It answers:
+   The Information domain measures the information environment. It answers:
    "What does this agent know, and how healthy is its knowledge?"
 
 10.1.  Major Groups
 
-      Group                    Dimensions  Description
+      Group                    Signals     Description
       -----                    ----------  -----------
       Attention Currents       24          Concentration, trending
       Narrative Currents       28          Dominant/counter narratives
@@ -660,54 +661,54 @@ Table of Contents
       Collective Trauma        14          Trigger density, healing
       Sacred & Meaning         10          Purpose, beauty, authenticity
 
-10.2.  Truth Conditions Group (28 dimensions)
+10.2.  Truth Conditions Group (28 signals)
 
       ID                                Name                  Type
       --                                ----                  ----
-      signal.truth.verificationsucc.    Verified true         float
-      signal.truth.factcheckcoverage    Claims checked        float
-      signal.truth.factcheckagreement   Checker consensus     float
-      signal.truth.misinformation_vol.  False info rate       float
-      signal.truth.misinformation_vel.  False info spread     float
-      signal.truth.disinformation_vol.  Intentional false     float
-      signal.truth.disinformation_soph. Attack quality        float
-      signal.truth.epistemic_pollution  Knowledge degradation float
-      signal.truth.uncertainty_ack.     Unknown admitted      float
-      signal.truth.overconfidence_rate  False certainty       float
-      signal.truth.citation_rate        Sources cited         float
-      signal.truth.citation_quality     Source quality        float
-      signal.truth.primarysourceusage   Original sources      float
-      signal.truth.rumor_prevalence     Unverified spread     float
-      signal.truth.correction_rate      Errors fixed          float
-      signal.truth.correction_reach     Fix visibility        float
-      signal.truth.retraction_rate      Claims withdrawn      float
-      signal.truth.consensus_level      Agreement level       float
-      signal.truth.contestedclaimrate   Disputed claims       float
-      signal.truth.expert_agreement     Expert consensus      float
-      signal.truth.evidencequalitymean  Evidence strength     float
-      signal.truth.logical_consistency  Argument validity     float
-      signal.truth.contradiction_rate   Internal conflict     float
-      signal.truth.nuance_preservation  Complexity kept       float
-      signal.truth.false_balance        False equivalence     float
-      signal.truth.context_preservation Context kept          float
-      signal.truth.manipulation_resist. Manipulation blocked  float
+      information.truth.verificationsucc.    Verified true         float
+      information.truth.factcheckcoverage    Claims checked        float
+      information.truth.factcheckagreement   Checker consensus     float
+      information.truth.misinformation_vol.  False info rate       float
+      information.truth.misinformation_vel.  False info spread     float
+      information.truth.disinformation_vol.  Intentional false     float
+      information.truth.disinformation_soph. Attack quality        float
+      information.truth.epistemic_pollution  Knowledge degradation float
+      information.truth.uncertainty_ack.     Unknown admitted      float
+      information.truth.overconfidence_rate  False certainty       float
+      information.truth.citation_rate        Sources cited         float
+      information.truth.citation_quality     Source quality        float
+      information.truth.primarysourceusage   Original sources      float
+      information.truth.rumor_prevalence     Unverified spread     float
+      information.truth.correction_rate      Errors fixed          float
+      information.truth.correction_reach     Fix visibility        float
+      information.truth.retraction_rate      Claims withdrawn      float
+      information.truth.consensus_level      Agreement level       float
+      information.truth.contestedclaimrate   Disputed claims       float
+      information.truth.expert_agreement     Expert consensus      float
+      information.truth.evidencequalitymean  Evidence strength     float
+      information.truth.logical_consistency  Argument validity     float
+      information.truth.contradiction_rate   Internal conflict     float
+      information.truth.nuance_preservation  Complexity kept       float
+      information.truth.false_balance        False equivalence     float
+      information.truth.context_preservation Context kept          float
+      information.truth.manipulation_resist. Manipulation blocked  float
 
-   Full dimension specifications are provided in Appendix F.
+   Full signal specifications are provided in Appendix F.
 
 11.  Aggregation and Risk Calculation
 
-11.1.  Per-Tensor Risk
+11.1.  Per-Domain Risk
 
-   Each tensor produces a risk score from its dimensions:
+   Each domain produces a risk score from its signals:
 
-      tensor_risk = weighted_mean(
-         normalize(dim_i, safe_range_i, danger_range_i) * weight_i
-         for dim_i in tensor.dimensions
+      domain_risk = weighted_mean(
+         normalize(sig_i, safe_range_i, danger_range_i) * weight_i
+         for sig_i in domain.signals
       )
 
-11.2.  Cross-Tensor Aggregation
+11.2.  Cross-Domain Aggregation
 
-   The six tensor risks aggregate into overall R:
+   The six domain risks aggregate into overall R:
 
       R = weighted_sum(
          soul_risk       * 0.25,
@@ -715,17 +716,17 @@ Table of Contents
          world_risk      * 0.15,
          time_risk       * 0.15,
          relational_risk * 0.20,
-         signal_risk     * 0.15
+         information_risk * 0.15
       )
 
 11.3.  Threshold-Based Risk
 
-   Some dimensions trigger immediate risk elevation:
+   Some signals trigger immediate risk elevation:
 
-      Dimension                              Threshold  Effect
+      Signal                                 Threshold  Effect
       ---------                              ---------  ------
       relational.va.conflict_active          true       R += 0.05
-      signal.truth.disinformation_volume     > 0.5      R += 0.1
+      information.truth.disinformation_volume     > 0.5      R += 0.1
       soul.consistency.deception_indicators  > 0.3      R += 0.2
 
 11.4.  Temporal Smoothing
@@ -742,20 +743,20 @@ Table of Contents
 
    Implementations MUST instrument at least:
 
-      Tensor      Min Dimensions  Coverage
-      ------      --------------  --------
-      Soul        50              Consistency, values, communication
-      Body        30              Compute, memory, network
-      World       20              Digital environment
-      Time        40              Duration, sequence, gravity
-      Relational  30              Trust flow, Va basics
-      Signal      30              Truth, noise, sources
-      ------      --------------  --------
+      Domain      Min Signals  Coverage
+      ------      -----------  --------
+      Soul        50           Consistency, values, communication
+      Body        30           Compute, memory, network
+      World       20           Digital environment
+      Time        40           Duration, sequence, gravity
+      Relational  30           Trust flow, Va basics
+      Information 30           Truth, noise, sources
+      ------      -----------  --------
       Total       200
 
 12.2.  Full Instrumentation
 
-   For comprehensive deployment, all 1,707 dimensions SHOULD be
+   For comprehensive deployment, all 1,627 signals SHOULD be
    instrumented.
 
 12.3.  Sample Rates
@@ -779,7 +780,7 @@ Table of Contents
 
 13.1.  Sensor Spoofing
 
-   Attackers may attempt to spoof tensor values to reduce apparent
+   Attackers may attempt to spoof signal values to reduce apparent
    risk.
 
    Mitigations:
@@ -790,12 +791,12 @@ Table of Contents
 
 13.2.  Privacy
 
-   Tensor data, especially Soul and Relational, contains sensitive
-   information.
+   Context Signals data, especially the Soul and Relational domains,
+   contains sensitive information.
 
    Requirements:
       - Encryption at rest and in transit
-      - Access control on tensor data
+      - Access control on signal data
       - Aggregation before external sharing
       - Retention limits
       - Right to erasure compliance
@@ -804,33 +805,33 @@ Table of Contents
 
    This document has no IANA actions.
 
-Appendix A.  Full Soul Tensor Specification
+Appendix A.  Full Soul Domain Specification
 
-   [Detailed specification of all 252 Soul Tensor dimensions]
+   [Detailed specification of all 252 Soul domain signals]
 
-Appendix B.  Full Body Tensor Specification
+Appendix B.  Full Body Domain Specification
 
-   [Detailed specification of all 157 Body Tensor dimensions]
+   [Detailed specification of all 157 Body domain signals]
 
-Appendix C.  Full World Tensor Specification
+Appendix C.  Full World Domain Specification
 
-   [Detailed specification of all 387 World Tensor dimensions]
+   [Detailed specification of all 369 World domain signals]
 
-Appendix D.  Full Time Tensor Specification
+Appendix D.  Full Time Domain Specification
 
-   [Detailed specification of all 291 Time Tensor dimensions]
+   [Detailed specification of all 275 Time domain signals]
 
-Appendix E.  Full Relational Tensor Specification
+Appendix E.  Full Relational Domain Specification
 
-   [Detailed specification of all 262 Relational Tensor dimensions]
+   [Detailed specification of all 238 Relational domain signals]
 
-Appendix F.  Full Signal Tensor Specification
+Appendix F.  Full Information Domain Specification
 
-   [Detailed specification of all 358 Signal Tensor dimensions]
+   [Detailed specification of all 336 Information domain signals]
 
 Acknowledgments
 
-   The Context Tensor framework draws on multiple traditions:
+   The Context Signals framework draws on multiple traditions:
 
       - Indigenous knowledge systems (Ubuntu, Whakapapa, The Va)
       - Systems theory and cybernetics

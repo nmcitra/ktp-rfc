@@ -112,7 +112,7 @@ sequenceDiagram
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics grounding provenance.
+    - [KTP-Core](ktp-core.md): The trust mechanics grounding provenance.
     - [KTP-Identity](ktp-identity.md): Lineage and signer identity chains.
     - [KTP-Crypto](ktp-crypto.md): Signature schemes for origin proof.
     - [KTP-Audit](ktp-audit.md): Immutable recording of provenance events.

@@ -57,7 +57,7 @@ KTP-Migration defines a 5-stage process that moves from passive observation to f
     *   **Action**: Real blocking for test groups.
 
 === "Stage 4: Full Enforcement"
-    **Physics-Based Auth.**
+    **Environment-Based Auth.**
     KTP becomes the primary authorization engine. Legacy systems are relegated to identity provision only.
     
     *   **Goal**: Complete transition.

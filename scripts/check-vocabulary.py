@@ -76,10 +76,13 @@ NEWSLETTER = re.compile(r"Digital Gravity", re.I)
 
 # A term is retired because something falsified or replaced it. The reason
 # travels with the term so a reader of this file knows why it is here.
-#   pat   — what makes the term appear
-#   bound — required on the same line for the hit to count; absent means the
-#           term is retired unconditionally
-#   allow — permits the hit despite everything else (layer 3, per-term)
+#   pat    — what makes the term appear
+#   bound  — required on the same line for the hit to count; absent means the
+#            term is retired unconditionally
+#   allow  — permits the hit despite everything else (layer 3, per-term)
+#   exempt — a ruled-correct use of the phrase, live rather than historical;
+#            the line falls through to later rules so other retired terms on
+#            it are still seen
 # First matching rule wins per line, so specific rules precede general ones.
 RETIRED = [
     dict(term="Context Tensor",
@@ -117,6 +120,23 @@ RETIRED = [
          why="retired as the theory's name and as a masthead (BRAND.md §1). "
              "Sayable only in the sentence naming the newsletter Digital "
              "Gravity and marking why the old name was removed."),
+    dict(term="God Mode",
+         # No leading \b: TRUST_TIER_GOD_MODE has a word char before "GOD",
+         # so an anchored pattern reads zero on the wire value — the exact
+         # blind spot #84 recorded for the D1a symbol scheme. Catches the
+         # prose name, the protobuf enum, and the OpenAPI string alike.
+         pat=r"(?i)god[ _-]?mode",
+         exempt=re.compile(r"\"God Mode\""),
+         why="retirement ruled — 'retire that phrase everywhere' (Chris). The "
+             "name asserts the top tier is unrestricted power; under the "
+             "ceilings-minimum architecture it is not — the Mass Ceiling still "
+             "binds, the External Root must still be current, and R still "
+             "deflates every decision. REPLACEMENT RULED #89 (2026-08-13): "
+             "Admin Mode; wire forms TRUST_TIER_ADMIN (= 5, wire-compatible) "
+             "and OpenAPI `admin` (breaking, lands in v2.0.0). The one "
+             "surviving use is ktp-governance's named antipattern, in "
+             "quotation marks — #89 item 2 ruled it survives, and the exempt "
+             "pattern encodes that ruling rather than pre-empting it."),
     dict(term="physics",
          pat=r"\bphysics\b",
          allow=NEWSLETTER,
@@ -137,6 +157,10 @@ def classify(line):
         if not re.search(rule["pat"], line):
             continue
         if "bound" in rule and not re.search(rule["bound"], line):
+            continue
+        if "exempt" in rule and rule["exempt"].search(line):
+            # A ruled-correct live use (#89 item 2: the quoted antipattern).
+            # Fall through so other retired terms on the same line still count.
             continue
         if HISTORICAL.search(line):
             # Layer 3: supersession. For terms with their own allowance, the

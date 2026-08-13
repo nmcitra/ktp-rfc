@@ -408,10 +408,10 @@ Table of Contents
 
 3.5.1.  Impact
 
-   MEDIUM: Context Tensor updates degraded
+   MEDIUM: Context Signal updates degraded
 
    -  Sensors cannot deliver readings
-   -  Context Tensor uses stale data
+   -  Risk Factor inputs use stale data
    -  Risk Factor calculation affected
 
 3.5.2.  Degradation Behavior
@@ -421,8 +421,8 @@ Table of Contents
        -  Typical buffer: 5 minutes
 
    2.  STALE DATA MARKING
-       -  Oracle marks Context Tensor dimensions as stale
-       -  Stale dimensions may increase Risk Factor
+       -  Oracle marks Risk Factor inputs as stale
+       -  Stale inputs may increase Risk Factor
        -  Or use conservative defaults
 
    3.  FAILOVER
@@ -432,7 +432,7 @@ Table of Contents
 
    1.  Restore aggregator service
    2.  Sensors flush buffered readings
-   3.  Context Tensor returns to real-time
+   3.  Context Signals return to real-time
    4.  Trust Scores normalize
 
 3.6.  Federation Gateway Failure
@@ -556,9 +556,9 @@ Table of Contents
 
    TRUST SCORES
    -  Current E_trust values
-   -  Can be recalculated from E_base and Context Tensor
+   -  Can be recalculated from E_base and the Risk Factor inputs
 
-   CONTEXT TENSOR
+   CONTEXT SIGNALS
    -  Current sensor readings
    -  Will be refreshed by live sensors
 
@@ -769,7 +769,7 @@ Table of Contents
 
    Trust Scores can be recalculated if:
    -  E_base known (from trajectory or backup)
-   -  Context Tensor available (from sensors)
+   -  Context Signals available (from sensors)
 
    E_trust = E_base x Context_modifier x Risk_factor
 
@@ -826,7 +826,7 @@ Table of Contents
    -  Some functionality reduced
    -  Core security maintained
    -  Non-critical features disabled
-   -  Example: Sensor aggregator down (stale Context Tensor)
+   -  Example: Sensor aggregator down (stale Context Signals)
 
    LEVEL 3: EMERGENCY
    -  Critical functionality only

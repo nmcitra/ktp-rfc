@@ -80,8 +80,8 @@ Table of Contents
 
 1. Introduction
 
-   The Enforcement Layer is where Digital Physics becomes operational
-   reality. While the Trust Oracle calculates what is possible, the
+   The Enforcement Layer is where the constraint model becomes
+   operational reality. While the Trust Oracle calculates what is possible, the
    Enforcement Layer ensures that only what is possible actually occurs.
 
    Traditional authorization enforcement is binary: allowed or denied.
@@ -155,7 +155,7 @@ Table of Contents
    constraints are violated (S = 1), taking precedence over Trust Score
    evaluation.
 
-   Trust Tier: A capability level (God Mode, Operator Mode, Analyst
+   Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst
    Mode, Observer Mode) determined by E_trust thresholds.
 
 3. Architecture Overview
@@ -241,7 +241,7 @@ Table of Contents
 3.2.  Component Roles
 
    Trust Oracle:
-   - Calculates E_trust from E_base and Context Tensor
+   - Calculates E_trust from E_base and the Risk Factor inputs
    - Signs Trust Proofs
    - Maintains Proof of Resilience ledger
    - Provides PDP functionality (may be distributed)
@@ -551,14 +551,14 @@ Table of Contents
    +---------------+----------+--------------------------------------+
    | Tier          | E_trust  | Description                          |
    +---------------+----------+--------------------------------------+
-   | God Mode      | >= 95    | Full infrastructure control          |
+   | Admin Mode    | >= 95    | Full infrastructure control          |
    | Operator Mode | >= 85    | Service management, config changes   |
    | Analyst Mode  | >= 70    | Data query, read-only operations     |
    | Observer Mode | >= 50    | Logging, monitoring, heartbeat       |
    | Hibernation   | < 50     | Heartbeat only, await recovery       |
    +---------------+----------+--------------------------------------+
 
-   5.1.1. God Mode (E_trust >= 95)
+   5.1.1. Admin Mode (E_trust >= 95)
 
    The highest capability tier. Reserved for critical infrastructure
    operations that require maximum trust.
@@ -639,7 +639,7 @@ Table of Contents
    +---------------+-------------+----------------------------------+
    | Tier          | Max A       | Permitted Action Classes         |
    +---------------+-------------+----------------------------------+
-   | God Mode      | 100         | All actions                      |
+   | Admin Mode    | 100         | All actions                      |
    | Operator Mode | 85          | Read, Write, Execute (safe)      |
    | Analyst Mode  | 60          | Read (all), Write (append only)  |
    | Observer Mode | 30          | Read (public), Emit logs         |
@@ -814,7 +814,8 @@ Table of Contents
    6. ALLOW
 
    This order ensures that sovereignty constraints are always evaluated
-   first, followed by physics-based constraints, followed by tier
+   first, followed by environment-derived constraints, followed by
+   tier
    restrictions, followed by any custom policies.
 
 7.2.  Veto Response Codes
@@ -997,7 +998,8 @@ Table of Contents
    - They may crowd out other agents
    - They accumulate disproportionate authority
 
-   The physics metaphor: a star that exceeds the Chandrasekhar limit
+   The astrophysical analogy (informative): a star that exceeds the
+   Chandrasekhar limit
    cannot remain stable. It must either shed mass or collapse.
 
 9.2.  Mass Ceiling
@@ -1212,7 +1214,7 @@ Table of Contents
    [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core
               Specification", NMCITRA, November 2025.
 
-   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Tensor
+   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Signal
               Sensor Specification", NMCITRA, November 2025.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate

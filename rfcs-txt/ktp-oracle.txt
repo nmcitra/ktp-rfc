@@ -45,7 +45,7 @@ Table of Contents
    5.  Oracle Architecture  . . . . . . . . . . . . . . . . . . . .   4
        5.1.  Single Node Architecture . . . . . . . . . . . . . . .   4
        5.2.  Component Specifications . . . . . . . . . . . . . . .   5
-             5.2.1.  Tensor Collector . . . . . . . . . . . . . . .   5
+             5.2.1.  Signal Collector . . . . . . . . . . . . . . .   5
              5.2.2.  Risk Calculator  . . . . . . . . . . . . . . .   6
              5.2.3.  Zeroth Law Engine  . . . . . . . . . . . . . .   6
              5.2.4.  Trust Proof Issuer . . . . . . . . . . . . . .   7
@@ -82,7 +82,7 @@ Table of Contents
    12. Performance Requirements . . . . . . . . . . . . . . . . . .  18
        12.1. Latency Targets  . . . . . . . . . . . . . . . . . . .  18
        12.2. Throughput Targets . . . . . . . . . . . . . . . . . .  18
-       12.3. Availability Targets . . . . . . . . . . . . . . . . .  18
+       12.3. Mesh and node availability targets  . . . . . . . . .  18
    13. Deployment Models  . . . . . . . . . . . . . . . . . . . . .  19
        13.1. Cloud Deployment . . . . . . . . . . . . . . . . . . .  19
        13.2. On-Premises Deployment . . . . . . . . . . . . . . . .  19
@@ -104,7 +104,7 @@ Table of Contents
    The Trust Oracle is the nerve center of a KTP zone.  It performs
    the calculations that make Digital Gravity possible:
 
-   -  Collects Context Tensor measurements
+   -  Collects Context Signal measurements
 
    -  Calculates Risk Factor (R) and Environmental Stability (E)
 
@@ -134,7 +134,7 @@ Table of Contents
        Corrupted Oracles corrupt the entire trust system.
 
    3.  Accountability: Oracles are themselves subject to KTP.  They
-       cannot exempt themselves from physics.
+       cannot exempt themselves from the constraints.
 
    4.  Transparency: Oracle operations MUST be auditable.  Trust
        requires visibility.
@@ -194,13 +194,13 @@ Table of Contents
    |                      TRUST ORACLE NODE                           |
    |                                                                  |
    |  +------------------------------------------------------------+  |
-   |  |                    Tensor Collector                        |  |
-   |  |   Receives measurements from all six Context Tensors       |  |
+   |  |                    Signal Collector                        |  |
+   |  |   Receives measurements from all six signal domains        |  |
    |  +------------------------------------------------------------+  |
    |                              |                                   |
    |  +------------------------------------------------------------+  |
    |  |                    Risk Calculator                         |  |
-   |  |   R = weighted_aggregate(tensor_risks)                     |  |
+   |  |   R = weighted_aggregate(domain_risks)                     |  |
    |  |   E = E_base × (1 - R)                                     |  |
    |  +------------------------------------------------------------+  |
    |                              |                                   |
@@ -243,28 +243,28 @@ Table of Contents
 
 5.2.  Component Specifications
 
-5.2.1.  Tensor Collector
+5.2.1.  Signal Collector
 
-   The Tensor Collector receives measurements from Context Tensor
+   The Signal Collector receives measurements from Context Signal
    instrumentation:
 
-   -  Input: Body Tensor
+   -  Input: Body domain
       Source: Infrastructure monitoring
       Rate: 1-100 Hz
 
-   -  Input: World Tensor
+   -  Input: World domain
       Source: Environmental sensors/simulation
       Rate: 0.1-10 Hz
 
-   -  Input: Time Tensor
+   -  Input: Time domain
       Source: Time subsystem
       Rate: Per transaction
 
-   -  Input: Relational Tensor
+   -  Input: Relational domain
       Source: Relationship monitoring
       Rate: Per interaction
 
-   -  Input: Signal Tensor
+   -  Input: Information domain
       Source: Information environment monitoring
       Rate: 1 Hz
 
@@ -836,7 +836,7 @@ Table of Contents
       Target: 1,000
       Notes: Consensus limited
 
-12.3.  Availability Targets
+12.3.  Mesh and node availability targets
 
    -  Metric: Mesh availability
       Target: 99.99%

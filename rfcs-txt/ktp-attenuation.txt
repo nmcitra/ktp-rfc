@@ -110,23 +110,23 @@ Table of Contents
    human escalation.  These mechanisms operate at human speed and fail
    when agents operate at machine speed.
 
-   Digital Gravity replaces policy with physics.  Instead of deciding
+   Digital Gravity replaces policy with structure.  Instead of deciding
    whether to allow an action, the environment applies physical
    constraints that make excessive autonomy impossible.  The agent
    doesn't hit a wall; it experiences increasing resistance, like
    moving through an increasingly dense medium.
 
-2.  The Physics Metaphor
+2.  The Gravity Analogy (Informative)
 
    In physical gravity, mass curves spacetime.  Objects don't decide to
-   fall; they follow the curvature.  The physics is the governance.
+   fall; they follow the curvature.  The structure is the governance.
 
    In Digital Gravity, risk curves the operational environment.  Agents
    don't decide to slow down; latency increases.  Compute becomes
-   scarce.  Network paths narrow.  The physics is the governance.
+   scarce.  Network paths narrow.  The structure is the governance.
 
-   This shift—from policy to physics—is fundamental.  Policy can be
-   debated, circumvented, or ignored.  Physics cannot.
+   This shift—from policy to structure—is fundamental.  Policy can be
+   debated, circumvented, or ignored.  Structure cannot.
 
 3.  Requirements Language
 
@@ -146,7 +146,7 @@ Table of Contents
       action risk.
 
    Environmental Stability (E):  The environment's current capacity to
-      absorb risk, derived from Context Tensor measurements.
+      absorb risk, derived from Context Signal measurements.
       E = E_base × (1 - R).
 
    E_base:  Base trust level derived from agent's Proof of Resilience
@@ -158,7 +158,7 @@ Table of Contents
    Latency Injection:  The deliberate introduction of delay into agent
       operations as a constraint mechanism.
 
-   Risk Factor (R):  Environmental risk derived from Context Tensor
+   Risk Factor (R):  Environmental risk derived from Context Signal
       measurements, ranging from 0.0 (minimal risk) to 1.0 (maximum
       risk).
 
@@ -226,7 +226,7 @@ Table of Contents
    Where:
 
       E_base = agent's base trust (from Proof of Resilience)
-      R = current risk factor (from Context Tensors)
+      R = current risk factor (from the Risk Factor inputs)
 
    E_base ranges from 0-100 based on agent trajectory:
 
@@ -242,7 +242,7 @@ Table of Contents
 
 5.2.3.  Risk Factor Calculation
 
-   R is derived from the six Context Tensors:
+   R is derived from the six domain risks:
 
       R = weighted_aggregate(
             soul_risk × w_soul,
@@ -272,7 +272,7 @@ Table of Contents
       1.  Before every action (mandatory)
       2.  Continuously during long-running operations (recommended:
           100ms)
-      3.  When Context Tensor values change significantly (threshold:
+      3.  When Risk Factor input values change significantly (threshold:
           0.1)
       4.  When agent requests capability elevation
 
@@ -543,8 +543,8 @@ Table of Contents
 
    To meet performance requirements:
 
-      1.  Context Tensor values MAY be cached for up to 100ms
-      2.  R calculation MAY be cached until tensor change > 0.05
+      1.  Risk Factor input values MAY be cached for up to 100ms
+      2.  R calculation MAY be cached until input change > 0.05
       3.  E_base MAY be cached until trajectory update
       4.  Gravity curves SHOULD be precomputed as lookup tables
 
@@ -689,7 +689,7 @@ Table of Contents
 13.  Acknowledgments
 
    This specification builds on decades of work in distributed systems,
-   access control, and physics-based modeling.
+   access control, and environment-derived constraint modeling.
 
 14.  Example Scenarios
 

@@ -9,8 +9,8 @@ Abstract
 
    This document specifies the Kinetic Trust Protocol (KTP), a framework
    for dynamic, environment-aware authorization of autonomous agents.
-   KTP replaces static permission models with physics-based constraints
-   that adapt in real-time to environmental conditions.
+   KTP replaces static permission models with environment-derived
+   constraints that adapt in real-time to environmental conditions.
 
    The protocol introduces the concept of a Trust Score derived from
    environmental sensors, a Trust Proof token that travels with each
@@ -36,7 +36,7 @@ Table of Contents
 
    1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   3
        1.1.  The Problem with Static Authorization  . . . . . . . .   3
-       1.2.  The Physics-Based Solution . . . . . . . . . . . . . .   4
+       1.2.  The Environment-Based Solution  . . . . . . . . . . .   4
        1.3.  Requirements Language  . . . . . . . . . . . . . . . .   4
    2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Protocol Overview  . . . . . . . . . . . . . . . . . . . . .   7
@@ -62,7 +62,7 @@ Table of Contents
              5.5.8.  Human-in-the-Loop Sampling . . . . . . . . . .  19
              5.5.9.  Gradient Isolation . . . . . . . . . . . . . .  19
              5.5.10. Fundamental Limits . . . . . . . . . . . . . .  20
-   6.  Context Tensor . . . . . . . . . . . . . . . . . . . . . . .  21
+   6.  Risk Factors . . . . . . . . . . . . . . . . . . . . . . . .  21
        6.1.  The Seven Dimensions . . . . . . . . . . . . . . . . .  21
        6.2.  The Soul Veto  . . . . . . . . . . . . . . . . . . . .  24
        6.3.  Normalization  . . . . . . . . . . . . . . . . . . . .  25
@@ -133,10 +133,10 @@ Table of Contents
    even 0.1% of those actions are destructive in context, the damage
    compounds exponentially before any human can respond.
 
-1.2.  The Physics-Based Solution
+1.2.  The Environment-Based Solution
 
-   KTP addresses these flaws by treating authorization as a physics
-   problem rather than a policy problem. The key insight is:
+   KTP addresses these flaws by treating authorization as an
+   environmental problem rather than a policy problem. The key insight is:
 
       An agent's autonomy must never exceed the environment's stability.
 
@@ -179,12 +179,11 @@ Table of Contents
    lineage.
 
    Blue Zone: A network segment where KTP is enforced. Agents within
-   Blue Zones operate under physics-based constraints.
+   Blue Zones operate under environment-derived constraints.
 
-   Context Tensor: A seven-dimensional vector of environmental
-   measurements used to calculate the Risk Factor (six weighted
-   dimensions) and sovereignty constraints (Soul dimension). See Section
-   6.
+   Context Tensor: Retired name for what is now split into Context
+   Signals (the measurement catalogue) and the Risk Factors (six
+   weighted inputs plus the Soul veto). See Section 6.
 
    Data Sovereignty: The principle that data is subject to the laws,
    customs, and governance structures of the nation or community from
@@ -212,7 +211,7 @@ Table of Contents
    IDENTITY].
 
    Risk Factor (R): A normalized value (0-1) representing aggregated
-   environmental stress. Derived from the Context Tensor.
+   environmental stress. Derived from Context Signals.
 
    Silent Veto: The automatic denial of an action when A > E_trust,
    without requiring human intervention.
@@ -245,7 +244,7 @@ Table of Contents
 
    Trust Score: See "Effective Trust Score (E_trust)".
 
-   Trust Tier: A capability level (God Mode, Operator Mode, Analyst
+   Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst
    Mode, Observer Mode) determined by E_trust thresholds.
 
    Trust Velocity (dE/dt): The rate of change of the Trust Score over
@@ -304,9 +303,9 @@ Table of Contents
    collectively calculate Trust Scores and sign Trust Proofs. Threshold
    signatures (e.g., 3-of-5) prevent single points of failure.
 
-   Context Tensor Sensors: A sensor array that measures the six
-   dimensions of environmental reality and feeds data to the Trust
-   Oracles.
+   Context Signal Sensors: A sensor array that measures environmental
+   reality across the catalogue's six domains and feeds data to the
+   Trust Oracles.
 
    Policy Enforcement Points: Components that intercept agent requests,
    present Trust Proofs to the PDP, and enforce authorization decisions.
@@ -329,7 +328,7 @@ Table of Contents
       existing Trust Proof attached to the request
 
    4. Trust Oracle: a. Retrieves agent's E_base from Proof of Resilience
-      ledger b. Retrieves current sensor values from Context Tensor c.
+      ledger b. Retrieves current sensor values from Context Signals c.
       Calculates R using domain weights d. Calculates E_trust = E_base *
       (1 - R) e. Signs Trust Proof with Oracle key(s)
 
@@ -398,7 +397,7 @@ Table of Contents
    than the existing First, Second, and Third Laws, KTP's Zeroth Law
    precedes all other authorization considerations. Before asking "Is
    this action permitted by policy?", we must first ask "Is this action
-   possible given environmental physics?"
+   possible given the environment's constraints?"
 
 4.2.  Enforcement
 
@@ -477,8 +476,8 @@ Table of Contents
 5.2.  Risk Factor (R)
 
    The Risk Factor represents aggregated environmental stress. It is
-   calculated from the Context Tensor (see Section 6) using domain-
-   specific weights.
+   calculated from the six weighted Risk Factor inputs (see Section 6)
+   using domain-specific weights.
 
    The calculation:
 
@@ -767,8 +766,8 @@ Table of Contents
    trust agents.
 
    Sampling rate by tier: - Observer: No human review required -
-   Analyst: 0.1% random sample - Operator: 1% random sample - God Mode:
-   10% random sample
+   Analyst: 0.1% random sample - Operator: 1% random sample - Admin
+   Mode: 10% random sample
 
    Review process: - Human examines trajectory, attestations, peer
    signals - Human can flag for investigation or confirm - Flagged
@@ -812,12 +811,12 @@ Table of Contents
    See [KTP-PROBLEMS] Problem #21 for ongoing research into this
    challenge.
 
-6. Context Tensor
+6. Risk Factors
 
-   The Context Tensor is a seven-dimensional vector of environmental
-   measurements that drives the Risk Factor calculation. Six dimensions
-   contribute to the weighted Risk Factor (R), while the seventh
-   dimension (Soul) acts as an independent veto mechanism.
+   The Risk Factors are seven named measurements of the environment
+   that drive the Risk Factor calculation. Six contribute weighted
+   values to the Risk Factor (R), while the seventh (Soul) acts as an
+   independent veto mechanism.
 
 6.1.  The Seven Dimensions
 
@@ -946,8 +945,9 @@ Table of Contents
       - Low O: Normal user population, routine operations
       - High O: High-visibility users present, elevated scrutiny
 
-      Impact: The laws of physics tighten when the Observer count is
-      high or when specific observers (e.g., Regulators) are present.
+      Impact: The environment's constraints tighten when the Observer
+      count is high or when specific observers (e.g., Regulators) are
+      present.
       Actions that would be routine become consequential.
 
    7. Soul (S) - Sovereignty
@@ -974,18 +974,17 @@ Table of Contents
 
       Impact: This acts as a Boolean Veto or a hard limit. It
       represents the "Spirit" of the data or location. If the Soul
-      dimension is violated, the physics of the action become
-      impossible (Probability = 0). No amount of Trust Score can
+      constraint is violated, the action becomes impossible
+      (Probability = 0). No amount of Trust Score can
       overcome a Soul veto.
 
       See Section 6.2 for Soul Veto mechanics.
 
 6.2.  The Soul Veto
 
-   The Soul dimension operates differently from the other six
-   dimensions. While Mass, Momentum, Heat, Time, Inertia, and Observer
-   contribute weighted values to the Risk Factor (R), Soul acts as an
-   independent constraint that can veto any action regardless of Trust
+   The Soul input operates differently from the six weighted inputs.
+   While those six contribute weighted values to the Risk Factor (R),
+   Soul acts as an independent constraint that can veto any action regardless of Trust
    Score.
 
    The Soul evaluation is:
@@ -1000,7 +999,7 @@ Table of Contents
    - High Trust Score - Low Risk Factor - Emergency procedures -
      Administrative override
 
-   This is by design. The Soul dimension encodes constraints that exist
+   This is by design. The Soul veto encodes constraints that exist
    outside the operational domain - legal treaties, cultural
    sovereignty, spiritual significance. These are not "policies" that
    can be weighed against operational need; they are immutable laws that
@@ -1107,7 +1106,7 @@ Table of Contents
 
 6.4.  Domain Weights
 
-   Different deployment domains weight the first six dimensions
+   Different deployment domains weight the six weighted inputs
    differently. The weights MUST sum to 1.0. Soul is not weighted - it
    operates as an independent constraint.
 
@@ -1129,19 +1128,19 @@ Table of Contents
    Implementations SHOULD provide pre-defined profiles for common
    domains.
 
-6.5.  Tensor Modularity
+6.5.  Risk Factor Modularity
 
-   The Context Tensor architecture is designed to be modular at two
+   The Risk Factor architecture is designed to be modular at two
    levels:
 
-   1. Tensor-Level Modularity:
+   1. Framework-Level Modularity:
 
-      The tensor framework itself is extensible. The seven dimensions
-      defined in this specification represent the core measurement
-      space, but implementations MAY define additional dimensions for
-      domain-specific requirements.
+      The framework itself is extensible. The seven inputs defined in
+      this specification represent the core measurement space, but
+      implementations MAY define additional inputs for domain-specific
+      requirements.
 
-      Additional dimensions MUST:
+      Additional inputs MUST:
       - Be clearly documented with the quantity measured, its units,
         and its measurement procedure
       - Specify whether they contribute to R (weighted) or act as
@@ -1151,15 +1150,15 @@ Table of Contents
 
    2. Feed-Level Modularity:
 
-      Each tensor dimension aggregates multiple sensor feeds. These
+      Each Risk Factor input aggregates multiple sensor feeds. These
       feeds are independently configurable:
 
       - Feeds can be enabled/disabled per deployment
-      - Feed weights within a dimension can be adjusted
-      - New feeds can be added to existing dimensions
+      - Feed weights within an input can be adjusted
+      - New feeds can be added to existing inputs
       - Feed sources can be local or federated
 
-      Example: The Soul dimension might aggregate:
+      Example: The Soul input might aggregate:
       - TK Labels API (enabled)
       - OCAP registry (enabled)
       - Sacred Land geofence service (enabled)
@@ -1197,9 +1196,9 @@ Table of Contents
       }
 
    The "aggregation" field for Soul MUST be "any_veto" - if any enabled
-   feed returns a veto, the Soul dimension vetoes.
+   feed returns a veto, the Soul input vetoes.
 
-   For weighted dimensions (M, P, H, T, I, O), typical aggregation is
+   For the weighted inputs (M, P, H, T, I, O), typical aggregation is
    "weighted_average" of enabled feeds.
 
 6.6.  Aggregation Algorithm
@@ -1520,9 +1519,10 @@ Table of Contents
 
    The Trust Oracle:
 
-   1. Ingests sensor data from the Context Tensor 2. Maintains the Proof
-      of Resilience ledger for all agents 3. Calculates E_base for each
-      agent 4. Calculates R from Context Tensor values 5. Calculates
+   1. Ingests sensor data from the Context Signal sensors 2. Maintains
+      the Proof of Resilience ledger for all agents 3. Calculates E_base
+      for each agent 4. Calculates R from the Risk Factor inputs 5.
+      Calculates
       E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private
       key 7. Issues Attestations of Passage for successful transactions
       8. Publishes its public key for Trust Proof verification
@@ -1678,7 +1678,7 @@ Table of Contents
 
 12.2.  Informative References
 
-   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Tensor
+   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Signal
    Sensors", Work in Progress.
 
    [KTP-ENFORCE] Perkins, C., "Kinetic Trust Protocol - Enforcement

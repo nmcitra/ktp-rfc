@@ -136,7 +136,7 @@ Table of Contents
 
 3.1.  The Critique
 
-   "By measuring the physics of every packet and process to calculate
+   "By measuring every packet and process to calculate
    Trust, you are introducing massive latency. You are creating the very
    friction you claim to solve. Your cure is worse than the disease."
 
@@ -149,7 +149,7 @@ Table of Contents
    If Calculation_Time > Action_Time, the model fails.
 
    Specifically:
-   - Context Tensor calculation requires sensor aggregation
+   - Risk Factor calculation requires sensor aggregation
    - Trust Score requires cryptographic verification
    - Flight Recorder requires logging every decision
    - All of this happens on EVERY action
@@ -180,7 +180,7 @@ Table of Contents
          Request + Trust Proof → Verify signature → Compare A ≤ E → Decision
          Typical latency: < 1ms per request
 
-   The heavy computation (sensor aggregation, Context Tensor
+   The heavy computation (sensor aggregation, Risk Factor
    calculation) happens in the background at 1-5 second intervals, not
    on the critical path.
 
@@ -204,7 +204,7 @@ Table of Contents
    With typical values:
    T_trad = 10ms
    T_ktp  = 0.5ms
-   T_calc = 50ms (full Context Tensor recalculation)
+   T_calc = 50ms (full Risk Factor recalculation)
    W      = 5 seconds
 
    Breakeven: N > 50 / (10 - 0.5) = 5.26 requests
@@ -254,7 +254,7 @@ Table of Contents
    | SIEM correlation      | 50-500ms/event   | Flight Recorder: async |
    | Policy evaluation     | 5-50ms/request   | A ≤ E: <1ms            |
    | Token validation      | 2-10ms/request   | Trust Proof: 0.5ms     |
-   | Firewall rules        | 0.5-2ms/packet   | Eliminated (physics)   |
+   | Firewall rules        | 0.5-2ms/packet   | Eliminated (structural)|
    +-------------------------------------------------------------------+
 
    Net effect: KTP typically REDUCES total security overhead.
@@ -265,8 +265,8 @@ Table of Contents
       security guarantees? (Currently assumed 1-10 seconds, but formal
       analysis needed)
 
-   2. How does overhead scale with Context Tensor dimensionality? (7
-      dimensions specified, but extensibility implies more)
+   2. How does overhead scale with the size of the signal catalogue?
+      (1,627 signals specified, and extensibility implies more)
 
    3. What is the sensor sampling rate vs. accuracy tradeoff curve?
       (More sampling = more accuracy = more overhead)
@@ -296,7 +296,8 @@ Table of Contents
    provenance trails, mechanistic probes -- perturbs the trust state it
    is trying to measure.
 
-   This is the same observer-effect umbrella but a different physics.
+   This is the same observer-effect umbrella but a different
+   mechanism.
    An agent that knows its trajectory is durably recorded may behave
    differently than an unobserved agent, in ways that change the very
    E_base the measurement exists to establish. The perturbation cannot
@@ -333,7 +334,7 @@ Table of Contents
    the underlying hardware reality (vCPU vs. Real CPU, shared tenancy,
    oversubscription).
 
-   The Context Tensor assumes measurable physical reality. Clouds
+   Context Signals assume measurable physical reality. Clouds
    provide virtualized approximations of reality.
 
 4.3.  Current Response
@@ -341,15 +342,15 @@ Table of Contents
    SOLUTION STATE: BOUNDED
 
    We cannot solve the Hypervisor Opaque Wall—we can only bound its
-   impact. The solution involves redefining what "physics" means in
-   virtualized environments.
+   impact. The solution involves redefining what "environmental
+   state" means in virtualized environments.
 
-   A. OBSERVABLE PHYSICS VS. TRUE PHYSICS
+   A. OBSERVABLE STATE VS. TRUE STATE
 
-   KTP does not require "true" physics. It requires CONSISTENT and
-   OBSERVABLE physics.
+   KTP does not require "true" hardware state. It requires CONSISTENT
+   and OBSERVABLE state.
 
-   The Context Tensor measures what the agent CAN observe:
+   Context Signals measure what the agent CAN observe:
 
       Physical Environment:
          - Actual CPU cycles
@@ -361,7 +362,7 @@ Table of Contents
          - Memory balloon pressure
          - Virtualized network latency
 
-   Both are valid physics—they describe the environment the agent
+   Both are valid measurements—they describe the environment the agent
    actually operates in. The agent cannot access the hypervisor's
    resources anyway; it can only use what's visible to it.
 
@@ -377,7 +378,7 @@ Table of Contents
    Example: On bare metal: CPU 0% = low M, CPU 100% = high M On cloud
    VM:   vCPU 0% = low M, vCPU 100% = high M
 
-   The physics are consistent within each context. Cross-context
+   The measurements are consistent within each context. Cross-context
    comparison is not required for Zeroth Law enforcement.
 
    C. BEHAVIORAL SIGNALS OVER HARDWARE SIGNALS
@@ -400,7 +401,7 @@ Table of Contents
 
    D. CLOUD PROVIDER TRUST AS CONTEXT DIMENSION
 
-   The Opacity dimension (O) in the Context Tensor accounts for
+   An opacity measure in the Context Signals catalogue accounts for
    environmental visibility:
 
    +-------------------------------------------------------------------+
@@ -455,7 +456,7 @@ Table of Contents
    confidence. We compensate by:
 
    1. Using wider hysteresis bands (slower tier transitions)
-   2. Increasing Opacity weight in Context Tensor
+   2. Increasing the opacity weight in the Risk Factor aggregation
    3. Requiring higher E_trust for the same actions
 
    The system remains conservative when blind.
@@ -505,7 +506,7 @@ Table of Contents
    "If a hospital network experiences high entropy (a mass casualty
    event), your system sees 'Risk' and throttles the network. You just
    killed patients because the system thought the chaos was a
-   cyberattack. Your physics don't distinguish good chaos from bad
+   cyberattack. Your model doesn't distinguish good chaos from bad
    chaos."
 
 5.2.  The Challenge
@@ -556,7 +557,8 @@ Table of Contents
 
    B. EXTERNAL CORRELATION SIGNALS
 
-   The Context Tensor can incorporate external signals that indicate
+   The Context Signals catalogue can incorporate external signals
+   that indicate
    legitimate stress:
 
    +-------------------------------------------------------------------+
@@ -605,7 +607,7 @@ Table of Contents
 
       1. Risk Factor increases (legitimate - there IS more risk)
       2. E_trust decreases for all agents
-      3. Tier demotions occur (God Mode → Operator → Analyst)
+      3. Tier demotions occur (Admin Mode → Operator → Analyst)
       4. High-risk actions become unavailable
       5. Low-risk actions (patient care) remain available
 
@@ -677,7 +679,7 @@ Table of Contents
       systems? (Cannot be zero, must be defined)
 
    3. Should life-safety actions be EXEMPT from Trust Score constraints
-      entirely? (Undermines physics model, but...)
+      entirely? (Undermines the constraint model, but...)
 
    4. What liability framework applies when system correctly evaluates
       high risk but blocks beneficial action? (See also Problem 7: Legal
@@ -914,7 +916,7 @@ Table of Contents
 
    "You removed the fragile Administrator and replaced it with a fragile
    'Trust Oracle.' If I hack the Oracle, I don't just get in—I rewrite
-   the laws of physics for your entire universe. You've centralized all
+   the rules for your entire universe. You've centralized all
    trust into one attackable component."
 
 7.2.  The Challenge
@@ -989,7 +991,7 @@ Table of Contents
 
    - Modify sensor data (sensors are independent)
    - Override Soul constraints (Soul is immutable)
-   - Grant trust beyond E_base limits (physics constraints)
+   - Grant trust beyond E_base limits (structural constraints)
    - Modify Flight Recorder history (append-only)
    - Exempt agents from Zeroth Law (no override mechanism)
 
@@ -1236,10 +1238,11 @@ Table of Contents
 
 9.1.  The Critique
 
-   "You say 'The Physics made me do it' (Force Majeure). But a judge
-   will say 'You programmed the physics.' If the system fails to patch a
-   vulnerability because of 'High Entropy,' and you get hacked, you are
-   still negligent. Physics is not a legal defense."
+   "You say 'the system's constraints made me do it' (Force Majeure).
+   But a judge will say 'You programmed the constraints.' If the system
+   fails to patch a vulnerability because of 'High Entropy,' and you
+   get hacked, you are still negligent. A constraint model is not a
+   legal defense."
 
 9.2.  The Challenge
 
@@ -1278,8 +1281,8 @@ Table of Contents
    KTP-HUMAN Section 10.3 provides framework for attributing
    responsibility:
 
-   1. DESIGN RESPONSIBILITY System designers chose the physics model and
-      tradeoffs. If the tradeoffs are inappropriate for the domain,
+   1. DESIGN RESPONSIBILITY System designers chose the constraint
+      model and its tradeoffs. If the tradeoffs are inappropriate for the domain,
       designers bear responsibility.
 
    2. CONFIGURATION RESPONSIBILITY Operators configured thresholds,
@@ -1348,7 +1351,7 @@ Table of Contents
    3. Does the transparency of KTP (Flight Recorder) increase or
       decrease liability exposure? (More evidence cuts both ways)
 
-   4. How do insurance frameworks need to adapt for physics-based
+   4. How do insurance frameworks need to adapt for measurement-based
       security models? (New actuarial models needed)
 
    5. What regulatory frameworks (HIPAA, SOX, GDPR, etc.) need updated
@@ -1396,7 +1399,7 @@ Table of Contents
 
    THE CRITIQUE: "All your cryptography depends on ECDSA and similar
    schemes. When quantum computers mature, all your Trust Proofs become
-   forgeable. Your physics have an expiration date."
+   forgeable. Your guarantees have an expiration date."
 
    THE CHALLENGE: Preparing for post-quantum cryptography transition
    without disrupting operational systems.
@@ -1465,8 +1468,8 @@ Table of Contents
 
    THE CRITIQUE: "Your federation spans countries. EU has GDPR, US has
    sector regulations, China has data localization. When Trust Proofs
-   cross borders, which law applies? You can't have unified physics with
-   fragmented law."
+   cross borders, which law applies? You can't have unified
+   enforcement with fragmented law."
 
    THE CHALLENGE: Reconciling technical federation with legal
    jurisdiction.
@@ -1481,7 +1484,7 @@ Table of Contents
 
    3. Data minimization in Trust Proofs reduces regulatory exposure
 
-   4. Soul dimension can encode jurisdictional constraints
+   4. The Soul domain can encode jurisdictional constraints
 
    OPEN QUESTIONS:
 
@@ -1496,7 +1499,8 @@ Table of Contents
 10.4.  Time Oracle Attack
 
    THE CRITIQUE: "Your trajectory chains depend on timestamps. If I
-   control NTP or GPS time sources, I can manipulate your physics. Time
+   control NTP or GPS time sources, I can manipulate your
+   measurements. Time
    is a single point of failure."
 
    THE CHALLENGE: Ensuring reliable time in adversarial environments.
@@ -1536,7 +1540,7 @@ Table of Contents
    THE CRITIQUE: "Trust means different things in different cultures.
    Your model assumes universal trust semantics. In high-context
    cultures, trust is relational. In low-context cultures, trust is
-   transactional. You can't have one physics for all cultures."
+   transactional. You can't have one trust model for all cultures."
 
    THE CHALLENGE: Accounting for cultural variation in trust without
    fragmenting the protocol.
@@ -1550,7 +1554,7 @@ Table of Contents
 
    1. Zone profiles can encode cultural variations in weights
 
-   2. Indigenous Data Sovereignty (Soul dimension) acknowledges non-
+   2. Indigenous Data Sovereignty (Soul domain) acknowledges non-
       technical trust constraints
 
    3. Federation allows zones with different trust semantics to interact
@@ -1562,7 +1566,7 @@ Table of Contents
    OPEN QUESTIONS:
 
    - Is universal trust semantics possible or desirable?
-   - Can the Context Tensor be extended for cultural dimensions?
+   - Can the signal catalogue be extended for cultural context?
    - Should federated zones be allowed incompatible trust models?
    - Who defines what trust means for a given community?
 
@@ -1635,8 +1639,8 @@ Table of Contents
 10.7.  Sensor Saturation Attack
 
    THE CRITIQUE: "I don't need to hack your Oracle. I'll just flood your
-   sensors with garbage data. Your Context Tensor becomes noise. Your
-   physics become random."
+   sensors with garbage data. Your Context Signals become noise. Your
+   risk scores become random."
 
    THE CHALLENGE: Maintaining sensor integrity under denial-of-service
    conditions.
@@ -1765,7 +1769,7 @@ Table of Contents
 
    RESOLUTION STRATEGIES:
 
-   1. Aggregate Over Individual - Context Tensor: Zone-wide, not per-
+   1. Aggregate Over Individual - Context Signals: Zone-wide, not per-
       agent - Statistics, not profiles - Thresholds, not scores for
       individuals (where possible)
 
@@ -2190,7 +2194,7 @@ Table of Contents
 
    7. Human-in-the-Loop Sampling (GOODHART-007)
    - Random human review of high-trust agents
-   - 1% of Operators, 10% of God Mode
+   - 1% of Operators, 10% of Admin Mode
    - Cannot predict which actions will be reviewed
 
    8. Gradient Isolation (GOODHART-008)

@@ -1,8 +1,8 @@
 # The Kinetic Envelope
 
-**A physics-aware authorization layer for agentic systems.** Status: v0.1 (interface + conformance). Canonical KTP specification.
+**A kinematics-aware authorization layer for agentic systems.** Status: v0.1 (interface + conformance). Canonical KTP specification.
 
-Authorization at rest asks whether an agentic system holds a permission. The kinetic envelope asks a different question, per action: *can this environment safely carry this action, right now, on this path?* It answers with the Zeroth Law — **A ≤ E**, autonomy may not exceed the environment's capacity to carry it — and it recomputes the safe operating envelope and the required human supervision from the physics of the specific action rather than a static rule.
+Authorization at rest asks whether an agentic system holds a permission. The kinetic envelope asks a different question, per action: *can this environment safely carry this action, right now, on this path?* It answers with the Zeroth Law — **A ≤ E**, autonomy may not exceed the environment's capacity to carry it — and it recomputes the safe operating envelope and the required human supervision from the kinematics of the specific action rather than a static rule.
 
 This is governance in motion. A capability grant sets the ceiling of what an agentic system may ever do. The kinetic envelope decides how much of that ceiling is safe here and now, and raises supervision as the action's demand approaches the environment's capacity. It never widens authority; it tightens the executable envelope and, when needed, hands control back to a person.
 
@@ -62,7 +62,7 @@ interface KineticEnvelopePlugin {
 }
 ```
 
-`ActionContext` carries the sensed physics of the action: velocity, force, torque, jerk, joint states, obstacle proximity, human presence, and a novelty flag. A missing signal that an action class requires sets `capacityKnown = false`.
+`ActionContext` carries the sensed kinematics of the action: velocity, force, torque, jerk, joint states, obstacle proximity, human presence, and a novelty flag. A missing signal that an action class requires sets `capacityKnown = false`.
 
 ## Decision contract
 
@@ -77,7 +77,7 @@ With profile thresholds `M_veto < M_allow`:
 
 `capacityKnown = false` clamps the outcome to at least `assisted` regardless of the computed margin. An unknown environment reads as low capacity, not high.
 
-The authorizing gateway consumes `supervision` as a **floor** on its authorization tier: it may raise the tier, never lower one already set. A veto denies with a distinct code (`KINETIC_CAPACITY_EXCEEDED`) so a physics veto reads apart from an ordinary limit violation in audit. The veto stays silent to the agentic system; the code lives in the evidence record.
+The authorizing gateway consumes `supervision` as a **floor** on its authorization tier: it may raise the tier, never lower one already set. A veto denies with a distinct code (`KINETIC_CAPACITY_EXCEEDED`) so a kinematic veto reads apart from an ordinary limit violation in audit. The veto stays silent to the agentic system; the code lives in the evidence record.
 
 ## A and E are implementation-defined
 
@@ -102,7 +102,7 @@ A crude open reference profile (below) publishes simple formulas, enough to run 
 
 ## Evidence receipt
 
-Every evaluated action records the physics behind the decision, not only the decision:
+Every evaluated action records the kinematics behind the decision, not only the decision:
 
 ```ts
 interface KineticReceipt {

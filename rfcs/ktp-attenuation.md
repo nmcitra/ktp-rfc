@@ -5,7 +5,7 @@ description: Graduated resistance — latency, throttling, isolation and capabil
 
 # KTP-Attenuation: Capability Attenuation Specification
 
-> "In physical gravity, mass curves spacetime. In Digital Gravity, risk curves the operational environment. The physics is the governance."
+> "In physical gravity, mass curves spacetime. In Digital Gravity, risk curves the operational environment. The structure is the governance."
 
 ---
 
@@ -37,7 +37,7 @@ $$A \leq E$$
 Where:
 *   **$A$ (Autonomy)**: The risk level of the agent's attempted action.
 *   **$E$ (Environment)**: The environment's current capacity to absorb risk.
-*   **$E = E_{base} \times (1 - R)$**: Where $R$ is the Risk Factor from [**Context Tensors**](ktp-signals.md).
+*   **$E = E_{base} \times (1 - R)$**: Where $R$ is the Risk Factor from [**Context Signals**](ktp-signals.md).
 
 ---
 
@@ -85,7 +85,7 @@ graph TD
 ??? info "Related Specifications"
     - **[KTP-Core](ktp-core.md)** — The foundational protocol and the Zeroth Law ($A \leq E$).
     - **[KTP-Signals](ktp-signals.md)** — Data source for calculating the Risk Factor $R$.
-    - **[KTP-Enforce](ktp-enforce.md)** — Enforcement mechanisms for Digital Physics.
+    - **[KTP-Enforce](ktp-enforce.md)** — Enforcement mechanisms for the constraint model.
     - **[KTP-Emergency](ktp-emergency.md)** — Emergency protocols and the Silent Veto mechanism.
     - **[KTP-Sensors](ktp-sensors.md)** — Interfaces that report environmental state.
     - **[KTP-Zones](ktp-zones.md)** — Spatial boundaries where gravity is applied.

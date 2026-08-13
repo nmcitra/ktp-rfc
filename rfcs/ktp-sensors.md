@@ -5,7 +5,7 @@ description: The sensory nervous system of KTP, providing real-time telemetry fo
 
 # KTP-Sensors: Context Signal Sensor Specification
 
-> "The Context Tensor is the sensory nervous system of the Kinetic Trust Protocol. It measures environmental reality to calculate the Risk Factor."
+> "Context Signals are the sensory nervous system of the Kinetic Trust Protocol. They measure environmental reality to calculate the Risk Factor."
 
 ---
 
@@ -65,7 +65,7 @@ graph TD
 ---
 
 ## Sensor Feed Architecture
-Each dimension in the [**Context Tensor**](ktp-signals.md) aggregates multiple sensor feeds.
+Each input in the [**Risk Factors**](ktp-signals.md) aggregates multiple sensor feeds.
 
 ### Feed Aggregation Logic
 For most dimensions, feeds are combined using a weighted average:
@@ -75,10 +75,10 @@ $$D = \frac{\sum (w_i \cdot v_i)}{\sum w_i}$$
 Where $v_i$ is the normalized value (0.0 to 1.0) from feed $i$.
 
 ### The Soul Veto
-The **Soul Dimension** is unique. It does not use weighted averages. Instead, it acts as a **Logical OR** (Veto):
+The **Soul Veto** is unique. It does not use weighted averages. Instead, it acts as a **Logical OR** (Veto):
 
 *   If **ANY** enabled Soul feed returns a "Veto" signal...
-*   The entire Soul dimension becomes **1.0 (Critical Risk)**.
+*   The entire Soul input becomes **1.0 (Critical Risk)**.
 *   This triggers an immediate **Silent Veto** or **Emergency Shutdown**.
 
 ---
@@ -86,8 +86,8 @@ The **Soul Dimension** is unique. It does not use weighted averages. Instead, it
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics that sensor data feeds.
-    - [KTP-Signals](ktp-signals.md): Context Tensor schema for sensor inputs.
+    - [KTP-Core](ktp-core.md): The trust mechanics that sensor data feeds.
+    - [KTP-Signals](ktp-signals.md): Context Signals catalogue for sensor inputs.
     - [KTP-Information](ktp-information.md): Epistemic health signals from telemetry.
     - [KTP-Enforce](ktp-enforce.md): Enforcement decisions driven by sensor data.
 

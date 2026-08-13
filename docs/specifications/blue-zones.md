@@ -1,10 +1,10 @@
 # Blue Zones
 
-*Safe harbors on the Internet where Digital Physics is guaranteed*
+*Safe harbors on the Internet where enforcement is guaranteed*
 
 ---
 
-The Internet was not designed for autonomous agents. It was designed for human-speed interactions with implicit trust relationships. As autonomous agents proliferate, we need designated spaces where physics-based constraints are guaranteed—**Blue Zones** are these safe harbors.
+The Internet was not designed for autonomous agents. It was designed for human-speed interactions with implicit trust relationships. As autonomous agents proliferate, we need designated spaces where environment-derived constraints are guaranteed—**Blue Zones** are these safe harbors.
 
 !!! abstract "What is a Blue Zone?"
     A Blue Zone is a network segment where KTP enforcement is **guaranteed**. Within a Blue Zone:
@@ -12,7 +12,7 @@ The Internet was not designed for autonomous agents. It was designed for human-s
     - The Zeroth Law ($A \leq E$) is always enforced
     - Trust is portable and visible
     - Governance is explicit and auditable
-    - The physics are consistent and predictable
+    - The constraints are consistent and predictable
 
 ---
 
@@ -42,8 +42,8 @@ Zones exist on a spectrum from maximum constraint to no enforcement. This gradie
         - Minimum mass: $E_{base} \geq 0.70$
         - Full trajectory chain verification (last 1,000 transactions)
         - Persistent lineage required (Generation 6+)
-        - All 7 Context Tensors continuously monitored
-        - Soul dimension always active
+        - All 7 Risk Factor inputs continuously monitored
+        - Soul veto always active
         - Sub-second Trust Proof refresh
     
     **Use Cases:**
@@ -70,8 +70,8 @@ Zones exist on a spectrum from maximum constraint to no enforcement. This gradie
         - Minimum mass: $E_{base} \geq 0.50$
         - Trajectory chain verification (sampling)
         - Divergent or Persistent lineage (Generation 3+)
-        - Minimum 5 Context Tensors monitored
-        - Soul dimension active for labeled data
+        - Minimum 5 Risk Factor inputs monitored
+        - Soul veto active for labeled data
         - Trust Proof refresh within 10 seconds
     
     **Use Cases:**
@@ -98,8 +98,8 @@ Zones exist on a spectrum from maximum constraint to no enforcement. This gradie
         - Minimum mass: $E_{base} \geq 0.30$ OR sponsored
         - Lightweight trajectory (last transaction only)
         - Any lineage permitted
-        - Minimum 3 Context Tensors monitored
-        - Soul dimension optional
+        - Minimum 3 Risk Factor inputs monitored
+        - Soul veto optional
         - Trust Proof refresh within 30 seconds
     
     **Use Cases:**
@@ -178,8 +178,8 @@ Zones exist on a spectrum from maximum constraint to no enforcement. This gradie
 | **Minimum Mass** | 0.70 | 0.50 | 0.30 | None | N/A |
 | **Trajectory Verification** | Full | Sampled | Last only | None | None |
 | **Lineage Requirement** | Gen 6+ | Gen 3+ | Any | Any | N/A |
-| **Context Tensors** | All 7 | Min 5 | Min 3 | Optional | None |
-| **Soul Dimension** | Always | Labeled data | Optional | No | No |
+| **Risk Factor inputs** | All 7 | Min 5 | Min 3 | Optional | None |
+| **Soul Veto** | Always | Labeled data | Optional | No | No |
 | **Trust Proof Refresh** | <1 sec | <10 sec | <30 sec | N/A | N/A |
 | **Sponsorship** | No | Yes | Yes | N/A | N/A |
 | **Flight Recorder** | Required | Required | Recommended | Optional | No |
@@ -220,7 +220,7 @@ A Blue Zone consists of several required components working together:
 │  └────────────────────────────────────────────────────────────┘  │
 │                              │                                   │
 │  ┌────────────────────────────────────────────────────────────┐  │
-│  │                Context Tensor Sensors                      │  │
+│  │                Context Signal Sensors                      │  │
 │  │   [Mass] [Power] [Heat] [Time] [Info] [Order] [Soul]      │  │
 │  └────────────────────────────────────────────────────────────┘  │
 │                              │                                   │
@@ -257,11 +257,11 @@ A Blue Zone consists of several required components working together:
     
     Distributed trust computation using threshold signatures. No single point of trust failure.
 
--   :material-gauge:{ .lg .middle } **Context Tensor Sensors**
+-   :material-gauge:{ .lg .middle } **Context Signal Sensors**
 
     ---
     
-    Environmental monitoring across all seven dimensions (Mass, Power, Heat, Time, Info, Order, Soul).
+    Environmental monitoring across all seven Risk Factor inputs.
 
 -   :material-gate:{ .lg .middle } **Policy Enforcement Points**
 
@@ -391,7 +391,7 @@ E_trust = 0.75    ───────────────────►  
 
 === "Recursive Constraint"
     
-    Zone governance is itself subject to KTP. **Administrators cannot exempt themselves from physics.** Zone operators are bound by the same Zeroth Law as agents.
+    Zone governance is itself subject to KTP. **Administrators cannot exempt themselves from the constraints.** Zone operators are bound by the same Zeroth Law as agents.
 
 === "Transparent Boundaries"
     

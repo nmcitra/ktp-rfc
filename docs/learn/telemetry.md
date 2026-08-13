@@ -23,7 +23,7 @@ This page details the telemetry architecture that feeds the KTP model, from indi
 
 ## The Three Layers of Observation
 
-We categorize telemetry into three distinct layers, each corresponding to a scale of observation in the Digital Physics model:
+We categorize telemetry into three distinct layers, each corresponding to a scale of observation in the KTP model:
 
 ```mermaid
 %%{init: {'themeVariables': {'fontSize': '18px'}}}%%
@@ -93,7 +93,7 @@ The fundamental particles of the network. Packets are the **photons of the digit
     | **Throughput** | `Σ payload_len / time` | Gbps | Quality ↑ |
     | **Packet Loss** | `lost / total × 100` | % | Quality ↓↓ |
     | **Jitter** | `stddev(inter_arrival_time)` | ms | Quality ↓ |
-    | **Latency** | `response_time - request_time` | ms | Accessibility ↓ |
+    | **Latency** | `response_time - request_time` | ms | Availability ↓ |
 
 === "Example Query"
 
@@ -668,9 +668,9 @@ Where:
 
 ### ARQ Dimension Calculation
 
-Raw technical capability score composed of Accessibility (40%), Retainability (30%), and Quality (30%).
+Raw technical capability score composed of Availability (40%), Retainability (30%), and Quality (30%).
 
-=== "Accessibility (A)"
+=== "Availability (A)"
 
     **Weight: 40%** - Measures the ability to establish initial connection.
 
@@ -786,7 +786,7 @@ Where:
 ??? example "Full Calculation Example"
     ```
     # Input telemetry (aggregated)
-    Accessibility metrics:
+    Availability metrics:
       - Uptime: 99.95%
       - DNS Success: 99.99%
       - Connection Rate: 99.8%
@@ -832,13 +832,13 @@ Where:
 
 <div class="grid cards" markdown>
 
--   [:material-chart-sankey:{ .lg } **Digital Physics Viewer**](../implement/digital-physics-viewer.md)
+-   [:material-chart-sankey:{ .lg } **Trust Flow Viewer**](../implement/trust-flow-viewer.md)
 
     ---
 
     Visualize how telemetry flows through the three-layer architecture in real-time.
 
--   [:material-axis-arrow:{ .lg } **Context Tensor**](context-tensor.md)
+-   [:material-axis-arrow:{ .lg } **Context Signals**](context-tensor.md)
 
     ---
 

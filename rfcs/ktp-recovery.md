@@ -28,7 +28,7 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 
 ### Recovery Principles
 
-1.  **Fail Closed**: When in doubt, deny. Availability loss is recoverable; a security breach is not.
+1.  **Fail Closed**: When in doubt, deny. Lost availability is recoverable; a security breach is not.
 2.  **No Single Point of Failure**: Redundancy at every layer (Threshold Cryptography, Distributed Sensors).
 3.  **Defense in Depth**: Backup the backups. Verify the verifications.
 4.  **Known-Good State**: Restore to a verified clean state, not just the "last" state.
@@ -88,7 +88,7 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Baseline trust physics and $A \leq E$.
+    - [KTP-Core](ktp-core.md): The baseline trust mechanics and $A \leq E$.
     - [KTP-Emergency](ktp-emergency.md): Break-glass escalation and emergency modes.
     - [KTP-Audit](ktp-audit.md): Flight Recorder audit trails for recovery actions.
     - [KTP-Conformance](ktp-conformance.md): Recovery expectations tied to compliance tiers.

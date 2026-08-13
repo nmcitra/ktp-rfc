@@ -89,6 +89,6 @@ While we build the examples library:
 - **Review the [Developer Guide](developer-guide.md)** - Understand implementation concepts
 - **Study the [API Reference](api-reference.md)** - Learn the protocol details
 - **Explore the [Specifications](../specifications/index.md)** - Deep dive into KTP mechanics
-- **Try the [Digital Physics Viewer](digital-physics-viewer.md)** - Visualize trust dynamics
+- **Try the [Trust Flow Viewer](trust-flow-viewer.md)** - Visualize trust dynamics
 
 ---

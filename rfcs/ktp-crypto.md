@@ -1,6 +1,6 @@
 # KTP-Crypto — Cryptographic Specification
 
-*The enforcement mechanism for Digital Physics*
+*The enforcement mechanism for the trust model*
 
 ---
 
@@ -400,7 +400,7 @@ When algorithms are deprecated:
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics that cryptography enforces.
+    - [KTP-Core](ktp-core.md): The trust mechanics that cryptography enforces.
     - [KTP-Identity](ktp-identity.md): Identity chains and cryptographic lineage.
     - [KTP-Transport](ktp-transport.md): Secure transport and proof propagation.
     - [KTP-Federation](ktp-federation.md): Cross-zone cryptographic trust.

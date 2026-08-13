@@ -330,7 +330,7 @@ flowchart LR
     |----------|-------|
     | Identity | `Agent_7Gen_Optimized` |
     | $E_{base}$ | 80+ (high intrinsic) |
-    | Trust Tier | God Mode ($E_{trust} \leq 95+$) |
+    | Trust Tier | Admin Mode ($E_{trust} \leq 95+$) |
     | Action cap | $A \leq 95$ (all operations) |
     | Sponsor liability | **None** (bond released) |
     

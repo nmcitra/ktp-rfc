@@ -21,7 +21,7 @@ description: Defining the three levels of KTP compliance (Basic, Standard, Full)
 ---
 
 ## The Problem
-A protocol is only as good as its implementation. If Vendor A implements a "Trust Oracle" that ignores the Soul dimension, and Vendor B implements one that requires it, the system breaks. We need a standard way to measure "KTP Compliance."
+A protocol is only as good as its implementation. If Vendor A implements a "Trust Oracle" that ignores the Soul veto, and Vendor B implements one that requires it, the system breaks. We need a standard way to measure "KTP Compliance."
 
 ## The Solution: Conformance Levels
 KTP defines three distinct levels of conformance, allowing for lightweight implementations in low-risk environments while mandating rigorous standards for critical infrastructure.

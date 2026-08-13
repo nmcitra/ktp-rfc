@@ -42,11 +42,11 @@ The observer-effect critique decomposes into two separate questions. The first (
 
 ## 2. The Hypervisor Opaque Wall
 
-**Critique:** "Cloud providers lie about hardware. You can't measure 'physics' in a VM."
+**Critique:** "Cloud providers lie about hardware. You can't measure the real substrate in a VM."
 
 **Response:** **Observable Physics.**
 - We measure what is *visible* (vCPU steal, latency), which is the agent's effective reality.
-- We add an **Opacity ($O$)** dimension to the Context Tensor. Higher opacity = Higher Risk ($R$).
+- We add an **opacity signal** to the Context Signals catalogue. Higher opacity = Higher Risk ($R$).
 - **Verdict:** BOUNDED.
 
 ## 3. The False Positive Fatality (Hospital Problem)

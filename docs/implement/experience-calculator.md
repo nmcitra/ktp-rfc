@@ -8,7 +8,7 @@
     
     $$E = (A \times 0.4) + (R \times 0.3) + (Q \times 0.3)$$
     
-    **$A$ = Accessibility (40%)** — Can the moment begin?  
+    **$A$ = Availability (40%)** — Can the moment begin?  
     **$R$ = Retainability (30%)** — Will the moment endure?  
     **$Q$ = Quality (30%)** — Is the moment magical?
 
@@ -18,7 +18,7 @@
 
 <div class="grid cards" markdown>
 
--   :material-connection:{ .lg .middle } **[Accessibility](#accessibility-a-can-the-moment-begin)**
+-   :material-connection:{ .lg .middle } **[Availability](#availability-a-can-the-moment-begin)**
 
     ---
 
@@ -56,7 +56,7 @@ The E-score ranges from 0-100, providing a unified metric that replaces war room
 
 ## The Three Pillars
 
-### Accessibility (A) — Can the Moment Begin?
+### Availability (A) — Can the Moment Begin?
 
 **Weight: 40%** | :material-connection:
 
@@ -66,7 +66,7 @@ For a mother at the Paralympics, this is everything. Can she even start the live
 
 #### Why 40%?
 
-Accessibility is binary in human perception. If you can't connect, the experience is over before it begins. It carries the most weight because without it, nothing else matters.
+Availability is binary in human perception. If you can't connect, the experience is over before it begins. It carries the most weight because without it, nothing else matters.
 
 #### Key Measures
 
@@ -139,7 +139,7 @@ The network dashboard shows all green lights. "It's not us," says the lead engin
 
 With the Universal Experience Equation running in real time, the moment those scanners start failing, everyone sees the same thing: the E-score for "ticket scanning" drops from 94 to 67.
 
-You don't need to guess. You don't need to argue. The UEE immediately shows you that **Accessibility** is the problem. Your team drills down with end-to-end visibility and finds the issue in minutes, not hours.
+You don't need to guess. You don't need to argue. The UEE immediately shows you that **Availability** is the problem. Your team drills down with end-to-end visibility and finds the issue in minutes, not hours.
 
 **This is the power of a common language and shared understanding.**
 
@@ -160,7 +160,7 @@ What are the 3–5 moments that matter most to your guests?
 
 ### Step 2: Map Your Metrics to ARQ
 
-Look at the data you already have. What metrics can serve as proxies for **Accessibility**, **Retainability**, and **Quality** for each core experience?
+Look at the data you already have. What metrics can serve as proxies for **Availability**, **Retainability**, and **Quality** for each core experience?
 
 You don't need new tools to start—just a new way of looking at your existing data.
 
@@ -263,7 +263,7 @@ The Experience Equation and the Kinetic Trust Protocol share deep foundational p
     | UEE Concept | KTP Equivalent |
     |-------------|----------------|
     | E-score (0-100) | Trust Score (E-score) |
-    | Accessibility, Retainability, Quality | Context Tensor dimensions |
+    | Availability, Retainability, Quality | Risk Factor inputs |
     | Weighted formula | Trust calculation with risk |
     | Real-time measurement | Telemetry streams |
 
@@ -273,10 +273,10 @@ The Experience Equation and the Kinetic Trust Protocol share deep foundational p
     |---------------|---------------|
     | Personalization at scale | Constitutional governance |
     | TTGD (Time-to-Good-Decision) | ARQ (Anticipate, React, Question) |
-    | War room to shared truth | Policy to physics |
+    | War room to shared truth | Policy to structure |
     | Human-centric outcomes | Trust-aware systems |
 
-**Both frameworks apply physics-based thinking to complex systems:**
+**Both frameworks apply structural thinking to complex systems:**
 
 - UEE measures trust in **physical gathering experiences**
 - KTP measures trust in **digital network interactions**

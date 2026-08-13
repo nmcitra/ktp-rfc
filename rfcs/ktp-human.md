@@ -6,7 +6,7 @@ description: Human integration, agency, and the "No Override" principle in the K
 # KTP-Human: Human Integration
 
 !!! info "Status: Draft"
-    This document specifies how humans participate in KTP: as agents subject to physics, as operators, and as the ultimate source of legitimacy. It addresses the critical "No Override" principle.
+    This document specifies how humans participate in KTP: as agents subject to the same structural constraints, as operators, and as the ultimate source of legitimacy. It addresses the critical "No Override" principle.
 
 ## At a Glance
 
@@ -25,7 +25,7 @@ description: Human integration, agency, and the "No Override" principle in the K
 
 In KTP, humans are not external gods; they are **high-trust agents**.
 1. **Humans are Agents**: Subject to $A \leq E_{trust}$.
-2. **Humans are Operators**: They configure the physics.
+2. **Humans are Operators**: They configure the constraints.
 3. **Humans are NOT Exempt**: The Zeroth Law applies to everyone.
 
 ### Human Agent Identity
@@ -56,7 +56,7 @@ The most controversial aspect of KTP is the lack of a "Human Override" button.
 
 ### Alternatives to Override
 
-Instead of breaking the physics, humans have legitimate paths to enable actions:
+Instead of breaking the constraints, humans have legitimate paths to enable actions:
 
 1. **Improve the Environment**: Reduce risk ($R$) or add capacity.
 2. **Reduce Action Risk**: Break the action into smaller, safer steps.
@@ -112,7 +112,7 @@ Humans must see their score and understand *why* it is what it is.
 > "Your Trust Score is 72. This is calculated from your base trust of 85 reduced by 15% due to current elevated threat conditions."
 
 ### Contestability
-Humans can contest decisions, but this triggers a review of the *physics*, not a waiver of the rules.
+Humans can contest decisions, but this triggers a review of the *constraint model*, not a waiver of the rules.
 
 ```mermaid
 sequenceDiagram

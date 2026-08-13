@@ -8,16 +8,16 @@ hide:
 
 # Kinetic Trust Protocol
 
-*An Internet Governed by Digital Physics, Not Policy*
+*An Internet Governed by Structure, Not Policy*
 
 </div>
 
 <div class="homepage-section-wrapper">
   <div class="ktp-stats-section">
     <div class="ktp-stats-grid">
-      <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-dimensions-label" data-value="1707" data-duration="2000">
+      <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-dimensions-label" data-value="1627" data-duration="2000">
         <div class="ktp-stat-number" id="stat-dimensions-number" aria-live="polite" aria-atomic="true">0</div>
-        <div class="ktp-stat-label" id="stat-dimensions-label">Dimensions</div>
+        <div class="ktp-stat-label" id="stat-dimensions-label">Signals</div>
         <div class="ktp-stat-sublabel">Measured in real-time</div>
       </div>
       <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-trust-label" data-value="7" data-duration="1500">
@@ -40,7 +40,7 @@ hide:
 
     **Start Guide**
 
-    Build your mental model in 10 minutes: Zeroth Law, trust geometry, and the language of Digital Physics.
+    Build your mental model in 10 minutes: Zeroth Law, trust geometry, and the language of the Kinetic Trust Protocol.
 
     [Get Started](learn/getting-started.md){ .card-cta }
 
@@ -86,17 +86,17 @@ hide:
 
 - :material-vector-polyline:{ .lg .middle }
 
-    **Context Tensor**
+    **Context Signals**
 
-    Seven-dimensional trust geometry spanning 1,707 measurements.
+    Six measurement domains spanning 1,627 signals.
 
     [Dive In](learn/context-tensor.md){ .card-cta }
 
 - :material-chart-line:{ .lg .middle }
 
-    **Telemetry & Physics**
+    **Telemetry & Trust Mechanics**
 
-    See how signals become Experience (E) through physics-based pipelines and trustflow deflation.
+    See how signals become Experience (E) through measurement pipelines and trustflow deflation.
 
     [View Telemetry](learn/telemetry.md){ .card-cta }
 

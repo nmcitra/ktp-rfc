@@ -6,7 +6,7 @@ description: The Enforcement Layer specification - Policy Enforcement Points (PE
 # KTP-Enforce: Enforcement Layer Specification
 
 !!! info "Status: Experimental"
-    The Enforcement Layer is where Digital Physics becomes operational reality. It intercepts agent actions, evaluates them against Trust Proofs, and executes the **Silent Veto** when environmental constraints are violated.
+    The Enforcement Layer is where the constraint model becomes operational reality. It intercepts agent actions, evaluates them against Trust Proofs, and executes the **Silent Veto** when environmental constraints are violated.
 
 ## At a Glance
 
@@ -21,7 +21,7 @@ description: The Enforcement Layer specification - Policy Enforcement Points (PE
 
 ## Enforcement Architecture
 
-The Enforcement Layer sits between agents and protected resources. It is the "physics engine" that applies the laws of KTP.
+The Enforcement Layer sits between agents and protected resources. It is the enforcement engine that applies the laws of KTP.
 
 ```mermaid
 graph TD
@@ -31,11 +31,11 @@ graph TD
         PEP -->|1. Validate Sig| OracleKey[Oracle Public Key]
         PEP -->|2. Check Soul Veto| Soul[Soul Constraint S=1?]
         PEP -->|3. Check Tier| Tier[Tier Permitted?]
-        PEP -->|4. Check Physics| Physics{A <= E_trust?}
+        PEP -->|4. Check Constraint| Gate{A <= E_trust?}
     end
     
-    Physics -->|Yes| Resource[Protected Resource]
-    Physics -->|No| Veto[Silent Veto (403)]
+    Gate -->|Yes| Resource[Protected Resource]
+    Gate -->|No| Veto[Silent Veto (403)]
     Soul -->|Yes| Veto
     Tier -->|No| Veto
     
@@ -43,7 +43,7 @@ graph TD
 ```
 
 ### The Silent Veto
-The Silent Veto is the automatic denial of an action when the environment cannot support it. It is not a policy decision; it is a physics calculation.
+The Silent Veto is the automatic denial of an action when the environment cannot support it. It is not a policy decision; it is a structural calculation.
 
 $$ \text{If } A > E_{trust} \text{ then } \text{DENY} $$
 
@@ -55,7 +55,7 @@ Trust Tiers provide graduated capability levels based on $E_{trust}$ thresholds.
 
 | Tier | $E_{trust}$ | Description | Permitted Actions |
 | :--- | :--- | :--- | :--- |
-| **God Mode** | $\ge 95$ | Full Control | Infrastructure, Security, Code Deploy |
+| **Admin Mode** | $\ge 95$ | Full Control | Infrastructure, Security, Code Deploy |
 | **Operator** | $\ge 85$ | Management | Restart, Scale, Config Read |
 | **Analyst** | $\ge 70$ | Read-Only | Query Data, Logs, Reports |
 | **Observer** | $\ge 50$ | Minimal | Heartbeat, Self-Diagnostics |
@@ -116,7 +116,7 @@ If an agent's concentration exceeds the ceiling, it must undergo **Mitosis** (sp
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics enforced by PEPs.
+    - [KTP-Core](ktp-core.md): The trust mechanics enforced by PEPs.
     - [KTP-Attenuation](ktp-attenuation.md): Environmental drag and constraint mechanics.
     - [KTP-Emergency](ktp-emergency.md): Break-glass enforcement paths.
     - [KTP-Audit](ktp-audit.md): Flight Recorder logs for enforcement actions.

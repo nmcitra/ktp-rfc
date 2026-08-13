@@ -87,7 +87,7 @@ KTP-Audit defines a system for recording **Decision Geometry**—a multi-dimensi
 ## Forensic Reconstruction
 Because the Flight Recorder captures the full **Environmental Snapshot**, investigators can "replay" a decision.
 
-1.  **Load Snapshot**: Restore the exact state of the Context Tensor from the record.
+1.  **Load Snapshot**: Restore the exact state of the Risk Factor inputs from the record.
 2.  **Re-run Logic**: Feed the agent's request into the policy engine.
 3.  **Verify Outcome**: Confirm that the decision matches the log.
 

@@ -95,7 +95,7 @@ sequenceDiagram
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Baseline trust physics for celestial extensions.
+    - [KTP-Core](ktp-core.md): The baseline trust mechanics for celestial extensions.
     - [KTP-Identity](ktp-identity.md): Trajectory identity used across light-cone delays.
     - [KTP-Transport](ktp-transport.md): Long-latency transport considerations.
     - [KTP-Federation](ktp-federation.md): Cross-zone trust when zones are distant.

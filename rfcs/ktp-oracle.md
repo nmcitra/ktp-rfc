@@ -6,7 +6,7 @@ description: The Trust Oracle specification - the nerve center of KTP zones, han
 # KTP-Oracle: Trust Oracle Specification
 
 !!! info "Status: Experimental"
-    The Trust Oracle is the authoritative source of trust state within a zone. It issues Trust Proofs, enforces the Zeroth Law, and maintains consensus on the physics of the environment.
+    The Trust Oracle is the authoritative source of trust state within a zone. It issues Trust Proofs, enforces the Zeroth Law, and maintains consensus on the state of the environment.
 
 ## At a Glance
 
@@ -50,7 +50,7 @@ graph TD
 1.  **Tensor Collector**: Aggregates data from Soul, Body, World, Time, Relational, and Signal tensors.
 2.  **Risk Calculator**: Computes Environmental Stability ($E$) from Risk ($R$).
     $$ E = E_{base} \times (1 - R) $$
-3.  **Zeroth Law Engine**: The "physics engine" that evaluates every action.
+3.  **Zeroth Law Engine**: The decision engine that evaluates every action.
     $$ A \leq E $$
 4.  **Trust Proof Issuer**: Generates cryptographically signed proofs of trust state.
 
@@ -138,7 +138,7 @@ sequenceDiagram
 
 ## Threshold Signatures
 
-Critical operations (like changing the physics of the zone) require **Threshold Signatures**. No single Oracle node holds the full private key.
+Critical operations (like changing the zone's constraint parameters) require **Threshold Signatures**. No single Oracle node holds the full private key.
 
 - **Scheme**: Shamir's Secret Sharing with Threshold ECDSA.
 - **Configuration**: Typically 3-of-5 or 5-of-7.
@@ -149,7 +149,7 @@ Critical operations (like changing the physics of the zone) require **Threshold 
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics and Trust Score computation.
+    - [KTP-Core](ktp-core.md): The trust mechanics and Trust Score computation.
     - [KTP-Identity](ktp-identity.md): Identity proofs and lineage inputs.
     - [KTP-Crypto](ktp-crypto.md): Threshold signatures and key custody.
     - [KTP-Transport](ktp-transport.md): Trust Proof delivery and refresh.

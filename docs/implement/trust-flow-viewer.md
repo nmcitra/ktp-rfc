@@ -1,7 +1,9 @@
-# Digital Physics Viewer
+# Trust Flow Viewer
+
+> Formerly the *Digital Physics Viewer*; renamed under the v2.0.0 vocabulary adoption. The page URL is unchanged.
 
 !!! warning "Under Construction"
-    The interactive viewer is coming soon. We’re wiring up live diagrams that trace trust from raw telemetry through the Context Tensor and Experience Score pipelines.
+    The interactive viewer is coming soon. We’re wiring up live diagrams that trace trust from raw telemetry through the Risk Factor and Experience Score pipelines.
 
 <p style="text-align:center;font-size:2.5rem;margin:1.5rem 0;">🚧</p>
 

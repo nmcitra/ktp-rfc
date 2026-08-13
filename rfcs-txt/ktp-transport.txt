@@ -54,7 +54,7 @@ Table of Contents
        6.1.  API Overview . . . . . . . . . . . . . . . . . . . . .  15
        6.2.  Trust Proof Endpoints  . . . . . . . . . . . . . . . .  16
        6.3.  Agent Endpoints  . . . . . . . . . . . . . . . . . . .  19
-       6.4.  Context Tensor Endpoints . . . . . . . . . . . . . . .  21
+       6.4.  Context Signal Endpoints . . . . . . . . . . . . . . .  21
        6.5.  Administrative Endpoints . . . . . . . . . . . . . . .  23
    7.  Policy Enforcement Point Protocol  . . . . . . . . . . . . .  25
        7.1.  PEP-Oracle Communication . . . . . . . . . . . . . . .  25
@@ -315,7 +315,7 @@ Table of Contents
      TRUST_TIER_OBSERVER = 2;
      TRUST_TIER_ANALYST = 3;
      TRUST_TIER_OPERATOR = 4;
-     TRUST_TIER_GOD_MODE = 5;
+     TRUST_TIER_ADMIN = 5;
    }
 
    message ContextTensor {
@@ -466,7 +466,7 @@ Table of Contents
 
    -  Trust Proof issuance and validation
    -  Agent registration and management
-   -  Context Tensor queries
+   -  Context Signal queries
    -  Administrative operations
 
    Base URL: https://oracle.zone.example.com:8443/api/v1
@@ -597,13 +597,13 @@ Table of Contents
 
    Response (204 No Content)
 
-6.4.  Context Tensor Endpoints
+6.4.  Context Signal Endpoints
 
 6.4.1.  Get Current Context
 
    GET /v1/context
 
-   Retrieve current zone-wide Context Tensor.
+   Retrieve current zone-wide Context Signals.
 
    Response (200 OK): { "zone_id": "zone:alpha", "timestamp":
    "2025-11-25T12:00:00Z", "context": { "m": 0.12, "p": 0.08, "h": 0.22,
@@ -815,7 +815,7 @@ Table of Contents
    Server → Client:
    -  trust_update: Trust Score changed
    -  proof_invalidated: Trust Proof revoked
-   -  context_update: Context Tensor changed
+   -  context_update: Context Signals changed
    -  emergency: Emergency broadcast
    -  pong: Keep-alive response
 
@@ -1302,7 +1302,7 @@ Appendix A.  Protocol Buffer Definitions
 
    enum TrustTier { TRUST_TIER_UNKNOWN = 0; TRUST_TIER_HIBERNATION = 1;
    TRUST_TIER_OBSERVER = 2; TRUST_TIER_ANALYST = 3; TRUST_TIER_OPERATOR
-   = 4; TRUST_TIER_GOD_MODE = 5; }
+   = 4; TRUST_TIER_ADMIN = 5; }
 
    enum LineageType { LINEAGE_UNKNOWN = 0; LINEAGE_TETHERED = 1;
    LINEAGE_DIVERGENT = 2; LINEAGE_PERSISTENT = 3; }
@@ -1405,7 +1405,7 @@ Appendix B.  OpenAPI Specification
    components: schemas: TrustProof: type: object properties: proof_id:
    type: string agent_id: type: string e_base: type: number e_trust:
    type: number tier: type: string enum: [hibernation, observer,
-   analyst, operator, god_mode]
+   analyst, operator, admin]
 
        Error:
          type: object

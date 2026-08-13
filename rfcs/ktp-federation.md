@@ -103,7 +103,7 @@ A formal JSON contract specifying trust factors, expiration dates, and dispute r
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics that federation relies on.
+    - [KTP-Core](ktp-core.md): The trust mechanics that federation relies on.
     - [KTP-Identity](ktp-identity.md): Portable identity and reputation signals.
     - [KTP-Zones](ktp-zones.md): Zone boundaries and trust domains.
     - [KTP-Governance](ktp-governance.md): Negotiation and oversight frameworks.

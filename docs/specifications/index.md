@@ -1,6 +1,6 @@
 # Specifications
 
-*The complete technical blueprint for Digital Physics*
+*The complete technical blueprint for the Kinetic Trust Protocol*
 
 ---
 
@@ -36,7 +36,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     ---
 
-    JSON schemas for Context Tensors, Trust Proofs, and other core data structures.
+    JSON schemas for Risk Factors, Trust Proofs, and other core data structures.
 
     [:octicons-arrow-right-24: View Schemas](../schemas/index.md)
 
@@ -68,7 +68,7 @@ Different readers need different entry points. Select the journey that matches y
     3. [KTP-Governance](../rfcs/ktp-governance.md) → [KTP-Human](../rfcs/ktp-human.md)
 
 !!! tip "🎓 Researcher's Path"
-    Understanding the theory behind Digital Physics? Explore:
+    Understanding the theory behind KTP? Explore:
     
     **Philosophy** → **Mechanics** → **Innovation**
     
@@ -100,7 +100,7 @@ Different readers need different entry points. Select the journey that matches y
     
     | Specification | Status | Description |
     |--------------|--------|-------------|
-    | [KTP-Signals](../rfcs/ktp-signals.md) | :material-check-circle:{ .stable } Stable | Context Tensor specification (1,707 dimensions) |
+    | [KTP-Signals](../rfcs/ktp-signals.md) | :material-check-circle:{ .stable } Stable | Context Signals specification (1,627 signals) |
     | [KTP-Attenuation](../rfcs/ktp-attenuation.md) | :material-progress-clock:{ .draft } Draft | Digital Gravity enforcement mechanisms |
     | [KTP-Information](../rfcs/ktp-information.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
     | [KTP-Relational](../rfcs/ktp-relational.md) | :material-progress-clock:{ .draft } Draft | Agent-to-agent trust relationships |
@@ -109,7 +109,7 @@ Different readers need different entry points. Select the journey that matches y
     ??? info "Understanding Trust Flow"
         Trust in KTP flows through a measurement → computation → enforcement pipeline:
         
-        - **Tensors** capture the 1,707-dimensional environmental state
+        - **Signals** capture the 1,627-signal environmental state
         - **Signal** propagates trust changes through the network
         - **Gravity** enforces constraints as agents approach limits
         - **Relational** tracks inter-agent trust dynamics
@@ -207,9 +207,9 @@ Different readers need different entry points. Select the journey that matches y
 
 ---
 
-## Context Tensor Schema
+## Risk Factors Schema
 
-The Context Tensor is the core data structure for trust decisions. Below is a high-level view of its schema structure.
+The Risk Factors object — formerly the Context Tensor; the schema file keeps its `context-tensor.json` name until the v2 schema rewrite (#71) lands — is the core data structure for trust decisions. Below is a high-level view of its schema structure.
 
 | Field | Type | Description |
 |-------|------|-------------|

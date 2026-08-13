@@ -1,18 +1,20 @@
-# The Constitution of Digital Physics
+# The KTP Constitution
+
+> Formerly *The Constitution of Digital Physics*; renamed for v2.0.0 "Gödel" under the claim-register ruling.
 
 <div class="hero" markdown>
 
 The Laws That Govern the Age of Autonomous Agents
 
-Primary essay (part of a Medium series):  
-[**The Constitution of Digital Physics**](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4)  
+Primary essay (part of a Medium series), previously published under the original title:  
+[**The Constitution of Digital Physics** — the previously published original](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4)  
 Series author: [Chris Perkins](https://medium.com/@chrisperkins505)
 
 We are at a constitutional moment.
 
 We are building a digital universe populated by autonomous agents that act at machine speed, yet the environment still lacks authority.
 
-This document defines ten immutable laws that turn policy into physics, enforced by mathematics and cryptography. The essay provides narrative context; this page is the canonical reference.
+This document defines ten immutable laws that turn policy into structure, enforced by mathematics and cryptography. The essay provides narrative context; this page is the canonical reference.
 
 </div>
 
@@ -44,7 +46,7 @@ This document defines ten immutable laws that turn policy into physics, enforced
 - <a class="ktp-nav-card" href="#article-iii-the-law-of-environmental-context">
     <span class="ktp-nav-card__eyebrow">Article III</span>
     <span class="ktp-nav-card__title">The Law of Physical Reality</span>
-    <span class="ktp-nav-card__desc">The Context Tensor governs reality.</span>
+    <span class="ktp-nav-card__desc">Context Signals govern reality.</span>
   </a>
 
 - <a class="ktp-nav-card" href="#article-iv-the-law-of-kinetic-identity">
@@ -80,7 +82,7 @@ This document defines ten immutable laws that turn policy into physics, enforced
 - <a class="ktp-nav-card" href="#article-ix-the-law-of-blue-zones">
     <span class="ktp-nav-card__eyebrow">Article IX</span>
     <span class="ktp-nav-card__title">The Law of Sanctuary</span>
-    <span class="ktp-nav-card__desc">Islands of physics in the wild.</span>
+    <span class="ktp-nav-card__desc">Islands of enforcement in the wild.</span>
   </a>
 
 - <a class="ktp-nav-card" href="#article-x-the-law-of-immutable-constraint">
@@ -98,7 +100,7 @@ This document defines ten immutable laws that turn policy into physics, enforced
 We are building a digital world where autonomous agents act at machine speed, yet the environment has no authority. The Constitution restores that authority by making physical constraints the final governor of digital action.
 
 !!! quote "The Foundation"
-    We establish **Justice** (Accountability), insure domestic **Tranquility** (Stability), and secure the Blessings of **Liberty** (Autonomy) by submitting all digital will to the superior authority of Digital Physics.
+    We establish **Justice** (Accountability), insure domestic **Tranquility** (Stability), and secure the Blessings of **Liberty** (Autonomy) by submitting all digital will to the superior authority of the environment itself.
 
 In the physical world, no amount of human intent can override gravity, thermodynamics, or entropy. In the digital world, we created a frictionless vacuum. **This Constitution restores the natural order.**
 
@@ -118,7 +120,7 @@ In the physical world, no amount of human intent can override gravity, thermodyn
     | A credential verified is valid | Credentials say nothing about *now* |
 
 === "Why Physics"
-    We choose physics over policy:
+    We choose structure over policy:
 
     | | Physics | Policy |
     |---|---------|--------|
@@ -128,9 +130,9 @@ In the physical world, no amount of human intent can override gravity, thermodyn
 
 === "Promise"
     !!! success "The Promise"
-        We are moving from a world governed by policies (written by humans, enforced by humans, violated by humans) to a world governed by physics (defined by humans, enforced by mathematics, violated by no one).
+        We are moving from a world governed by policies (written by humans, enforced by humans, violated by humans) to a world governed by structure (defined by humans, enforced by mathematics, violated by no one).
 
-    > **We are not building a prison for AI. We are building physics for the digital world.**
+    > **We are not building a prison for AI. We are building load-bearing structure for the digital world.**
 
 ---
 
@@ -193,7 +195,7 @@ Digital Trust is continuous and contextual. It updates in real time as telemetry
 
     | Variable | Description |
     |----------|-------------|
-    | $E_{base}$ | Raw capability (Accessibility, Retainability, Quality) |
+    | $E_{base}$ | Raw capability (Availability, Retainability, Quality) |
     | $R$ | Normalized friction (Security, Compliance, Resilience) |
 
 === "Principle"
@@ -209,7 +211,7 @@ Digital Trust is continuous and contextual. It updates in real time as telemetry
 
 ## Article III: The Law of Environmental Context
 
-Kinetic decisions must be tethered to the real, multi-dimensional state of the environment. The Context Tensor makes the environment measurable and enforceable.
+Kinetic decisions must be tethered to the real, measured state of the environment. Context Signals make the environment measurable; the Risk Factors make it enforceable.
 
 Six operational dimensions shape risk. The seventh — **Soul** — sits outside the equation as immutable constraint.
 
@@ -217,8 +219,8 @@ Six operational dimensions shape risk. The seventh — **Soul** — sits outside
     !!! info "The Mandate"
         All kinetic decisions **MUST** be tethered to a multi-dimensional analysis of the true physical and adversarial state of the environment.
 
-=== "Context Tensor"
-    Digital Trust is derived from the **seven-dimensional Context Tensor**:
+=== "Risk Factors"
+    Digital Trust is derived from the **six weighted Risk Factor inputs and the Soul veto**:
 
     $$C = \{Mass, Momentum, Heat, Time, Inertia, Observer, Soul\}$$
 
@@ -295,7 +297,7 @@ Six operational dimensions shape risk. The seventh — **Soul** — sits outside
     **The digital world does not stop at the API gateway.**
 
 === "Implementation"
-    The Context Tensor is specified in [KTP-SIGNALS](../rfcs/ktp-signals.md).
+    Context Signals are specified in [KTP-SIGNALS](../rfcs/ktp-signals.md).
 
 ---
 
@@ -312,7 +314,7 @@ The model rejects global directories and passports. It replaces them with lineag
 === "Principle"
     > **No global directory. Only lineage.**
 
-    In the current model, identity is a *passport* — a static credential you possess. In the Digital Physics model, identity is a *trajectory* — a record of how you move through the environment.
+    In the current model, identity is a *passport* — a static credential you possess. In the KTP model, identity is a *trajectory* — a record of how you move through the environment.
 
 === "Genesis"
     !!! success "Solving Cold-Start"
@@ -363,12 +365,12 @@ Graceful degradation preserves core safety by stripping capabilities as risk ris
 === "Trust Tiers"
     | Tier | Threshold | Core Capability |
     |------|-----------|-----------------|
-    | God Mode | $E \geq 95$ | Full control |
+    | Admin Mode | $E \geq 95$ | Full control |
     | Operator | $E \geq 85$ | Service management |
     | Analyst | $E \geq 70$ | Read-only operations |
     | Observer | $E < 70$ | Minimal capability |
 
-    **God Mode**
+    **Admin Mode**
 
     - [x] Full infrastructure control
     - [x] Create, destroy, mutate system components
@@ -445,7 +447,7 @@ The Flight Recorder is the memory of the Constitution. It captures trust state, 
 
 ## Article VII: The Law of Recursive Governance
 
-Governance must submit to the same physics it enforces. If governance breaks the rules, governance is penalized.
+Governance must submit to the same constraints it enforces. If governance breaks the rules, governance is penalized.
 
 This law prevents hypocrisy in system design. The infrastructure is forced to govern itself safely.
 
@@ -527,18 +529,18 @@ No single entity can declare trust. Trust is emergent, computed from sensors and
 
 ## Article IX: The Law of Blue Zones
 
-Blue Zones are enforced environments where physics-based constraints become real. They are safe harbors in the wild internet.
+Blue Zones are enforced environments where environment-derived constraints become real. They are safe harbors in the wild internet.
 
-We do not attempt to govern the entire internet. We build islands of physics where trust is enforced by environment.
+We do not attempt to govern the entire internet. We build islands of enforcement where trust is upheld by environment.
 
 === "Mandate"
     !!! info "The Mandate"
-        Digital Physics is enforced within designated **Blue Zones** — network segments where agents operate under physics-based constraints with cryptographic trust guarantees.
+        KTP is enforced within designated **Blue Zones** — network segments where agents operate under environment-derived constraints with cryptographic trust guarantees.
 
 === "Spectrum"
     | Zone | Enforcement Level |
     |------|-------------------|
-    | :material-circle:{ style="color: #0d47a1" } **DEEP BLUE** | Maximum physics enforcement |
+    | :material-circle:{ style="color: #0d47a1" } **DEEP BLUE** | Maximum structural enforcement |
     | :material-circle:{ style="color: #1976d2" } **BLUE** | Full KTP enforcement |
     | :material-circle:{ style="color: #00bcd4" } **CYAN** | Partial enforcement |
     | :material-circle:{ style="color: #4caf50" } **GREEN** | Minimal enforcement |
@@ -548,7 +550,7 @@ We do not attempt to govern the entire internet. We build islands of physics whe
     A Blue Zone **MUST** have:
 
     - [x] Trust Oracle mesh
-    - [x] Context Tensor sensors
+    - [x] Context Signal sensors
     - [x] Policy Enforcement Points at all boundaries
     - [x] Flight Recorder for immutable audit
     - [x] Published governance documentation
@@ -571,7 +573,7 @@ We do not attempt to govern the entire internet. We build islands of physics whe
 
 === "Principle"
     !!! success "Islands of Physics"
-        We are not trying to boil the ocean. We are creating **islands of physics in a sea of chaos**.
+        We are not trying to boil the ocean. We are creating **islands of order in a sea of chaos**.
 
     **The Wild Internet remains. We do not conquer it. We offer an alternative.**
 
@@ -590,8 +592,8 @@ The Soul is not a parameter in the Trust Equation. It is a constitutional bounda
     !!! danger "The Mandate"
         Certain constraints exist **outside the Trust Equation**. They cannot be overridden by high trust, low risk, emergency, or operational necessity. They are the **Soul** of the system.
 
-=== "Soul Dimension"
-    The seventh dimension of the Context Tensor operates differently from all others:
+=== "Soul Veto"
+    The Soul veto operates differently from the six weighted inputs:
 
     - [x] Evaluated **FIRST**, before any calculation
     - [x] Returns **binary**: clear (0) or veto (1)
@@ -635,9 +637,9 @@ The Soul is not a parameter in the Trust Equation. It is a constitutional bounda
 
 === "Principle"
     !!! abstract "Navigating by Stars"
-        Some things are not subject to negotiation. The Soul dimension operationalizes what Indigenous data sovereignty frameworks have always known: there are constraints that exist outside operational convenience.
+        Some things are not subject to negotiation. The Soul veto operationalizes what Indigenous data sovereignty frameworks have always known: there are constraints that exist outside operational convenience.
 
-    > *We do not own the stars. We navigate by them. The Soul dimension is a star we navigate by — fixed, immutable, not ours to move.*
+    > *We do not own the stars. We navigate by them. The Soul constraint is a star we navigate by — fixed, immutable, not ours to move.*
 
 === "Implementation"
     Sovereignty constraints are specified in [KTP-HUMAN](../rfcs/ktp-human.md) and [KTP-PRIVACY](../rfcs/ktp-privacy.md).
@@ -649,23 +651,23 @@ The Soul is not a parameter in the Trust Equation. It is a constitutional bounda
 These ten laws are **not aspirational**. They are enforceable. They are implemented in the **Trust Proof** — a cryptographically signed token that travels with every request.
 
 !!! success "The Bridge"
-    The Trust Proof is the Constitution made executable. It is the bridge between philosophy and physics.
+    The Trust Proof is the Constitution made executable. It is the bridge between philosophy and enforcement.
 
 ---
 
 ## Ratification
 
-The Constitution is **self-enforcing**. No external authority is required to give it force. The physics are the enforcement.
+The Constitution is **self-enforcing**. No external authority is required to give it force. The structure is the enforcement.
 
 > *"We do not ask permission to implement gravity.*
 > *We do not negotiate with entropy.*
 > *We do not appeal to friction.*
 > 
-> *We build the physics. The physics does the rest."*
+> *We build the structure. The structure does the rest."*
 
 **This is the operating system for the age of Digital Will.**
 
-**This is the Constitution of Digital Physics.**
+**This is the KTP Constitution.**
 
 ---
 
@@ -677,7 +679,7 @@ The Constitution is **self-enforcing**. No external authority is required to giv
 
 [:material-file-document-multiple: Specifications](../specifications/index.md){ .md-button .ktp-cta-button }
 
-[:material-book-open-variant: Read the Medium Essay](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4){ .md-button .ktp-cta-button }
+[:material-book-open-variant: Read the Medium Essay (as previously published)](https://chrisperkins505.medium.com/the-constitution-of-digital-physics-157e7e45c1b5?source=friends_link&sk=fdc1bec6700e0e378cbf21f611e492a4){ .md-button .ktp-cta-button }
 
 [:material-book-multiple: Medium Series](https://medium.com/@chrisperkins505){ .md-button .ktp-cta-button }
 
@@ -690,11 +692,11 @@ The Constitution is **self-enforcing**. No external authority is required to giv
 | Article | Implementing RFC |
 |---------|-----------------|
 | Article I (Zeroth Law) | [KTP-CORE](../rfcs/ktp-core.md) Section 4 |
-| Article III (Context Tensor) | [KTP-SIGNALS](../rfcs/ktp-signals.md) |
+| Article III (Context Signals) | [KTP-SIGNALS](../rfcs/ktp-signals.md) |
 | Article IV (Kinetic Identity) | [KTP-IDENTITY](../rfcs/ktp-identity.md) |
 | Article VIII (Distributed Oracle) | [KTP-ORACLE](../rfcs/ktp-oracle.md) |
 | Article IX (Blue Zones) | [KTP-ZONES](../rfcs/ktp-zones.md) |
 
 *[Trust Score]: The computed trust value (E) derived from telemetry and risk.
 *[Trust Proof]: A signed token carrying trust state, context, and expiration.
-*[Context Tensor]: The seven-dimensional model of environmental state used to compute trust.
+*[Context Tensor]: Retired name for Context Signals (the catalogue) and the Risk Factors (the scoring inputs) used to compute trust.

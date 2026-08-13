@@ -31,11 +31,11 @@ An agent operating with high autonomy in a low-truth environment is a liability.
 ## The Solution: Epistemic Health
 KTP-Information provides a framework for measuring the "Epistemic Health" of the information environment. This measurement is used to adjust [**Digital Gravity**](ktp-attenuation.md), forcing agents to move more cautiously when the signal is compromised.
 
-### The Signal Tensor (358 Dimensions)
+### The Information Domain (336 Signals)
 
 ```mermaid
 mindmap
-  root((Signal Tensor))
+  root((Information Domain))
     Truth Conditions
       Verifiability
       Fact-Check Coverage
@@ -84,7 +84,7 @@ Where $G_i$ represents major groups like:
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Signals](ktp-signals.md): Signal Tensor and epistemic dimensions.
+    - [KTP-Signals](ktp-signals.md): The Context Signals catalogue and the epistemic domain.
     - [KTP-Sensors](ktp-sensors.md): Telemetry feeds that populate signal inputs.
     - [KTP-Attenuation](ktp-attenuation.md): How degraded signal increases digital gravity.
     - [KTP-Identity](ktp-identity.md): Source verification and provenance of signal.

@@ -6,7 +6,7 @@ description: Relational dynamics, The Va, and indigenous concepts of connection 
 # KTP-Relational: Relational Dynamics
 
 !!! info "Status: Experimental"
-    This document operationalizes indigenous relational wisdom—**Ubuntu**, **Whakapapa**, **The Va**—into measurable protocol mechanics. It defines the **Relational Tensor** and protocols for relationship health.
+    This document operationalizes indigenous relational wisdom—**Ubuntu**, **Whakapapa**, **The Va**—into measurable protocol mechanics. It defines the **Relational domain** and protocols for relationship health.
 
 ## At a Glance
 
@@ -21,14 +21,14 @@ description: Relational dynamics, The Va, and indigenous concepts of connection 
 
 ## The Va: The Space Between
 
-In KTP, a relationship is not just a link between two nodes; it is an entity in itself. This "Space Between" (The Va) has health, history, and physics.
+In KTP, a relationship is not just a link between two nodes; it is an entity in itself. This "Space Between" (The Va) has health, history, and mechanics.
 
-### Relational Tensor Dimensions
+### Relational Domain Signals
 
 | Category | Dimensions | Examples |
 | :--- | :--- | :--- |
 | **Connection** | 8 | Frequency, Depth, Recency, Mutual Recognition |
-| **Trust** | 6 | Level, Direction, Velocity, History |
+| **Trust** | 6 | Level, Direction, Trend, History |
 | **Health** | 6 | Temperature, Conflict, Repair Needed |
 | **Exchange** | 4 | Reciprocity, Gratitude, Support |
 | **Presence** | 4 | Quality, Witnessing, Meaning |
@@ -86,7 +86,7 @@ Major decisions must be assessed across time horizons.
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics applied to relationships.
+    - [KTP-Core](ktp-core.md): The trust mechanics applied to relationships.
     - [KTP-Identity](ktp-identity.md): Lineage and relational history.
     - [KTP-Human](ktp-human.md): Human governance and relational interfaces.
     - [KTP-Governance](ktp-governance.md): Policy for dispute and repair.

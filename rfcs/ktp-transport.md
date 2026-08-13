@@ -1,6 +1,6 @@
 # KTP-Transport — Transport Specification
 
-*The connective tissue of Digital Physics*
+*The connective tissue of the Kinetic Trust Protocol*
 
 ---
 
@@ -221,7 +221,7 @@ flowchart TB
           TRUST_TIER_OBSERVER = 2;
           TRUST_TIER_ANALYST = 3;
           TRUST_TIER_OPERATOR = 4;
-          TRUST_TIER_GOD_MODE = 5;
+          TRUST_TIER_ADMIN = 5;
         }
         ```
 
@@ -440,7 +440,7 @@ flowchart LR
     S["Sensor"] -->|Register| A["Aggregator"]
     S -->|Submit readings| A
     A -->|Aggregated data| O["Oracle"]
-    O -->|Update R| CT["Context Tensor"]
+    O -->|Update R| CT["Context Signals"]
 ```
 
 | Endpoint | Description |
@@ -522,7 +522,7 @@ For high-volume sensors:
 ## Related Specifications
 
 ??? info "Related Specifications"
-    - [KTP-Core](ktp-core.md): Trust physics carried by transport.
+    - [KTP-Core](ktp-core.md): The trust state carried by transport.
     - [KTP-Crypto](ktp-crypto.md): Encryption and signing requirements.
     - [KTP-Sensors](ktp-sensors.md): Telemetry payload formats.
     - [KTP-Federation](ktp-federation.md): Cross-zone transport protocols.

@@ -2,7 +2,7 @@
 
 <div class="ktp-animate" markdown>
 
-Welcome to the Kinetic Trust Protocol—a way to move from static permissions to physics-based trust so autonomous agents can act safely, measurably, and at speed. Digital systems are now kinetic, and we need the environment—not human optimism—to be the final authority.
+Welcome to the Kinetic Trust Protocol—a way to move from static permissions to environment-based trust so autonomous agents can act safely, measurably, and at speed. Digital systems are now kinetic, and we need the environment—not human optimism—to be the final authority.
 
 </div>
 
@@ -93,7 +93,7 @@ The Kinetic Trust Protocol introduces a simple but powerful constraint:(1)
 
 **A** is the intrinsic risk of the requested action. **E** is the current Trust Score. If the action's risk exceeds the environment's capacity, the action is denied. No exceptions. No escalation. No override.
 
-This is not a policy—it's physics. Just as you cannot exceed the speed of light, an agent cannot exceed its trust boundaries.
+This is not a policy—it's structure. Just as you cannot exceed the speed of light, an agent cannot exceed its trust boundaries.
 
 </div>
 
@@ -139,14 +139,14 @@ Trust is not granted—it's earned through survival. An agent's Trust Score refl
   </div>
 </div>
 
-### 2. Context Tensors
+### 2. Context Signals
 
 <div class="ktp-animate" markdown>
 
-Environmental state is captured through 1,707 measurements organized into seven dimensions:(1)
+Environmental state is captured through 1,627 measurements organized into six domains:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across seven trust dimensions. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
+1. :material-star-four-points-circle: The full Context Signals specification spans 1,627 signals across six domains. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
 
 </div>
 
@@ -217,14 +217,14 @@ Environmental state is captured through 1,707 measurements organized into seven 
 </div>
 
 <p class="dimension-cards-note ktp-animate">
-  <a href="../context-tensor/">Explore the full Context Tensor →</a>
+  <a href="../context-tensor/">Explore the full signal catalogue →</a>
 </p>
 
 ### 3. Blue Zones
 
 <div class="ktp-animate" markdown>
 
-Trust doesn't exist in isolation—it exists in environments. Blue Zones are network segments where Digital Physics is enforced, creating safe harbors where agents can operate with cryptographic trust guarantees.(1)
+Trust doesn't exist in isolation—it exists in environments. Blue Zones are network segments where KTP is enforced, creating safe harbors where agents can operate with cryptographic trust guarantees.(1)
 { .annotate }
 
 1. :material-star-four-points-circle: Blue Zone architecture and governance is specified in [KTP-ZONES](../rfcs/ktp-zones.md), covering zone types, discovery, ingress/egress, and the zone gradient.
@@ -267,7 +267,7 @@ Trust doesn't exist in isolation—it exists in environments. Blue Zones are net
         <div class="zone-dot zone-dot--wild"></div>
         <div class="zone-content">
           <span class="zone-name">Wild</span>
-          <span class="zone-desc">Legacy Internet, no KTP physics</span>
+          <span class="zone-desc">Legacy Internet, no KTP enforcement</span>
         </div>
       </div>
     </div>
@@ -317,7 +317,7 @@ Trust doesn't exist in isolation—it exists in environments. Blue Zones are net
 
     ---
 
-    Explore why physics-based constraints are necessary for the agentic age.
+    Explore why environment-derived constraints are necessary for the agentic age.
 
     [:octicons-arrow-right-24: Core Concepts](core-concepts.md)
 

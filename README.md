@@ -223,7 +223,8 @@ each file:
 | [`rfcs-txt/`](rfcs-txt/) | The five filed Internet-Drafts. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
 | [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
 | [`schemas/`](schemas/) | The seven JSON Schemas. A wire artifact, so it sits at the root rather than inside site content |
-| [`docs/`](docs/) | Documentation-site content |
+| [`specifications/`](specifications/) | The two normative documents that are not RFCs — the Kinetic Envelope and the deployment profile — and in `conformance/`, the reference vectors they are conformed against |
+| [`docs/`](docs/) | Documentation-site content, and nothing else |
 | [`scripts/`](scripts/) | The gates — vocabulary, summary/source parity, repo hygiene, declarations, and the generate-and-diff check for the filed set |
 | [`CHANGELOG.md`](CHANGELOG.md) | Every normative change and what forced it |
 | [`MIGRATION.md`](MIGRATION.md) | What a v1.0.1 implementation has to do |

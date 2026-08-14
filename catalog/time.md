@@ -109,10 +109,9 @@ Where a ratio's denominator is gated by a predicate — on-time, independent,
 compliant, usable — the predicate is a label set and is declared under the
 catalogue-wide label-set rule, not here.
 
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). Seventeen Time signals carry the mark
-    today. Nothing in this section authorizes, restricts or interprets it;
-    the paragraph lands when #67 rules. ]
+Privacy. Seventeen Time signals carry the [P] mark. The rule governing the
+mark is open under nmcitra/ktp-rfc#67, and nothing in this section authorizes,
+restricts or interprets it.
 
 
 ## Signals

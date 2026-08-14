@@ -112,12 +112,9 @@ overdue, valid, encrypted, authenticated, dissenting — the predicate is a
 label set and is declared under the catalogue-wide label-set rule, not here.
 Relational carries at least fourteen such rows.
 
-```text
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). Nineteen Relational signals carry the
-    mark today. Nothing in this section authorizes, restricts or interprets
-    it; the paragraph lands when #67 rules. ]
-```
+Privacy. Nineteen Relational signals carry the [P] mark. The rule governing
+the mark is open under nmcitra/ktp-rfc#67, and nothing in this section
+authorizes, restricts or interprets it.
 
 
 ## Signals

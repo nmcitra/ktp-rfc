@@ -132,13 +132,10 @@ carries at least twenty such rows.
 
 The plausible telemetry sources are action and decision logs, policy-engine records, relationship and trust ledgers, error and incident records, runtime counters, load-test traces, orchestration records, model registries, evaluation results, signed provenance manifests, consent records, and context-sensor streams.
 
-```text
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). Two Soul signals carry the mark today
-    — relational.human_acceptance_rate and relational.human_repair_acceptance.
-    Nothing in this section authorizes, restricts or interprets it; the
-    paragraph lands when #67 rules. ]
-```
+Privacy. Two Soul signals carry the [P] mark: relational.human_acceptance_rate
+and relational.human_repair_acceptance. The rule governing the mark is open
+under nmcitra/ktp-rfc#67, and nothing in this section authorizes, restricts or
+interprets it.
 
 
 ## Signals

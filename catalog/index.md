@@ -17,8 +17,8 @@ domain file and this file disagree, this file governs.
 
 Every clause below is quoted from a confirmed ruling, per map #46 process
 rule 1. Nothing here is authored new except §4, which #87 ruled and which had
-no carrier either, and §4's class-**A** provenance clause, which #98 confirmed
-and which carries `CL785`.
+no carrier either, and §4's class-**A** provenance clause, which #98
+confirmed.
 
 ---
 
@@ -55,13 +55,12 @@ this index, **canonical as JSON**, markdown generated and transcluded. It
 release; **removing or renaming a signal ID is MAJOR** — a signal ID is a
 permitted value.
 
-Built under **#108** (2026-08-13) from the landed catalogue runs in
-`worklog/ktp-spec/signals/`, merged with the two published completions those
-files deliberately excluded: Soul's 107 v1.0.x rows (identifiers and ranges
+Built under **#108** (2026-08-13) from the landed catalogue runs, merged with
+the two published completions those runs deliberately excluded: Soul's 107 v1.0.x rows (identifiers and ranges
 per `RANGES-PASS-01.md`, authoritative under #69) and Body's 49 published
 Power, Thermal and Compute rows (12 identifiers repaired per
-`IDENTIFIER-PASS-BODY.md`, same ruling). The landing files remain in
-`worklog/` as provenance; **this directory supersedes them as the catalogue.**
+`IDENTIFIER-PASS-BODY.md`, same ruling). **This directory is the catalogue;**
+the landing files that fed it are retained as provenance and are not published.
 
 The observation-class census, closed exactly on every domain:
 **N 1,174 · D 211 · A 117 · S 119 · P 23 = 1,644.**
@@ -112,8 +111,7 @@ edited.
 Reconstructions of those identifiers are **authoritative**, carried by one
 provenance paragraph per corpus rather than per-row markers. This catalogue's
 provenance paragraph is §0's; the reconstruction records are
-`RANGES-PASS-01.md` (Soul) and `IDENTIFIER-PASS-BODY.md` (Body) in
-`worklog/ktp-spec/signals/`.
+`RANGES-PASS-01.md` (Soul) and `IDENTIFIER-PASS-BODY.md` (Body).
 
 **Left open by #69, and not settled here:** whether an `Identifier repairs`
 section becomes required of every domain file.
@@ -196,8 +194,8 @@ domain files instead of here:
 
   This is the same failure mode as the class-**D** clause above, one layer up:
   an obligation the constrained party discharges is not discharged, and a MUST
-  satisfiable at will launders rather than binds. Graph `CL785`; confirmed by
-  Chris 2026-08-12 under #98.
+  satisfiable at will launders rather than binds. Confirmed 2026-08-12 under
+  #98.
 
 A sixth, added under **#60**, and it is **cross-class rather than per-class** —
 the clause existed for **A** alone and the exposure it covers is mostly outside
@@ -354,8 +352,8 @@ The first measurement of this table (front matter §6, #96/#98) was file-level:
 433 rows, 339 · 77 · 17, with `soul`'s 73 legacy rows and `body`'s 18 named as
 owed. **The #108 merge landed both.** `body`'s 18 split 11 · 7 · 0 as the
 domain file's own conventions state. `soul`'s 73 split **36 · 36 · 1**,
-applied under the three criteria above and emitted for review at
-`worklog/ktp-spec/108-soul-legacy-split.md` — the legacy rows run far more
+applied under the three criteria above and emitted for review — the legacy
+rows run far more
 synthetic than the re-authored rows, because the v1.0.x sections are rubric
 scores where the re-authored rows are event rates. Reversible pre-tag; a
 flipped row is a one-field JSON edit.
@@ -389,7 +387,7 @@ drops out of the catalogue and the set dissolves — not decided here.
 **The alias table's retirement is not in force.** #79 ruled the
 hand-maintained table retires because alias sets are *derivable* from declared
 subject and population — and its own Inference block records derivability as
-**argued, not demonstrated**. `TN209` holds the line: **retire the table on a
+**argued, not demonstrated**. The line holds: **retire the table on a
 working derivation, not on the ruling.** #86 was the live test and was decided
 on the merits rather than by derivation, so the debt stands. Until a
 derivation reproduces the sixteen sets from declared subject and population
@@ -415,10 +413,10 @@ writing them here would rule them by authorship.
 | **The reference label-set identifier** and whether it becomes a registry (§5) | **#68** *What this opens* | left open on purpose |
 | **Whether `Identifier repairs` is required of every domain file** (§2) | **#69** *What this opens* | left open on purpose |
 | **The retention floor** for the envelope's log (§3) | **#72** *What this opens* | a number nobody has chosen |
-| **`information`'s covert-inference prohibition** — a real normative clause that is not in §3's envelope and may be the `[P]` rule under another name. Preserved verbatim and unapplied in that file's `RAISED, UNOWNED` block | **#96** → **#67** | raised, unowned |
+| **`information`'s covert-inference prohibition** — a real normative clause that is not in §3's envelope and may be the `[P]` rule under another name. Preserved verbatim and unapplied in that file | **#96** → **#67** | raised, unowned |
 | **The A/P boundary where it depends on the deployment** (§4) — `information.platform`'s moderation counts are **A** read live from an API and **P** read from a quarterly transparency report, and then publication lag becomes MUST. The catalogue cannot decide it and the row cannot carry it | adjacent to **#72** | named, unowned |
-| **The `TN209` derivation** (§7) — reproduce the sixteen alias sets from declared subject and population alone, or rule it impossible | **#86** open item 2 | design work, unticketed |
-| **`soul`'s legacy split review** (§6) — 73 rows classified by the merge, 36 · 36 · 1 | **#108** review artifact | applied, reviewable, reversible pre-tag |
+| **The alias derivation** (§7) — reproduce the sixteen alias sets from declared subject and population alone, or rule it impossible | **#86** open item 2 | design work, unticketed |
+| **`soul`'s legacy split review** (§6) — 73 rows classified by the merge, 36 · 36 · 1 | **#108** | applied, reviewable, reversible pre-tag |
 | **`meta` waves 2 and 3** — coverage and staleness, then tamper and cross-sensor disagreement. Wave 1 (`refresh`) landed; the rest are unauthored and the boundary between them is stated in `catalog/meta.md` | **tracker#18** | ruled, sequenced, not yet authored |
 | **Who measures `meta`'s own coverage** — the regress terminates at a declared attestation root or not at all. Wave 1 does not reach it; wave 2 does | **tracker#18** *What this opens* | named, unowned |
 

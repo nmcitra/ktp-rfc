@@ -82,11 +82,8 @@ Where a ratio's denominator is gated by a predicate — required, operational,
 usable, degraded — the predicate is a label set and is declared under the
 catalogue-wide label-set rule, not here.
 
-```text
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). No Body signal carries the mark; the
-    hole is kept so the six domain files agree in shape. ]
-```
+Privacy. No Body signal carries the [P] mark. The rule governing the mark is
+open under nmcitra/ktp-rfc#67.
 
 
 ## Signals

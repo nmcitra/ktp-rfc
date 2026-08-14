@@ -117,25 +117,25 @@ means anything. The twelve emotion-expression shares depend on a declared
 emotion label set whose reference identifier is still open under
 nmcitra/ktp-rfc#68.
 
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). Two hundred and six Information signals
-    carry the mark — more than the rest of the catalogue combined, and 61% of
-    this domain. This file previously carried the catalogue's
-    only written [P] paragraph — "It does not authorize collection. Consent,
-    minimization, aggregation, sovereignty, and retention controls remain
-    mandatory." — which was authored here rather than ruled anywhere, and is
-    withdrawn to #67 as evidence rather than kept as a sixth wording. Nothing
-    in this section authorizes, restricts or interprets the mark; the
-    paragraph lands when #67 rules. ]
+Privacy. Two hundred and six Information signals carry the [P] mark — more than
+the rest of the catalogue combined, and 61% of this domain. This file once
+carried the catalogue's only written [P] paragraph: "It does not authorize
+collection. Consent, minimization, aggregation, sovereignty, and retention
+controls remain mandatory." That wording was authored here rather than ruled
+anywhere, and it is withdrawn to nmcitra/ktp-rfc#67 as evidence rather than kept
+as a sixth wording. Nothing in this section authorizes, restricts or interprets
+the mark.
 
-  [ RAISED, UNOWNED — the covert-inference prohibition. This file previously
-    carried "Emotional, trauma, and meaning self-report rows MUST NOT be
-    populated by covert inference of an individual's private mental state."
-    It is a real normative clause, it is not inside front matter §3's
-    envelope, and it is not obviously Information-only. It is preserved here
-    verbatim and unapplied pending nmcitra/ktp-rfc#67, which owns whether it
-    is a catalogue-wide rule or the [P] rule under another name. #96 raised
-    it and does not rule it. ]
+The covert-inference prohibition. This file once carried a clause that is
+preserved here verbatim and unapplied:
+
+> Emotional, trauma, and meaning self-report rows MUST NOT be populated by
+> covert inference of an individual's private mental state.
+
+It is a real normative clause, it sits outside the measurement envelope in
+`catalog/index.md` §3, and it is not obviously Information-only.
+nmcitra/ktp-rfc#67 owns whether it is a catalogue-wide rule or the [P] rule
+under another name. #96 raised it without ruling it.
 
 
 ## Signals

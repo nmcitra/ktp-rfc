@@ -74,10 +74,9 @@ its instrument and marked here rather than reclassified. Front matter §4 names
 PROJECTED as a candidate sixth class and declines to add it, because
 nmcitra/ktp-rfc#73 and #74 own that question.
 
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). Thirty-four World signals carry the
-    mark today. Nothing in this section authorizes, restricts or interprets
-    it; the paragraph lands when #67 rules. ]
+Privacy. Thirty-four World signals carry the [P] mark. The rule governing the
+mark is open under nmcitra/ktp-rfc#67, and nothing in this section authorizes,
+restricts or interprets it.
 
 
 ## Signals

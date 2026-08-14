@@ -8,6 +8,8 @@ This is governance in motion. A capability grant sets the ceiling of what an age
 
 This document fixes the **interface, the decision contract, and the conformance suite**. It does not fix the formula that computes A and E. Two systems conform if they produce the same decisions on the published vectors, whatever math they use inside.
 
+The interface is substrate-neutral. The magnitudes it carries — what an action demands, what tightening constrains — are fixed by a **declared profile**, not by this document. The ROS2 profile below is one such declaration, and the one the conformance suite exercises; a software substrate declares its own (`ktp-runtime#3`, `#4`). A provider that declares no profile has not partially conformed. It has not stated what conformance would mean for it.
+
 ## Layering
 
 Three layers, kept separate:
@@ -30,21 +32,14 @@ type SupervisionLevel =
   | "regulated"     // external authorization to proceed
   | "silent_veto";  // no autonomous or supervised path; action not carried
 
-interface JointLimit {
-  joint: string;
-  maxPositionRad?: number;
-  maxVelocityRps?: number;
-  maxEffortNm?: number;
+interface ConstraintCeiling {
+  magnitude: string;  // named by the declared profile
+  max: number;        // in the unit that profile declares
 }
 
 interface TightenedConstraints {
-  maxVelocityMps?: number;
-  maxForceNewtons?: number;
-  maxTorqueNm?: number;
-  maxJerkMps3?: number;
-  maxAngularVelocityRps?: number;
-  jointLimits?: JointLimit[];
-  proximityMinMeters?: number;
+  profile: string;               // the profile these ceilings are read against
+  ceilings: ConstraintCeiling[]; // tighten-only
 }
 
 interface KineticEnvelopeResult {
@@ -62,7 +57,27 @@ interface KineticEnvelopePlugin {
 }
 ```
 
-`ActionContext` carries the sensed kinematics of the action: velocity, force, torque, jerk, joint states, obstacle proximity, human presence, and a novelty flag. A missing signal that an action class requires sets `capacityKnown = false`.
+`ActionContext` carries the sensed state of the action, in the signals the declared profile names. A missing signal that an action class requires sets `capacityKnown = false`.
+
+**Normative for every profile.** Each entry in `ceilings` is a maximum the executing system MUST NOT exceed. A result MUST NOT raise a ceiling present in the request, and MUST NOT name a magnitude its declared profile does not declare. Units are the profile's; `A/E` stays dimensionless because both sides are normalised against the same declaration. Tightening is defined over the declared magnitudes and nothing else — that is what makes the envelope portable without making it vague.
+
+### The ROS2 profile's declarations
+
+Normative for a provider declaring `ros2-reference-v0.1`; illustrative for any other substrate.
+
+| declared magnitude | unit |
+|---|---|
+| `maxVelocityMps` | m/s |
+| `maxForceNewtons` | N |
+| `maxTorqueNm` | N·m |
+| `maxJerkMps3` | m/s³ |
+| `maxAngularVelocityRps` | rad/s |
+| `proximityMinMeters` | m (a floor expressed as a ceiling on approach) |
+| `joint:<name>:maxPositionRad` | rad |
+| `joint:<name>:maxVelocityRps` | rad/s |
+| `joint:<name>:maxEffortNm` | N·m |
+
+Per-joint limits are magnitudes like any other, namespaced by joint. `ActionContext` under this profile carries velocity, force, torque, jerk, joint states, obstacle proximity, human presence, and a novelty flag.
 
 ## Decision contract
 
@@ -142,5 +157,7 @@ const REFERENCE_V0_1 = {
 ## Conformance
 
 The canonical suite is the seven-vector ROS2 reference set ([`conformance/ros2-reference-v0.1.json`](https://github.com/nmcitra/ktp-rfc/blob/main/docs/specifications/conformance/ros2-reference-v0.1.json)). Normative per vector: `decision`, `supervision`, `policyCode` on a veto, and `tightenedAtMost` (a ceiling the result must not exceed). `referenceMargin` is informative. Any provider conforms if it matches the decisions and supervision and tightens at least as hard, so implementations disagree on the formula without producing looser decisions.
+
+The suite declares `"profile": "ros2-reference-v0.1"` in its first line, so each vector's `tightenedAtMost` is read as ceilings over that profile's declared magnitudes — the compact map form of `ceilings`. A substrate declaring its own profile publishes its own suite; passing this one is a claim about ROS2, not about the interface in general.
 
 An implementation "conforms to the KTP kinetic-envelope suite" when it passes every vector. That is the boundary that lets the interface be open while the formula stays private.

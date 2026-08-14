@@ -1,7 +1,7 @@
 #!/bin/sh
-# gen-rfc-txt.sh — generate the five filed Internet-Drafts from rfc-src/.
+# gen-rfc-txt.sh — generate the five Internet-Draft-formatted specifications from rfc-src/.
 #
-# Only the filed set gets a .txt (#78 decision 3): generating one asserts
+# Only the I-D-formatted set gets a .txt (#78 decision 3): generating one asserts
 # Internet-Draft status, so the other 22 rfc-src sources render as markdown
 # and never pass through here.
 #
@@ -52,6 +52,6 @@ if [ "$MODE" = "check" ]; then
       RC=1
     fi
   done
-  [ $RC -eq 0 ] && echo "rfcs-txt/ in step with rfc-src/ (five filed I-Ds)"
+  [ $RC -eq 0 ] && echo "rfcs-txt/ in step with rfc-src/ (five I-D-formatted specs)"
   exit $RC
 fi

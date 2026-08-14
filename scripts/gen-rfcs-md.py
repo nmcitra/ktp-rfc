@@ -5,7 +5,7 @@ rfc-src/ is kramdown-rfc SOURCE, not something meant to be read raw: it
 carries a front-matter block (title, docname, category, author, the
 normative/informative reference table) and three bare section markers
 (--- abstract / --- middle / --- back) that the kramdown-rfc + xml2rfc
-toolchain consumes to build the five filed Internet-Drafts. Neither
+toolchain consumes to build the five Internet-Draft-formatted specifications. Neither
 GitHub's file viewer nor MkDocs strips this — browse rfc-src/ktp-core.md
 directly and the front matter renders as a garbled text dump, and the
 markers render as stray "--- abstract" lines in the middle of the page.
@@ -31,7 +31,7 @@ What the strip does:
   - --- middle .. --- back (or EOF if no --- back) is the body
   - --- back .. EOF, if present, is appended after the body
   - {{TOKEN}} citations -> [TOKEN] — matches the bracket form
-    xml2rfc's own .txt output already uses for the five filed specs
+    xml2rfc's own .txt output already uses for the five I-D-formatted specs
   - kramdown's markdown-link-escaping (\\[ \\]) -> plain brackets;
     needed only inside the kramdown-rfc toolchain, not for a commonmark
     renderer
@@ -84,7 +84,7 @@ def render(text, name):
 
 INDEX_HEADER = """# Kinetic Trust Protocol — Specifications
 
-The 27 KTP specifications. Five are filed as Internet-Drafts and are also
+The 27 KTP specifications. Five are formatted as Internet-Drafts and are also
 available as generated plain-text RFCs in `rfcs-txt/`; all 27 are rendered
 here for reading on the documentation site.
 
@@ -99,7 +99,7 @@ def build_index(names):
         text = open(os.path.join(SRC, f"{name}.md"), encoding="utf-8").read()
         i = text.index("--- abstract\n")
         title = title_of(text[:i]) or name
-        mark = " *(filed Internet-Draft)*" if name in filed else ""
+        mark = " *(Internet-Draft format)*" if name in filed else ""
         lines.append(f"- [{title}]({name}.md){mark}")
     return "\n".join(lines) + "\n"
 

@@ -11,7 +11,7 @@ Run from anywhere:  python3 scripts/gen-catalog-tables.py [--check]
 
 --check regenerates to a temp dir and diffs against catalog/generated/,
 exiting 1 on any difference — the generate-and-diff shape #78 added for the
-filed I-Ds, applied to the catalogue.
+I-D-formatted specs, applied to the catalogue.
 """
 
 import argparse

@@ -159,7 +159,7 @@ named files that did not exist. `risk-factors.json` replaces
 `context-tensor.json`; `transaction-record.json` and `sponsorship-bond.json` are
 promoted from document appendices to published files; a new
 `deployment-profile.json` is the surface on which a deployment declares
-everything the set requires it to declare. Where a filed Internet-Draft
+everything the set requires it to declare. Where an Internet-Draft-formatted specification
 previously inlined a schema, the appendix now carries a location and a SHA-256.
 A hand copy drifts silently — this one had, in four ways, while nobody could
 validate either side. A hash cannot.
@@ -212,7 +212,7 @@ criterion that is not checkable is an aspiration:
 - `check-parity.py` exits 0 — every summary in step with its source.
 - `check-declarations.py` and `check-repo-hygiene.py` exit 0 — every required
   declaration present, and only files a future reader needs are tracked.
-- `gen-rfc-txt.sh --check` exits 0 — the five filed Internet-Drafts regenerate
+- `gen-rfc-txt.sh --check` exits 0 — the five Internet-Draft-formatted specifications regenerate
   byte-identical from source.
 - `109-90-reachability.py --check` reports zero failures.
 

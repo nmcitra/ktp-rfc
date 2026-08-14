@@ -174,7 +174,7 @@ The transaction record's inline letter-keyed environmental object was a
 hand-copy that had drifted from the published file in four ways. It is replaced
 by a `$ref`, and the field renames to `risk_factors`.
 
-Where a filed Internet-Draft previously inlined a schema in an appendix, the
+Where an Internet-Draft-formatted specification previously inlined a schema in an appendix, the
 appendix now carries the canonical file's location plus a SHA-256 of its
 contents. Validate against the file, not against the appendix.
 

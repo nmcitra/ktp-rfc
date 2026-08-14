@@ -421,7 +421,7 @@ and takes none.
   `standing_decay_rate` are required.** *Forced by:* the accumulation of
   declare-or-be-penalized rulings across the release — each created an
   obligation to declare, and none of them had a surface to declare on.
-- **The four inline appendix schemas in the filed Internet-Drafts become a
+- **The four inline appendix schemas in the Internet-Draft-formatted specifications become a
   reference plus a SHA-256 of the canonical file.** *Forced by:* the corpus
   audit — a hand copy drifts silently and this one had, disagreeing with the
   published file in four ways while nobody could validate either. A hash cannot

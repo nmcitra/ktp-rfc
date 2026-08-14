@@ -280,7 +280,7 @@ def scheme():
     SCOPE includes rfc-src/, which the retired-term scan does not. That is not
     a quiet re-ruling of #64, D: rfc-src/ did not exist as the authored source
     when that scope was set (#78/#108 made it one afterward). A scheme that
-    ships from the source the five filed Internet-Drafts are generated from has
+    ships from the source the five Internet-Draft-formatted specifications are generated from has
     shipped, whatever rfcs-md/ says, so the gate reads the source too.
 
     HISTORICAL alone is not enough to excuse the scheme, because "previously"
@@ -293,7 +293,7 @@ def scheme():
     different lines; a line-scoped exemption would refuse the appendix that
     exists to make the record, and — the same failure inverted — a line-scoped
     *detector* would miss a term split across a wrap. #68 found three of those
-    hiding in the filed drafts. Paragraph scope is the fix for both directions.
+    hiding in the I-D-formatted drafts. Paragraph scope is the fix for both directions.
     """
     letters = "mpvhtios"
     key = re.compile(r'"([%s])"\s*:' % letters)

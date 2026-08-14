@@ -39,7 +39,7 @@ ALLOWED = [
      "gen-rfcs-md.py, never hand-edited — gen-rfcs-md.py --check is the "
      "diff gate"),
     ("generated", r"^rfcs-txt/[^/]+\.txt$",
-     "the five filed Internet-Drafts, generated from rfc-src/ by "
+     "the five Internet-Draft-formatted specifications, generated from rfc-src/ by "
      "gen-rfc-txt.sh — the flip ran 2026-08-14; never hand-edited, and "
      "gen-rfc-txt.sh --check is the diff gate"),
     ("normative", r"^(glossary\.md|constitution\.txt)$",

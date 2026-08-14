@@ -110,7 +110,7 @@ veto, never seven weights.
 
 ## The specifications
 
-27 documents. Five are filed as Internet-Drafts and carry a generated `.txt`
+27 documents. Five are formatted as Internet-Drafts and carry a generated `.txt`
 in [`rfcs-txt/`](rfcs-txt/); the other 22 are Markdown only. Every link below
 points into [`rfcs-md/`](rfcs-md/), the generated render.
 
@@ -118,9 +118,9 @@ points into [`rfcs-md/`](rfcs-md/), the generated render.
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Core](rfcs-md/ktp-core.md) **·** *filed* | The Zeroth Law, Trust Score calculation, Trust Proof tokens, the Silent Veto, anti-Goodhart measures |
-| [KTP-Identity](rfcs-md/ktp-identity.md) **·** *filed* | Vector Identity, trajectory chains, Proof of Resilience, sponsorship, NIST SP 800-63 proofing |
-| [KTP-Problems](rfcs-md/ktp-problems.md) **·** *filed* | Known limits, anticipated critiques, what the series does not claim to solve |
+| [KTP-Core](rfcs-md/ktp-core.md) **·** *I-D format* | The Zeroth Law, Trust Score calculation, Trust Proof tokens, the Silent Veto, anti-Goodhart measures |
+| [KTP-Identity](rfcs-md/ktp-identity.md) **·** *I-D format* | Vector Identity, trajectory chains, Proof of Resilience, sponsorship, NIST SP 800-63 proofing |
+| [KTP-Problems](rfcs-md/ktp-problems.md) **·** *I-D format* | Known limits, anticipated critiques, what the series does not claim to solve |
 | [`constitution.txt`](constitution.txt) | Preamble and ten articles, the governing frame the series answers to |
 
 ### Measurement
@@ -135,7 +135,7 @@ points into [`rfcs-md/`](rfcs-md/), the generated render.
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Enforce](rfcs-md/ktp-enforce.md) **·** *filed* | Policy Enforcement Points, trust tiers, adaptive dormancy, ceilings |
+| [KTP-Enforce](rfcs-md/ktp-enforce.md) **·** *I-D format* | Policy Enforcement Points, trust tiers, adaptive dormancy, ceilings |
 | [KTP-Attenuation](rfcs-md/ktp-attenuation.md) | Capability attenuation: constraint types and real-time application |
 | [KTP-Audit](rfcs-md/ktp-audit.md) | Flight Recorder, decision geometry, immutable logging, counterfactual analysis |
 | [KTP-Emergency](rfcs-md/ktp-emergency.md) | Emergency levels, circuit breakers, graceful degradation, zone collapse |
@@ -155,7 +155,7 @@ points into [`rfcs-md/`](rfcs-md/), the generated render.
 | [KTP-Crypto](rfcs-md/ktp-crypto.md) | Algorithms, key management, HSM requirements, post-quantum strategy |
 | [KTP-Transport](rfcs-md/ktp-transport.md) | Wire formats, REST and gRPC interfaces, streaming |
 | [KTP-Threat-Model](rfcs-md/ktp-threat-model.md) | STRIDE analysis, attack trees, risk assessment, security requirements |
-| [KTP-Conformance](rfcs-md/ktp-conformance.md) **·** *filed* | Conformance levels, testing requirements, interoperability |
+| [KTP-Conformance](rfcs-md/ktp-conformance.md) **·** *I-D format* | Conformance levels, testing requirements, interoperability |
 
 ### Operations
 
@@ -221,12 +221,12 @@ each file:
 |---|---|
 | [`rfcs-md/`](rfcs-md/) | The 27 specifications as clean Markdown — the reading surface, and the GitHub Pages source. **Generated** from `rfc-src/` by `scripts/gen-rfcs-md.py` — never hand-edited. Replaces a hand-authored `rfcs/` retired 2026-08-14: it drifted (missing an entire section) with no gate able to see the omission — two independently-maintained representations is the drift class this release exists to kill, and it should not survive here either |
 | [`rfc-src/`](rfc-src/) | kramdown-rfc source for all 27; authored here, and the only place a specification is edited |
-| [`rfcs-txt/`](rfcs-txt/) | The five filed Internet-Drafts. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
+| [`rfcs-txt/`](rfcs-txt/) | The five Internet-Draft-formatted specifications. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
 | [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
 | [`schemas/`](schemas/) | The seven JSON Schemas. A wire artifact, so it sits at the root rather than inside site content |
 | [`specifications/`](specifications/) | The two normative documents that are not RFCs — the Kinetic Envelope and the deployment profile — and in `conformance/`, the reference vectors they are conformed against |
 | [`docs/`](docs/) | Documentation-site content, and nothing else |
-| [`scripts/`](scripts/) | The gates — vocabulary, summary/source parity, repo hygiene, declarations, and the generate-and-diff check for the filed set |
+| [`scripts/`](scripts/) | The gates — vocabulary, summary/source parity, repo hygiene, declarations, and the generate-and-diff check for the I-D-formatted set |
 | [`CHANGELOG.md`](CHANGELOG.md) | Every normative change and what forced it |
 | [`MIGRATION.md`](MIGRATION.md) | What a v1.0.1 implementation has to do |
 | [`RELEASE-NOTES-v2.0.0.md`](RELEASE-NOTES-v2.0.0.md) | The v2.0.0 release notes |

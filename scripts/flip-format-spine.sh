@@ -3,7 +3,7 @@
 # rather than ran. Until this runs, rfcs-txt/ stays the hand-authored
 # canonical set and rfc-src/ is derived from it (regenerate with
 # worklog/ktp-spec/108-build-rfc-src.py after any rfcs-txt edit). After it
-# runs, rfc-src/ is the single source: the five filed .txt are generated, the
+# runs, rfc-src/ is the single source: the five Internet-Draft .txt files are generated, the
 # other 22 have no .txt, and every hand edit happens in rfc-src/.
 #
 # WHY THIS IS A SEPARATE STEP (recorded on nmcitra/ktp-rfc#108):
@@ -38,10 +38,10 @@ fi
 echo "1/4 regenerate rfc-src from rfcs-txt at HEAD (last pre-flip sync)"
 python3 "$ROOT/../worklog/ktp-spec/108-build-rfc-src.py"
 
-echo "2/4 generate the five filed I-Ds into rfcs-txt/"
+echo "2/4 generate the five I-D-formatted specs into rfcs-txt/"
 "$ROOT/scripts/gen-rfc-txt.sh"
 
-echo "3/4 delete the 22 non-filed .txt (they assert nothing now)"
+echo "3/4 delete the 22 non-I-D-formatted .txt (they assert nothing now)"
 for f in "$ROOT"/rfcs-txt/*.txt; do
   n="$(basename "$f" .txt)"
   case " $FILED " in

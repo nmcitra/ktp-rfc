@@ -72,7 +72,8 @@ it, which is why this note exists instead of a `v1.0.2`.
 ## SN-002 — `sensor-config.json` validates a configuration that scores an unmonitored environment as risk-free
 
 **Affects:** v1.0.0, v1.0.1 (`v1.0.1-provenance`)
-**Component:** `docs/schemas/sensor-config.json`, `default_on_failure`
+**Component:** `schemas/sensor-config.json` (`docs/schemas/` in the affected
+versions), `default_on_failure`
 **Found:** 2026-08-13 · **Corrected in:** v2.0.0 *Gödel*
 **Tracking:** [nmcitra/ktp-rfc#80](https://github.com/nmcitra/ktp-rfc/issues/80)
 

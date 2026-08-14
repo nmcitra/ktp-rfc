@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/sensor-config.json",
   "title": "KTP Sensor Feed Configuration",
-  "description": "Configuration schema for Context Tensor sensor feeds",
+  "description": "Configuration schema for Context Signals sensor feeds",
   "type": "object",
   "required": ["dimension", "feeds"],
   "properties": {
     "dimension": {
       "type": "string",
       "enum": ["evidence_density", "trust_trend", "adversarial_pressure", "moment_criticality", "update_resistance", "attestation_coverage", "soul"],
-      "description": "The tensor dimension this configuration applies to"
+      "description": "The Risk Factor this configuration applies to, or soul for the veto"
     },
     "feeds": {
       "type": "array",
@@ -17,13 +17,13 @@
         "$ref": "#/$defs/feed"
       },
       "minItems": 1,
-      "description": "Array of sensor feeds for this dimension"
+      "description": "Array of sensor feeds for this Risk Factor"
     },
     "aggregation": {
       "type": "string",
       "enum": ["weighted_average", "any_veto", "all_veto", "max", "min"],
       "default": "weighted_average",
-      "description": "How to aggregate multiple feeds (Soul dimension must use any_veto)"
+      "description": "How to aggregate multiple feeds (the soul veto must use any_veto)"
     },
     "default_on_failure": {
       "type": "number",
@@ -106,7 +106,7 @@
         "veto_on_match": {
           "type": "boolean",
           "default": false,
-          "description": "For Soul dimension: whether a match triggers veto"
+          "description": "For a soul feed: whether a match triggers the veto"
         },
         "transform": {
           "type": "string",

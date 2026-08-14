@@ -46,7 +46,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     JSON schemas for Risk Factors, Trust Proofs, and other core data structures.
 
-    [:octicons-arrow-right-24: View Schemas](../schemas/index.md)
+    [:octicons-arrow-right-24: View Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas)
 
 </div>
 
@@ -232,7 +232,7 @@ The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.j
 | `risk_deflation.security` | Float (0-1) | Security penalty |
 | `risk_deflation.compliance` | Float (0-1) | Compliance penalty |
 
-For the full JSON schema definition, see [risk-factors.json](../schemas/risk-factors.json).
+For the full JSON schema definition, see [risk-factors.json](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/risk-factors.json).
 
 ## Quick Reference
 
@@ -262,7 +262,7 @@ For the full JSON schema definition, see [risk-factors.json](../schemas/risk-fac
 
     Explore the JSON schemas that define KTP's core data formats.
 
-    [:octicons-arrow-right-24: Schemas](../schemas/index.md)
+    [:octicons-arrow-right-24: Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas)
 
 -   :material-book-open-variant:{ .lg .middle } **Back to Basics**
 

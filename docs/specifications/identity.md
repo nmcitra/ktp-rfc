@@ -19,5 +19,5 @@ KTP Identity binds entities to their behavior over time and space, not just to s
 
 ## Build with it
 
-- Shape payloads with the [JSON Schemas](../schemas/index.md)
+- Shape payloads with the [JSON Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas)
 - Test flows using the [Developer Toolkit](../implement/index.md) and [Experience Calculator](../implement/experience-calculator.md)

@@ -66,7 +66,7 @@ hide:
 
     Start with schemas and SDKs. Action cue: run the Experience Calculator to sanity-check a flow.
 
-    [View Schemas](schemas/index.md){ .card-cta }
+    [View Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas){ .card-cta }
 
 - :material-shield-home:{ .lg .middle }
 

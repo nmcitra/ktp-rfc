@@ -9,6 +9,6 @@
 
 In the meantime:
 
-- Review the data shapes in the [JSON Schemas](../schemas/index.md).
+- Review the data shapes in the [JSON Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas).
 - Explore the protocol flow in the [Specifications](../specifications/index.md).
 - Want to help? See [Contributing](https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md) or open an issue with feature ideas.

@@ -55,6 +55,17 @@ ALLOWED = [
      "catalogue tables generated from catalog/*.json by "
      "scripts/gen-catalog-tables.py — never hand-edited; "
      "gen-catalog-tables.py --check is the gate"),
+    ("source", r"^schemas/[^/]+\.json$",
+     "the canonical wire artifacts — the machine form of what the series "
+     "requires on the wire, cited by absolute $id and validated against by "
+     "implementers. They left docs/ because a documentation directory is not "
+     "a place a normative artifact is published from: a reader who fetches a "
+     "$id must land on the thing itself, not on a copy the site happens to "
+     "mirror"),
+    ("source", r"^schemas/index\.md$",
+     "the reader's index over those artifacts, kept beside the JSON it lists "
+     "so the listing cannot drift from the directory — the one page that has "
+     "to move with the files rather than stay behind with the site"),
 
     ("site", r"^docs/.*\.(md|json)$",
      "mkdocs content the site mirrors; docs/ is in vocabulary scope (#64, D)"),

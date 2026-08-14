@@ -2,7 +2,7 @@
 """Validate a deployment profile against the catalogue — the conformance
 instrument for docs/specifications/deployment-profile.md (#108).
 
-The JSON Schema (docs/schemas/deployment-profile.json) constrains shape; this
+The JSON Schema (schemas/deployment-profile.json) constrains shape; this
 script checks what a schema cannot — the joins against catalog/, which stays
 the single source of every identifier list so the profile schema never grows
 a second copy of them:

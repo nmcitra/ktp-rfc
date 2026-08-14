@@ -850,7 +850,7 @@ Where:
 
     The formal specification for telemetry collection and sensor configuration.
 
--   [:material-database:{ .lg } **Sensor Config Schema**](../schemas/sensor-config.json)
+-   [:material-database:{ .lg } **Sensor Config Schema**](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/sensor-config.json)
 
     ---
 

@@ -31,6 +31,16 @@ WHAT IS IN SCOPE
     same repo as the specs and it is the source the site mirrors, so the two
     have to match. All three make claims, so their vocabulary is a claim.
 
+    `schemas/` is IN, .md AND .json, from the v2 layout move. Scope here is by
+    PATH, so when the wire artifacts left docs/ they would have left
+    jurisdiction with it — silently, which is the failure mode this file
+    exists to refuse. Extending the scope rather than following the old path
+    also closed a gap that predates the move: docs/ is scanned for .md only,
+    so no schema was ever read. The first run under the new scope found four
+    retired-vocabulary descriptions inside sensor-config.json, a published
+    v2 artifact that every other gate called clean. A `description` in a
+    schema is prose a reader cites, and it is shipped further than any page.
+
 WHAT IS DELIBERATELY EXEMPT, AND WHY
 
     The essay corpus and the drafts tree, IN FULL (#64, A) — including the
@@ -61,7 +71,8 @@ import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)), ("catalog", (".md", ".json"))]
+SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)),
+         ("schemas", (".md", ".json")), ("catalog", (".md", ".json"))]
 
 # Lines carrying one of these are recording history, not making a claim.
 HISTORICAL = re.compile(
@@ -408,8 +419,8 @@ def main():
     print(f"[{total} unmarked occurrence(s) in normative text, "
           f"{len(named)} retired path(s) present, "
           f"{len(scheme_hits)} letter-scheme occurrence(s)]")
-    print("[in scope: rfcs/ rfcs-txt/ docs/ catalog/ — they have to match; "
-          "the scheme check adds rfc-src/, the authored source]")
+    print(f"[in scope: {' '.join(sub + '/' for sub, _ in SCOPE)} — they have "
+          "to match; the scheme check adds rfc-src/, the authored source]")
     print("[exempt by design: the essay/drafts corpus IN FULL (voice, no "
           "publication gate), ktp/src/content (mirror), rest of ktp/src "
           "(separate pass)]")

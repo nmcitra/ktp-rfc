@@ -1057,6 +1057,16 @@ A per-phase Trust Tier cap is no longer stated.  Tiers are thresholds on
 `E_trust`; a phase bounds `E_base` through the generation ceiling, and the
 environmental deflator sits between the two.
 
+## A key the letter scheme never defined
+
+v1's machine-readable examples in this document keyed the oracle attestation's
+environmental object `context_tensor`, with single letters inside it, and one
+of those keys was `"v"` - a letter the scheme never defined, which lettered
+its six inputs `m`, `p`, `h`, `t`, `i` and `o`.  `"v"` stood in Momentum's
+slot.  v2.0.0 renames the object to `risk_factors` and keys it by name, so
+`"v"` becomes `trust_trend` with the rest.  A v1 implementation that accepted
+`"v"` was reading Momentum whether or not the specification said so.
+
 # Trajectory Chain Examples
 
 A.1.  Genesis Transaction

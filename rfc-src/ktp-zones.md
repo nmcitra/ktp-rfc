@@ -22,6 +22,11 @@ normative:
     author:
       - name: Chris Perkins
     date: 2025-11
+  KTP-IDENTITY:
+    title: "Kinetic Trust Protocol - Identity and Trajectory Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
   RFC2119:
   RFC8174:
 informative:
@@ -1079,9 +1084,13 @@ FIRST 24 HOURS (Genesis Window):
 DAYS 2-7 (Nursery Period):
 
 - Genesis agents begin accumulating trajectory
-- E_base starts at 50 (granted by genesis)
+- E_base is bounded by the generation-0 ceiling of 25 ({{KTP-IDENTITY}} Section 8.4)
 - Actions limited to low-risk operations
 - Trust Oracle begins issuing attestations
+
+Genesis does not grant E_base.  An earlier revision of this section stated that E_base "starts at 50 (granted by genesis)."  It does not.  E_base is composed as specified in {{KTP-CORE}} Section 5.1 and bounded by the minimum of every applicable ceiling; a genesis agent is generation 0, so the ceiling of 25 governs, and no class of grant lifts it.  A ceiling states a reason to withhold trust, and being first in a zone is not evidence of resilience.
+
+The consequence is operational and MUST be planned for: E_trust is E_base deflated by the environment, so a nursery agent operates at a fraction of 25 and the margin above the lowest Trust Tier threshold is narrow at any R a live zone actually exhibits.  A zone whose first week requires more capability than that has not solved bootstrap by declaring a number; it needs more trustee-approved agents, a sponsor from an established zone (Section 9.3.7 Option B), or a longer nursery.
 
 DAYS 8-30 (Incubation Period):
 

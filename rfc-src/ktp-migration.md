@@ -102,6 +102,10 @@ Principle 5: Start Small, Expand Gradually
    in a sea of Wild.
 ~~~
 
+## Status of This Document
+
+This document is **informative**. It records deployment guidance, integration patterns, and starting values for operators migrating an existing estate onto KTP. It states no normative requirement and uses no BCP 14 keyword; where a value in this document differs from a requirement in the normative set, the normative set governs.
+
 # Terminology
 
 Advisory Mode: A deployment stage where KTP evaluates requests and reports recommendations, but legacy authorization makes final decisions.
@@ -858,19 +862,25 @@ Bootstrap trust is assigned based on:
 Default initial E_base by role category:
 
 ~~~
-+----------------------+---------+------------+
-| Role Category        | E_base  | Tier       |
-+----------------------+---------+------------+
-| Infrastructure/Admin | 70      | Analyst    |
-| Production Service   | 60      | Analyst    |
-| Internal Tool        | 50      | Observer   |
-| External Integration | 40      | Observer   |
-| New/Unknown          | 30      | Observer   |
-| Probationary         | 20      | Hibernation|
-+----------------------+---------+------------+
++----------------------+---------+
+| Role Category        | E_base  |
++----------------------+---------+
+| Infrastructure/Admin | 70      |
+| Production Service   | 60      |
+| Internal Tool        | 50      |
+| External Integration | 40      |
+| New/Unknown          | 30      |
+| Probationary         | 20      |
++----------------------+---------+
 ~~~
 
-These are starting points. Trust increases through demonstrated reliable operation.
+These are starting points for planning an estate.  Trust increases through demonstrated reliable operation.
+
+Two limits on how this table may be read, both of which an earlier revision got wrong.
+
+The table carried a third column naming a Trust Tier per role, and it has been removed.  Trust Tiers are thresholds on E_trust, not on E_base, and E_trust is E_base deflated by the environment.  No static column can name the tier a given E_base produces, because the deflator is not in the table and is not constant: three of the six rows named a tier their own number could not reach under the environmental conditions the corpus's own worked examples use.  A tier is read at evaluation time or not at all.
+
+None of these values survives contact with the ceilings.  E_base is bounded by the minimum of every applicable ceiling (see the normative set), and a migrating identity begins at generation 0 unless it carries a lineage.  A value in this table is the level the operator is planning toward, not the level the agent arrives with.
 
 ### Behavioral Import
 

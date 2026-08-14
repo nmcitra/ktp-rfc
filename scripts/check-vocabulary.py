@@ -226,10 +226,139 @@ def filenames():
     return bad
 
 
+def scheme():
+    """The D1a symbol scheme, which a term-by-term scan cannot see (#68).
+
+    RETIRED above catches words. The letter scheme was not a word — it was six
+    single characters used as JSON keys, and no pattern over prose can find
+    `"m": 0.45` without also finding every other `m` in the corpus. That is why
+    "the vocabulary work is done" could read clean while every machine-readable
+    example in the set still shipped the scheme it retired. This function is
+    the missing half: it decides on SHAPE, not on words.
+
+    D1a, ruled: the JSON key IS the name. The six weighted inputs are
+    evidence_density, trust_trend, adversarial_pressure, moment_criticality,
+    update_resistance and attestation_coverage; the veto is `soul`; the object
+    that carries them is `risk_factors`, never `context_tensor`.
+
+    TWO SIGNATURES, both deliberately narrow
+
+        1. A letter-keyed object. Three or more DISTINCT keys from the retired
+           set within one 240-character window of whitespace-collapsed text.
+           The window is what makes the rule survivable: it reads the same
+           whether the object is pretty-printed one key per line or inlined on
+           one, and it cannot fire on a lone letter key that means something
+           else. Two survivors depend on that: ktp-zones' Shamir "m"-of-"n"
+           threshold and the catalogue's per-signal "p" flag are each a single
+           distinct letter and are invisible here, by construction rather than
+           by an exemption anyone has to maintain.
+
+        2. `context_tensor` as an identifier. The underscore form only — the
+           object's name in code. The hyphenated form was a path and a filename
+           and is gone; where it survives it is prose about a rename, which is
+           a claim about history and not an identifier.
+
+    SCOPE includes rfc-src/, which the retired-term scan does not. That is not
+    a quiet re-ruling of #64, D: rfc-src/ did not exist as the authored source
+    when that scope was set (#78/#108 made it one afterward). A scheme that
+    ships from the source the five filed Internet-Drafts are generated from has
+    shipped, whatever rfcs/ says, so the gate reads the source too.
+
+    HISTORICAL alone is not enough to excuse the scheme, because "previously"
+    appears all over live prose. A hit is excused only when it sits in a
+    paragraph that speaks about v1 — which is where the letter scheme lived,
+    and where the Changes from v1 appendices record it on purpose.
+
+    The exemption is read over the PARAGRAPH, not the line. The .txt half is
+    wrapped at 72 columns, so a marker and the thing it marks routinely land on
+    different lines; a line-scoped exemption would refuse the appendix that
+    exists to make the record, and — the same failure inverted — a line-scoped
+    *detector* would miss a term split across a wrap. #68 found three of those
+    hiding in the filed drafts. Paragraph scope is the fix for both directions.
+    """
+    letters = "mpvhtios"
+    key = re.compile(r'"([%s])"\s*:' % letters)
+    tensor = re.compile(r"\bcontext_tensor\b")
+    v1 = re.compile(r"\bv1\b|Changes from v1", re.I)
+    window = 240
+    scope = SCOPE + [("rfc-src", (".md",))]
+
+    bad = []
+    for sub, exts in scope:
+        root = os.path.join(HERE, sub)
+        if not os.path.isdir(root):
+            continue
+        for dp, _, fs in os.walk(root):
+            for f in sorted(fs):
+                if not f.endswith(exts):
+                    continue
+                path = os.path.join(dp, f)
+                rel = os.path.relpath(path, HERE)
+                lines = open(path, errors="replace").read().split("\n")
+
+                # the paragraph each line belongs to, for the v1 exemption
+                para = [""] * len(lines)
+                i = 0
+                while i < len(lines):
+                    if not lines[i].strip():
+                        i += 1
+                        continue
+                    j = i
+                    while j < len(lines) and lines[j].strip():
+                        j += 1
+                    block = " ".join(l.strip() for l in lines[i:j])
+                    for k in range(i, j):
+                        para[k] = block
+                    i = j
+
+                # signature 2 — the identifier
+                for i, line in enumerate(lines, 1):
+                    if tensor.search(line) and not v1.search(para[i - 1]):
+                        bad.append((rel, i, "context_tensor identifier",
+                                    line.strip()[:70]))
+
+                # signature 1 — the shape, decided over a sliding window that
+                # ignores where the line breaks fall
+                flat, pos = [], []
+                off = 0
+                for i, line in enumerate(lines, 1):
+                    t = line.strip()
+                    flat.append(t)
+                    pos.append((off, i))
+                    off += len(t) + 1
+                text = " ".join(flat)
+                found = [(m.start(), m.group(1)) for m in key.finditer(text)]
+                reported = set()
+                for a in range(len(found)):
+                    seen = {found[a][1]}
+                    for b in range(a + 1, len(found)):
+                        if found[b][0] - found[a][0] > window:
+                            break
+                        seen.add(found[b][1])
+                    if len(seen) < 3:
+                        continue
+                    line_no = 1
+                    for start, i in pos:
+                        if start <= found[a][0]:
+                            line_no = i
+                        else:
+                            break
+                    if line_no in reported:
+                        continue
+                    reported.add(line_no)
+                    if v1.search(para[line_no - 1]):
+                        continue
+                    bad.append((rel, line_no, "letter-keyed object",
+                                "keys " + ",".join(sorted(seen))))
+                    break
+    return bad
+
+
 def main():
     verbose = "--verbose" in sys.argv
     hits = scan()
     named = filenames()
+    scheme_hits = scheme()
 
     by_term = {}
     for rel, i, term, text in hits:
@@ -257,16 +386,34 @@ def main():
             if len(rows) > 25:
                 print(f"  … {len(rows)-25} more")
 
+    print(f"{'D1a symbol scheme':<24}{len(scheme_hits):>14}"
+          f"{'' if not scheme_hits else '  <-'}   the JSON key IS the name; "
+          "six letters and context_tensor retire")
+    if scheme_hits:
+        print()
+        print("Letter scheme still on the wire (#68). The six weighted inputs are "
+              "evidence_density,")
+        print("trust_trend, adversarial_pressure, moment_criticality, "
+              "update_resistance and")
+        print("attestation_coverage; the veto is soul; the object is risk_factors:")
+        for rel, i, kind, text in scheme_hits[:25]:
+            print(f"  {rel}:{i}  {kind}: {text}")
+        if len(scheme_hits) > 25:
+            print(f"  … {len(scheme_hits)-25} more")
+    print()
+
     total = len(hits)
     print(f"[{total} unmarked occurrence(s) in normative text, "
-          f"{len(named)} retired path(s) present]")
-    print("[in scope: rfcs/ rfcs-txt/ docs/ catalog/ — they have to match]")
+          f"{len(named)} retired path(s) present, "
+          f"{len(scheme_hits)} letter-scheme occurrence(s)]")
+    print("[in scope: rfcs/ rfcs-txt/ docs/ catalog/ — they have to match; "
+          "the scheme check adds rfc-src/, the authored source]")
     print("[exempt by design: the essay/drafts corpus IN FULL (voice, no "
           "publication gate), ktp/src/content (mirror), rest of ktp/src "
           "(separate pass)]")
     if "--baseline" in sys.argv:
         return 0
-    return 1 if (total or named) else 0
+    return 1 if (total or named or scheme_hits) else 0
 
 
 if __name__ == "__main__":

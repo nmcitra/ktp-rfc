@@ -27,7 +27,7 @@ THE RULE — ruled on ticket #64, 2026-08-10
 
 WHAT IS IN SCOPE
 
-    rfcs/*.md, rfcs-txt/*.txt, and docs/*.md. `docs/` is IN (#64, D): it is the
+    rfcs-md/*.md, rfcs-txt/*.txt, and docs/*.md. `docs/` is IN (#64, D): it is the
     same repo as the specs and it is the source the site mirrors, so the two
     have to match. All three make claims, so their vocabulary is a claim.
 
@@ -76,7 +76,7 @@ import sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)),
+SCOPE = [("rfcs-md", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)),
          ("schemas", (".md", ".json")), ("specifications", (".md", ".json")),
          ("catalog", (".md", ".json"))]
 
@@ -281,7 +281,7 @@ def scheme():
     a quiet re-ruling of #64, D: rfc-src/ did not exist as the authored source
     when that scope was set (#78/#108 made it one afterward). A scheme that
     ships from the source the five filed Internet-Drafts are generated from has
-    shipped, whatever rfcs/ says, so the gate reads the source too.
+    shipped, whatever rfcs-md/ says, so the gate reads the source too.
 
     HISTORICAL alone is not enough to excuse the scheme, because "previously"
     appears all over live prose. A hit is excused only when it sits in a

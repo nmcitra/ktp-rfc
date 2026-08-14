@@ -81,7 +81,7 @@ than decisions, and `.gitignore` covers them so the question does not come up.
 
 ## Specification Governance
 
-Changes to the core protocol specifications (particularly KTP-CORE, KTP-IDENTITY, KTP-CRYPTO) require careful consideration and may involve broader community discussion. Please see [KTP-GOVERNANCE](rfcs/ktp-governance.txt) for details on the specification amendment process.
+Changes to the core protocol specifications (particularly KTP-CORE, KTP-IDENTITY, KTP-CRYPTO) require careful consideration and may involve broader community discussion. Please see [KTP-GOVERNANCE](rfcs-md/ktp-governance.txt) for details on the specification amendment process.
 
 ## Code of Conduct
 

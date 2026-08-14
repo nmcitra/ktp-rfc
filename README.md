@@ -9,9 +9,10 @@ not represent an Internet Standard or the consensus of any standards body.
 
 ## Read the specifications
 
-The specifications live in [**`rfcs/`**](rfcs/), rendered by GitHub. Start
+The specifications live in [**`rfcs-md/`**](rfcs-md/), rendered by GitHub. Start
 there — every document below is a link into that directory, readable in the
-browser without cloning anything.
+browser without cloning anything. It is generated from `rfc-src/`; edit the
+source, never the render.
 
 The same set renders as a documentation site at
 <https://nmcitra.github.io/ktp-rfc/>; the schemas are published at
@@ -111,80 +112,80 @@ veto, never seven weights.
 
 27 documents. Five are filed as Internet-Drafts and carry a generated `.txt`
 in [`rfcs-txt/`](rfcs-txt/); the other 22 are Markdown only. Every link below
-points into [`rfcs/`](rfcs/).
+points into [`rfcs-md/`](rfcs-md/), the generated render.
 
 ### Foundation
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Core](rfcs/ktp-core.md) **·** *filed* | The Zeroth Law, Trust Score calculation, Trust Proof tokens, the Silent Veto, anti-Goodhart measures |
-| [KTP-Identity](rfcs/ktp-identity.md) **·** *filed* | Vector Identity, trajectory chains, Proof of Resilience, sponsorship, NIST SP 800-63 proofing |
-| [KTP-Problems](rfcs/ktp-problems.md) **·** *filed* | Known limits, anticipated critiques, what the series does not claim to solve |
+| [KTP-Core](rfcs-md/ktp-core.md) **·** *filed* | The Zeroth Law, Trust Score calculation, Trust Proof tokens, the Silent Veto, anti-Goodhart measures |
+| [KTP-Identity](rfcs-md/ktp-identity.md) **·** *filed* | Vector Identity, trajectory chains, Proof of Resilience, sponsorship, NIST SP 800-63 proofing |
+| [KTP-Problems](rfcs-md/ktp-problems.md) **·** *filed* | Known limits, anticipated critiques, what the series does not claim to solve |
 | [`constitution.txt`](constitution.txt) | Preamble and ten articles, the governing frame the series answers to |
 
 ### Measurement
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Signals](rfcs/ktp-signals.md) | The Context Signals catalogue: what is measurable, and how a signal is specified |
-| [KTP-Sensors](rfcs/ktp-sensors.md) | Sensor specifications, normalization, staleness, domain profiles |
-| [KTP-Information](rfcs/ktp-information.md) | Information-environment measurement, truth conditions, epistemic health |
+| [KTP-Signals](rfcs-md/ktp-signals.md) | The Context Signals catalogue: what is measurable, and how a signal is specified |
+| [KTP-Sensors](rfcs-md/ktp-sensors.md) | Sensor specifications, normalization, staleness, domain profiles |
+| [KTP-Information](rfcs-md/ktp-information.md) | Information-environment measurement, truth conditions, epistemic health |
 
 ### Enforcement and audit
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Enforce](rfcs/ktp-enforce.md) **·** *filed* | Policy Enforcement Points, trust tiers, adaptive dormancy, ceilings |
-| [KTP-Attenuation](rfcs/ktp-attenuation.md) | Capability attenuation: constraint types and real-time application |
-| [KTP-Audit](rfcs/ktp-audit.md) | Flight Recorder, decision geometry, immutable logging, counterfactual analysis |
-| [KTP-Emergency](rfcs/ktp-emergency.md) | Emergency levels, circuit breakers, graceful degradation, zone collapse |
+| [KTP-Enforce](rfcs-md/ktp-enforce.md) **·** *filed* | Policy Enforcement Points, trust tiers, adaptive dormancy, ceilings |
+| [KTP-Attenuation](rfcs-md/ktp-attenuation.md) | Capability attenuation: constraint types and real-time application |
+| [KTP-Audit](rfcs-md/ktp-audit.md) | Flight Recorder, decision geometry, immutable logging, counterfactual analysis |
+| [KTP-Emergency](rfcs-md/ktp-emergency.md) | Emergency levels, circuit breakers, graceful degradation, zone collapse |
 
 ### Zones and federation
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Zones](rfcs/ktp-zones.md) | Blue Zones, zone types from Deep Blue to Wild, discovery, ingress and egress |
-| [KTP-Federation](rfcs/ktp-federation.md) | Inter-zone trust, cross-attestation, federation governance |
-| [KTP-Oracle](rfcs/ktp-oracle.md) | Trust Oracle mesh, consensus, threshold signatures, accountability |
+| [KTP-Zones](rfcs-md/ktp-zones.md) | Blue Zones, zone types from Deep Blue to Wild, discovery, ingress and egress |
+| [KTP-Federation](rfcs-md/ktp-federation.md) | Inter-zone trust, cross-attestation, federation governance |
+| [KTP-Oracle](rfcs-md/ktp-oracle.md) | Trust Oracle mesh, consensus, threshold signatures, accountability |
 
 ### Infrastructure
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Crypto](rfcs/ktp-crypto.md) | Algorithms, key management, HSM requirements, post-quantum strategy |
-| [KTP-Transport](rfcs/ktp-transport.md) | Wire formats, REST and gRPC interfaces, streaming |
-| [KTP-Threat-Model](rfcs/ktp-threat-model.md) | STRIDE analysis, attack trees, risk assessment, security requirements |
-| [KTP-Conformance](rfcs/ktp-conformance.md) **·** *filed* | Conformance levels, testing requirements, interoperability |
+| [KTP-Crypto](rfcs-md/ktp-crypto.md) | Algorithms, key management, HSM requirements, post-quantum strategy |
+| [KTP-Transport](rfcs-md/ktp-transport.md) | Wire formats, REST and gRPC interfaces, streaming |
+| [KTP-Threat-Model](rfcs-md/ktp-threat-model.md) | STRIDE analysis, attack trees, risk assessment, security requirements |
+| [KTP-Conformance](rfcs-md/ktp-conformance.md) **·** *filed* | Conformance levels, testing requirements, interoperability |
 
 ### Operations
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Recovery](rfcs/ktp-recovery.md) | Backup and restore, key ceremonies, zone recovery, split-brain resolution |
-| [KTP-Migration](rfcs/ktp-migration.md) | Adoption pathways and staged deployment |
-| [KTP-Legacy](rfcs/ktp-legacy.md) | OAuth 2.0, OIDC, SAML and mTLS bridges; trust equivalence mapping |
-| [KTP-Deprecation](rfcs/ktp-deprecation.md) | Deprecation timelines, trajectory preservation, knowledge transfer |
+| [KTP-Recovery](rfcs-md/ktp-recovery.md) | Backup and restore, key ceremonies, zone recovery, split-brain resolution |
+| [KTP-Migration](rfcs-md/ktp-migration.md) | Adoption pathways and staged deployment |
+| [KTP-Legacy](rfcs-md/ktp-legacy.md) | OAuth 2.0, OIDC, SAML and mTLS bridges; trust equivalence mapping |
+| [KTP-Deprecation](rfcs-md/ktp-deprecation.md) | Deprecation timelines, trajectory preservation, knowledge transfer |
 
 ### People and governance
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Human](rfcs/ktp-human.md) | Humans as agents, collaboration patterns, system ethics |
-| [KTP-Relational](rfcs/ktp-relational.md) | Relational dynamics, repair, ceremony |
-| [KTP-Governance](rfcs/ktp-governance.md) | Stewardship council, amendment process, anti-capture provisions |
+| [KTP-Human](rfcs-md/ktp-human.md) | Humans as agents, collaboration patterns, system ethics |
+| [KTP-Relational](rfcs-md/ktp-relational.md) | Relational dynamics, repair, ceremony |
+| [KTP-Governance](rfcs-md/ktp-governance.md) | Stewardship council, amendment process, anti-capture provisions |
 
 ### Privacy and provenance
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Privacy](rfcs/ktp-privacy.md) | GDPR, CCPA, ICCPR Article 17, privacy-preserving computation, data minimization |
-| [KTP-Provenance](rfcs/ktp-provenance.md) | Data provenance, consent status, Indigenous data principles, capability lineage |
+| [KTP-Privacy](rfcs-md/ktp-privacy.md) | GDPR, CCPA, ICCPR Article 17, privacy-preserving computation, data minimization |
+| [KTP-Provenance](rfcs-md/ktp-provenance.md) | Data provenance, consent status, Indigenous data principles, capability lineage |
 
 ### Special topics
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Celestial](rfcs/ktp-celestial.md) | Interplanetary trust under light-delay, and the wayfinding traditions it draws on |
+| [KTP-Celestial](rfcs-md/ktp-celestial.md) | Interplanetary trust under light-delay, and the wayfinding traditions it draws on |
 
 ## What v2.0.0 renamed
 
@@ -218,7 +219,7 @@ each file:
 
 | Path | What it is |
 |---|---|
-| [`rfcs/`](rfcs/) | The 27 specifications as Markdown — the reading surface, and the documentation-site source |
+| [`rfcs-md/`](rfcs-md/) | The 27 specifications as clean Markdown — the reading surface, and the GitHub Pages source. **Generated** from `rfc-src/` by `scripts/gen-rfcs-md.py` — never hand-edited. Replaces a hand-authored `rfcs/` retired 2026-08-14: it drifted (missing an entire section) with no gate able to see the omission — two independently-maintained representations is the drift class this release exists to kill, and it should not survive here either |
 | [`rfc-src/`](rfc-src/) | kramdown-rfc source for all 27; authored here, and the only place a specification is edited |
 | [`rfcs-txt/`](rfcs-txt/) | The five filed Internet-Drafts. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
 | [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
@@ -261,7 +262,7 @@ Issues, pull requests, and discussion all go through
 [github.com/nmcitra/ktp-rfc](https://github.com/nmcitra/ktp-rfc); see
 [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 
-Specifications are edited in [`rfc-src/`](rfc-src/), never in `rfcs-txt/`.
+Specifications are edited in [`rfc-src/`](rfc-src/), never in `rfcs-txt/` or `rfcs-md/` — both are generated.
 Where the work is most useful right now:
 
 - A reference implementation.
@@ -269,7 +270,7 @@ Where the work is most useful right now:
 - Formal verification of the core properties.
 - Domain profiles for the Context Signals catalogue.
 - Deployment experience from real zones.
-- Answers to anything in [KTP-Problems](rfcs/ktp-problems.md).
+- Answers to anything in [KTP-Problems](rfcs-md/ktp-problems.md).
 
 ## Related standards and sources
 

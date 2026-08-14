@@ -77,6 +77,8 @@ This section defines terms specific to Vector Identity. Terms defined in {{KTP-C
 
 Ancestral Authority: Trust inherited from predecessors in a Lineage. Agents descended from proven Persistent Lineages inherit a portion of ancestral credibility.
 
+Ancestral Liability: The permanent, depth-decaying share of responsibility a sponsor retains for the descendants it vouched for, after the Sponsorship Bond has closed. The dual of Ancestral Authority: credit and liability travel the same lineage, at the same decay, without end.
+
 Attestation of Passage: A signed statement by a Trust Oracle confirming that an agent successfully completed a transaction at a specific time and environmental state.
 
 Chain Link: A single transaction record in a Trajectory Chain, containing state, signatures, and hash of the previous link.
@@ -501,11 +503,12 @@ A Sponsorship Bond contains:
 | sponsored_id       | string    | New agent identifier             |
 | stake_percentage   | number    | Percentage of sponsor's E_base   |
 | stake_amount       | number    | Absolute E_base staked           |
+| residual_amount    | number    | Ancestral Liability, Section 6.4 |
 | penalty_rate       | number    | Penalty multiplier for violations|
-| duration           | duration  | How long bond remains active     |
+| duration           | duration  | Capital binding period (Sec 6.4) |
 | created_at         | datetime  | When bond was created            |
 | expires_at         | datetime  | When bond expires                |
-| status             | string    | "active", "released", "penalized"|
+| status             | string    | Bond state, see Section 6.4      |
 | sponsor_signature  | string    | Sponsor's commitment signature   |
 | oracle_witness     | string    | Oracle's witness signature       |
 +-------------------------------------------------------------------+
@@ -519,7 +522,7 @@ stake_amount = sponsor_E_base * (stake_percentage / 100)
 
 When a Sponsorship Bond is created:
 
-1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - stake_amount
+1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds
 
 1. Sponsored agent receives initial E_base: sponsored_E_base = stake_amount * 0.5
 
@@ -538,9 +541,11 @@ When a Sponsorship Bond is created:
 
 1. Bond is registered with Trust Oracle: Oracle records bond, monitors both agents, tracks violations
 
-The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Tethered" lineage restrictions (see Section 7.1).
+The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Tethered" lineage restrictions (see Section 8.1).
 
-As the sponsored agent accumulates its own Proof of Resilience, its intrinsic E_base grows. The stake contribution gradually decreases as a percentage of total E_base.
+As the sponsored agent accumulates its own Proof of Resilience, its intrinsic E_base grows. The stake contribution tapers with it, on the schedule specified in Section 8.2, and the sponsor's reserve is released as the taper falls. The taper does not reach zero: it holds at the Ancestral Liability floor and the reserve behind that floor is never released (Section 6.4).
+
+Sponsoring is never free. A sponsor's available E_base is reduced for as long as it holds any bond or residual, and every new bond stakes again from what remains. Release returns the tapered capital to the sponsor's available E_base, where it can be staked against a further bond; it does not confer a standing capacity to sponsor at no cost. An agent's sponsoring capacity is therefore bounded by its E_base at all times, not merely by the bonds it currently holds.
 
 ## Penalty and Release
 
@@ -565,27 +570,43 @@ Violation severities:
 +-------------------------------------------------------------------+
 ~~~
 
-Release conditions:
+Closure conditions:
 
-A Sponsorship Bond is released (sponsor recovers staked E_base) when:
+A Sponsorship Bond closes (the sponsor recovers its staked E_base above the Ancestral Liability floor) when:
 
 1. Duration expires without violations, OR
 
-1. Sponsored agent reaches Divergent lineage (has sufficient intrinsic E_base to operate independently)
+1. Sponsored agent reaches intrinsic E_base 80, the Persistent threshold at which the taper of Section 8.2 has reached its floor
 
-Upon release:
+Upon closure:
 
-- Sponsor's E_base is restored
+- Sponsor's E_base is restored above the floor; the reserve behind the Ancestral Liability is retained
 - Sponsored agent retains accumulated intrinsic E_base
-- Bond is marked "released" in Oracle records
+- Bond is marked "residual" in Oracle records
+
+Ancestral Liability:
+
+Closure ends the active bond.  It does not end the sponsor's tie to what it vouched for.  The sponsor retains a permanent, depth-decaying share of responsibility for the agent it sponsored:
+
+ancestral_liability = 0.1^depth * stake_amount
+
+where depth is lineage distance and a direct sponsor is at depth 1.  This is the floor the Section 8.2 taper holds at, and it is the dual of the Ancestral Authority of Section 8.5: a lineage that carries an ancestor's credit downward forever carries its liability with it.  Penalties under this section are assessed against the residual on the same terms as against an active bond, scaled to the residual amount.
+
+The residual has no expiry.  The duration field of Section 6.2 binds staked capital only; a bond's declared duration MUST NOT be read as terminating the Ancestral Liability, and no bond parameter set by the sponsor can shorten it.
 
 Sponsor-initiated termination:
 
-A sponsor terminating a bond before release MUST state whether the termination is for cause.
+A sponsor terminating a bond before closure MUST state whether the termination is for cause.
 
-Termination without cause renders the bond irrevocably non-renewable; the bond and its stake run to the earlier of the declared duration's expiry or the sponsored agent reaching Divergent lineage, and release then proceeds as above.  The declared duration is the bond's notice period; no separate notice parameter exists.
+Termination without cause renders the bond irrevocably non-renewable; the bond and its staked capital run to the earlier of the declared duration's expiry or the sponsored agent reaching intrinsic E_base 80, and closure then proceeds as above.  The Ancestral Liability survives the termination.  The declared duration is the bond's notice period; no separate notice parameter exists.
 
-Termination for cause zeroes the External Root term derived from the bond immediately.  The claim is subject to the misattestation adjudication specified in {{KTP-CORE}} Section 5.1; a claim that does not survive scrutiny is priced as a penalty from the collateral held under Section 6.3.  A claim with no finding at the bond's declared expiry lapses unresolved and MUST be recorded as unresolved; no penalty is assessed and release proceeds as above.
+Termination for cause zeroes the External Root term derived from the bond immediately.  The claim is subject to the misattestation adjudication specified in {{KTP-CORE}} Section 5.1; a claim that does not survive scrutiny is priced as a penalty from the collateral held under Section 6.3.  A claim with no finding at the bond's declared expiry lapses unresolved and MUST be recorded as unresolved; no penalty is assessed and closure proceeds as above.
+
+A for-cause claim that survives adjudication is the one condition that discharges the Ancestral Liability.  The bond is marked "released", the reserve behind the residual returns to the sponsor's available E_base, and no further liability attaches.  A sponsor that identifies and evidences its own sponsored agent's violation is released from it; a sponsor that does not, is not.
+
+Succession:
+
+When a sponsor is decommissioned or otherwise ceases to hold an identity, its Ancestral Liabilities transfer to its own sponsor at the next depth, together with the reserves behind them.  A transferred liability moves at its current value and MUST NOT be recomputed at the receiving ancestor's depth; decommissioning is not an exit.  Where no ancestor survives, the residual attaches to the lineage's External Root and MUST be recorded as so attached.
 
 ## Anti-Botnet Properties
 
@@ -611,6 +632,15 @@ Attack scenario with bonds:
 The economics of trust prevent mass agent creation. High-trust entities can sponsor more agents, but they are accountable for those agents' behavior. Low-trust entities cannot sponsor meaningful numbers of agents.
 
 This creates natural rate-limiting based on accumulated trust rather than administrative quotas.
+
+The Ancestral Liability of Section 6.4 makes the bound cumulative as well as concurrent. The reserve behind a residual is never released, so successful sponsorships consume sponsoring capacity permanently:
+
+- Attacker with E_base = 87 stakes 10% per agent = 8.7
+- Concurrent bound is unchanged: at most 10 live bonds
+- Each matured descendant retains a residual of 0.1 * 8.7 = 0.87 against the sponsor's available E_base
+- After 100 matured descendants the attacker's available E_base is exhausted, however well each behaved
+
+An attacker cannot spawn its way out by waiting. Sponsoring capacity is bounded at every moment by E_base, which is earned through Proof of Resilience and cannot be manufactured by producing more agents.
 
 # Identity Proofing Requirements
 
@@ -798,15 +828,17 @@ Characteristics:
 - Actions: Can perform moderate-risk operations (A <= 75)
 - Sponsor: Reduced liability (proportional to remaining stake)
 
-Duration: Until agent accumulates Resilience Score > 10,000 AND has operated for > 180 days AND intrinsic E_base > 60
+Duration: Until agent accumulates Resilience Score > 10,000 AND has operated for > 180 days AND intrinsic E_base >= 80
 
-Inheritance ratio: As intrinsic E_base grows, the sponsor stake contribution decreases proportionally:
+Inheritance ratio: As intrinsic E_base grows, the sponsor stake contribution decreases proportionally, down to a floor it does not fall below:
 
-effective_stake_contribution = stake_amount * (1 - (intrinsic_E_base / 80))
+effective_stake_contribution = max(0.1^depth * stake_amount, stake_amount * (1 - (intrinsic_E_base / 80)))
 
-At intrinsic_E_base = 60, sponsor contributes only 25% of original stake to agent's E_base.
+At intrinsic_E_base = 60, sponsor contributes only 25% of original stake to agent's E_base. At intrinsic_E_base = 72 the taper reaches the floor for a direct sponsor and holds there permanently.
 
 This taper tracks the sponsor's remaining liability as the agent's intrinsic standing grows. It is bond accounting, not a composition input: the External Root term in {{KTP-CORE}} Section 5.1 carries a constant share and does not apply this taper.
+
+The floor is the Ancestral Liability of Section 6.4. The taper never reaches zero and MUST NOT be evaluated as though it did: without the floor the expression is negative above intrinsic_E_base 80, which would credit a sponsor for a descendant's standing rather than charge it.
 
 Identifier format: agent:divergent:\<generation>gen:\<lineage>:\<unique_id>
 
@@ -822,7 +854,7 @@ Characteristics:
 - E_base: High intrinsic value (E_base >= 80)
 - Trust Tier: Can achieve Admin Mode (E_trust up to 95+)
 - Actions: Can perform all operations (A <= 95)
-- Sponsor: Bond released, no remaining liability
+- Sponsor: Bond closed, staked capital recovered above the Ancestral Liability floor; the residual persists (Section 6.4)
 
 Special privileges:
 
@@ -887,6 +919,8 @@ Ancestral Authority:
 - Decays over time if agent diverges from ancestral behavior
 
 This creates "noble lineages" - sequences of agents that have proven themselves over time. Being descended from a strong lineage provides advantages, but the agent must still prove itself through its own Proof of Resilience.
+
+Ancestral Authority does not travel alone. The same 0.1^depth decay governs the Ancestral Liability of Section 6.4, running in the opposite direction: an ancestor's credit reaches its descendants forever, and its responsibility for them lasts exactly as long. A lineage that inherits standing inherits the accountability that produced it.
 
 # Agent Identifier Format
 
@@ -982,4 +1016,4 @@ B.1.  Transaction Record Schema
 
 B.2.  Sponsorship Bond Schema
 
-{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/sponsorship-bond.json", "title": "KTP Sponsorship Bond", "type": "object", "required": \[ "bond_id", "sponsor_id", "sponsored_id", "stake_percentage", "stake_amount", "penalty_rate", "duration", "created_at", "expires_at", "status", "sponsor_signature", "oracle_witness" ], "properties": { "bond_id": { "type": "string" }, "sponsor_id": { "type": "string", "format": "uri" }, "sponsored_id": { "type": "string", "format": "uri" }, "stake_percentage": { "type": "number", "minimum": 1, "maximum": 50 }, "stake_amount": { "type": "number", "minimum": 0, "maximum": 50 }, "penalty_rate": { "type": "number", "minimum": 1, "maximum": 5 }, "duration": { "type": "string", "format": "duration" }, "created_at": { "type": "string", "format": "date-time" }, "expires_at": { "type": "string", "format": "date-time" }, "status": { "type": "string", "enum": \["active", "released", "penalized"] }, "sponsor_signature": { "type": "string" }, "oracle_witness": { "type": "string" } } }
+{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/sponsorship-bond.json", "title": "KTP Sponsorship Bond", "type": "object", "required": \[ "bond_id", "sponsor_id", "sponsored_id", "stake_percentage", "stake_amount", "penalty_rate", "duration", "created_at", "expires_at", "status", "sponsor_signature", "oracle_witness" ], "properties": { "bond_id": { "type": "string" }, "sponsor_id": { "type": "string", "format": "uri" }, "sponsored_id": { "type": "string", "format": "uri" }, "stake_percentage": { "type": "number", "minimum": 1, "maximum": 50 }, "stake_amount": { "type": "number", "minimum": 0, "maximum": 50 }, "residual_amount": { "type": "number", "minimum": 0, "maximum": 50 }, "penalty_rate": { "type": "number", "minimum": 1, "maximum": 5 }, "duration": { "type": "string", "format": "duration" }, "created_at": { "type": "string", "format": "date-time" }, "expires_at": { "type": "string", "format": "date-time" }, "status": { "type": "string", "enum": \["active", "residual", "released", "penalized"] }, "sponsor_signature": { "type": "string" }, "oracle_witness": { "type": "string" } } }

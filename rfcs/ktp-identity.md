@@ -252,6 +252,14 @@ When a sponsor stakes trust on a new agent:
 
 The halving in step 2 is bond accounting — it fixes the collateral half against which penalties are assessed. It is not an input to the $E_{base}$ composition; the External Root term derived from the bond is computed as specified in [KTP-CORE] Section 5.1 and does not apply it.
 
+As the sponsored agent's intrinsic $E_{base}$ grows the stake tapers, and the sponsor's reserve is released with it — down to a floor it never falls below:
+
+$$\text{ancestral\_liability} = 0.1^{\text{depth}} \times \text{stake\_amount}$$
+
+**The tether never fully vanishes.** Closure returns the tapered capital and ends the active bond; a permanent, depth-decaying share of responsibility stays with the sponsor. It is the dual of Ancestral Authority — credit and liability travel the same lineage, at the same decay, without end. The bond's declared duration binds capital only and cannot shorten it. Only a for-cause claim that survives adjudication discharges a residual: a sponsor that catches its own agent is released from it, and a sponsor that does not, is not.
+
+Sponsoring is therefore never free, and never finished. Every new bond stakes again from what remains, so an agent's capacity to vouch is bounded by its $E_{base}$ at all times.
+
 ??? warning "Penalty for Bad Actors"
     If the sponsored agent commits a violation:
     
@@ -264,7 +272,7 @@ The halving in step 2 is bond accounting — it fixes the collateral half agains
     | SEVERE | 0.7 | System disruption |
     | CRITICAL | 1.0 | Security breach, data loss |
 
-A sponsor terminating a bond before release **must** state whether the termination is for cause. Without cause, the bond becomes irrevocably non-renewable and runs to its declared duration with the stake at risk throughout — the declared duration is the bond's notice period. For cause, the External Root term derived from the bond zeroes immediately; the claim is subject to the misattestation adjudication in [KTP-CORE] Section 5.1, a false claim is priced from the held collateral, and a claim with no finding at the bond's expiry lapses unresolved with no penalty.
+A sponsor terminating a bond before closure **must** state whether the termination is for cause. Without cause, the bond becomes irrevocably non-renewable and runs to its declared duration with the stake at risk throughout — the declared duration is the bond's notice period, and the Ancestral Liability survives the termination. For cause, the External Root term derived from the bond zeroes immediately; the claim is subject to the misattestation adjudication in [KTP-CORE] Section 5.1, a false claim is priced from the held collateral, and a claim with no finding at the bond's expiry lapses unresolved with no penalty.
 
 ### Anti-Botnet Properties
 
@@ -332,7 +340,7 @@ flowchart LR
     | $E_{base}$ | 80+ (high intrinsic) |
     | Trust Tier | Admin Mode ($E_{trust} \leq 95+$) |
     | Action cap | $A \leq 95$ (all operations) |
-    | Sponsor liability | **None** (bond released) |
+    | Sponsor liability | **Residual** — capital returned, $0.1^{\text{depth}} \times \text{stake}$ retained permanently |
     
     **Special privileges**:
     

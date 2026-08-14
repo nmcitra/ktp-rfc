@@ -493,7 +493,7 @@ In Celestial Trust, the Whakapapa Chain is the trajectory record that proves con
        "creation": {
          "timestamp": "2024-01-15T00:00:00Z",
          "oracle": "earth-jpl",
-         "sponsor": "agent:persistent:jpl-mission-control",
+         "sponsor": "agent:guarantor:jpl-mission-control",
          "purpose": "Mars geological survey"
        },
        "lineage": [

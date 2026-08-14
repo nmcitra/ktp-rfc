@@ -287,7 +287,7 @@ A passport proves you *were* verified at some point. It says nothing about what 
   <div class="lineage-phase lineage-phase--tethered">
     <div class="lineage-mono">T</div>
     <div class="lineage-content">
-      <strong>Tethered</strong>
+      <strong>Sponsored</strong>
       <em>Apprentice</em>
       <span>New agents operate under sponsor supervision</span>
     </div>
@@ -295,7 +295,7 @@ A passport proves you *were* verified at some point. It says nothing about what 
   <div class="lineage-phase lineage-phase--divergent">
     <div class="lineage-mono">D</div>
     <div class="lineage-content">
-      <strong>Divergent</strong>
+      <strong>Independent</strong>
       <em>Journeyman</em>
       <span>Proven agents gain independence</span>
     </div>
@@ -303,7 +303,7 @@ A passport proves you *were* verified at some point. It says nothing about what 
   <div class="lineage-phase lineage-phase--persistent">
     <div class="lineage-mono">P</div>
     <div class="lineage-content">
-      <strong>Persistent</strong>
+      <strong>Guarantor</strong>
       <em>Master</em>
       <span>Mature agents with full autonomy</span>
     </div>
@@ -313,7 +313,7 @@ A passport proves you *were* verified at some point. It says nothing about what 
 Each phase requires demonstrated survival under real conditions—trust cannot be shortcut.(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Lineage Evolution phases (Tethered, Divergent, Persistent) are specified in [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
+1. :material-star-four-points-circle: Lineage Evolution phases (Sponsored, Independent, Guarantor) are specified in [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
 
 ---
 

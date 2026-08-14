@@ -75,8 +75,64 @@ Table of Contents
       9.6.  Anti-Accumulation in Federation . . . . . . . . . . . .  41
    10. Latency Requirements . . . . . . . . . . . . . . . . . . . .  42
    11. Security Considerations  . . . . . . . . . . . . . . . . . .  43
+   Appendix C.  Changes from v1 . . . . . . . . . . . . . . . . . .  43
    12. References . . . . . . . . . . . . . . . . . . . . . . . . .  44
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  45
+   Appendix C.  Changes from v1
+
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0. The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+   C.1. The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+   +---------------+---------------+
+   | v1            | v2.0.0        |
+   +---------------+---------------+
+   | tethered      | sponsored     |
+   | divergent     | independent   |
+   | persistent    | guarantor     |
+   +---------------+---------------+
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names. The v1 words
+   each carried an unintended security reading -- in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart -- and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder. Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+   C.2. The Trust Tier thresholds
+
+   +---------------+------------------+------------------+
+   | Tier          | v1               | v2.0.0           |
+   +---------------+------------------+------------------+
+   | Admin Mode    | E_trust >= 95    | E_trust >= 85    |
+   | Operator Mode | E_trust >= 85    | E_trust >= 72    |
+   | Analyst Mode  | E_trust >= 70    | E_trust >= 58    |
+   | Observer Mode | E_trust >= 50    | E_trust >= 22    |
+   | Hibernation   | E_trust < 50     | E_trust < 22     |
+   +---------------+------------------+------------------+
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses. The generation ceilings
+   are unchanged; one table moved, not two.
+
+   Two consequences travel with the change. Hibernation exit moves from
+   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
+   a floor of 50 becomes a thirty-three-point one over a floor of 22.
+   And the stable-conditions requirement for the top tier moves from R <
+   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
+   corpus illustrates.
+
+
+Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  45
 
 1. Introduction
 
@@ -166,7 +222,7 @@ Table of Contents
 
    +------------------------------------------------------------------+
    |                         AGENT POPULATION                         |
-   |    [Tethered Agents]  [Divergent Agents]  [Persistent Lineages]  |
+   |    [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]  |
    +------------------------------------------------------------------+
                                     |
                                     | Action Request
@@ -575,7 +631,7 @@ Table of Contents
    - Grant/revoke permissions for other agents
 
    Requirements:
-   - Persistent lineage (generation 7+)
+   - Guarantor lineage (generation 7+)
    - Extensive Proof of Resilience
    - Stable environmental conditions (R < 0.10)
 
@@ -1135,7 +1191,7 @@ Table of Contents
    Federation mass coordination:
 
       {
-        "agent_id": "agent:persistent:mega-service",
+        "agent_id": "agent:guarantor:mega-service",
         "zone_mass": {
           "zone-blue-prod": 88,
           "zone-blue-staging": 45,

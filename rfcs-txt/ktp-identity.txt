@@ -69,9 +69,9 @@ Table of Contents
        7.6.  Proofing for High-Trust Actions  . . . . . . . . . . . . 33
        7.7.  Privacy Considerations . . . . . . . . . . . . . . . . . 34
    8.  Lineage Evolution  . . . . . . . . . . . . . . . . . . . . . . 35
-       8.1.  Phase 1: Tethered (Apprentice) . . . . . . . . . . . . . 35
-       8.2.  Phase 2: Divergent (Journeyman)  . . . . . . . . . . . . 36
-       8.3.  Phase 3: Persistent (Master) . . . . . . . . . . . . . . 37
+       8.1.  Phase 1: Sponsored . . . . . . . . . . . . . . . . . . . 35
+       8.2.  Phase 2: Independent  . . . . . . . . . . . . . . . . . . 36
+       8.3.  Phase 3: Guarantor  . . . . . . . . . . . . . . . . . . . 37
        8.4.  Generation Numbering . . . . . . . . . . . . . . . . . . 38
        8.5.  Lineage Inheritance  . . . . . . . . . . . . . . . . . . 39
    9.  Agent Identifier Format  . . . . . . . . . . . . . . . . . . . 40
@@ -80,10 +80,61 @@ Table of Contents
        9.3.  Examples . . . . . . . . . . . . . . . . . . . . . . . . 42
    10. Security Considerations  . . . . . . . . . . . . . . . . . . . 43
    11. IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 45
+   Appendix C.  Changes from v1 . . . . . . . . . . . . . . . . . .   45
    12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 46
    Appendix A.  Trajectory Chain Examples . . . . . . . . . . . . . . 47
    Appendix B.  JSON Schemas  . . . . . . . . . . . . . . . . . . . . 50
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 54
+   Appendix C.  Changes from v1
+
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0. The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+   C.1. The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+   +---------------+---------------+
+   | v1            | v2.0.0        |
+   +---------------+---------------+
+   | tethered      | sponsored     |
+   | divergent     | independent   |
+   | persistent    | guarantor     |
+   +---------------+---------------+
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names. The v1 words
+   each carried an unintended security reading -- in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart -- and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder. Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+   C.2. Lineage phase derives from generation
+
+   v1 ran two advancement gate families over one lineage and they
+   disagreed: an agent at Resilience Score 1,001 on day 31 was Divergent
+   under Section 8.1 and Tethered under Section 8.4. The Section 8.1 and
+   8.2 Duration: gates are deleted. Section 8.4 is the sole advancement
+   rule and phase derives from generation -- generations 0-2 sponsored,
+   3-6 independent, 7 and above guarantor. No agent is in two phases at
+   once.
+
+   The generation clock changes from a flat 60 days per step to a seven-
+   step widening clock, weighted toward the two regime changes the
+   lineage has: 90, 90, 365, 180, 180, 180, 2,555 days. The per-
+   generation Resilience quota becomes a declared floor rather than a
+   gate, and a deployment MUST declare its value and carry it in the
+   Trust Proof.
+
+   A per-phase Trust Tier cap is no longer stated. Tiers are thresholds
+   on E_trust; a phase bounds E_base through the generation ceiling, and
+   the environmental deflator sits between the two.
+
+
+Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 54
 
 1.  Introduction
 
@@ -163,7 +214,7 @@ Table of Contents
    in [KTP-CORE] apply here as well.
 
    Ancestral Authority: Trust inherited from predecessors in a Lineage.
-   Agents descended from proven Persistent Lineages inherit a portion of
+   Agents descended from proven Guarantor Lineages inherit a portion of
    ancestral credibility.
 
    Ancestral Liability: The permanent, depth-decaying share of
@@ -196,8 +247,8 @@ Table of Contents
    velocity and trajectory. Indicates legitimate operation.
 
    Lineage: The evolutionary history and current maturation phase of an
-   agent. Lineages progress from Tethered through Divergent to
-   Persistent.
+   agent. Lineages progress from Sponsored through Independent to
+   Guarantor.
 
    Proof of Resilience: A ledger of attestations demonstrating an
    agent's successful transactions, weighted by the friction
@@ -711,7 +762,7 @@ Table of Contents
       Oracle records bond, monitors both agents, tracks violations
 
    The sponsored agent can now begin operating with non-zero E_trust,
-   but is limited by the stake amount and the "Tethered" lineage
+   but is limited by the stake amount and the "Sponsored" lineage
    restrictions (see Section 8.1).
 
    As the sponsored agent accumulates its own Proof of Resilience, its
@@ -759,7 +810,7 @@ Table of Contents
 
    1. Duration expires without violations, OR
 
-   2. Sponsored agent reaches intrinsic E_base 80, the Persistent
+   2. Sponsored agent reaches intrinsic E_base 80, the Guarantor
       threshold at which the taper of Section 8.2 has reached its floor
 
    Upon closure:
@@ -892,7 +943,7 @@ Table of Contents
    -  Remote: Government ID + biometric verification
    -  In-person: Physical document inspection
    -  Suitable for: Standard human users, service owners
-   -  KTP capability: Can sponsor Tethered agents, max E_base = 80
+   -  KTP capability: Can sponsor Sponsored agents, max E_base = 80
 
    IAL3 - In-Person Proofing with Biometric:
    -  Physical presence required
@@ -911,7 +962,7 @@ Table of Contents
    | Sponsor IAL       | Can Sponsor                | Max Staked E_base|
    +-------------------+----------------------------+------------------+
    | IAL1              | None (cannot sponsor)      | 0                |
-   | IAL2              | Tethered agents only       | 20               |
+   | IAL2              | Sponsored agents only       | 20               |
    | IAL3              | All lineages               | 50               |
    +-------------------+----------------------------+------------------+
 
@@ -960,7 +1011,7 @@ Table of Contents
         },
         "ktp_capabilities": {
           "can_sponsor": true,
-          "sponsor_lineages": ["tethered"],
+          "sponsor_lineages": ["sponsored"],
           "max_stake": 20,
           "max_e_base": 80
         }
@@ -1029,9 +1080,9 @@ Table of Contents
    Lineage tracks the maturation of an agent from dependent newcomer to
    autonomous veteran. It consists of three phases.
 
-8.1.  Phase 1: Tethered (Apprentice)
+8.1.  Phase 1: Sponsored
 
-   New agents begin in the Tethered phase. They are bound to their
+   New agents begin in the Sponsored phase. They are bound to their
    sponsor and operate under significant restrictions.
 
    Characteristics:
@@ -1046,20 +1097,20 @@ Table of Contents
       bounds E_base and the environment deflates it
    -  Sponsor: Fully liable for agent's behavior
 
-   Purpose: The Tethered phase protects the system from unproven agents
+   Purpose: The Sponsored phase protects the system from unproven agents
    while allowing them to build history. Sponsors provide economic
    accountability; if they spawn bad agents, they suffer real
    consequences.
 
    Identifier format:
-   agent:tethered:<sponsor_id>:<agent_name>:<unique_id>
+   agent:sponsored:<sponsor_id>:<agent_name>:<unique_id>
 
-   Example: agent:tethered:acme-deploy:aria:7f8a9b2c
+   Example: agent:sponsored:acme-deploy:aria:7f8a9b2c
 
-8.2.  Phase 2: Divergent (Journeyman)
+8.2.  Phase 2: Independent
 
-   Agents that survive Tethered phase with positive history advance to
-   Divergent. They begin building independent identity while retaining
+   Agents that survive Sponsored phase with positive history advance to
+   Independent. They begin building independent identity while retaining
    connection to their lineage.
 
    Characteristics:
@@ -1098,14 +1149,14 @@ Table of Contents
    charge it.
 
    Identifier format:
-   agent:divergent:<generation>gen:<lineage>:<unique_id>
+   agent:independent:<generation>gen:<lineage>:<unique_id>
 
-   Example: agent:divergent:3gen:acme-line:7f8a9b2c
+   Example: agent:independent:3gen:acme-line:7f8a9b2c
 
-8.3.  Phase 3: Persistent (Master)
+8.3.  Phase 3: Guarantor
 
-   Agents that survive Divergent phase with strong history achieve
-   Persistent status. They are fully autonomous entities with
+   Agents that survive Independent phase with strong history achieve
+   Guarantor status. They are fully autonomous entities with
    independent identity and the ability to sponsor others.
 
    Characteristics:
@@ -1120,17 +1171,22 @@ Table of Contents
    -  Sponsor: Bond closed, staked capital recovered above the
       Ancestral Liability floor; the residual persists (Section 6.4)
 
-   Special privileges:
-
-   -  Can sponsor Tethered agents (become a sponsor themselves)
-   -  Contributes to Ancestral Authority of descendants
+   -  Can sponsor Sponsored agents.  This is the phase's defining
+      capability and it is a liability rather than a benefit:
+      sponsoring reduces the sponsor's available E_base for as long as
+      the bond and its residual last, and exposes the sponsor to
+      penalty for the sponsored agent's conduct (Section 6.3,
+      Section 6.4)
+   -  Contributes to Ancestral Authority of descendants, and carries
+      the matching Ancestral Liability for exactly as long
+      (Section 8.5)
    -  May receive preferential routing during network stress
    -  Attestations carry higher weight in cross-zone federation
 
    Identifier format:
-   agent:persistent:<generation>gen:<name>:<unique_id>
+   agent:guarantor:<generation>gen:<name>:<unique_id>
 
-   Example: agent:persistent:7gen:optimized:7f8a9b2c
+   Example: agent:guarantor:7gen:optimized:7f8a9b2c
 
 8.4.  Generation Numbering
 
@@ -1139,9 +1195,9 @@ Table of Contents
    Generation is the sole advancement rule, and lineage phase derives
    from it:
 
-   -  Generations 0-2: Tethered
-   -  Generations 3-6: Divergent
-   -  Generation 7 and above: Persistent
+   -  Generations 0-2: Sponsored
+   -  Generations 3-6: Independent
+   -  Generation 7 and above: Guarantor
 
    The phase boundaries are the two regime changes the lineage actually
    has -- tether release at 2 -> 3, and the terminal ceiling at 6 -> 7.
@@ -1164,7 +1220,7 @@ Table of Contents
    | 5 -> 6             | 180 days        |                            |
    | 6 -> 7             | 2,555 days      | terminal ceiling            |
    +-------------------------------------------------------------------+
-   | Total to Persistent | 3,640 days (10 years)                        |
+   | Total to Guarantor | 3,640 days (10 years)                        |
    +-------------------------------------------------------------------+
 
       A step's cost scales with whether it changes kind or amount, not
@@ -1189,14 +1245,14 @@ Table of Contents
    +-------------------------------------------------------------------+
    | Generation         | E_base Cap | Lineage Phase                   |
    +-------------------------------------------------------------------+
-   | 0                  | 25         | Tethered                        |
-   | 1                  | 35         | Tethered                        |
-   | 2                  | 45         | Tethered                        |
-   | 3                  | 55         | Divergent                       |
-   | 4                  | 65         | Divergent                       |
-   | 5                  | 75         | Divergent                       |
-   | 6                  | 85         | Divergent                       |
-   | 7+                 | 100        | Persistent                      |
+   | 0                  | 25         | Sponsored                        |
+   | 1                  | 35         | Sponsored                        |
+   | 2                  | 45         | Sponsored                        |
+   | 3                  | 55         | Independent                       |
+   | 4                  | 65         | Independent                       |
+   | 5                  | 75         | Independent                       |
+   | 6                  | 85         | Independent                       |
+   | 7+                 | 100        | Guarantor                      |
    +-------------------------------------------------------------------+
 
 8.5.  Lineage Inheritance
@@ -1213,7 +1269,6 @@ Table of Contents
    -  Total Ancestral Authority: 9.95
 
    Ancestral Authority:
-   -  Adds to initial E_base for Tethered agents
    -  Provides "benefit of the doubt" during ambiguous situations
    -  May enable faster generation advancement
    -  Decays over time if agent diverges from ancestral behavior
@@ -1241,34 +1296,34 @@ Table of Contents
    Components:
 
    -  Scheme: Always "agent"
-   -  Lineage: One of "tethered", "divergent", "persistent"
+   -  Lineage: One of "sponsored", "independent", "guarantor"
    -  Qualifiers: Lineage-specific additional information
    -  Unique ID: UUID or hash-based unique identifier
 
 9.2.  Lineage Encoding
 
-   Tethered agents:
-   agent:tethered:<sponsor_id>:<agent_name>:<unique_id>
+   Sponsored agents:
+   agent:sponsored:<sponsor_id>:<agent_name>:<unique_id>
 
-   Divergent agents:
-   agent:divergent:<N>gen:<lineage_name>:<unique_id>
+   Independent agents:
+   agent:independent:<N>gen:<lineage_name>:<unique_id>
 
-   Persistent agents:
-   agent:persistent:<N>gen:<name>:<unique_id>
+   Guarantor agents:
+   agent:guarantor:<N>gen:<name>:<unique_id>
 
 9.3.  Examples
 
    Newly spawned agent sponsored by "acme-deploy":
-   agent:tethered:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
+   agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
 
    Third-generation agent in the Acme lineage:
-   agent:divergent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
+   agent:independent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
 
    Seventh-generation autonomous agent:
-   agent:persistent:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
+   agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
 
    Full Trust Proof "sub" claim:
-   "sub": "agent:persistent:7gen:optimized:9f0a1b2c-3456-789a-bcde-
+   "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-
            f01234567890"
 
 10.  Security Considerations
@@ -1401,7 +1456,7 @@ A.1.  Genesis Transaction
        "e_trust": 3.92,
        "location": "zone-alpha",
        "tier": "observer",
-       "lineage": "tethered",
+       "lineage": "sponsored",
        "generation": 0
      },
      "action": {
@@ -1446,7 +1501,7 @@ A.2.  Normal Transaction Record
        "e_trust": 41.8,
        "location": "zone-alpha",
        "tier": "analyst",
-       "lineage": "divergent",
+       "lineage": "independent",
        "generation": 3
      },
      "current_state": {
@@ -1454,7 +1509,7 @@ A.2.  Normal Transaction Record
        "e_trust": 41.9,
        "location": "zone-alpha",
        "tier": "analyst",
-       "lineage": "divergent",
+       "lineage": "independent",
        "generation": 3
      },
      "action": {
@@ -1549,7 +1604,7 @@ B.1.  Transaction Record Schema
            },
            "lineage": {
              "type": "string",
-             "enum": ["tethered", "divergent", "persistent"]
+             "enum": ["sponsored", "independent", "guarantor"]
            },
            "generation": { "type": "integer", "minimum": 0 }
          }

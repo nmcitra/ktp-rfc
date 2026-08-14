@@ -163,13 +163,13 @@ Base Trust represents intrinsic capability, independent of current conditions:
 |-----------|--------|-------------|
 | Proof of Resilience | 70% | Historical performance, especially under stress |
 | Lineage Generation | 20% | Evolutionary maturity of the agent |
-| Sponsor Weight | 10% | For Tethered agents, sponsor contribution |
+| Sponsor Weight | 10% | For Sponsored agents, sponsor contribution |
 
 - An agent with 10,000 transactions during crises has higher $E_{base}$ than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
 - **Lineage caps:**
-    - **Generation 0-2 (Tethered)** capped at 40.
-    - **Generation 3-5 (Divergent)** capped at 70.
-    - **Generation 6+ (Persistent)** uncapped.
+    - **Generation 0-2 (Sponsored)** capped at 40.
+    - **Generation 3-5 (Independent)** capped at 70.
+    - **Generation 6+ (Guarantor)** uncapped.
 - Sponsor's $E_{base}$ × stake percentage. A high-trust sponsor vouching for a new agent transfers partial trust.
 
 ??? example "Base Trust Calculation"

@@ -6,21 +6,21 @@
 
 **Context Tensor** — Seven-dimensional measure of environmental state.
 
-**Divergent** — An agent operating independently, no longer tethered to a sponsor.
-
 **E_base** — Intrinsic capability of an agent, earned through trajectory.
 
 **E_trust** — Effective capability after environmental risk is applied.
 
 **Genesis Problem** — The bootstrap challenge: how does a new agent earn trust?
 
+**Guarantor** — Lineage stage 3. An agent with enough standing to sponsor others, and liable for the ones it does.
+
 **Heat** — Adversarial pressure in the environment.
 
-**Lineage** — The lifecycle of trust: Tethered → Divergent → Persistent.
+**Independent** — Lineage stage 2. The sponsorship bond has closed; the agent's standing is its own, and the sponsor's residual liability remains.
+
+**Lineage** — The lifecycle of trust: Sponsored → Independent → Guarantor.
 
 **Onyx Recorder** — The flight recorder of the Blue Net. Captures decision geometry.
-
-**Persistent** — An established agent with enough mass to sponsor others.
 
 **R (Risk Factor)** — Environmental friction, between 0 and 1.
 
@@ -28,9 +28,9 @@
 
 **Soul** — The seventh dimension. Binary. Sacred boundaries that cannot be overridden.
 
-**Sponsorship** — Staking your trust on a new agent. Liability, not recommendation.
+**Sponsored** — Lineage stage 1. A new agent operating under a live sponsorship bond.
 
-**Tethered** — A new agent operating under a sponsor's trust.
+**Sponsorship** — Staking your trust on a new agent. Liability, not recommendation.
 
 **Trajectory** — Identity as motion. The shape of how you've moved through the world.
 

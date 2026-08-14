@@ -150,8 +150,8 @@ Where:
 E_base ranges from 0-100 based on agent trajectory:
 
 ~~~
-   -  Divergent Lineage Phase:  Typical E_base Range 40-80
-   -  Persistent Lineage Phase:  Typical E_base Range 80-100
+   -  Independent Lineage Phase:  Typical E_base Range 40-80
+   -  Guarantor Lineage Phase:  Typical E_base Range 80-100
 ~~~
 
 R ranges from 0.0-1.0 based on environmental conditions:
@@ -565,7 +565,7 @@ Agents MAY have gravity modifiers based on trajectory:
 
 ~~~
    {
-     "agent_id": "agent:persistent:7gen:optimized:abc123",
+     "agent_id": "agent:guarantor:7gen:optimized:abc123",
      "gravity_modifiers": {
        "base_reduction": 0.1,
        "earned_through": "proof_of_resilience",
@@ -608,7 +608,7 @@ Every gravity application MUST be logged:
 ~~~
    {
      "timestamp": "2025-12-03T14:32:15.123Z",
-     "agent_id": "agent:divergent:3gen:acme:abc123",
+     "agent_id": "agent:independent:3gen:acme:abc123",
      "action_type": "MODIFY_CONFIG",
      "autonomy_requested": 65,
      "e_base": 55,
@@ -672,7 +672,7 @@ This specification builds on decades of work in distributed systems, access cont
 
 ## Scenario 1: Normal Operation
 
-Agent:  agent:divergent:4gen:acme:abc123 Action:  READ_DATA on customer_metrics E_base:  60 R:  0.2 (calm environment) E:  60 × 0.8 = 48
+Agent:  agent:independent:4gen:acme:abc123 Action:  READ_DATA on customer_metrics E_base:  60 R:  0.2 (calm environment) E:  60 × 0.8 = 48
 
 A calculation:
 
@@ -688,7 +688,7 @@ Zeroth Law:  12 ≤ 48 ✓ Gravity:  G = 0 (well below threshold) Result:  Actio
 
 ## Scenario 2: Moderate Gravity
 
-Agent:  agent:divergent:3gen:acme:def456 Action:  MODIFY_CONFIG on production_settings E_base:  50 R:  0.4 (elevated environment) E:  50 × 0.6 = 30
+Agent:  agent:independent:3gen:acme:def456 Action:  MODIFY_CONFIG on production_settings E_base:  50 R:  0.4 (elevated environment) E:  50 × 0.6 = 30
 
 A calculation:
 
@@ -714,7 +714,7 @@ If A had been 25:
 
 ## Scenario 3: High Gravity Crisis
 
-Agent:  agent:tethered:sponsor:ghi789 Action:  DELETE on user_table E_base:  25 R:  0.7 (high risk environment) E:  25 × 0.3 = 7.5
+Agent:  agent:sponsored:sponsor:ghi789 Action:  DELETE on user_table E_base:  25 R:  0.7 (high risk environment) E:  25 × 0.3 = 7.5
 
 A calculation:
 

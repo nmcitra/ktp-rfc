@@ -321,7 +321,7 @@ The model rejects global directories and passports. It replaces them with lineag
         A new agent **MUST** obtain a **Sponsorship Bond** from a high-mass entity to inherit provisional trust.
 
 === "Evolution"
-    **Tethered Phase**
+    **Sponsored Phase**
 
     - Operates under sponsor supervision
     - Cannot exceed sponsor's Trust Score

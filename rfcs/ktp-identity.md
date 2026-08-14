@@ -92,7 +92,7 @@ KTP replaces static credentials with **trajectory-based authentication**:
     [Jump to section](#sponsorship-bonds)
 
 ???+ note "Lineage Evolution"
-    The maturation path from Tethered → Divergent → Persistent.
+    The maturation path from Sponsored → Independent → Guarantor.
     
     [Jump to section](#lineage-evolution)
 
@@ -298,11 +298,11 @@ Agents mature through three phases, each with expanding capabilities:
 
 ``` mermaid
 flowchart LR
-    T["🐣 Tethered<br/>(Apprentice)"] -->|"30+ days<br/>PoR > 1,000"| D["🚀 Divergent<br/>(Journeyman)"]
-    D -->|"180+ days<br/>PoR > 10,000<br/>E_base > 60"| P["👑 Persistent<br/>(Master)"]
+    T["Sponsored"] -->|"30+ days<br/>PoR > 1,000"| D["Independent"]
+    D -->|"180+ days<br/>PoR > 10,000<br/>E_base > 60"| P["Guarantor"]
 ```
 
-=== "🐣 Tethered (Apprentice)"
+=== "Sponsored"
     
     New agents bound to their sponsor with significant restrictions.
     
@@ -314,9 +314,9 @@ flowchart LR
     | Action cap | $A \leq 50$ (lower-risk only) |
     | Sponsor liability | **Full** |
     
-    **Identifier**: `agent:tethered:<sponsor_id>:<agent_name>:<unique_id>`
+    **Identifier**: `agent:sponsored:<sponsor_id>:<agent_name>:<unique_id>`
 
-=== "🚀 Divergent (Journeyman)"
+=== "Independent"
     
     Building independent identity while retaining lineage connection.
     
@@ -328,9 +328,9 @@ flowchart LR
     | Action cap | $A \leq 75$ (moderate-risk) |
     | Sponsor liability | **Reduced** (proportional to remaining stake) |
     
-    **Identifier**: `agent:divergent:<generation>gen:<lineage>:<unique_id>`
+    **Identifier**: `agent:independent:<generation>gen:<lineage>:<unique_id>`
 
-=== "👑 Persistent (Master)"
+=== "Guarantor"
     
     Fully autonomous with independent identity.
     
@@ -342,14 +342,14 @@ flowchart LR
     | Action cap | $A \leq 95$ (all operations) |
     | Sponsor liability | **Residual** — capital returned, $0.1^{\text{depth}} \times \text{stake}$ retained permanently |
     
-    **Special privileges**:
+    **Also carries**:
     
-    - Can sponsor Tethered agents
+    - Can sponsor Sponsored agents
     - Contributes Ancestral Authority to descendants
     - Preferential routing during network stress
     - Higher-weight attestations in federation
     
-    **Identifier**: `agent:persistent:<generation>gen:<unique_id>`
+    **Identifier**: `agent:guarantor:<generation>gen:<unique_id>`
 
 ---
 
@@ -374,7 +374,7 @@ KTP aligns with NIST 800-63 Identity Assurance Levels:
 | IAL | Proofing | KTP Capabilities |
 |-----|----------|------------------|
 | **IAL1** | Self-asserted | Cannot sponsor, max $E_{base} = 40$ |
-| **IAL2** | Remote or in-person proofing | Can sponsor Tethered, max $E_{base} = 80$ |
+| **IAL2** | Remote or in-person proofing | Can sponsor Sponsored, max $E_{base} = 80$ |
 | **IAL3** | In-person with biometric | Can sponsor all lineages, max $E_{base} = 95$ |
 
 ??? abstract "Privacy Requirements"

@@ -184,7 +184,7 @@ Agent context captures the identity and state of the requesting agent:
 ~~~
    "agent": {
      "agent_id": "agent:7gen:optimized:a1b2c3d4",
-     "lineage": "persistent",
+     "lineage": "guarantor",
      "generation": 7,
      "sponsor": null,
      "e_base": 87,

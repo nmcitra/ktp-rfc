@@ -91,6 +91,7 @@ Table of Contents
        10.5. Denial of Service  . . . . . . . . . . . . . . . . . .  42
        10.6. Privacy Considerations . . . . . . . . . . . . . . . .  43
    11. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  43
+   Appendix C.  Changes from v1 . . . . . . . . . . . . . . . . . .  43
        11.1. JWT Claim Registration . . . . . . . . . . . . . . . .  44
        11.2. Media Type Registration  . . . . . . . . . . . . . . .  44
        11.3. URI Scheme Registration  . . . . . . . . . . . . . . .  45
@@ -99,7 +100,62 @@ Table of Contents
        12.2. Informative References . . . . . . . . . . . . . . . .  46
    Appendix A.  Example Calculations  . . . . . . . . . . . . . . .  47
    Appendix B.  JSON Schemas  . . . . . . . . . . . . . . . . . . .  49
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
+   Appendix C.  Changes from v1
+
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0. The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+   C.1. The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+   +---------------+---------------+
+   | v1            | v2.0.0        |
+   +---------------+---------------+
+   | tethered      | sponsored     |
+   | divergent     | independent   |
+   | persistent    | guarantor     |
+   +---------------+---------------+
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names. The v1 words
+   each carried an unintended security reading -- in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart -- and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder. Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+   C.2. The Trust Tier thresholds
+
+   +---------------+------------------+------------------+
+   | Tier          | v1               | v2.0.0           |
+   +---------------+------------------+------------------+
+   | Admin Mode    | E_trust >= 95    | E_trust >= 85    |
+   | Operator Mode | E_trust >= 85    | E_trust >= 72    |
+   | Analyst Mode  | E_trust >= 70    | E_trust >= 58    |
+   | Observer Mode | E_trust >= 50    | E_trust >= 22    |
+   | Hibernation   | E_trust < 50     | E_trust < 22     |
+   +---------------+------------------+------------------+
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses. The generation ceilings
+   are unchanged; one table moved, not two.
+
+   Two consequences travel with the change. Hibernation exit moves from
+   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
+   a floor of 50 becomes a thirty-three-point one over a floor of 22.
+   And the stable-conditions requirement for the top tier moves from R <
+   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
+   corpus illustrates.
+
+
+Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
 1. Introduction
 
@@ -197,9 +253,9 @@ Table of Contents
    Kinetic Permission: Authorization that depends on real-time
    environmental state rather than static credentials.
 
-   Lineage: The evolutionary history of an agent, from Tethered
-   (dependent on sponsor) through Divergent (building own mass) to
-   Persistent (fully autonomous).
+   Lineage: The evolutionary history of an agent, from Sponsored
+   (dependent on sponsor) through Independent (building own mass) to
+   Guarantor (fully autonomous).
 
    Policy Decision Point (PDP): A component that evaluates Trust Proofs
    and makes authorization decisions based on A <= E.
@@ -289,7 +345,7 @@ Table of Contents
    v
    +------------------------------------------------------------------+
    |                       AGENT POPULATION                           |
-   |  [Tethered Agents]  [Divergent Agents]  [Persistent Lineages]   |
+   |  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]   |
    +------------------------------------------------------------------+
    |                    |                    | v                    v
    v
@@ -443,11 +499,11 @@ Table of Contents
       conditions.
 
    2. Lineage Generation (20% weight): The evolutionary maturity of the
-      agent: - Generation 0-2 (Tethered): E_base capped at 40 -
-      Generation 3-5 (Divergent): E_base capped at 70 - Generation 6+
-      (Persistent): E_base uncapped
+      agent: - Generation 0-2 (Sponsored): E_base capped at 40 -
+      Generation 3-5 (Independent): E_base capped at 70 - Generation 6+
+      (Guarantor): E_base uncapped
 
-   3. Sponsor Weight (10% weight): For Tethered agents, the sponsor's
+   3. Sponsor Weight (10% weight): For Sponsored agents, the sponsor's
       E_base contributes to the agent's E_base according to the stake
       percentage.
 
@@ -1378,10 +1434,10 @@ Table of Contents
         constraint_id: Identifier of triggering constraint
         authority: URI of sovereignty authority
 
-      lineage: Agent lineage stage ("tethered", "divergent",
-               "persistent")
+      lineage: Agent lineage stage ("sponsored", "independent",
+               "guarantor")
       generation: Agent generation number (0+)
-      sponsor: Sponsor agent identifier (if tethered)
+      sponsor: Sponsor agent identifier (if sponsored)
       resilience_hash: Hash of current Proof of Resilience ledger
 
    Example Trust Proof payload (no sovereignty constraint):
@@ -1412,7 +1468,7 @@ Table of Contents
             "constraint_id": null,
             "authority": null
           },
-          "lineage": "persistent",
+          "lineage": "guarantor",
           "generation": 7,
           "resilience_hash": "sha256:abc123def456..."
         }
@@ -1446,7 +1502,7 @@ Table of Contents
             "constraint_id": "TK-NC-001",
             "authority": "https://localcontexts.org/label/tk-nc/"
           },
-          "lineage": "persistent",
+          "lineage": "guarantor",
           "generation": 7,
           "resilience_hash": "sha256:abc123def456..."
         }
@@ -1834,7 +1890,7 @@ B.1.  Trust Proof Schema
    "type": "number", "minimum": 0, "description": "Trust volatility" },
    "context": { "$ref": "#/$defs/contextTensor" }, "soul": { "$ref":
    "#/$defs/soulConstraint" }, "lineage": { "type": "string", "enum":
-   ["tethered", "divergent", "persistent"] }, "generation": { "type":
+   ["sponsored", "independent", "guarantor"] }, "generation": { "type":
    "integer", "minimum": 0 }, "sponsor": { "type": "string", "format":
    "uri" }, "resilience_hash": { "type": "string" } } },
    "contextTensor": { "type": "object", "required": ["m", "p", "h", "t",

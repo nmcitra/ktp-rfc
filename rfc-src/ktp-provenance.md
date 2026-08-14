@@ -309,7 +309,7 @@ The agent does not inherit:
 
 ## Inheritance Record
 
-{ "inheritance": { "agent_id": "agent:tethered:acme:assistant-01:abc123", "base_model": { "model_id": "claude-4-opus-20250115", "provenance_attestation": "prov:anthropic:claude-4:2025-01" }, "inherited_properties": { "capabilities": "full_model_capabilities", "limitations": "full_model_limitations", "knowledge_debt": "acknowledged_and_inherited", "indigenous_data_status": "inherited" }, "agent_specific": { "configuration": { "system_prompt_hash": "sha256:abc123...", "tool_access": \["search", "calculator"], "deployment_constraints": \["no_code_execution"] }, "sponsor": "acme-corp:alice.smith", "genesis_date": "2025-12-03T10:00:00Z" }, "acknowledgment": { "agent_acknowledges_model_provenance": true, "agent_inherits_knowledge_debt": true, "agent_commits_to_provenance_transparency": true } } }
+{ "inheritance": { "agent_id": "agent:sponsored:acme:assistant-01:abc123", "base_model": { "model_id": "claude-4-opus-20250115", "provenance_attestation": "prov:anthropic:claude-4:2025-01" }, "inherited_properties": { "capabilities": "full_model_capabilities", "limitations": "full_model_limitations", "knowledge_debt": "acknowledged_and_inherited", "indigenous_data_status": "inherited" }, "agent_specific": { "configuration": { "system_prompt_hash": "sha256:abc123...", "tool_access": \["search", "calculator"], "deployment_constraints": \["no_code_execution"] }, "sponsor": "acme-corp:alice.smith", "genesis_date": "2025-12-03T10:00:00Z" }, "acknowledgment": { "agent_acknowledges_model_provenance": true, "agent_inherits_knowledge_debt": true, "agent_commits_to_provenance_transparency": true } } }
 
 ## Zone Requirements
 
@@ -372,7 +372,7 @@ The Origin Ceremony is a formal process acknowledging model provenance before an
 
 ## Ceremony Record
 
-{ "origin_ceremony": { "ceremony_id": "ceremony-2025-12-03-001", "agent_id": "agent:tethered:acme:assistant-01:abc123", "zone_id": "zone-blue-prod-01", "timestamp": "2025-12-03T10:05:00Z", "provenance_attestation_verified": "prov:anthropic:claude-4:2025-01", "acknowledgments": { "provenance_acknowledged": true, "knowledge_debt_acknowledged": true, "indigenous_status_acknowledged": true, "capability_boundaries_acknowledged": true }, "zone_acceptance": true, "ceremony_witnesses": \[ "oracle:zone-blue-prod-01:primary", "gateway:zone-blue-prod-01:main" ], "signatures": { "agent": "sig:agent:...", "zone_gateway": "sig:gateway:...", "zone_oracle": "sig:oracle:..." } } }
+{ "origin_ceremony": { "ceremony_id": "ceremony-2025-12-03-001", "agent_id": "agent:sponsored:acme:assistant-01:abc123", "zone_id": "zone-blue-prod-01", "timestamp": "2025-12-03T10:05:00Z", "provenance_attestation_verified": "prov:anthropic:claude-4:2025-01", "acknowledgments": { "provenance_acknowledged": true, "knowledge_debt_acknowledged": true, "indigenous_status_acknowledged": true, "capability_boundaries_acknowledged": true }, "zone_acceptance": true, "ceremony_witnesses": \[ "oracle:zone-blue-prod-01:primary", "gateway:zone-blue-prod-01:main" ], "signatures": { "agent": "sig:agent:...", "zone_gateway": "sig:gateway:...", "zone_oracle": "sig:oracle:..." } } }
 
 # Updates and Versioning
 

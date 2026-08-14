@@ -114,7 +114,7 @@ Effective Trust Score (E_trust): The final Trust Score after environmental defla
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
-Lineage: The evolutionary history of an agent, from Tethered (dependent on sponsor) through Divergent (building own mass) to Persistent (fully autonomous).
+Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 
 Policy Decision Point (PDP): A component that evaluates Trust Proofs and makes authorization decisions based on A <= E.
 
@@ -182,7 +182,7 @@ v
 v
 +------------------------------------------------------------------+
 |                       AGENT POPULATION                           |
-|  [Tethered Agents]  [Divergent Agents]  [Persistent Lineages]   |
+|  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]   |
 +------------------------------------------------------------------+
 |                    |                    | v                    v
 v
@@ -304,9 +304,9 @@ Base Trust represents the agent's intrinsic capability, independent of current e
 
 1. Proof of Resilience (70% weight): The agent's historical performance, particularly under stress. An agent that has successfully completed 10,000 transactions during system crises has higher E_base than one with 100,000 transactions in calm conditions.
 
-1. Lineage Generation (20% weight): The evolutionary maturity of the agent: - Generation 0-2 (Tethered): E_base capped at 40 - Generation 3-5 (Divergent): E_base capped at 70 - Generation 6+ (Persistent): E_base uncapped
+1. Lineage Generation (20% weight): The evolutionary maturity of the agent: - Generation 0-2 (Sponsored): E_base capped at 40 - Generation 3-5 (Independent): E_base capped at 70 - Generation 6+ (Guarantor): E_base uncapped
 
-1. Sponsor Weight (10% weight): For Tethered agents, the sponsor's E_base contributes to the agent's E_base according to the stake percentage.
+1. Sponsor Weight (10% weight): For Sponsored agents, the sponsor's E_base contributes to the agent's E_base according to the stake percentage.
 
 The calculation:
 
@@ -1171,10 +1171,10 @@ KTP claims (in "ktp" object):
 ~~~
 
 ~~~
-   lineage: Agent lineage stage ("tethered", "divergent",
-            "persistent")
+   lineage: Agent lineage stage ("sponsored", "independent",
+            "guarantor")
    generation: Agent generation number (0+)
-   sponsor: Sponsor agent identifier (if tethered)
+   sponsor: Sponsor agent identifier (if sponsored)
    resilience_hash: Hash of current Proof of Resilience ledger
 ~~~
 
@@ -1207,7 +1207,7 @@ Example Trust Proof payload (no sovereignty constraint):
          "constraint_id": null,
          "authority": null
        },
-       "lineage": "persistent",
+       "lineage": "guarantor",
        "generation": 7,
        "resilience_hash": "sha256:abc123def456..."
      }
@@ -1243,7 +1243,7 @@ Example Trust Proof payload (sovereignty constraint active):
          "constraint_id": "TK-NC-001",
          "authority": "https://localcontexts.org/label/tk-nc/"
        },
-       "lineage": "persistent",
+       "lineage": "guarantor",
        "generation": 7,
        "resilience_hash": "sha256:abc123def456..."
      }
@@ -1449,6 +1449,54 @@ Scheme name: ktp Status: Provisional Applications/protocols that use this scheme
 
 --- back
 
+# Changes from v1
+
+This appendix records what a v1 implementation must change to conform to
+v2.0.0.  The break is deliberate and there is no dual-accept period: an
+implementation reads v1 or it reads v2.
+
+## The lineage stage names
+
+The three lineage stages are renamed on the wire and in prose.  Numeric
+protobuf values are unchanged, so only the symbol names move.
+
+| v1 | v2.0.0 |
+|----|--------|
+| `tethered` | `sponsored` |
+| `divergent` | `independent` |
+| `persistent` | `guarantor` |
+
+This affects agent identifier strings (`agent:<stage>:...`), the `lineage`
+enum, and the protobuf `LineageType` member names.  The v1 words each carried
+an unintended security reading - in jailbreak and intrusion vocabulary,
+"tethered" means a compromise that dies at reboot and "persistent" is the
+established word for one that survives a restart - and the three together read
+as a coherent escalation narrative rather than as a maturity ladder.  Stage 3
+is now named for what it can be held to rather than what it is freed of.
+
+## The Trust Tier thresholds
+
+| Tier | v1 | v2.0.0 |
+|------|----|--------|
+| Admin Mode | `E_trust >= 95` | `E_trust >= 85` |
+| Operator Mode | `E_trust >= 85` | `E_trust >= 72` |
+| Analyst Mode | `E_trust >= 70` | `E_trust >= 58` |
+| Observer Mode | `E_trust >= 50` | `E_trust >= 22` |
+| Hibernation | `E_trust < 50` | `E_trust < 22` |
+
+The v1 set was unreachable from the v1 generation ceilings: generations 0
+through 2 were capped below the lowest threshold, so an agent was in
+Hibernation by lineage rather than by environment, and the top tier could not
+be reached in any zone at the calm conditions the specification's own worked
+example uses.  The generation ceilings are unchanged; one table moved, not two.
+
+Two consequences travel with the change.  Hibernation exit moves from
+`E_trust >= 55` to `E_trust >= 24`, because a five-point hysteresis over a
+floor of 50 becomes a thirty-three-point one over a floor of 22.  And the
+stable-conditions requirement for the top tier moves from `R < 0.05` to
+`R < 0.10`, because 0.05 is stricter than the calm baseline the corpus
+illustrates.
+
 # Example Calculations
 
 A.1.  Stadium Network at Kickoff
@@ -1495,6 +1543,6 @@ Result: Action permitted.
 
 B.1.  Trust Proof Schema
 
-{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/trust-proof.json", "title": "KTP Trust Proof", "type": "object", "required": \["iss", "sub", "iat", "exp", "jti", "ktp"], "properties": { "iss": { "type": "string", "format": "uri", "description": "Trust Oracle identifier" }, "sub": { "type": "string", "format": "uri", "description": "Agent identifier" }, "iat": { "type": "integer", "description": "Issued at (Unix timestamp)" }, "exp": { "type": "integer", "description": "Expiration (Unix timestamp)" }, "jti": { "type": "string", "description": "Unique token identifier" }, "ktp": { "$ref": "#/$defs/ktpClaims" } }, "$defs": { "ktpClaims": { "type": "object", "required": \["e_base", "e_trust", "r", "context", "lineage"], "properties": { "e_base": { "type": "number", "minimum": 0, "maximum": 100 }, "e_trust": { "type": "number", "minimum": 0, "maximum": 100 }, "r": { "type": "number", "minimum": 0, "maximum": 1 }, "de_dt": { "type": "number", "description": "Trust velocity (change per second)" }, "sigma": { "type": "number", "minimum": 0, "description": "Trust volatility" }, "context": { "$ref": "#/$defs/contextTensor" }, "soul": { "$ref": "#/$defs/soulConstraint" }, "lineage": { "type": "string", "enum": \["tethered", "divergent", "persistent"] }, "generation": { "type": "integer", "minimum": 0 }, "sponsor": { "type": "string", "format": "uri" }, "resilience_hash": { "type": "string" } } }, "contextTensor": { "type": "object", "required": \["m", "p", "h", "t", "i", "o"], "properties": { "m": { "type": "number", "minimum": 0, "maximum": 1, "description": "Mass - physical density" }, "p": { "type": "number", "minimum": 0, "maximum": 1, "description": "Momentum - kinetic velocity" }, "h": { "type": "number", "minimum": 0, "maximum": 1, "description": "Heat - adversarial pressure" }, "t": { "type": "number", "minimum": 0, "maximum": 1, "description": "Time
+{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/trust-proof.json", "title": "KTP Trust Proof", "type": "object", "required": \["iss", "sub", "iat", "exp", "jti", "ktp"], "properties": { "iss": { "type": "string", "format": "uri", "description": "Trust Oracle identifier" }, "sub": { "type": "string", "format": "uri", "description": "Agent identifier" }, "iat": { "type": "integer", "description": "Issued at (Unix timestamp)" }, "exp": { "type": "integer", "description": "Expiration (Unix timestamp)" }, "jti": { "type": "string", "description": "Unique token identifier" }, "ktp": { "$ref": "#/$defs/ktpClaims" } }, "$defs": { "ktpClaims": { "type": "object", "required": \["e_base", "e_trust", "r", "context", "lineage"], "properties": { "e_base": { "type": "number", "minimum": 0, "maximum": 100 }, "e_trust": { "type": "number", "minimum": 0, "maximum": 100 }, "r": { "type": "number", "minimum": 0, "maximum": 1 }, "de_dt": { "type": "number", "description": "Trust velocity (change per second)" }, "sigma": { "type": "number", "minimum": 0, "description": "Trust volatility" }, "context": { "$ref": "#/$defs/contextTensor" }, "soul": { "$ref": "#/$defs/soulConstraint" }, "lineage": { "type": "string", "enum": \["sponsored", "independent", "guarantor"] }, "generation": { "type": "integer", "minimum": 0 }, "sponsor": { "type": "string", "format": "uri" }, "resilience_hash": { "type": "string" } } }, "contextTensor": { "type": "object", "required": \["m", "p", "h", "t", "i", "o"], "properties": { "m": { "type": "number", "minimum": 0, "maximum": 1, "description": "Mass - physical density" }, "p": { "type": "number", "minimum": 0, "maximum": 1, "description": "Momentum - kinetic velocity" }, "h": { "type": "number", "minimum": 0, "maximum": 1, "description": "Heat - adversarial pressure" }, "t": { "type": "number", "minimum": 0, "maximum": 1, "description": "Time
 
 - temporal phase" }, "i": { "type": "number", "minimum": 0, "maximum": 1, "description": "Inertia - blast radius" }, "o": { "type": "number", "minimum": 0, "maximum": 1, "description": "Observer - population" } } }, "soulConstraint": { "type": "object", "required": \["s"], "properties": { "s": { "type": "integer", "enum": \[0, 1], "description": "Soul veto status (0=clear, 1=veto)" }, "constraint_type": { "type": \["string", "null"], "enum": \["tk_label", "ocap", "care", "sacred_land", "treaty", "lineage", null], "description": "Type of sovereignty constraint" }, "constraint_id": { "type": \["string", "null"], "description": "Identifier of triggering constraint" }, "authority": { "type": \["string", "null"], "format": "uri", "description": "URI of sovereignty authority" } } } } }

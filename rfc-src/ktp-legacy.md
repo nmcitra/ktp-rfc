@@ -492,7 +492,7 @@ API keys can be bound to KTP agents:
    {
      "api_key_binding": {
        "api_key_id": "key_abc123",
-       "bound_agent": "agent:tethered:1gen:acme:xyz789",
+       "bound_agent": "agent:sponsored:1gen:acme:xyz789",
        "binding_type": "exclusive",
        "created_at": "2025-12-01T00:00:00Z",
        "created_by": "sponsor:alice.smith",
@@ -577,7 +577,7 @@ All actions contribute to trajectory:
 ~~~
    {
      "hybrid_trajectory": {
-       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "agent_id": "agent:independent:3gen:acme:abc123",
        "trajectory_sources": [
          {
            "source": "ktp_native",
@@ -677,7 +677,7 @@ Trajectory earned via bridges carries over:
 ~~~
    {
      "migration_carryover": {
-       "agent_id": "agent:divergent:3gen:acme:abc123",
+       "agent_id": "agent:independent:3gen:acme:abc123",
        "pre_migration_trajectory": {
          "source": "oauth_bridge",
          "transactions": 5000,

@@ -156,7 +156,7 @@ flowchart TB
     ??? example "JSON Trust Proof Request"
         ```json
         {
-          "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+          "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
           "action": {
             "type": "data_write",
             "target": "database:orders",
@@ -298,7 +298,7 @@ flowchart LR
     Authorization: Bearer <agent_token>
     
     {
-      "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+      "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
       "action": {
         "type": "data_write",
         "target": "database:orders",
@@ -355,7 +355,7 @@ sequenceDiagram
     ```json
     {
       "type": "trust_update",
-      "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+      "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
       "e_trust": 68.5,
       "previous_e_trust": 73.95,
       "delta": -5.45,

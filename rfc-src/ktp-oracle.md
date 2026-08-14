@@ -246,7 +246,7 @@ The Trust Proof Issuer creates signed Trust Proofs:
 ~~~
    {
      "proof_id": "tp-2025-12-03-001",
-     "agent_id": "agent:divergent:3gen:acme:abc123",
+     "agent_id": "agent:independent:3gen:acme:abc123",
      "issued_at": "2025-12-03T14:32:15.123Z",
      "expires_at": "2025-12-03T14:32:25.123Z",
      "trust_state": {
@@ -254,7 +254,7 @@ The Trust Proof Issuer creates signed Trust Proofs:
        "e_trust": 44,
        "r_current": 0.2,
        "tier": "analyst",
-       "lineage": "divergent",
+       "lineage": "independent",
        "generation": 3
      },
      "constraints": {

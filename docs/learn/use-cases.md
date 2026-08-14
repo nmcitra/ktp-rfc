@@ -238,16 +238,16 @@ Each model maintains a Trajectory Chain(1) recording its full history:
 
 **Lineage-Based Access**:
 
-New institutions joining the network operate as Tethered agents, with limited contribution rights until they demonstrate reliability:(1)
+New institutions joining the network operate as Sponsored agents, with limited contribution rights until they demonstrate reliability:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Lineage phases (Tethered, Divergent, Persistent) determine agent capabilities. See [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
+1. :material-star-four-points-circle: Lineage phases (Sponsored, Independent, Guarantor) determine agent capabilities. See [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
 
 | Lineage Phase | Contribution Rights |
 |---------------|---------------------|
-| Tethered (Gen 1-3) | Read-only, sandbox training |
-| Divergent (Gen 4-6) | Contribute with review |
-| Persistent (Gen 7+) | Full contribution rights |
+| Sponsored (Gen 1-3) | Read-only, sandbox training |
+| Independent (Gen 4-6) | Contribute with review |
+| Guarantor (Gen 7+) | Full contribution rights |
 
 ### Relevant Specifications
 
@@ -264,7 +264,7 @@ New institutions joining the network operate as Tethered agents, with limited co
 New agents start with minimal trust and earn autonomy through demonstrated reliability:
 
 ```
-Week 1:  E_base = 0.15 (Tethered, read-only)
+Week 1:  E_base = 0.15 (Sponsored, read-only)
 Week 4:  E_base = 0.30 (Low-risk actions)
 Week 12: E_base = 0.55 (Moderate autonomy)
 Week 24: E_base = 0.75 (High autonomy)

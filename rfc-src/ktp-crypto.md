@@ -645,7 +645,7 @@ Properties:
 - Rotation: Upon role change or compromise
 - Lifetime: Tied to agent lifecycle
 
-Format: { "key_type": "agent_identity", "key_id": "agent-7gen-optimized-a1b2c3d4", "algorithm": "eddsa-ed25519", "public_key": "base64...", "created_at": "2025-06-15T10:30:00Z", "expires_at": null, "lineage": "persistent", "generation": 7 }
+Format: { "key_type": "agent_identity", "key_id": "agent-7gen-optimized-a1b2c3d4", "algorithm": "eddsa-ed25519", "public_key": "base64...", "created_at": "2025-06-15T10:30:00Z", "expires_at": null, "lineage": "guarantor", "generation": 7 }
 
 ### Zone Encryption Keys
 
@@ -941,7 +941,7 @@ Trust Proofs use JWS (JSON Web Signature) format per RFC 7515.
 
 Header: { "alg": "ES256", "typ": "ktp-trust-proof+jwt", "kid": "oracle-zone-alpha-2025-001", "ktp_level": 2, "threshold": "3of5" }
 
-Payload: { "iss": "zone:alpha", "sub": "agent:persistent:7gen:optimized:a1b2c3d4", "aud": "zone:alpha", "iat": 1700000000, "exp": 1700000010, "nbf": 1700000000, "jti": "proof-uuid-12345",
+Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4", "aud": "zone:alpha", "iat": 1700000000, "exp": 1700000010, "nbf": 1700000000, "jti": "proof-uuid-12345",
 
 ~~~
      "e_base": 87,
@@ -964,7 +964,7 @@ Payload: { "iss": "zone:alpha", "sub": "agent:persistent:7gen:optimized:a1b2c3d4
 
 ~~~
      "lineage": {
-       "type": "persistent",
+       "type": "guarantor",
        "generation": 7,
        "trajectory_hash": "sha256:abc123..."
      }
@@ -984,7 +984,7 @@ Agent credentials establish identity binding.
    {
      "credential_type": "ktp-agent-credential",
      "version": 1,
-     "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+     "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
 ~~~
 
 ~~~
@@ -1005,7 +1005,7 @@ Agent credentials establish identity binding.
 
 ~~~
      "lineage": {
-       "type": "persistent",
+       "type": "guarantor",
        "generation": 7,
        "sponsor_chain": ["org:acme", "agent:acme-deploy"]
      },

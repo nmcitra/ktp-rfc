@@ -75,7 +75,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 This section defines terms specific to Vector Identity. Terms defined in {{KTP-CORE}} apply here as well.
 
-Ancestral Authority: Trust inherited from predecessors in a Lineage. Agents descended from proven Persistent Lineages inherit a portion of ancestral credibility.
+Ancestral Authority: Trust inherited from predecessors in a Lineage. Agents descended from proven Guarantor Lineages inherit a portion of ancestral credibility.
 
 Ancestral Liability: The permanent, depth-decaying share of responsibility a sponsor retains for the descendants it vouched for, after the Sponsorship Bond has closed. The dual of Ancestral Authority: credit and liability travel the same lineage, at the same decay, without end.
 
@@ -91,7 +91,7 @@ Genesis Transaction: The first transaction in an agent's Trajectory Chain, creat
 
 Laminar Flow: Smooth, consistent agent behavior with predictable velocity and trajectory. Indicates legitimate operation.
 
-Lineage: The evolutionary history and current maturation phase of an agent. Lineages progress from Tethered through Divergent to Persistent.
+Lineage: The evolutionary history and current maturation phase of an agent. Lineages progress from Sponsored through Independent to Guarantor.
 
 Proof of Resilience: A ledger of attestations demonstrating an agent's successful transactions, weighted by the friction encountered. Forms the primary input to E_base calculation.
 
@@ -541,7 +541,7 @@ When a Sponsorship Bond is created:
 
 1. Bond is registered with Trust Oracle: Oracle records bond, monitors both agents, tracks violations
 
-The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Tethered" lineage restrictions (see Section 8.1).
+The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Sponsored" lineage restrictions (see Section 8.1).
 
 As the sponsored agent accumulates its own Proof of Resilience, its intrinsic E_base grows. The stake contribution tapers with it, on the schedule specified in Section 8.2, and the sponsor's reserve is released as the taper falls. The taper does not reach zero: it holds at the Ancestral Liability floor and the reserve behind that floor is never released (Section 6.4).
 
@@ -576,7 +576,7 @@ A Sponsorship Bond closes (the sponsor recovers its staked E_base above the Ance
 
 1. Duration expires without violations, OR
 
-1. Sponsored agent reaches intrinsic E_base 80, the Persistent threshold at which the taper of Section 8.2 has reached its floor
+1. Sponsored agent reaches intrinsic E_base 80, the Guarantor threshold at which the taper of Section 8.2 has reached its floor
 
 Upon closure:
 
@@ -663,7 +663,7 @@ IAL2 - Remote or In-Person Proofing:
 - Remote: Government ID + biometric verification
 - In-person: Physical document inspection
 - Suitable for: Standard human users, service owners
-- KTP capability: Can sponsor Tethered agents, max E_base = 80
+- KTP capability: Can sponsor Sponsored agents, max E_base = 80
 
 IAL3 - In-Person Proofing with Biometric:
 
@@ -682,7 +682,7 @@ Sponsors MUST be identity-proofed to at least IAL2 before being permitted to spo
 | Sponsor IAL       | Can Sponsor                | Max Staked E_base|
 +-------------------+----------------------------+------------------+
 | IAL1              | None (cannot sponsor)      | 0                |
-| IAL2              | Tethered agents only       | 20               |
+| IAL2              | Sponsored agents only       | 20               |
 | IAL3              | All lineages               | 50               |
 +-------------------+----------------------------+------------------+
 ~~~
@@ -724,7 +724,7 @@ After proofing, the verified identity is bound to the KTP agent identity:
      },
      "ktp_capabilities": {
        "can_sponsor": true,
-       "sponsor_lineages": ["tethered"],
+       "sponsor_lineages": ["sponsored"],
        "max_stake": 20,
        "max_e_base": 80
      }
@@ -796,9 +796,9 @@ Trust Proofs include proofing assertions (IAL level, provider, date) but NEVER i
 
 Lineage tracks the maturation of an agent from dependent newcomer to autonomous veteran. It consists of three phases.
 
-## Phase 1: Tethered (Apprentice)
+## Phase 1: Sponsored
 
-New agents begin in the Tethered phase. They are bound to their sponsor and operate under significant restrictions.
+New agents begin in the Sponsored phase. They are bound to their sponsor and operate under significant restrictions.
 
 Characteristics:
 
@@ -808,15 +808,15 @@ Characteristics:
 - Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own; the generation ceiling bounds E_base and the environment deflates it
 - Sponsor: Fully liable for agent's behavior
 
-Purpose: The Tethered phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.
+Purpose: The Sponsored phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.
 
-Identifier format: agent:tethered:\<sponsor_id>:\<agent_name>:\<unique_id>
+Identifier format: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
 
-Example: agent:tethered:acme-deploy:aria:7f8a9b2c
+Example: agent:sponsored:acme-deploy:aria:7f8a9b2c
 
-## Phase 2: Divergent (Journeyman)
+## Phase 2: Independent
 
-Agents that survive Tethered phase with positive history advance to Divergent. They begin building independent identity while retaining connection to their lineage.
+Agents that survive Sponsored phase with positive history advance to Independent. They begin building independent identity while retaining connection to their lineage.
 
 Characteristics:
 
@@ -836,13 +836,13 @@ This taper tracks the sponsor's remaining liability as the agent's intrinsic sta
 
 The floor is the Ancestral Liability of Section 6.4. The taper never reaches zero and MUST NOT be evaluated as though it did: without the floor the expression is negative above intrinsic_E_base 80, which would credit a sponsor for a descendant's standing rather than charge it.
 
-Identifier format: agent:divergent:\<generation>gen:\<lineage>:\<unique_id>
+Identifier format: agent:independent:\<generation>gen:\<lineage>:\<unique_id>
 
-Example: agent:divergent:3gen:acme-line:7f8a9b2c
+Example: agent:independent:3gen:acme-line:7f8a9b2c
 
-## Phase 3: Persistent (Master)
+## Phase 3: Guarantor
 
-Agents that survive Divergent phase with strong history achieve Persistent status. They are fully autonomous entities with independent identity and the ability to sponsor others.
+Agents that survive Independent phase with strong history achieve Guarantor status. They are fully autonomous entities with independent identity and the ability to sponsor others.
 
 Characteristics:
 
@@ -851,17 +851,14 @@ Characteristics:
 - E_base: Bounded by the terminal generation ceiling of 100, and in practice by the zone Mass Ceiling
 - Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own
 - Sponsor: Bond closed, staked capital recovered above the Ancestral Liability floor; the residual persists (Section 6.4)
-
-Special privileges:
-
-- Can sponsor Tethered agents (become a sponsor themselves)
-- Contributes to Ancestral Authority of descendants
+- Can sponsor Sponsored agents.  This is the phase's defining capability and it is a liability rather than a benefit: sponsoring reduces the sponsor's available E_base for as long as the bond and its residual last, and exposes the sponsor to penalty for the sponsored agent's conduct (Section 6.3, Section 6.4)
+- Contributes to Ancestral Authority of descendants, and carries the matching Ancestral Liability for exactly as long (Section 8.5)
 - May receive preferential routing during network stress
 - Attestations carry higher weight in cross-zone federation
 
-Identifier format: agent:persistent:\<generation>gen:\<name>:\<unique_id>
+Identifier format: agent:guarantor:\<generation>gen:\<name>:\<unique_id>
 
-Example: agent:persistent:7gen:optimized:7f8a9b2c
+Example: agent:guarantor:7gen:optimized:7f8a9b2c
 
 ## Generation Numbering
 
@@ -869,9 +866,9 @@ Generation tracks evolutionary depth within a lineage:
 
 Generation is the sole advancement rule, and lineage phase derives from it:
 
-- Generations 0-2: Tethered
-- Generations 3-6: Divergent
-- Generation 7 and above: Persistent
+- Generations 0-2: Sponsored
+- Generations 3-6: Independent
+- Generation 7 and above: Guarantor
 
 The phase boundaries are the two regime changes the lineage actually has - tether release at 2 -> 3, and the terminal ceiling at 6 -> 7.  No agent is in two phases at once, which the identifier of Section 9 requires.
 
@@ -891,7 +888,7 @@ Generation advances on three conditions, all of which MUST hold:
 | 5 -> 6             | 180 days        |                            |
 | 6 -> 7             | 2,555 days      | terminal ceiling           |
 +-------------------------------------------------------------------+
-| Total to Persistent| 3,640 days (10 years)                          |
+| Total to Guarantor| 3,640 days (10 years)                          |
 +-------------------------------------------------------------------+
 ~~~
 
@@ -907,14 +904,14 @@ Generation caps E_base:
 +-------------------------------------------------------------------+
 | Generation         | E_base Cap | Lineage Phase                   |
 +-------------------------------------------------------------------+
-| 0                  | 25         | Tethered                        |
-| 1                  | 35         | Tethered                        |
-| 2                  | 45         | Tethered                        |
-| 3                  | 55         | Divergent                       |
-| 4                  | 65         | Divergent                       |
-| 5                  | 75         | Divergent                       |
-| 6                  | 85         | Divergent                       |
-| 7+                 | 100        | Persistent                      |
+| 0                  | 25         | Sponsored                        |
+| 1                  | 35         | Sponsored                        |
+| 2                  | 45         | Sponsored                        |
+| 3                  | 55         | Independent                       |
+| 4                  | 65         | Independent                       |
+| 5                  | 75         | Independent                       |
+| 6                  | 85         | Independent                       |
+| 7+                 | 100        | Guarantor                      |
 +-------------------------------------------------------------------+
 ~~~
 
@@ -932,7 +929,6 @@ Example:
 
 Ancestral Authority:
 
-- Adds to initial E_base for Tethered agents
 - Provides "benefit of the doubt" during ambiguous situations
 - May enable faster generation advancement
 - Decays over time if agent diverges from ancestral behavior
@@ -952,27 +948,27 @@ agent:\<lineage>:\<qualifiers>:\<unique_id>
 Components:
 
 - Scheme: Always "agent"
-- Lineage: One of "tethered", "divergent", "persistent"
+- Lineage: One of "sponsored", "independent", "guarantor"
 - Qualifiers: Lineage-specific additional information
 - Unique ID: UUID or hash-based unique identifier
 
 ## Lineage Encoding
 
-Tethered agents: agent:tethered:\<sponsor_id>:\<agent_name>:\<unique_id>
+Sponsored agents: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
 
-Divergent agents: agent:divergent:\<N>gen:\<lineage_name>:\<unique_id>
+Independent agents: agent:independent:\<N>gen:\<lineage_name>:\<unique_id>
 
-Persistent agents: agent:persistent:\<N>gen:\<name>:\<unique_id>
+Guarantor agents: agent:guarantor:\<N>gen:\<name>:\<unique_id>
 
 ## Examples
 
-Newly spawned agent sponsored by "acme-deploy": agent:tethered:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
+Newly spawned agent sponsored by "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
 
-Third-generation agent in the Acme lineage: agent:divergent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
+Third-generation agent in the Acme lineage: agent:independent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
 
-Seventh-generation autonomous agent: agent:persistent:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
+Seventh-generation autonomous agent: agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
 
-Full Trust Proof "sub" claim: "sub": "agent:persistent:7gen:optimized:9f0a1b2c-3456-789a-bcde- f01234567890"
+Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde- f01234567890"
 
 # Security Considerations
 
@@ -1017,21 +1013,65 @@ Scheme name: agent Status: Provisional Applications/protocols: KTP Vector Identi
 
 --- back
 
+# Changes from v1
+
+This appendix records what a v1 implementation must change to conform to
+v2.0.0.  The break is deliberate and there is no dual-accept period: an
+implementation reads v1 or it reads v2.
+
+## The lineage stage names
+
+The three lineage stages are renamed on the wire and in prose.  Numeric
+protobuf values are unchanged, so only the symbol names move.
+
+| v1 | v2.0.0 |
+|----|--------|
+| `tethered` | `sponsored` |
+| `divergent` | `independent` |
+| `persistent` | `guarantor` |
+
+This affects agent identifier strings (`agent:<stage>:...`), the `lineage`
+enum, and the protobuf `LineageType` member names.  The v1 words each carried
+an unintended security reading - in jailbreak and intrusion vocabulary,
+"tethered" means a compromise that dies at reboot and "persistent" is the
+established word for one that survives a restart - and the three together read
+as a coherent escalation narrative rather than as a maturity ladder.  Stage 3
+is now named for what it can be held to rather than what it is freed of.
+
+## Lineage phase derives from generation
+
+v1 ran two advancement gate families over one lineage and they disagreed: an
+agent at Resilience Score 1,001 on day 31 was Divergent under Section 8.1 and
+Tethered under Section 8.4.  The Section 8.1 and 8.2 `Duration:` gates are
+deleted.  Section 8.4 is the sole advancement rule and phase derives from
+generation - generations 0-2 sponsored, 3-6 independent, 7 and above
+guarantor.  No agent is in two phases at once.
+
+The generation clock changes from a flat 60 days per step to a seven-step
+widening clock, weighted toward the two regime changes the lineage has: 90,
+90, 365, 180, 180, 180, 2,555 days.  The per-generation Resilience quota
+becomes a declared floor rather than a gate, and a deployment MUST declare its
+value and carry it in the Trust Proof.
+
+A per-phase Trust Tier cap is no longer stated.  Tiers are thresholds on
+`E_trust`; a phase bounds `E_base` through the generation ceiling, and the
+environmental deflator sits between the two.
+
 # Trajectory Chain Examples
 
 A.1.  Genesis Transaction
 
-{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "tethered", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "context_tensor": { "m": 0.1, "v": 0.15, "h": 0.05, "t": 0.2, "i": 0.1, "o": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }
+{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "sponsored", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "context_tensor": { "m": 0.1, "v": 0.15, "h": 0.05, "t": 0.2, "i": 0.1, "o": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }
 
 A.2.  Normal Transaction Record
 
-{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "divergent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "divergent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "context_tensor": { "m": 0.2, "v": 0.3, "h": 0.1, "t": 0.15, "i": 0.2, "o": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }
+{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "context_tensor": { "m": 0.2, "v": 0.3, "h": 0.1, "t": 0.15, "i": 0.2, "o": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }
 
 # JSON Schemas
 
 B.1.  Transaction Record Schema
 
-{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/transaction-record.json", "title": "KTP Transaction Record", "type": "object", "required": \[ "record_id", "chain_id", "sequence", "timestamp", "current_state", "action", "friction", "velocity", "agent_signature", "oracle_attestation", "record_hash" ], "properties": { "record_id": { "type": "string" }, "chain_id": { "type": "string" }, "sequence": { "type": "integer", "minimum": 0 }, "timestamp": { "type": "string", "format": "date-time" }, "previous_hash": { "type": \["string", "null"] }, "previous_state": { "oneOf": \[ { "$ref": "#/$defs/agentState" }, { "type": "null" } ] }, "current_state": { "$ref": "#/$defs/agentState" }, "action": { "$ref": "#/$defs/action" }, "friction": { "type": "number", "minimum": 0, "maximum": 1 }, "velocity": { "type": "number", "minimum": 0 }, "agent_signature": { "type": "string" }, "oracle_attestation": { "$ref": "#/$defs/oracleAttestation" }, "record_hash": { "type": "string" } }, "$defs": { "agentState": { "type": "object", "required": \[ "e_base", "e_trust", "location", "tier", "lineage", "generation" ], "properties": { "e_base": { "type": "number", "minimum": 0, "maximum": 100 }, "e_trust": { "type": "number", "minimum": 0, "maximum": 100 }, "location": { "type": "string" }, "tier": { "type": "string", "enum": \["observer", "analyst", "operator", "god"] }, "lineage": { "type": "string", "enum": \["tethered", "divergent", "persistent"] }, "generation": { "type": "integer", "minimum": 0 } } }, "action": { "type": "object", "required": \["action_type", "action_risk", "result"], "properties": { "action_type": { "type": "string" }, "action_risk": { "type": "number", "minimum": 0, "maximum": 100 }, "target": { "type": \["string", "null"] }, "result": { "type": "string", "enum": \["success", "denied"] }, "details": { "type": "object" } } }, "oracleAttestation": { "type": "object", "required": \[ "oracle_id", "attestation_time", "context_tensor", "oracle_signature" ], "properties": { "oracle_id": { "type": "string" }, "attestation_time": { "type": "string", "format": "date-time" }, "context_tensor": { "$ref": "#/$defs/contextTensor" }, "oracle_signature": { "type": "string" } } }, "contextTensor": { "type": "object", "required": \["m", "v", "h", "t", "i", "o"], "properties": { "m": { "type": "number", "minimum": 0, "maximum": 1 }, "v": { "type": "number", "minimum": 0, "maximum": 1 }, "h": { "type": "number", "minimum": 0, "maximum": 1 }, "t": { "type": "number", "minimum": 0, "maximum": 1 }, "i": { "type": "number", "minimum": 0, "maximum": 1 }, "o": { "type": "number", "minimum": 0, "maximum": 1 } } } } }
+{ "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://ktp.example.org/schemas/transaction-record.json", "title": "KTP Transaction Record", "type": "object", "required": \[ "record_id", "chain_id", "sequence", "timestamp", "current_state", "action", "friction", "velocity", "agent_signature", "oracle_attestation", "record_hash" ], "properties": { "record_id": { "type": "string" }, "chain_id": { "type": "string" }, "sequence": { "type": "integer", "minimum": 0 }, "timestamp": { "type": "string", "format": "date-time" }, "previous_hash": { "type": \["string", "null"] }, "previous_state": { "oneOf": \[ { "$ref": "#/$defs/agentState" }, { "type": "null" } ] }, "current_state": { "$ref": "#/$defs/agentState" }, "action": { "$ref": "#/$defs/action" }, "friction": { "type": "number", "minimum": 0, "maximum": 1 }, "velocity": { "type": "number", "minimum": 0 }, "agent_signature": { "type": "string" }, "oracle_attestation": { "$ref": "#/$defs/oracleAttestation" }, "record_hash": { "type": "string" } }, "$defs": { "agentState": { "type": "object", "required": \[ "e_base", "e_trust", "location", "tier", "lineage", "generation" ], "properties": { "e_base": { "type": "number", "minimum": 0, "maximum": 100 }, "e_trust": { "type": "number", "minimum": 0, "maximum": 100 }, "location": { "type": "string" }, "tier": { "type": "string", "enum": \["observer", "analyst", "operator", "god"] }, "lineage": { "type": "string", "enum": \["sponsored", "independent", "guarantor"] }, "generation": { "type": "integer", "minimum": 0 } } }, "action": { "type": "object", "required": \["action_type", "action_risk", "result"], "properties": { "action_type": { "type": "string" }, "action_risk": { "type": "number", "minimum": 0, "maximum": 100 }, "target": { "type": \["string", "null"] }, "result": { "type": "string", "enum": \["success", "denied"] }, "details": { "type": "object" } } }, "oracleAttestation": { "type": "object", "required": \[ "oracle_id", "attestation_time", "context_tensor", "oracle_signature" ], "properties": { "oracle_id": { "type": "string" }, "attestation_time": { "type": "string", "format": "date-time" }, "context_tensor": { "$ref": "#/$defs/contextTensor" }, "oracle_signature": { "type": "string" } } }, "contextTensor": { "type": "object", "required": \["m", "v", "h", "t", "i", "o"], "properties": { "m": { "type": "number", "minimum": 0, "maximum": 1 }, "v": { "type": "number", "minimum": 0, "maximum": 1 }, "h": { "type": "number", "minimum": 0, "maximum": 1 }, "t": { "type": "number", "minimum": 0, "maximum": 1 }, "i": { "type": "number", "minimum": 0, "maximum": 1 }, "o": { "type": "number", "minimum": 0, "maximum": 1 } } } } }
 
 B.2.  Sponsorship Bond Schema
 

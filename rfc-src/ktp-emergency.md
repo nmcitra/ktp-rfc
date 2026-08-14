@@ -269,7 +269,7 @@ Circuit breakers automatically disable functionality when failure thresholds are
 
 Individual agents have circuit breakers:
 
-{ "agent_circuit": { "agent_id": "agent:divergent:3gen:acme:abc123", "violation_threshold": 5, "violation_window_seconds": 300, "cooldown_seconds": 600, "current_state": "CLOSED", "violation_count": 2, "last_violation": "2025-12-03T14:30:00Z" } }
+{ "agent_circuit": { "agent_id": "agent:independent:3gen:acme:abc123", "violation_threshold": 5, "violation_window_seconds": 300, "cooldown_seconds": 600, "current_state": "CLOSED", "violation_count": 2, "last_violation": "2025-12-03T14:30:00Z" } }
 
 When an agent's circuit opens:
 
@@ -431,7 +431,7 @@ T+120min: Zone offline
 
 During collapse, agents can evacuate to federated zones:
 
-{ "evacuation_attestation": { "attestation_type": "zone_collapse_evacuation", "origin_zone": "zone-blue-prod-01", "collapse_timestamp": "2025-12-03T14:00:00Z", "agent_id": "agent:divergent:3gen:acme:abc123", "agent_state_at_collapse": { "e_base": 55, "trajectory_length": 4721, "lineage": "divergent", "generation": 3 }, "trajectory_hash": "sha256:abc123...", "destination_zone": "zone-blue-prod-02", "transfer_terms": { "e_base_transferred": 44, "transfer_factor": 0.8, "collapse_penalty": 0.0 }, "signatures": { "origin_zone": "sig:zone-blue-prod-01:...", "destination_zone": "sig:zone-blue-prod-02:..." } } }
+{ "evacuation_attestation": { "attestation_type": "zone_collapse_evacuation", "origin_zone": "zone-blue-prod-01", "collapse_timestamp": "2025-12-03T14:00:00Z", "agent_id": "agent:independent:3gen:acme:abc123", "agent_state_at_collapse": { "e_base": 55, "trajectory_length": 4721, "lineage": "independent", "generation": 3 }, "trajectory_hash": "sha256:abc123...", "destination_zone": "zone-blue-prod-02", "transfer_terms": { "e_base_transferred": 44, "transfer_factor": 0.8, "collapse_penalty": 0.0 }, "signatures": { "origin_zone": "sig:zone-blue-prod-01:...", "destination_zone": "sig:zone-blue-prod-02:..." } } }
 
 ## Post-Collapse
 
@@ -508,7 +508,7 @@ T+60min+: Execute decision
 
 Compromised agents are quarantined:
 
-{ "quarantine": { "agent_id": "agent:divergent:3gen:acme:abc123", "quarantine_start": "2025-12-03T14:05:00Z", "reason": "mass_compromise_suspected", "evidence": \[ "trajectory_divergence: 0.7", "coordinated_anomaly: true", "attack_pattern_match: true" ], "quarantine_state": { "operations_permitted": "none", "monitoring_level": "maximum", "trajectory_frozen": true, "sponsor_notified": true }, "release_conditions": \[ "forensic_analysis_complete", "remediation_verified", "sponsor_authorization" ] } }
+{ "quarantine": { "agent_id": "agent:independent:3gen:acme:abc123", "quarantine_start": "2025-12-03T14:05:00Z", "reason": "mass_compromise_suspected", "evidence": \[ "trajectory_divergence: 0.7", "coordinated_anomaly: true", "attack_pattern_match: true" ], "quarantine_state": { "operations_permitted": "none", "monitoring_level": "maximum", "trajectory_frozen": true, "sponsor_notified": true }, "release_conditions": \[ "forensic_analysis_complete", "remediation_verified", "sponsor_authorization" ] } }
 
 ## Recovery Options
 

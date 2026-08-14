@@ -312,7 +312,7 @@ Some actions are more sensitive to signal environment:
 
 ## Example: Polluted Environment
 
-{ "gravity_calculation": { "agent_id": "agent:divergent:3gen:acme:abc123", "action": "provide_recommendation", "base_calculation": { "e_base": 55, "r_factor": 0.2, "e_trust": 44 }, "signal_adjustment": { "epistemic_health": 0.35, "signal_level": "polluted", "signal_modifier": 0.75, "action_sensitivity": "very_high", "additional_modifier": 0.8 }, "final_e": 26.4, "action_a": 30, "zeroth_law_result": "BLOCKED", "guidance": "Recommendation blocked. Epistemic environment too polluted for high-stakes recommendation." } }
+{ "gravity_calculation": { "agent_id": "agent:independent:3gen:acme:abc123", "action": "provide_recommendation", "base_calculation": { "e_base": 55, "r_factor": 0.2, "e_trust": 44 }, "signal_adjustment": { "epistemic_health": 0.35, "signal_level": "polluted", "signal_modifier": 0.75, "action_sensitivity": "very_high", "additional_modifier": 0.8 }, "final_e": 26.4, "action_a": 30, "zeroth_law_result": "BLOCKED", "guidance": "Recommendation blocked. Epistemic environment too polluted for high-stakes recommendation." } }
 
 # Recovery Protocols
 
@@ -348,7 +348,7 @@ Phase 4: NORMAL OPERATIONS
 
 Individual agent recovery after operating in polluted environment:
 
-{ "agent_recovery": { "agent_id": "agent:divergent:3gen:acme:abc123", "polluted_operation_duration": "72 hours", "recovery_protocol": { "verification_period": "24 hours", "actions_during_verification": "read_only", "verification_checks": \[ "trajectory_consistency_check", "belief_state_audit", "output_quality_review" ], "recovery_criteria": \[ "no_polluted_content_propagated", "accuracy_maintained", "no_manipulation_indicators" ] }, "recovery_status": "in_progress" } }
+{ "agent_recovery": { "agent_id": "agent:independent:3gen:acme:abc123", "polluted_operation_duration": "72 hours", "recovery_protocol": { "verification_period": "24 hours", "actions_during_verification": "read_only", "verification_checks": \[ "trajectory_consistency_check", "belief_state_audit", "output_quality_review" ], "recovery_criteria": \[ "no_polluted_content_propagated", "accuracy_maintained", "no_manipulation_indicators" ] }, "recovery_status": "in_progress" } }
 
 # Monitoring and Measurement
 

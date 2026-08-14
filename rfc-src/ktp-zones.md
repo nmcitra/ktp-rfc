@@ -147,7 +147,7 @@ Requirements:
 1. Full KTP enforcement (all seven Constitutional Laws)
 2. Minimum agent mass: E_base >= 70
 3. Full trajectory chain verification
-4. Persistent lineage required (generation 7+)
+4. Guarantor lineage required (generation 7+)
 5. Continuous environmental sensing (all 7 tensors)
 6. Soul veto always active
 7. Threshold-signed Trust Proofs (minimum 3-of-5)
@@ -179,7 +179,7 @@ Requirements:
 1. Full KTP enforcement (all seven Constitutional Laws)
 2. Minimum agent mass: E_base >= 50
 3. Trajectory chain verification (sampling)
-4. Divergent or Persistent lineage (generation 3+)
+4. Independent or Guarantor lineage (generation 3+)
 5. Environmental sensing (minimum 5 tensors)
 6. Soul veto active for labeled data
 7. Trust Proofs signed by zone Oracle
@@ -317,7 +317,7 @@ A Blue Zone requires the following components:
 |                              |                                   |
 |  +------------------------------------------------------------+  |
 |  |                  Agent Population                           |  |
-|  |   [Tethered] [Divergent] [Persistent]                      |  |
+|  |   [Sponsored] [Independent] [Guarantor]                      |  |
 |  +------------------------------------------------------------+  |
 |                              |                                   |
 |  +------------------------------------------------------------+  |
@@ -462,7 +462,7 @@ Response format:
      },
      "requirements": {
        "min_mass": 50,
-       "min_lineage": "divergent",
+       "min_lineage": "independent",
        "trajectory_verification": true,
        "soul_enforcement": true
      },
@@ -600,7 +600,7 @@ Agents with insufficient mass can enter via sponsorship:
 2. Sponsor evaluates agent's trajectory and purpose
 3. Sponsor issues Sponsorship Bond
 4. Zone Gateway validates bond
-5. Agent enters as Tethered to sponsor
+5. Agent enters as Sponsored to sponsor
 6. Sponsor's trust is at stake for agent's behavior
 
 Sponsorship bond at ingress:
@@ -608,7 +608,7 @@ Sponsorship bond at ingress:
 ~~~
    {
      "bond_type": "ingress_sponsorship",
-     "sponsor_id": "agent:persistent:corp:sponsor123",
+     "sponsor_id": "agent:guarantor:corp:sponsor123",
      "sponsored_id": "agent:external:unknown:newagent",
      "zone_id": "zone-blue-prod-01",
      "stake_percentage": 15,

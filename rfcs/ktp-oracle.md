@@ -120,7 +120,7 @@ sequenceDiagram
 ```json
 {
   "proof_id": "tp-2025-12-03-001",
-  "agent_id": "agent:divergent:3gen:acme:abc123",
+  "agent_id": "agent:independent:3gen:acme:abc123",
   "trust_state": {
     "e_base": 55,
     "e_trust": 44,

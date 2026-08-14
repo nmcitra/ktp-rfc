@@ -237,7 +237,7 @@ Table of Contents
       Accept: application/json
 
       {
-        "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+        "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
         "action": {
           "type": "data_write",
           "target": "database:orders",
@@ -338,9 +338,9 @@ Table of Contents
 
    enum LineageType {
      LINEAGE_UNKNOWN = 0;
-     LINEAGE_TETHERED = 1;
-     LINEAGE_DIVERGENT = 2;
-     LINEAGE_PERSISTENT = 3;
+     LINEAGE_SPONSORED = 1;
+     LINEAGE_INDEPENDENT = 2;
+     LINEAGE_GUARANTOR = 3;
    }
 
    // action.proto
@@ -489,11 +489,11 @@ Table of Contents
 
    Request a new Trust Proof for an agent.
 
-   Request: { "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4",
+   Request: { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
    "validity_seconds": 10, "include_context": true }
 
    Response (200 OK): { "proof": { "proof_id": "proof-uuid-12345",
-   "agent_id": "agent:persistent:7gen:optimized:a1b2c3d4", "zone_id":
+   "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "zone_id":
    "zone:alpha", "e_base": 87, "e_trust": 74, "risk_factor": 0.15,
    "tier": "operator", "context": { "m": 0.12, "p": 0.08, "h": 0.22,
    "t": 0.05, "i": 0.18, "o": 0.10, "s": 0 }, "issued_at":
@@ -513,7 +513,7 @@ Table of Contents
    Validate an existing Trust Proof.
 
    Request: { "jws": "eyJhbGciOiJFZERTQSI...", "expected_agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "minimum_tier": "analyst"
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "minimum_tier": "analyst"
    }
 
    Response (200 OK): { "valid": true, "proof": { ... }, "validation": {
@@ -549,14 +549,14 @@ Table of Contents
 
    Register a new agent with the Trust Oracle.
 
-   Request: { "agent_id": "agent:tethered:acme-deploy:aria:7f8a9b2c",
+   Request: { "agent_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
    "public_key": "base64...", "algorithm": "eddsa-ed25519",
-   "sponsor_id": "agent:persistent:5gen:acme-deploy:1234abcd",
-   "lineage": { "type": "tethered", "generation": 0 }, "metadata": {
+   "sponsor_id": "agent:guarantor:5gen:acme-deploy:1234abcd",
+   "lineage": { "type": "sponsored", "generation": 0 }, "metadata": {
    "name": "Aria", "purpose": "Data processing agent", "owner": "team-
    data-eng" } }
 
-   Response (201 Created): { "agent_id": "agent:tethered:acme-
+   Response (201 Created): { "agent_id": "agent:sponsored:acme-
    deploy:aria:7f8a9b2c", "initial_e_base": 15, "initial_tier":
    "observer", "sponsorship_bond": { "bond_id": "bond-uuid-12345",
    "sponsor_stake": 8.7, "expires_at": "2026-11-25T00:00:00Z" },
@@ -569,8 +569,8 @@ Table of Contents
    Retrieve agent information.
 
    Response (200 OK): { "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "lineage": { "type":
-   "persistent", "generation": 7 }, "current_e_base": 87,
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "lineage": { "type":
+   "guarantor", "generation": 7 }, "current_e_base": 87,
    "current_e_trust": 74, "current_tier": "operator",
    "trajectory_summary": { "transaction_count": 1547832,
    "resilience_score": 12500, "oldest_record": "2024-01-15T10:00:00Z" },
@@ -720,7 +720,7 @@ Table of Contents
    POST /v1/authorize
 
    Request: { "request_id": "req-12345", "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "action": { "type":
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "action": { "type":
    "data_write", "target": "database:orders", "risk_score": 65 },
    "existing_proof_jws": "eyJhbGciOiJFZERTQSI..." }
 
@@ -824,7 +824,7 @@ Table of Contents
 
    Client sends: { "type": "subscribe", "id": "sub-001", "payload": {
    "subscriptions": [ { "type": "agent_trust", "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4" }, { "type":
+   "agent:guarantor:7gen:optimized:a1b2c3d4" }, { "type":
    "zone_context" } ] } }
 
    Server confirms: { "type": "subscribe_ack", "id": "sub-001",
@@ -837,7 +837,7 @@ Table of Contents
 
    { "type": "trust_update", "id": "update-12345", "timestamp":
    "2025-11-25T12:00:05Z", "payload": { "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "previous_e_trust": 74,
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "previous_e_trust": 74,
    "current_e_trust": 71, "previous_tier": "operator", "current_tier":
    "operator", "tier_changed": false, "trigger": "context_degradation" }
    }
@@ -857,7 +857,7 @@ Table of Contents
    Response (text/event-stream):
 
    event: trust_update id: update-12345 data:
-   {"agent_id":"agent:persistent:7gen:...","current_e_trust":71}
+   {"agent_id":"agent:guarantor:7gen:...","current_e_trust":71}
 
    event: context_update id: context-67890 data:
    {"risk_factor":0.18,"trend":"degrading"}
@@ -916,7 +916,7 @@ Table of Contents
 
    { "type": "proof_push", "id": "push-12345", "timestamp":
    "2025-11-25T12:00:05Z", "payload": { "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "proof": { ... }, "jws":
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "proof": { ... }, "jws":
    "eyJhbGciOiJFZERTQSI...", "reason": "scheduled_refresh" } }
 
 9. Sensor Data Transport
@@ -1046,7 +1046,7 @@ Table of Contents
 
    Request: { "record_type": "decision", "timestamp":
    "2025-11-25T12:00:00.123456Z", "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "decision": { "action": {
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "decision": { "action": {
    "type": "data_write", "target": "database:orders", "risk_score": 65
    }, "result": "allowed", "trust_proof_id": "proof-uuid-12345",
    "e_trust_at_decision": 74, "evaluation_time_micros": 450 },
@@ -1079,7 +1079,7 @@ Table of Contents
    recorder/records?agent_id={agent_id}&start={start}&end={end}
 
    Response (200 OK): { "query": { "agent_id":
-   "agent:persistent:7gen:optimized:a1b2c3d4", "start":
+   "agent:guarantor:7gen:optimized:a1b2c3d4", "start":
    "2025-11-25T11:00:00Z", "end": "2025-11-25T12:00:00Z" },
    "total_records": 1250, "returned_records": 100, "cursor": "cursor-
    abc123", "records": [ { ... }, { ... } ] }
@@ -1370,8 +1370,8 @@ Appendix A.  Protocol Buffer Definitions
    TRUST_TIER_OBSERVER = 2; TRUST_TIER_ANALYST = 3; TRUST_TIER_OPERATOR
    = 4; TRUST_TIER_ADMIN = 5; }
 
-   enum LineageType { LINEAGE_UNKNOWN = 0; LINEAGE_TETHERED = 1;
-   LINEAGE_DIVERGENT = 2; LINEAGE_PERSISTENT = 3; }
+   enum LineageType { LINEAGE_UNKNOWN = 0; LINEAGE_SPONSORED = 1;
+   LINEAGE_INDEPENDENT = 2; LINEAGE_GUARANTOR = 3; }
 
    message Lineage { LineageType type = 1; int32 generation = 2; string
    sponsor_id = 3; string trajectory_hash = 4; }

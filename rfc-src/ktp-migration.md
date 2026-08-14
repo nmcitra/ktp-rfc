@@ -307,8 +307,8 @@ Each API key maps to a KTP agent identity:
      "ktp_binding": {
        "oracle": "https://oracle.example.com",
        "e_base": 65,
-       "lineage": "tethered",
-       "sponsor": "agent:persistent:payments-team-lead"
+       "lineage": "sponsored",
+       "sponsor": "agent:guarantor:payments-team-lead"
      }
    }
 ~~~
@@ -382,7 +382,7 @@ X.509 certificates map to KTP agent identities:
      "ktp_binding": {
        "oracle": "https://oracle.example.com",
        "e_base": 85,
-       "lineage": "persistent"
+       "lineage": "guarantor"
      }
    }
 ~~~
@@ -942,7 +942,7 @@ For agents without sufficient history, sponsorship provides bootstrap trust:
 1. Established agent sponsors new agent
 2. Sponsor stakes portion of their own trust
 3. New agent receives bootstrap from sponsor
-4. New agent operates as Tethered until sufficient history
+4. New agent operates as Sponsored until sufficient history
 
 Sponsorship during migration:
 

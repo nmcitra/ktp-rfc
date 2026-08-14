@@ -166,7 +166,7 @@ A KTP deployment consists of the following components:
          |                    |                    |
          v                    v                    v
 +------------------------------------------------------------------+
-|                      CONTEXT TENSOR SENSORS                      |
+|                      RISK FACTOR SENSORS                         |
 |  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]       |
 +------------------------------------------------------------------+
          |                    |                    |

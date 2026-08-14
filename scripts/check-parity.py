@@ -42,7 +42,12 @@ def main():
                 print(f"  DRIFT {f}: '{t}' x{in_md} in summary, absent from rfc-src")
                 findings += 1
     print(f"\n{findings} drift finding(s). Summaries must not assert what the RFC does not.")
+    # A report that cannot fail is a reminder, not a gate. Found 2026-08-14:
+    # main() returned None, so a live drift finding exited 0 and every caller
+    # read this gate as green. A checker nobody has watched fail is a checker
+    # nobody has tested.
+    return 1 if findings else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

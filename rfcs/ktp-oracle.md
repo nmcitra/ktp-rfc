@@ -26,7 +26,7 @@ The Trust Oracle is not a single server but a distributed system. A single node 
 ```mermaid
 graph TD
     subgraph Oracle Node
-        TC[Tensor Collector] -->|Raw Data| RC[Risk Calculator]
+        TC[Signal Collector] -->|Raw Data| RC[Risk Calculator]
         RC -->|R & E| ZLE[Zeroth Law Engine]
         RC -->|R & E| TPI[Trust Proof Issuer]
         
@@ -47,7 +47,7 @@ graph TD
 
 ### Component Functions
 
-1.  **Tensor Collector**: Aggregates data from Soul, Body, World, Time, Relational, and Signal tensors.
+1.  **Signal Collector**: Aggregates the Context Signal feeds across the catalogue's domains.
 2.  **Risk Calculator**: Computes Environmental Stability ($E$) from Risk ($R$).
     $$ E = E_{base} \times (1 - R) $$
 3.  **Zeroth Law Engine**: The decision engine that evaluates every action.

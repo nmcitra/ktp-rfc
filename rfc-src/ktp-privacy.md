@@ -347,7 +347,7 @@ ACTION METADATA - What actions were requested - When actions occurred
 
 - Resource targets - SENSITIVE: May reveal work patterns
 
-CONTEXT TENSOR CONTRIBUTIONS - Individual sensor readings - Aggregated to zone level - NOT SENSITIVE: Environmental, not behavioral
+RISK FACTOR CONTRIBUTIONS - Individual sensor readings - Aggregated to zone level - NOT SENSITIVE: Environmental, not behavioral
 
 ### Behavioral Data Protections
 

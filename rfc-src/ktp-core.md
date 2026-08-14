@@ -300,26 +300,122 @@ This design is intentional. In an emergency, the natural human instinct is to ov
 
 ## Base Trust (E_base)
 
-Base Trust represents the agent's intrinsic capability, independent of current environmental conditions. It is derived from:
+Base Trust represents intrinsic capability, independent of current conditions. It is composed of what an agent has done, who is currently accountable for it, and what others observe of it — and it is bounded by ceilings that reflect what it has not yet demonstrated.
 
-1. Proof of Resilience (70% weight): The agent's historical performance, particularly under stress. An agent that has successfully completed 10,000 transactions during system crises has higher E_base than one with 100,000 transactions in calm conditions.
+E_base is a hundred-point allocation. The shares MUST sum to 100, and each term contributes at most its share. A share is the maximum a term contributes; it is not a multiplier on the term's score.
 
-1. Lineage Generation (20% weight): The evolutionary maturity of the agent: - Generation 0-2 (Sponsored): E_base capped at 40 - Generation 3-5 (Independent): E_base capped at 70 - Generation 6+ (Guarantor): E_base uncapped
+| Component | Share | Description |
+|-----------|-------|-------------|
+| Proof of Resilience | 70 | Historical performance, especially under stress |
+| External Root | 30 | The party currently accountable for the agent |
+| Peer Signals | declared | Observations by other agents, where implemented |
 
-1. Sponsor Weight (10% weight): For Sponsored agents, the sponsor's E_base contributes to the agent's E_base according to the stake percentage.
+- An agent with 10,000 transactions during crises has higher E_base than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
+- Lineage generation does not contribute to E_base. It bounds it. See *Ceilings* below.
+- Peer signals, where a deployment implements them, occupy a distinct declared term. See *Peer Signals* below.
 
-The calculation:
+### The External Root
+
+E_base MUST include a term derived from a party that is externally accountable, exposed to loss, and able to revoke. No composition of E_base may consist entirely of terms the subject measures about itself.
+
+The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a physical-presence attestation, a legal entity, or a named human. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
+
+The instrument occupying this term changes with lineage stage. The share does not.
+
+| Stage | Instrument | The attestor is exposed to |
+|-------|------------|----------------------------|
+| Sponsored (generation 0-2) | Live sponsorship bond: sponsor's E_base × stake percentage | the agent's future conduct |
+| Independent, Guarantor (generation 3+) | One or more current external attestations | the accuracy of the claim |
+
+At tether release the stake ends; the root does not. What replaces the bond is a current attestation — that a named, externally accountable party stands behind this agent now. The completed-tether record is retained as provenance in the agent's trajectory. It is not the anchor: a record of a completed tether states nothing about who is accountable at the time of evaluation. The sponsor's Ancestral Liability ({{KTP-IDENTITY}} Section 6.4) persists independently of this term; it is bond accounting, not a composition input.
+
+An agent past Sponsored holding no unexpired, unrevoked attestation computes this term as zero.
+
+An attestation MUST declare the attestor's exposure and the capacity it anchors. Exposure counts toward this term only insofar as it is irrecoverable and non-transferable: exposure that cannot be shed by abandoning the attestor's identity. The declaration MUST name the exposure's class — a named human's professional or legal liability; a license whose revocation attaches to its holder; posted non-recoverable collateral; a legal entity's declared irrecoverable assets. The class list is open; additions compose under the same cannot-be-shed test. An attestation declaring no exposure computes as zero. A declared exposure found not to exist, or found to be transferable, is misattestation.
+
+An agent MAY hold concurrent attestations from distinct attestors. Where it does, this term is computed from the strongest single instrument. An anchor MUST NOT be a combination of attestors: instrument scores are never summed or otherwise aggregated across attestors. Concurrency is redundancy — a second attestation is a hedge against the withdrawal of the first, not an addition to it.
+
+Attestations carry a validity period and MUST be renewed or replaced on expiry. An attestor withdrawing an attestation MUST state whether the withdrawal is for cause. Withdrawal for cause zeroes the instrument immediately. Withdrawal without cause renders the attestation irrevocably non-renewable; the instrument holds until the attestation's declared expiry, then computes as zero. The validity period the attestor declared at issuance is the notice period — no separate notice parameter exists. A for-cause claim that does not survive scrutiny is misattestation. A decline in the attestor's own standing does not zero the term; a finding of misattestation invalidates the attestation and debits the attestor.
+
+The deployment MUST declare the adjudicator for findings of misattestation, including for-cause withdrawal claims. The adjudicator MUST be neither the attestor nor the subject agent. A finding MAY be recorded at any time before the attestation's declared expiry. Every state transition MUST be derivable from the recorded claim, the recorded finding, and the attestation's declared times.
+
+A for-cause claim with no finding at the attestation's expiry lapses unresolved and MUST be recorded as unresolved. No debit is assessed on lapse; an unresolved claim does not become sustained or rejected by lapse of time. The instrument computes as zero in every branch — adjudication decides only whether the attestor is debited.
+
+The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
+
+### Peer Signals
+
+Where a deployment implements peer validation, peer signals occupy a distinct term. They MUST NOT be folded into Proof of Resilience or the External Root.
+
+The deployment MUST declare the peer share it applies, within the range given in Section 5.4.5 (Peer Validation), in the Trust Proof. The remaining share is distributed across the base terms in their published proportions. A relying party MUST evaluate E_base against the declared share and MUST NOT compare magnitudes across deployments that declare different shares.
+
+Peer signals MUST be independent of the base terms. A signal that duplicates information already captured by Proof of Resilience or the External Root is not admissible as a peer signal.
+
+Where a deployment does not implement peer validation, the peer share is declared as zero and the base terms carry their published proportions unmodified.
+
+### Ceilings
+
+E_base MUST NOT exceed the minimum of all applicable ceilings.
+
+| Ceiling | Basis |
+|---------|-------|
+| 25 · 35 · 45 · 55 · 65 · 75 · 85 for generations 0-6; 100 for generation 7+ | Lineage generation ({{KTP-IDENTITY}} Section 8.4) |
+| 40 · 80 · 95 by Identity Assurance Level | Identity proofing ({{KTP-IDENTITY}} Section 7.1) |
+| 50 requires 1,000 transactions; 70 requires 10,000 | Trajectory length |
+| 60 | No adversity exposure |
+
+Specifications elsewhere in this series may define additional ceilings on E_base. Those ceilings compose under the same rule. Every ceiling applicable to an evaluation MUST be declared in the Trust Proof (the applicable_ceilings claim).
+
+Each ceiling states an independent reason to withhold trust. Reasons to withhold do not average. A ceiling that does not bind an agent — the terminal generation ceiling of 100, which no composition of shares can exceed — imposes no limit of its own and leaves the remaining ceilings to govern.
+
+Maturity raises a ceiling. It does not contribute standing. An agent that has advanced a generation has earned room to accumulate trust, not trust itself. No class of grant lifts a ceiling: standing issued by fiat — a genesis grant, an inheritance bonus — is bounded by the same minimum as standing that is earned.
+
+### Base Trust Calculation
 
 ~~~
-   E_base = (PoR_score * 0.70) + (Lineage_cap * 0.20) +
-            (Sponsor_contribution * 0.10)
+   Let w_p be the declared peer share in points, 0 where peer
+   validation is not implemented. The three shares sum to 100:
+
+     PoR_share  = 70 × (100 − w_p) / 100
+     Root_share = 30 × (100 − w_p) / 100
+     Peer_share = w_p
+
+   Each term contributes at most its share:
+
+     E_raw = PoR_contribution × (PoR_share / 70)
+           + Root_score      × (Root_share / 100)
+           + Peer_score      × (Peer_share / 100)
+
+     E_base = min(E_raw, Generation_ceiling,
+                         IAL_ceiling,
+                         Trajectory_ceiling,
+                         Adversity_ceiling,
+                         ...any further applicable, declared ceiling)
+
+   Where:
+     PoR_contribution = 0-70, computed as specified in
+                  [KTP-IDENTITY] Section 5.3. This document
+                  MUST NOT restate that computation.
+
+     Root_score = 0-100, the strength of the accountability
+                  instrument:
+
+       (Sponsor_E_base × stake_percentage / 100) / 50 × 100   (Sponsored)
+       min(100, 100 × declared_exposure / anchored_capacity)  (Independent, Guarantor)
+       0                                                      (no valid instrument)
+
+       stake_percentage is in percent-points (1-50). Under
+       concurrent attestations, Root_score is the maximum of
+       the individual instrument scores, never a sum.
+
+     Peer_score = 0-100, as specified in Peer Validation.
+
+     Generation_ceiling = per [KTP-IDENTITY] Section 8.4:
+       25 / 35 / 45 / 55 / 65 / 75 / 85 (generations 0-6),
+       100 (generation 7+)
 ~~~
 
-Where: PoR_score = the Proof of Resilience contribution, computed as specified in {{KTP-IDENTITY}} Section 5.3. This document MUST NOT restate that computation. Lineage_cap = min(generation * 15, 100) Sponsor_contribution = Sponsor_E_base * stake_percentage
-
-Proof of Resilience is a function of attestations earned under friction, not of transaction volume. An agent's transaction count bounds E_base through the trajectory-length requirement of Section 5.5.6; it is not an input to PoR_score. See {{KTP-IDENTITY}} Section 5.4.
-
-E_base MUST be recalculated when: - New Proof of Resilience attestations are received - Agent generation advances - Sponsorship terms change
+E_base MUST be recalculated when new Proof of Resilience attestations are received, when agent generation advances, when sponsorship terms change, when an external attestation is issued, renewed, withdrawn, or expires, and when a for-cause claim is adjudicated.
 
 E_base SHOULD be cached for performance, with a maximum cache lifetime of 60 seconds.
 

@@ -1,4 +1,4 @@
-# Telemetry & Physics
+# Telemetry & the Physical Layer
 
 ## The Foundation of Digital Trust
 

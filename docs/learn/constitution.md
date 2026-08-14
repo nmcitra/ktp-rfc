@@ -119,10 +119,10 @@ In the physical world, no amount of human intent can override gravity, thermodyn
     | Context is stable | Context shifts at machine speed |
     | A credential verified is valid | Credentials say nothing about *now* |
 
-=== "Why Physics"
+=== "Why the Physical"
     We choose structure over policy:
 
-    | | Physics | Policy |
+    | | The Physical | Policy |
     |---|---------|--------|
     | **Written by** | Humans | Humans |
     | **Enforced by** | Mathematics | Humans |
@@ -162,7 +162,7 @@ This law precedes all others. It defines the hard boundary between permitted act
     > *In the physical world, you cannot run on ice — friction vetoes your will. In the digital world, the environment must have the same power.*
 
 === "Enforcement"
-    !!! danger "Physics, Not Punishment"
+    !!! danger "The Environment, Not Punishment"
         We call this the **Silent Veto**.
         
         - It requires no human intervention
@@ -463,7 +463,7 @@ The Flight Recorder is the memory of the Constitution. It captures trust state, 
     | $\rho$ | Action's intrinsic risk |
 
 === "Defense"
-    !!! success "Distinguishing Negligence from Physics"
+    !!! success "Distinguishing Negligence from Constraint"
         This immutable log establishes a **Digital Force Majeure defense**. It distinguishes between human negligence and inevitable environmental constraint.
 
     | Scenario | Verdict |
@@ -603,7 +603,7 @@ We do not attempt to govern the entire internet. We build islands of enforcement
     4. Dispute resolution
 
 === "Principle"
-    !!! success "Islands of Physics"
+    !!! success "Islands of Enforcement"
         We are not trying to boil the ocean. We are creating **islands of order in a sea of chaos**.
 
     **The Wild Internet remains. We do not conquer it. We offer an alternative.**

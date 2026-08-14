@@ -140,7 +140,7 @@ Choose the path that matches your role and goals:
 > **Autonomy cannot exceed environmental stability.**  
 > $A \leq E$
 
-When an agent's autonomy (A) exceeds the environment's ability to safely contain it (E), the action is **silently vetoed**. No appeal. No exception. Physics marks the boundary no system should cross.
+When an agent's autonomy (A) exceeds the environment's ability to safely contain it (E), the action is **silently vetoed**. No appeal. No exception. The environment marks the boundary no system should cross.
 
 ### The Trust Equation
 
@@ -177,7 +177,7 @@ The signals that let the Internet feel its own weather:
 
 <div class="grid cards" markdown>
 
--   :material-lock-open-variant:{ .lg .middle } **Physics, Not Policy**
+-   :material-lock-open-variant:{ .lg .middle } **The Physical, Not the Procedural**
 
     ---
 

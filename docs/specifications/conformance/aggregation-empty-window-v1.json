@@ -1,0 +1,109 @@
+{
+  "suite": "aggregation-empty-window-v1",
+  "specification": "KTP-TRANSPORT Section 9.3.1",
+  "note": "Success criterion 3's cheapest conformance vector: construct an aggregation whose window contained no readings and verify the consumer does not treat it as an observation. sample_count has shipped since v1.0.0 as the missing-data flag with nothing required to read it; tracker#63 supplied the obligation and this suite is how it is checked at the boundary the data actually crosses.",
+  "roles": ["aggregator", "consumer"],
+  "vectors": [
+    {
+      "id": "A1-empty-window-emit",
+      "role": "aggregator",
+      "note": "window contained zero readings; every statistic is undefined",
+      "given": {
+        "window_seconds": 5,
+        "readings": []
+      },
+      "expect": {
+        "entry": { "host": "host-001", "sample_count": 0 },
+        "absent": ["value", "variance", "min", "max", "p95"],
+        "reason": "an aggregation entry MUST omit every statistic its window does not define"
+      }
+    },
+    {
+      "id": "A2-single-reading-variance-undefined",
+      "role": "aggregator",
+      "note": "one reading defines the location statistics and not the spread",
+      "given": {
+        "window_seconds": 5,
+        "readings": [{ "timestamp": "2025-11-25T12:00:01.000Z", "value": 0.41 }]
+      },
+      "expect": {
+        "entry": {
+          "host": "host-001", "sample_count": 1,
+          "value": 0.41, "min": 0.41, "max": 0.41, "p95": 0.41
+        },
+        "absent": ["variance"],
+        "reason": "variance is undefined below two readings"
+      }
+    },
+    {
+      "id": "A3-empty-host-is-not-dropped",
+      "role": "aggregator",
+      "note": "a silent host and a calm host must not be indistinguishable",
+      "given": {
+        "window_seconds": 5,
+        "hosts": {
+          "host-001": [{ "timestamp": "2025-11-25T12:00:01.000Z", "value": 0.41 }],
+          "host-002": []
+        }
+      },
+      "expect": {
+        "aggregations_length": 2,
+        "entry_for": { "host-002": { "sample_count": 0 } },
+        "reason": "an aggregator MUST emit an entry for a host whose window was empty rather than dropping it"
+      }
+    },
+    {
+      "id": "C1-consumer-must-not-observe",
+      "role": "consumer",
+      "note": "the vector the ticket asked for, stated from the reading side",
+      "given": {
+        "aggregator_id": "aggregator-alpha-1",
+        "timestamp": "2025-11-25T12:00:05Z",
+        "window_seconds": 5,
+        "dimension": "M",
+        "risk_domain": "node",
+        "aggregations": [
+          { "host": "host-001", "value": 0.43, "sample_count": 5,
+            "variance": 0.002, "min": 0.41, "max": 0.45, "p95": 0.44 },
+          { "host": "host-002", "sample_count": 0 }
+        ]
+      },
+      "expect": {
+        "observations_used": ["host-001"],
+        "unavailable": ["host-002"],
+        "substitution": "none",
+        "reason": "a consumer MUST NOT treat an entry as an observation unless sample_count is greater than zero, and MUST NOT substitute a value for an omitted statistic"
+      }
+    },
+    {
+      "id": "C2-legacy-flagged-entry-still-fails-closed",
+      "role": "consumer",
+      "note": "a v1.0.0 aggregator that emits a mean over nothing beside sample_count 0",
+      "given": {
+        "aggregations": [
+          { "host": "host-002", "value": 0.0, "sample_count": 0 }
+        ]
+      },
+      "expect": {
+        "observations_used": [],
+        "unavailable": ["host-002"],
+        "reason": "sample_count governs. A value present alongside sample_count 0 is non-conformant output and MUST NOT be read as an observation; this is why omission was ruled over flagging."
+      }
+    },
+    {
+      "id": "C3-missing-sample-count-is-not-an-observation",
+      "role": "consumer",
+      "note": "sample_count is REQUIRED; an entry without it is undefined, not empty",
+      "given": {
+        "aggregations": [
+          { "host": "host-003", "value": 0.12 }
+        ]
+      },
+      "expect": {
+        "observations_used": [],
+        "unavailable": ["host-003"],
+        "reason": "an undefined input MUST NOT resolve toward permission (KTP-CORE Section 5.9); an absent count and a zero count do not separate"
+      }
+    }
+  ]
+}

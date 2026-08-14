@@ -70,6 +70,7 @@ Table of Contents
        9.1.  Sensor Registration  . . . . . . . . . . . . . . . . .  36
        9.2.  Reading Submission . . . . . . . . . . . . . . . . . .  37
        9.3.  Aggregation Protocol . . . . . . . . . . . . . . . . .  39
+           9.3.1.  Empty and Short Windows . . . . . . . . . . . .   39
        9.4.  Batching and Compression . . . . . . . . . . . . . . .  40
    10. Flight Recorder Transport  . . . . . . . . . . . . . . . . .  41
        10.1. Record Submission  . . . . . . . . . . . . . . . . . .  41
@@ -977,6 +978,49 @@ Table of Contents
    "value": 0.43, "sample_count": 5, "variance": 0.002, "min": 0.41,
    "max": 0.45, "p95": 0.44 }, { "host": "host-002", "value": 0.38,
    "sample_count": 5, "variance": 0.001 } ] }
+
+9.3.1.  Empty and Short Windows
+
+   An aggregation window may contain no readings.  This is the
+   aggregation boundary's instance of the rule [KTP-CORE] Section 5.9
+   states as a class: an undefined input MUST NOT resolve toward
+   permission, and substituting a measured value for an undefined one --
+   including zero -- is prohibited.  A mean computed over an empty
+   window is such a substitution, and it crosses the wire looking
+   exactly like an observation.
+
+   sample_count is REQUIRED in every aggregation entry.  It is the count
+   of readings the window actually contained, and it carries the
+   fail-closed signal for everything else in the entry.  An aggregator
+   MUST NOT omit it, and MUST NOT report a count it did not observe.
+
+   An aggregation entry MUST omit every statistic its window does not
+   define.  value, min, max and p95 are undefined for a window of zero
+   readings; variance is undefined below two.  The rule is stated over
+   the property rather than over the current field list so that a
+   statistic added later inherits it.
+
+   This is deliberately stronger than flagging.  A consumer that ignores
+   sample_count and reads a flagged value gets a plausible number and no
+   indication that it is fiction; a consumer that ignores sample_count
+   and reads an entry with no value fails at the point of use.  Silence
+   and absence do not separate, and the wire format should not make them
+   look different.
+
+   A consumer MUST NOT treat an aggregation entry as an observation of
+   the environment unless sample_count is greater than zero.  A consumer
+   MUST NOT substitute a value for an omitted statistic -- not zero, not
+   the previous window's value, not a dimension default.  An entry with
+   sample_count zero is a report that the environment was not observed,
+   and it MUST be handled under [KTP-CORE] Section 5.9 and counted as
+   unavailable under [KTP-SENSORS] Section 6.2 rather than aggregated
+   into the Risk Factor.
+
+   An aggregator MUST emit an entry for a host whose window was empty
+   rather than dropping the host from the array.  A dropped host and a
+   host that reported calm conditions are indistinguishable to the
+   Oracle, and whoever can suppress a feed also chooses the moment of
+   suppression.
 
 9.4.  Batching and Compression
 

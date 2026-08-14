@@ -76,7 +76,7 @@
 
     ---
 
-    Interactive visualization tool for exploring trust scores, context tensors, and decision flows in real-time.
+    Interactive visualization tool for exploring trust scores, Risk Factors, and decision flows in real-time.
 
 </div>
 
@@ -150,7 +150,7 @@ graph TD
 
 **Key Components:**
 
-- **Trust Oracle**: Calculates trust scores based on context tensors
+- **Trust Oracle**: Calculates trust scores from the Risk Factors
 - **Policy Enforcement Point (PEP)**: Enforces $A \leq E$ at decision time
 - **Context Signals**: Environmental measurement catalogue
 - **Flight Recorder**: Immutable audit log of all decisions

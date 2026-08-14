@@ -300,7 +300,7 @@ Response (202 Accepted):
 
 ### Get Context Signals
 
-Retrieve the current context tensor for an agent.
+Retrieve the current Risk Factors for an agent.
 
 ```http
 GET /api/v1/risk-factors/{agent_id}

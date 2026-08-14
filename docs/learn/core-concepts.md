@@ -121,21 +121,21 @@ The Silent Veto is not a punishment or denial message—it's structure. The agen
 
 ---
 
-## Digital Gravity
+## Capability Attenuation
 
 <div class="ktp-animate" markdown>
 
-If the Zeroth Law is the constraint, Digital Gravity is the enforcement mechanism. When autonomy approaches environmental limits, agents experience increasing resistance.(1)
+If the Zeroth Law is the constraint, capability attenuation is the enforcement mechanism. Enforcement is graduated, not binary: as environmental capacity tightens, operations are throttled, privileges are downgraded, and non-essential work is deferred. The agent experiences increasing resistance rather than a closed door.(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Digital Gravity mechanics are fully specified in [KTP-ATTENUATION](../rfcs/ktp-attenuation.md), covering gravity wells, constraint types, and response curves.
+1. :material-star-four-points-circle: Attenuation mechanics are fully specified in [KTP-ATTENUATION](../rfcs/ktp-attenuation.md), covering constraint types, response curves, and real-time application.
 
 </div>
 
-!!! info "The Gravity Metaphor"
-    In physical space, gravity curves spacetime. Objects don't decide to fall—they follow the curvature. In digital space, risk curves the operational environment. Agents don't decide to slow down—latency increases, compute becomes scarce, network paths narrow.
+!!! info "Analogy (informative)"
+    In physical space, gravity curves spacetime. Objects don't decide to fall—they follow the curvature. Attenuation behaves the same way: agents don't decide to slow down—latency increases, compute becomes scarce, network paths narrow. The comparison is informative only; the mechanism is the graduated constraint set below.
 
-### Gravity Mechanisms
+### Attenuation Mechanisms
 
 <div class="gravity-cards ktp-animate">
   <div class="gravity-card">

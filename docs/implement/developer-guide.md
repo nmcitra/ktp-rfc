@@ -48,7 +48,7 @@ This step transforms raw telemetry into actionable intelligence that can inform 
 - Measure system health and reliability
 - Track agent behavior over time
 
-This analysis becomes the foundation for **context tensor construction** in KTP.
+This analysis becomes the foundation for **`risk_factors` construction** in KTP.
 
 ---
 

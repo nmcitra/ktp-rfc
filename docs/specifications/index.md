@@ -120,7 +120,7 @@ Different readers need different entry points. Select the journey that matches y
     | Specification | Status | Description |
     |--------------|--------|-------------|
     | [KTP-Signals](../rfcs/ktp-signals.md) | :material-check-circle:{ .stable } Stable | Context Signals specification (1,644 signals) |
-    | [KTP-Attenuation](../rfcs/ktp-attenuation.md) | :material-progress-clock:{ .draft } Draft | Digital Gravity enforcement mechanisms |
+    | [KTP-Attenuation](../rfcs/ktp-attenuation.md) | :material-progress-clock:{ .draft } Draft | Capability attenuation: constraint types and real-time application |
     | [KTP-Information](../rfcs/ktp-information.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
     | [KTP-Relational](../rfcs/ktp-relational.md) | :material-progress-clock:{ .draft } Draft | Agent-to-agent trust relationships |
     | [KTP-Oracle](../rfcs/ktp-oracle.md) | :material-flask:{ .experimental } Experimental | Trust oracles and external attestation |

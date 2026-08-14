@@ -467,11 +467,11 @@ Stage 0 sensor deployment focuses on observability:
 
 Minimum sensors:
 
-- CPU/memory utilization (Heat component)
-- Network throughput (Momentum component)
-- Active connections (Mass component)
-- Error rates (Heat component)
-- Request latency (Momentum component)
+- CPU/memory utilization (adversarial_pressure input)
+- Network throughput (trust_trend input)
+- Active connections (evidence_density input)
+- Error rates (adversarial_pressure input)
+- Request latency (trust_trend input)
 
 Do NOT deploy:
 

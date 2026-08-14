@@ -404,7 +404,7 @@ Internet-Draft                  KTP-CORE                     August 2026
             v                    v                    v
    +------------------------------------------------------------------+
    |                      RISK FACTOR SENSORS                         |
-   |  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]       |
+   | [evidence_density] [trust_trend] [adversarial_pressure] [...]    |
    +------------------------------------------------------------------+
             |                    |                    |
             v                    v                    v
@@ -1383,9 +1383,9 @@ Internet-Draft                  KTP-CORE                     August 2026
       - Low evidence_density: Empty building, quiet conditions
       - High evidence_density: Packed stadium, high RF interference
 
-      Impact: High Mass creates a Gravity Well. It naturally slows
-      down operations (Time Dilation) and increases the "cost" of
-      movement through the environment.
+   Impact: high evidence_density slows the environment. It naturally slows
+   down operations (Time Dilation) and increases the "cost" of
+   movement through the environment.
 
    1.  trust_trend
 
@@ -1412,7 +1412,7 @@ Internet-Draft                  KTP-CORE                     August 2026
       - Low trust_trend: Idle system, excess capacity
       - High trust_trend: System moving fast, approaching saturation
 
-      Impact: High Momentum means the system is moving fast. Sudden
+      Impact: high trust_trend means standing is moving fast. Sudden
       stops or turns (Vector Kinking) create massive G-forces (Risk).
       Course corrections become expensive.
 
@@ -1434,9 +1434,9 @@ Internet-Draft                  KTP-CORE                     August 2026
       - Low adversarial_pressure: Cool, stable operations
       - High adversarial_pressure: Hot, active attack or system stress
 
-      Impact: Heat is the Deflator. As Heat rises, the structural
-      integrity of Trust degrades. High Heat triggers the "Cool-Down"
-      cycle (Freezing agents to Observer Mode).
+   Impact: adversarial_pressure is the deflator. As it rises, the
+   structural integrity of trust degrades; sustained highs trigger the "Cool-Down"
+   cycle (Freezing agents to Observer Mode).
 
    1.  moment_criticality
 
@@ -1496,9 +1496,9 @@ Internet-Draft                  KTP-CORE                     August 2026
       - High update_resistance: Core service, many dependencies,
         expensive to move
 
-      Impact: A Core Router has high Inertia; an edge IoT device has
-      low Inertia. High Inertia nodes require higher Trust Scores to
-      modify - they resist change.
+    Impact: a core router has high update_resistance; an edge IoT
+    device has low. High-resistance nodes require higher Trust Scores to
+    modify - they resist change.
 
    1.  attestation_coverage
 
@@ -1739,14 +1739,14 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
    +------------+------------+------------+------------+
-   | Dimension  | Sensor     | s_min      | s_max      |
+   | Input                | Sensor     | s_min | s_max     |
    +------------+------------+------------+------------+
-   | Mass       | CO2 (ppm)  | 400        | 2000       |
-   | Momentum   | Link %     | 0          | 100        |
-   | Heat       | WAF blocks | 0          | 10000/min  |
-   | Time       | Hours out  | 72         | 0          |
-   | Inertia    | Dep count  | 0          | 500        |
-   | Observer   | VIP count  | 0          | 50         |
+   | evidence_density     | CO2 (ppm)  | 400   | 2000      |
+   | trust_trend          | Link %     | 0     | 100       |
+   | adversarial_pressure | WAF blocks | 0     | 10000/min |
+   | moment_criticality   | Hours out  | 72    | 0         |
+   | update_resistance    | Dep count  | 0     | 500       |
+   | attestation_coverage | VIP count  | 0     | 50        |
    | Soul       | N/A        | Binary (0 or 1)         |
    +------------+------------+------------+------------+
 
@@ -1968,14 +1968,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    rate of change:
 
    +------------+------------------------+
-   | Dimension  | Recommended Interval   |
+   | Input                | Recommended Interval |
    +------------+------------------------+
-   | Mass       | 30-60 seconds          |
-   | Momentum   | 1-5 seconds            |
-   | Heat       | 1-5 seconds            |
-   | Time       | 60 seconds             |
-   | Inertia    | 300 seconds            |
-   | Observer   | 30 seconds             |
+   | evidence_density     | 30-60 seconds       |
+   | trust_trend          | 1-5 seconds         |
+   | adversarial_pressure | 1-5 seconds         |
+   | moment_criticality   | 60 seconds          |
+   | update_resistance    | 300 seconds         |
+   | attestation_coverage | 30 seconds          |
    | Soul       | On-demand (per action) |
    +------------+------------------------+
 
@@ -2082,13 +2082,13 @@ Internet-Draft                  KTP-CORE                     August 2026
       de_dt: Trust Velocity (change per second)
       sigma: Trust Volatility (standard deviation)
 
-      context: Object containing normalized sensor values
-        m: Mass (0-1)
-        p: Momentum (0-1)
-        h: Heat (0-1)
-        t: Time (0-1)
-        i: Inertia (0-1)
-        o: Observer (0-1)
+      risk_factors: Object containing the six normalized inputs
+        adversarial_pressure (0-1)
+        attestation_coverage (0-1)
+        evidence_density (0-1)
+        moment_criticality (0-1)
+        trust_trend (0-1)
+        update_resistance (0-1)
 
       soul: Object containing sovereignty evaluation
         s: Soul veto status (0 = clear, 1 = veto)

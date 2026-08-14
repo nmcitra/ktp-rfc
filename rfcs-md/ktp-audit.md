@@ -22,7 +22,7 @@ The Flight Recorder solves this by recording every Silent Veto with the same det
 
 ~~~
    "At 14:32:07, Agent X attempted action Y with risk 85.
-    E_trust was 42 due to elevated Heat (0.78) from active
+    E_trust was 42 due to elevated adversarial_pressure (0.78) from active
     attack indicators. Silent Veto triggered. Action denied.
     If this action had been permitted, blast radius would have
     included 47 downstream services."

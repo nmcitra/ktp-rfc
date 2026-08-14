@@ -1,6 +1,6 @@
 ---
 title: KTP-Signals - Context Signals Specification
-description: The catalogue of measurable context signals across six domains.
+description: The catalogue of measurable context signals across seven domains.
 ---
 
 # KTP-Signals: Context Signals Specification
@@ -24,9 +24,9 @@ description: The catalogue of measurable context signals across six domains.
 The Zeroth Law ($A \leq E$) requires a precise calculation of $E$ (Environmental Stability). However, "environment" is a vague term. Without a standardized way to measure cognitive, physical, and informational state, trust remains subjective and un-enforceable.
 
 ## The Solution: Context Signals
-KTP-Signals provides a rigorous mathematical framework for measuring 1,627 distinct context signals. These measurements are aggregated into a **Risk Factor ($R$)**, which determines the "Digital Gravity" of an environment.
+KTP-Signals provides a rigorous mathematical framework for measuring 1,644 distinct context signals. These measurements are aggregated into a **Risk Factor ($R$)**, which determines the "Digital Gravity" of an environment.
 
-### The Six Domains of Trust
+### The Seven Domains of Trust
 
 ```mermaid
 mindmap
@@ -61,7 +61,17 @@ mindmap
       Facts
       Knowledge
       Truth
+    Meta
+      ::icon(fa fa-gauge)
+      Refresh
+      Coverage
+      Provenance
 ```
+
+The first six measure the environment. **Meta** measures the instruments — how
+often the catalogue is resampled, how old the observations feeding a decision
+are, and how much of the picture is missing. It is authored in waves; only
+`meta.refresh` has landed.
 
 ---
 
@@ -113,6 +123,13 @@ Explore the core signals that define each trust domain.
     *   **Information Entropy**: Noise levels in incoming data streams.
     *   **Truth Alignment**: Correlation with verified global ledger facts.
     *   **Knowledge Provenance**: Source reliability, cryptographic signatures on data.
+
+=== "Meta (17 Signals)"
+    **Focus**: "How much of this can be believed?"
+
+    *   **Refresh**: Declared cadence against observed cadence, per feed.
+    *   **Observation Age**: How old the readings feeding one decision are, and how far apart in time they sit.
+    *   **Evidence, never verdict**: Signals measure divergence and gaps; adjudication happens above them.
 
 ---
 

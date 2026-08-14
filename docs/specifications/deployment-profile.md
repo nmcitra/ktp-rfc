@@ -58,7 +58,7 @@ Constraints, all quoted from their rulings:
 
 ## Feeds — how the wire reaches the catalogue
 
-The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,627 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
+The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,644 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
 
 `feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is available when at least one feed declared to populate it is AVAILABLE under `[KTP-SENSORS]` §6.1; a signal none of whose declared feeds is available reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
 

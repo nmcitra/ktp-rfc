@@ -17,9 +17,9 @@ normative:
 
 --- abstract
 
-This document specifies Context Signals, the measurement catalogue for the Kinetic Trust Protocol (KTP). Context Signals provide the measurement framework for Digital Gravity, capturing environmental state across six domains: Soul (cognition and behavior), Body (physical substrate), World (environment), Time (temporal dynamics), Relational (connections), and Information (the information environment).
+This document specifies Context Signals, the measurement catalogue for the Kinetic Trust Protocol (KTP). Context Signals provide the measurement framework for Digital Gravity, capturing environmental state across seven domains: Soul (cognition and behavior), Body (physical substrate), World (environment), Time (temporal dynamics), Relational (connections), Information (the information environment), and Meta (the quality of the measurement itself).
 
-The specification covers 1,627 signals across six domains, measurement methods, aggregation rules, and instrumentation requirements.
+The specification covers 1,644 signals across seven domains, measurement methods, aggregation rules, and instrumentation requirements.
 
 --- middle
 
@@ -27,7 +27,7 @@ The specification covers 1,627 signals across six domains, measurement methods, 
 
 Digital Gravity requires measurement. The Zeroth Law (A <= E) cannot be enforced without knowing A (autonomy requested) and E (environmental stability). E is derived from the Risk Factor R, which aggregates measurements across the operational environment.
 
-Context Signals provide the measurement framework. They are organized into six domains that together capture the full operational context of an agent:
+Context Signals provide the measurement framework. They are organized into seven domains that together capture the full operational context of an agent:
 
 ~~~
    Domain      Focus               Signals  Core Question
@@ -39,9 +39,15 @@ Context Signals provide the measurement framework. They are organized into six d
    Time        Temporal Dynamics   275      When and how fast?
    Relational  Connections         238      Who is it connected to?
    Information Information Env     336      What does it know?
+   Meta        Measurement Quality  17      How much of this can
+                                            be believed?
    ------      -----               -------  -------------
-   Total                           1,627
+   Total                           1,644
 ~~~
+
+The first six measure the environment. Meta measures the instruments: how often
+the catalogue is resampled and how old the observations feeding a decision are.
+It is authored in waves and only the first has landed, so its total moves again.
 
 These signals are not arbitrary. They emerge from the question: "What would we need to measure to know whether this environment can hold this agent's autonomy?"
 
@@ -55,7 +61,7 @@ Context Signals follow these principles:
 
 1. Trajectory over Snapshot: Single measurements are noisy. Patterns over time reveal truth.
 
-1. Aggregate over Granular: 1,627 signals aggregate into risk scores. Humans need summaries; machines can use detail.
+1. Aggregate over Granular: 1,644 signals aggregate into risk scores. Humans need summaries; machines can use detail.
 
 1. Instrumentable: Every signal must be measurable with existing or near-term technology.
 
@@ -728,7 +734,7 @@ Implementations MUST instrument at least:
 
 ## Full Instrumentation
 
-For comprehensive deployment, all 1,627 signals SHOULD be instrumented.
+For comprehensive deployment, all 1,644 signals SHOULD be instrumented.
 
 ## Sample Rates
 

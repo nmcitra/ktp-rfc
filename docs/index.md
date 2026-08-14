@@ -15,7 +15,7 @@ hide:
 <div class="homepage-section-wrapper">
   <div class="ktp-stats-section">
     <div class="ktp-stats-grid">
-      <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-dimensions-label" data-value="1627" data-duration="2000">
+      <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-dimensions-label" data-value="1644" data-duration="2000">
         <div class="ktp-stat-number" id="stat-dimensions-number" aria-live="polite" aria-atomic="true">0</div>
         <div class="ktp-stat-label" id="stat-dimensions-label">Signals</div>
         <div class="ktp-stat-sublabel">Measured in real-time</div>
@@ -88,7 +88,7 @@ hide:
 
     **Context Signals**
 
-    Six measurement domains spanning 1,627 signals.
+    Seven measurement domains spanning 1,644 signals.
 
     [Dive In](learn/risk-factors.md){ .card-cta }
 

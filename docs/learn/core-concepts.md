@@ -324,7 +324,7 @@ Each phase requires demonstrated survival under real conditions—trust cannot b
 To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environmental capacity). Context Signals provide the measurement framework.(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The complete Context Signals specification spans 1,627 signals. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for measurement definitions, aggregation rules, and instrumentation requirements.
+1. :material-star-four-points-circle: The complete Context Signals specification spans 1,644 signals. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for measurement definitions, aggregation rules, and instrumentation requirements.
 
 </div>
 

@@ -56,7 +56,7 @@ This section contains the complete technical specifications for the Kinetic Trus
 
     ---
     
-    Complete Context Signals specification (1,627 signals).
+    Complete Context Signals specification (1,644 signals).
 
     [:octicons-arrow-right-24: Read Spec](ktp-signals.md)
 

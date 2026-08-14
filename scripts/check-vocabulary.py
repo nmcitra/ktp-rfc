@@ -146,8 +146,10 @@ RETIRED = [
              "essays and drafts, which are voice and are exempt."),
     dict(term="1,707",
          pat=r"1,?707",
-         why="the headline was not derived from its parts. Subgroups sum to "
-             "1,627; four domain totals were corrected."),
+         why="the headline was not derived from its parts. Subgroups summed "
+             "to 1,627 and four domain totals were corrected; tracker#18 then "
+             "adopted the meta domain and the count is 1,644. Both later "
+             "numbers are re-derived from catalog/*.json; 1,707 never was."),
 ]
 
 

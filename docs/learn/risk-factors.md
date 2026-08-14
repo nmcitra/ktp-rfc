@@ -109,7 +109,7 @@ The Risk Factors are expressed across seven named inputs. Click any input to exp
   </a>
 </div>
 
-<p class="dimension-cards-note">For the full signal breakdown (1,627 signals), see <a href="../../rfcs/ktp-signals/">KTP-Signals RFC</a>.</p>
+<p class="dimension-cards-note">For the full signal breakdown (1,644 signals), see <a href="../../rfcs/ktp-signals/">KTP-Signals RFC</a>.</p>
 
 ## Incoming Signals { #incoming-signals }
 
@@ -122,7 +122,7 @@ Context Signals don't operate in a vacuum—they're fed by a continuous stream o
   </div>
   <div class="signal-flow-stages">
     <div class="signal-flow-stage">
-      <div class="signal-flow-count">1,627</div>
+      <div class="signal-flow-count">1,644</div>
       <div class="signal-flow-label">Discrete Signals</div>
     </div>
     <div class="signal-flow-arrow">→</div>

@@ -143,10 +143,10 @@ Trust is not granted—it's earned through survival. An agent's Trust Score refl
 
 <div class="ktp-animate" markdown>
 
-Environmental state is captured through 1,627 measurements organized into six domains:(1)
+Environmental state is captured through 1,644 measurements organized into seven domains:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The full Context Signals specification spans 1,627 signals across six domains. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
+1. :material-star-four-points-circle: The full Context Signals specification spans 1,644 signals across seven domains. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
 
 </div>
 

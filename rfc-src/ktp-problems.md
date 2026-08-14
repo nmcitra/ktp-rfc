@@ -212,7 +212,7 @@ Net effect: KTP typically REDUCES total security overhead.
 
 1. What is the minimum Trust Proof validity window that maintains security guarantees? (Currently assumed 1-10 seconds, but formal analysis needed)
 
-1. How does overhead scale with the size of the signal catalogue? (1,627 signals specified, and extensibility implies more)
+1. How does overhead scale with the size of the signal catalogue? (1,644 signals specified, and extensibility implies more)
 
 1. What is the sensor sampling rate vs. accuracy tradeoff curve? (More sampling = more accuracy = more overhead)
 

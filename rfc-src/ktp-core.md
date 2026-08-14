@@ -196,7 +196,7 @@ Figure 1: KTP Architecture
 
 Trust Oracle Mesh: A distributed set of Trust Oracles that collectively calculate Trust Scores and sign Trust Proofs. Threshold signatures (e.g., 3-of-5) prevent single points of failure.
 
-Context Signal Sensors: A sensor array that measures environmental reality across the catalogue's six domains and feeds data to the Trust Oracles.
+Context Signal Sensors: A sensor array that measures environmental reality across the catalogue's seven domains and feeds data to the Trust Oracles.
 
 Policy Enforcement Points: Components that intercept agent requests, present Trust Proofs to the PDP, and enforce authorization decisions.
 

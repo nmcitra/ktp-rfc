@@ -1,6 +1,6 @@
 # Use Cases
 
-Digital Physics isn't theoretical—it solves real problems facing organizations deploying autonomous agents. This page explores how KTP principles apply in practice.
+KTP isn't theoretical—it solves real problems facing organizations deploying autonomous agents. This page explores how KTP principles apply in practice.
 
 ---
 
@@ -20,7 +20,7 @@ Traditional approaches fail because they're designed for humans:
 | Context | Static rules | Environment changes faster than policy |
 | Trust | Binary allow/deny | No gradation between full access and none |
 
-KTP addresses each of these by replacing policy with physics.
+KTP addresses each of these by replacing policy with structure.
 
 ---
 
@@ -59,7 +59,7 @@ Gravity Effect: Request queued for human approval
 ```
 
 !!! success "Outcome"
-    The agent continues investigating lower-risk actions while high-impact decisions await human review. No blanket "access denied"—just physics-based constraints matching risk to capability.
+    The agent continues investigating lower-risk actions while high-impact decisions await human review. No blanket "access denied"—just environment-derived constraints matching risk to capability.
 
 ### Relevant Specifications
 
@@ -102,10 +102,10 @@ Risks include:
 
 **Dynamic Constraint**:
 
-During high-volatility events, the HEAT dimension of the Context Tensor rises, automatically constraining agent autonomy:(1)
+During high-volatility events, the HEAT input of the Risk Factors rises, automatically constraining agent autonomy:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The HEAT dimension measures adversarial pressure and environmental stress. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 3.3.
+1. :material-star-four-points-circle: The HEAT dimension measures adversarial pressure and environmental stress. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 3.3.
 
 ```
 Normal Conditions:
@@ -117,7 +117,7 @@ Flash Crash Warning (VIX spike):
 ```
 
 !!! info "Automatic De-escalation"
-    Agents don't need to recognize a flash crash—the environment's physics constrain them automatically. This prevents correlated behavior that amplifies market instability.
+    Agents don't need to recognize a flash crash—the environment's structure constrains them automatically. This prevents correlated behavior that amplifies market instability.
 
 ### Relevant Specifications
 
@@ -149,12 +149,12 @@ Sovereignty requirements include:
 
 ### KTP Solution
 
-**Soul Dimension Enforcement**:
+**Soul Veto Enforcement**:
 
-The SOUL tensor dimension(1) enforces non-negotiable constraints:
+The Soul veto(1) enforces non-negotiable constraints:
 { .annotate }
 
-1. :material-star-four-points-circle: The Soul dimension implements data sovereignty constraints. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 2.7 and [Constitution](constitution.md) Article VIII.
+1. :material-star-four-points-circle: The Soul veto implements data sovereignty constraints. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 2.7 and [Constitution](constitution.md) Article VIII.
 
 ```
 Patient Record Request: PATIENT-2847
@@ -171,7 +171,7 @@ Reason: Non-commercial restriction; diagnostic use permitted,
 ```
 
 !!! warning "Soul Cannot Be Overridden"
-    Unlike other constraints, Soul vetoes are absolute. High trust scores, emergency declarations, and administrative privileges cannot override sovereignty constraints. This is not policy—it's physics.(1)
+    Unlike other constraints, Soul vetoes are absolute. High trust scores, emergency declarations, and administrative privileges cannot override sovereignty constraints. This is not policy—it's structure.(1)
     { .annotate }
 
     1. :material-star-four-points-circle: Soul Veto supremacy is established in [Constitution](constitution.md) Article I, Section 4 and [KTP-CORE](../rfcs/ktp-core.md) Section 6.2.
@@ -238,16 +238,16 @@ Each model maintains a Trajectory Chain(1) recording its full history:
 
 **Lineage-Based Access**:
 
-New institutions joining the network operate as Tethered agents, with limited contribution rights until they demonstrate reliability:(1)
+New institutions joining the network operate as Sponsored agents, with limited contribution rights until they demonstrate reliability:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Lineage phases (Tethered, Divergent, Persistent) determine agent capabilities. See [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
+1. :material-star-four-points-circle: Lineage phases (Sponsored, Independent, Guarantor) determine agent capabilities. See [KTP-IDENTITY](../rfcs/ktp-identity.md) Section 8.
 
 | Lineage Phase | Contribution Rights |
 |---------------|---------------------|
-| Tethered (Gen 1-3) | Read-only, sandbox training |
-| Divergent (Gen 4-6) | Contribute with review |
-| Persistent (Gen 7+) | Full contribution rights |
+| Sponsored (Gen 1-3) | Read-only, sandbox training |
+| Independent (Gen 4-6) | Contribute with review |
+| Guarantor (Gen 7+) | Full contribution rights |
 
 ### Relevant Specifications
 
@@ -264,7 +264,7 @@ New institutions joining the network operate as Tethered agents, with limited co
 New agents start with minimal trust and earn autonomy through demonstrated reliability:
 
 ```
-Week 1:  E_base = 0.15 (Tethered, read-only)
+Week 1:  E_base = 0.15 (Sponsored, read-only)
 Week 4:  E_base = 0.30 (Low-risk actions)
 Week 12: E_base = 0.55 (Moderate autonomy)
 Week 24: E_base = 0.75 (High autonomy)

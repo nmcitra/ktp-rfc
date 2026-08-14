@@ -1,16 +1,23 @@
-Kinetic Trust Protocol                                      C. Perkins
-Specification Draft                                           NMCITRA
-Version: 0.1                                             November 2025
 
 
-    Kinetic Trust Protocol (KTP) - Enforcement Layer Specification
+
+
+Network Working Group                                         C. Perkins
+Internet-Draft                                                   NMCITRA
+Intended status: Experimental                             13 August 2026
+Expires: 14 February 2027
+
+
+     Kinetic Trust Protocol (KTP) - Enforcement Layer Specification
+                      draft-perkins-ktp-enforce-00
 
 Abstract
 
    This document specifies the Enforcement Layer for the Kinetic Trust
-   Protocol (KTP). The Enforcement Layer is responsible for intercepting
-   agent actions, evaluating them against Trust Proofs, and executing
-   the Silent Veto when environmental constraints are violated.
+   Protocol (KTP).  The Enforcement Layer is responsible for
+   intercepting agent actions, evaluating them against Trust Proofs, and
+   executing the Silent Veto when environmental constraints are
+   violated.
 
    The specification covers Policy Enforcement Points (PEPs), Trust
    Tiers with graduated capability levels, Adaptive Dormancy for
@@ -19,75 +26,130 @@ Abstract
 
 Status of This Memo
 
-   This document is a draft specification developed by the New Mexico
-   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
-   been submitted to the IETF and does not represent an Internet
-   Standard or consensus of any standards body.
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
 
-   Feedback and contributions are welcome at:
-   https://github.com/nmcitra/ktp-rfc
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 14 February 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
-   under the Apache License, Version 2.0.
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+
+
+
+Perkins                 Expires 14 February 2027                [Page 1]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
-   1. Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-      1.1.  Enforcement Philosophy  . . . . . . . . . . . . . . . .   2
-      1.2.  Requirements Language . . . . . . . . . . . . . . . . .   3
-   2. Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   3. Architecture Overview . . . . . . . . . . . . . . . . . . . .   4
-      3.1.  Enforcement Flow  . . . . . . . . . . . . . . . . . . .   5
-      3.2.  Component Roles . . . . . . . . . . . . . . . . . . . .   6
-   4. Policy Enforcement Points (PEPs)  . . . . . . . . . . . . . .   7
-      4.1.  PEP Requirements  . . . . . . . . . . . . . . . . . . .   7
-      4.2.  PEP Deployment Patterns . . . . . . . . . . . . . . . .   8
-      4.3.  API Gateway Integration . . . . . . . . . . . . . . . .  10
-      4.4.  Service Mesh Integration  . . . . . . . . . . . . . . .  12
-      4.5.  IAM Provider Integration  . . . . . . . . . . . . . . .  14
-      4.6.  Database Proxy Integration  . . . . . . . . . . . . . .  16
-   5. Trust Tiers . . . . . . . . . . . . . . . . . . . . . . . . .  18
-      5.1.  Tier Definitions  . . . . . . . . . . . . . . . . . . .  18
-      5.2.  Capability Matrices . . . . . . . . . . . . . . . . . .  20
-      5.3.  Tier Transitions  . . . . . . . . . . . . . . . . . . .  22
-      5.4.  Custom Tier Configuration . . . . . . . . . . . . . . .  23
-   6. Action Risk Classification  . . . . . . . . . . . . . . . . .  24
-      6.1.  Standard Action Classes . . . . . . . . . . . . . . . .  24
-      6.2.  Risk Score Assignment . . . . . . . . . . . . . . . . .  26
-      6.3.  Dynamic Risk Adjustment . . . . . . . . . . . . . . . .  27
-   7. Silent Veto Mechanics . . . . . . . . . . . . . . . . . . . .  28
-      7.1.  Veto Evaluation Order . . . . . . . . . . . . . . . . .  28
-      7.2.  Veto Response Codes . . . . . . . . . . . . . . . . . .  29
-      7.3.  Veto Notification . . . . . . . . . . . . . . . . . . .  30
-   8. Adaptive Dormancy . . . . . . . . . . . . . . . . . . . . . .  31
-      8.1.  Dormancy Triggers . . . . . . . . . . . . . . . . . . .  31
-      8.2.  Graceful Degradation  . . . . . . . . . . . . . . . . .  32
-      8.3.  Recovery Procedures . . . . . . . . . . . . . . . . . .  34
-      8.4.  Hibernation Mode  . . . . . . . . . . . . . . . . . . .  35
-   9. Mass Ceiling and Anti-Accumulation  . . . . . . . . . . . . .  36
-      9.1.  The Accumulation Problem  . . . . . . . . . . . . . . .  36
-      9.2.  Mass Ceiling  . . . . . . . . . . . . . . . . . . . . .  37
-      9.3.  Mitosis Protocol  . . . . . . . . . . . . . . . . . . .  38
-      9.4.  Systemic Risk Assessment  . . . . . . . . . . . . . . .  39
-      9.5.  Progressive Trust Taxation  . . . . . . . . . . . . . .  40
-      9.6.  Anti-Accumulation in Federation . . . . . . . . . . . .  41
-   10. Latency Requirements . . . . . . . . . . . . . . . . . . . .  42
-   11. Security Considerations  . . . . . . . . . . . . . . . . . .  43
-   12. References . . . . . . . . . . . . . . . . . . . . . . . . .  44
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  45
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Enforcement Philosophy  . . . . . . . . . . . . . . . . .   3
+     1.2.  Requirements Language . . . . . . . . . . . . . . . . . .   4
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   3.  Architecture Overview . . . . . . . . . . . . . . . . . . . .   5
+     3.1.  Enforcement Flow  . . . . . . . . . . . . . . . . . . . .   6
+     3.2.  Component Roles . . . . . . . . . . . . . . . . . . . . .   7
+   4.  Policy Enforcement Points (PEPs)  . . . . . . . . . . . . . .   8
+     4.1.  PEP Requirements  . . . . . . . . . . . . . . . . . . . .   8
+     4.2.  PEP Deployment Patterns . . . . . . . . . . . . . . . . .   9
+     4.3.  API Gateway Integration . . . . . . . . . . . . . . . . .  10
+     4.4.  Service Mesh Integration  . . . . . . . . . . . . . . . .  11
+     4.5.  IAM Provider Integration  . . . . . . . . . . . . . . . .  12
+     4.6.  Database Proxy Integration  . . . . . . . . . . . . . . .  13
+   5.  Trust Tiers . . . . . . . . . . . . . . . . . . . . . . . . .  14
+     5.1.  Tier Definitions  . . . . . . . . . . . . . . . . . . . .  14
+     5.2.  Capability Matrices . . . . . . . . . . . . . . . . . . .  17
+     5.3.  Tier Transitions  . . . . . . . . . . . . . . . . . . . .  17
+     5.4.  Custom Tier Configuration . . . . . . . . . . . . . . . .  18
+   6.  Action Risk Classification  . . . . . . . . . . . . . . . . .  19
+     6.1.  Standard Action Classes . . . . . . . . . . . . . . . . .  19
+     6.2.  Risk Score Assignment . . . . . . . . . . . . . . . . . .  19
+     6.3.  Dynamic Risk Adjustment . . . . . . . . . . . . . . . . .  20
+   7.  Silent Veto Mechanics . . . . . . . . . . . . . . . . . . . .  20
+     7.1.  Veto Evaluation Order . . . . . . . . . . . . . . . . . .  20
+     7.2.  Veto Response Codes . . . . . . . . . . . . . . . . . . .  21
+     7.3.  Veto Notification . . . . . . . . . . . . . . . . . . . .  21
+   8.  Adaptive Dormancy . . . . . . . . . . . . . . . . . . . . . .  22
+     8.1.  Dormancy Triggers . . . . . . . . . . . . . . . . . . . .  22
+     8.2.  Graceful Degradation  . . . . . . . . . . . . . . . . . .  22
+     8.3.  Recovery Procedures . . . . . . . . . . . . . . . . . . .  23
+     8.4.  Hibernation Mode  . . . . . . . . . . . . . . . . . . . .  23
+   9.  Mass Ceiling and Anti-Accumulation  . . . . . . . . . . . . .  24
+     9.1.  The Accumulation Problem  . . . . . . . . . . . . . . . .  24
+     9.2.  Mass Ceiling  . . . . . . . . . . . . . . . . . . . . . .  25
+     9.3.  Mitosis Protocol  . . . . . . . . . . . . . . . . . . . .  25
+     9.4.  Systemic Risk Assessment  . . . . . . . . . . . . . . . .  26
+     9.5.  Progressive Trust Taxation  . . . . . . . . . . . . . . .  27
+     9.6.  Anti-Accumulation in Federation . . . . . . . . . . . . .  28
+   10. Latency Requirements  . . . . . . . . . . . . . . . . . . . .  28
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  29
 
-1. Introduction
 
-   The Enforcement Layer is where Digital Physics becomes operational
-   reality. While the Trust Oracle calculates what is possible, the
-   Enforcement Layer ensures that only what is possible actually occurs.
+
+Perkins                 Expires 14 February 2027                [Page 2]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  30
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  30
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  30
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  31
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  31
+     A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  31
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  32
+
+1.  Introduction
+
+   The Enforcement Layer is where the constraint model becomes
+   operational reality.  While the Trust Oracle calculates what is
+   possible, the Enforcement Layer ensures that only what is possible
+   actually occurs.
 
    Traditional authorization enforcement is binary: allowed or denied.
    KTP enforcement is graduated: actions may be allowed, denied,
    throttled, downgraded, or deferred based on the relationship between
    action risk and environmental capacity.
+
+   The graduated outcomes are one rail, and this specification names it:
+   the prudence rail.  Above the CAN question (A <= E_trust: can the
+   environment support this action) sits a second, still amoral question
+   — should the environment allow it now, with margin — and every
+   graduated mechanism in this document answers it: throttling,
+   downgrading, deferral, promotion hysteresis, the risk floor under
+   suspicious conditions, deautomation as A approaches E_trust, and the
+   Section 9.5 taxation trade.  The rail is computed from the same
+   measured environment as the CAN rail, and its disputes are
+   measurement disputes: two deployments with identical sensors and
+   identical declared parameters converge on its answers.  It stays
+   amoral only while its parameters are declared — this specification
+   ships the mechanisms, the deployment declares the appetite, and an
+   undeclared prudence constant is a smuggled norm.  Normative judgment
+   — ought this happen — is a different rail with a different home; see
+   [KTP-CORE]'s carriage interface.
 
 1.1.  Enforcement Philosophy
 
@@ -95,25 +157,32 @@ Table of Contents
 
    "The environment has veto power over agent intent."
 
-   This inverts the traditional authorization model. Instead of asking
+   This inverts the traditional authorization model.  Instead of asking
    "Is this agent permitted to perform this action?", KTP asks "Can this
    environment safely support this action right now?"
 
    Key principles:
 
-   1. Silent Veto: Enforcement happens automatically, without human
-      intervention. The environment constrains; it does not negotiate.
 
-   2. Graceful Degradation: When conditions degrade, agents don't fail
-      catastrophically. They enter reduced capability modes, maintaining
-      essential functions while shedding risky ones.
 
-   3. No Override: There is no emergency bypass. The only way to enable
-      a high-risk action is to improve environmental conditions or
-      reduce the action's risk classification.
+Perkins                 Expires 14 February 2027                [Page 3]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
 
-   4. Transparency: Every enforcement decision is logged with full
-      context, enabling forensic reconstruction and system learning.
+
+   1.  Silent Veto: Enforcement happens automatically, without human
+       intervention.  The environment constrains; it does not negotiate.
+
+   2.  Graceful Degradation: When conditions degrade, agents don't fail
+       catastrophically.  They enter reduced capability modes,
+       maintaining essential functions while shedding risky ones.
+
+   3.  No Override: There is no emergency bypass.  The only way to
+       enable a high-risk action is to improve environmental conditions
+       or reduce the action's risk classification.
+
+   4.  Transparency: Every enforcement decision is logged with full
+       context, enabling forensic reconstruction and system learning.
 
 1.2.  Requirements Language
 
@@ -122,7 +191,7 @@ Table of Contents
    "OPTIONAL" in this document are to be interpreted as described in BCP
    14 [RFC2119] [RFC8174].
 
-2. Terminology
+2.  Terminology
 
    Action Risk (A): A numeric value (0-100) representing the intrinsic
    risk of a requested action, independent of who is requesting it.
@@ -141,12 +210,21 @@ Table of Contents
    agent can only emit heartbeat signals and await recovery.
 
    Policy Decision Point (PDP): The logical component that evaluates
-   Trust Proofs and makes authorization decisions. In KTP, this is
+   Trust Proofs and makes authorization decisions.  In KTP, this is
    typically the Trust Oracle or a local cache.
 
    Policy Enforcement Point (PEP): A component that intercepts agent
    requests and enforces PDP decisions by allowing, denying, or
    modifying actions.
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 4]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    Silent Veto: The automatic denial of an action when A > E_trust,
    executed without human intervention or appeal.
@@ -155,18 +233,58 @@ Table of Contents
    constraints are violated (S = 1), taking precedence over Trust Score
    evaluation.
 
-   Trust Tier: A capability level (God Mode, Operator Mode, Analyst
+   Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst
    Mode, Observer Mode) determined by E_trust thresholds.
 
-3. Architecture Overview
+3.  Architecture Overview
 
    The Enforcement Layer sits between agents and protected resources,
    intercepting all actions and evaluating them against current
    environmental conditions.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 5]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
    +------------------------------------------------------------------+
    |                         AGENT POPULATION                         |
-   |    [Tethered Agents]  [Divergent Agents]  [Persistent Lineages]  |
+   |    [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]|
    +------------------------------------------------------------------+
                                     |
                                     | Action Request
@@ -174,7 +292,7 @@ Table of Contents
    +------------------------------------------------------------------+
    |                      ENFORCEMENT LAYER                           |
    |  +------------------------------------------------------------+  |
-   |  |                 Policy Enforcement Points                   |  |
+   |  |                 Policy Enforcement Points                  |  |
    |  |  +----------+  +----------+  +----------+  +----------+    |  |
    |  |  | API GW   |  | Service  |  |   IAM    |  |    DB    |    |  |
    |  |  |   PEP    |  | Mesh PEP |  |   PEP    |  |   PEP    |    |  |
@@ -184,7 +302,7 @@ Table of Contents
    |                              | Trust Proof Validation            |
    |                              v                                   |
    |  +------------------------------------------------------------+  |
-   |  |              Policy Decision Point (PDP)                    |  |
+   |  |              Policy Decision Point (PDP)                   |  |
    |  |   - Soul Veto Check                                        |  |
    |  |   - Trust Tier Determination                               |  |
    |  |   - Action Risk Evaluation                                 |  |
@@ -196,7 +314,7 @@ Table of Contents
                                     v
    +------------------------------------------------------------------+
    |                      PROTECTED RESOURCES                         |
-   |    [APIs]  [Databases]  [Services]  [Infrastructure]            |
+   |    [APIs]  [Databases]  [Services]  [Infrastructure]             |
    +------------------------------------------------------------------+
 
    Figure 1: Enforcement Layer Architecture
@@ -205,105 +323,140 @@ Table of Contents
 
    The standard enforcement flow for every action:
 
-   1. Agent submits action request with Trust Proof
+   1.   Agent submits action request with Trust Proof
 
-   2. PEP intercepts request
+   2.   PEP intercepts request
 
-   3. PEP validates Trust Proof signature and expiration
+   3.   PEP validates Trust Proof signature and expiration
 
-   4. PEP extracts Soul constraint status (S)
+   4.   PEP extracts Soul constraint status
 
-   5. IF S = 1:
-      - DENY with SOVEREIGNTY_CONSTRAINT
-      - Log to Flight Recorder
-      - STOP
 
-   6. PEP determines agent's Trust Tier from E_trust
 
-   7. PEP looks up Action Risk (A) for requested action
+Perkins                 Expires 14 February 2027                [Page 6]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
 
-   8. IF A > E_trust:
-      - DENY with TRUST_INSUFFICIENT (Silent Veto)
-      - Log to Flight Recorder
-      - STOP
 
-   9. IF action not permitted for Trust Tier:
-      - DENY with TIER_RESTRICTION
-      - Log to Flight Recorder
-      - STOP
+   5.   IF S = 1: - supervision = silent_veto, reason
+        SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 
-   10. ALLOW action to proceed
+   6.   PEP determines agent's Trust Tier from E_trust
 
-   11. Log success to Flight Recorder
+   7.   PEP looks up Action Risk (A) for requested action
 
-   12. Return response to agent with refreshed Trust Proof
+   8.   IF A > E_trust: - supervision = silent_veto, reason
+        TRUST_INSUFFICIENT (Silent Veto) - Log to Flight Recorder - STOP
+
+   9.   IF action not permitted for Trust Tier: - supervision =
+        silent_veto, reason TIER_RESTRICTION - Log to Flight Recorder -
+        STOP
+
+   10.  RETURN the decision result - supervision and
+        tightenedConstraints - per [KTP-CORE] Section 6.6; the action
+        proceeds under the tightened envelope, at the returned
+        supervision level
+
+   11.  Log success to Flight Recorder
+
+   12.  Return response to agent with refreshed Trust Proof
 
 3.2.  Component Roles
 
    Trust Oracle:
-   - Calculates E_trust from E_base and Context Tensor
-   - Signs Trust Proofs
-   - Maintains Proof of Resilience ledger
-   - Provides PDP functionality (may be distributed)
+
+   *  Calculates E_trust from E_base and the Risk Factor inputs
+
+   *  Signs Trust Proofs
+
+   *  Maintains Proof of Resilience ledger
+
+   *  Provides PDP functionality (may be distributed)
 
    Policy Enforcement Point (PEP):
-   - Intercepts all agent requests
-   - Validates Trust Proof signatures
-   - Enforces Soul Veto
-   - Enforces Silent Veto (A <= E_trust)
-   - Enforces Trust Tier restrictions
-   - Logs all decisions to Flight Recorder
+
+   *  Intercepts all agent requests
+
+   *  Validates Trust Proof signatures
+
+   *  Enforces Soul Veto
+
+   *  Enforces Silent Veto (A <= E_trust)
+
+   *  Enforces Trust Tier restrictions
+
+   *  Logs all decisions to Flight Recorder
+
+
+
+Perkins                 Expires 14 February 2027                [Page 7]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    Flight Recorder:
-   - Receives all enforcement decisions
-   - Stores immutable audit trail
-   - Provides forensic query interface
-   - See [KTP-AUDIT] for full specification
 
-4. Policy Enforcement Points (PEPs)
+   *  Receives all enforcement decisions
+
+   *  Stores immutable audit trail
+
+   *  Provides forensic query interface
+
+   *  See [KTP-AUDIT] for full specification
+
+4.  Policy Enforcement Points (PEPs)
 
 4.1.  PEP Requirements
 
    Every KTP-compliant PEP MUST:
 
-   1. Intercept all agent requests before they reach protected resources
+   1.   Intercept all agent requests before they reach protected
+        resources
 
-   2. Require a valid Trust Proof for every request (no Trust Proof =
-      deny by default)
+   2.   Require a valid Trust Proof for every request (no Trust Proof =
+        deny by default)
 
-   3. Validate Trust Proof signature against known Trust Oracle keys
+   3.   Validate Trust Proof signature against known Trust Oracle keys
 
-   4. Reject expired Trust Proofs (exp < current time)
+   4.   Reject expired Trust Proofs (exp < current time)
 
-   5. Evaluate Soul constraint before Trust Score
+   5.   Evaluate Soul constraint before Trust Score
 
-   6. Evaluate A <= E_trust for every action
+   6.   Evaluate A <= E_trust for every action
 
-   7. Enforce Trust Tier capability restrictions
+   7.   Enforce Trust Tier capability restrictions
 
-   8. Log every decision (allow, deny, reason) to Flight Recorder
+   8.   Log every decision (allow, deny, reason) to Flight Recorder
 
-   9. Return appropriate error responses with KTP headers
+   9.   Return appropriate error responses with KTP headers
 
-   10. Support Trust Proof refresh/forwarding for downstream services
+   10.  Support Trust Proof refresh/forwarding for downstream services
 
    PEPs SHOULD:
 
-   1. Cache Trust Oracle public keys with appropriate TTL
+   1.  Cache Trust Oracle public keys with appropriate TTL
 
-   2. Implement rate limiting based on Trust Tier
+   2.  Implement rate limiting based on Trust Tier
 
-   3. Support graceful degradation when Trust Oracle is unreachable
+   3.  Support graceful degradation when Trust Oracle is unreachable
 
-   4. Provide metrics for monitoring (decisions/sec, veto rate, etc.)
+   4.  Provide metrics for monitoring (decisions/sec, veto rate, etc.)
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 8]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    PEPs MAY:
 
-   1. Implement local Trust Proof validation without Oracle round-trip
+   1.  Implement local Trust Proof validation without Oracle round-trip
 
-   2. Support Trust Proof upgrade (request new proof mid-transaction)
+   2.  Support Trust Proof upgrade (request new proof mid-transaction)
 
-   3. Implement predictive warnings based on Trust Velocity
+   3.  Implement predictive warnings based on Trust Velocity
 
 4.2.  PEP Deployment Patterns
 
@@ -343,6 +496,16 @@ Table of Contents
       Multiple PEP layers for defense in depth. Recommended for
       high-security deployments.
 
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 9]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
       +--------+     +--------+     +--------+--------+
       | Agent  |---->| Gateway|---->| Sidecar| Service|
       +--------+     |  PEP   |     |  PEP   |        |
@@ -353,7 +516,7 @@ Table of Contents
    API Gateways are natural PEP deployment points as they already
    intercept and process all API traffic.
 
-   4.3.1. Kong Integration
+   4.3.1.  Kong Integration
 
    Kong plugin configuration:
 
@@ -375,7 +538,7 @@ Table of Contents
             trust_proof_header: "X-Trust-Proof"
             flight_recorder_url: "https://recorder.example.com"
 
-   4.3.2. AWS API Gateway Integration
+   4.3.2.  AWS API Gateway Integration
 
    Lambda authorizer implementation:
 
@@ -388,9 +551,16 @@ Table of Contents
       - Return IAM policy document (Allow/Deny)
       - Log to CloudWatch / Flight Recorder
 
-   4.3.3. Envoy Integration
+   4.3.3.  Envoy Integration
 
    External authorization filter:
+
+
+
+Perkins                 Expires 14 February 2027               [Page 10]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
       http_filters:
         - name: envoy.filters.http.ext_authz
@@ -411,13 +581,15 @@ Table of Contents
    they already implement mutual TLS, traffic management, and
    observability.
 
-   4.4.1. Istio Integration
+   4.4.1.  Istio Integration
 
    KTP can be integrated with Istio via:
 
-   1. Custom AuthorizationPolicy that calls KTP PEP
-   2. WASM plugin for Envoy sidecars
-   3. External authorization service
+   1.  Custom AuthorizationPolicy that calls KTP PEP
+
+   2.  WASM plugin for Envoy sidecars
+
+   3.  External authorization service
 
    AuthorizationPolicy example:
 
@@ -438,7 +610,15 @@ Table of Contents
               - operation:
                   paths: ["/*"]
 
-   4.4.2. Linkerd Integration
+
+
+
+Perkins                 Expires 14 February 2027               [Page 11]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   4.4.2.  Linkerd Integration
 
    Linkerd integration via policy controller:
 
@@ -462,18 +642,37 @@ Table of Contents
    Identity and Access Management providers can incorporate KTP
    enforcement into their token issuance and validation flows.
 
-   4.5.1. OAuth 2.0 / OIDC Integration
+   4.5.1.  OAuth 2.0 / OIDC Integration
 
    KTP Trust Proofs can be embedded in OAuth tokens:
 
-   1. Resource Owner requests access token
-   2. Authorization Server validates identity
-   3. Authorization Server requests Trust Proof from Trust Oracle
-   4. Trust Proof embedded in access token claims
-   5. Resource Server validates Trust Proof during token validation
-   6. Enforcement based on E_trust and action risk
+   1.  Resource Owner requests access token
+
+   2.  Authorization Server validates identity
+
+   3.  Authorization Server requests Trust Proof from Trust Oracle
+
+   4.  Trust Proof embedded in access token claims
+
+   5.  Resource Server validates Trust Proof during token validation
+
+   6.  Enforcement based on E_trust and action risk
 
    Token claims extension:
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 12]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
       {
         "iss": "https://auth.example.com",
@@ -489,7 +688,7 @@ Table of Contents
         }
       }
 
-   4.5.2. SAML Integration
+   4.5.2.  SAML Integration
 
    Trust Proof can be included as SAML AttributeStatement:
 
@@ -511,9 +710,25 @@ Table of Contents
    Database proxies can enforce KTP at the data layer, providing fine-
    grained control over data access based on Trust Score.
 
-   4.6.1. Query Classification
+   4.6.1.  Query Classification
 
    Database operations are classified by risk:
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 13]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
       +----------------------+-----+--------------------------------+
       | Operation            | A   | Description                    |
@@ -529,7 +744,7 @@ Table of Contents
       | GRANT/REVOKE         | 90  | Modify permissions             |
       +----------------------+-----+--------------------------------+
 
-   4.6.2. Row-Level Enforcement
+   4.6.2.  Row-Level Enforcement
 
    Trust Score can be used for row-level security:
 
@@ -538,142 +753,225 @@ Table of Contents
           sensitivity_level <= current_setting('ktp.e_trust')::int / 10
         );
 
-   This allows access to data with sensitivity_level <= E_trust/10. An
+   This allows access to data with sensitivity_level <= E_trust/10.  An
    agent with E_trust = 72 can access rows with sensitivity <= 7.
 
-5. Trust Tiers
+5.  Trust Tiers
 
 5.1.  Tier Definitions
 
    Trust Tiers provide graduated capability levels based on E_trust
-   thresholds. The standard tiers are:
+   thresholds.  The standard tiers are:
 
    +---------------+----------+--------------------------------------+
    | Tier          | E_trust  | Description                          |
    +---------------+----------+--------------------------------------+
-   | God Mode      | >= 95    | Full infrastructure control          |
-   | Operator Mode | >= 85    | Service management, config changes   |
-   | Analyst Mode  | >= 70    | Data query, read-only operations     |
-   | Observer Mode | >= 50    | Logging, monitoring, heartbeat       |
-   | Hibernation   | < 50     | Heartbeat only, await recovery       |
+   | Admin Mode    | >= 85    | Full infrastructure control          |
+   | Operator Mode | >= 72    | Service management, config changes   |
+   | Analyst Mode  | >= 58    | Data query, read-only operations     |
+   | Observer Mode | >= 22    | Logging, monitoring, heartbeat       |
+   | Hibernation   | < 22     | Heartbeat only, await recovery       |
    +---------------+----------+--------------------------------------+
 
-   5.1.1. God Mode (E_trust >= 95)
+   5.1.1.  Admin Mode (E_trust >= 85)
 
-   The highest capability tier. Reserved for critical infrastructure
+   The highest capability tier.  Reserved for critical infrastructure
    operations that require maximum trust.
 
+
+
+
+Perkins                 Expires 14 February 2027               [Page 14]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
    Permitted actions:
-   - Create, modify, destroy infrastructure components
-   - Deploy code to production
-   - Modify security configurations
-   - Access all data regardless of classification
-   - Grant/revoke permissions for other agents
+
+   *  Create, modify, destroy infrastructure components
+
+   *  Deploy code to production
+
+   *  Modify security configurations
+
+   *  Access all data regardless of classification
+
+   *  Grant/revoke permissions for other agents
+
+   Admin Mode is available only in zones whose Mass Ceiling is at least
+   95 (the zone ceilings of Section 9.2): the threshold is derived from
+   that ceiling at the tier's declared R budget, and a zone with a lower
+   ceiling cannot deliver it at any generation.  An operator planning
+   toward Admin Mode in such a zone is planning toward a tier the zone
+   does not offer.
 
    Requirements:
-   - Persistent lineage (generation 6+)
-   - Extensive Proof of Resilience
-   - Stable environmental conditions (R < 0.05)
 
-   5.1.2. Operator Mode (E_trust >= 85)
+   *  Guarantor lineage (generation 7+)
+
+   *  Extensive Proof of Resilience
+
+   *  Stable environmental conditions (R < 0.10)
+
+   5.1.2.  Operator Mode (E_trust >= 72)
 
    Standard operational capability for routine service management.
 
    Permitted actions:
-   - Restart services
-   - Scale deployments up/down
-   - Read configuration files
-   - Access internal APIs
-   - Modify non-sensitive data
+
+   *  Restart services
+
+   *  Scale deployments up/down
+
+   *  Read configuration files
+
+   *  Access internal APIs
+
+   *  Modify non-sensitive data
 
    Restricted actions:
-   - Cannot deploy new code
-   - Cannot modify security settings
-   - Cannot access credentials or keys
 
-   5.1.3. Analyst Mode (E_trust >= 70)
+   *  Cannot deploy new code
+
+   *  Cannot modify security settings
+
+
+
+Perkins                 Expires 14 February 2027               [Page 15]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   *  Cannot access credentials or keys
+
+   5.1.3.  Analyst Mode (E_trust >= 58)
 
    Read-heavy capability tier for data analysis and investigation.
 
    Permitted actions:
-   - Query databases (read-only)
-   - Access logs and metrics
-   - Generate reports
-   - Call read-only APIs
+
+   *  Query databases (read-only)
+
+   *  Access logs and metrics
+
+   *  Generate reports
+
+   *  Call read-only APIs
 
    Restricted actions:
-   - Cannot write to production data
-   - Cannot restart services
-   - Cannot access credentials
 
-   5.1.4. Observer Mode (E_trust >= 50)
+   *  Cannot write to production data
+
+   *  Cannot restart services
+
+   *  Cannot access credentials
+
+   5.1.4.  Observer Mode (E_trust >= 22)
 
    Minimal capability tier for monitoring and logging.
 
    Permitted actions:
-   - Emit logs and metrics
-   - Send heartbeat signals
-   - Read own state
-   - Request Trust Proof refresh
+
+   *  Emit logs and metrics
+
+   *  Send heartbeat signals
+
+   *  Read own state
+
+   *  Request Trust Proof refresh
 
    Restricted actions:
-   - Cannot read external data
-   - Cannot call APIs
-   - Cannot perform any writes
 
-   5.1.5. Hibernation Mode (E_trust < 50)
+   *  Cannot read external data
+
+   *  Cannot call APIs
+
+   *  Cannot perform any writes
+
+   5.1.5.  Hibernation Mode (E_trust < 22)
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 16]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    Emergency survival mode when environmental conditions are severe.
 
    Permitted actions:
-   - Emit heartbeat signal only
-   - Await Trust Score recovery
+
+   *  Emit heartbeat signal only
+
+   *  Await Trust Score recovery
 
    Restricted actions:
-   - All actions except heartbeat are blocked
+
+   *  All actions except heartbeat are blocked
 
 5.2.  Capability Matrices
 
-   The Capability Matrix maps Trust Tiers to Action Risk thresholds:
+   The Capability Matrix maps Trust Tiers to permitted action classes:
 
-   +---------------+-------------+----------------------------------+
-   | Tier          | Max A       | Permitted Action Classes         |
-   +---------------+-------------+----------------------------------+
-   | God Mode      | 100         | All actions                      |
-   | Operator Mode | 85          | Read, Write, Execute (safe)      |
-   | Analyst Mode  | 60          | Read (all), Write (append only)  |
-   | Observer Mode | 30          | Read (public), Emit logs         |
-   | Hibernation   | 5           | Heartbeat only                   |
-   +---------------+-------------+----------------------------------+
+   +---------------+----------------------------------+
+   | Tier          | Permitted Action Classes         |
+   +---------------+----------------------------------+
+   | Admin Mode    | All actions                      |
+   | Operator Mode | Read, Write, Execute (safe)      |
+   | Analyst Mode  | Read (all), Write (append only)  |
+   | Observer Mode | Read (public), Emit logs         |
+   | Hibernation   | Heartbeat only                   |
+   +---------------+----------------------------------+
 
-   Note: Even if Tier permits an action class, the A <= E_trust check
-   still applies. An Operator Mode agent (E_trust = 87) cannot perform
-   an action with A = 90, even though the tier theoretically permits
-   actions up to A = 85.
+   A tier permits action classes; it does not carry a numeric action-
+   risk cap of its own.  The numeric bound is the Zeroth Law: A <=
+   E_trust, evaluated per action against the agent's current score.  An
+   earlier revision carried a Max A column beside the classes — a second
+   numeric bound keyed to the tier thresholds, which drifted when the
+   thresholds moved and could only ever restate, more coarsely, what A
+   <= E_trust already enforces exactly.  One fact stated twice diverges;
+   the environment's bound is the bound.
 
 5.3.  Tier Transitions
 
    Agents transition between tiers as E_trust changes:
 
    Tier Promotion (E_trust increases):
-   - Happens automatically when E_trust crosses threshold
-   - No delay or approval required
-   - Expanded capabilities immediately available
-   - Logged to Flight Recorder
+
+   *  Happens automatically when E_trust crosses threshold
+
+   *  No delay or approval required
+
+   *  Expanded capabilities immediately available
+
+   *  Logged to Flight Recorder
+
+
+
+Perkins                 Expires 14 February 2027               [Page 17]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    Tier Demotion (E_trust decreases):
-   - Happens automatically when E_trust crosses threshold
-   - In-flight operations may be interrupted
-   - Agent should implement graceful capability shedding
-   - Logged to Flight Recorder with context
+
+   *  Happens automatically when E_trust crosses threshold
+
+   *  In-flight operations may be interrupted
+
+   *  Agent should implement graceful capability shedding
+
+   *  Logged to Flight Recorder with context
 
    Hysteresis (optional):
 
    To prevent oscillation at tier boundaries, implementations MAY
    implement hysteresis:
 
-   - Promotion requires E_trust >= threshold + 2
-   - Demotion requires E_trust < threshold - 2
+   *  Promotion requires E_trust >= threshold + 2
+
+   *  Demotion requires E_trust < threshold - 2
 
    This creates a 4-point buffer zone that prevents rapid tier switching
    when E_trust fluctuates near boundaries.
@@ -703,7 +1001,16 @@ Table of Contents
         ]
       }
 
-6. Action Risk Classification
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 18]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+6.  Action Risk Classification
 
 6.1.  Standard Action Classes
 
@@ -734,48 +1041,50 @@ Table of Contents
 
    Action risk scores should be assigned based on:
 
-   1. Reversibility: Can the action be undone?
-      - Fully reversible: Lower A
-      - Partially reversible: Medium A
-      - Irreversible: Higher A
+   1.  Reversibility: Can the action be undone? - Fully reversible:
+       Lower A - Partially reversible: Medium A - Irreversible: Higher A
 
-   2. Blast Radius: How many systems/users are affected?
-      - Single record: Lower A
-      - Single service: Medium A
-      - Multiple services: Higher A
-      - Entire system: Highest A
+   2.  Blast Radius: How many systems/users are affected? - Single
+       record: Lower A - Single service: Medium A - Multiple services:
+       Higher A - Entire system: Highest A
 
-   3. Data Sensitivity: What type of data is involved?
-      - Public data: Lower A
-      - Internal data: Medium A
-      - PII/PHI: Higher A
-      - Credentials/keys: Highest A
+   3.  Data Sensitivity: What type of data is involved? - Public data:
+       Lower A - Internal data: Medium A - PII/PHI: Higher A -
+       Credentials/keys: Highest A
 
-   4. Regulatory Impact: Are there compliance implications?
-      - No regulatory data: Baseline A
-      - GDPR/CCPA data: +10 A
-      - HIPAA/PCI data: +20 A
-      - Classified data: +30 A
+   4.  Regulatory Impact: Are there compliance implications? - No
+       regulatory data: Baseline A - GDPR/CCPA data: +10 A - HIPAA/PCI
+       data: +20 A - Classified data: +30 A
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 19]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
 6.3.  Dynamic Risk Adjustment
 
    Action risk may be dynamically adjusted based on context:
 
-   6.3.1. Target-Based Adjustment
+   6.3.1.  Target-Based Adjustment
 
    The same action has different risk based on target:
 
       DELETE /api/users/test-account    A = 50 (test environment)
       DELETE /api/users/production      A = 85 (production data)
 
-   6.3.2. Volume-Based Adjustment
+   6.3.2.  Volume-Based Adjustment
 
    Bulk operations carry higher risk:
 
       DELETE /api/records/1             A = 70 (single record)
       DELETE /api/records?all=true      A = 95 (bulk delete)
 
-   6.3.3. Time-Based Adjustment
+   6.3.3.  Time-Based Adjustment
 
    Risk increases during critical periods:
 
@@ -784,37 +1093,40 @@ Table of Contents
       During peak hours: A = 70 (+10)
       During live event: A = 80 (+20)
 
-7. Silent Veto Mechanics
+7.  Silent Veto Mechanics
 
 7.1.  Veto Evaluation Order
 
    Enforcement follows a strict evaluation order:
 
-   1. Trust Proof Validation
-      - Signature valid?
-      - Not expired?
-      - If NO: DENY with INVALID_TRUST_PROOF
+   1.  Trust Proof Validation - Signature valid? - Not expired? - If NO:
+       supervision = silent_veto, reason INVALID_TRUST_PROOF
 
-   2. Soul Veto (Sovereignty Check)
-      - S = 1?
-      - If YES: DENY with SOVEREIGNTY_CONSTRAINT
+   2.  Soul Veto (Sovereignty Check) - S = 1? - If YES: supervision =
+       silent_veto, reason SOVEREIGNTY_CONSTRAINT
 
-   3. Trust Tier Eligibility
-      - Is action class permitted for tier?
-      - If NO: DENY with TIER_RESTRICTION
+   3.  Trust Tier Eligibility - Is action class permitted for tier? - If
+       NO: supervision = silent_veto, reason TIER_RESTRICTION
 
-   4. Zeroth Law (A <= E_trust)
-      - Is A <= E_trust?
-      - If NO: DENY with TRUST_INSUFFICIENT
+   4.  Zeroth Law (A <= E_trust) - Is A <= E_trust? - If NO: supervision
+       = silent_veto, reason TRUST_INSUFFICIENT
 
-   5. Custom Policy (Optional)
-      - Any additional policy constraints?
-      - If violated: DENY with POLICY_VIOLATION
+   5.  Custom Policy (Optional) - Any additional policy constraints? -
+       If violated: supervision = silent_veto, reason POLICY_VIOLATION
 
-   6. ALLOW
+
+
+
+Perkins                 Expires 14 February 2027               [Page 20]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   6.  RETURN the decision result - supervision and tightenedConstraints
+       - per [KTP-CORE] Section 6.6
 
    This order ensures that sovereignty constraints are always evaluated
-   first, followed by physics-based constraints, followed by tier
+   first, followed by environment-derived constraints, followed by tier
    restrictions, followed by any custom policies.
 
 7.2.  Veto Response Codes
@@ -855,23 +1167,34 @@ Table of Contents
 
    When a veto occurs, the PEP SHOULD notify relevant parties:
 
-   1. Agent: Receives error response with details
+   1.  Agent: Receives error response with details
 
-   2. Flight Recorder: Receives full decision context
+   2.  Flight Recorder: Receives full decision context
 
-   3. Monitoring: Metrics updated (veto counter, by type)
 
-   4. Alerting (optional): If veto rate exceeds threshold
+
+Perkins                 Expires 14 February 2027               [Page 21]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   3.  Monitoring: Metrics updated (veto counter, by type)
+
+   4.  Alerting (optional): If veto rate exceeds threshold
 
    Agents SHOULD implement veto handling:
 
-   - Parse veto response to understand reason
-   - If TRUST_INSUFFICIENT: Reduce activity, wait for recovery
-   - If SOVEREIGNTY_CONSTRAINT: Do not retry, seek remediation
-   - If TIER_RESTRICTION: Request tier upgrade path
-   - Log veto for own records
+   *  Parse veto response to understand reason
 
-8. Adaptive Dormancy
+   *  If TRUST_INSUFFICIENT: Reduce activity, wait for recovery
+
+   *  If SOVEREIGNTY_CONSTRAINT: Do not retry, seek remediation
+
+   *  If TIER_RESTRICTION: Request tier upgrade path
+
+   *  Log veto for own records
+
+8.  Adaptive Dormancy
 
    Adaptive Dormancy is the mechanism by which agents gracefully reduce
    their activity as environmental conditions degrade, rather than
@@ -881,31 +1204,39 @@ Table of Contents
 
    Dormancy is triggered by:
 
-   1. Tier Demotion: When E_trust drops below tier threshold
+   1.  Tier Demotion: When E_trust drops below tier threshold
 
-   2. Velocity Warning: When dE/dt indicates rapid degradation
+   2.  Velocity Warning: When dE/dt indicates rapid degradation
 
-   3. Direct Signal: When Trust Oracle issues dormancy advisory
+   3.  Direct Signal: When Trust Oracle issues dormancy advisory
 
-   4. Peer Signal: When peer agents report entering dormancy
+   4.  Peer Signal: When peer agents report entering dormancy
 
-   Dormancy is NOT a failure state. It is a survival strategy. An agent
-   in dormancy is conserving resources and protecting the environment
-   from actions it can no longer safely perform.
+   Dormancy is NOT a failure state.  It is a survival strategy.  An
+   agent in dormancy is conserving resources and protecting the
+   environment from actions it can no longer safely perform.
 
 8.2.  Graceful Degradation
 
    When entering a lower tier, agents SHOULD:
 
-   1. Complete in-flight operations if possible within timeout
+   1.  Complete in-flight operations if possible within timeout
 
-   2. Release resources not needed for new tier
+   2.  Release resources not needed for new tier
 
-   3. Cancel scheduled operations that exceed new tier
+   3.  Cancel scheduled operations that exceed new tier
 
-   4. Notify dependent systems of capability reduction
 
-   5. Enter reduced activity loop
+
+
+Perkins                 Expires 14 February 2027               [Page 22]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   4.  Notify dependent systems of capability reduction
+
+   5.  Enter reduced activity loop
 
    Degradation sequence example:
 
@@ -923,14 +1254,14 @@ Table of Contents
 
    When E_trust recovers above a tier threshold:
 
-   1. Agent detects tier promotion via Trust Proof
+   1.  Agent detects tier promotion via Trust Proof
 
-   2. Agent verifies recovery is stable (E_trust maintained for minimum
-      duration, e.g., 30 seconds)
+   2.  Agent verifies recovery is stable (E_trust maintained for minimum
+       duration, e.g., 30 seconds)
 
-   3. Agent gradually re-enables capabilities
+   3.  Agent gradually re-enables capabilities
 
-   4. Agent resumes normal operations
+   4.  Agent resumes normal operations
 
    Recovery SHOULD be gradual to avoid oscillation:
 
@@ -951,10 +1282,21 @@ Table of Contents
    falls below 50.
 
    In Hibernation:
-   - Agent performs NO operations except heartbeat
-   - Heartbeat interval increases to conserve resources
-   - Agent awaits external signal or Trust Score recovery
-   - All state is preserved for potential recovery
+
+
+
+Perkins                 Expires 14 February 2027               [Page 23]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   *  Agent performs NO operations except heartbeat
+
+   *  Heartbeat interval increases to conserve resources
+
+   *  Agent awaits external signal or Trust Score recovery
+
+   *  All state is preserved for potential recovery
 
    Heartbeat signal in hibernation:
 
@@ -969,11 +1311,15 @@ Table of Contents
       }
 
    Hibernation exit requires:
-   - E_trust >= 55 (with hysteresis buffer)
-   - Sustained for minimum 60 seconds
-   - No Soul veto active
 
-9. Mass Ceiling and Anti-Accumulation
+   *  E_trust >= 24 (the Observer floor of 22 plus the Section 5.3
+      promotion buffer)
+
+   *  Sustained for minimum 60 seconds
+
+   *  No Soul veto active
+
+9.  Mass Ceiling and Anti-Accumulation
 
    An agent that accumulates excessive trust becomes a systemic risk.
    Like a star that grows too massive, it can collapse catastrophically
@@ -986,19 +1332,33 @@ Table of Contents
 
    Without constraints, agents can accumulate trust indefinitely:
 
-   - Long tenure -> high E_base
-   - Many attestations -> high resilience score
-   - Critical role -> high dependency
+   *  Long tenure -> high E_base
+
+   *  Many attestations -> high resilience score
+
+   *  Critical role -> high dependency
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 24]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
 
    This creates "too big to fail" agents:
 
-   - Their failure would cascade across the system
-   - They cannot be easily replaced or demoted
-   - They may crowd out other agents
-   - They accumulate disproportionate authority
+   *  Their failure would cascade across the system
 
-   The physics metaphor: a star that exceeds the Chandrasekhar limit
-   cannot remain stable. It must either shed mass or collapse.
+   *  They cannot be easily replaced or demoted
+
+   *  They may crowd out other agents
+
+   *  They accumulate disproportionate authority
+
+   The astrophysical analogy (informative): a star that exceeds the
+   Chandrasekhar limit cannot remain stable.  It must either shed mass
+   or collapse.
 
 9.2.  Mass Ceiling
 
@@ -1018,9 +1378,11 @@ Table of Contents
 
    When an agent's E_base would exceed the ceiling:
 
-   1. E_base is capped at ceiling (excess trust does not accumulate)
-   2. Agent is flagged for mass review
-   3. Options presented: mitosis, redistribution, or acceptance
+   1.  E_base is capped at ceiling (excess trust does not accumulate)
+
+   2.  Agent is flagged for mass review
+
+   3.  Options presented: mitosis, redistribution, or acceptance
 
 9.3.  Mitosis Protocol
 
@@ -1030,16 +1392,29 @@ Table of Contents
 
    Mitosis process:
 
-   1. Agent (or operator) initiates mitosis request
-   2. Trust Oracle evaluates agent's responsibilities
-   3. Trust Oracle proposes division plan:
-      - Which capabilities go to which child agent
-      - How E_base is distributed
-      - Dependency migration plan
-   4. Operator approves division plan
-   5. Child agents created with allocated E_base
-   6. Dependencies migrated to appropriate children
-   7. Parent agent retired or reduced
+   1.  Agent (or operator) initiates mitosis request
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 25]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   2.  Trust Oracle evaluates agent's responsibilities
+
+   3.  Trust Oracle proposes division plan: - Which capabilities go to
+       which child agent - How E_base is distributed - Dependency
+       migration plan
+
+   4.  Operator approves division plan
+
+   5.  Child agents created with allocated E_base
+
+   6.  Dependencies migrated to appropriate children
+
+   7.  Parent agent retired or reduced
 
    E_base distribution in mitosis:
 
@@ -1071,24 +1446,35 @@ Table of Contents
 
    Concentration metrics:
 
-   1. Single Agent Dependency (SAD): What percentage of critical paths
-      depend on one agent?
-      Threshold: No agent should be on > 30% of critical paths
+   1.  Single Agent Dependency (SAD): What percentage of critical paths
+       depend on one agent?  Threshold: No agent should be on > 30% of
+       critical paths
 
-   2. Mass Concentration Index (MCI): What percentage of total zone
-      trust is held by top N agents?
-      Threshold: Top 5 agents should hold < 40% of total trust
 
-   3. Failure Blast Radius (FBR): If this agent fails, how many others
-      are affected?
-      Threshold: No agent should have FBR > 20% of zone population
+
+
+Perkins                 Expires 14 February 2027               [Page 26]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   2.  Mass Concentration Index (MCI): What percentage of total zone
+       trust is held by top N agents?  Threshold: Top 5 agents should
+       hold < 40% of total trust
+
+   3.  Failure Blast Radius (FBR): If this agent fails, how many others
+       are affected?  Threshold: No agent should have FBR > 20% of zone
+       population
 
    When thresholds are exceeded:
 
-   - Alert zone operators
-   - Flag agents for mitosis review
-   - Increase monitoring on concentrated agents
-   - Consider architectural changes to reduce dependency
+   *  Alert zone operators
+
+   *  Flag agents for mitosis review
+
+   *  Increase monitoring on concentrated agents
+
+   *  Consider architectural changes to reduce dependency
 
 9.5.  Progressive Trust Taxation
 
@@ -1113,19 +1499,40 @@ Table of Contents
    the advantage of extreme accumulation, encouraging distribution of
    responsibilities.
 
+   A zone implementing progressive trust taxation does not offer Admin
+   Mode.  The taxed curve saturates at 87, which at any environmental
+   deflation a live zone exhibits sits below the Admin threshold; this
+   is a consequence of the curve, and it is the intended trade rather
+   than an accident.  The section's purpose is to discourage
+   accumulation, and the top tier is accumulation.  A zone that requires
+   Admin Mode MUST NOT implement this section; a zone that implements it
+
+
+
+Perkins                 Expires 14 February 2027               [Page 27]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   has chosen distribution of responsibilities over apex capability, and
+   its capability planning MUST proceed from Operator Mode as the
+   highest attainable tier.
+
 9.6.  Anti-Accumulation in Federation
 
    Federated zones MUST coordinate on mass ceiling enforcement:
 
-   - An agent at ceiling in Zone A should not accumulate freely in Zone
-     B
-   - Cross-zone mass is aggregated for ceiling calculation
-   - Mitosis may span zones (child agents in different zones)
+   *  An agent at ceiling in Zone A should not accumulate freely in Zone
+      B
+
+   *  Cross-zone mass is aggregated for ceiling calculation
+
+   *  Mitosis may span zones (child agents in different zones)
 
    Federation mass coordination:
 
       {
-        "agent_id": "agent:persistent:mega-service",
+        "agent_id": "agent:guarantor:mega-service",
         "zone_mass": {
           "zone-blue-prod": 88,
           "zone-blue-staging": 45,
@@ -1137,7 +1544,7 @@ Table of Contents
         "recommendation": "mitosis"
       }
 
-10. Latency Requirements
+10.  Latency Requirements
 
    Enforcement must be fast enough to not impede legitimate operations
    while thorough enough to maintain security.
@@ -1155,80 +1562,231 @@ Table of Contents
    | Total PEP overhead        | < 15 ms    |
    +---------------------------+------------+
 
+
+
+
+Perkins                 Expires 14 February 2027               [Page 28]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
    To achieve these targets:
 
-   1. Cache Trust Oracle public keys locally
-   2. Cache action risk mappings locally
-   3. Use async logging to Flight Recorder
-   4. Pre-compute tier from E_trust
-   5. Use efficient data structures (hash maps, not linear search)
+   1.  Cache Trust Oracle public keys locally
 
-11. Security Considerations
+   2.  Cache action risk mappings locally
 
-   11.1. PEP Bypass
+   3.  Use async logging to Flight Recorder
+
+   4.  Pre-compute tier from E_trust
+
+   5.  Use efficient data structures (hash maps, not linear search)
+
+11.  Security Considerations
+
+   11.1.  PEP Bypass
 
    Attackers may attempt to bypass PEPs entirely.
 
    Mitigations:
-   - Deploy PEPs at network choke points
-   - Use defense in depth (multiple PEP layers)
-   - Monitor for traffic not passing through PEPs
-   - Implement network segmentation
 
-   11.2. Trust Proof Theft
+   *  Deploy PEPs at network choke points
+
+   *  Use defense in depth (multiple PEP layers)
+
+   *  Monitor for traffic not passing through PEPs
+
+   *  Implement network segmentation
+
+   11.2.  Trust Proof Theft
 
    Stolen Trust Proofs could be used by attackers.
 
    Mitigations:
-   - Short Trust Proof lifetime (max 10 seconds)
-   - Bind Trust Proof to agent identity
-   - Bind Trust Proof to TLS session
-   - Monitor for Trust Proof reuse
 
-   11.3. PEP Compromise
+   *  Short Trust Proof lifetime (max 10 seconds)
+
+   *  Bind Trust Proof to agent identity
+
+   *  Bind Trust Proof to TLS session
+
+   *  Monitor for Trust Proof reuse
+
+   11.3.  PEP Compromise
 
    A compromised PEP could allow unauthorized actions.
 
    Mitigations:
-   - Run PEPs in hardened containers
-   - Implement PEP integrity monitoring
-   - Use multiple PEP layers (defense in depth)
-   - Log all PEP decisions for audit
 
-   11.4. Denial of Service
+
+
+
+Perkins                 Expires 14 February 2027               [Page 29]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   *  Run PEPs in hardened containers
+
+   *  Implement PEP integrity monitoring
+
+   *  Use multiple PEP layers (defense in depth)
+
+   *  Log all PEP decisions for audit
+
+   11.4.  Denial of Service
 
    Attackers may attempt to overwhelm PEPs.
 
    Mitigations:
-   - Implement rate limiting at PEP
-   - Scale PEPs horizontally
-   - Use caching to reduce Oracle load
-   - Implement circuit breakers
 
-12. References
+   *  Implement rate limiting at PEP
+
+   *  Scale PEPs horizontally
+
+   *  Use caching to reduce Oracle load
+
+   *  Implement circuit breakers
+
+12.  References
 
 12.1.  Normative References
 
-   [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core
-              Specification", NMCITRA, November 2025.
+   [KTP-ZONES]
+              Perkins, C., "Kinetic Trust Protocol - Blue Zone
+              Specification", November 2025.
 
-   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Tensor
-              Sensor Specification", NMCITRA, November 2025.
+   [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core
+              Specification", November 2025.
+
+   [KTP-SENSORS]
+              Perkins, C., "Kinetic Trust Protocol - Context Signal
+              Sensor Specification", November 2025.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119, March 1997.
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 12.2.  Informative References
 
-   [KTP-AUDIT] Perkins, C., "Kinetic Trust Protocol - Flight Recorder
-              Specification", NMCITRA, November 2025.
 
-   [KTP-IDENTITY] Perkins, C., "Kinetic Trust Protocol - Vector Identity
-              Specification", NMCITRA, November 2025.
 
-Authors' Addresses
+
+Perkins                 Expires 14 February 2027               [Page 30]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+   [KTP-AUDIT]
+              Perkins, C., "Kinetic Trust Protocol - Flight Recorder
+              Specification", November 2025.
+
+   [KTP-IDENTITY]
+              Perkins, C., "Kinetic Trust Protocol - Vector Identity
+              Specification", November 2025.
+
+Appendix A.  Changes from v1
+
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0.  The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+A.1.  The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+                       +============+=============+
+                       | v1         | v2.0.0      |
+                       +============+=============+
+                       | tethered   | sponsored   |
+                       +------------+-------------+
+                       | divergent  | independent |
+                       +------------+-------------+
+                       | persistent | guarantor   |
+                       +------------+-------------+
+
+                                 Table 1
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names.  The v1
+   words each carried an unintended security reading - in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart - and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder.  Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+A.2.  The Trust Tier thresholds
+
+             +===============+===============+===============+
+             | Tier          | v1            | v2.0.0        |
+             +===============+===============+===============+
+             | Admin Mode    | E_trust >= 95 | E_trust >= 85 |
+             +---------------+---------------+---------------+
+             | Operator Mode | E_trust >= 85 | E_trust >= 72 |
+
+
+
+Perkins                 Expires 14 February 2027               [Page 31]
+
+Internet-Draft                 KTP-ENFORCE                   August 2026
+
+
+             +---------------+---------------+---------------+
+             | Analyst Mode  | E_trust >= 70 | E_trust >= 58 |
+             +---------------+---------------+---------------+
+             | Observer Mode | E_trust >= 50 | E_trust >= 22 |
+             +---------------+---------------+---------------+
+             | Hibernation   | E_trust < 50  | E_trust < 22  |
+             +---------------+---------------+---------------+
+
+                                  Table 2
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses.  The generation ceilings
+   are unchanged; one table moved, not two.
+
+   Two consequences travel with the change.  Hibernation exit moves from
+   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
+   a floor of 50 becomes a thirty-three-point one over a floor of 22.
+   And the stable-conditions requirement for the top tier moves from R <
+   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
+   corpus illustrates.
+
+Author's Address
 
    Chris Perkins
-   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
-
+   NMCITRA
    Email: cperkins@nmcitra.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 32]

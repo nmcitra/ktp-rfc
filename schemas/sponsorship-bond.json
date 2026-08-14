@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/sponsorship-bond.json",
+  "title": "KTP Sponsorship Bond",
+  "description": "The instrument behind the costly-vouching rule (KTP-IDENTITY Section 6). A bond closes without releasing: the taper holds at the Ancestral Liability floor and the residual persists for as long as the lineage does. Promoted from KTP-IDENTITY Appendix B.2; this file is canonical and the appendix references it.",
+  "type": "object",
+  "required": [
+    "bond_id",
+    "sponsor_id",
+    "sponsored_id",
+    "stake_percentage",
+    "stake_amount",
+    "penalty_rate",
+    "duration",
+    "created_at",
+    "expires_at",
+    "status",
+    "sponsor_signature",
+    "oracle_witness"
+  ],
+  "properties": {
+    "bond_id": {
+      "type": "string"
+    },
+    "sponsor_id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "sponsored_id": {
+      "type": "string",
+      "format": "uri"
+    },
+    "stake_percentage": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Percent-points of the sponsor's E_base (1-50), divided by 100 at use"
+    },
+    "stake_amount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 50,
+      "description": "Absolute E_base staked: sponsor_E_base * stake_percentage / 100"
+    },
+    "residual_amount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 50,
+      "description": "Ancestral Liability, 0.1^depth * stake_amount; permanent, see Section 6.4"
+    },
+    "penalty_rate": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "duration": {
+      "type": "string",
+      "format": "duration",
+      "description": "Capital binding period; binds staked capital only and MUST NOT be read as terminating the Ancestral Liability"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "residual",
+        "released",
+        "penalized"
+      ],
+      "description": "Bond state per Section 6.4: residual after closure; released only on a sustained for-cause claim"
+    },
+    "sponsor_signature": {
+      "type": "string"
+    },
+    "oracle_witness": {
+      "type": "string"
+    }
+  }
+}

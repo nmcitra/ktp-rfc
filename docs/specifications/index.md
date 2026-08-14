@@ -1,10 +1,13 @@
 # Specifications
 
-*The complete technical blueprint for Digital Physics*
+*The complete technical blueprint for the Kinetic Trust Protocol*
 
 ---
 
 The KTP specification suite defines every aspect of the protocol—from cryptographic primitives to governance mechanisms. These documents are the authoritative reference for implementers, auditors, and researchers.
+
+!!! info "Where the specifications live"
+    Every normative artifact is in the repository, outside this documentation site: the RFC set in `rfcs/`, the two standalone normative documents in `specifications/`, the wire schemas in `schemas/`. This site describes them and links to them. Where the two disagree, the repository is right.
 
 <div class="grid cards" markdown>
 
@@ -16,29 +19,45 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     [:octicons-arrow-right-24: Browse RFCs](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs-txt){ target="_blank" }
 
--   :material-shield-check:{ .lg .middle } **Blue Zones**
-
-    ---
-
-    Architectural patterns for creating safe, bounded trust environments.
-
-    [:octicons-arrow-right-24: Explore Blue Zones](blue-zones.md)
-
 -   :material-robot-industrial:{ .lg .middle } **Kinetic Envelope**
 
     ---
 
-    Physics-aware authorization: A ≤ E evaluated per action, graduated deautomation, and a seven-vector conformance suite.
+    A ≤ E evaluated per action against the kinematics of the request: graduated deautomation, the kinematic veto, and a seven-vector conformance suite.
 
-    [:octicons-arrow-right-24: Read the spec](kinetic-envelope.md)
+    [:octicons-arrow-right-24: Read the spec](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md)
+
+-   :material-clipboard-check:{ .lg .middle } **Deployment Profile**
+
+    ---
+
+    The declaration surface: one object carrying every declaration the series requires of a deployment — the Risk Factor bridge, feed mapping, aliases, normalization, and the declared parameters.
+
+    [:octicons-arrow-right-24: Read the spec](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md)
 
 -   :material-code-json:{ .lg .middle } **Schemas**
 
     ---
 
-    JSON schemas for Context Tensors, Trust Proofs, and other core data structures.
+    The seven wire schemas — Risk Factors, Trust Proof, deployment profile, and the rest — with their absolute `$id` URLs.
 
-    [:octicons-arrow-right-24: View Schemas](../schemas/index.md)
+    [:octicons-arrow-right-24: View Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas)
+
+-   :material-shield-check:{ .lg .middle } **Blue Zones**
+
+    ---
+
+    A pointer to KTP-Zones: the zone gradient, what an operator guarantees, and how trust crosses a border.
+
+    [:octicons-arrow-right-24: Blue Zones](blue-zones.md)
+
+-   :material-fingerprint:{ .lg .middle } **Identity**
+
+    ---
+
+    A pointer to KTP-Identity: identity as a trajectory, the proof carried for it, attestation and revocation.
+
+    [:octicons-arrow-right-24: Identity](identity.md)
 
 </div>
 
@@ -54,7 +73,7 @@ Different readers need different entry points. Select the journey that matches y
     **Foundation** → **Identity** → **Environment** → **Compliance**
     
     1. [KTP-Core](../rfcs/ktp-core.md) → [KTP-Crypto](../rfcs/ktp-crypto.md) → [KTP-Transport](../rfcs/ktp-transport.md)
-    2. [KTP-Identity](../rfcs/ktp-identity.md) → [KTP-Tensors](../rfcs/ktp-tensors.md)
+    2. [KTP-Identity](../rfcs/ktp-identity.md) → [KTP-Signals](../rfcs/ktp-signals.md)
     3. [KTP-Zones](../rfcs/ktp-zones.md) → [KTP-Federation](../rfcs/ktp-federation.md)
     4. [KTP-Conformance](../rfcs/ktp-conformance.md) → [KTP-Audit](../rfcs/ktp-audit.md)
 
@@ -68,12 +87,12 @@ Different readers need different entry points. Select the journey that matches y
     3. [KTP-Governance](../rfcs/ktp-governance.md) → [KTP-Human](../rfcs/ktp-human.md)
 
 !!! tip "🎓 Researcher's Path"
-    Understanding the theory behind Digital Physics? Explore:
+    Understanding the theory behind KTP? Explore:
     
     **Philosophy** → **Mechanics** → **Innovation**
     
     1. [KTP-Core](../rfcs/ktp-core.md) (Sections 1-4) → [Constitution](../learn/constitution.md)
-    2. [KTP-Tensors](../rfcs/ktp-tensors.md) → [KTP-Gravity](../rfcs/ktp-gravity.md) → [KTP-Signal](../rfcs/ktp-signal.md)
+    2. [KTP-Signals](../rfcs/ktp-signals.md) → [KTP-Attenuation](../rfcs/ktp-attenuation.md) → [KTP-Information](../rfcs/ktp-information.md)
     3. [KTP-Oracle](../rfcs/ktp-oracle.md) → [KTP-Celestial](../rfcs/ktp-celestial.md)
 
 ---
@@ -100,16 +119,16 @@ Different readers need different entry points. Select the journey that matches y
     
     | Specification | Status | Description |
     |--------------|--------|-------------|
-    | [KTP-Tensors](../rfcs/ktp-tensors.md) | :material-check-circle:{ .stable } Stable | Context Tensor specification (1,707 dimensions) |
-    | [KTP-Gravity](../rfcs/ktp-gravity.md) | :material-progress-clock:{ .draft } Draft | Digital Gravity enforcement mechanisms |
-    | [KTP-Signal](../rfcs/ktp-signal.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
+    | [KTP-Signals](../rfcs/ktp-signals.md) | :material-check-circle:{ .stable } Stable | Context Signals specification (1,644 signals) |
+    | [KTP-Attenuation](../rfcs/ktp-attenuation.md) | :material-progress-clock:{ .draft } Draft | Capability attenuation: constraint types and real-time application |
+    | [KTP-Information](../rfcs/ktp-information.md) | :material-progress-clock:{ .draft } Draft | Trust signal propagation and analysis |
     | [KTP-Relational](../rfcs/ktp-relational.md) | :material-progress-clock:{ .draft } Draft | Agent-to-agent trust relationships |
     | [KTP-Oracle](../rfcs/ktp-oracle.md) | :material-flask:{ .experimental } Experimental | Trust oracles and external attestation |
     
     ??? info "Understanding Trust Flow"
         Trust in KTP flows through a measurement → computation → enforcement pipeline:
         
-        - **Tensors** capture the 1,707-dimensional environmental state
+        - **Signals** capture the 1,644-signal environmental state
         - **Signal** propagates trust changes through the network
         - **Gravity** enforces constraints as agents approach limits
         - **Relational** tracks inter-agent trust dynamics
@@ -207,29 +226,27 @@ Different readers need different entry points. Select the journey that matches y
 
 ---
 
-## Context Tensor Schema
+## Risk Factors Schema
 
-The Context Tensor is the core data structure for trust decisions. Below is a high-level view of its schema structure.
+The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.json` by the v2 schema rewrite — carries the six weighted inputs to the risk aggregate `R`. Six keys, each a number in `[0, 1]`, all required, no others accepted:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `tensor_id` | UUID | Unique identifier for this tensor instance |
-| `timestamp` | ISO8601 | When this tensor was calculated |
-| `e_score` | Float (0-100) | The final Experience Score |
-| `arq_vector` | Object | The raw ARQ dimensions |
-| `arq_vector.accessibility` | Float (0-1) | Availability of the resource |
-| `arq_vector.retainability` | Float (0-1) | Stability of the connection |
-| `arq_vector.quality` | Float (0-1) | Fidelity of the interaction |
-| `risk_deflation` | Object | Risk factors applied |
-| `risk_deflation.security` | Float (0-1) | Security penalty |
-| `risk_deflation.compliance` | Float (0-1) | Compliance penalty |
+| Key | What it measures |
+|-----|------------------|
+| `evidence_density` | Weight and density of presence in the environment |
+| `trust_trend` | Rate of change of standing, and its direction |
+| `adversarial_pressure` | Measured adversarial stress on the environment |
+| `moment_criticality` | Criticality of the current moment or operational phase |
+| `update_resistance` | How hard the trust value is to move — the depth of the evidence base behind current standing |
+| `attestation_coverage` | How much of the agent's activity is witnessed and attestable |
 
-For the full JSON schema definition, see [context-tensor.json](../schemas/context-tensor.json).
+The Soul veto is evaluated before aggregation and is not a term in it — six plus a veto, never seven. It has its own schema, [`soul-constraint.json`](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/soul-constraint.json).
+
+For the full JSON schema definition, see [risk-factors.json](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/risk-factors.json).
 
 ## Quick Reference
 
 !!! quote "Most Referenced"
-    [KTP-Core](../rfcs/ktp-core.md) · [KTP-Identity](../rfcs/ktp-identity.md) · [KTP-Zones](../rfcs/ktp-zones.md) · [KTP-Tensors](../rfcs/ktp-tensors.md)
+    [KTP-Core](../rfcs/ktp-core.md) · [KTP-Identity](../rfcs/ktp-identity.md) · [KTP-Zones](../rfcs/ktp-zones.md) · [KTP-Signals](../rfcs/ktp-signals.md)
 
 !!! example "Complete RFC Index"
     For a flat listing of all specifications, visit the [GitHub RFC directory](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs){ target="_blank" }.
@@ -254,7 +271,7 @@ For the full JSON schema definition, see [context-tensor.json](../schemas/contex
 
     Explore the JSON schemas that define KTP's core data formats.
 
-    [:octicons-arrow-right-24: Schemas](../schemas/index.md)
+    [:octicons-arrow-right-24: Schemas](https://github.com/nmcitra/ktp-rfc/tree/main/schemas)
 
 -   :material-book-open-variant:{ .lg .middle } **Back to Basics**
 

@@ -11,15 +11,12 @@ License 2.0 (see `LICENSE`).
 Please cite KTP when your work materially uses or discusses:
 
 - the KTP Zeroth Law, `A ≤ E`;
-- the KTP formulation "Trust is Mass";
-- "Risk is Friction" as part of the KTP model;
 - "Authorization is Motion";
 - "Identity is Trajectory";
-- the KTP Context Tensor;
+- the KTP Risk Factors (six weighted inputs and the Soul veto);
 - the Silent Veto;
-- Digital Gravity as defined by KTP;
 - KTP Blue Zones;
-- the KTP Trust Equation (`E_trust = E_base × (1 - R)`);
+- the KTP Trust Score (`E_trust = E_base × (1 - R)`);
 - or the combined KTP environment-first architecture.
 
 Preferred citation is in `CITATION.cff` and at the top of `README.md`.

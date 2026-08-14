@@ -50,7 +50,7 @@ Your effective trust is always less than or equal to your base performance:
 KTP recognizes four distinct risk categories, each measured and applied independently:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: Risk category taxonomy aligns with the Context Tensor dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) Section 4, "Heat Dimension."
+1. :material-star-four-points-circle: Risk category taxonomy aligns with the Risk Factor dimensions. See [KTP-SIGNALS](../rfcs/ktp-signals.md) Section 4, "Heat Dimension."
 
 </div>
 
@@ -180,7 +180,7 @@ Different trust tiers have different risk tolerances. As risk increases, agents 
   <div class="risk-tier risk-tier--god">
     <div class="risk-tier-badge">≤5%</div>
     <div class="risk-tier-content">
-      <strong>God Mode</strong>
+      <strong>Admin Mode</strong>
       <span>Immediate demotion if exceeded</span>
     </div>
   </div>
@@ -262,13 +262,13 @@ Risk can be reduced through four primary strategies:
 
 <div class="grid cards ktp-animate" markdown>
 
--   :material-cube-outline:{ .lg .middle } **Context Tensor**
+-   :material-cube-outline:{ .lg .middle } **Context Signals**
 
     ---
 
     See how risk is measured through the Heat dimension.
 
-    [:octicons-arrow-right-24: Context Tensor](context-tensor.md#__tabbed_2_4)
+    [:octicons-arrow-right-24: Context Signals](risk-factors.md#__tabbed_2_4)
 
 -   :material-chart-timeline-variant:{ .lg .middle } **Telemetry**
 

@@ -48,7 +48,7 @@ This step transforms raw telemetry into actionable intelligence that can inform 
 - Measure system health and reliability
 - Track agent behavior over time
 
-This analysis becomes the foundation for **context tensor construction** in KTP.
+This analysis becomes the foundation for **`risk_factors` construction** in KTP.
 
 ---
 
@@ -86,7 +86,7 @@ Once you have observability in place, the path to KTP involves:
 1. **Understand the Fundamentals**
    - Read [KTP Core Concepts](../learn/core-concepts.md)
    - Study the [Zeroth Law](../learn/constitution.md) ($A \leq E$)
-   - Review [Context Tensors](../learn/context-tensor.md)
+   - Review [Context Signals](../learn/risk-factors.md)
 
 2. **Explore the Specifications**
    - [KTP-Core](../rfcs/ktp-core.md) - Protocol foundation
@@ -95,7 +95,7 @@ Once you have observability in place, the path to KTP involves:
 
 3. **Experiment with Examples**
    - Browse [code examples](examples.md)
-   - Try the [Digital Physics Viewer](digital-physics-viewer.md)
+   - Try the [Trust Flow Viewer](trust-flow-viewer.md)
    - Join the developer community
 
 ---

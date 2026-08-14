@@ -1,356 +1,291 @@
-# Kinetic Trust Protocol (KTP) - RFC Series
+# Kinetic Trust Protocol (KTP) — RFC Series
 
-**Status**: Draft Specification — NMCITRA  
-**First published**: November 2025  
-**Last updated**: July 2026
+**Version**: 2.0.0 *Gödel* · **Status**: Draft specification — NMCITRA  
+**First published**: November 2025 · **This release**: 14 August 2026
 
-This repository contains draft specifications developed by the New Mexico
-Cyber Intelligence & Threat Response Alliance (NMCITRA). These documents
-have not been submitted to the IETF and do not represent Internet Standards
-or consensus of any standards body.
+Draft specifications developed by the New Mexico Cyber Intelligence & Threat
+Response Alliance (NMCITRA). They have not been submitted to the IETF and do
+not represent an Internet Standard or the consensus of any standards body.
 
-> **Documentation site:** the full specifications render at
-> <https://nmcitra.github.io/ktp-rfc/>. Each RFC below links to its
-> summary page in `rfcs/`, which embeds the complete specification text
-> from `rfcs-txt/`.
+## Read the specifications
 
-> **Citing KTP:** KTP is free to use, implement, and commercialize under
-> Apache 2.0. When your work materially uses KTP's named constructs or
-> architecture, please cite it — see [`CITATION.cff`](CITATION.cff) and
-> [`PROVENANCE.md`](PROVENANCE.md).
+The specifications live in [**`rfcs-md/`**](rfcs-md/), rendered by GitHub. Start
+there — every document below is a link into that directory, readable in the
+browser without cloning anything. It is generated from `rfc-src/`; edit the
+source, never the render.
 
-> *"We cannot command Nature except by obeying her."* — Francis Bacon
+The same set renders as a documentation site at
+<https://nmcitra.github.io/ktp-rfc/>; the schemas are published at
+<https://kinetic-trust-protocol.net/specs/schemas/v2/>.
 
-## Overview
+## What KTP specifies
 
-The Kinetic Trust Protocol (KTP) is a framework for dynamic, physics-based authorization of autonomous agents. It replaces static permission models with environmental constraints that adapt in real-time to system conditions.
+Authorization derived from the environment rather than issued in advance. The
+question is not *does this agent hold a permission* but *can these conditions
+support this action right now* — and the answer is recomputed continuously
+instead of being settled once at grant time.
 
-**The Core Insight**: Instead of asking "Does this agent have permission?", KTP asks "Can this environment safely support this action?"
+Three assumptions in conventional authorization are what force the change:
 
-## The Problem
+1. **The passport fallacy** — possession of a credential is treated as proof
+   of identity.
+2. **The static fallacy** — a permission verified at time T is treated as
+   valid at T+1.
+3. **The vacuum fallacy** — the system is treated as independent of the
+   conditions it runs in.
 
-Traditional authorization systems suffer from three fatal assumptions:
+Agents acting at machine speed break all three.
 
-1. **The Passport Fallacy**: Possession of a credential equals proof of identity
-2. **The Static Fallacy**: Permissions verified at time T remain valid at T+1
-3. **The Vacuum Fallacy**: Digital systems operate independent of physical reality
-
-In the age of autonomous agents operating at machine-speed, all three assumptions fail catastrophically.
-
-## The Solution: Digital Physics
-
-KTP introduces a physics-based model where:
-
-- **Trust is Mass**: Earned through survival, not assigned by fiat
-- **Risk is Friction**: Environmental stress that constrains movement
-- **Authorization is Motion**: The result of mass overcoming friction
-- **Identity is Trajectory**: A vector of movement, not a static credential
-
-## The Zeroth Law
-
-The foundational constraint of all KTP systems:
+### The Zeroth Law
 
 ```
-A ≤ E
+A <= E
 
-Where:
-  A = Autonomy (intrinsic risk of the requested action)
-  E = Environment stability (current Trust Score)
+  A = Autonomy — the intrinsic risk of the requested action
+  E = Environment — what current conditions can support
 ```
 
-This is not a policy. It is a physical constraint enforced by cryptography.
+An agent's autonomy must never exceed the stability of the environment it acts
+in. Every other requirement in the series is downstream of that constraint.
 
-## RFC Series
-
-This repository contains 27 RFC documents plus the Constitution, comprising
-the complete KTP specification. Each link points to the RFC's summary page in
-`rfcs/`, which embeds the full specification text.
-
-### Foundational Documents
-
-| Document | Title | Lines | Description |
-|----------|-------|-------|-------------|
-| [Constitution](constitution.txt) | Constitution of Digital Physics | 781 | Preamble and 10 Articles defining the governing framework |
-| [KTP-Core](rfcs/ktp-core.md) | Core Protocol | 1,761 | Trust Score, Context Tensor, Trust Proof, Silent Veto, Anti-Goodhart measures |
-
-### Identity & Trust
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Identity](rfcs/ktp-identity.md) | Vector Identity | 1,472 | Trajectory Chains, Proof of Resilience, Sponsorship, NIST 800-63 Identity Proofing |
-| [KTP-Tensors](rfcs/ktp-tensors.md) | Context Tensor Specification | 840 | The measurement framework: dimensions across the six domains |
-| [KTP-Sensors](rfcs/ktp-sensors.md) | Context Tensor Sensors | 984 | Sensor specifications, Risk Domains, normalization, domain profiles |
-| [KTP-Signal](rfcs/ktp-signal.md) | Signal Environment | 599 | Information-environment measurement, truth conditions, epistemic health |
-
-### Enforcement & Audit
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Gravity](rfcs/ktp-gravity.md) | Digital Gravity | 774 | Gravity wells, constraint types, real-time enforcement, the physics of denial |
-| [KTP-Enforce](rfcs/ktp-enforce.md) | Enforcement Layer | 1,234 | Policy Enforcement Points, Trust Tiers, Adaptive Dormancy, Mass Ceiling |
-| [KTP-Audit](rfcs/ktp-audit.md) | Flight Recorder | 1,044 | Decision Geometry, immutable logging, forensics, counterfactual analysis |
-| [KTP-Emergency](rfcs/ktp-emergency.md) | Emergency & Circuit Breakers | 1,110 | Emergency levels, circuit breakers, graceful degradation, zone collapse |
-
-### Zones & Federation
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Zones](rfcs/ktp-zones.md) | Blue Zones & Trust Boundaries | 1,273 | Zone types (Deep Blue → Wild), discovery protocols, ingress/egress |
-| [KTP-Federation](rfcs/ktp-federation.md) | Trust Federation | 1,124 | Inter-zone trust, cross-attestation, federation governance |
-| [KTP-Oracle](rfcs/ktp-oracle.md) | Oracle Mesh | 1,000 | Trust Oracle mesh, consensus, threshold signatures, accountability |
-
-### Technical Infrastructure
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Crypto](rfcs/ktp-crypto.md) | Cryptographic Specification | 1,538 | Algorithms, key management, HSM requirements, post-quantum strategy |
-| [KTP-Transport](rfcs/ktp-transport.md) | Transport Layer | 1,423 | Wire formats, REST/gRPC APIs, real-time protocols, WebSocket streams |
-| [KTP-Threat-Model](rfcs/ktp-threat-model.md) | Threat Model | 1,580 | STRIDE analysis, attack trees, risk assessment, security requirements |
-
-### Operations & Recovery
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Recovery](rfcs/ktp-recovery.md) | Disaster Recovery & Resilience | 1,174 | Backup/restore, key ceremonies, zone recovery, split-brain resolution |
-| [KTP-Migration](rfcs/ktp-migration.md) | Migration Guide | 1,216 | Adoption pathways, staged deployment |
-| [KTP-Legacy](rfcs/ktp-legacy.md) | Legacy System Integration | 870 | OAuth 2.0 / OIDC / SAML / mTLS bridges, trust equivalence mapping |
-| [KTP-Deprecation](rfcs/ktp-deprecation.md) | End-of-Life Specification | 785 | Deprecation timelines, trajectory preservation, knowledge transfer |
-
-### Human & Governance
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Human](rfcs/ktp-human.md) | Human Integration | 1,305 | Humans as agents, collaboration patterns, system ethics |
-| [KTP-Relational](rfcs/ktp-relational.md) | Relational Dynamics | 381 | The Va, indigenous relational concepts, relationship repair, ceremony |
-| [KTP-Governance](rfcs/ktp-governance.md) | Specification Governance | 890 | Stewardship council, amendment process, anti-capture provisions |
-
-### Privacy & Compliance
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Privacy](rfcs/ktp-privacy.md) | Privacy Framework | 2,255 | GDPR, CCPA, ICCPR Article 17, privacy-preserving computation, data minimization |
-| [KTP-Provenance](rfcs/ktp-provenance.md) | Provenance & Knowledge Debt | 1,103 | Data provenance, consent status, indigenous data principles, capability lineage |
-| [KTP-Conformance](rfcs/ktp-conformance.md) | Conformance Requirements | 1,228 | Certification levels, testing requirements, interoperability |
-
-### Special Topics
-
-| RFC | Title | Lines | Description |
-|-----|-------|-------|-------------|
-| [KTP-Celestial](rfcs/ktp-celestial.md) | Celestial Wayfinding | 1,125 | Interplanetary trust, light-cone model, Polynesian navigation philosophy |
-| [KTP-Problems](rfcs/ktp-problems.md) | Open Problems | 2,471 | Known limitations, anticipated critiques, honest assessment, call for collaboration |
-
-### Summary Statistics
-
-- **Total RFC Documents**: 27
-- **Total Specification Lines**: ~33,000 (RFCs + Constitution)
-- **JSON Schemas**: 4
-- **Constitutional Articles**: 10
-
-## Quick Start
-
-### The Trust Equation
+### The Trust Score
 
 ```
 E_trust = E_base × (1 - R)
 
-Where:
-  E_base  = Agent's intrinsic capability (0-100)
-  R       = Risk factor from Context Tensor (0-1)
-  E_trust = What the environment allows (0-100)
+  E_base  = earned standing, 0–100
+  R       = the risk aggregate, 0–1
+  E_trust = what the environment currently allows, 0–100
 ```
 
-### The Context Tensor
+`E_base` is what an agent has earned along its trajectory. `R` deflates it by
+what the environment is doing. When `A > E_trust` the action is denied without
+appeal — the Silent Veto. Denial is a consequence of the arithmetic, not a
+judgment about the agent.
 
-Seven dimensions of environmental reality:
+### Trust tiers
 
-| Dimension | Symbol | Physics Equivalent | Measures | Sensors |
-|-----------|--------|-------------------|----------|---------|
-| Mass | M | Density/Mass | Physical density | CO2, LIDAR, RF noise, device count |
-| Momentum | P | Kinetic Energy | Data flow velocity | TPS, link saturation, packet velocity |
-| Heat | H | Entropy/Temperature | Adversarial pressure | WAF blocks, anomaly rates, CPU temps |
-| Time | T | Temporal Phase | Moment criticality | Event countdown, maintenance windows |
-| Inertia | I | Inertial Mass | Blast radius | Topology centrality, dependency depth |
-| Observer | O | Frame of Reference | Who is watching | VIP presence, regulatory jurisdiction |
-| **Soul** | **S** | **Cosmological Constant** | **Sovereignty constraints** | **TK Labels, OCAP/CARE, Sacred Land geofences** |
+| Tier | `E_trust` | Capability |
+|---|---|---|
+| Admin Mode | ≥ 85 | Full infrastructure control |
+| Operator Mode | ≥ 72 | Service management, configuration changes |
+| Analyst Mode | ≥ 58 | Data query, read-only operations |
+| Observer Mode | ≥ 22 | Logging, monitoring, heartbeat |
+| Hibernation | < 22 | Heartbeat only, await recovery |
 
-**The Soul Veto**: Unlike the first six dimensions (which contribute weighted values to the Risk Factor), Soul acts as a **binary veto**. If sovereignty constraints are violated (S = 1), the action is forbidden regardless of Trust Score. This operationalizes Indigenous Data Sovereignty, cultural heritage protections, and other immutable constraints.
+Admin Mode is offered only by zones whose ceiling can deliver it; a zone with a
+lower ceiling cannot reach the tier at any generation.
 
-### Trust Tiers
+## The measurement layer
 
-| Tier | E_trust | Capabilities |
-|------|---------|--------------|
-| God Mode | ≥ 95 | Create, destroy, mutate infrastructure |
-| Operator Mode | ≥ 85 | Restart services, read configs |
-| Analyst Mode | ≥ 70 | Query data, read-only access |
-| Observer Mode | ≥ 50 | Emit logs only |
-| Hibernation | < 50 | Heartbeat only, await recovery |
+Two separate things, deliberately kept apart.
 
-### The Silent Veto
+**Context Signals** — the catalogue of what can be measured. 1,644 signals
+across seven domains, canonical as JSON in [`catalog/`](catalog/):
 
-When A > E_trust, the action is denied automatically. No human intervention. No appeal. No exception.
+| Domain | Signals | Domain | Signals |
+|---|---:|---|---:|
+| `world` | 369 | `relational` | 238 |
+| `information` | 336 | `body` | 157 |
+| `time` | 275 | `meta` | 17 |
+| `soul` | 252 | **total** | **1,644** |
 
-This is not punishment. It is physics.
+**Risk Factors** — the scoring layer that turns measurements into `R`. Six
+weighted inputs, named by their JSON keys:
 
-## Blue Zones
+| Key | What it carries |
+|---|---|
+| `evidence_density` | Weight and density of presence in the environment |
+| `trust_trend` | Rate and direction of change in standing |
+| `adversarial_pressure` | Measured adversarial stress |
+| `moment_criticality` | Criticality of the moment or phase — cutovers, deadlines, protected periods |
+| `update_resistance` | How hard the trust value is to move: the depth of evidence behind current standing |
+| `attestation_coverage` | How much of the agent's activity is witnessed and attestable |
 
-Blue Zones are network segments where Digital Physics is enforced—safe harbors on the internet where humans and agents can operate with cryptographic trust guarantees.
+Plus the **Soul veto** — `soul` is not a seventh weighted input. It is
+evaluated before aggregation, and a violated sovereignty constraint forbids the
+action regardless of `E_trust`. This is where Traditional Knowledge Labels,
+OCAP® and CARE, and sacred-land constraints bind. Six weighted inputs and a
+veto, never seven weights.
 
-```
-┌─────────────────────────────────────────────────────┐
-│                     BLUE ZONE                       │
-│  ┌───────────────────────────────────────────────┐  │
-│  │           Trust Oracle Mesh                   │  │
-│  │   [Oracle 1] ←→ [Oracle 2] ←→ [Oracle 3]      │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │         Context Tensor Sensors                │  │
-│  │   [M] [P] [H] [T] [I] [O] [S]                 │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │      Policy Enforcement Points                │  │
-│  │   [API GW] [Service Mesh] [IAM] [DB Proxy]    │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │          Agent Population                     │  │
-│  │   [Tethered] [Divergent] [Persistent]         │  │
-│  └───────────────────────────────────────────────┘  │
-│                        ↓                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │           Flight Recorder                     │  │
-│  │   [Immutable Audit Log - Decision Geometry]   │  │
-│  └───────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────┘
-                         ↕
-                [ZONE GATEWAY]
-                         ↕
-┌─────────────────────────────────────────────────────┐
-│                WILD INTERNET                        │
-│     (Static credentials, binary permissions)        │
-└─────────────────────────────────────────────────────┘
-```
+## The specifications
 
-## Key Innovations
+27 documents. Five are formatted as Internet-Drafts and carry a generated `.txt`
+in [`rfcs-txt/`](rfcs-txt/); the other 22 are Markdown only. Every link below
+points into [`rfcs-md/`](rfcs-md/), the generated render.
 
-### 1. Vector Identity
-Identity is a trajectory, not a credential. You are not what you hold; you are where you've been and how you moved.
+### Foundation
 
-### 2. Proof of Resilience
-Trust is earned through survival under stress, not granted by authority. An agent that has weathered storms carries more weight than one with a pristine but untested history.
+| Specification | What it covers |
+|---|---|
+| [KTP-Core](rfcs-md/ktp-core.md) **·** *I-D format* | The Zeroth Law, Trust Score calculation, Trust Proof tokens, the Silent Veto, anti-Goodhart measures |
+| [KTP-Identity](rfcs-md/ktp-identity.md) **·** *I-D format* | Vector Identity, trajectory chains, Proof of Resilience, sponsorship, NIST SP 800-63 proofing |
+| [KTP-Problems](rfcs-md/ktp-problems.md) **·** *I-D format* | Known limits, anticipated critiques, what the series does not claim to solve |
+| [`constitution.txt`](constitution.txt) | Preamble and ten articles, the governing frame the series answers to |
 
-### 3. Sponsorship Model
-New agents enter through sponsorship. A sponsor stakes their own trust, creating accountability without requiring pre-existing reputation.
+### Measurement
 
-### 4. Anti-Goodhart Measures
-Comprehensive countermeasures against gaming the Trust Score, including multi-dimensional scoring, behavioral unpredictability, adversity requirements, and peer validation.
+| Specification | What it covers |
+|---|---|
+| [KTP-Signals](rfcs-md/ktp-signals.md) | The Context Signals catalogue: what is measurable, and how a signal is specified |
+| [KTP-Sensors](rfcs-md/ktp-sensors.md) | Sensor specifications, normalization, staleness, domain profiles |
+| [KTP-Information](rfcs-md/ktp-information.md) | Information-environment measurement, truth conditions, epistemic health |
 
-### 5. Indigenous Data Sovereignty
-The Soul dimension operationalizes TK Labels, OCAP/CARE principles, and sacred land protections as immutable constraints that cannot be overridden by operational convenience.
+### Enforcement and audit
 
-### 6. Honest Uncertainty
-KTP-PROBLEMS explicitly documents what we don't know how to solve, inviting collaboration rather than claiming false completeness.
+| Specification | What it covers |
+|---|---|
+| [KTP-Enforce](rfcs-md/ktp-enforce.md) **·** *I-D format* | Policy Enforcement Points, trust tiers, adaptive dormancy, ceilings |
+| [KTP-Attenuation](rfcs-md/ktp-attenuation.md) | Capability attenuation: constraint types and real-time application |
+| [KTP-Audit](rfcs-md/ktp-audit.md) | Flight Recorder, decision geometry, immutable logging, counterfactual analysis |
+| [KTP-Emergency](rfcs-md/ktp-emergency.md) | Emergency levels, circuit breakers, graceful degradation, zone collapse |
 
-## Repository Structure
+### Zones and federation
 
-```
-ktp-rfc/
-├── README.md                 # This file
-├── NOTICE                    # Apache 2.0 attribution notice
-├── CITATION.cff              # Machine-readable citation metadata
-├── PROVENANCE.md             # Attribution & citation norms
-├── LICENSE                   # Apache License 2.0
-├── constitution.txt          # The Constitution of Digital Physics
-├── glossary.md               # Term glossary
-├── rfcs/                     # RFC summary pages (27 documents, Markdown)
-│   ├── ktp-core.md           #   each summary embeds its full text from
-│   ├── ktp-identity.md       #   rfcs-txt/ via a snippet include
-│   └── ...                    #   (see the RFC Series table above)
-├── rfcs-txt/                 # Full RFC specification text (27 documents)
-│   ├── ktp-core.txt
-│   ├── ktp-identity.txt
-│   └── ...
-├── docs/                     # MkDocs documentation site sources
-│   └── schemas/              # JSON schemas
-│       ├── trust-proof.json      # Trust Proof token schema
-│       ├── context-tensor.json   # Context Tensor schema
-│       ├── soul-constraint.json  # Soul constraint schema
-│       └── sensor-config.json    # Sensor configuration schema
-├── scripts/                  # Repo tooling (e.g. rfcs↔rfcs-txt sync check)
-└── mkdocs.yml                # Documentation site configuration
-```
+| Specification | What it covers |
+|---|---|
+| [KTP-Zones](rfcs-md/ktp-zones.md) | Blue Zones, zone types from Deep Blue to Wild, discovery, ingress and egress |
+| [KTP-Federation](rfcs-md/ktp-federation.md) | Inter-zone trust, cross-attestation, federation governance |
+| [KTP-Oracle](rfcs-md/ktp-oracle.md) | Trust Oracle mesh, consensus, threshold signatures, accountability |
 
-The paired `rfcs/*.md` (summary) and `rfcs-txt/*.txt` (full text) files are
-kept in sync by `scripts/check-rfc-sync.sh`, enforced on pull requests.
+### Infrastructure
+
+| Specification | What it covers |
+|---|---|
+| [KTP-Crypto](rfcs-md/ktp-crypto.md) | Algorithms, key management, HSM requirements, post-quantum strategy |
+| [KTP-Transport](rfcs-md/ktp-transport.md) | Wire formats, REST and gRPC interfaces, streaming |
+| [KTP-Threat-Model](rfcs-md/ktp-threat-model.md) | STRIDE analysis, attack trees, risk assessment, security requirements |
+| [KTP-Conformance](rfcs-md/ktp-conformance.md) **·** *I-D format* | Conformance levels, testing requirements, interoperability |
+
+### Operations
+
+| Specification | What it covers |
+|---|---|
+| [KTP-Recovery](rfcs-md/ktp-recovery.md) | Backup and restore, key ceremonies, zone recovery, split-brain resolution |
+| [KTP-Migration](rfcs-md/ktp-migration.md) | Adoption pathways and staged deployment |
+| [KTP-Legacy](rfcs-md/ktp-legacy.md) | OAuth 2.0, OIDC, SAML and mTLS bridges; trust equivalence mapping |
+| [KTP-Deprecation](rfcs-md/ktp-deprecation.md) | Deprecation timelines, trajectory preservation, knowledge transfer |
+
+### People and governance
+
+| Specification | What it covers |
+|---|---|
+| [KTP-Human](rfcs-md/ktp-human.md) | Humans as agents, collaboration patterns, system ethics |
+| [KTP-Relational](rfcs-md/ktp-relational.md) | Relational dynamics, repair, ceremony |
+| [KTP-Governance](rfcs-md/ktp-governance.md) | Stewardship council, amendment process, anti-capture provisions |
+
+### Privacy and provenance
+
+| Specification | What it covers |
+|---|---|
+| [KTP-Privacy](rfcs-md/ktp-privacy.md) | GDPR, CCPA, ICCPR Article 17, privacy-preserving computation, data minimization |
+| [KTP-Provenance](rfcs-md/ktp-provenance.md) | Data provenance, consent status, Indigenous data principles, capability lineage |
+
+### Special topics
+
+| Specification | What it covers |
+|---|---|
+| [KTP-Celestial](rfcs-md/ktp-celestial.md) | Interplanetary trust under light-delay, and the wayfinding traditions it draws on |
+
+## What v2.0.0 renamed
+
+v2 renamed several constructs after what they are rather than what they
+resembled. Implementations pinned to v1.0.1 keep working — a published tag is
+never moved — but v2 text uses these names only.
+
+| v1 | v2.0.0 | Where it bites |
+|---|---|---|
+| `tethered` | `sponsored` | Lineage enum, agent identifier strings, protobuf member names |
+| `divergent` | `independent` | Same |
+| `persistent` | `guarantor` | Same |
+| God Mode *(retired)* | **Admin Mode** | `TRUST_TIER_ADMIN`, OpenAPI `admin` |
+| Single-letter input symbols | The JSON key **is** the name | `risk_factors`, six named keys, `soul` as veto |
+
+[`MIGRATION.md`](MIGRATION.md) sorts every change into wire-format breaks,
+behavior breaks, and prose changes. [`CHANGELOG.md`](CHANGELOG.md) records what
+forced each one, and [`RELEASE-NOTES-v2.0.0.md`](RELEASE-NOTES-v2.0.0.md) is
+the release narrative.
+
+## Schemas
+
+Seven JSON Schemas in [`schemas/`](schemas/), published under
+`https://kinetic-trust-protocol.net/specs/schemas/v2/`, which is the `$id` of
+each file:
+
+`trust-proof` · `risk-factors` · `soul-constraint` · `sensor-config` ·
+`sponsorship-bond` · `transaction-record` · `deployment-profile`
+
+## Repository map
+
+| Path | What it is |
+|---|---|
+| [`rfcs-md/`](rfcs-md/) | The 27 specifications as clean Markdown — the reading surface, and the GitHub Pages source. **Generated** from `rfc-src/` by `scripts/gen-rfcs-md.py` — never hand-edited. Replaces a hand-authored `rfcs/` retired 2026-08-14: it drifted (missing an entire section) with no gate able to see the omission — two independently-maintained representations is the drift class this release exists to kill, and it should not survive here either |
+| [`rfc-src/`](rfc-src/) | kramdown-rfc source for all 27; authored here, and the only place a specification is edited |
+| [`rfcs-txt/`](rfcs-txt/) | The five Internet-Draft-formatted specifications. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
+| [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
+| [`schemas/`](schemas/) | The seven JSON Schemas. A wire artifact, so it sits at the root rather than inside site content |
+| [`specifications/`](specifications/) | The two normative documents that are not RFCs — the Kinetic Envelope and the deployment profile — and in `conformance/`, the reference vectors they are conformed against |
+| [`docs/`](docs/) | Documentation-site content, and nothing else |
+| [`scripts/`](scripts/) | The gates — vocabulary, summary/source parity, repo hygiene, declarations, and the generate-and-diff check for the I-D-formatted set |
+| [`CHANGELOG.md`](CHANGELOG.md) | Every normative change and what forced it |
+| [`MIGRATION.md`](MIGRATION.md) | What a v1.0.1 implementation has to do |
+| [`RELEASE-NOTES-v2.0.0.md`](RELEASE-NOTES-v2.0.0.md) | The v2.0.0 release notes |
+| [`SECURITY-NOTES.md`](SECURITY-NOTES.md) | Errata for published tags, recorded when found rather than held for the next release |
+| [`VERSIONING.md`](VERSIONING.md) | How the series versions as a set, and why tags are never moved |
+| [`CITATION.cff`](CITATION.cff) · [`PROVENANCE.md`](PROVENANCE.md) | Citation metadata and attribution norms |
+| [`glossary.md`](glossary.md) · [`constitution.txt`](constitution.txt) | Term glossary; the governing frame |
+
+The gates run on pull requests. They are executable rather than aspirational:
+if a check cannot fail, it is not a criterion.
+
+## Versioning
+
+The series versions **as a set**, so an implementation names one version and
+knows which text every specification refers to. Tags are bare and numeric
+(`v2.0.0`); descriptive names live in the release title, never in the tag.
+Published tags are never moved. See [`VERSIONING.md`](VERSIONING.md).
+
+## Citing
+
+KTP is free to use, implement, modify, and commercialize under Apache 2.0.
+When your work materially uses or discusses KTP's named constructs, equations,
+or distinctive architecture, please cite it — see
+[`CITATION.cff`](CITATION.cff) and [`PROVENANCE.md`](PROVENANCE.md).
+
+`CITATION.cff` carries no `identifiers:` block yet. The archive deposit is part
+of what a release is, and the identifier is added there when the deposit for
+that version exists — never guessed ahead of it.
 
 ## Contributing
 
-This specification is in active development. Contributions welcome:
+Issues, pull requests, and discussion all go through
+[github.com/nmcitra/ktp-rfc](https://github.com/nmcitra/ktp-rfc); see
+[`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 
-1. **RFC Review**: Submit issues for clarifications or improvements
-2. **Implementation**: Reference implementations in any language
-3. **Sensor Profiles**: Domain-specific Context Tensor configurations
-4. **Blue Zone Pilots**: Real-world deployment experiences
-5. **Open Problems**: Solutions to challenges documented in KTP-PROBLEMS
+Specifications are edited in [`rfc-src/`](rfc-src/), never in `rfcs-txt/` or `rfcs-md/` — both are generated.
+Where the work is most useful right now:
 
-### Priority Areas
+- A reference implementation.
+- Test vectors for conformance testing.
+- Formal verification of the core properties.
+- Domain profiles for the Context Signals catalogue.
+- Deployment experience from real zones.
+- Answers to anything in [KTP-Problems](rfcs-md/ktp-problems.md).
 
-- Reference implementation (Rust or Go recommended)
-- Test vectors for conformance testing
-- Formal verification of core properties
-- Privacy-preserving computation integration
-- Real-world sensor integration examples
-
-## Philosophy
-
-> *"Freedom is the recognition of necessity."* — Baruch Spinoza
-
-KTP is built on the insight that true autonomy requires constraint. An agent is not free because it can do anything—it is free because it acts within the bounds of what the environment can safely support.
-
-The wayfinders of Polynesia crossed the Pacific not by conquering the ocean but by learning to read it. They didn't fight the swells; they joined them. They became part of the system they navigated.
-
-We are applying the same principle to code.
-
-We are not building a prison for AI. We are building physics for the digital world.
-
-## Authors
-
-Chris Perkins  
-New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)  
-Email: cperkins@nmcitra.org
-
-## License
-
-This specification is released under the Apache License, Version 2.0.
-
-## References
-
-### Foundational Articles
-
-1. "The Missing Law of Motion" — The Zeroth Law and Digital Physics
-2. "The Ghost in the Machine" — The Data Compass and environmental sensing
-3. "Sailing by Starlight" — Trust as mass, gravitational routing
-4. "The Constitution of Digital Physics" — Ten immutable laws
-5. "Proof of Physics" — Vector Identity and trajectory
-6. "The Tether" — The Context Tensor and sensor aggregation
-
-### Related Standards
+## Related standards and sources
 
 - RFC 7519 — JSON Web Token (JWT)
 - RFC 8693 — OAuth 2.0 Token Exchange
 - RFC 9396 — OAuth 2.0 Rich Authorization Requests
 - NIST SP 800-63 — Digital Identity Guidelines
 - Local Contexts — Traditional Knowledge Labels
-- OCAP® Principles — First Nations Information Governance
-- CARE Principles — Indigenous Data Governance
+- OCAP® Principles — First Nations Information Governance Centre
+- CARE Principles for Indigenous Data Governance
 
-### Academic Foundations
+## Authors and license
 
-- Goodhart, C. (1984) — "Problems of Monetary Management"
-- Spinoza, B. (1677) — "Ethics" (conatus)
-- Bacon, F. (1620) — "Novum Organum"
+Chris Perkins, New Mexico Cyber Intelligence & Threat Response Alliance
+(NMCITRA) — <cperkins@nmcitra.org>
 
----
-
-*"We do not ask permission to implement gravity. We do not negotiate with entropy. We do not appeal to friction. We build the physics. The physics does the rest."*
+Released under the Apache License, Version 2.0. See [`LICENSE`](LICENSE) and
+the attribution notice in [`NOTICE`](NOTICE).

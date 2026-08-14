@@ -2,7 +2,7 @@
 
 <div class="ktp-animate" markdown>
 
-Welcome to the Kinetic Trust Protocol—a way to move from static permissions to physics-based trust so autonomous agents can act safely, measurably, and at speed. Digital systems are now kinetic, and we need the environment—not human optimism—to be the final authority.
+Welcome to the Kinetic Trust Protocol—a way to move from static permissions to environment-based trust so autonomous agents can act safely, measurably, and at speed. Digital systems are now kinetic, and we need the environment—not human optimism—to be the final authority.
 
 </div>
 
@@ -93,7 +93,7 @@ The Kinetic Trust Protocol introduces a simple but powerful constraint:(1)
 
 **A** is the intrinsic risk of the requested action. **E** is the current Trust Score. If the action's risk exceeds the environment's capacity, the action is denied. No exceptions. No escalation. No override.
 
-This is not a policy—it's physics. Just as you cannot exceed the speed of light, an agent cannot exceed its trust boundaries.
+This is not a policy—it's structure. Just as you cannot exceed the speed of light, an agent cannot exceed its trust boundaries.
 
 </div>
 
@@ -139,92 +139,92 @@ Trust is not granted—it's earned through survival. An agent's Trust Score refl
   </div>
 </div>
 
-### 2. Context Tensors
+### 2. Context Signals
 
 <div class="ktp-animate" markdown>
 
-Environmental state is captured through 1,707 measurements organized into seven dimensions:(1)
+Environmental state is captured through 1,644 measurements organized into seven domains:(1)
 { .annotate }
 
-1. :material-star-four-points-circle: The full Context Tensor specification spans 1,707 dimensions across seven trust dimensions. See [KTP-TENSORS](../rfcs/ktp-tensors.md) for complete measurement definitions.
+1. :material-star-four-points-circle: The full Context Signals specification spans 1,644 signals across seven domains. See [KTP-SIGNALS](../rfcs/ktp-signals.md) for complete measurement definitions.
 
 </div>
 
 <div class="dimension-cards-grid ktp-animate">
-  <a href="../context-tensor/#__tabbed_2_1" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_1" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">M</span><span class="mono-secondary">a</span>
+      <span class="mono-primary">E</span><span class="mono-secondary">v</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Mass</strong>
+      <strong>evidence_density</strong>
       <span>Telemetry volume</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_2" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_2" class="dimension-card-mini">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">T</span><span class="mono-secondary">r</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>trust_trend</strong>
+      <span>Rate of change</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_3" class="dimension-card-mini">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">U</span><span class="mono-secondary">p</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>update_resistance</strong>
+      <span>Resistance to shift</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_4" class="dimension-card-mini dimension-card-mini--heat">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">A</span><span class="mono-secondary">d</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>adversarial_pressure</strong>
+      <span>Stress & anomalies</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_5" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
       <span class="mono-primary">M</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Momentum</strong>
-      <span>Rate of change</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_3" class="dimension-card-mini">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">I</span><span class="mono-secondary">n</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Inertia</strong>
-      <span>Resistance to shift</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_4" class="dimension-card-mini dimension-card-mini--heat">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">H</span><span class="mono-secondary">t</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Heat</strong>
-      <span>Stress & anomalies</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_5" class="dimension-card-mini">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">T</span><span class="mono-secondary">i</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Time</strong>
+      <strong>moment_criticality</strong>
       <span>Temporal decay</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_6" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_6" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">O</span><span class="mono-secondary">b</span>
+      <span class="mono-primary">A</span><span class="mono-secondary">t</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Observer</strong>
+      <strong>attestation_coverage</strong>
       <span>Vantage point</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_7" class="dimension-card-mini dimension-card-mini--soul">
+  <a href="../risk-factors/#__tabbed_2_7" class="dimension-card-mini dimension-card-mini--soul">
     <div class="dimension-card-mini-mono">
       <span class="mono-primary">S</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Soul</strong>
+      <strong>soul</strong>
       <span>Hard vetoes</span>
     </div>
   </a>
 </div>
 
 <p class="dimension-cards-note ktp-animate">
-  <a href="../context-tensor/">Explore the full Context Tensor →</a>
+  <a href="../risk-factors/">Explore the full signal catalogue →</a>
 </p>
 
 ### 3. Blue Zones
 
 <div class="ktp-animate" markdown>
 
-Trust doesn't exist in isolation—it exists in environments. Blue Zones are network segments where Digital Physics is enforced, creating safe harbors where agents can operate with cryptographic trust guarantees.(1)
+Trust doesn't exist in isolation—it exists in environments. Blue Zones are network segments where KTP is enforced, creating safe harbors where agents can operate with cryptographic trust guarantees.(1)
 { .annotate }
 
 1. :material-star-four-points-circle: Blue Zone architecture and governance is specified in [KTP-ZONES](../rfcs/ktp-zones.md), covering zone types, discovery, ingress/egress, and the zone gradient.
@@ -267,7 +267,7 @@ Trust doesn't exist in isolation—it exists in environments. Blue Zones are net
         <div class="zone-dot zone-dot--wild"></div>
         <div class="zone-content">
           <span class="zone-name">Wild</span>
-          <span class="zone-desc">Legacy Internet, no KTP physics</span>
+          <span class="zone-desc">Legacy Internet, no KTP enforcement</span>
         </div>
       </div>
     </div>
@@ -317,7 +317,7 @@ Trust doesn't exist in isolation—it exists in environments. Blue Zones are net
 
     ---
 
-    Explore why physics-based constraints are necessary for the agentic age.
+    Explore why environment-derived constraints are necessary for the agentic age.
 
     [:octicons-arrow-right-24: Core Concepts](core-concepts.md)
 

@@ -1,7 +1,7 @@
 # Context Signals — the catalogue
 
 *The one home for every rule that applies to more than one domain, and the
-index of the six domain files.*
+index of the seven domain files.*
 
 Created in `worklog` under **nmcitra/ktp-rfc#95**, corrected under **#98**
 against the full read in **#96**, and moved here under **#108**, which built
@@ -24,7 +24,11 @@ and which carries `CL785`.
 
 ## 0 · Scope
 
-**1,627 signals across six domains**, per #58.
+**1,644 signals across seven domains.** #58 froze 1,627 across six; **tracker#18**
+(ruled 2026-08-13) adopted the `meta` domain and moved the count. The freeze
+follows the count-changers rather than preceding them — a ruling that adds
+signals is not a violation of a frozen number, it is the reason the number gets
+re-derived.
 
 | domain | signals | file |
 |---|---|---|
@@ -34,9 +38,18 @@ and which carries `CL785`.
 | `soul` | 252 | `catalog/soul.json` |
 | `relational` | 238 | `catalog/relational.json` |
 | `body` | 157 | `catalog/body.json` |
-| | **1,627** | |
+| `meta` | 17 | `catalog/meta.json` |
+| | **1,644** | |
 
-Under **D5** (#66) the catalogue is its own document: six domain files plus
+**`meta` is authored in waves and only the first has landed.** tracker#18's
+sequence is `refresh` → coverage and staleness → tamper and cross-sensor
+disagreement; `meta.refresh` is the 17 rows above. The domain's own file states
+the boundary that decides which wave a row belongs to. Its governing constraint
+— *author signals that measure the evidence, never signals that assert a
+verdict* — is §4's fifth clause applied to the measurement system itself, and
+is stated there rather than here because it binds one domain.
+
+Under **D5** (#66) the catalogue is its own document: seven domain files plus
 this index, **canonical as JSON**, markdown generated and transcluded. It
 **versions with the release set**. Adding a signal is MINOR and rides the next
 release; **removing or renaming a signal ID is MAJOR** — a signal ID is a
@@ -51,7 +64,7 @@ Power, Thermal and Compute rows (12 identifiers repaired per
 `worklog/` as provenance; **this directory supersedes them as the catalogue.**
 
 The observation-class census, closed exactly on every domain:
-**N 1,160 · D 211 · A 117 · S 116 · P 23 = 1,627.**
+**N 1,174 · D 211 · A 117 · S 119 · P 23 = 1,644.**
 
 ### The machine encoding
 
@@ -227,8 +240,17 @@ and said so. **#96 read all 1,102 rows in the five outstanding files.**
 | `relational` | N · A · S | N 210 · A 22 · S 6 = 238 |
 | `soul` | N · A | N 242 · A 10 = 252 |
 | `body` | N · D · S · A | N 90 · D 40 · S 22 · A 5 = 157 |
+| `meta` | N · S | N 14 · S 3 = 17 |
 
-Catalogue-wide: **N 1,160 · D 211 · A 117 · S 116 · P 23 = 1,627.** Each census
+**`meta` postdates the test and was authored under the classes rather than
+tested against them** (tracker#18, 2026-08-13). It needs no sixth class either,
+and one of its absences is a ruling rather than a gap: **class A cannot occur in
+`meta`**, because class A requires a record made by a party outside the
+measurement and `meta` *is* the measurement. A class-A meta row would be the
+fifth clause's laundering in its purest form. There is no D (no instrument
+samples a physical quantity) and no P (it reads no third party's number).
+
+Catalogue-wide: **N 1,174 · D 211 · A 117 · S 119 · P 23 = 1,644.** Each census
 closes on its domain total exactly, which is the check that an assignment is a
 partition rather than a sketch — and the #108 build re-verifies the closure
 mechanically from the JSON on every run of `108-build-catalog.py`.
@@ -321,6 +343,13 @@ JSON — 524 rows catalogue-wide:
 | `time` | 10 | 9 | 0 | 19 |
 | | **386** | **120** | **18** | **524** |
 
+**`meta` carries no bare-`0-1` row and is absent from the table for that
+reason** — every row in it is a time, a count, or a ratio whose two terms are
+themselves real quantities, so none falls under this clause. The 524 stands
+unchanged against a catalogue of 1,644. This is an outcome rather than a
+policy, and the first coverage *fraction* in a later `meta` wave will be the
+row that ends it.
+
 The first measurement of this table (front matter §6, #96/#98) was file-level:
 433 rows, 339 · 77 · 17, with `soul`'s 73 legacy rows and `body`'s 18 named as
 owed. **The #108 merge landed both.** `body`'s 18 split 11 · 7 · 0 as the
@@ -390,6 +419,8 @@ writing them here would rule them by authorship.
 | **The A/P boundary where it depends on the deployment** (§4) — `information.platform`'s moderation counts are **A** read live from an API and **P** read from a quarterly transparency report, and then publication lag becomes MUST. The catalogue cannot decide it and the row cannot carry it | adjacent to **#72** | named, unowned |
 | **The `TN209` derivation** (§7) — reproduce the sixteen alias sets from declared subject and population alone, or rule it impossible | **#86** open item 2 | design work, unticketed |
 | **`soul`'s legacy split review** (§6) — 73 rows classified by the merge, 36 · 36 · 1 | **#108** review artifact | applied, reviewable, reversible pre-tag |
+| **`meta` waves 2 and 3** — coverage and staleness, then tamper and cross-sensor disagreement. Wave 1 (`refresh`) landed; the rest are unauthored and the boundary between them is stated in `catalog/meta.md` | **tracker#18** | ruled, sequenced, not yet authored |
+| **Who measures `meta`'s own coverage** — the regress terminates at a declared attestation root or not at all. Wave 1 does not reach it; wave 2 does | **tracker#18** *What this opens* | named, unowned |
 
 **Closed since the front matter was written:** *bringing the other five domain
 files to the `world` form* — **#96**, applied 2026-08-12. *The general
@@ -400,5 +431,13 @@ declaration slot. *Encoding the three-way `0-1` split as a schema field* —
 built by **#108** as `zero_one` (§6), which makes map #46 success criterion 3
 script-checkable for this clause.
 
-**Nothing in this file changes a row count.** 1,627 stands. The #58 freeze is
-untouched.
+**No *clause* in this file changes a row count.** Every rule above is a
+declaration obligation, and none of them adds or removes a signal.
+
+**A ruling did.** **tracker#18** adopted the `meta` domain and its first wave
+landed 17 signals: **1,627 → 1,644, six domains → seven.** #58's freeze was
+never a bar on adopting a domain — it fixed a headline that had not been
+derived from its parts, and the correction that made 1,627 true is the same
+discipline that makes 1,644 true. Both numbers are re-derived mechanically from
+`catalog/*.json` on every run of `scripts/gen-catalog-tables.py`, and the
+class census closes exactly on all seven domains.

@@ -13,6 +13,11 @@ author:
     email: cperkins@nmcitra.org
 
 normative:
+  KTP-ZONES:
+    title: "Kinetic Trust Protocol - Blue Zone Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
   KTP-CORE:
     title: "Kinetic Trust Protocol - Core Specification"
     author:
@@ -529,6 +534,8 @@ Permitted actions:
 - Access all data regardless of classification
 - Grant/revoke permissions for other agents
 
+Admin Mode is available only in zones whose Mass Ceiling is at least 95 ({{KTP-ZONES}} Section 3): the threshold is derived from that ceiling at the tier's declared R budget, and a zone with a lower ceiling cannot deliver it at any generation. An operator planning toward Admin Mode in such a zone is planning toward a tier the zone does not offer.
+
 Requirements:
 
 - Guarantor lineage (generation 7+)
@@ -602,21 +609,21 @@ Restricted actions:
 
 ## Capability Matrices
 
-The Capability Matrix maps Trust Tiers to Action Risk thresholds:
+The Capability Matrix maps Trust Tiers to permitted action classes:
 
 ~~~
-+---------------+-------------+----------------------------------+
-| Tier          | Max A       | Permitted Action Classes         |
-+---------------+-------------+----------------------------------+
-| Admin Mode    | 100         | All actions                      |
-| Operator Mode | 85          | Read, Write, Execute (safe)      |
-| Analyst Mode  | 60          | Read (all), Write (append only)  |
-| Observer Mode | 30          | Read (public), Emit logs         |
-| Hibernation   | 5           | Heartbeat only                   |
-+---------------+-------------+----------------------------------+
++---------------+----------------------------------+
+| Tier          | Permitted Action Classes         |
++---------------+----------------------------------+
+| Admin Mode    | All actions                      |
+| Operator Mode | Read, Write, Execute (safe)      |
+| Analyst Mode  | Read (all), Write (append only)  |
+| Observer Mode | Read (public), Emit logs         |
+| Hibernation   | Heartbeat only                   |
++---------------+----------------------------------+
 ~~~
 
-Note: Even if Tier permits an action class, the A <= E_trust check still applies. An Operator Mode agent (E_trust = 87) cannot perform an action with A = 90, even though the tier theoretically permits actions up to A = 85.
+A tier permits action classes; it does not carry a numeric action-risk cap of its own. The numeric bound is the Zeroth Law: A <= E_trust, evaluated per action against the agent's current score. An earlier revision carried a Max A column beside the classes — a second numeric bound keyed to the tier thresholds, which drifted when the thresholds moved and could only ever restate, more coarsely, what A <= E_trust already enforces exactly. One fact stated twice diverges; the environment's bound is the bound.
 
 ## Tier Transitions
 
@@ -1064,6 +1071,8 @@ Example with taxation:
 ~~~
 
 This does not prevent high-trust agents from existing, but it reduces the advantage of extreme accumulation, encouraging distribution of responsibilities.
+
+A zone implementing progressive trust taxation does not offer Admin Mode. The taxed curve saturates at 87, which at any environmental deflation a live zone exhibits sits below the Admin threshold; this is a consequence of the curve, and it is the intended trade rather than an accident. The section's purpose is to discourage accumulation, and the top tier is accumulation. A zone that requires Admin Mode MUST NOT implement this section; a zone that implements it has chosen distribution of responsibilities over apex capability, and its capability planning MUST proceed from Operator Mode as the highest attainable tier.
 
 ## Anti-Accumulation in Federation
 

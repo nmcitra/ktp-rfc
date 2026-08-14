@@ -213,7 +213,7 @@ Digital Trust is continuous and contextual. It updates in real time as telemetry
 
 Kinetic decisions must be tethered to the real, measured state of the environment. Context Signals make the environment measurable; the Risk Factors make it enforceable.
 
-Six operational dimensions shape risk. The seventh — **Soul** — sits outside the equation as immutable constraint.
+Six weighted inputs shape risk. **Soul** is not a seventh weight — it sits outside the equation as immutable constraint.
 
 === "Mandate"
     !!! info "The Mandate"
@@ -222,73 +222,97 @@ Six operational dimensions shape risk. The seventh — **Soul** — sits outside
 === "Risk Factors"
     Digital Trust is derived from the **six weighted Risk Factor inputs and the Soul veto**:
 
-    $$C = \{Mass, Momentum, Heat, Time, Inertia, Observer, Soul\}$$
+    $$R = \sum_{i=1}^{6} w_i x_i$$
 
-    Six operational dimensions are weighted contributors to the Risk Factor. The seventh — **Soul** — operates outside the equation as immutable constraint.
+    | Input | Analogy (informative) |
+    |-------|-----------------------|
+    | `evidence_density` | Mass — Density / Mass (m) |
+    | `trust_trend` | Momentum — Kinetic Energy |
+    | `adversarial_pressure` | Heat — Entropy / Temperature |
+    | `moment_criticality` | Time — Temporal Mechanics |
+    | `update_resistance` | Inertia — Inertial Mass |
+    | `attestation_coverage` | Observer — Frame of Reference |
 
-=== "Dimensions"
-    #### I. Mass
+    The six are weighted contributors to the Risk Factor. **Soul** is evaluated before aggregation and is never a weight: no score, however good, can outvote a sovereignty constraint.
+
+=== "Inputs"
+    #### I. `evidence_density`
 
     | Measures | Examples |
     |----------|----------|
-    | Physical density | Crowd size, RF noise, occupancy, device density |
+    | Weight of presence | Crowd size, RF noise, occupancy, device density |
+
+    *Analogy (informative): Mass — Density / Mass (m).*
 
     !!! note "Impact"
-        High mass creates **gravity wells** that slow operations. Time dilates near massive nodes.
+        Dense environments **slow operations** and raise the cost of every action taken within them.
 
-    #### II. Momentum
+    #### II. `trust_trend`
 
     | Measures | Examples |
     |----------|----------|
     | Rate and volume of flow | Link saturation, transaction rates, API calls |
 
-    !!! note "Impact"
-        High momentum makes **course correction expensive**. Sharp changes create dangerous G-forces.
+    *Analogy (informative): Momentum — Kinetic Energy.*
 
-    #### III. Heat
+    !!! note "Impact"
+        A fast-moving system is **expensive to turn**. An abrupt change of direction carries more risk than the same change made gradually.
+
+    #### III. `adversarial_pressure`
 
     | Measures | Examples |
     |----------|----------|
     | Threat intensity | Identity velocity, port scans, entropy, failed auth |
 
-    !!! warning "Impact"
-        Heat is the **great deflator**. It degrades structural integrity and reduces Trust directly.
+    *Analogy (informative): Heat — Entropy / Temperature.*
 
-    #### IV. Time
+    !!! warning "Impact"
+        The **great deflator**. Rising adversarial pressure degrades structural integrity and reduces Trust directly.
+
+    #### IV. `moment_criticality`
 
     | Measures | Examples |
     |----------|----------|
-    | Moment criticality | Event state, mission criticality, deadline proximity |
+    | Criticality of the moment | Event state, mission criticality, deadline proximity |
+
+    *Analogy (informative): Time — Temporal Mechanics.*
 
     !!! note "Impact"
-        Time **dilates near critical events**. Risk tolerance decreases as event horizons approach.
+        The same action **costs more as a critical moment approaches**. Risk tolerance narrows in proportion.
 
-    #### V. Inertia
+    #### V. `update_resistance`
 
     | Measures | Examples |
     |----------|----------|
     | Scope of impact | Topology centrality, dependency depth, blast radius |
 
-    !!! note "Impact"
-        High-inertia nodes **resist change and amplify consequences**.
+    *Analogy (informative): Inertia — Inertial Mass.*
 
-    #### VI. Observer
+    !!! note "Impact"
+        Nodes that many others depend on **resist change and amplify consequences**.
+
+    #### VI. `attestation_coverage`
 
     | Measures | Examples |
     |----------|----------|
-    | Actor population | VIP presence, regulatory jurisdiction, audit mode |
+    | Who is watching | VIP presence, regulatory jurisdiction, audit mode |
+
+    *Analogy (informative): Observer — Frame of Reference.*
 
     !!! note "Impact"
-        Each population creates **different expectations and risk tolerances**. Observation changes what is permissible.
+        Constraints **tighten when observers are present**. Who is watching changes what is permissible.
 
-    #### VII. Soul
+=== "Soul Veto"
+    #### `soul` — not a seventh weight
 
     | Measures | Examples |
     |----------|----------|
     | Immutable constraints | TK Labels, OCAP/CARE, sacred lands, treaties |
 
+    *Analogy (informative): Soul — The Cosmological Constant / Immutable Law.*
+
     !!! danger "Impact"
-        **Binary veto.** Soul exists outside the equation as immutable constraint. Article X addresses Soul in full.
+        **Binary veto**, evaluated before aggregation rather than inside it. Soul exists outside the equation as immutable constraint. Article X addresses Soul in full.
 
 === "Constraint"
     !!! abstract "Layer 0 Integration"
@@ -365,10 +389,11 @@ Graceful degradation preserves core safety by stripping capabilities as risk ris
 === "Trust Tiers"
     | Tier | Threshold | Core Capability |
     |------|-----------|-----------------|
-    | Admin Mode | $E \geq 95$ | Full control |
-    | Operator | $E \geq 85$ | Service management |
-    | Analyst | $E \geq 70$ | Read-only operations |
-    | Observer | $E < 70$ | Minimal capability |
+    | Admin Mode | $E \geq 85$ | Full control |
+    | Operator | $E \geq 72$ | Service management |
+    | Analyst | $E \geq 58$ | Read-only operations |
+    | Observer | $E \geq 22$ | Minimal capability |
+    | Hibernation | $E < 22$ | Heartbeat only |
 
     **Admin Mode**
 
@@ -397,6 +422,12 @@ Graceful degradation preserves core safety by stripping capabilities as risk ris
     - [x] Emit logs and metrics
     - [x] Send heartbeat signals
     - [x] Await recovery
+
+    **Hibernation**
+
+    - [x] Heartbeat only
+    - [ ] All other actions suspended
+    - [x] Await environmental recovery
 
 === "Reflex"
     !!! warning "Automatic Capability Stripping"

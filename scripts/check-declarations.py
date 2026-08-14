@@ -30,7 +30,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
-DOMAINS = ["world", "information", "time", "soul", "relational", "body"]
+DOMAINS = ["world", "information", "time", "soul", "relational", "body",
+           "meta"]
 FACTORS = ["evidence_density", "trust_trend", "adversarial_pressure",
            "update_resistance", "attestation_coverage", "moment_criticality"]
 

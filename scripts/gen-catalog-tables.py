@@ -23,7 +23,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
-DOMAINS = ["world", "information", "time", "soul", "relational", "body"]
+DOMAINS = ["world", "information", "time", "soul", "relational", "body",
+           "meta"]
 
 HEADER = ("<!-- GENERATED from catalog/{dom}.json by "
           "scripts/gen-catalog-tables.py. Do not edit. -->\n\n")

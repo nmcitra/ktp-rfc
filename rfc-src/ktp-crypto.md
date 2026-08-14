@@ -952,13 +952,13 @@ Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4"
 
 ~~~
      "context": {
-       "m": 0.12,
-       "p": 0.08,
-       "h": 0.22,
-       "t": 0.05,
-       "i": 0.18,
-       "o": 0.10,
-       "s": 0
+       "evidence_density": 0.12,
+       "trust_trend": 0.08,
+       "adversarial_pressure": 0.22,
+       "moment_criticality": 0.05,
+       "update_resistance": 0.18,
+       "attestation_coverage": 0.10,
+       "soul": 0
      },
 ~~~
 

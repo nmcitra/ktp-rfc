@@ -403,7 +403,7 @@ Response (200 OK):
     "tier": "analyst"
   },
   "environment": {
-    "context_tensor": { "m": 0.56, "p": 0.23, "h": 0.10 },
+    "risk_factors": { "evidence_density": 0.56, "trust_trend": 0.23, "adversarial_pressure": 0.10 },
     "risk_factor": 0.15
   },
   "decision": {

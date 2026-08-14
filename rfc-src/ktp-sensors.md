@@ -789,7 +789,7 @@ Veto Response Format:
      "error": "SOVEREIGNTY_CONSTRAINT",
      "message": "Action violates data sovereignty",
      "soul": {
-       "s": 1,
+       "soul": 1,
        "constraint_type": "tk_label",
        "constraint_id": "TK-NC-001",
        "constraint_name": "TK Non-Commercial",
@@ -857,12 +857,12 @@ Implementations MUST allow custom weight configuration. Configuration schema:
      "profile_id": "custom-retail",
      "name": "Retail Point of Sale",
      "weights": {
-       "m": 0.20,
-       "p": 0.20,
-       "h": 0.25,
-       "t": 0.15,
-       "i": 0.10,
-       "o": 0.10
+       "evidence_density": 0.20,
+       "trust_trend": 0.20,
+       "adversarial_pressure": 0.25,
+       "moment_criticality": 0.15,
+       "update_resistance": 0.10,
+       "attestation_coverage": 0.10
      },
      "soul_enabled": true,
      "soul_feeds": ["tk_labels", "geofence"],

@@ -627,12 +627,12 @@ All Basic claims, plus:
        "sigma": 3.2,
        "trajectory_hash": "sha256:abc...",
        "context": {
-         "m": 0.45,
-         "p": 0.32,
-         "h": 0.28,
-         "t": 0.15,
-         "i": 0.52,
-         "o": 0.10
+         "evidence_density": 0.45,
+         "trust_trend": 0.32,
+         "adversarial_pressure": 0.28,
+         "moment_criticality": 0.15,
+         "update_resistance": 0.52,
+         "attestation_coverage": 0.10
        }
      }
    }

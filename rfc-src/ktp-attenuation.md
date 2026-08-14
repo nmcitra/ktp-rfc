@@ -89,7 +89,7 @@ Where:
 ~~~
    A = autonomy_requested(action)
    E = E_base × (1 - R)
-   R = risk_aggregate(context_tensors)
+   R = risk_aggregate(risk_factors)
 ~~~
 
 This inequality MUST be evaluated for every agent action.  If the inequality holds, the action proceeds (possibly with gravity applied).  If violated, the action is blocked.

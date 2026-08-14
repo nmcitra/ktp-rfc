@@ -274,7 +274,7 @@ The oracle_attestation object contains:
 +-------------------------------------------------------------------+
 | oracle_id          | string    | Trust Oracle identifier          |
 | attestation_time   | datetime  | When Oracle attested             |
-| context_tensor     | object    | Environmental state at time      |
+| risk_factors       | object    | Environmental state at time      |
 | oracle_signature   | string    | Oracle's signature over record   |
 +-------------------------------------------------------------------+
 ~~~
@@ -297,7 +297,7 @@ Signature generation:
 
 1. Oracle validates agent signature, action, and environmental conditions
 
-1. Oracle adds attestation and signs: oracle_signature = Sign(oracle_private_key, Hash(record_id \|\| action \|\| previous_hash \|\| timestamp \|\| agent_signature \|\| context_tensor))
+1. Oracle adds attestation and signs: oracle_signature = Sign(oracle_private_key, Hash(record_id \|\| action \|\| previous_hash \|\| timestamp \|\| agent_signature \|\| risk_factors))
 
 1. Complete record is appended to chain
 
@@ -1061,11 +1061,11 @@ environmental deflator sits between the two.
 
 A.1.  Genesis Transaction
 
-{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "sponsored", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "context_tensor": { "m": 0.1, "v": 0.15, "h": 0.05, "t": 0.2, "i": 0.1, "o": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }
+{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "sponsored", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "risk_factors": { "evidence_density": 0.1, "trust_trend": 0.15, "adversarial_pressure": 0.05, "moment_criticality": 0.2, "update_resistance": 0.1, "attestation_coverage": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }
 
 A.2.  Normal Transaction Record
 
-{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "context_tensor": { "m": 0.2, "v": 0.3, "h": 0.1, "t": 0.15, "i": 0.2, "o": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }
+{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "risk_factors": { "evidence_density": 0.2, "trust_trend": 0.3, "adversarial_pressure": 0.1, "moment_criticality": 0.15, "update_resistance": 0.2, "attestation_coverage": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }
 
 # JSON Schemas
 

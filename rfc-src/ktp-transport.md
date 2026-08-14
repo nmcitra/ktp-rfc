@@ -380,7 +380,7 @@ Request a new Trust Proof for an agent.
 
 Request: { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "validity_seconds": 10, "include_context": true }
 
-Response (200 OK): { "proof": { "proof_id": "proof-uuid-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "zone_id": "zone:alpha", "e_base": 87, "e_trust": 74, "risk_factor": 0.15, "tier": "operator", "context": { "m": 0.12, "p": 0.08, "h": 0.22, "t": 0.05, "i": 0.18, "o": 0.10, "s": 0 }, "issued_at": "2025-11-25T12:00:00Z", "expires_at": "2025-11-25T12:00:10Z", "signature": "base64...", "key_id": "oracle-zone-alpha-2025-001" }, "jws": "eyJhbGciOiJFZERTQSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QiLCJra WQiOiJvcmFjbGUtem9uZS1hbHBoYS0yMDI1LTAwMSJ9..." }
+Response (200 OK): { "proof": { "proof_id": "proof-uuid-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "zone_id": "zone:alpha", "e_base": 87, "e_trust": 74, "risk_factor": 0.15, "tier": "operator", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "issued_at": "2025-11-25T12:00:00Z", "expires_at": "2025-11-25T12:00:10Z", "signature": "base64...", "key_id": "oracle-zone-alpha-2025-001" }, "jws": "eyJhbGciOiJFZERTQSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QiLCJra WQiOiJvcmFjbGUtem9uZS1hbHBoYS0yMDI1LTAwMSJ9..." }
 
 Response (403 Forbidden): { "error": { "code": "AGENT_HIBERNATING", "message": "Agent is in hibernation mode", "details": { "e_trust": 35, "required_tier": "observer" } } }
 
@@ -458,7 +458,7 @@ GET /v1/context
 
 Retrieve current zone-wide Context Signals.
 
-Response (200 OK): { "zone_id": "zone:alpha", "timestamp": "2025-11-25T12:00:00Z", "context": { "m": 0.12, "p": 0.08, "h": 0.22, "t": 0.05, "i": 0.18, "o": 0.10, "s": 0 }, "risk_factor": 0.15, "risk_domains": { "node": 0.10, "neighborhood": 0.18, "global": 0.12 }, "trend": { "direction": "improving", "velocity": -0.02 } }
+Response (200 OK): { "zone_id": "zone:alpha", "timestamp": "2025-11-25T12:00:00Z", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "risk_factor": 0.15, "risk_domains": { "node": 0.10, "neighborhood": 0.18, "global": 0.12 }, "trend": { "direction": "improving", "velocity": -0.02 } }
 
 ### Get Context History
 
@@ -757,7 +757,7 @@ Batch size recommendations:
 
 POST /v1/flight-recorder/records
 
-Request: { "record_type": "decision", "timestamp": "2025-11-25T12:00:00.123456Z", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "decision": { "action": { "type": "data_write", "target": "database:orders", "risk_score": 65 }, "result": "allowed", "trust_proof_id": "proof-uuid-12345", "e_trust_at_decision": 74, "evaluation_time_micros": 450 }, "context_snapshot": { "m": 0.12, "p": 0.08, "h": 0.22, "t": 0.05, "i": 0.18, "o": 0.10, "s": 0 }, "signature": "base64...", "previous_record_hash": "sha256:abc123..." }
+Request: { "record_type": "decision", "timestamp": "2025-11-25T12:00:00.123456Z", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "decision": { "action": { "type": "data_write", "target": "database:orders", "risk_score": 65 }, "result": "allowed", "trust_proof_id": "proof-uuid-12345", "e_trust_at_decision": 74, "evaluation_time_micros": 450 }, "context_snapshot": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "signature": "base64...", "previous_record_hash": "sha256:abc123..." }
 
 Response (202 Accepted): { "record_id": "fr-uuid-67890", "record_hash": "sha256:def456...", "chain_position": 1547833, "anchor_pending": true }
 

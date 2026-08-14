@@ -1290,15 +1290,15 @@ Example Trust Proof payload (no sovereignty constraint):
        "de_dt": -2.3,
        "sigma": 0.15,
        "context": {
-         "m": 0.875,
-         "p": 0.920,
-         "h": 0.020,
-         "t": 1.000,
-         "i": 0.100,
-         "o": 0.040
+         "evidence_density": 0.875,
+         "trust_trend": 0.920,
+         "adversarial_pressure": 0.020,
+         "moment_criticality": 1.000,
+         "update_resistance": 0.100,
+         "attestation_coverage": 0.040
        },
        "soul": {
-         "s": 0,
+         "soul": 0,
          "constraint_type": null,
          "constraint_id": null,
          "authority": null
@@ -1326,15 +1326,15 @@ Example Trust Proof payload (sovereignty constraint active):
        "de_dt": 0.1,
        "sigma": 0.02,
        "context": {
-         "m": 0.100,
-         "p": 0.150,
-         "h": 0.010,
-         "t": 0.200,
-         "i": 0.050,
-         "o": 0.020
+         "evidence_density": 0.100,
+         "trust_trend": 0.150,
+         "adversarial_pressure": 0.010,
+         "moment_criticality": 0.200,
+         "update_resistance": 0.050,
+         "attestation_coverage": 0.020
        },
        "soul": {
-         "s": 1,
+         "soul": 1,
          "constraint_type": "tk_label",
          "constraint_id": "TK-NC-001",
          "authority": "https://localcontexts.org/label/tk-nc/"
@@ -1646,5 +1646,3 @@ Location: https://kinetic-trust-protocol.net/specs/schemas/v2/trust-proof.json
 SHA-256 of the canonical file at the time this document was produced: 41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
 
 The published file carries the v2 claims (the declared peer share, applicable ceilings, advancement floor, and root instrument) and references the risk-factors schema.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.
-
-- temporal phase" }, "i": { "type": "number", "minimum": 0, "maximum": 1, "description": "Inertia - blast radius" }, "o": { "type": "number", "minimum": 0, "maximum": 1, "description": "Observer - population" } } }, "soulConstraint": { "type": "object", "required": \["s"], "properties": { "s": { "type": "integer", "enum": \[0, 1], "description": "Soul veto status (0=clear, 1=veto)" }, "constraint_type": { "type": \["string", "null"], "enum": \["tk_label", "ocap", "care", "sacred_land", "treaty", "lineage", null], "description": "Type of sovereignty constraint" }, "constraint_id": { "type": \["string", "null"], "description": "Identifier of triggering constraint" }, "authority": { "type": \["string", "null"], "format": "uri", "description": "URI of sovereignty authority" } } } } }

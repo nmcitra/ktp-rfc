@@ -445,7 +445,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 54
    +-------------------------------------------------------------------+
    | oracle_id          | string    | Trust Oracle identifier          |
    | attestation_time   | datetime  | When Oracle attested             |
-   | context_tensor     | object    | Environmental state at time      |
+   | risk_factors       | object    | Environmental state at time      |
    | oracle_signature   | string    | Oracle's signature over record   |
    +-------------------------------------------------------------------+
 
@@ -478,7 +478,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 54
    4. Oracle adds attestation and signs:
       oracle_signature = Sign(oracle_private_key,
         Hash(record_id || action || previous_hash || timestamp ||
-             agent_signature || context_tensor))
+             agent_signature || risk_factors))
 
    5. Complete record is appended to chain
 
@@ -1475,13 +1475,13 @@ A.1.  Genesis Transaction
      "oracle_attestation": {
        "oracle_id": "oracle-alpha-1",
        "attestation_time": "2025-01-15T10:00:01Z",
-       "context_tensor": {
-         "m": 0.1,
-         "v": 0.15,
-         "h": 0.05,
-         "t": 0.2,
-         "i": 0.1,
-         "o": 0.05
+       "risk_factors": {
+         "evidence_density": 0.1,
+         "trust_trend": 0.15,
+         "adversarial_pressure": 0.05,
+         "moment_criticality": 0.2,
+         "update_resistance": 0.1,
+         "attestation_coverage": 0.05
        },
        "oracle_signature": "MEQCIG..."
      },
@@ -1528,13 +1528,13 @@ A.2.  Normal Transaction Record
      "oracle_attestation": {
        "oracle_id": "oracle-alpha-2",
        "attestation_time": "2025-06-20T14:32:16Z",
-       "context_tensor": {
-         "m": 0.2,
-         "v": 0.3,
-         "h": 0.1,
-         "t": 0.15,
-         "i": 0.2,
-         "o": 0.1
+       "risk_factors": {
+         "evidence_density": 0.2,
+         "trust_trend": 0.3,
+         "adversarial_pressure": 0.1,
+         "moment_criticality": 0.15,
+         "update_resistance": 0.2,
+         "attestation_coverage": 0.1
        },
        "oracle_signature": "MEQCIH..."
      },

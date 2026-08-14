@@ -43,7 +43,7 @@ KTP-Audit defines a system for recording **Decision Geometry**—a multi-dimensi
     "tier": "analyst"
   },
   "environment": {
-    "context_tensor": { "m": 0.45, "p": 0.78, "h": 0.82 },
+    "risk_factors": { "evidence_density": 0.45, "trust_trend": 0.78, "adversarial_pressure": 0.82 },
     "risk_factor": 0.523
   },
   "decision": {

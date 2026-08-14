@@ -220,17 +220,17 @@ Table of Contents
    state at decision time:
 
       "environment": {
-        "context_tensor": {
-          "m": 0.45,
-          "p": 0.78,
-          "h": 0.82,
-          "t": 0.30,
-          "i": 0.25,
-          "o": 0.15
+        "risk_factors": {
+          "evidence_density": 0.45,
+          "trust_trend": 0.78,
+          "adversarial_pressure": 0.82,
+          "moment_criticality": 0.30,
+          "update_resistance": 0.25,
+          "attestation_coverage": 0.15
         },
         "r": 0.523,
         "soul": {
-          "s": 0,
+          "soul": 0,
           "constraint_type": null
         },
         "sensor_health": {
@@ -498,7 +498,7 @@ Table of Contents
           "action_risk": 40
         },
         "soul_constraint": {
-          "s": 1,
+          "soul": 1,
           "constraint_type": "tk_label",
           "constraint_id": "TK-NC-001",
           "constraint_name": "TK Non-Commercial",
@@ -837,7 +837,7 @@ Table of Contents
         "query": "reconstruct",
         "record_id": "dr-uuid-12345",
         "include": [
-          "full_context_tensor",
+          "full_risk_factors",
           "sensor_values",
           "agent_trajectory",
           "oracle_state",
@@ -852,9 +852,9 @@ Table of Contents
           "record_id": "dr-uuid-12345",
           "timestamp": "2025-11-25T14:32:07.123Z",
           "complete": true,
-          "context_tensor": {
-            "m": { "value": 0.45, "feeds": [...] },
-            "p": { "value": 0.78, "feeds": [...] },
+          "risk_factors": {
+            "evidence_density": { "value": 0.45, "feeds": [...] },
+            "trust_trend": { "value": 0.78, "feeds": [...] },
             ...
           },
           "agent_trajectory": {
@@ -907,7 +907,7 @@ Table of Contents
    | Who requested?   | agent_id, session, source_ip               |
    | What was asked?  | action.method, action.resource             |
    | When?            | timestamp                                  |
-   | What was state?  | environment.context_tensor, e_trust        |
+   | What was state?  | environment.risk_factors, e_trust          |
    | What decided?    | decision.outcome, decision.reason          |
    | Why?             | decision.evaluation, counterfactual        |
    | What was impact? | counterfactual.if_allowed.blast_radius     |
@@ -998,8 +998,12 @@ Table of Contents
           "agent_generation": 7,
           "e_base": 87,
           "r": 0.52,
-          "m": 0.45, "p": 0.78, "h": 0.82,
-          "t": 0.30, "i": 0.25, "o": 0.15,
+          "evidence_density": 0.45,
+          "trust_trend": 0.78,
+          "adversarial_pressure": 0.82,
+          "moment_criticality": 0.30,
+          "update_resistance": 0.25,
+          "attestation_coverage": 0.15,
           "action_risk": 85,
           "hour_of_day": 14,
           "day_of_week": 1

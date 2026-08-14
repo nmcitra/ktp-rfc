@@ -217,7 +217,7 @@ Different readers need different entry points. Select the journey that matches y
 
 ## Risk Factors Schema
 
-The Risk Factors object — formerly the Context Tensor; the schema file keeps its `context-tensor.json` name until the v2 schema rewrite (#71) lands — is the core data structure for trust decisions. Below is a high-level view of its schema structure.
+The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.json` by the v2 schema rewrite — is the core data structure for trust decisions. Below is a high-level view of its schema structure.
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -232,7 +232,7 @@ The Risk Factors object — formerly the Context Tensor; the schema file keeps i
 | `risk_deflation.security` | Float (0-1) | Security penalty |
 | `risk_deflation.compliance` | Float (0-1) | Compliance penalty |
 
-For the full JSON schema definition, see [context-tensor.json](../schemas/context-tensor.json).
+For the full JSON schema definition, see [risk-factors.json](../schemas/risk-factors.json).
 
 ## Quick Reference
 

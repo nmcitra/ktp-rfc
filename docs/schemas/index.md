@@ -7,9 +7,19 @@ This section contains the JSON schemas for the Kinetic Trust Protocol.
 
 ## Available Schemas
 
-??? note "Risk Factors — formerly Context Tensor (context-tensor.json)"
+??? note "Risk Factors (risk-factors.json)"
     ```json
-    --8<-- "docs/schemas/context-tensor.json"
+    --8<-- "docs/schemas/risk-factors.json"
+    ```
+
+??? note "Transaction Record (transaction-record.json)"
+    ```json
+    --8<-- "docs/schemas/transaction-record.json"
+    ```
+
+??? note "Sponsorship Bond (sponsorship-bond.json)"
+    ```json
+    --8<-- "docs/schemas/sponsorship-bond.json"
     ```
 
 ??? note "Sensor Configuration (sensor-config.json)"

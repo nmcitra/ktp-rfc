@@ -132,7 +132,7 @@ Confirmed recommendation, verbatim:
 > population does not. `RANGES-PASS-01` binds both in one sentence and the
 > catalogue row takes only half — that split is now stated rather than implied.
 
-**The envelope does not ride the wire** (#72). `context-tensor.json` carries an
+**The envelope does not ride the wire** (#72). `risk-factors.json` (pre-rewrite: `context-tensor.json`) carries an
 `evidence` hash over the observation set; the envelope stays in the aggregator's
 log under a retention MUST with a stated floor. **The retention floor is a
 number nobody has chosen** — #72's open item, not this file's.

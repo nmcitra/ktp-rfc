@@ -720,11 +720,11 @@ Implementations MUST use these boundaries:
 +-------------+-----------------+
 | Tier        | E_trust Range   |
 +-------------+-----------------+
-| Admin Mode  | >= 95           |
-| Operator    | >= 85, < 95     |
-| Analyst     | >= 70, < 85     |
-| Observer    | >= 50, < 70     |
-| Hibernation | < 50            |
+| Admin Mode  | >= 85           |
+| Operator    | >= 72, < 85     |
+| Analyst     | >= 58, < 72     |
+| Observer    | >= 22, < 58     |
+| Hibernation | < 22            |
 +-------------+-----------------+
 ~~~
 

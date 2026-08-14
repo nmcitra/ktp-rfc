@@ -524,7 +524,7 @@ When a Sponsorship Bond is created:
 
 1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds
 
-1. Sponsored agent receives initial E_base: sponsored_E_base = stake_amount * 0.5
+1. The bond's collateral half is fixed: collateral = stake_amount * 0.5.  This is bond accounting, and it is what penalties under Section 6.4 are assessed against.  It is not the sponsored agent's E_base: that is composed as specified in {{KTP-CORE}} Section 5.1 from the External Root term this bond supplies, and bounded by the minimum of every applicable ceiling
 
 ~~~
    (The sponsored agent receives only half the staked amount;
@@ -803,12 +803,10 @@ New agents begin in the Tethered phase. They are bound to their sponsor and oper
 Characteristics:
 
 - Identity: Appears as "Agent/Sponsor" (e.g., "Aria/Acme-Deploy")
-- E_base: Derived primarily from sponsor stake (intrinsic < 40)
-- Trust Tier: Capped at Analyst Mode (cannot exceed E_trust = 70)
-- Actions: Limited to lower-risk operations (A <= 50)
+- Generation: 0 through 2. Phase derives from generation (Section 8.4); it is not a separate gate
+- E_base: Derived primarily from sponsor stake, and bounded by the generation ceiling - 25, 35, 45 (Section 8.4)
+- Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own; the generation ceiling bounds E_base and the environment deflates it
 - Sponsor: Fully liable for agent's behavior
-
-Duration: Until agent accumulates Resilience Score > 1000 AND has operated for > 30 days
 
 Purpose: The Tethered phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.
 
@@ -823,12 +821,10 @@ Agents that survive Tethered phase with positive history advance to Divergent. T
 Characteristics:
 
 - Identity: Independent with lineage suffix (e.g., "Aria-3Gen- AcmeLine")
-- E_base: Growing intrinsic component (40 <= E_base < 80)
-- Trust Tier: Can reach Operator Mode (E_trust up to 85)
-- Actions: Can perform moderate-risk operations (A <= 75)
-- Sponsor: Reduced liability (proportional to remaining stake)
-
-Duration: Until agent accumulates Resilience Score > 10,000 AND has operated for > 180 days AND intrinsic E_base >= 80
+- Generation: 3 through 6. Phase derives from generation (Section 8.4); it is not a separate gate
+- E_base: Growing intrinsic component, bounded by the generation ceiling - 55, 65, 75, 85 (Section 8.4)
+- Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own
+- Sponsor: Reduced liability (proportional to remaining stake), with a permanent floor (Section 6.4)
 
 Inheritance ratio: As intrinsic E_base grows, the sponsor stake contribution decreases proportionally, down to a floor it does not fall below:
 
@@ -851,9 +847,9 @@ Agents that survive Divergent phase with strong history achieve Persistent statu
 Characteristics:
 
 - Identity: Fully independent (e.g., "Agent_7Gen_Optimized")
-- E_base: High intrinsic value (E_base >= 80)
-- Trust Tier: Can achieve Admin Mode (E_trust up to 95+)
-- Actions: Can perform all operations (A <= 95)
+- Generation: 7 and above. Phase derives from generation (Section 8.4); it is not a separate gate
+- E_base: Bounded by the terminal generation ceiling of 100, and in practice by the zone Mass Ceiling
+- Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own
 - Sponsor: Bond closed, staked capital recovered above the Ancestral Liability floor; the residual persists (Section 6.4)
 
 Special privileges:
@@ -871,16 +867,39 @@ Example: agent:persistent:7gen:optimized:7f8a9b2c
 
 Generation tracks evolutionary depth within a lineage:
 
-- Generation 0: Original spawned agent (Tethered)
-- Generation 1-2: Early maturation (late Tethered / early Divergent)
-- Generation 3-5: Mid maturation (Divergent)
-- Generation 6+: Full maturation (Persistent)
+Generation is the sole advancement rule, and lineage phase derives from it:
 
-Generation advances based on:
+- Generations 0-2: Tethered
+- Generations 3-6: Divergent
+- Generation 7 and above: Persistent
 
-1. Time: Minimum 60 days per generation
-2. Resilience: Minimum 2,000 Resilience Score per generation
-3. Survival: No CRITICAL violations in current generation
+The phase boundaries are the two regime changes the lineage actually has - tether release at 2 -> 3, and the terminal ceiling at 6 -> 7.  No agent is in two phases at once, which the identifier of Section 9 requires.
+
+Generation advances on three conditions, all of which MUST hold:
+
+1. Time.  A minimum elapsed period per step, weighted toward the two regime changes:
+
+~~~
++-------------------------------------------------------------------+
+| Step               | Minimum elapsed | Why this step costs more    |
++-------------------------------------------------------------------+
+| 0 -> 1             | 90 days         |                            |
+| 1 -> 2             | 90 days         |                            |
+| 2 -> 3             | 365 days        | tether release             |
+| 3 -> 4             | 180 days        |                            |
+| 4 -> 5             | 180 days        |                            |
+| 5 -> 6             | 180 days        |                            |
+| 6 -> 7             | 2,555 days      | terminal ceiling           |
++-------------------------------------------------------------------+
+| Total to Persistent| 3,640 days (10 years)                          |
++-------------------------------------------------------------------+
+~~~
+
+   A step's cost scales with whether it changes kind or amount, not with distance travelled.  The survival condition below is a claim about the absence of a rare event, and the absence of a rare event cannot be observed over a window shorter than its return period.
+
+1. Resilience.  A minimum Resilience Score per generation, which is a floor on evidence rather than the gate that advances a generation - time is the primary gate.  The floor is a declared deployment parameter: a deployment MUST declare it and the Trust Proof MUST carry the declared value.  A deployment whose environment produces no attestable friction declares zero, and a relying party can then see that this lineage advanced on time alone.  *[The published default is owed work: deriving it needs the evidence curve, and a default nobody can derive is not checkable.]*
+
+1. Survival.  No CRITICAL violations in the current generation.
 
 Generation caps E_base:
 
@@ -890,11 +909,11 @@ Generation caps E_base:
 +-------------------------------------------------------------------+
 | 0                  | 25         | Tethered                        |
 | 1                  | 35         | Tethered                        |
-| 2                  | 45         | Tethered / Divergent            |
+| 2                  | 45         | Tethered                        |
 | 3                  | 55         | Divergent                       |
 | 4                  | 65         | Divergent                       |
 | 5                  | 75         | Divergent                       |
-| 6                  | 85         | Divergent / Persistent          |
+| 6                  | 85         | Divergent                       |
 | 7+                 | 100        | Persistent                      |
 +-------------------------------------------------------------------+
 ~~~

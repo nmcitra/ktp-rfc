@@ -270,11 +270,11 @@ Humans transition between tiers like other agents, but with accommodations for h
 
 The standard tier boundaries apply:
 
-- Admin Mode: E_trust >= 95 (rare for humans)
-- Operator Mode: E_trust >= 85
-- Analyst Mode: E_trust >= 70
-- Observer Mode: E_trust >= 50
-- Hibernation: E_trust < 50
+- Admin Mode: E_trust >= 85 (rare for humans)
+- Operator Mode: E_trust >= 72
+- Analyst Mode: E_trust >= 58
+- Observer Mode: E_trust >= 22
+- Hibernation: E_trust < 22
 
 However, most humans operate in Analyst or Operator mode for daily work. Admin Mode should be exceptional.
 
@@ -673,8 +673,8 @@ Example:
 
 ~~~
    "Your request to deploy to production was denied.
-    Required: E_trust >= 85 (Operator tier)
-    Current: E_trust = 72 (Analyst tier)
+    Required: E_trust >= 72 (Operator tier)
+    Current: E_trust = 60 (Analyst tier)
 ~~~
 
 ~~~

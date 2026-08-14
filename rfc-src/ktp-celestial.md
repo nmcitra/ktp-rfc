@@ -566,7 +566,7 @@ Before leaving an Oracle domain, an agent receives a Departure Attestation:
 
 Pre-Departure Requirements:
 
-1. Agent must be in good standing (E_trust >= 70)
+1. Agent must be in good standing (Analyst Mode or above, E_trust >= 58)
 2. Trajectory must be filed and approved
 3. Extended Trust Proof must be generated
 4. Whakapapa Chain must be current

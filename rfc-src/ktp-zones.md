@@ -147,7 +147,7 @@ Requirements:
 1. Full KTP enforcement (all seven Constitutional Laws)
 2. Minimum agent mass: E_base >= 70
 3. Full trajectory chain verification
-4. Persistent lineage required (generation 6+)
+4. Persistent lineage required (generation 7+)
 5. Continuous environmental sensing (all 7 tensors)
 6. Soul veto always active
 7. Threshold-signed Trust Proofs (minimum 3-of-5)
@@ -611,7 +611,7 @@ Sponsorship bond at ingress:
      "sponsor_id": "agent:persistent:corp:sponsor123",
      "sponsored_id": "agent:external:unknown:newagent",
      "zone_id": "zone-blue-prod-01",
-     "stake_percentage": 0.15,
+     "stake_percentage": 15,
      "duration": "PT24H",
      "purpose": "Data analysis integration",
      "restrictions": [
@@ -1090,7 +1090,7 @@ DAYS 2-7 (Nursery Period):
 
 Genesis does not grant E_base.  An earlier revision of this section stated that E_base "starts at 50 (granted by genesis)."  It does not.  E_base is composed as specified in {{KTP-CORE}} Section 5.1 and bounded by the minimum of every applicable ceiling; a genesis agent is generation 0, so the ceiling of 25 governs, and no class of grant lifts it.  A ceiling states a reason to withhold trust, and being first in a zone is not evidence of resilience.
 
-The consequence is operational and MUST be planned for: E_trust is E_base deflated by the environment, so a nursery agent operates at a fraction of 25 and the margin above the lowest Trust Tier threshold is narrow at any R a live zone actually exhibits.  A zone whose first week requires more capability than that has not solved bootstrap by declaring a number; it needs more trustee-approved agents, a sponsor from an established zone (Section 9.3.7 Option B), or a longer nursery.
+The consequence is operational and MUST be planned for.  E_trust is E_base deflated by the environment, so at the ceiling of 25 a genesis agent clears the Observer floor of 22 only while R remains below 0.12 - and the calm worked example in {{KTP-CORE}} Appendix A.2 is R = 0.094.  A nursery agent therefore operates a little over two points of R above Hibernation, and a zone whose first week requires more capability than that has not solved bootstrap by declaring a number; it needs more trustee-approved agents, a sponsor from an established zone (Section 9.3.7 Option B), or a longer nursery.
 
 DAYS 8-30 (Incubation Period):
 

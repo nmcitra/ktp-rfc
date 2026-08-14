@@ -509,15 +509,15 @@ Trust Tiers provide graduated capability levels based on E_trust thresholds. The
 +---------------+----------+--------------------------------------+
 | Tier          | E_trust  | Description                          |
 +---------------+----------+--------------------------------------+
-| Admin Mode    | >= 95    | Full infrastructure control          |
-| Operator Mode | >= 85    | Service management, config changes   |
-| Analyst Mode  | >= 70    | Data query, read-only operations     |
-| Observer Mode | >= 50    | Logging, monitoring, heartbeat       |
-| Hibernation   | < 50     | Heartbeat only, await recovery       |
+| Admin Mode    | >= 85    | Full infrastructure control          |
+| Operator Mode | >= 72    | Service management, config changes   |
+| Analyst Mode  | >= 58    | Data query, read-only operations     |
+| Observer Mode | >= 22    | Logging, monitoring, heartbeat       |
+| Hibernation   | < 22     | Heartbeat only, await recovery       |
 +---------------+----------+--------------------------------------+
 ~~~
 
-5.1.1. Admin Mode (E_trust >= 95)
+5.1.1. Admin Mode (E_trust >= 85)
 
 The highest capability tier. Reserved for critical infrastructure operations that require maximum trust.
 
@@ -531,11 +531,11 @@ Permitted actions:
 
 Requirements:
 
-- Persistent lineage (generation 6+)
+- Persistent lineage (generation 7+)
 - Extensive Proof of Resilience
-- Stable environmental conditions (R < 0.05)
+- Stable environmental conditions (R < 0.10)
 
-5.1.2. Operator Mode (E_trust >= 85)
+5.1.2. Operator Mode (E_trust >= 72)
 
 Standard operational capability for routine service management.
 
@@ -553,7 +553,7 @@ Restricted actions:
 - Cannot modify security settings
 - Cannot access credentials or keys
 
-5.1.3. Analyst Mode (E_trust >= 70)
+5.1.3. Analyst Mode (E_trust >= 58)
 
 Read-heavy capability tier for data analysis and investigation.
 
@@ -570,7 +570,7 @@ Restricted actions:
 - Cannot restart services
 - Cannot access credentials
 
-5.1.4. Observer Mode (E_trust >= 50)
+5.1.4. Observer Mode (E_trust >= 22)
 
 Minimal capability tier for monitoring and logging.
 
@@ -587,7 +587,7 @@ Restricted actions:
 - Cannot call APIs
 - Cannot perform any writes
 
-5.1.5. Hibernation Mode (E_trust < 50)
+5.1.5. Hibernation Mode (E_trust < 22)
 
 Emergency survival mode when environmental conditions are severe.
 
@@ -928,7 +928,7 @@ Heartbeat signal in hibernation:
 
 Hibernation exit requires:
 
-- E_trust >= 55 (with hysteresis buffer)
+- E_trust >= 24 (the Observer floor of 22 plus the Section 5.3 promotion buffer)
 - Sustained for minimum 60 seconds
 - No Soul veto active
 

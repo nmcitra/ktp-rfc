@@ -78,7 +78,8 @@ Level 1 - Framework Modularity:
 
 ~~~
    New dimensions MUST specify:
-   - Unique identifier (single letter, not conflicting with M,P,H,T,I,O,S)
+   - Unique identifier (a name, not conflicting with the six
+     named inputs or soul)
    - Physics equivalent (conceptual grounding)
    - Contribution type: "weighted" (contributes to R) or "veto"
      (independent constraint like Soul)
@@ -105,7 +106,7 @@ This modularity allows KTP to adapt to diverse deployment contexts while maintai
 
 ## Feed Aggregation
 
-For weighted dimensions (M, P, H, T, I, O), feeds are aggregated using weighted average:
+For the six weighted inputs, feeds are aggregated using weighted average:
 
 ~~~
    dimension_value = sum(feed_weight[i] * feed_value[i]) /
@@ -337,11 +338,11 @@ Risk Domains complement but do not replace hysteresis at tier boundaries (see \[
 
 Together, they create stable system behavior without sacrificing responsiveness to genuine environmental changes.
 
-# Weighted Dimensions (M, P, H, T, I, O)
+# The Six Weighted Inputs
 
-## Mass (M) - Physical Density
+## evidence_density
 
-Analogy (informative): Density / Mass (m)
+Analogy (informative): Mass (M) — Density / Mass (m)
 
 Concept: The sheer weight of presence in the environment. High Mass creates a Gravity Well that naturally slows operations (Time Dilation) and increases the "cost" of movement.
 
@@ -392,9 +393,10 @@ Example Calculation (Stadium):
    M = (0.875 + 0.900 + 0.750 + 0.800) / 4 = 0.831
 ~~~
 
-## Momentum (P) - Kinetic Velocity
+## trust_trend
 
-Analogy (informative): Kinetic Energy (KE = 1/2 mv²)
+Analogy (informative): Momentum (P) — Kinetic Energy
+(KE = 1/2 mv²)
 
 Concept: The speed and direction of data flow. High Momentum means the system is moving fast. Sudden stops or turns (Vector Kinking) create massive G-forces (Risk).
 
@@ -445,7 +447,7 @@ Example Calculation (Trading Platform):
    P = (0.900 + 0.780 + 0.850 + 0.800) / 4 = 0.833
 ~~~
 
-## Heat (H) - Adversarial Pressure
+## adversarial_pressure
 
 Analogy (informative): Entropy / Temperature (T)
 
@@ -500,7 +502,7 @@ Example Calculation (Under Attack):
    H = (0.500 + 0.200 + 0.300 + 0.750) / 4 = 0.438
 ~~~
 
-## Time (T) - Temporal Phase
+## moment_criticality
 
 Analogy (informative): Temporal Mechanics / Phase
 
@@ -552,7 +554,7 @@ Example Calculation (30 minutes to kickoff):
    T = (0.993 + 1.000 + 1.000) / 3 = 0.998
 ~~~
 
-## Inertia (I) - Blast Radius
+## update_resistance
 
 Analogy (informative): Inertial Mass
 
@@ -605,7 +607,7 @@ Example Calculation (Core Database):
    I = (0.500 + 0.850 + 0.500 + 0.900) / 4 = 0.688
 ~~~
 
-## Observer (O) - Population
+## attestation_coverage
 
 Analogy (informative): Frame of Reference / Observer Effect
 
@@ -657,7 +659,7 @@ Example Calculation (Earnings Call):
    O = (0.500 + 1.000 + 0.850) / 3 = 0.783
 ~~~
 
-# Soul Veto (S) - Sovereignty
+# The Soul Veto
 
 ## Overview
 
@@ -832,21 +834,21 @@ Recommended Implementation:
 
 Different deployment domains weight the six weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
 
-Weights MUST sum to 1.0 across M, P, H, T, I, O.
+Weights MUST sum to 1.0 across the six named inputs.
 
 5.1. Pre-defined Profiles
 
-Stadium/Event Network: M=0.25, P=0.25, H=0.20, T=0.15, I=0.10, O=0.05 Rationale: Physical density and momentum dominate; events have hard deadlines.
+Stadium/Event Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05 Rationale: Physical density and momentum dominate; events have hard deadlines.
 
-Financial Trading: M=0.05, P=0.30, H=0.25, T=0.20, I=0.15, O=0.05 Rationale: Speed is critical; adversarial pressure high; market hours create temporal constraints.
+Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05 Rationale: Speed is critical; adversarial pressure high; market hours create temporal constraints.
 
-Healthcare: M=0.10, P=0.15, H=0.25, T=0.15, I=0.20, O=0.15 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
+Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
 
-Cloud Infrastructure: M=0.05, P=0.25, H=0.30, T=0.10, I=0.25, O=0.05 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
+Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
 
-Indigenous Data Repository: M=0.10, P=0.10, H=0.20, T=0.10, I=0.15, O=0.35 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
+Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
 
-Government/Military: M=0.15, P=0.15, H=0.30, T=0.15, I=0.15, O=0.10 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
+Government/Military: evidence_density=0.15, trust_trend=0.15, adversarial_pressure=0.30, moment_criticality=0.15, update_resistance=0.15, attestation_coverage=0.10 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
 
 5.2. Custom Profiles
 

@@ -279,7 +279,7 @@ The rate of change provides predictive information:
 
 Environmental state is aggregated into six weighted inputs and the Soul veto:
 
-=== ":material-weight: Mass (M)"
+=== ":material-weight: evidence_density"
     
     **Question**: How much inertia does this entity have?
     
@@ -290,7 +290,7 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | Stake deposited | Skin in the game |
     | Attestation count | Third-party validation |
 
-=== ":material-speedometer: Power (P)"
+=== ":material-speedometer: trust_trend"
     
     **Question**: How much force can this entity exert?
     
@@ -301,7 +301,7 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | Network bandwidth | Communication capacity |
     | Storage quota | Data handling capacity |
 
-=== ":material-thermometer: Heat (H)"
+=== ":material-thermometer: adversarial_pressure"
     
     **Question**: How much stress is the environment under?
     
@@ -312,7 +312,7 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | System load | Resource pressure |
     | Error frequency | Failure signals |
 
-=== ":material-clock: Time (T)"
+=== ":material-clock: moment_criticality"
     
     **Question**: What temporal constraints apply?
     
@@ -323,7 +323,7 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | Request frequency | Action tempo |
     | Token freshness | Credential currency |
 
-=== "Inertia (I)"
+=== "update_resistance"
     
     **Question**: How resistant to change is this entity?
     
@@ -334,7 +334,7 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | Dependency stability | External reliance |
     | Version currency | Update status |
 
-=== ":material-eye: Observer (O)"
+=== ":material-eye: attestation_coverage"
     
     **Question**: Who is watching and what do they see?
     
@@ -345,12 +345,12 @@ Environmental state is aggregated into six weighted inputs and the Soul veto:
     | Peer visibility | Network observation |
     | Human oversight | Manual review level |
 
-=== ":material-creation: Soul (S)"
+=== ":material-creation: soul"
     
     **Question**: What ethical/legal constraints apply?
     
     !!! danger "Soul Veto"
-        Unlike other dimensions, Soul acts as a **binary veto**. If $S = 1$, the action is denied regardless of Trust Score.
+        Unlike the six weighted inputs, Soul acts as a **binary veto**. If `soul = 1`, the action is denied regardless of Trust Score.
     
     | Metric | Measures |
     |--------|----------|

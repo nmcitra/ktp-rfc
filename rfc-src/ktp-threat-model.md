@@ -200,7 +200,7 @@ ASSET: Sponsorship Bonds Description: Records of agent sponsorship relationships
 
 ASSET: Trust Scores Description: Current E_base and E_trust for all agents Location: Trust Oracle (computed), cached at PEPs Sensitivity: HIGH Compromise Impact: Grant unearned trust, deny legitimate trust Protection: Computation integrity, cache validation
 
-ASSET: Risk Factor Input State Description: Current environmental readings (M, P, H, T, I, O, S) Location: Trust Oracle Sensitivity: MEDIUM Compromise Impact: Manipulate Risk Factor calculation Protection: Sensor diversity, outlier detection
+ASSET: Risk Factor Input State Description: Current environmental readings (the six weighted inputs and the Soul veto) Location: Trust Oracle Sensitivity: MEDIUM Compromise Impact: Manipulate Risk Factor calculation Protection: Sensor diversity, outlier detection
 
 ASSET: Zone Configuration Description: Zone policies, thresholds, weights Location: Trust Oracle configuration Sensitivity: HIGH Compromise Impact: Weaken security policies Protection: Configuration signing, audit, access control
 

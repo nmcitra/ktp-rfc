@@ -153,7 +153,7 @@ The standard enforcement flow for every action:
 
 1. PEP validates Trust Proof signature and expiration
 
-1. PEP extracts Soul constraint status (S)
+1. PEP extracts Soul constraint status
 
 1. IF S = 1: - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 

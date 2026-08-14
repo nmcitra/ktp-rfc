@@ -67,7 +67,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Conformance Level:  A defined tier of KTP implementation completeness, with specific requirements for each level.
 
-Component:  A distinct functional unit of KTP (Trust Oracle, Context Tensor, PEP, Flight Recorder, Agent).
+Component:  A distinct functional unit of KTP (Trust Oracle, Context Signal sensors, PEP, Flight Recorder, Agent).
 
 Test Case:  A specific, reproducible test with defined inputs, expected outputs, and pass/fail criteria.
 
@@ -166,8 +166,8 @@ Trust Oracle:
 
 Risk Factors:
 
-- All 6 weighted inputs (M, P, H, T, I, O)
-- Soul veto (S) support
+- All 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
+- Soul veto support
 - Risk domain separation (Node, Neighborhood, Global)
 - Feed aggregation with configurable weights
 
@@ -375,7 +375,7 @@ SHOULD:
 
 MUST:
 
-- Support minimum 3 dimensions -  Heat (H) - required -  Momentum (P) - required -  One additional dimension
+- Support minimum 3 dimensions -  adversarial_pressure - required -  trust_trend - required -  One additional dimension
 - Normalize values to 0-1 range
 - Report sensor health status
 - Handle sensor failure gracefully
@@ -392,8 +392,8 @@ All Basic requirements, plus:
 
 MUST:
 
-- Support all 6 weighted dimensions (M, P, H, T, I, O)
-- Support the Soul veto (S)
+- Support all 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
+- Support the Soul veto
 - Implement 3 risk domains (Node, Neighborhood, Global)
 - Weighted aggregation across domains
 - Feed-level configuration
@@ -700,7 +700,7 @@ Implementation MUST:
 
 Before Zeroth Law evaluation:
 
-1. Check Soul constraint (S) from Trust Proof
+1. Check Soul constraint from Trust Proof
 2. If S = 1: supervision = silent_veto with SOVEREIGNTY_CONSTRAINT (Soul Veto), skip Zeroth Law
 3. If S = 0: Proceed to Zeroth Law
 

@@ -292,7 +292,7 @@ KTP calculates RELATIVE risk, not absolute hardware state:
 
 Each dimension D_i is normalized to \[0, 1] based on OBSERVED ranges, not theoretical hardware limits.
 
-Example: On bare metal: CPU 0% = low M, CPU 100% = high M On cloud VM:   vCPU 0% = low M, vCPU 100% = high M
+Example: On bare metal: CPU 0% = low evidence_density, CPU 100% = high evidence_density On cloud VM:   vCPU 0% = low evidence_density, vCPU 100% = high evidence_density
 
 The measurements are consistent within each context. Cross-context comparison is not required for Zeroth Law enforcement.
 
@@ -469,7 +469,7 @@ The Context Signals catalogue can incorporate external signals that indicate leg
 +-------------------------------------------------------------------+
 ~~~
 
-These external signals inform the Intent dimension (I) of the Context Tensor: "This activity is expected and legitimate."
+These external signals inform the Risk Factors: "This activity is expected and legitimate."
 
 C. BEHAVIORAL FINGERPRINTING
 
@@ -493,7 +493,7 @@ Legitimate emergency activity and attack activity often have different behaviora
    - Geographic anomalies
 ~~~
 
-The Inertia dimension (I) tracks deviation from expected patterns. Emergencies deviate from OPERATIONAL patterns but match EMERGENCY patterns if pre-declared.
+The update_resistance input tracks deviation from expected patterns. Emergencies deviate from OPERATIONAL patterns but match EMERGENCY patterns if pre-declared.
 
 D. GRADUATED RESPONSE, NOT BINARY CUTOFF
 

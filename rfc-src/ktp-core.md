@@ -126,7 +126,7 @@ Risk Factor (R): A normalized value (0-1) representing aggregated environmental 
 
 Silent Veto: The automatic denial of an action when A > E_trust, without requiring human intervention.
 
-Soul (Sovereignty Dimension): The seventh dimension of the Context Tensor, representing ethical, legal, and spiritual constraints of data or location. Unlike other dimensions, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
+Soul (Sovereignty Veto): The seventh named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the six weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), regardless of Trust Score. Takes precedence over the standard Silent Veto evaluation.
 
@@ -426,7 +426,9 @@ The Risk Factor represents aggregated environmental stress. It is calculated fro
 The calculation:
 
 ~~~
-   R = sum(w_i * s_i) for i in {M, P, H, T, I, O}
+   R = sum(w_i * s_i) for i in
+       {evidence_density, trust_trend, adversarial_pressure,
+        moment_criticality, update_resistance, attestation_coverage}
 ~~~
 
 Where: w_i = Domain-specific weight for dimension i s_i = Normalized sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must sum to 1)
@@ -644,10 +646,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ## The Seven Dimensions
 
-1. Mass (M) - Physical Density
+1. evidence_density
 
 ~~~
-   Analogy (informative): Density / Mass (m)
+   Analogy (informative): Mass (M) — Density / Mass (m)
 ~~~
 
 ~~~
@@ -666,8 +668,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low M: Empty building, quiet conditions
-   - High M: Packed stadium, high RF interference
+   - Low evidence_density: Empty building, quiet conditions
+   - High evidence_density: Packed stadium, high RF interference
 ~~~
 
 ~~~
@@ -676,10 +678,11 @@ The Risk Factors are seven named measurements of the environment that drive the 
    movement through the environment.
 ~~~
 
-1. Momentum (P) - Kinetic Velocity
+1. trust_trend
 
 ~~~
-   Analogy (informative): Kinetic Energy (KE = 1/2 mv^2)
+   Analogy (informative): Momentum (P) — Kinetic Energy
+   (KE = 1/2 mv^2)
 ~~~
 
 ~~~
@@ -697,8 +700,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low P: Idle system, excess capacity
-   - High P: System moving fast, approaching saturation
+   - Low trust_trend: Idle system, excess capacity
+   - High trust_trend: System moving fast, approaching saturation
 ~~~
 
 ~~~
@@ -707,10 +710,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
    Course corrections become expensive.
 ~~~
 
-1. Heat (H) - Adversarial Pressure
+1. adversarial_pressure
 
 ~~~
-   Analogy (informative): Entropy / Temperature (T)
+   Analogy (informative): Heat (H) — Entropy / Temperature (T)
 ~~~
 
 ~~~
@@ -729,8 +732,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low H: Cool, stable operations
-   - High H: Hot, active attack or system stress
+   - Low adversarial_pressure: Cool, stable operations
+   - High adversarial_pressure: Hot, active attack or system stress
 ~~~
 
 ~~~
@@ -739,10 +742,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
    cycle (Freezing agents to Observer Mode).
 ~~~
 
-1. Time (T) - Temporal Phase
+1. moment_criticality
 
 ~~~
-   Analogy (informative): Temporal Mechanics / Phase
+   Analogy (informative): Time (T) — Temporal Mechanics / Phase
 ~~~
 
 ~~~
@@ -760,8 +763,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low T: Low-criticality period (maintenance window, 3am)
-   - High T: High-criticality period (production, live event)
+   - Low moment_criticality: Low-criticality period (maintenance
+     window, 3am)
+   - High moment_criticality: High-criticality period (production,
+     live event)
 ~~~
 
 ~~~
@@ -770,10 +775,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
    the same action costs more trust near event horizons.
 ~~~
 
-1. Inertia (I) - Blast Radius
+1. update_resistance
 
 ~~~
-   Analogy (informative): Inertial Mass
+   Analogy (informative): Inertia (I) — Inertial Mass
 ~~~
 
 ~~~
@@ -791,8 +796,9 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low I: Leaf node, few dependencies, easy to move
-   - High I: Core service, many dependencies, expensive to move
+   - Low update_resistance: Leaf node, few dependencies, easy to move
+   - High update_resistance: Core service, many dependencies,
+     expensive to move
 ~~~
 
 ~~~
@@ -801,10 +807,11 @@ The Risk Factors are seven named measurements of the environment that drive the 
    modify - they resist change.
 ~~~
 
-1. Observer (O) - Population
+1. attestation_coverage
 
 ~~~
-   Analogy (informative): Frame of Reference / Observer Effect
+   Analogy (informative): Observer (O) — Frame of Reference /
+   Observer Effect
 ~~~
 
 ~~~
@@ -823,8 +830,10 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - Low O: Normal user population, routine operations
-   - High O: High-visibility users present, elevated scrutiny
+   - Low attestation_coverage: Normal user population, routine
+     operations
+   - High attestation_coverage: High-visibility users present,
+     elevated scrutiny
 ~~~
 
 ~~~
@@ -834,10 +843,11 @@ The Risk Factors are seven named measurements of the environment that drive the 
    Actions that would be routine become consequential.
 ~~~
 
-1. Soul (S) - Sovereignty
+1. soul
 
 ~~~
-   Analogy (informative): The Cosmological Constant / Immutable Law
+   Analogy (informative): Soul (S) — The Cosmological Constant /
+   Immutable Law
 ~~~
 
 ~~~
@@ -860,8 +870,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
 
 ~~~
    Interpretation:
-   - S = 0: No sovereignty constraints apply
-   - S = 1: Sovereignty constraint violated, action forbidden
+   - soul = 0: No sovereignty constraints apply
+   - soul = 1: Sovereignty constraint violated, action forbidden
 ~~~
 
 ~~~
@@ -1014,17 +1024,17 @@ Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress) Note: Soul 
 
 Different deployment domains weight the six weighted inputs differently. The weights MUST sum to 1.0. Soul is not weighted - it operates as an independent constraint.
 
-Example domain profiles (M, P, H, T, I, O):
+Example domain profiles:
 
-Stadium Network: M=0.25, P=0.25, H=0.20, T=0.15, I=0.10, O=0.05
+Stadium Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05
 
-Financial Trading: M=0.05, P=0.30, H=0.25, T=0.20, I=0.15, O=0.05
+Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05
 
-Healthcare: M=0.10, P=0.15, H=0.25, T=0.15, I=0.20, O=0.15
+Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15
 
-Cloud Infrastructure: M=0.05, P=0.25, H=0.30, T=0.10, I=0.25, O=0.05
+Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05
 
-Indigenous Data Repository: M=0.10, P=0.10, H=0.20, T=0.10, I=0.15, O=0.35 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
+Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
 
 Implementations MUST allow configuration of domain weights. Implementations SHOULD provide pre-defined profiles for common domains.
 
@@ -1108,7 +1118,7 @@ Feed Configuration Example:
 
 The "aggregation" field for Soul MUST be "any_veto" - if any enabled feed returns a veto, the Soul input vetoes.
 
-For the weighted inputs (M, P, H, T, I, O), typical aggregation is "weighted_average" of enabled feeds.
+For the six weighted inputs, typical aggregation is "weighted_average" of enabled feeds.
 
 ## Aggregation Algorithm
 
@@ -1601,9 +1611,9 @@ Scenario: A deployment agent attempts to push a code update to the ticketing sys
 
 Sensor values: CO2: 1800 ppm Link saturation: 92% WAF blocks: 200/min Time to kickoff: 5 minutes Dependency count: 50 VIP count: 2
 
-Normalization: M = (1800 - 400) / 1600 = 0.875 V = 92 / 100 = 0.920 H = 200 / 10000 = 0.020 T = 1 - (0.083 / 72) = 0.999 ≈ 1.000 I = 50 / 500 = 0.100 O = 2 / 50 = 0.040
+Normalization: M = (1800 - 400) / 1600 = 0.875 P = 92 / 100 = 0.920 H = 200 / 10000 = 0.020 T = 1 - (0.083 / 72) = 0.999 ≈ 1.000 I = 50 / 500 = 0.100 O = 2 / 50 = 0.040
 
-Domain weights (stadium): w_M=0.30, w_V=0.25, w_H=0.20, w_T=0.15, w_I=0.05, w_O=0.05
+Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15, w_I=0.05, w_O=0.05
 
 Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 * 0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 + 0.230 + 0.004 + 0.150 + 0.005 + 0.002 R = 0.654
 
@@ -1623,7 +1633,7 @@ Same agent, but during a maintenance window:
 
 Sensor values: CO2: 450 ppm Link saturation: 12% WAF blocks: 5/min Time to event: 48 hours Dependency count: 50 VIP count: 0
 
-Normalization: M = (450 - 400) / 1600 = 0.031 V = 12 / 100 = 0.120 H = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O = 0 / 50 = 0.000
+Normalization: M = (450 - 400) / 1600 = 0.031 P = 12 / 100 = 0.120 H = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O = 0 / 50 = 0.000
 
 Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 * 0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 + 0.030 + 0.000 + 0.050 + 0.005 + 0.000 R = 0.094
 

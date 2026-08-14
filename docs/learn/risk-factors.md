@@ -320,7 +320,7 @@ Every signal entering the system falls into one of four categories. Each categor
       </div>
     </div>
 
-    #### Tensor Projection
+    #### Risk Factor Projection
 
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
@@ -483,7 +483,7 @@ Every signal entering the system falls into one of four categories. Each categor
       </div>
     </div>
 
-    #### Tensor Projection
+    #### Risk Factor Projection
 
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
@@ -648,7 +648,7 @@ Every signal entering the system falls into one of four categories. Each categor
       </div>
     </div>
 
-    #### Tensor Projection
+    #### Risk Factor Projection
 
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
@@ -797,7 +797,7 @@ Every signal entering the system falls into one of four categories. Each categor
       </div>
     </div>
 
-    #### Tensor Projection
+    #### Risk Factor Projection
 
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
@@ -1222,7 +1222,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     ### How It Works
 
-    moment_criticality captures **temporal context, signal freshness, and decay functions**. Not all history is equal—recent signals carry more weight than stale ones, and the tensor applies exponential decay to age out old data.
+    moment_criticality captures **temporal context, signal freshness, and decay functions**. Not all history is equal—recent signals carry more weight than stale ones, and the scoring layer applies exponential decay to age out old data.
 
     moment_criticality also encodes session context. Long-lived sessions shift baselines differently than ephemeral requests. The tensor understands that an agent's behavior at hour 1 of a session may differ from hour 8—and accounts for it.
 
@@ -1240,7 +1240,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Recency dominates.** A clean last hour matters more than a clean last month. The tensor implements exponential decay—old signals fade, giving agents the ability to recover from past mistakes.
 
     !!! warning "Failure Mode"
-        **Stale signal poisoning.** If the tensor relies on outdated data, it may grant trust based on conditions that no longer exist. moment_criticality decay prevents this, but gaps in telemetry can still mislead.
+        **Stale signal poisoning.** If the Risk Factors rely on outdated data, it may grant trust based on conditions that no longer exist. moment_criticality decay prevents this, but gaps in telemetry can still mislead.
 
     <div class="dimension-interacts" markdown>
     **Interacts with:** [trust_trend](#__tabbed_2_2) (recent momentum weighted higher), [evidence_density](#__tabbed_2_1) (old mass decays without fresh signals), [attestation_coverage](#__tabbed_2_6) (observation freshness affects confidence)

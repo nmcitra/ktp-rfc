@@ -23,7 +23,7 @@ hide:
       <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-trust-label" data-value="7" data-duration="1500">
         <div class="ktp-stat-number" id="stat-trust-number" aria-live="polite" aria-atomic="true">0</div>
         <div class="ktp-stat-label" id="stat-trust-label">Trust Dimensions</div>
-        <div class="ktp-stat-sublabel">Physics-based geometry</div>
+        <div class="ktp-stat-sublabel">Environment-derived geometry</div>
       </div>
       <div class="ktp-stat-card" role="group" tabindex="0" aria-labelledby="stat-tech-label" data-value="27" data-duration="1500">
         <div class="ktp-stat-number" id="stat-tech-number" aria-live="polite" aria-atomic="true">0</div>

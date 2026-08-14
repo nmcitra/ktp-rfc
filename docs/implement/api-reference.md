@@ -280,7 +280,7 @@ Content-Type: application/json
 
 {
   "agent_id": "agent:service-alpha",
-  "dimensions": {
+  "signals": {
     "body.hardware.cpu": 0.45,
     "body.hardware.memory": 0.67,
     "world.network.latency": 0.12
@@ -290,9 +290,9 @@ Content-Type: application/json
 
 Response (202 Accepted):
 {
-  "tensor_id": "tensor-uuid-67890",
-  "accepted_dimensions": 3,
-  "rejected_dimensions": 0
+  "submission_id": "cs-uuid-67890",
+  "accepted_signals": 3,
+  "rejected_signals": 0
 }
 ```
 
@@ -308,15 +308,16 @@ GET /api/v1/risk-factors/{agent_id}
 Response (200 OK):
 {
   "agent_id": "agent:service-alpha",
-  "dimensions": {
-    "soul": { "value": 0.05, "weight": 3.0 },
-    "body": { "value": 0.56, "weight": 1.0 },
-    "world": { "value": 0.23, "weight": 1.5 },
-    "time": { "value": 0.10, "weight": 1.0 },
-    "relational": { "value": 0.15, "weight": 1.2 },
-    "signal": { "value": 0.18, "weight": 1.0 }
+  "risk_factors": {
+    "adversarial_pressure": 0.05,
+    "attestation_coverage": 0.18,
+    "evidence_density": 0.56,
+    "moment_criticality": 0.10,
+    "trust_trend": 0.23,
+    "update_resistance": 0.15
   },
-  "risk_factor": 0.15,
+  "soul": { "soul": 0, "constraint_type": null },
+  "r": 0.15,
   "last_updated": "2026-01-02T14:30:00Z"
 }
 ```

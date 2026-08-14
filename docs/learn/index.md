@@ -92,7 +92,7 @@ Choose the path that matches your role and goals:
 
 | Topic | Time | Focus |
 |-------|------|-------|
-| [Core Concepts](core-concepts.md) | 20 min | Trust mechanics, tensors & equations |
+| [Core Concepts](core-concepts.md) | 20 min | Trust mechanics, Risk Factors & equations |
 | [Context Signals](risk-factors.md) | 25 min | The measurement catalogue |
 | [Telemetry](telemetry.md) | 20 min | Data pipeline & statistical mechanics |
 | [Getting Started](getting-started.md) | 10 min | Protocol fundamentals |

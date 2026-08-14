@@ -148,7 +148,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 70
 3. Full trajectory chain verification
 4. Guarantor lineage required (generation 7+)
-5. Continuous environmental sensing (all 7 tensors)
+5. Continuous environmental sensing (all seven Risk Factor inputs)
 6. Soul veto always active
 7. Threshold-signed Trust Proofs (minimum 3-of-5)
 8. Flight Recorder with cryptographic chaining
@@ -180,7 +180,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 50
 3. Trajectory chain verification (sampling)
 4. Independent or Guarantor lineage (generation 3+)
-5. Environmental sensing (minimum 5 tensors)
+5. Environmental sensing (five of the six weighted inputs)
 6. Soul veto active for labeled data
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder required
@@ -212,7 +212,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 30 OR sponsored
 3. Lightweight trajectory (last transaction only)
 4. Any lineage permitted
-5. Environmental sensing (minimum 3 tensors)
+5. Environmental sensing (three of the six weighted inputs)
 6. Soul veto optional
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder recommended

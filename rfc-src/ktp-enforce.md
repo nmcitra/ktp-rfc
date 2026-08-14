@@ -536,7 +536,7 @@ Permitted actions:
 - Access all data regardless of classification
 - Grant/revoke permissions for other agents
 
-Admin Mode is available only in zones whose Mass Ceiling is at least 95 ({{KTP-ZONES}} Section 3): the threshold is derived from that ceiling at the tier's declared R budget, and a zone with a lower ceiling cannot deliver it at any generation. An operator planning toward Admin Mode in such a zone is planning toward a tier the zone does not offer.
+Admin Mode is available only in zones whose Mass Ceiling is at least 95 (the zone ceilings of Section 9.2): the threshold is derived from that ceiling at the tier's declared R budget, and a zone with a lower ceiling cannot deliver it at any generation. An operator planning toward Admin Mode in such a zone is planning toward a tier the zone does not offer.
 
 Requirements:
 

@@ -1955,6 +1955,26 @@ established word for one that survives a restart - and the three together read
 as a coherent escalation narrative rather than as a maturity ladder.  Stage 3
 is now named for what it can be held to rather than what it is freed of.
 
+## The E_base composition
+
+v1 computed E_base as a weighted sum — Proof of Resilience at 70%, a
+Lineage_cap summand at 20%, a sponsor term at 10% — whose prose and formula
+were mutually unsatisfiable, and which multiplied a contribution cap by a
+weight so the same 70 was charged twice.  v2.0.0 replaces it with a
+hundred-point allocation: shares sum to 100, each term contributes at most
+its share, lineage generation bounds E_base through a ceiling ramp instead
+of contributing to it, and the External Root term (the accountability
+instrument) replaces the sponsor weight.  See Section 5.1; an implementation
+computing the v1 formula does not conform to v2.
+
+## The risk_factors object and the per-tier caps
+
+The v1 wire object named context_tensor is renamed risk_factors in v2.0.0,
+and its keys are the six input names rather than single letters.  The per-tier
+numeric action cap (Max A) is deleted: a tier permits action classes, and
+the numeric bound is the Zeroth Law itself, A <= E_trust, evaluated per
+action.
+
 ## The Trust Tier thresholds
 
 | Tier | v1 | v2.0.0 |

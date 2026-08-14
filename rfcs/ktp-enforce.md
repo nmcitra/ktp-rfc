@@ -55,11 +55,11 @@ Trust Tiers provide graduated capability levels based on $E_{trust}$ thresholds.
 
 | Tier | $E_{trust}$ | Description | Permitted Actions |
 | :--- | :--- | :--- | :--- |
-| **Admin Mode** | $\ge 95$ | Full Control | Infrastructure, Security, Code Deploy |
-| **Operator** | $\ge 85$ | Management | Restart, Scale, Config Read |
-| **Analyst** | $\ge 70$ | Read-Only | Query Data, Logs, Reports |
-| **Observer** | $\ge 50$ | Minimal | Heartbeat, Self-Diagnostics |
-| **Hibernation** | $< 50$ | Survival | Heartbeat Only |
+| **Admin Mode** | $\ge 85$ | Full Control | Infrastructure, Security, Code Deploy |
+| **Operator** | $\ge 72$ | Management | Restart, Scale, Config Read |
+| **Analyst** | $\ge 58$ | Read-Only | Query Data, Logs, Reports |
+| **Observer** | $\ge 22$ | Minimal | Heartbeat, Self-Diagnostics |
+| **Hibernation** | $< 22$ | Survival | Heartbeat Only |
 
 ### Adaptive Dormancy
 When environmental conditions degrade (high $R$), $E_{trust}$ drops, potentially forcing agents into lower tiers. This is **Adaptive Dormancy**.
@@ -68,14 +68,14 @@ When environmental conditions degrade (high $R$), $E_{trust}$ drops, potentially
 stateDiagram-v2
     [*] --> Operator
     
-    Operator --> Analyst: E_trust < 85
-    Analyst --> Operator: E_trust >= 85
+    Operator --> Analyst: E_trust < 72
+    Analyst --> Operator: E_trust >= 72
     
-    Analyst --> Observer: E_trust < 70
-    Observer --> Analyst: E_trust >= 70
+    Analyst --> Observer: E_trust < 58
+    Observer --> Analyst: E_trust >= 58
     
-    Observer --> Hibernation: E_trust < 50
-    Hibernation --> Observer: E_trust >= 50
+    Observer --> Hibernation: E_trust < 22
+    Hibernation --> Observer: E_trust >= 24
     
     Hibernation --> [*]: Zone Collapse
 ```

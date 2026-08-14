@@ -173,10 +173,12 @@ Internet-Draft                  KTP-CORE                     August 2026
      13.2.  Informative References . . . . . . . . . . . . . . . . .  55
    Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  55
      A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  55
-     A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  56
+     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  56
+     A.3.  The risk_factors object and the per-tier caps . . . . . .  56
+     A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  57
    Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  57
    Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  58
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  58
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  59
 
 1.  Introduction
 
@@ -217,14 +219,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    environmental problem rather than a policy problem.  The key insight
    is:
 
-      An agent's autonomy must never exceed the environment's stability.
-
 
 
 Perkins                 Expires 14 February 2027                [Page 4]
 
 Internet-Draft                  KTP-CORE                     August 2026
 
+
+      An agent's autonomy must never exceed the environment's stability.
 
    This is expressed mathematically as the Zeroth Law:
 
@@ -271,9 +273,7 @@ Internet-Draft                  KTP-CORE                     August 2026
    Signals (the measurement catalogue) and the Risk Factors (six
    weighted inputs plus the Soul veto).  See Section 6.
 
-   Data Sovereignty: The principle that data is subject to the laws,
-   customs, and governance structures of the nation or community from
-   which it originates or to which it pertains.
+
 
 
 
@@ -281,6 +281,10 @@ Perkins                 Expires 14 February 2027                [Page 5]
 
 Internet-Draft                  KTP-CORE                     August 2026
 
+
+   Data Sovereignty: The principle that data is subject to the laws,
+   customs, and governance structures of the nation or community from
+   which it originates or to which it pertains.
 
    Effective Trust Score (E_trust): The final Trust Score after
    environmental deflation, calculated as E_base * (1 - R).  This is the
@@ -325,10 +329,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    transactions, where each link includes agent signature, environment
    attestation, and previous state hash.  See [KTP-IDENTITY].
 
-   Trust Leash: The metaphorical constraint on agent autonomy that
-   tightens (shorter leash) as environmental risk increases.
-
-
 
 
 
@@ -337,6 +337,9 @@ Perkins                 Expires 14 February 2027                [Page 6]
 
 Internet-Draft                  KTP-CORE                     August 2026
 
+
+   Trust Leash: The metaphorical constraint on agent autonomy that
+   tightens (shorter leash) as environmental risk increases.
 
    Trust Oracle: A distributed authority responsible for calculating
    Trust Scores, signing Trust Proofs, and attesting to agent
@@ -365,9 +368,6 @@ Internet-Draft                  KTP-CORE                     August 2026
 3.1.  Architecture
 
    A KTP deployment consists of the following components:
-
-
-
 
 
 
@@ -3103,7 +3103,42 @@ Internet-Draft                  KTP-CORE                     August 2026
    narrative rather than as a maturity ladder.  Stage 3 is now named for
    what it can be held to rather than what it is freed of.
 
-A.2.  The Trust Tier thresholds
+A.2.  The E_base composition
+
+   v1 computed E_base as a weighted sum — Proof of Resilience at 70%, a
+   Lineage_cap summand at 20%, a sponsor term at 10% — whose prose and
+   formula were mutually unsatisfiable, and which multiplied a
+   contribution cap by a weight so the same 70 was charged twice.
+   v2.0.0 replaces it with a hundred-point allocation: shares sum to
+   100, each term contributes at most its share, lineage generation
+   bounds E_base through a ceiling ramp instead of contributing to it,
+   and the External Root term (the accountability instrument) replaces
+   the sponsor weight.  See Section 5.1; an implementation computing the
+   v1 formula does not conform to v2.
+
+A.3.  The risk_factors object and the per-tier caps
+
+   The v1 wire object named context_tensor is renamed risk_factors in
+   v2.0.0, and its keys are the six input names rather than single
+   letters.  The per-tier numeric action cap (Max A) is deleted: a tier
+   permits action classes, and the numeric bound is the Zeroth Law
+   itself, A <= E_trust, evaluated per action.
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 56]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+A.4.  The Trust Tier thresholds
 
              +===============+===============+===============+
              | Tier          | v1            | v2.0.0        |
@@ -3128,16 +3163,6 @@ A.2.  The Trust Tier thresholds
    the specification's own worked example uses.  The generation ceilings
    are unchanged; one table moved, not two.
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 56]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Two consequences travel with the change.  Hibernation exit moves from
    E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
    a floor of 50 becomes a thirty-three-point one over a floor of 22.
@@ -3161,6 +3186,13 @@ Appendix B.  Example Calculations
 
    Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15,
    w_I=0.05, w_O=0.05
+
+
+
+Perkins                 Expires 14 February 2027               [Page 57]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 *
    0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 +
@@ -3187,13 +3219,6 @@ Appendix B.  Example Calculations
    = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O
    = 0 / 50 = 0.000
 
-
-
-Perkins                 Expires 14 February 2027               [Page 57]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 *
    0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 +
    0.030 + 0.000 + 0.050 + 0.005 + 0.000 R = 0.094
@@ -3217,6 +3242,13 @@ Appendix C.  JSON Schemas
 
    SHA-256 of the canonical file at the time this document was produced:
    41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
+
+
+
+Perkins                 Expires 14 February 2027               [Page 58]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    The published file carries the v2 claims (the declared peer share,
    applicable ceilings, advancement floor, and root instrument) and
@@ -3245,4 +3277,28 @@ Author's Address
 
 
 
-Perkins                 Expires 14 February 2027               [Page 58]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 59]

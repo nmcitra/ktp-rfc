@@ -1,23 +1,35 @@
-name: RFC Sync Check
+name: Spec gates
 
 on:
   pull_request:
     paths:
       - "rfcs/**"
       - "rfcs-txt/**"
+      - "rfc-src/**"
+      - "catalog/**"
+      - "docs/**"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  check-sync:
+  gates:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Check rfcs/ and rfcs-txt/ stay in sync
-        run: scripts/check-rfc-sync.sh "origin/${{ github.base_ref }}"
+      # check-rfc-sync.sh was retired by the format-spine ruling; these are
+      # the live gates. gen-rfc-txt's diff gate needs the kramdown/xml2rfc
+      # toolchain and runs locally pre-push instead.
+      - name: Vocabulary
+        run: python3 scripts/check-vocabulary.py
+      - name: Parity
+        run: python3 scripts/check-parity.py
+      - name: Repo hygiene
+        run: python3 scripts/check-repo-hygiene.py
+      - name: Declarations
+        run: python3 scripts/check-declarations.py
+      - name: Catalogue tables
+        run: python3 scripts/gen-catalog-tables.py --check

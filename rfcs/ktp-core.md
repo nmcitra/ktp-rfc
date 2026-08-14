@@ -159,29 +159,33 @@ flowchart TD
 
 Base Trust represents intrinsic capability, independent of current conditions:
 
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| Proof of Resilience | 70% | Historical performance, especially under stress |
-| Lineage Generation | 20% | Evolutionary maturity of the agent |
-| Sponsor Weight | 10% | For Sponsored agents, sponsor contribution |
+$E_{base}$ is a **hundred-point allocation** — the shares sum to 100, and each term contributes at most its share. A share is a maximum, not a multiplier.
+
+| Component | Share | Description |
+|-----------|-------|-------------|
+| Proof of Resilience | 70 | Historical performance, especially under stress |
+| External Root | 30 | The party currently accountable for the agent |
+| Peer Signals | declared | Observations by other agents, where implemented |
 
 - An agent with 10,000 transactions during crises has higher $E_{base}$ than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
-- **Lineage caps:**
-    - **Generation 0-2 (Sponsored)** capped at 40.
-    - **Generation 3-5 (Independent)** capped at 70.
-    - **Generation 6+ (Guarantor)** uncapped.
-- Sponsor's $E_{base}$ × stake percentage. A high-trust sponsor vouching for a new agent transfers partial trust.
+- **Lineage generation does not contribute to $E_{base}$ — it bounds it**, through the per-generation ceiling ramp (25 · 35 · 45 · 55 · 65 · 75 · 85 for generations 0-6; 100 at 7+), composing by minimum with the IAL, trajectory, and adversity ceilings.
+- The External Root term is the accountability instrument: a live sponsorship bond while Sponsored, a current external attestation after — exposed to loss, able to revoke, terminating outside the agent-trust graph.
 
 ??? example "Base Trust Calculation"
     ```
-    E_base = (PoR_score × 0.70) + (Lineage_cap × 0.20) + (Sponsor_contribution × 0.10)
-    
+    E_raw  = PoR_contribution × (PoR_share / 70)
+           + Root_score      × (Root_share / 100)
+           + Peer_score      × (Peer_share / 100)
+
+    E_base = min(E_raw, Generation_ceiling, IAL_ceiling,
+                        Trajectory_ceiling, Adversity_ceiling, ...)
+
     Where:
-      PoR_score = the Proof of Resilience contribution, computed as
-                  specified in [KTP-IDENTITY] Section 5.3. This
-                  document MUST NOT restate that computation.
-      Lineage_cap = min(generation × 15, 100)
-      Sponsor_contribution = Sponsor_E_base × stake_percentage
+      PoR_contribution = 0-70, computed as specified in
+                  [KTP-IDENTITY] Section 5.3. This document
+                  MUST NOT restate that computation.
+      Root_score = the strength of the accountability instrument
+                  (bond while Sponsored; attestation after)
     ```
 
 Proof of Resilience is a function of attestations earned under friction, not of transaction volume. An agent's transaction count bounds $E_{base}$ through the trajectory-length requirement of *Trust Score Integrity*; it is not an input to `PoR_score`. See [KTP-IDENTITY] Section 5.4.

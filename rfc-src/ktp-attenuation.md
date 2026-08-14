@@ -452,14 +452,14 @@ Specific action classes are disabled at gravity thresholds:
                                |
                                v
 +------------------------------------------------------------------+
-|                  CONTEXT TENSOR COLLECTOR                        |
+|                  RISK FACTOR COLLECTOR                           |
 |   [Soul] [Body] [World] [Time] [Relational] [Signal]             |
 +------------------------------------------------------------------+
                                |
                                v
 +------------------------------------------------------------------+
 |                     RISK CALCULATOR                              |
-|   R = weighted_aggregate(tensor_risks)                           |
+|   R = weighted_aggregate(risk_factor_inputs)                           |
 +------------------------------------------------------------------+
                                |
                                v
@@ -547,7 +547,7 @@ Zones MAY define custom gravity profiles:
        "compute_throttle_enabled": true,
        "network_isolation_enabled": true,
        "capability_reduction_enabled": true,
-       "tensor_weights": {
+       "risk_factor_weights": {
          "soul": 0.25,
          "body": 0.10,
          "world": 0.15,
@@ -617,7 +617,7 @@ Every gravity application MUST be logged:
      "zeroth_law_result": "violated",
      "gravity_intensity": null,
      "action_result": "blocked",
-     "tensor_snapshot": {
+     "risk_factor_snapshot": {
        "soul_risk": 0.2,
        "body_risk": 0.1,
        "world_risk": 0.3,
@@ -656,7 +656,7 @@ An attacker might attempt to trigger high gravity for legitimate agents.  Mitiga
 ~~~
    1.  Gravity source attribution in logs
    2.  Anomaly detection on R spikes
-   3.  Rate limiting on tensor updates from external sources
+   3.  Rate limiting on Risk Factor updates from external sources
    4.  Human review threshold for sustained high gravity
 ~~~
 

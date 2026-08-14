@@ -162,14 +162,14 @@ The Collector MUST:
 
 - Maintain measurement history for smoothing
 
-- Provide current tensor state on demand
+- Provide current Risk Factor state on demand
 
 ### Risk Calculator
 
-The Risk Calculator computes R from tensor measurements:
+The Risk Calculator computes R from Risk Factor measurements:
 
 ~~~
-   R = Σ(tensor_risk_i × weight_i) for i in tensors
+   R = Σ(risk_factor_i × weight_i) for i in the six inputs
 ~~~
 
 Where weights sum to 1.0 (default):
@@ -185,11 +185,11 @@ Where weights sum to 1.0 (default):
 
 The Calculator MUST:
 
-- Update R within 10ms of tensor change
+- Update R within 10ms of an input change
 
 - Apply temporal smoothing to prevent oscillation
 
-- Handle missing tensor data gracefully
+- Handle missing input data gracefully
 
 - Log R changes for audit
 
@@ -289,7 +289,7 @@ Process:
    1.  Verify agent signature
    2.  Verify action was permitted
    3.  Verify state transitions are valid
-   4.  Capture tensor snapshot
+   4.  Capture Risk Factor snapshot
    5.  Add Oracle attestation
    6.  Sign complete record
 ~~~
@@ -300,7 +300,7 @@ The Co-Signer MUST:
 
 - Verify before signing (never blind sign)
 
-- Include tensor snapshot at time of transaction
+- Include the Risk Factor snapshot at time of transaction
 
 - Refuse to sign invalid records
 

@@ -305,9 +305,9 @@ Together, they create stable system behavior without sacrificing responsiveness 
 
 Analogy (informative): Mass (M) — Density / Mass (m)
 
-Concept: The sheer weight of presence in the environment. High Mass creates a Gravity Well that naturally slows operations (Time Dilation) and increases the "cost" of movement.
+Concept: The sheer weight of presence in the environment. High evidence_density naturally slows operations (Time Dilation) and increases the "cost" of movement.
 
-Impact on Trust: High Mass correlates with network congestion, increased attack surface, and reduced diagnostic capability. Actions become more expensive as the environment becomes denser.
+Impact on Trust: High evidence_density correlates with network congestion, increased attack surface, and reduced diagnostic capability. Actions become more expensive as the environment becomes denser.
 
 Sensor Feeds:
 
@@ -360,9 +360,9 @@ Example Calculation (Stadium):
 Analogy (informative): Momentum (P) — Kinetic Energy
 (KE = 1/2 mv²)
 
-Concept: The speed and direction of data flow. High Momentum means the system is moving fast. Sudden stops or turns (Vector Kinking) create massive G-forces (Risk).
+Concept: The speed and direction of data flow. High trust_trend means the system is moving fast. Sudden stops or turns (Vector Kinking) create massive G-forces (Risk).
 
-Impact on Trust: High Momentum leaves less capacity for additional load and increases the cost of course corrections. Actions that change system direction become increasingly expensive.
+Impact on Trust: High trust_trend leaves less capacity for additional load and increases the cost of course corrections. Actions that change system direction become increasingly expensive.
 
 Sensor Feeds:
 
@@ -414,9 +414,9 @@ Example Calculation (Trading Platform):
 
 Analogy (informative): Entropy / Temperature (T)
 
-Concept: The chaotic energy or friction in the system. Heat represents both active adversarial pressure and system stress. Heat is the Deflator—as Heat rises, the structural integrity of Trust degrades.
+Concept: The chaotic energy or friction in the system. adversarial_pressure represents both active adversarial stress and system stress. Heat is the Deflator—as Heat rises, the structural integrity of Trust degrades.
 
-Impact on Trust: High Heat indicates a compromised or stressed environment where agent actions may be exploited, misattributed, or cause cascading failures. High Heat triggers the "Cool-Down" cycle (Freezing agents to Observer Mode).
+Impact on Trust: High adversarial_pressure indicates a compromised or stressed environment where agent actions may be exploited, misattributed, or cause cascading failures. Sustained highs trigger the "Cool-Down" cycle (freezing agents to Observer Mode).
 
 Sensor Feeds:
 
@@ -523,7 +523,7 @@ Example Calculation (30 minutes to kickoff):
 
 Analogy (informative): Inertial Mass
 
-Concept: The topological importance of a node—how hard is it to move or stop this asset? A Core Router has high Inertia; an edge IoT device has low Inertia. High Inertia nodes resist change.
+Concept: The topological importance of a node—how hard is it to move or stop this asset? A core router has high update_resistance; an edge IoT device has low. High-resistance nodes resist change.
 
 Impact on Trust: Changes to high-inertia systems carry disproportionate risk due to cascading effects. The Trust Score required to modify a high-inertia node is higher than for low-inertia nodes.
 

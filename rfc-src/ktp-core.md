@@ -167,7 +167,7 @@ A KTP deployment consists of the following components:
          v                    v                    v
 +------------------------------------------------------------------+
 |                      RISK FACTOR SENSORS                         |
-|  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]       |
+| [evidence_density] [trust_trend] [adversarial_pressure] [...]    |
 +------------------------------------------------------------------+
          |                    |                    |
          v                    v                    v
@@ -678,7 +678,7 @@ The Risk Factors are seven named measurements of the environment that drive the 
 ~~~
 
 ~~~
-   Impact: High Mass creates a Gravity Well. It naturally slows
+   Impact: high evidence_density slows the environment. It naturally slows
    down operations (Time Dilation) and increases the "cost" of
    movement through the environment.
 ~~~
@@ -710,7 +710,7 @@ The Risk Factors are seven named measurements of the environment that drive the 
 ~~~
 
 ~~~
-   Impact: High Momentum means the system is moving fast. Sudden
+   Impact: high trust_trend means standing is moving fast. Sudden
    stops or turns (Vector Kinking) create massive G-forces (Risk).
    Course corrections become expensive.
 ~~~
@@ -742,8 +742,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
 ~~~
 
 ~~~
-   Impact: Heat is the Deflator. As Heat rises, the structural
-   integrity of Trust degrades. High Heat triggers the "Cool-Down"
+   Impact: adversarial_pressure is the deflator. As it rises, the
+   structural integrity of trust degrades; sustained highs trigger the "Cool-Down"
    cycle (Freezing agents to Observer Mode).
 ~~~
 
@@ -809,8 +809,8 @@ Provenance: moment_criticality is externally supplied. Six of the seven inputs a
 ~~~
 
 ~~~
-   Impact: A Core Router has high Inertia; an edge IoT device has
-   low Inertia. High Inertia nodes require higher Trust Scores to
+   Impact: a core router has high update_resistance; an edge IoT
+   device has low. High-resistance nodes require higher Trust Scores to
    modify - they resist change.
 ~~~
 
@@ -1027,14 +1027,14 @@ Example normalization thresholds:
 
 ~~~
 +------------+------------+------------+------------+
-| Dimension  | Sensor     | s_min      | s_max      |
+| Input                | Sensor     | s_min | s_max     |
 +------------+------------+------------+------------+
-| Mass       | CO2 (ppm)  | 400        | 2000       |
-| Momentum   | Link %     | 0          | 100        |
-| Heat       | WAF blocks | 0          | 10000/min  |
-| Time       | Hours out  | 72         | 0          |
-| Inertia    | Dep count  | 0          | 500        |
-| Observer   | VIP count  | 0          | 50         |
+| evidence_density     | CO2 (ppm)  | 400   | 2000      |
+| trust_trend          | Link %     | 0     | 100       |
+| adversarial_pressure | WAF blocks | 0     | 10000/min |
+| moment_criticality   | Hours out  | 72    | 0         |
+| update_resistance    | Dep count  | 0     | 500       |
+| attestation_coverage | VIP count  | 0     | 50        |
 | Soul       | N/A        | Binary (0 or 1)         |
 +------------+------------+------------+------------+
 ~~~
@@ -1207,14 +1207,14 @@ Sensor values SHOULD be refreshed at intervals appropriate to their rate of chan
 
 ~~~
 +------------+------------------------+
-| Dimension  | Recommended Interval   |
+| Input                | Recommended Interval |
 +------------+------------------------+
-| Mass       | 30-60 seconds          |
-| Momentum   | 1-5 seconds            |
-| Heat       | 1-5 seconds            |
-| Time       | 60 seconds             |
-| Inertia    | 300 seconds            |
-| Observer   | 30 seconds             |
+| evidence_density     | 30-60 seconds       |
+| trust_trend          | 1-5 seconds         |
+| adversarial_pressure | 1-5 seconds         |
+| moment_criticality   | 60 seconds          |
+| update_resistance    | 300 seconds         |
+| attestation_coverage | 30 seconds          |
 | Soul       | On-demand (per action) |
 +------------+------------------------+
 ~~~
@@ -1284,13 +1284,13 @@ KTP claims (in "ktp" object):
 ~~~
 
 ~~~
-   context: Object containing normalized sensor values
-     m: Mass (0-1)
-     p: Momentum (0-1)
-     h: Heat (0-1)
-     t: Time (0-1)
-     i: Inertia (0-1)
-     o: Observer (0-1)
+   risk_factors: Object containing the six normalized inputs
+     adversarial_pressure (0-1)
+     attestation_coverage (0-1)
+     evidence_density (0-1)
+     moment_criticality (0-1)
+     trust_trend (0-1)
+     update_resistance (0-1)
 ~~~
 
 ~~~

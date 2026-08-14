@@ -85,7 +85,7 @@ Trust Oracle:
 
 Risk Factors:
 
-- Minimum 3 weighted inputs (Heat, Momentum, one other)
+- Minimum 3 weighted inputs (adversarial_pressure, trust_trend, one other)
 - Basic normalization (min/max scaling)
 - Single risk domain (no Node/Neighborhood/Global separation)
 

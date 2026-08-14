@@ -90,7 +90,7 @@ hide:
 
     Six measurement domains spanning 1,627 signals.
 
-    [Dive In](learn/context-tensor.md){ .card-cta }
+    [Dive In](learn/risk-factors.md){ .card-cta }
 
 - :material-chart-line:{ .lg .middle }
 

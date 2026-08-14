@@ -5,7 +5,7 @@ hide:
 
 # Context Signals & Risk Factors
 
-> Formerly *The Context Tensor*; the catalogue (Context Signals) and the scoring layer (Risk Factors) it conflated are now named separately. The page URL is unchanged.
+> Formerly *The Context Tensor*; the catalogue (Context Signals) and the scoring layer (Risk Factors) it conflated are now named separately, and the page moved with the object it describes — `learn/context-tensor` is retired, this page is `learn/risk-factors`. The six weighted inputs are named by their keys; the physics words they replaced are recorded in the specification's Analogy lines.
 
 *The Geometry of Trust in a Digital Universe*
 
@@ -39,62 +39,62 @@ Trust isn't a yes/no flag. It's a field. **Context Signals** capture the real-ti
   </div>
 </div>
 
-## The Seven Dimensions
+## The Seven Named Inputs
 
 The Risk Factors are expressed across seven named inputs. Click any input to explore its mechanics.
 
 <div class="dimension-cards-grid">
   <a href="#__tabbed_2_1" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">M</span><span class="mono-secondary">a</span>
+      <span class="mono-primary">E</span><span class="mono-secondary">v</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Mass</strong>
+      <strong>evidence_density</strong>
       <span>The weight of observed behavior</span>
     </div>
   </a>
   <a href="#__tabbed_2_2" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">M</span><span class="mono-secondary">o</span>
+      <span class="mono-primary">T</span><span class="mono-secondary">r</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Momentum</strong>
+      <strong>trust_trend</strong>
       <span>Velocity of trust change</span>
     </div>
   </a>
   <a href="#__tabbed_2_3" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">I</span><span class="mono-secondary">n</span>
+      <span class="mono-primary">U</span><span class="mono-secondary">p</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Inertia</strong>
+      <strong>update_resistance</strong>
       <span>Resistance to sudden shifts</span>
     </div>
   </a>
   <a href="#__tabbed_2_4" class="dimension-card-mini dimension-card-mini--heat">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">H</span><span class="mono-secondary">e</span>
+      <span class="mono-primary">A</span><span class="mono-secondary">d</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Heat</strong>
+      <strong>adversarial_pressure</strong>
       <span>Environmental stress and friction</span>
     </div>
   </a>
   <a href="#__tabbed_2_5" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">T</span><span class="mono-secondary">i</span>
+      <span class="mono-primary">M</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Time</strong>
+      <strong>moment_criticality</strong>
       <span>Temporal context and decay</span>
     </div>
   </a>
   <a href="#__tabbed_2_6" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">O</span><span class="mono-secondary">b</span>
+      <span class="mono-primary">A</span><span class="mono-secondary">t</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Observer</strong>
+      <strong>attestation_coverage</strong>
       <span>Who is watching, and how reliably</span>
     </div>
   </a>
@@ -103,7 +103,7 @@ The Risk Factors are expressed across seven named inputs. Click any input to exp
       <span class="mono-primary">S</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Soul</strong>
+      <strong>soul</strong>
       <span>Constitutional constraints</span>
     </div>
   </a>
@@ -325,12 +325,12 @@ Every signal entering the system falls into one of four categories. Each categor
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Primary</span>
-        <a href="#__tabbed_2_1" class="dimension-tag">Mass</a>
-        <a href="#__tabbed_2_5" class="dimension-tag">Time</a>
+        <a href="#__tabbed_2_1" class="dimension-tag">evidence_density</a>
+        <a href="#__tabbed_2_5" class="dimension-tag">moment_criticality</a>
       </div>
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Secondary</span>
-        <a href="#__tabbed_2_2" class="dimension-tag dimension-tag--secondary">Momentum</a>
+        <a href="#__tabbed_2_2" class="dimension-tag dimension-tag--secondary">trust_trend</a>
       </div>
     </div>
 
@@ -407,7 +407,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     Logs are where **intent becomes visible**. A failed login is just noise—but 50 failed logins from 50 different IPs against the same account is credential stuffing. Logs provide the context to distinguish between accidents and attacks, mistakes and malice.
 
-    Security events in this category directly influence Heat (anomalies increase friction) and Observer (audit coverage affects confidence).
+    Security events in this category directly influence adversarial_pressure (anomalies increase friction) and attestation_coverage (audit coverage affects confidence).
 
     #### Key Signals
 
@@ -488,12 +488,12 @@ Every signal entering the system falls into one of four categories. Each categor
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Primary</span>
-        <a href="#__tabbed_2_4" class="dimension-tag dimension-tag--heat">Heat</a>
-        <a href="#__tabbed_2_6" class="dimension-tag">Observer</a>
+        <a href="#__tabbed_2_4" class="dimension-tag dimension-tag--heat">adversarial_pressure</a>
+        <a href="#__tabbed_2_6" class="dimension-tag">attestation_coverage</a>
       </div>
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Secondary</span>
-        <a href="#__tabbed_2_3" class="dimension-tag dimension-tag--secondary">Inertia</a>
+        <a href="#__tabbed_2_3" class="dimension-tag dimension-tag--secondary">update_resistance</a>
       </div>
     </div>
 
@@ -548,7 +548,7 @@ Every signal entering the system falls into one of four categories. Each categor
         | `process_hash` | File hash | Malware match, unknown hashes, first-seen |
         | `process_cmd_line` | Full command | Encoded commands, suspicious patterns |
         | `registry_key` | Windows registry | Run key mods, persistence detection |
-        | `file_operation` | File changes | Mass changes, sensitive file access |
+        | `file_operation` | File changes | evidence_density changes, sensitive file access |
 
 === "Metrics"
 
@@ -572,7 +572,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     Infrastructure stress directly correlates with trust risk. A service running at 95% CPU has less capacity to validate requests properly. A queue backing up might indicate an attack or a failing dependency. Metrics provide the **early warning system** before events occur.
 
-    Metrics heavily influence Heat (saturation increases friction) and Momentum (degradation trends signal declining trust trajectory).
+    Metrics heavily influence adversarial_pressure (saturation increases friction) and trust_trend (degradation trends signal declining trust trajectory).
 
     #### Key Signals
 
@@ -653,12 +653,12 @@ Every signal entering the system falls into one of four categories. Each categor
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Primary</span>
-        <a href="#__tabbed_2_4" class="dimension-tag dimension-tag--heat">Heat</a>
-        <a href="#__tabbed_2_2" class="dimension-tag">Momentum</a>
+        <a href="#__tabbed_2_4" class="dimension-tag dimension-tag--heat">adversarial_pressure</a>
+        <a href="#__tabbed_2_2" class="dimension-tag">trust_trend</a>
       </div>
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Secondary</span>
-        <a href="#__tabbed_2_1" class="dimension-tag dimension-tag--secondary">Mass</a>
+        <a href="#__tabbed_2_1" class="dimension-tag dimension-tag--secondary">evidence_density</a>
       </div>
     </div>
 
@@ -721,7 +721,7 @@ Every signal entering the system falls into one of four categories. Each categor
 
     Attestations provide **trust that cannot be fabricated by the subject being evaluated**. An agent can manipulate its own logs, but it can't forge a signature from a trusted third party. Attestations anchor the trust calculation in external reality.
 
-    When multiple independent attesters agree, confidence compounds. When attestations are missing or stale, Observer confidence drops. When constitutional constraints are attested (GDPR consent, TK Labels), Soul gates engage.
+    When multiple independent attesters agree, confidence compounds. When attestations are missing or stale, attestation_coverage drops. When constitutional constraints are attested (GDPR consent, TK Labels), Soul gates engage.
 
     #### Key Signals
 
@@ -802,12 +802,12 @@ Every signal entering the system falls into one of four categories. Each categor
     <div class="signal-tensor-projection">
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Primary</span>
-        <a href="#__tabbed_2_6" class="dimension-tag">Observer</a>
-        <a href="#__tabbed_2_7" class="dimension-tag dimension-tag--soul">Soul</a>
+        <a href="#__tabbed_2_6" class="dimension-tag">attestation_coverage</a>
+        <a href="#__tabbed_2_7" class="dimension-tag dimension-tag--soul">soul</a>
       </div>
       <div class="signal-tensor-group">
         <span class="signal-tensor-label">Secondary</span>
-        <a href="#__tabbed_2_3" class="dimension-tag dimension-tag--secondary">Inertia</a>
+        <a href="#__tabbed_2_3" class="dimension-tag dimension-tag--secondary">update_resistance</a>
       </div>
     </div>
 
@@ -915,8 +915,8 @@ Every signal entering the system is classified by three fundamental questions ab
     </div>
     <div class="arq-card-feeds">
       <span class="arq-card-feeds-label">Projects into</span>
-      <span class="arq-feed-tag">Mass</span>
-      <span class="arq-feed-tag">Time</span>
+      <span class="arq-feed-tag">evidence_density</span>
+      <span class="arq-feed-tag">moment_criticality</span>
     </div>
   </div>
   <div class="arq-card">
@@ -935,8 +935,8 @@ Every signal entering the system is classified by three fundamental questions ab
     </div>
     <div class="arq-card-feeds">
       <span class="arq-card-feeds-label">Projects into</span>
-      <span class="arq-feed-tag">Inertia</span>
-      <span class="arq-feed-tag">Momentum</span>
+      <span class="arq-feed-tag">update_resistance</span>
+      <span class="arq-feed-tag">trust_trend</span>
     </div>
   </div>
   <div class="arq-card">
@@ -955,13 +955,13 @@ Every signal entering the system is classified by three fundamental questions ab
     </div>
     <div class="arq-card-feeds">
       <span class="arq-card-feeds-label">Projects into</span>
-      <span class="arq-feed-tag arq-feed-tag--heat">Heat</span>
-      <span class="arq-feed-tag">Observer</span>
+      <span class="arq-feed-tag arq-feed-tag--heat">adversarial_pressure</span>
+      <span class="arq-feed-tag">attestation_coverage</span>
     </div>
   </div>
 </div>
 
-### ARQ-to-Tensor Projection Matrix
+### ARQ-to-Risk-Factor Projection Matrix
 
 Each ARQ classification feeds specific Risk Factor inputs. The mapping is not 1:1 — signals often influence multiple inputs with different weights.
 
@@ -970,7 +970,7 @@ Each ARQ classification feeds specific Risk Factor inputs. The mapping is not 1:
     <thead>
       <tr>
         <th>ARQ Input</th>
-        <th>Primary Dimensions</th>
+        <th>Primary Inputs</th>
         <th>Secondary</th>
         <th>Signal Examples</th>
       </tr>
@@ -978,20 +978,20 @@ Each ARQ classification feeds specific Risk Factor inputs. The mapping is not 1:
     <tbody>
       <tr>
         <td>Availability</td>
-        <td><span class="dimension-tag">Mass</span> <span class="dimension-tag">Time</span></td>
-        <td>Momentum</td>
+        <td><span class="dimension-tag">evidence_density</span> <span class="dimension-tag">moment_criticality</span></td>
+        <td>trust_trend</td>
         <td>Latency, packet loss, reachability, handshake success</td>
       </tr>
       <tr>
         <td>Retainability</td>
-        <td><span class="dimension-tag">Inertia</span> <span class="dimension-tag">Momentum</span></td>
-        <td>Mass</td>
+        <td><span class="dimension-tag">update_resistance</span> <span class="dimension-tag">trust_trend</span></td>
+        <td>evidence_density</td>
         <td>Session stability, connection drops, retry rates</td>
       </tr>
       <tr>
         <td>Quality</td>
-        <td><span class="dimension-tag dimension-tag--heat">Heat</span> <span class="dimension-tag">Observer</span></td>
-        <td>Inertia</td>
+        <td><span class="dimension-tag dimension-tag--heat">adversarial_pressure</span> <span class="dimension-tag">attestation_coverage</span></td>
+        <td>update_resistance</td>
         <td>Error rates, throughput, security signals, attestations</td>
       </tr>
     </tbody>
@@ -1008,23 +1008,23 @@ Each ARQ classification feeds specific Risk Factor inputs. The mapping is not 1:
 
 Each dimension has a distinct signal signature and behavioral effect. Click any dimension to explore its mechanics.
 
-=== "Mass"
+=== "evidence_density"
 
-    <div class="dimension-hero" id="mass">
+    <div class="dimension-hero" id="evidence-density">
       <div class="dimension-monogram">
-        <span class="mono-primary">M</span><span class="mono-secondary">a</span>
+        <span class="mono-primary">E</span><span class="mono-secondary">v</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Mass</strong>
+        <strong>evidence_density</strong>
         <em>The weight of observed behavior</em>
       </div>
     </div>
 
     ### How It Works
 
-    Mass measures the **density and volume of telemetry** flowing through the system. Think of it as gravitational weight—agents with more observed, consistent behavior carry more mass and are harder to perturb.
+    evidence_density measures the **density and volume of telemetry** flowing through the system. Think of it as gravitational weight—agents with more observed, consistent behavior carry more mass and are harder to perturb.
 
-    Unlike a simple counter, Mass rewards *sustained* activity over spikes. An agent processing 1,000 requests over an hour gains more mass than one processing 1,000 requests in a burst. The tensor values consistency and predictability.
+    Unlike a simple counter, evidence_density rewards *sustained* activity over spikes. An agent processing 1,000 requests over an hour gains more mass than one processing 1,000 requests in a burst. The tensor values consistency and predictability.
 
     <div class="dimension-signals" markdown>
 
@@ -1040,10 +1040,10 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Consistency compounds.** Steady behavior over time builds mass more effectively than volume spikes. The tensor rewards agents who show up reliably, not those who flood the system episodically.
 
     !!! warning "Failure Mode"
-        **Noisy traffic inflation.** High-volume garbage requests can artificially inflate Mass without genuine trust improvement. Anti-Goodhart measures detect and penalize this pattern.
+        **Noisy traffic inflation.** High-volume garbage requests can artificially inflate evidence_density without genuine trust improvement. Anti-Goodhart measures detect and penalize this pattern.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Momentum](#__tabbed_2_2) (velocity × mass = force), [Inertia](#__tabbed_2_3) (stability anchors gains), [Heat](#__tabbed_2_4) (stress erodes accumulated mass)
+    **Interacts with:** [trust_trend](#__tabbed_2_2) (velocity × mass = force), [update_resistance](#__tabbed_2_3) (stability anchors gains), [adversarial_pressure](#__tabbed_2_4) (stress erodes accumulated mass)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1054,25 +1054,25 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_7" class="nav-prev">Soul</a>
-      <a href="#__tabbed_2_2" class="nav-next">Momentum</a>
+      <a href="#__tabbed_2_7" class="nav-prev">soul</a>
+      <a href="#__tabbed_2_2" class="nav-next">trust_trend</a>
     </div>
 
-=== "Momentum"
+=== "trust_trend"
 
-    <div class="dimension-hero" id="momentum">
+    <div class="dimension-hero" id="trust-trend">
       <div class="dimension-monogram">
-        <span class="mono-primary">M</span><span class="mono-secondary">o</span>
+        <span class="mono-primary">T</span><span class="mono-secondary">r</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Momentum</strong>
+        <strong>trust_trend</strong>
         <em>The velocity of trust change</em>
       </div>
     </div>
 
     ### How It Works
 
-    Momentum captures the **rate and direction of change** in an agent's trust posture. It's not about where you are—it's about where you're heading and how fast.
+    trust_trend captures the **rate and direction of change** in an agent's trust posture. It's not about where you are—it's about where you're heading and how fast.
 
     Positive momentum (improving trust trajectory) can accelerate permission grants. Negative momentum (declining trust) triggers early intervention before thresholds are crossed. The system watches the derivative, not just the value.
 
@@ -1093,7 +1093,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Oscillation whiplash.** Rapidly swinging between states—even if averaging to a good score—signals instability. The tensor penalizes agents that can't hold a steady course.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Mass](#__tabbed_2_1) (momentum × mass = force), [Inertia](#__tabbed_2_3) (high inertia dampens momentum swings), [Time](#__tabbed_2_5) (recent momentum weighted higher)
+    **Interacts with:** [evidence_density](#__tabbed_2_1) (momentum × mass = force), [update_resistance](#__tabbed_2_3) (high inertia dampens momentum swings), [moment_criticality](#__tabbed_2_5) (recent momentum weighted higher)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1104,25 +1104,25 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_1" class="nav-prev">Mass</a>
-      <a href="#__tabbed_2_3" class="nav-next">Inertia</a>
+      <a href="#__tabbed_2_1" class="nav-prev">evidence_density</a>
+      <a href="#__tabbed_2_3" class="nav-next">update_resistance</a>
     </div>
 
-=== "Inertia"
+=== "update_resistance"
 
-    <div class="dimension-hero" id="inertia">
+    <div class="dimension-hero" id="update-resistance">
       <div class="dimension-monogram">
-        <span class="mono-primary">I</span><span class="mono-secondary">n</span>
+        <span class="mono-primary">U</span><span class="mono-secondary">p</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Inertia</strong>
+        <strong>update_resistance</strong>
         <em>Resistance to sudden change</em>
       </div>
     </div>
 
     ### How It Works
 
-    Inertia measures an agent's **resistance to rapid fluctuation**. High inertia means the agent has established stable patterns that dampen noise. Low inertia indicates volatility and fragility.
+    update_resistance measures an agent's **resistance to rapid fluctuation**. High inertia means the agent has established stable patterns that dampen noise. Low inertia indicates volatility and fragility.
 
     Think of inertia as behavioral ballast. Agents with deep, consistent histories are harder to knock off course by a single bad event—but also slower to recover from genuine compromise. It's a stabilizing force that cuts both ways.
 
@@ -1137,13 +1137,13 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     !!! tip "Behavioral Pattern"
-        **Stability is earned over time.** New agents have low inertia by design—they haven't proven themselves yet. Inertia builds through sustained, predictable operation. It cannot be rushed.
+        **Stability is earned over time.** New agents have low inertia by design—they haven't proven themselves yet. update_resistance builds through sustained, predictable operation. It cannot be rushed.
 
     !!! warning "Failure Mode"
         **Rapid drift signals fragility.** Frequent configuration changes, dependency updates, or behavioral shifts indicate an agent that hasn't settled. The tensor interprets this as risk.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Momentum](#__tabbed_2_2) (inertia dampens momentum swings), [Mass](#__tabbed_2_1) (high mass + high inertia = stable anchor), [Heat](#__tabbed_2_4) (heat can overcome inertia under sustained stress)
+    **Interacts with:** [trust_trend](#__tabbed_2_2) (inertia dampens momentum swings), [evidence_density](#__tabbed_2_1) (high mass + high inertia = stable anchor), [adversarial_pressure](#__tabbed_2_4) (heat can overcome inertia under sustained stress)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1154,27 +1154,27 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_2" class="nav-prev">Momentum</a>
-      <a href="#__tabbed_2_4" class="nav-next">Heat</a>
+      <a href="#__tabbed_2_2" class="nav-prev">trust_trend</a>
+      <a href="#__tabbed_2_4" class="nav-next">adversarial_pressure</a>
     </div>
 
-=== "Heat"
+=== "adversarial_pressure"
 
-    <div class="dimension-hero dimension-hero--heat" id="heat">
+    <div class="dimension-hero dimension-hero--heat" id="adversarial-pressure">
       <div class="dimension-monogram">
-        <span class="mono-primary">H</span><span class="mono-secondary">e</span>
+        <span class="mono-primary">A</span><span class="mono-secondary">d</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Heat</strong>
+        <strong>adversarial_pressure</strong>
         <em>Environmental stress and friction</em>
       </div>
     </div>
 
     ### How It Works
 
-    Heat measures **environmental stress, anomaly load, and adversarial pressure**. It's the friction coefficient of the trust environment—the resistance that actions must overcome.
+    adversarial_pressure measures **environmental stress, anomaly load, and attack indicators**. It's the friction coefficient of the trust environment—the resistance that actions must overcome.
 
-    Heat rises fast but cools slowly. A burst of errors, a spike in blocked requests, or detected attack patterns all generate heat. Recovery requires sustained periods of clean operation—there are no shortcuts to cooling down.
+    adversarial_pressure rises fast but cools slowly. A burst of errors, a spike in blocked requests, or detected attack patterns all generate heat. Recovery requires sustained periods of clean operation—there are no shortcuts to cooling down.
 
     <div class="dimension-signals" markdown>
 
@@ -1187,13 +1187,13 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     !!! tip "Behavioral Pattern"
-        **Heat is asymmetric.** It spikes immediately on stress events but decays on a longer curve. This prevents agents from rapidly alternating between attack and recovery to game the system.
+        **adversarial_pressure is asymmetric.** It spikes immediately on stress events but decays on a longer curve. This prevents agents from rapidly alternating between attack and recovery to game the system.
 
     !!! warning "Failure Mode"
         **Sustained heat collapse.** Prolonged stress doesn't just reduce trust—it can trigger adaptive dormancy, forcing the agent into Hibernation mode until the environment stabilizes.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Mass](#__tabbed_2_1) (heat erodes accumulated mass), [Inertia](#__tabbed_2_3) (high inertia resists heat longer), [Observer](#__tabbed_2_6) (observed heat is weighted higher than inferred)
+    **Interacts with:** [evidence_density](#__tabbed_2_1) (heat erodes accumulated mass), [update_resistance](#__tabbed_2_3) (high inertia resists heat longer), [attestation_coverage](#__tabbed_2_6) (observed heat is weighted higher than inferred)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1204,27 +1204,27 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_3" class="nav-prev">Inertia</a>
-      <a href="#__tabbed_2_5" class="nav-next">Time</a>
+      <a href="#__tabbed_2_3" class="nav-prev">update_resistance</a>
+      <a href="#__tabbed_2_5" class="nav-next">moment_criticality</a>
     </div>
 
-=== "Time"
+=== "moment_criticality"
 
-    <div class="dimension-hero" id="time">
+    <div class="dimension-hero" id="moment-criticality">
       <div class="dimension-monogram">
-        <span class="mono-primary">T</span><span class="mono-secondary">i</span>
+        <span class="mono-primary">M</span><span class="mono-secondary">o</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Time</strong>
+        <strong>moment_criticality</strong>
         <em>Temporal context and signal decay</em>
       </div>
     </div>
 
     ### How It Works
 
-    Time captures **temporal context, signal freshness, and decay functions**. Not all history is equal—recent signals carry more weight than stale ones, and the tensor applies exponential decay to age out old data.
+    moment_criticality captures **temporal context, signal freshness, and decay functions**. Not all history is equal—recent signals carry more weight than stale ones, and the tensor applies exponential decay to age out old data.
 
-    Time also encodes session context. Long-lived sessions shift baselines differently than ephemeral requests. The tensor understands that an agent's behavior at hour 1 of a session may differ from hour 8—and accounts for it.
+    moment_criticality also encodes session context. Long-lived sessions shift baselines differently than ephemeral requests. The tensor understands that an agent's behavior at hour 1 of a session may differ from hour 8—and accounts for it.
 
     <div class="dimension-signals" markdown>
 
@@ -1240,10 +1240,10 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Recency dominates.** A clean last hour matters more than a clean last month. The tensor implements exponential decay—old signals fade, giving agents the ability to recover from past mistakes.
 
     !!! warning "Failure Mode"
-        **Stale signal poisoning.** If the tensor relies on outdated data, it may grant trust based on conditions that no longer exist. Time decay prevents this, but gaps in telemetry can still mislead.
+        **Stale signal poisoning.** If the tensor relies on outdated data, it may grant trust based on conditions that no longer exist. moment_criticality decay prevents this, but gaps in telemetry can still mislead.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Momentum](#__tabbed_2_2) (recent momentum weighted higher), [Mass](#__tabbed_2_1) (old mass decays without fresh signals), [Observer](#__tabbed_2_6) (observation freshness affects confidence)
+    **Interacts with:** [trust_trend](#__tabbed_2_2) (recent momentum weighted higher), [evidence_density](#__tabbed_2_1) (old mass decays without fresh signals), [attestation_coverage](#__tabbed_2_6) (observation freshness affects confidence)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1254,25 +1254,25 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_4" class="nav-prev">Heat</a>
-      <a href="#__tabbed_2_6" class="nav-next">Observer</a>
+      <a href="#__tabbed_2_4" class="nav-prev">adversarial_pressure</a>
+      <a href="#__tabbed_2_6" class="nav-next">attestation_coverage</a>
     </div>
 
-=== "Observer"
+=== "attestation_coverage"
 
-    <div class="dimension-hero" id="observer">
+    <div class="dimension-hero" id="attestation-coverage">
       <div class="dimension-monogram">
-        <span class="mono-primary">O</span><span class="mono-secondary">b</span>
+        <span class="mono-primary">A</span><span class="mono-secondary">t</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Observer</strong>
+        <strong>attestation_coverage</strong>
         <em>Who is watching, and how reliably</em>
       </div>
     </div>
 
     ### How It Works
 
-    Observer measures **attestation coverage, audit visibility, and peer corroboration**. Trust confidence depends not just on what happened, but on how well it was witnessed.
+    attestation_coverage measures **attestation coverage, audit visibility, and peer corroboration**. Trust confidence depends not just on what happened, but on how well it was witnessed.
 
     Multiple independent observers raise confidence. A single observer—or gaps in observation—lower it. The tensor implements observer-weighted trust: signals from high-trust attesters carry more weight than those from unknown sources.
 
@@ -1293,7 +1293,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Blind spot exploitation.** Attackers may target gaps in observation coverage. The tensor flags low-visibility zones and may require additional attestation before granting high-privilege actions.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Heat](#__tabbed_2_4) (observed heat weighted higher), [Time](#__tabbed_2_5) (stale attestations decay), [Soul](#__tabbed_2_7) (Soul constraints require explicit observer confirmation)
+    **Interacts with:** [adversarial_pressure](#__tabbed_2_4) (observed heat weighted higher), [moment_criticality](#__tabbed_2_5) (stale attestations decay), [soul](#__tabbed_2_7) (Soul constraints require explicit observer confirmation)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1304,18 +1304,18 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_5" class="nav-prev">Time</a>
-      <a href="#__tabbed_2_7" class="nav-next">Soul</a>
+      <a href="#__tabbed_2_5" class="nav-prev">moment_criticality</a>
+      <a href="#__tabbed_2_7" class="nav-next">soul</a>
     </div>
 
-=== "Soul"
+=== "soul"
 
     <div class="dimension-hero dimension-hero--soul" id="soul">
       <div class="dimension-monogram">
         <span class="mono-primary">S</span><span class="mono-secondary">o</span>
       </div>
       <div class="dimension-hero-content">
-        <strong>Soul</strong>
+        <strong>soul</strong>
         <em>Constitutional constraints that cannot be overridden</em>
       </div>
     </div>
@@ -1343,7 +1343,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Soul violations are absolute.** There is no gradual degradation, no warning tier—just immediate denial. Recovery requires explicit governance action to change the underlying constraint, not just improved behavior.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [Observer](#__tabbed_2_6) (Soul constraints require explicit attestation), [All Dimensions](#__tabbed_2_1) (Soul overrides any numerical trust calculation)
+    **Interacts with:** [attestation_coverage](#__tabbed_2_6) (Soul constraints require explicit attestation), [all six weighted inputs](#__tabbed_2_1) (Soul overrides any numerical trust calculation)
     </div>
 
     <div class="dimension-links" markdown>
@@ -1354,8 +1354,8 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
     </div>
 
     <div class="dimension-nav">
-      <a href="#__tabbed_2_6" class="nav-prev">Observer</a>
-      <a href="#__tabbed_2_1" class="nav-next">Mass</a>
+      <a href="#__tabbed_2_6" class="nav-prev">attestation_coverage</a>
+      <a href="#__tabbed_2_1" class="nav-next">evidence_density</a>
     </div>
 
 ## Risk Deflation { #risk-deflation }

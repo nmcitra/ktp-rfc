@@ -838,7 +838,7 @@ Where:
 
     Visualize how telemetry flows through the three-layer architecture in real-time.
 
--   [:material-axis-arrow:{ .lg } **Context Signals**](context-tensor.md)
+-   [:material-axis-arrow:{ .lg } **Context Signals**](risk-factors.md)
 
     ---
 

@@ -328,24 +328,24 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 
 </div>
 
-### The Seven Dimensions
+### The Seven Named Inputs
 
 <div class="dimension-table-simple ktp-animate" markdown>
 
-| Dimension | What It Measures | Explore |
+| Input | What It Measures | Explore |
 |-----------|------------------|---------|
-| **Mass** | Telemetry density and volume | [Deep dive →](context-tensor.md#__tabbed_2_1) |
-| **Momentum** | Direction and velocity of change | [Deep dive →](context-tensor.md#__tabbed_2_2) |
-| **Inertia** | Resistance to rapid shifts | [Deep dive →](context-tensor.md#__tabbed_2_3) |
-| **Heat** | Environmental stress and anomaly load | [Deep dive →](context-tensor.md#__tabbed_2_4) |
-| **Time** | Temporal context and decay | [Deep dive →](context-tensor.md#__tabbed_2_5) |
-| **Observer** | Attestation coverage and visibility | [Deep dive →](context-tensor.md#__tabbed_2_6) |
-| **Soul** | Constitutional constraints (vetoes) | [Deep dive →](context-tensor.md#__tabbed_2_7) |
+| **evidence_density** | Telemetry density and volume | [Deep dive →](risk-factors.md#__tabbed_2_1) |
+| **trust_trend** | Direction and velocity of change | [Deep dive →](risk-factors.md#__tabbed_2_2) |
+| **update_resistance** | Resistance to rapid shifts | [Deep dive →](risk-factors.md#__tabbed_2_3) |
+| **adversarial_pressure** | Environmental stress and anomaly load | [Deep dive →](risk-factors.md#__tabbed_2_4) |
+| **moment_criticality** | Temporal context and decay | [Deep dive →](risk-factors.md#__tabbed_2_5) |
+| **attestation_coverage** | Attestation coverage and visibility | [Deep dive →](risk-factors.md#__tabbed_2_6) |
+| **soul** | Constitutional constraints (vetoes) | [Deep dive →](risk-factors.md#__tabbed_2_7) |
 
 </div>
 
-!!! tip "Dimension Interaction"
-    These dimensions don't operate in isolation. For example, high **Heat** combined with low **Inertia** creates rapid trust collapse, while high **Mass** with stable **Momentum** indicates a healthy, predictable system.
+!!! tip "Input Interaction"
+    These inputs don't operate in isolation. For example, high **adversarial_pressure** combined with low **update_resistance** creates rapid trust collapse, while high **evidence_density** with stable **trust_trend** indicates a healthy, predictable system.
 
 ### Measurement Principles
 
@@ -384,7 +384,7 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 
     Explore the signal catalogue with interactive visualization.
 
-    [:octicons-arrow-right-24: Context Signals](context-tensor.md)
+    [:octicons-arrow-right-24: Context Signals](risk-factors.md)
 
 -   :material-domain:{ .lg .middle } **Use Cases**
 

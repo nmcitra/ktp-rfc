@@ -37,9 +37,9 @@ The Kinetic Trust Protocol represents a paradigm shift in how we think about dig
 
     ---
 
-    The seven-dimensional space that measures trust: Mass, Momentum, Inertia, Heat, Time, Observer, and Soul.
+    The seven named measurements that drive trust: evidence_density, trust_trend, update_resistance, adversarial_pressure, moment_criticality, attestation_coverage, and the Soul veto.
 
-    [Explore Dimensions →](context-tensor.md)
+    [Explore the Risk Factors →](risk-factors.md)
 
 -   :material-chart-line:{ .lg .middle } **Telemetry**
 
@@ -80,7 +80,7 @@ Choose the path that matches your role and goals:
 | [Getting Started](getting-started.md) | 10 min | Strategic overview & value proposition |
 | [Constitution](constitution.md) | 15 min | Governance, compliance & the Zeroth Law |
 | [Use Cases](use-cases.md) | 10 min | Enterprise applications & ROI |
-| [Context Signals](context-tensor.md) | 20 min | Trust signals & measurement |
+| [Context Signals](risk-factors.md) | 20 min | Trust signals & measurement |
 
 **Goal:** Understand how KTP provides real-time authorization at machine speed, replacing reactive policies with environment-derived constraints.
 
@@ -93,7 +93,7 @@ Choose the path that matches your role and goals:
 | Topic | Time | Focus |
 |-------|------|-------|
 | [Core Concepts](core-concepts.md) | 20 min | Trust mechanics, tensors & equations |
-| [Context Signals](context-tensor.md) | 25 min | The measurement catalogue |
+| [Context Signals](risk-factors.md) | 25 min | The measurement catalogue |
 | [Telemetry](telemetry.md) | 20 min | Data pipeline & statistical mechanics |
 | [Getting Started](getting-started.md) | 10 min | Protocol fundamentals |
 
@@ -124,7 +124,7 @@ Choose the path that matches your role and goals:
 |-------|------|-------|
 | [Core Concepts](core-concepts.md) | 30 min | Theoretical foundations & models |
 | [Constitution](constitution.md) | 20 min | Governance theory & frameworks |
-| [Context Signals](context-tensor.md) | 25 min | Mathematical formalism |
+| [Context Signals](risk-factors.md) | 25 min | Mathematical formalism |
 | [Telemetry](telemetry.md) | 15 min | Statistical mechanics application |
 
 **Goal:** Explore the academic underpinnings, from Donella Meadows' leverage points to statistical-mechanics applications in trust systems.
@@ -159,15 +159,15 @@ Trust rises on evidence, contracts on risk—adjusting continuously to environme
 
 The signals that let the Internet feel its own weather:
 
-1. **Mass** — Volume and density of telemetry
-2. **Momentum** — Rate of change in trust
-3. **Inertia** — Resistance to trust fluctuation
-4. **Heat** — Operational stress and anomaly detection
-5. **Time** — Temporal patterns and decay
-6. **Observer** — Perspective and vantage point
-7. **Soul** — Constitutional constraints that cannot be overridden
+1. **evidence_density** — Volume and density of telemetry
+2. **trust_trend** — Rate of change in trust
+3. **update_resistance** — Resistance to trust fluctuation
+4. **adversarial_pressure** — Operational stress and anomaly detection
+5. **moment_criticality** — Temporal patterns and decay
+6. **attestation_coverage** — Perspective and vantage point
+7. **soul** — Constitutional constraints that cannot be overridden
 
-[:material-vector-polyline: Explore the Tensor](context-tensor.md){ .md-button }
+[:material-vector-polyline: Explore the Risk Factors](risk-factors.md){ .md-button }
 
 ---
 

@@ -268,7 +268,7 @@ Risk can be reduced through four primary strategies:
 
     See how risk is measured through the Heat dimension.
 
-    [:octicons-arrow-right-24: Context Signals](context-tensor.md#__tabbed_2_4)
+    [:octicons-arrow-right-24: Context Signals](risk-factors.md#__tabbed_2_4)
 
 -   :material-chart-timeline-variant:{ .lg .middle } **Telemetry**
 

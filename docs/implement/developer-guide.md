@@ -86,7 +86,7 @@ Once you have observability in place, the path to KTP involves:
 1. **Understand the Fundamentals**
    - Read [KTP Core Concepts](../learn/core-concepts.md)
    - Study the [Zeroth Law](../learn/constitution.md) ($A \leq E$)
-   - Review [Context Signals](../learn/context-tensor.md)
+   - Review [Context Signals](../learn/risk-factors.md)
 
 2. **Explore the Specifications**
    - [KTP-Core](../rfcs/ktp-core.md) - Protocol foundation

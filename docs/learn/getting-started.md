@@ -151,73 +151,73 @@ Environmental state is captured through 1,627 measurements organized into six do
 </div>
 
 <div class="dimension-cards-grid ktp-animate">
-  <a href="../context-tensor/#__tabbed_2_1" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_1" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">M</span><span class="mono-secondary">a</span>
+      <span class="mono-primary">E</span><span class="mono-secondary">v</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Mass</strong>
+      <strong>evidence_density</strong>
       <span>Telemetry volume</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_2" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_2" class="dimension-card-mini">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">T</span><span class="mono-secondary">r</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>trust_trend</strong>
+      <span>Rate of change</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_3" class="dimension-card-mini">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">U</span><span class="mono-secondary">p</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>update_resistance</strong>
+      <span>Resistance to shift</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_4" class="dimension-card-mini dimension-card-mini--heat">
+    <div class="dimension-card-mini-mono">
+      <span class="mono-primary">A</span><span class="mono-secondary">d</span>
+    </div>
+    <div class="dimension-card-mini-content">
+      <strong>adversarial_pressure</strong>
+      <span>Stress & anomalies</span>
+    </div>
+  </a>
+  <a href="../risk-factors/#__tabbed_2_5" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
       <span class="mono-primary">M</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Momentum</strong>
-      <span>Rate of change</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_3" class="dimension-card-mini">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">I</span><span class="mono-secondary">n</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Inertia</strong>
-      <span>Resistance to shift</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_4" class="dimension-card-mini dimension-card-mini--heat">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">H</span><span class="mono-secondary">t</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Heat</strong>
-      <span>Stress & anomalies</span>
-    </div>
-  </a>
-  <a href="../context-tensor/#__tabbed_2_5" class="dimension-card-mini">
-    <div class="dimension-card-mini-mono">
-      <span class="mono-primary">T</span><span class="mono-secondary">i</span>
-    </div>
-    <div class="dimension-card-mini-content">
-      <strong>Time</strong>
+      <strong>moment_criticality</strong>
       <span>Temporal decay</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_6" class="dimension-card-mini">
+  <a href="../risk-factors/#__tabbed_2_6" class="dimension-card-mini">
     <div class="dimension-card-mini-mono">
-      <span class="mono-primary">O</span><span class="mono-secondary">b</span>
+      <span class="mono-primary">A</span><span class="mono-secondary">t</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Observer</strong>
+      <strong>attestation_coverage</strong>
       <span>Vantage point</span>
     </div>
   </a>
-  <a href="../context-tensor/#__tabbed_2_7" class="dimension-card-mini dimension-card-mini--soul">
+  <a href="../risk-factors/#__tabbed_2_7" class="dimension-card-mini dimension-card-mini--soul">
     <div class="dimension-card-mini-mono">
       <span class="mono-primary">S</span><span class="mono-secondary">o</span>
     </div>
     <div class="dimension-card-mini-content">
-      <strong>Soul</strong>
+      <strong>soul</strong>
       <span>Hard vetoes</span>
     </div>
   </a>
 </div>
 
 <p class="dimension-cards-note ktp-animate">
-  <a href="../context-tensor/">Explore the full signal catalogue →</a>
+  <a href="../risk-factors/">Explore the full signal catalogue →</a>
 </p>
 
 ### 3. Blue Zones

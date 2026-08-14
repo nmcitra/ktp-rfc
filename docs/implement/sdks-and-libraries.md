@@ -50,7 +50,7 @@ While waiting for official SDKs, you can:
 1. **Review the Specifications**
    - Study [KTP-Core](../rfcs/ktp-core.md) for protocol details
    - Understand [KTP-Transport](../rfcs/ktp-transport.md) for API contracts
-   - Explore [Context Signals](../learn/context-tensor.md) for data structures
+   - Explore [Context Signals](../learn/risk-factors.md) for data structures
 
 2. **Experiment with the API**
    - Check out the [API Reference](api-reference.md) for direct HTTP/gRPC usage

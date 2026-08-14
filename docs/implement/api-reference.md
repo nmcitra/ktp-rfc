@@ -275,7 +275,7 @@ Response (204 No Content)
 Submit real-time context data to the Oracle.
 
 ```http
-POST /api/v1/context-tensor
+POST /api/v1/risk-factors
 Content-Type: application/json
 
 {
@@ -303,7 +303,7 @@ Response (202 Accepted):
 Retrieve the current context tensor for an agent.
 
 ```http
-GET /api/v1/context-tensor/{agent_id}
+GET /api/v1/risk-factors/{agent_id}
 
 Response (200 OK):
 {
@@ -464,7 +464,7 @@ ws.onmessage = (event) => {
 |----------|-------|--------|
 | `/trust-proof` | 100 requests | per second |
 | `/trust-proof/verify` | 1000 requests | per second |
-| `/context-tensor` | 10 requests | per second |
+| `/risk-factors` | 10 requests | per second |
 | `/audit/logs` | 10 requests | per minute |
 
 Exceeding rate limits returns `429 Too Many Requests`.

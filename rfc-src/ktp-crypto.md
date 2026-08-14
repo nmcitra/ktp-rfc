@@ -97,32 +97,32 @@ Level 1 is suitable for development, testing, and low-risk deployments. It prior
 
 ~~~
 Signature Algorithms (one REQUIRED):
-+-------------------------------------------------------------------+
-| Algorithm      | Curve/Params    | Security Level | Status       |
-+-------------------------------------------------------------------+
-| ECDSA          | P-256 (secp256r1)| 128-bit       | REQUIRED     |
-| EdDSA          | Ed25519         | 128-bit        | RECOMMENDED  |
-+-------------------------------------------------------------------+
++-----------+-------------------+----------------+-------------+
+| Algorithm | Curve/Params      | Security Level | Status      |
++-----------+-------------------+----------------+-------------+
+| ECDSA     | P-256 (secp256r1) | 128-bit        | REQUIRED    |
+| EdDSA     | Ed25519           | 128-bit        | RECOMMENDED |
++-----------+-------------------+----------------+-------------+
 ~~~
 
 ~~~
 Hash Functions (one REQUIRED):
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size     | Security Level | Status       |
-+-------------------------------------------------------------------+
-| SHA-256        | 256 bits        | 128-bit        | REQUIRED     |
-| SHA-384        | 384 bits        | 192-bit        | OPTIONAL     |
-+-------------------------------------------------------------------+
++-----------+-------------+----------------+----------+
+| Algorithm | Output Size | Security Level | Status   |
++-----------+-------------+----------------+----------+
+| SHA-256   | 256 bits    | 128-bit        | REQUIRED |
+| SHA-384   | 384 bits    | 192-bit        | OPTIONAL |
++-----------+-------------+----------------+----------+
 ~~~
 
 ~~~
 Symmetric Encryption (if needed):
-+-------------------------------------------------------------------+
-| Algorithm      | Key Size        | Security Level | Status       |
-+-------------------------------------------------------------------+
-| AES-128-GCM    | 128 bits        | 128-bit        | REQUIRED     |
-| AES-256-GCM    | 256 bits        | 256-bit        | RECOMMENDED  |
-+-------------------------------------------------------------------+
++-------------+----------+----------------+-------------+
+| Algorithm   | Key Size | Security Level | Status      |
++-------------+----------+----------------+-------------+
+| AES-128-GCM | 128 bits | 128-bit        | REQUIRED    |
+| AES-256-GCM | 256 bits | 256-bit        | RECOMMENDED |
++-------------+----------+----------------+-------------+
 ~~~
 
 Key Storage:
@@ -142,34 +142,34 @@ Level 2 is suitable for production deployments with moderate security requiremen
 
 ~~~
 Signature Algorithms (all REQUIRED):
-+-------------------------------------------------------------------+
-| Algorithm      | Curve/Params    | Security Level | Status       |
-+-------------------------------------------------------------------+
-| ECDSA          | P-256           | 128-bit        | REQUIRED     |
-| EdDSA          | Ed25519         | 128-bit        | REQUIRED     |
-| ECDSA          | P-384           | 192-bit        | RECOMMENDED  |
-+-------------------------------------------------------------------+
++-----------+--------------+----------------+-------------+
+| Algorithm | Curve/Params | Security Level | Status      |
++-----------+--------------+----------------+-------------+
+| ECDSA     | P-256        | 128-bit        | REQUIRED    |
+| EdDSA     | Ed25519      | 128-bit        | REQUIRED    |
+| ECDSA     | P-384        | 192-bit        | RECOMMENDED |
++-----------+--------------+----------------+-------------+
 ~~~
 
 ~~~
 Hash Functions (all listed REQUIRED):
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size     | Use Case                      |
-+-------------------------------------------------------------------+
-| SHA-256        | 256 bits        | General hashing               |
-| SHA-384        | 384 bits        | High-security contexts        |
-| SHA3-256       | 256 bits        | Flight Recorder (recommended) |
-+-------------------------------------------------------------------+
++-----------+-------------+-------------------------------+
+| Algorithm | Output Size | Use Case                      |
++-----------+-------------+-------------------------------+
+| SHA-256   | 256 bits    | General hashing               |
+| SHA-384   | 384 bits    | High-security contexts        |
+| SHA3-256  | 256 bits    | Flight Recorder (recommended) |
++-----------+-------------+-------------------------------+
 ~~~
 
 ~~~
 Symmetric Encryption:
-+-------------------------------------------------------------------+
-| Algorithm      | Key Size        | Security Level | Status       |
-+-------------------------------------------------------------------+
-| AES-256-GCM    | 256 bits        | 256-bit        | REQUIRED     |
-| ChaCha20-Poly  | 256 bits        | 256-bit        | RECOMMENDED  |
-+-------------------------------------------------------------------+
++---------------+----------+----------------+-------------+
+| Algorithm     | Key Size | Security Level | Status      |
++---------------+----------+----------------+-------------+
+| AES-256-GCM   | 256 bits | 256-bit        | REQUIRED    |
+| ChaCha20-Poly | 256 bits | 256-bit        | RECOMMENDED |
++---------------+----------+----------------+-------------+
 ~~~
 
 Key Storage:
@@ -191,34 +191,34 @@ Level 3 is suitable for critical infrastructure, high-security environments, and
 
 ~~~
 Signature Algorithms (all REQUIRED):
-+-------------------------------------------------------------------+
-| Algorithm      | Curve/Params    | Security Level | Status       |
-+-------------------------------------------------------------------+
-| ECDSA          | P-384           | 192-bit        | REQUIRED     |
-| EdDSA          | Ed448           | 224-bit        | REQUIRED     |
-| Hybrid PQC     | See Section 11  | Post-quantum   | REQUIRED     |
-+-------------------------------------------------------------------+
++------------+----------------+----------------+----------+
+| Algorithm  | Curve/Params   | Security Level | Status   |
++------------+----------------+----------------+----------+
+| ECDSA      | P-384          | 192-bit        | REQUIRED |
+| EdDSA      | Ed448          | 224-bit        | REQUIRED |
+| Hybrid PQC | See Section 11 | Post-quantum   | REQUIRED |
++------------+----------------+----------------+----------+
 ~~~
 
 ~~~
 Hash Functions:
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size     | Use Case                      |
-+-------------------------------------------------------------------+
-| SHA-384        | 384 bits        | General hashing               |
-| SHA3-384       | 384 bits        | Flight Recorder               |
-| SHAKE256       | Variable        | Key derivation                |
-+-------------------------------------------------------------------+
++-----------+-------------+-----------------+
+| Algorithm | Output Size | Use Case        |
++-----------+-------------+-----------------+
+| SHA-384   | 384 bits    | General hashing |
+| SHA3-384  | 384 bits    | Flight Recorder |
+| SHAKE256  | Variable    | Key derivation  |
++-----------+-------------+-----------------+
 ~~~
 
 ~~~
 Symmetric Encryption:
-+-------------------------------------------------------------------+
-| Algorithm      | Key Size        | Security Level | Status       |
-+-------------------------------------------------------------------+
-| AES-256-GCM    | 256 bits        | 256-bit        | REQUIRED     |
-| ChaCha20-Poly  | 256 bits        | 256-bit        | REQUIRED     |
-+-------------------------------------------------------------------+
++---------------+----------+----------------+----------+
+| Algorithm     | Key Size | Security Level | Status   |
++---------------+----------+----------------+----------+
+| AES-256-GCM   | 256 bits | 256-bit        | REQUIRED |
+| ChaCha20-Poly | 256 bits | 256-bit        | REQUIRED |
++---------------+----------+----------------+----------+
 ~~~
 
 Key Storage:
@@ -243,13 +243,13 @@ ECDSA (Elliptic Curve Digital Signature Algorithm) per FIPS 186-4.
 
 ~~~
 Supported Curves:
-+-------------------------------------------------------------------+
-| Curve          | Field Size     | Security Level | JOSE alg      |
-+-------------------------------------------------------------------+
-| P-256          | 256 bits       | 128-bit        | ES256         |
-| P-384          | 384 bits       | 192-bit        | ES384         |
-| P-521          | 521 bits       | 256-bit        | ES512         |
-+-------------------------------------------------------------------+
++-------+------------+----------------+----------+
+| Curve | Field Size | Security Level | JOSE alg |
++-------+------------+----------------+----------+
+| P-256 | 256 bits   | 128-bit        | ES256    |
+| P-384 | 384 bits   | 192-bit        | ES384    |
+| P-521 | 521 bits   | 256-bit        | ES512    |
++-------+------------+----------------+----------+
 ~~~
 
 Requirements:
@@ -280,12 +280,12 @@ EdDSA (Edwards-curve Digital Signature Algorithm) per RFC 8032.
 
 ~~~
 Supported Curves:
-+-------------------------------------------------------------------+
-| Curve          | Field Size     | Security Level | JOSE alg      |
-+-------------------------------------------------------------------+
-| Ed25519        | 255 bits       | 128-bit        | EdDSA         |
-| Ed448          | 448 bits       | 224-bit        | EdDSA         |
-+-------------------------------------------------------------------+
++---------+------------+----------------+----------+
+| Curve   | Field Size | Security Level | JOSE alg |
++---------+------------+----------------+----------+
+| Ed25519 | 255 bits   | 128-bit        | EdDSA    |
+| Ed448   | 448 bits   | 224-bit        | EdDSA    |
++---------+------------+----------------+----------+
 ~~~
 
 Requirements:
@@ -312,13 +312,13 @@ Threshold signatures require k-of-n Oracles to cooperate, preventing single-poin
 ### Supported Schemes
 
 ~~~
-+-------------------------------------------------------------------+
-| Scheme         | Base Algorithm | Level Required | Status        |
-+-------------------------------------------------------------------+
-| Shamir + ECDSA | ECDSA          | Level 2+       | REQUIRED      |
-| FROST          | Schnorr        | Level 2+       | RECOMMENDED   |
-| BLS Threshold  | BLS12-381      | Level 3        | OPTIONAL      |
-+-------------------------------------------------------------------+
++----------------+----------------+----------------+-------------+
+| Scheme         | Base Algorithm | Level Required | Status      |
++----------------+----------------+----------------+-------------+
+| Shamir + ECDSA | ECDSA          | Level 2+       | REQUIRED    |
+| FROST          | Schnorr        | Level 2+       | RECOMMENDED |
+| BLS Threshold  | BLS12-381      | Level 3        | OPTIONAL    |
++----------------+----------------+----------------+-------------+
 ~~~
 
 ### Shamir-based Threshold ECDSA
@@ -353,13 +353,13 @@ FROST is RECOMMENDED for new Level 2+ deployments.
 ### Threshold Configuration
 
 ~~~
-+-------------------------------------------------------------------+
-| Level          | Minimum (k,n)  | Recommended (k,n) | Max Latency |
-+-------------------------------------------------------------------+
-| Level 1        | (1,1)          | (1,1)             | N/A         |
-| Level 2        | (2,3)          | (3,5)             | 100ms       |
-| Level 3        | (3,5)          | (5,7)             | 200ms       |
-+-------------------------------------------------------------------+
++---------+---------------+-------------------+-------------+
+| Level   | Minimum (k,n) | Recommended (k,n) | Max Latency |
++---------+---------------+-------------------+-------------+
+| Level 1 | (1,1)         | (1,1)             | N/A         |
+| Level 2 | (2,3)         | (3,5)             | 100ms       |
+| Level 3 | (3,5)         | (5,7)             | 200ms       |
++---------+---------------+-------------------+-------------+
 ~~~
 
 The threshold k SHOULD be greater than n/2 to prevent split-brain scenarios during network partitions.
@@ -412,13 +412,13 @@ When an algorithm is deprecated:
 Current deprecation schedule:
 
 ~~~
-+-------------------------------------------------------------------+
-| Algorithm      | Status         | Deprecation Date | Removal Date|
-+-------------------------------------------------------------------+
-| RSA-2048       | NOT SUPPORTED  | N/A              | N/A         |
-| ECDSA P-256    | SUPPORTED      | TBD (post PQC)   | TBD         |
-| SHA-1          | NOT SUPPORTED  | N/A              | N/A         |
-+-------------------------------------------------------------------+
++-------------+---------------+------------------+--------------+
+| Algorithm   | Status        | Deprecation Date | Removal Date |
++-------------+---------------+------------------+--------------+
+| RSA-2048    | NOT SUPPORTED | N/A              | N/A          |
+| ECDSA P-256 | SUPPORTED     | TBD (post PQC)   | TBD          |
+| SHA-1       | NOT SUPPORTED | N/A              | N/A          |
++-------------+---------------+------------------+--------------+
 ~~~
 
 # Hash Functions
@@ -428,13 +428,13 @@ Current deprecation schedule:
 SHA-2 per FIPS 180-4.
 
 ~~~
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size    | Block Size     | KTP Usage     |
-+-------------------------------------------------------------------+
-| SHA-256        | 256 bits       | 512 bits       | General       |
-| SHA-384        | 384 bits       | 1024 bits      | High-security |
-| SHA-512        | 512 bits       | 1024 bits      | Key derivation|
-+-------------------------------------------------------------------+
++-----------+-------------+------------+----------------+
+| Algorithm | Output Size | Block Size | KTP Usage      |
++-----------+-------------+------------+----------------+
+| SHA-256   | 256 bits    | 512 bits   | General        |
+| SHA-384   | 384 bits    | 1024 bits  | High-security  |
+| SHA-512   | 512 bits    | 1024 bits  | Key derivation |
++-----------+-------------+------------+----------------+
 ~~~
 
 SHA-256 is the default hash function for Level 1 and Level 2. SHA-384 is REQUIRED for Level 3.
@@ -444,14 +444,14 @@ SHA-256 is the default hash function for Level 1 and Level 2. SHA-384 is REQUIRE
 SHA-3 per FIPS 202.
 
 ~~~
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size    | Capacity       | KTP Usage     |
-+-------------------------------------------------------------------+
-| SHA3-256       | 256 bits       | 512 bits       | Flight Rec.   |
-| SHA3-384       | 384 bits       | 768 bits       | Level 3 audit |
-| SHAKE128       | Variable       | 256 bits       | KDF (general) |
-| SHAKE256       | Variable       | 512 bits       | KDF (Level 3) |
-+-------------------------------------------------------------------+
++-----------+-------------+----------+---------------+
+| Algorithm | Output Size | Capacity | KTP Usage     |
++-----------+-------------+----------+---------------+
+| SHA3-256  | 256 bits    | 512 bits | Flight Rec.   |
+| SHA3-384  | 384 bits    | 768 bits | Level 3 audit |
+| SHAKE128  | Variable    | 256 bits | KDF (general) |
+| SHAKE256  | Variable    | 512 bits | KDF (Level 3) |
++-----------+-------------+----------+---------------+
 ~~~
 
 SHA-3 provides defense in depth against potential SHA-2 vulnerabilities. SHA3-256 is RECOMMENDED for Flight Recorder chain hashing.
@@ -461,11 +461,11 @@ SHA-3 provides defense in depth against potential SHA-2 vulnerabilities. SHA3-25
 BLAKE3 is a high-performance hash function suitable for bulk data hashing.
 
 ~~~
-+-------------------------------------------------------------------+
-| Algorithm      | Output Size    | Speed          | KTP Usage     |
-+-------------------------------------------------------------------+
-| BLAKE3         | Variable       | Very fast      | Trajectory    |
-+-------------------------------------------------------------------+
++-----------+-------------+-----------+------------+
+| Algorithm | Output Size | Speed     | KTP Usage  |
++-----------+-------------+-----------+------------+
+| BLAKE3    | Variable    | Very fast | Trajectory |
++-----------+-------------+-----------+------------+
 ~~~
 
 BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3 performance is insufficient. It MUST NOT be used for contexts requiring NIST-approved algorithms.
@@ -473,15 +473,15 @@ BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3 performanc
 ## Hash Function Selection
 
 ~~~
-+-------------------------------------------------------------------+
-| Context                    | Level 1    | Level 2    | Level 3   |
-+-------------------------------------------------------------------+
-| Trust Proof hashing        | SHA-256    | SHA-256    | SHA-384   |
-| Flight Recorder chain      | SHA-256    | SHA3-256   | SHA3-384  |
-| Trajectory chain           | SHA-256    | SHA-256    | SHA-384   |
-| Key derivation             | SHA-256    | SHA-512    | SHAKE256  |
-| Agent ID generation        | SHA-256    | SHA-256    | SHA-256   |
-+-------------------------------------------------------------------+
++-----------------------+---------+----------+----------+
+| Context               | Level 1 | Level 2  | Level 3  |
++-----------------------+---------+----------+----------+
+| Trust Proof hashing   | SHA-256 | SHA-256  | SHA-384  |
+| Flight Recorder chain | SHA-256 | SHA3-256 | SHA3-384 |
+| Trajectory chain      | SHA-256 | SHA-256  | SHA-384  |
+| Key derivation        | SHA-256 | SHA-512  | SHAKE256 |
+| Agent ID generation   | SHA-256 | SHA-256  | SHA-256  |
++-----------------------+---------+----------+----------+
 ~~~
 
 # Key Derivation
@@ -503,15 +503,15 @@ KTP uses HKDF for deriving keys from shared secrets:
 Context strings (info parameter):
 
 ~~~
-+-------------------------------------------------------------------+
-| Purpose                    | Info String                         |
-+-------------------------------------------------------------------+
-| Trust Proof encryption     | "ktp-trust-proof-encrypt-v1"        |
-| Trajectory chain key       | "ktp-trajectory-key-v1"             |
-| Oracle session key         | "ktp-oracle-session-v1"             |
-| Agent attestation key      | "ktp-agent-attestation-v1"          |
-| Federation channel key     | "ktp-federation-channel-v1"         |
-+-------------------------------------------------------------------+
++------------------------+------------------------------+
+| Purpose                | Info String                  |
++------------------------+------------------------------+
+| Trust Proof encryption | "ktp-trust-proof-encrypt-v1" |
+| Trajectory chain key   | "ktp-trajectory-key-v1"      |
+| Oracle session key     | "ktp-oracle-session-v1"      |
+| Agent attestation key  | "ktp-agent-attestation-v1"   |
+| Federation channel key | "ktp-federation-channel-v1"  |
++------------------------+------------------------------+
 ~~~
 
 Salt SHOULD be random and unique per derivation. If salt is not available, use the zone identifier as salt.
@@ -525,13 +525,13 @@ Argon2id is REQUIRED when deriving keys from human-memorable secrets (e.g., reco
 Minimum parameters:
 
 ~~~
-+-------------------------------------------------------------------+
-| Level          | Memory         | Iterations     | Parallelism   |
-+-------------------------------------------------------------------+
-| Level 1        | 64 MiB         | 3              | 4             |
-| Level 2        | 256 MiB        | 4              | 4             |
-| Level 3        | 1 GiB          | 6              | 8             |
-+-------------------------------------------------------------------+
++---------+---------+------------+-------------+
+| Level   | Memory  | Iterations | Parallelism |
++---------+---------+------------+-------------+
+| Level 1 | 64 MiB  | 3          | 4           |
+| Level 2 | 256 MiB | 4          | 4           |
+| Level 3 | 1 GiB   | 6          | 8           |
++---------+---------+------------+-------------+
 ~~~
 
 These parameters should be tuned to achieve approximately:
@@ -563,12 +563,12 @@ Keys derived from the same master MUST NOT be used for different algorithms (e.g
 AES-GCM per NIST SP 800-38D.
 
 ~~~
-+-------------------------------------------------------------------+
-| Variant        | Key Size       | Nonce Size     | Tag Size      |
-+-------------------------------------------------------------------+
-| AES-128-GCM    | 128 bits       | 96 bits        | 128 bits      |
-| AES-256-GCM    | 256 bits       | 96 bits        | 128 bits      |
-+-------------------------------------------------------------------+
++-------------+----------+------------+----------+
+| Variant     | Key Size | Nonce Size | Tag Size |
++-------------+----------+------------+----------+
+| AES-128-GCM | 128 bits | 96 bits    | 128 bits |
+| AES-256-GCM | 256 bits | 96 bits    | 128 bits |
++-------------+----------+------------+----------+
 ~~~
 
 Requirements:
@@ -586,11 +586,11 @@ Requirements:
 ChaCha20-Poly1305 per RFC 8439.
 
 ~~~
-+-------------------------------------------------------------------+
-| Key Size       | Nonce Size     | Tag Size       | Status        |
-+-------------------------------------------------------------------+
-| 256 bits       | 96 bits        | 128 bits       | RECOMMENDED   |
-+-------------------------------------------------------------------+
++----------+------------+----------+-------------+
+| Key Size | Nonce Size | Tag Size | Status      |
++----------+------------+----------+-------------+
+| 256 bits | 96 bits    | 128 bits | RECOMMENDED |
++----------+------------+----------+-------------+
 ~~~
 
 ChaCha20-Poly1305 is RECOMMENDED as an alternative to AES-GCM:
@@ -604,15 +604,15 @@ Both AES-256-GCM and ChaCha20-Poly1305 MUST be supported for Level 2+.
 ## Encryption Contexts
 
 ~~~
-+-------------------------------------------------------------------+
-| Context                    | Algorithm      | Key Source         |
-+-------------------------------------------------------------------+
-| Trust Proof (at rest)      | AES-256-GCM    | Zone key           |
-| Flight Recorder encryption | AES-256-GCM    | Audit key          |
-| Agent credentials          | AES-256-GCM    | Agent master key   |
-| Federation messages        | ChaCha20-Poly  | Session key        |
-| Sensor data (in transit)   | TLS 1.3        | TLS handshake      |
-+-------------------------------------------------------------------+
++----------------------------+---------------+------------------+
+| Context                    | Algorithm     | Key Source       |
++----------------------------+---------------+------------------+
+| Trust Proof (at rest)      | AES-256-GCM   | Zone key         |
+| Flight Recorder encryption | AES-256-GCM   | Audit key        |
+| Agent credentials          | AES-256-GCM   | Agent master key |
+| Federation messages        | ChaCha20-Poly | Session key      |
+| Sensor data (in transit)   | TLS 1.3       | TLS handshake    |
++----------------------------+---------------+------------------+
 ~~~
 
 # Key Management
@@ -734,13 +734,13 @@ Level 3 (Ceremony):
 ### Storage Requirements by Level
 
 ~~~
-+-------------------------------------------------------------------+
-| Level | Oracle Keys      | Agent Keys       | Audit Keys         |
-+-------------------------------------------------------------------+
-| 1     | Encrypted file   | Encrypted file   | Encrypted file     |
-| 2     | HSM (FIPS 140-2) | Encrypted file   | HSM or encrypted   |
-| 3     | HSM Level 3      | HSM recommended  | HSM Level 3        |
-+-------------------------------------------------------------------+
++-------+------------------+-----------------+------------------+
+| Level | Oracle Keys      | Agent Keys      | Audit Keys       |
++-------+------------------+-----------------+------------------+
+| 1     | Encrypted file   | Encrypted file  | Encrypted file   |
+| 2     | HSM (FIPS 140-2) | Encrypted file  | HSM or encrypted |
+| 3     | HSM Level 3      | HSM recommended | HSM Level 3      |
++-------+------------------+-----------------+------------------+
 ~~~
 
 ### Software Key Storage
@@ -767,15 +767,15 @@ For HSM-protected keys:
 ### Rotation Schedule
 
 ~~~
-+-------------------------------------------------------------------+
-| Key Type            | Normal Rotation  | Emergency Rotation       |
-+-------------------------------------------------------------------+
-| Root of Trust       | 5 years          | Immediate upon compromise|
-| Oracle Signing      | 1 year           | 24 hours upon compromise |
-| Zone Encryption     | 90 days          | Immediate upon compromise|
-| Federation Session  | 1 hour           | Immediate upon compromise|
-| Agent Identity      | Role change      | Immediate upon compromise|
-+-------------------------------------------------------------------+
++--------------------+-----------------+---------------------------+
+| Key Type           | Normal Rotation | Emergency Rotation        |
++--------------------+-----------------+---------------------------+
+| Root of Trust      | 5 years         | Immediate upon compromise |
+| Oracle Signing     | 1 year          | 24 hours upon compromise  |
+| Zone Encryption    | 90 days         | Immediate upon compromise |
+| Federation Session | 1 hour          | Immediate upon compromise |
+| Agent Identity     | Role change     | Immediate upon compromise |
++--------------------+-----------------+---------------------------+
 ~~~
 
 ### Rotation Procedure
@@ -793,13 +793,13 @@ For Oracle signing keys:
 ### Key Overlap Period
 
 ~~~
-+-------------------------------------------------------------------+
-| Key Type            | Overlap Period   | Grace Period             |
-+-------------------------------------------------------------------+
-| Oracle Signing      | 7 days           | 30 days                  |
-| Zone Encryption     | 24 hours         | 7 days                   |
-| Federation          | 5 minutes        | 1 hour                   |
-+-------------------------------------------------------------------+
++-----------------+----------------+--------------+
+| Key Type        | Overlap Period | Grace Period |
++-----------------+----------------+--------------+
+| Oracle Signing  | 7 days         | 30 days      |
+| Zone Encryption | 24 hours       | 7 days       |
+| Federation      | 5 minutes      | 1 hour       |
++-----------------+----------------+--------------+
 ~~~
 
 During overlap period, both old and new keys are valid. During grace period, old key valid for verification only.
@@ -871,13 +871,13 @@ Recovery keys SHOULD be geographically distributed and held by different organiz
 ### Certification Requirements
 
 ~~~
-+-------------------------------------------------------------------+
-| Level          | Minimum Certification                            |
-+-------------------------------------------------------------------+
-| Level 1        | None (HSM optional)                              |
-| Level 2        | FIPS 140-2 Level 2                               |
-| Level 3        | FIPS 140-2 Level 3 or Common Criteria EAL4+      |
-+-------------------------------------------------------------------+
++---------+---------------------------------------------+
+| Level   | Minimum Certification                       |
++---------+---------------------------------------------+
+| Level 1 | None (HSM optional)                         |
+| Level 2 | FIPS 140-2 Level 2                          |
+| Level 3 | FIPS 140-2 Level 3 or Common Criteria EAL4+ |
++---------+---------------------------------------------+
 ~~~
 
 ### Functional Requirements
@@ -906,16 +906,16 @@ HSM integration SHOULD use PKCS#11 for portability.
 Required PKCS#11 mechanisms:
 
 ~~~
-+-------------------------------------------------------------------+
-| Mechanism              | Use Case                                 |
-+-------------------------------------------------------------------+
-| CKM_EC_KEY_PAIR_GEN    | ECDSA key generation                     |
-| CKM_ECDSA_SHA256       | ECDSA signing (P-256)                    |
-| CKM_ECDSA_SHA384       | ECDSA signing (P-384)                    |
-| CKM_AES_GCM            | Symmetric encryption                     |
-| CKM_SHA256             | Hashing                                  |
-| CKM_SHA384             | Hashing                                  |
-+-------------------------------------------------------------------+
++---------------------+-----------------------+
+| Mechanism           | Use Case              |
++---------------------+-----------------------+
+| CKM_EC_KEY_PAIR_GEN | ECDSA key generation  |
+| CKM_ECDSA_SHA256    | ECDSA signing (P-256) |
+| CKM_ECDSA_SHA384    | ECDSA signing (P-384) |
+| CKM_AES_GCM         | Symmetric encryption  |
+| CKM_SHA256          | Hashing               |
+| CKM_SHA384          | Hashing               |
++---------------------+-----------------------+
 ~~~
 
 For EdDSA, use vendor-specific mechanisms or CKM_EDDSA if supported (PKCS#11 3.0+).
@@ -1138,14 +1138,14 @@ Federation credentials establish inter-zone trust.
 Current assessment of quantum computing threat:
 
 ~~~
-+-------------------------------------------------------------------+
-| Timeline       | Threat Level   | Recommended Action              |
-+-------------------------------------------------------------------+
-| 2025-2030      | Low            | Plan transition, implement      |
-|                |                | hybrid                          |
-| 2030-2035      | Medium         | Deploy hybrid mandatory         |
-| 2035+          | High           | Full PQC transition             |
-+-------------------------------------------------------------------+
++-----------+--------------+----------------------------+
+| Timeline  | Threat Level | Recommended Action         |
++-----------+--------------+----------------------------+
+| 2025-2030 | Low          | Plan transition, implement |
+|           |              | hybrid                     |
+| 2030-2035 | Medium       | Deploy hybrid mandatory    |
+| 2035+     | High         | Full PQC transition        |
++-----------+--------------+----------------------------+
 ~~~
 
 "Harvest now, decrypt later" attacks make earlier action prudent for data that must remain confidential for 10+ years.
@@ -1167,13 +1167,13 @@ Both signatures must verify for the hybrid to be valid. This provides security a
 Recommended hybrid pairs:
 
 ~~~
-+-------------------------------------------------------------------+
-| Classical      | PQC                | Combined Size | Level      |
-+-------------------------------------------------------------------+
-| Ed25519        | Dilithium2         | ~2500 bytes   | 2          |
-| Ed448          | Dilithium3         | ~3600 bytes   | 3          |
-| ECDSA P-384    | Dilithium3         | ~3700 bytes   | 3          |
-+-------------------------------------------------------------------+
++-------------+------------+---------------+-------+
+| Classical   | PQC        | Combined Size | Level |
++-------------+------------+---------------+-------+
+| Ed25519     | Dilithium2 | ~2500 bytes   | 2     |
+| Ed448       | Dilithium3 | ~3600 bytes   | 3     |
+| ECDSA P-384 | Dilithium3 | ~3700 bytes   | 3     |
++-------------+------------+---------------+-------+
 ~~~
 
 ## PQC Algorithm Selection
@@ -1182,26 +1182,26 @@ Based on NIST PQC standardization:
 
 ~~~
 Signatures:
-+-------------------------------------------------------------------+
-| Algorithm      | Type           | Security Level | Status        |
-+-------------------------------------------------------------------+
-| ML-DSA-44      | Lattice        | NIST 2         | RECOMMENDED   |
-| ML-DSA-65      | Lattice        | NIST 3         | RECOMMENDED   |
-| ML-DSA-87      | Lattice        | NIST 5         | OPTIONAL      |
-| SLH-DSA        | Hash-based     | NIST 1-5       | OPTIONAL      |
-+-------------------------------------------------------------------+
++-----------+------------+----------------+-------------+
+| Algorithm | Type       | Security Level | Status      |
++-----------+------------+----------------+-------------+
+| ML-DSA-44 | Lattice    | NIST 2         | RECOMMENDED |
+| ML-DSA-65 | Lattice    | NIST 3         | RECOMMENDED |
+| ML-DSA-87 | Lattice    | NIST 5         | OPTIONAL    |
+| SLH-DSA   | Hash-based | NIST 1-5       | OPTIONAL    |
++-----------+------------+----------------+-------------+
 ~~~
 
 (ML-DSA is the standardized name for Dilithium)
 
 ~~~
 Key Encapsulation (for future key agreement):
-+-------------------------------------------------------------------+
-| Algorithm      | Type           | Security Level | Status        |
-+-------------------------------------------------------------------+
-| ML-KEM-768     | Lattice        | NIST 3         | RECOMMENDED   |
-| ML-KEM-1024    | Lattice        | NIST 5         | OPTIONAL      |
-+-------------------------------------------------------------------+
++-------------+---------+----------------+-------------+
+| Algorithm   | Type    | Security Level | Status      |
++-------------+---------+----------------+-------------+
+| ML-KEM-768  | Lattice | NIST 3         | RECOMMENDED |
+| ML-KEM-1024 | Lattice | NIST 5         | OPTIONAL    |
++-------------+---------+----------------+-------------+
 ~~~
 
 (ML-KEM is the standardized name for Kyber)
@@ -1329,22 +1329,22 @@ Implementations SHOULD use well-tested cryptographic libraries:
 This document requests establishment of a KTP Algorithm Registry with the following initial entries:
 
 ~~~
-+-------------------------------------------------------------------+
-| ID     | Name                    | Type       | Reference         |
-+-------------------------------------------------------------------+
-| 0x0001 | ecdsa-p256              | Signature  | Section 4.1       |
-| 0x0002 | ecdsa-p384              | Signature  | Section 4.1       |
-| 0x0003 | ecdsa-p521              | Signature  | Section 4.1       |
-| 0x0010 | eddsa-ed25519           | Signature  | Section 4.2       |
-| 0x0011 | eddsa-ed448             | Signature  | Section 4.2       |
-| 0x0020 | threshold-frost-ed25519 | Threshold  | Section 4.3       |
-| 0x0030 | hybrid-ed25519-mldsa44  | Hybrid     | Section 11.2      |
-| 0x0100 | sha256                  | Hash       | Section 5.1       |
-| 0x0101 | sha384                  | Hash       | Section 5.1       |
-| 0x0110 | sha3-256                | Hash       | Section 5.2       |
-| 0x0200 | aes-256-gcm             | AEAD       | Section 7.1       |
-| 0x0201 | chacha20-poly1305       | AEAD       | Section 7.2       |
-+-------------------------------------------------------------------+
++--------+-------------------------+-----------+--------------+
+| ID     | Name                    | Type      | Reference    |
++--------+-------------------------+-----------+--------------+
+| 0x0001 | ecdsa-p256              | Signature | Section 4.1  |
+| 0x0002 | ecdsa-p384              | Signature | Section 4.1  |
+| 0x0003 | ecdsa-p521              | Signature | Section 4.1  |
+| 0x0010 | eddsa-ed25519           | Signature | Section 4.2  |
+| 0x0011 | eddsa-ed448             | Signature | Section 4.2  |
+| 0x0020 | threshold-frost-ed25519 | Threshold | Section 4.3  |
+| 0x0030 | hybrid-ed25519-mldsa44  | Hybrid    | Section 11.2 |
+| 0x0100 | sha256                  | Hash      | Section 5.1  |
+| 0x0101 | sha384                  | Hash      | Section 5.1  |
+| 0x0110 | sha3-256                | Hash      | Section 5.2  |
+| 0x0200 | aes-256-gcm             | AEAD      | Section 7.1  |
+| 0x0201 | chacha20-poly1305       | AEAD      | Section 7.2  |
++--------+-------------------------+-----------+--------------+
 ~~~
 
 --- back

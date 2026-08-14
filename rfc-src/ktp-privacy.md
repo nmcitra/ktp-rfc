@@ -207,17 +207,17 @@ PURPOSE-001: All data MUST be tagged with collection purpose PURPOSE-002: Access
 ### Retention Limits
 
 ~~~
-+-------------------------------------------------------------------+
-| Data Type              | Default Retention | Maximum Retention    |
-+-------------------------------------------------------------------+
-| Trust Proofs           | 60 seconds        | 5 minutes (cached)   |
-| Context Signal readings| 24 hours          | 7 days               |
-| Trajectory summaries   | 1 year            | 7 years              |
-| Flight Recorder (ops)  | 90 days           | 1 year               |
-| Flight Recorder (audit)| 7 years           | 10 years             |
-| Identity proofing      | Duration of agent | Duration + 1 year    |
-| Sensor raw readings    | 1 hour            | 24 hours             |
-+-------------------------------------------------------------------+
++-------------------------+-------------------+--------------------+
+| Data Type               | Default Retention | Maximum Retention  |
++-------------------------+-------------------+--------------------+
+| Trust Proofs            | 60 seconds        | 5 minutes (cached) |
+| Context Signal readings | 24 hours          | 7 days             |
+| Trajectory summaries    | 1 year            | 7 years            |
+| Flight Recorder (ops)   | 90 days           | 1 year             |
+| Flight Recorder (audit) | 7 years           | 10 years           |
+| Identity proofing       | Duration of agent | Duration + 1 year  |
+| Sensor raw readings     | 1 hour            | 24 hours           |
++-------------------------+-------------------+--------------------+
 ~~~
 
 ### Retention Justification
@@ -612,14 +612,14 @@ Children deserve enhanced protection.
 ### Age Thresholds
 
 ~~~
-+-------------------------------------------------------------------+
-| Jurisdiction     | Digital Consent Age | Parental Required Below |
-+-------------------------------------------------------------------+
-| GDPR default     | 16                  | Yes                     |
-| GDPR (member)    | 13-16 (varies)      | Yes                     |
-| COPPA (US)       | 13                  | Yes                     |
-| UK Age Code      | 18 (for design)     | Enhanced protections    |
-+-------------------------------------------------------------------+
++---------------+---------------------+-------------------------+
+| Jurisdiction  | Digital Consent Age | Parental Required Below |
++---------------+---------------------+-------------------------+
+| GDPR default  | 16                  | Yes                     |
+| GDPR (member) | 13-16 (varies)      | Yes                     |
+| COPPA (US)    | 13                  | Yes                     |
+| UK Age Code   | 18 (for design)     | Enhanced protections    |
++---------------+---------------------+-------------------------+
 ~~~
 
 ### KTP Child Protection
@@ -1117,20 +1117,20 @@ General Data Protection Regulation (EU) 2016/679
 ### Alignment Summary
 
 ~~~
-+-------------------------------------------------------------------+
-| GDPR Requirement              | KTP Implementation               |
-+-------------------------------------------------------------------+
-| Lawful basis (Art. 6)         | Section 5.1                      |
-| Special categories (Art. 9)   | Section 3.2, 5.2.2               |
-| Transparency (Art. 12-14)     | Section 2.4                      |
-| Data subject rights (Art. 15-22)| Section 4                      |
-| Data protection by design (Art. 25)| Section 7.1                 |
-| Security (Art. 32)            | Section 2.5, KTP-CRYPTO          |
-| Breach notification (Art. 33-34)| Section 13                     |
-| DPIA (Art. 35)                | Section 8                        |
-| Data transfers (Art. 44-49)   | Section 9                        |
-| DPO (Art. 37-39)              | Section 12                       |
-+-------------------------------------------------------------------+
++-------------------------------------+-------------------------+
+| GDPR Requirement                    | KTP Implementation      |
++-------------------------------------+-------------------------+
+| Lawful basis (Art. 6)               | Section 5.1             |
+| Special categories (Art. 9)         | Section 3.2, 5.2.2      |
+| Transparency (Art. 12-14)           | Section 2.4             |
+| Data subject rights (Art. 15-22)    | Section 4               |
+| Data protection by design (Art. 25) | Section 7.1             |
+| Security (Art. 32)                  | Section 2.5, KTP-CRYPTO |
+| Breach notification (Art. 33-34)    | Section 13              |
+| DPIA (Art. 35)                      | Section 8               |
+| Data transfers (Art. 44-49)         | Section 9               |
+| DPO (Art. 37-39)                    | Section 12              |
++-------------------------------------+-------------------------+
 ~~~
 
 ### GDPR-Specific Requirements
@@ -1144,18 +1144,18 @@ California Consumer Privacy Act / Privacy Rights Act
 ### Alignment Summary
 
 ~~~
-+-------------------------------------------------------------------+
-| CCPA/CPRA Requirement         | KTP Implementation               |
-+-------------------------------------------------------------------+
-| Right to know (§1798.100)     | Section 4.1                      |
-| Right to delete (§1798.105)   | Section 4.3                      |
-| Right to opt-out (§1798.120)  | Section 4.6                      |
-| Right to correct (§1798.106)  | Section 4.2                      |
-| Right to portability (§1798.130)| Section 4.5                    |
-| Data minimization             | Section 2.1                      |
-| Purpose limitation            | Section 2.2                      |
-| Security (§1798.81.5)         | Section 2.5                      |
-+-------------------------------------------------------------------+
++----------------------------------+--------------------+
+| CCPA/CPRA Requirement            | KTP Implementation |
++----------------------------------+--------------------+
+| Right to know (§1798.100)        | Section 4.1        |
+| Right to delete (§1798.105)      | Section 4.3        |
+| Right to opt-out (§1798.120)     | Section 4.6        |
+| Right to correct (§1798.106)     | Section 4.2        |
+| Right to portability (§1798.130) | Section 4.5        |
+| Data minimization                | Section 2.1        |
+| Purpose limitation               | Section 2.2        |
+| Security (§1798.81.5)            | Section 2.5        |
++----------------------------------+--------------------+
 ~~~
 
 ### CCPA-Specific Requirements
@@ -1201,16 +1201,16 @@ TRANSMISSION PRINCIPLES - Confidentiality, consent, reciprocity - Notice, entitl
 ### KTP Alignment
 
 ~~~
-+-------------------------------------------------------------------+
-| CI Element             | KTP Implementation                       |
-+-------------------------------------------------------------------+
-| Context identification | Zone purpose, domain classification     |
-| Actor roles            | Agent lineage, sponsor relationships    |
-| Information types      | Data classification (§3)                 |
-| Transmission principles| Purpose limitation (§2.2), consent (§5) |
-| Norm enforcement       | Soul constraints, PEP policies           |
-| Context collapse       | Zone isolation, federation controls      |
-+-------------------------------------------------------------------+
++-------------------------+-----------------------------------------+
+| CI Element              | KTP Implementation                      |
++-------------------------+-----------------------------------------+
+| Context identification  | Zone purpose, domain classification     |
+| Actor roles             | Agent lineage, sponsor relationships    |
+| Information types       | Data classification (§3)                |
+| Transmission principles | Purpose limitation (§2.2), consent (§5) |
+| Norm enforcement        | Soul constraints, PEP policies          |
+| Context collapse        | Zone isolation, federation controls     |
++-------------------------+-----------------------------------------+
 ~~~
 
 CI-ALIGN-001: Context documentation for each zone CI-ALIGN-002: Norm specification in zone policy CI-ALIGN-003: Transmission principle enforcement CI-ALIGN-004: Context integrity assessment (Appendix D)
@@ -1228,16 +1228,15 @@ Indigenous Data Sovereignty frameworks have emerged as critical complements to W
 ### Framework Comparison
 
 ~~~
-+-------------------------------------------------------------------+
-| Framework        | Origin    | Focus                              |
-+-------------------------------------------------------------------+
-| CARE Principles  | Global    | Collective benefit, authority      |
-| OCAP®            | Canada    | Ownership, control, access, possess|
-| Te Mana Raraunga | Aotearoa  | Māori data sovereignty             |
-| USIDSN          | USA       | US Indigenous data sovereignty      |
-| Maiam nayri      | Australia | Aboriginal data sovereignty
-|
-+-------------------------------------------------------------------+
++------------------+-----------+-------------------------------------+
+| Framework        | Origin    | Focus                               |
++------------------+-----------+-------------------------------------+
+| CARE Principles  | Global    | Collective benefit, authority       |
+| OCAP®            | Canada    | Ownership, control, access, possess |
+| Te Mana Raraunga | Aotearoa  | Māori data sovereignty              |
+| USIDSN           | USA       | US Indigenous data sovereignty      |
+| Maiam nayri      | Australia | Aboriginal data sovereignty         |
++------------------+-----------+-------------------------------------+
 ~~~
 
 ### Integration with Privacy Law
@@ -1405,39 +1404,39 @@ Invest in PETs: - Differential privacy - Zero-knowledge proofs - Secure multi-pa
 # Privacy Rights Matrix
 
 ~~~
-+-------------------------------------------------------------------+
-| Right            | GDPR | CCPA | LGPD | APPI | PIPA | PDPA-SG    |
-+-------------------------------------------------------------------+
-| Access           | Yes  | Yes  | Yes  | Yes  | Yes  | Yes        |
-| Rectification    | Yes  | Yes  | Yes  | Yes  | Yes  | Yes        |
-| Erasure          | Yes  | Yes  | Yes  | Lim  | Yes  | Yes        |
-| Portability      | Yes  | Yes  | Yes  | No   | Yes  | Yes        |
-| Object           | Yes  | Lim  | Yes  | No   | Yes  | Lim        |
-| Restrict         | Yes  | No   | Yes  | No   | Lim  | No         |
-| Not be profiled  | Yes  | Lim  | Yes  | No   | No   | Lim        |
-| Withdraw consent | Yes  | N/A  | Yes  | Yes  | Yes  | Yes        |
-+-------------------------------------------------------------------+
++------------------+------+------+------+------+------+---------+
+| Right            | GDPR | CCPA | LGPD | APPI | PIPA | PDPA-SG |
++------------------+------+------+------+------+------+---------+
+| Access           | Yes  | Yes  | Yes  | Yes  | Yes  | Yes     |
+| Rectification    | Yes  | Yes  | Yes  | Yes  | Yes  | Yes     |
+| Erasure          | Yes  | Yes  | Yes  | Lim  | Yes  | Yes     |
+| Portability      | Yes  | Yes  | Yes  | No   | Yes  | Yes     |
+| Object           | Yes  | Lim  | Yes  | No   | Yes  | Lim     |
+| Restrict         | Yes  | No   | Yes  | No   | Lim  | No      |
+| Not be profiled  | Yes  | Lim  | Yes  | No   | No   | Lim     |
+| Withdraw consent | Yes  | N/A  | Yes  | Yes  | Yes  | Yes     |
++------------------+------+------+------+------+------+---------+
 ~~~
 
 # Data Retention Schedule
 
 ~~~
-+-------------------------------------------------------------------+
-| Data Category          | Default    | Maximum  | Legal Basis     |
-+-------------------------------------------------------------------+
-| Trust Proofs           | 60 sec     | 5 min    | Function        |
-| Trust Scores (current) | Current    | Current  | Function        |
-| Trust Scores (history) | 90 days    | 1 year   | Audit           |
-| Context Signals        | 24 hours   | 7 days   | Function        |
-| Trajectory (active)    | Lifetime   | Lifetime | Trust calc      |
-| Trajectory (archived)  | 1 year     | 7 years  | Audit           |
-| Flight Recorder        | 7 years    | 10 years | Legal/Audit     |
-| Agent identity         | Lifetime   | Life+1yr | Function        |
-| Sponsorship records    | 7 years    | 10 years | Accountability  |
-| Consent records        | 7 years    | 10 years | Proof           |
-| Access request logs    | 3 years    | 7 years  | Compliance      |
-| Breach records         | 7 years    | Indef    | Compliance      |
-+-------------------------------------------------------------------+
++------------------------+----------+----------+----------------+
+| Data Category          | Default  | Maximum  | Legal Basis    |
++------------------------+----------+----------+----------------+
+| Trust Proofs           | 60 sec   | 5 min    | Function       |
+| Trust Scores (current) | Current  | Current  | Function       |
+| Trust Scores (history) | 90 days  | 1 year   | Audit          |
+| Context Signals        | 24 hours | 7 days   | Function       |
+| Trajectory (active)    | Lifetime | Lifetime | Trust calc     |
+| Trajectory (archived)  | 1 year   | 7 years  | Audit          |
+| Flight Recorder        | 7 years  | 10 years | Legal/Audit    |
+| Agent identity         | Lifetime | Life+1yr | Function       |
+| Sponsorship records    | 7 years  | 10 years | Accountability |
+| Consent records        | 7 years  | 10 years | Proof          |
+| Access request logs    | 3 years  | 7 years  | Compliance     |
+| Breach records         | 7 years  | Indef    | Compliance     |
++------------------------+----------+----------+----------------+
 ~~~
 
 # PIA Template

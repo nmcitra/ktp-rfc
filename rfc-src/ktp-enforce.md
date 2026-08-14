@@ -109,7 +109,7 @@ The Enforcement Layer sits between agents and protected resources, intercepting 
 ~~~
 +------------------------------------------------------------------+
 |                         AGENT POPULATION                         |
-|    [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]  |
+|    [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]|
 +------------------------------------------------------------------+
                                  |
                                  | Action Request
@@ -117,7 +117,7 @@ The Enforcement Layer sits between agents and protected resources, intercepting 
 +------------------------------------------------------------------+
 |                      ENFORCEMENT LAYER                           |
 |  +------------------------------------------------------------+  |
-|  |                 Policy Enforcement Points                   |  |
+|  |                 Policy Enforcement Points                  |  |
 |  |  +----------+  +----------+  +----------+  +----------+    |  |
 |  |  | API GW   |  | Service  |  |   IAM    |  |    DB    |    |  |
 |  |  |   PEP    |  | Mesh PEP |  |   PEP    |  |   PEP    |    |  |
@@ -127,7 +127,7 @@ The Enforcement Layer sits between agents and protected resources, intercepting 
 |                              | Trust Proof Validation            |
 |                              v                                   |
 |  +------------------------------------------------------------+  |
-|  |              Policy Decision Point (PDP)                    |  |
+|  |              Policy Decision Point (PDP)                   |  |
 |  |   - Soul Veto Check                                        |  |
 |  |   - Trust Tier Determination                               |  |
 |  |   - Action Risk Evaluation                                 |  |
@@ -139,7 +139,7 @@ The Enforcement Layer sits between agents and protected resources, intercepting 
                                  v
 +------------------------------------------------------------------+
 |                      PROTECTED RESOURCES                         |
-|    [APIs]  [Databases]  [Services]  [Infrastructure]            |
+|    [APIs]  [Databases]  [Services]  [Infrastructure]             |
 +------------------------------------------------------------------+
 ~~~
 

@@ -278,24 +278,24 @@ Full conformance additionally requires:
 ## Level Comparison
 
 ~~~
-+---------------------------+--------+----------+------+
-| Requirement               | Basic  | Standard | Full |
-+---------------------------+--------+----------+------+
-| Oracle mesh               | -      | 3+ nodes | 5+   |
-| Threshold signatures      | -      | 2-of-3   | 3-of-5|
-| Context dimensions        | 3+     | 6+       | 7    |
-| Soul veto                 | -      | Yes      | Yes  |
-| Risk domains              | 1      | 3        | 3    |
-| Trust tiers               | -      | 5        | 5    |
-| Flight Recorder chaining  | -      | Yes      | Yes  |
-| External anchoring        | -      | -        | Yes  |
-| Federation support        | -      | Yes      | Yes  |
-| Celestial support         | -      | -        | Yes  |
-| Proof lifetime            | 60s    | 30s      | 10s  |
-| PEP latency               | -      | < 50ms   | < 15ms|
-| Decision retention        | 30d    | 1y       | 7y   |
-| Third-party cert required | No     | No       | Yes  |
-+---------------------------+--------+----------+------+
++---------------------------+-------+----------+--------+
+| Requirement               | Basic | Standard | Full   |
++---------------------------+-------+----------+--------+
+| Oracle mesh               | -     | 3+ nodes | 5+     |
+| Threshold signatures      | -     | 2-of-3   | 3-of-5 |
+| Context dimensions        | 3+    | 6+       | 7      |
+| Soul veto                 | -     | Yes      | Yes    |
+| Risk domains              | 1     | 3        | 3      |
+| Trust tiers               | -     | 5        | 5      |
+| Flight Recorder chaining  | -     | Yes      | Yes    |
+| External anchoring        | -     | -        | Yes    |
+| Federation support        | -     | Yes      | Yes    |
+| Celestial support         | -     | -        | Yes    |
+| Proof lifetime            | 60s   | 30s      | 10s    |
+| PEP latency               | -     | < 50ms   | < 15ms |
+| Decision retention        | 30d   | 1y       | 7y     |
+| Third-party cert required | No    | No       | Yes    |
++---------------------------+-------+----------+--------+
 ~~~
 
 Implementations MAY claim partial compliance (e.g., "Standard with Full Flight Recorder") but MUST clearly document deviations.

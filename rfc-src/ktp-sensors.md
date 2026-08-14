@@ -351,29 +351,30 @@ Impact on Trust: High Mass correlates with network congestion, increased attack 
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ | CO2
-Levels       | Parts per million, proxy for occupancy   | | Crowd
-LIDAR      | Direct count via laser scanning          | | Turnstile
-Count  | Badge swipes, physical access events     | | RF Noise Floor
-| Electromagnetic density (dBm)            | | Device Count     |
-Active devices on network segment        | | Thermal Imaging  | Heat
-signatures indicating presence      | | WiFi Probe Count | Unique
-device probes detected            |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| CO2 Levels       | Parts per million, proxy for occupancy   |
+| Crowd LIDAR      | Direct count via laser scanning          |
+| Turnstile Count  | Badge swipes, physical access events     |
+| RF Noise Floor   | Electromagnetic density (dBm)            |
+| Device Count     | Active devices on network segment        |
+| Thermal Imaging  | Heat signatures indicating presence      |
+| WiFi Probe Count | Unique device probes detected            |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | CO2 (ppm)
-| 400      | 2000     | No       | | LIDAR count      | 0        |
-capacity | No       | | Badge count      | 0        | capacity | No
-| | RF noise (dBm)   | -90      | -30      | No       | | Device
-count     | 0        | max_dev  | No       |
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| CO2 (ppm)        | 400      | 2000     | No       |
+| LIDAR count      | 0        | capacity | No       |
+| Badge count      | 0        | capacity | No       |
+| RF noise (dBm)   | -90      | -30      | No       |
+| Device count     | 0        | max_dev  | No       |
 +------------------+----------+----------+----------+
 ~~~
 
@@ -405,29 +406,30 @@ Impact on Trust: High Momentum leaves less capacity for additional load and incr
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ |
-Transaction Rate | API calls per second                     | | Link
-Saturation  | Bandwidth utilization percentage         | | Packet
-Velocity  | Packets per second on key interfaces     | | Queue Depth
-| Messages pending in critical queues      | | Connection Count |
-Active TCP/WebSocket connections         | | Throughput       | Bytes
-per second through gateways        | | Event Frequency  | Domain
-events processed per second       |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| Transaction Rate | API calls per second                     |
+| Link Saturation  | Bandwidth utilization percentage         |
+| Packet Velocity  | Packets per second on key interfaces     |
+| Queue Depth      | Messages pending in critical queues      |
+| Connection Count | Active TCP/WebSocket connections         |
+| Throughput       | Bytes per second through gateways        |
+| Event Frequency  | Domain events processed per second       |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | TPS
-| 0        | max_tps  | No       | | Link %           | 0        |
-100      | No       | | PPS              | 0        | max_pps  | No
-| | Queue depth      | 0        | max_q    | No       | | Connections
-| 0        | max_conn | No       |
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| TPS              | 0        | max_tps  | No       |
+| Link %           | 0        | 100      | No       |
+| PPS              | 0        | max_pps  | No       |
+| Queue depth      | 0        | max_q    | No       |
+| Connections      | 0        | max_conn | No       |
 +------------------+----------+----------+----------+
 ~~~
 
@@ -458,31 +460,32 @@ Impact on Trust: High Heat indicates a compromised or stressed environment where
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ | WAF
-Blocks       | Blocked requests per minute              | | Auth
-Velocity    | Failed auth attempts per second          | | Port Scans
-| Detected reconnaissance activity         | | Entropy Rate     |
-Randomness in traffic patterns           | | Error Rate       |
-Application errors per minute            | | CPU Temperature  |
-Physical thermal load (celsius)          | | Voltage Droop    | Power
-supply stress indicators           | | Anomaly Score    | ML-derived
-anomaly detection             |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| WAF Blocks       | Blocked requests per minute              |
+| Auth Velocity    | Failed auth attempts per second          |
+| Port Scans       | Detected reconnaissance activity         |
+| Entropy Rate     | Randomness in traffic patterns           |
+| Error Rate       | Application errors per minute            |
+| CPU Temperature  | Physical thermal load (celsius)          |
+| Voltage Droop    | Power supply stress indicators           |
+| Anomaly Score    | ML-derived anomaly detection             |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | WAF
-blocks/min   | 0        | 10000    | No       | | Auth fails/sec   |
-0        | 1000     | No       | | Port scans/min   | 0        | 500
-| No       | | Error rate/min   | 0        | 1000     | No       | |
-CPU temp (C)     | 40       | 90       | No       | | Anomaly (0-100)
-| 0        | 100      | No       |
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| WAF blocks/min   | 0        | 10000    | No       |
+| Auth fails/sec   | 0        | 1000     | No       |
+| Port scans/min   | 0        | 500      | No       |
+| Error rate/min   | 0        | 1000     | No       |
+| CPU temp (C)     | 40       | 90       | No       |
+| Anomaly (0-100)  | 0        | 100      | No       |
 +------------------+----------+----------+----------+
 ~~~
 
@@ -513,28 +516,29 @@ Impact on Trust: Near event horizons (go-live, kickoff, earnings call), the same
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ |
-Event Countdown  | Minutes to scheduled event               | |
-Business Hours   | Current position in business cycle       | |
-Maintenance Win  | Whether in scheduled maintenance         | |
-Mission Phase    | rehearsal / pre-prod / live / post       | |
-Quarter End      | Days to financial close                  | |
-Deadline Timer   | Time to contractual SLA deadline         |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| Event Countdown  | Minutes to scheduled event               |
+| Business Hours   | Current position in business cycle       |
+| Maintenance Win  | Whether in scheduled maintenance         |
+| Mission Phase    | rehearsal / pre-prod / live / post       |
+| Quarter End      | Days to financial close                  |
+| Deadline Timer   | Time to contractual SLA deadline         |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | Event
-countdown  | 72 hrs   | 0 hrs    | Yes      | | Business hours   |
-off-peak | peak     | No       | | Maintenance      | in maint | not
-maint| Yes      | | Mission phase    | 0        | 3        | No
-| +------------------+----------+----------+----------+
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| Event countdown  | 72 hrs   | 0 hrs    | Yes      |
+| Business hours   | off-peak | peak     | No       |
+| Maintenance      | in maint | not maint| Yes      |
+| Mission phase    | 0        | 3        | No       |
++------------------+----------+----------+----------+
 ~~~
 
 Note: Time is typically inverted—72 hours out = low stress, 0 hours (event starting) = maximum stress.
@@ -565,29 +569,30 @@ Impact on Trust: Changes to high-inertia systems carry disproportionate risk due
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ |
-Dependency Depth | Number of downstream services            | |
-Degree Central.  | Connections in topology graph            | |
-Betweenness      | Traffic that routes through this node    | | Data
-Volume      | TB of data stored/processed              | | User Count
-| Active users dependent on service        | | SLA Tier         |
-Contractual importance level             | | Revenue Impact   |
-Dollars/minute if service fails          |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| Dependency Depth | Number of downstream services            |
+| Degree Central.  | Connections in topology graph            |
+| Betweenness      | Traffic that routes through this node    |
+| Data Volume      | TB of data stored/processed              |
+| User Count       | Active users dependent on service        |
+| SLA Tier         | Contractual importance level             |
+| Revenue Impact   | Dollars/minute if service fails          |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | Dependency
-count | 0        | 500      | No       | | Degree centrality| 0
-| max_deg  | No       | | Betweenness      | 0        | 1        | No
-| | Data volume (TB) | 0        | 1000     | No       | | User count
-| 0        | max_user | No       |
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| Dependency count | 0        | 500      | No       |
+| Degree centrality| 0        | max_deg  | No       |
+| Betweenness      | 0        | 1        | No       |
+| Data volume (TB) | 0        | 1000     | No       |
+| User count       | 0        | max_user | No       |
 +------------------+----------+----------+----------+
 ~~~
 
@@ -618,29 +623,30 @@ Impact on Trust: Actions that would be routine become consequential when high-vi
 Sensor Feeds:
 
 ~~~
-+------------------+------------------------------------------+ |
-Feed             | Description                              |
-+------------------+------------------------------------------+ | VIP
-Presence     | Executives, board members logged in      | | Regulator
-Flag   | Active regulatory observation            | | Media Presence
-| Press/media users active                 | | Audit Mode       |
-Compliance audit in progress             | | Life Safety      | Users
-in life-critical contexts          | | External Ratio   | % of users
-who are external/customers    | | Jurisdiction     | Regulatory
-jurisdictions involved        |
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| VIP Presence     | Executives, board members logged in      |
+| Regulator Flag   | Active regulatory observation            |
+| Media Presence   | Press/media users active                 |
+| Audit Mode       | Compliance audit in progress             |
+| Life Safety      | Users in life-critical contexts          |
+| External Ratio   | % of users who are external/customers    |
+| Jurisdiction     | Regulatory jurisdictions involved        |
 +------------------+------------------------------------------+
 ~~~
 
 Normalization:
 
 ~~~
-+------------------+----------+----------+----------+ | Feed
-| s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+ | VIP count
-| 0        | 50       | No       | | Regulator (bool) | 0        | 1
-| No       | | Audit (bool)     | 0        | 1        | No       | |
-Life safety count| 0        | 1000     | No       | | External %
-| 0        | 100      | No       |
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| VIP count        | 0        | 50       | No       |
+| Regulator (bool) | 0        | 1        | No       |
+| Audit (bool)     | 0        | 1        | No       |
+| Life safety count| 0        | 1000     | No       |
+| External %       | 0        | 100      | No       |
 +------------------+----------+----------+----------+
 ~~~
 
@@ -683,17 +689,17 @@ This asymmetry is intentional. Sovereignty constraints encode immutable laws—l
 Soul aggregates feeds from multiple sovereignty frameworks:
 
 ~~~
-+----------------------+------------------------------------------+ |
-Feed                 | Description                              |
-+----------------------+------------------------------------------+ |
-TK Labels            | Traditional Knowledge labels per Local   | |
-| Contexts framework                       | | OCAP Registry        |
-First Nations OCAP protocol compliance   | | CARE Principles      |
-Indigenous data governance principles    | | Sacred Land Geofence |
-Geographic sovereignty boundaries        | | Treaty Database      |
-Legal treaty constraints lookup          | | Data Provenance      |
-Origin lineage sovereignty tracking      | | Cultural Registry    |
-Cultural heritage protection flags       |
++----------------------+------------------------------------------+
+| Feed                 | Description                              |
++----------------------+------------------------------------------+
+| TK Labels            | Traditional Knowledge labels per Local   |
+|                      | Contexts framework                       |
+| OCAP Registry        | First Nations OCAP protocol compliance   |
+| CARE Principles      | Indigenous data governance principles    |
+| Sacred Land Geofence | Geographic sovereignty boundaries        |
+| Treaty Database      | Legal treaty constraints lookup          |
+| Data Provenance      | Origin lineage sovereignty tracking      |
+| Cultural Registry    | Cultural heritage protection flags       |
 +----------------------+------------------------------------------+
 ~~~
 

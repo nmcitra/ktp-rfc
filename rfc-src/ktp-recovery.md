@@ -58,28 +58,28 @@ PRINCIPLE 5: KNOWN-GOOD STATE Recovery should restore to a known-good state, not
 Recovery Time Objectives (RTO):
 
 ~~~
-+-------------------------------------------------------------------+
-| Component              | Level 1    | Level 2    | Level 3       |
-+-------------------------------------------------------------------+
-| Single Oracle node     | 1 hour     | 15 minutes | 5 minutes     |
-| Oracle mesh (quorum)   | 4 hours    | 1 hour     | 15 minutes    |
-| Flight Recorder        | 24 hours   | 4 hours    | 1 hour        |
-| Federation gateway     | 4 hours    | 1 hour     | 15 minutes    |
-| Full zone              | 24 hours   | 8 hours    | 2 hours       |
-+-------------------------------------------------------------------+
++----------------------+----------+------------+------------+
+| Component            | Level 1  | Level 2    | Level 3    |
++----------------------+----------+------------+------------+
+| Single Oracle node   | 1 hour   | 15 minutes | 5 minutes  |
+| Oracle mesh (quorum) | 4 hours  | 1 hour     | 15 minutes |
+| Flight Recorder      | 24 hours | 4 hours    | 1 hour     |
+| Federation gateway   | 4 hours  | 1 hour     | 15 minutes |
+| Full zone            | 24 hours | 8 hours    | 2 hours    |
++----------------------+----------+------------+------------+
 ~~~
 
 Recovery Point Objectives (RPO):
 
 ~~~
-+-------------------------------------------------------------------+
-| Data Type              | Level 1    | Level 2    | Level 3       |
-+-------------------------------------------------------------------+
-| Trust Score state      | 1 hour     | 15 minutes | 1 minute      |
-| Trajectory records     | 24 hours   | 1 hour     | 15 minutes    |
-| Flight Recorder        | 1 hour     | 15 minutes | 0 (real-time) |
-| Configuration          | 24 hours   | 4 hours    | 1 hour        |
-+-------------------------------------------------------------------+
++--------------------+----------+------------+---------------+
+| Data Type          | Level 1  | Level 2    | Level 3       |
++--------------------+----------+------------+---------------+
+| Trust Score state  | 1 hour   | 15 minutes | 1 minute      |
+| Trajectory records | 24 hours | 1 hour     | 15 minutes    |
+| Flight Recorder    | 1 hour   | 15 minutes | 0 (real-time) |
+| Configuration      | 24 hours | 4 hours    | 1 hour        |
++--------------------+----------+------------+---------------+
 ~~~
 
 # Failure Modes
@@ -452,16 +452,16 @@ CACHED TRUST PROOFS
 ## Backup Frequency
 
 ~~~
-+-------------------------------------------------------------------+
-| Data Type              | Backup Frequency | Retention            |
-+-------------------------------------------------------------------+
-| Key shares             | On change only   | Forever              |
-| Configuration          | On change + daily| 1 year               |
-| Flight Recorder        | Continuous/hourly| Per policy (7 years) |
-| Agent Registry         | Daily            | 90 days              |
-| Trajectory Chains      | Daily incremental| 1 year full, 7 incr  |
-| Sensor Config          | Daily            | 90 days              |
-+-------------------------------------------------------------------+
++-------------------+-------------------+----------------------+
+| Data Type         | Backup Frequency  | Retention            |
++-------------------+-------------------+----------------------+
+| Key shares        | On change only    | Forever              |
+| Configuration     | On change + daily | 1 year               |
+| Flight Recorder   | Continuous/hourly | Per policy (7 years) |
+| Agent Registry    | Daily             | 90 days              |
+| Trajectory Chains | Daily incremental | 1 year full, 7 incr  |
+| Sensor Config     | Daily             | 90 days              |
++-------------------+-------------------+----------------------+
 ~~~
 
 ## Backup Security
@@ -763,15 +763,15 @@ Manual procedures are documented in Appendix A.
 ## Recovery Testing Requirements
 
 ~~~
-+-------------------------------------------------------------------+
-| Test Type              | Level 1    | Level 2    | Level 3       |
-+-------------------------------------------------------------------+
-| Backup verification    | Monthly    | Weekly     | Daily         |
-| Single node recovery   | Quarterly  | Monthly    | Monthly       |
-| Mesh partition test    | Annually   | Quarterly  | Monthly       |
-| Full DR test           | Annually   | Quarterly  | Monthly       |
-| Key recovery drill     | Annually   | Semi-annual| Quarterly     |
-+-------------------------------------------------------------------+
++----------------------+-----------+-------------+-----------+
+| Test Type            | Level 1   | Level 2     | Level 3   |
++----------------------+-----------+-------------+-----------+
+| Backup verification  | Monthly   | Weekly      | Daily     |
+| Single node recovery | Quarterly | Monthly     | Monthly   |
+| Mesh partition test  | Annually  | Quarterly   | Monthly   |
+| Full DR test         | Annually  | Quarterly   | Monthly   |
+| Key recovery drill   | Annually  | Semi-annual | Quarterly |
++----------------------+-----------+-------------+-----------+
 ~~~
 
 ## Test Procedures

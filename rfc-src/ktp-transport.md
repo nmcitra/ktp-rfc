@@ -107,17 +107,17 @@ KTP uses four communication patterns:
 ## Protocol Stack
 
 ~~~
-+-------------------------------------------------------------------+
-| Layer              | Options                    | Required        |
-+-------------------------------------------------------------------+
-| Application        | KTP messages               | Yes             |
-| Serialization      | JSON / CBOR / Protobuf     | One required    |
-| RPC Framework      | gRPC / REST                | One required    |
-| Session            | HTTP/2 / WebSocket         | Per pattern     |
-| Security           | TLS 1.3                    | Yes             |
-| Transport          | TCP                        | Yes             |
-| Network            | IPv4 / IPv6                | Yes             |
-+-------------------------------------------------------------------+
++---------------+------------------------+--------------+
+| Layer         | Options                | Required     |
++---------------+------------------------+--------------+
+| Application   | KTP messages           | Yes          |
+| Serialization | JSON / CBOR / Protobuf | One required |
+| RPC Framework | gRPC / REST            | One required |
+| Session       | HTTP/2 / WebSocket     | Per pattern  |
+| Security      | TLS 1.3                | Yes          |
+| Transport     | TCP                    | Yes          |
+| Network       | IPv4 / IPv6            | Yes          |
++---------------+------------------------+--------------+
 ~~~
 
 Minimum viable implementation:
@@ -132,17 +132,17 @@ High-performance implementation:
 ## Port Assignments
 
 ~~~
-+-------------------------------------------------------------------+
-| Service              | Default Port | Protocol   | TLS Required  |
-+-------------------------------------------------------------------+
-| Trust Oracle API     | 8443         | HTTPS      | Yes           |
-| Trust Oracle gRPC    | 8444         | gRPC       | Yes           |
-| PEP Authorization    | 8445         | gRPC       | Yes           |
-| Sensor Aggregator    | 8446         | HTTPS/gRPC | Yes           |
-| Flight Recorder      | 8447         | HTTPS      | Yes           |
-| Federation Gateway   | 8448         | HTTPS/gRPC | Yes           |
-| WebSocket (updates)  | 8449         | WSS        | Yes           |
-+-------------------------------------------------------------------+
++---------------------+--------------+------------+--------------+
+| Service             | Default Port | Protocol   | TLS Required |
++---------------------+--------------+------------+--------------+
+| Trust Oracle API    | 8443         | HTTPS      | Yes          |
+| Trust Oracle gRPC   | 8444         | gRPC       | Yes          |
+| PEP Authorization   | 8445         | gRPC       | Yes          |
+| Sensor Aggregator   | 8446         | HTTPS/gRPC | Yes          |
+| Flight Recorder     | 8447         | HTTPS      | Yes          |
+| Federation Gateway  | 8448         | HTTPS/gRPC | Yes          |
+| WebSocket (updates) | 8449         | WSS        | Yes          |
++---------------------+--------------+------------+--------------+
 ~~~
 
 All ports use TLS. Unencrypted transport is NOT permitted.
@@ -283,13 +283,13 @@ TLS 1.1 and earlier MUST NOT be used.
 Cipher suite requirements:
 
 ~~~
-+-------------------------------------------------------------------+
-| Level | Required Cipher Suites                                   |
-+-------------------------------------------------------------------+
-| 1     | TLS_AES_128_GCM_SHA256                                   |
-| 2     | TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256     |
-| 3     | TLS_AES_256_GCM_SHA384                                   |
-+-------------------------------------------------------------------+
++-------+------------------------------------------------------+
+| Level | Required Cipher Suites                               |
++-------+------------------------------------------------------+
+| 1     | TLS_AES_128_GCM_SHA256                               |
+| 2     | TLS_AES_256_GCM_SHA384, TLS_CHACHA20_POLY1305_SHA256 |
+| 3     | TLS_AES_256_GCM_SHA384                               |
++-------+------------------------------------------------------+
 ~~~
 
 Certificate requirements:
@@ -326,16 +326,16 @@ KTP uses a dedicated PKI for component authentication.
 Certificate fields:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Content                                      |
-+-------------------------------------------------------------------+
-| Subject CN         | Component identifier                         |
-| Subject O          | Zone identifier                              |
-| Subject OU         | Component type (oracle, pep, agent, sensor)  |
-| SAN DNS            | Component hostname(s)                        |
-| SAN URI            | KTP identifier (e.g., ktp:agent:...)         |
-| Extended Key Usage | serverAuth, clientAuth                       |
-+-------------------------------------------------------------------+
++--------------------+---------------------------------------------+
+| Field              | Content                                     |
++--------------------+---------------------------------------------+
+| Subject CN         | Component identifier                        |
+| Subject O          | Zone identifier                             |
+| Subject OU         | Component type (oracle, pep, agent, sensor) |
+| SAN DNS            | Component hostname(s)                       |
+| SAN URI            | KTP identifier (e.g., ktp:agent:...)        |
+| Extended Key Usage | serverAuth, clientAuth                      |
++--------------------+---------------------------------------------+
 ~~~
 
 Example certificate subject:
@@ -742,13 +742,13 @@ Content-Encoding: gzip Content-Type: application/cbor
 Batch size recommendations:
 
 ~~~
-+-------------------------------------------------------------------+
-| Reporting Interval | Batch Size  | Batch Interval | Compression   |
-+-------------------------------------------------------------------+
-| 100ms              | 100 readings| 10 seconds     | Required      |
-| 1 second           | 60 readings | 60 seconds     | Recommended   |
-| 5 seconds          | 12 readings | 60 seconds     | Optional      |
-+-------------------------------------------------------------------+
++--------------------+--------------+----------------+-------------+
+| Reporting Interval | Batch Size   | Batch Interval | Compression |
++--------------------+--------------+----------------+-------------+
+| 100ms              | 100 readings | 10 seconds     | Required    |
+| 1 second           | 60 readings  | 60 seconds     | Recommended |
+| 5 seconds          | 12 readings  | 60 seconds     | Optional    |
++--------------------+--------------+----------------+-------------+
 ~~~
 
 # Flight Recorder Transport
@@ -836,20 +836,20 @@ All errors use consistent format:
 HTTP status codes:
 
 ~~~
-+-------------------------------------------------------------------+
-| Status | Meaning                     | Retry?                     |
-+-------------------------------------------------------------------+
-| 400    | Bad request (client error)  | No                         |
-| 401    | Authentication required     | After re-auth              |
-| 403    | Forbidden (authorization)   | No (or after trust change) |
-| 404    | Resource not found          | No                         |
-| 409    | Conflict                    | Maybe (depends on cause)   |
-| 429    | Rate limited                | Yes (after Retry-After)    |
-| 500    | Server error                | Yes (with backoff)         |
-| 502    | Upstream error              | Yes (with backoff)         |
-| 503    | Service unavailable         | Yes (after Retry-After)    |
-| 504    | Timeout                     | Yes                        |
-+-------------------------------------------------------------------+
++--------+----------------------------+----------------------------+
+| Status | Meaning                    | Retry?                     |
++--------+----------------------------+----------------------------+
+| 400    | Bad request (client error) | No                         |
+| 401    | Authentication required    | After re-auth              |
+| 403    | Forbidden (authorization)  | No (or after trust change) |
+| 404    | Resource not found         | No                         |
+| 409    | Conflict                   | Maybe (depends on cause)   |
+| 429    | Rate limited               | Yes (after Retry-After)    |
+| 500    | Server error               | Yes (with backoff)         |
+| 502    | Upstream error             | Yes (with backoff)         |
+| 503    | Service unavailable        | Yes (after Retry-After)    |
+| 504    | Timeout                    | Yes                        |
++--------+----------------------------+----------------------------+
 ~~~
 
 ## Error Codes
@@ -858,60 +858,60 @@ Every code in this registry is wire-visible unless listed as evidence-only.  An 
 
 ~~~
 Authentication errors (AUTH_*):
-+-------------------------------------------------------------------+
-| Code                    | HTTP | Description                      |
-+-------------------------------------------------------------------+
-| AUTH_MISSING            | 401  | No credentials provided          |
-| AUTH_INVALID            | 401  | Invalid credentials              |
-| AUTH_EXPIRED            | 401  | Credentials expired              |
-| AUTH_REVOKED            | 401  | Credentials revoked              |
-+-------------------------------------------------------------------+
++--------------+------+-------------------------+
+| Code         | HTTP | Description             |
++--------------+------+-------------------------+
+| AUTH_MISSING | 401  | No credentials provided |
+| AUTH_INVALID | 401  | Invalid credentials     |
+| AUTH_EXPIRED | 401  | Credentials expired     |
+| AUTH_REVOKED | 401  | Credentials revoked     |
++--------------+------+-------------------------+
 ~~~
 
 ~~~
 Authorization errors (AUTHZ_*):
-+-------------------------------------------------------------------+
-| Code                    | HTTP | Description                      |
-+-------------------------------------------------------------------+
-| AUTHZ_INSUFFICIENT_TRUST| 403  | E_trust < action risk            |
-| AUTHZ_SOUL_VETO         | 403  | Soul constraint violated         |
-| AUTHZ_TIER_INSUFFICIENT | 403  | Tier too low for action          |
-| AUTHZ_HIBERNATING       | 403  | Agent in hibernation             |
-+-------------------------------------------------------------------+
++--------------------------+------+--------------------------+
+| Code                     | HTTP | Description              |
++--------------------------+------+--------------------------+
+| AUTHZ_INSUFFICIENT_TRUST | 403  | E_trust < action risk    |
+| AUTHZ_SOUL_VETO          | 403  | Soul constraint violated |
+| AUTHZ_TIER_INSUFFICIENT  | 403  | Tier too low for action  |
+| AUTHZ_HIBERNATING        | 403  | Agent in hibernation     |
++--------------------------+------+--------------------------+
 ~~~
 
 ~~~
 Evidence-only codes (never on the wire):
-+-------------------------------------------------------------------+
-| Code                       | HTTP | Description                   |
-+-------------------------------------------------------------------+
-| KINETIC_CAPACITY_EXCEEDED  | -    | Kinematic veto [KTP-AUDIT]    |
-+-------------------------------------------------------------------+
++---------------------------+------+----------------------------+
+| Code                      | HTTP | Description                |
++---------------------------+------+----------------------------+
+| KINETIC_CAPACITY_EXCEEDED | -    | Kinematic veto [KTP-AUDIT] |
++---------------------------+------+----------------------------+
 ~~~
 
 KINETIC_CAPACITY_EXCEEDED marks a kinematic veto - a silent_veto raised by the kinetic envelope - so that it reads apart from an ordinary limit violation in audit, without disclosing to the agentic system which limit vetoed it.
 
 ~~~
 Trust errors (TRUST_*):
-+-------------------------------------------------------------------+
-| Code                    | HTTP | Description                      |
-+-------------------------------------------------------------------+
-| TRUST_PROOF_EXPIRED     | 400  | Trust Proof has expired          |
-| TRUST_PROOF_INVALID_SIG | 400  | Signature verification failed    |
-| TRUST_PROOF_REVOKED     | 400  | Trust Proof was revoked          |
-| TRUST_AGENT_UNKNOWN     | 404  | Agent not registered             |
-+-------------------------------------------------------------------+
++-------------------------+------+-------------------------------+
+| Code                    | HTTP | Description                   |
++-------------------------+------+-------------------------------+
+| TRUST_PROOF_EXPIRED     | 400  | Trust Proof has expired       |
+| TRUST_PROOF_INVALID_SIG | 400  | Signature verification failed |
+| TRUST_PROOF_REVOKED     | 400  | Trust Proof was revoked       |
+| TRUST_AGENT_UNKNOWN     | 404  | Agent not registered          |
++-------------------------+------+-------------------------------+
 ~~~
 
 ~~~
 Federation errors (FED_*):
-+-------------------------------------------------------------------+
-| Code                    | HTTP | Description                      |
-+-------------------------------------------------------------------+
-| FED_ZONE_UNKNOWN        | 404  | Foreign zone not recognized      |
-| FED_ZONE_UNTRUSTED      | 403  | Trust factor below minimum       |
-| FED_PROOF_REJECTED      | 400  | Foreign proof validation failed  |
-+-------------------------------------------------------------------+
++--------------------+------+---------------------------------+
+| Code               | HTTP | Description                     |
++--------------------+------+---------------------------------+
+| FED_ZONE_UNKNOWN   | 404  | Foreign zone not recognized     |
+| FED_ZONE_UNTRUSTED | 403  | Trust factor below minimum      |
+| FED_PROOF_REJECTED | 400  | Foreign proof validation failed |
++--------------------+------+---------------------------------+
 ~~~
 
 ## Retry Behavior
@@ -935,28 +935,28 @@ Retry-After: Wed, 25 Nov 2025 12:01:00 GMT
 Latency targets:
 
 ~~~
-+-------------------------------------------------------------------+
-| Operation                     | Level 1  | Level 2  | Level 3    |
-+-------------------------------------------------------------------+
-| Trust Proof issuance          | < 50ms   | < 20ms   | < 10ms     |
-| Trust Proof validation        | < 5ms    | < 2ms    | < 1ms      |
-| Authorization decision        | < 20ms   | < 10ms   | < 5ms      |
-| Trust Score update propagation| < 5s     | < 1s     | < 100ms    |
-| Sensor reading ingestion      | < 100ms  | < 50ms   | < 20ms     |
-+-------------------------------------------------------------------+
++--------------------------------+---------+---------+---------+
+| Operation                      | Level 1 | Level 2 | Level 3 |
++--------------------------------+---------+---------+---------+
+| Trust Proof issuance           | < 50ms  | < 20ms  | < 10ms  |
+| Trust Proof validation         | < 5ms   | < 2ms   | < 1ms   |
+| Authorization decision         | < 20ms  | < 10ms  | < 5ms   |
+| Trust Score update propagation | < 5s    | < 1s    | < 100ms |
+| Sensor reading ingestion       | < 100ms | < 50ms  | < 20ms  |
++--------------------------------+---------+---------+---------+
 ~~~
 
 Throughput targets:
 
 ~~~
-+-------------------------------------------------------------------+
-| Operation                     | Level 1  | Level 2  | Level 3    |
-+-------------------------------------------------------------------+
-| Trust Proofs/second           | 100      | 1,000    | 10,000     |
-| Authorization requests/second | 100      | 1,000    | 10,000     |
-| Sensor readings/second        | 1,000    | 10,000   | 100,000    |
-| Flight Recorder records/sec   | 100      | 1,000    | 10,000     |
-+-------------------------------------------------------------------+
++-------------------------------+---------+---------+---------+
+| Operation                     | Level 1 | Level 2 | Level 3 |
++-------------------------------+---------+---------+---------+
+| Trust Proofs/second           | 100     | 1,000   | 10,000  |
+| Authorization requests/second | 100     | 1,000   | 10,000  |
+| Sensor readings/second        | 1,000   | 10,000  | 100,000 |
+| Flight Recorder records/sec   | 100     | 1,000   | 10,000  |
++-------------------------------+---------+---------+---------+
 ~~~
 
 # Security Considerations

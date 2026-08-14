@@ -46,16 +46,16 @@ For each problem, we provide:
 We use the following solution states:
 
 ~~~
-+-------------------------------------------------------------------+
-| State              | Meaning                                      |
-+-------------------------------------------------------------------+
-| SOLVED             | Mathematical/architectural solution exists   |
-| MITIGATED          | Risk reduced but not eliminated              |
-| BOUNDED            | Failure mode constrained to acceptable scope |
-| OPEN               | No satisfactory solution yet                 |
-| UNSOLVABLE         | Fundamental tradeoff, must be accepted       |
-| EXTERNAL           | Requires expertise outside computer science  |
-+-------------------------------------------------------------------+
++------------+----------------------------------------------+
+| State      | Meaning                                      |
++------------+----------------------------------------------+
+| SOLVED     | Mathematical/architectural solution exists   |
+| MITIGATED  | Risk reduced but not eliminated              |
+| BOUNDED    | Failure mode constrained to acceptable scope |
+| OPEN       | No satisfactory solution yet                 |
+| UNSOLVABLE | Fundamental tradeoff, must be accepted       |
+| EXTERNAL   | Requires expertise outside computer science  |
++------------+----------------------------------------------+
 ~~~
 
 ## Requirements Language
@@ -67,24 +67,24 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 The seven original problems plus additional identified issues:
 
 ~~~
-+-------------------------------------------------------------------+
-| #  | Problem                        | Primary Domain | State      |
-+-------------------------------------------------------------------+
-| 1  | Heisenberg Penalty             | Performance    | SOLVED     |
-| 2  | Hypervisor Opaque Wall         | Architecture   | BOUNDED    |
-| 3  | False Positive Fatality        | Ethics         | MITIGATED* |
-| 4  | Baseline Poisoning             | Security       | MITIGATED  |
-| 5  | Oracle Risk                    | Security       | MITIGATED  |
-| 6  | Standard Oil Monopoly          | Governance     | EXTERNAL   |
-| 7  | Legal Black Box                | Law            | EXTERNAL   |
-| 8  | Quantum Cliff                  | Cryptography   | BOUNDED    |
-| 9  | Agent Collusion                | Game Theory    | MITIGATED  |
-| 10 | Jurisdictional Fragmentation   | Law/Policy     | EXTERNAL   |
-| 11 | Time Oracle Attack             | Security       | MITIGATED  |
-| 12 | Cultural Trust Relativism      | Sociology      | OPEN       |
-| 13 | Bootstrap Paradox              | Architecture   | SOLVED     |
-| 14 | Sensor Saturation              | Security       | MITIGATED  |
-+-------------------------------------------------------------------+
++----+------------------------------+----------------+------------+
+| #  | Problem                      | Primary Domain | State      |
++----+------------------------------+----------------+------------+
+| 1  | Heisenberg Penalty           | Performance    | SOLVED     |
+| 2  | Hypervisor Opaque Wall       | Architecture   | BOUNDED    |
+| 3  | False Positive Fatality      | Ethics         | MITIGATED* |
+| 4  | Baseline Poisoning           | Security       | MITIGATED  |
+| 5  | Oracle Risk                  | Security       | MITIGATED  |
+| 6  | Standard Oil Monopoly        | Governance     | EXTERNAL   |
+| 7  | Legal Black Box              | Law            | EXTERNAL   |
+| 8  | Quantum Cliff                | Cryptography   | BOUNDED    |
+| 9  | Agent Collusion              | Game Theory    | MITIGATED  |
+| 10 | Jurisdictional Fragmentation | Law/Policy     | EXTERNAL   |
+| 11 | Time Oracle Attack           | Security       | MITIGATED  |
+| 12 | Cultural Trust Relativism    | Sociology      | OPEN       |
+| 13 | Bootstrap Paradox            | Architecture   | SOLVED     |
+| 14 | Sensor Saturation            | Security       | MITIGATED  |
++----+------------------------------+----------------+------------+
 ~~~
 
 - Problem 3 marked with asterisk: The technical mitigation exists, but the ethical question of acceptable tradeoffs remains EXTERNAL.
@@ -195,15 +195,15 @@ E. COMPARISON TO REPLACED SYSTEMS
 KTP replaces, not supplements, existing security overhead:
 
 ~~~
-+-------------------------------------------------------------------+
-| Replaced System       | Typical Overhead | KTP Equivalent         |
-+-------------------------------------------------------------------+
-| Deep Packet Inspection| 2-10ms/packet    | Eliminated             |
-| SIEM correlation      | 50-500ms/event   | Flight Recorder: async |
-| Policy evaluation     | 5-50ms/request   | A ≤ E: <1ms            |
-| Token validation      | 2-10ms/request   | Trust Proof: 0.5ms     |
-| Firewall rules        | 0.5-2ms/packet   | Eliminated (structural)|
-+-------------------------------------------------------------------+
++------------------------+------------------+-------------------------+
+| Replaced System        | Typical Overhead | KTP Equivalent          |
++------------------------+------------------+-------------------------+
+| Deep Packet Inspection | 2-10ms/packet    | Eliminated              |
+| SIEM correlation       | 50-500ms/event   | Flight Recorder: async  |
+| Policy evaluation      | 5-50ms/request   | A ≤ E: <1ms             |
+| Token validation       | 2-10ms/request   | Trust Proof: 0.5ms      |
+| Firewall rules         | 0.5-2ms/packet   | Eliminated (structural) |
++------------------------+------------------+-------------------------+
 ~~~
 
 Net effect: KTP typically REDUCES total security overhead.
@@ -301,15 +301,15 @@ C. BEHAVIORAL SIGNALS OVER HARDWARE SIGNALS
 When hardware signals are unavailable, behavioral signals can substitute:
 
 ~~~
-+-------------------------------------------------------------------+
-| Hardware Signal      | Behavioral Substitute                      |
-+-------------------------------------------------------------------+
-| CPU thermal          | Request latency percentiles                |
-| Memory pressure      | Garbage collection frequency               |
-| Network saturation   | TCP retransmit rate                        |
-| Disk I/O wait        | Database query time variance               |
-| Power state          | Instance type / reserved vs. spot          |
-+-------------------------------------------------------------------+
++--------------------+-----------------------------------+
+| Hardware Signal    | Behavioral Substitute             |
++--------------------+-----------------------------------+
+| CPU thermal        | Request latency percentiles       |
+| Memory pressure    | Garbage collection frequency      |
+| Network saturation | TCP retransmit rate               |
+| Disk I/O wait      | Database query time variance      |
+| Power state        | Instance type / reserved vs. spot |
++--------------------+-----------------------------------+
 ~~~
 
 Behavioral signals measure the EFFECT of resource constraints, even when the CAUSE is hidden.
@@ -319,16 +319,16 @@ D. CLOUD PROVIDER TRUST AS CONTEXT DIMENSION
 An opacity measure in the Context Signals catalogue accounts for environmental visibility:
 
 ~~~
-+-------------------------------------------------------------------+
-| Environment          | O Value | Interpretation                   |
-+-------------------------------------------------------------------+
-| Bare metal, owned    | 0.0     | Full visibility                  |
-| Bare metal, colo     | 0.2     | High visibility                  |
-| Dedicated VM         | 0.4     | Good visibility                  |
-| Shared VM            | 0.6     | Limited visibility               |
-| Serverless/Lambda    | 0.8     | Minimal visibility               |
-| Unknown execution    | 1.0     | No visibility                    |
-+-------------------------------------------------------------------+
++-------------------+---------+--------------------+
+| Environment       | O Value | Interpretation     |
++-------------------+---------+--------------------+
+| Bare metal, owned | 0.0     | Full visibility    |
+| Bare metal, colo  | 0.2     | High visibility    |
+| Dedicated VM      | 0.4     | Good visibility    |
+| Shared VM         | 0.6     | Limited visibility |
+| Serverless/Lambda | 0.8     | Minimal visibility |
+| Unknown execution | 1.0     | No visibility      |
++-------------------+---------+--------------------+
 ~~~
 
 Higher Opacity increases Risk Factor, which reduces E_trust. This is correct behavior: we SHOULD trust less when we can see less.
@@ -458,15 +458,15 @@ B. EXTERNAL CORRELATION SIGNALS
 The Context Signals catalogue can incorporate external signals that indicate legitimate stress:
 
 ~~~
-+-------------------------------------------------------------------+
-| Signal Source        | Integration                                |
-+-------------------------------------------------------------------+
-| Hospital EMR         | Surge in patient admissions → expected load|
-| 911 dispatch         | Mass casualty declared → expected chaos    |
-| Trading systems      | Market volatility → expected activity      |
-| Event calendar       | Product launch → expected traffic spike    |
-| Weather services     | Natural disaster → expected patterns       |
-+-------------------------------------------------------------------+
++------------------+---------------------------------------------+
+| Signal Source    | Integration                                 |
++------------------+---------------------------------------------+
+| Hospital EMR     | Surge in patient admissions → expected load |
+| 911 dispatch     | Mass casualty declared → expected chaos     |
+| Trading systems  | Market volatility → expected activity       |
+| Event calendar   | Product launch → expected traffic spike     |
+| Weather services | Natural disaster → expected patterns        |
++------------------+---------------------------------------------+
 ~~~
 
 These external signals inform the Risk Factors: "This activity is expected and legitimate."
@@ -902,16 +902,16 @@ Regular rotation limits window of compromise utility.
 Even if attacker compromises threshold Oracles:
 
 ~~~
-+-------------------------------------------------------------------+
-| Attack                    | Blast Radius    | Detection Time     |
-+-------------------------------------------------------------------+
-| Issue false high E_trust  | Zone-local      | Minutes (sensors)  |
-| Issue false low E_trust   | Zone-local (DoS)| Immediate (ops)    |
-| Witness false trajectory  | Single agent    | Hours (chain audit)|
-| Sign false Soul override  | IMPOSSIBLE      | N/A (no mechanism) |
-| Modify history            | IMPOSSIBLE      | N/A (append-only)  |
-| Cross-zone contamination  | BLOCKED         | N/A (federation)   |
-+-------------------------------------------------------------------+
++--------------------------+------------------+---------------------+
+| Attack                   | Blast Radius     | Detection Time      |
++--------------------------+------------------+---------------------+
+| Issue false high E_trust | Zone-local       | Minutes (sensors)   |
+| Issue false low E_trust  | Zone-local (DoS) | Immediate (ops)     |
+| Witness false trajectory | Single agent     | Hours (chain audit) |
+| Sign false Soul override | IMPOSSIBLE       | N/A (no mechanism)  |
+| Modify history           | IMPOSSIBLE       | N/A (append-only)   |
+| Cross-zone contamination | BLOCKED          | N/A (federation)    |
++--------------------------+------------------+---------------------+
 ~~~
 
 Maximum damage: Temporary disruption within single zone. Cannot spread to federation, cannot modify history, cannot override Soul constraints.
@@ -1028,16 +1028,16 @@ E. ANTI-MOAT ARCHITECTURE
 KTP is designed to prevent vendor lock-in:
 
 ~~~
-+-------------------------------------------------------------------+
-| Design Choice            | Anti-Moat Effect                       |
-+-------------------------------------------------------------------+
-| Standard crypto (ECDSA)  | No proprietary algorithms              |
-| JSON/CBOR serialization  | No proprietary formats                 |
-| HTTP/gRPC transport      | No proprietary protocols               |
-| Generic sensor interface | No proprietary hardware required       |
-| Software-defined Oracle  | No special hardware required           |
-| Zone federation          | No single vendor controls federation   |
-+-------------------------------------------------------------------+
++--------------------------+--------------------------------------+
+| Design Choice            | Anti-Moat Effect                     |
++--------------------------+--------------------------------------+
+| Standard crypto (ECDSA)  | No proprietary algorithms            |
+| JSON/CBOR serialization  | No proprietary formats               |
+| HTTP/gRPC transport      | No proprietary protocols             |
+| Generic sensor interface | No proprietary hardware required     |
+| Software-defined Oracle  | No special hardware required         |
+| Zone federation          | No single vendor controls federation |
++--------------------------+--------------------------------------+
 ~~~
 
 Every component can be implemented by any vendor using standard technologies.
@@ -1686,15 +1686,15 @@ SOLUTION STATE: EXTERNAL (Legal/Policy)
 THE CHALLENGE:
 
 ~~~
-+-------------------------------------------------------------------+
-| Requirement          | GDPR | CCPA | LGPD | PIPL | Conflict?     |
-+-------------------------------------------------------------------+
-| Consent required     | Vary | Opt-out| Vary | Yes  | Inconsistent |
-| Data localization    | No   | No   | No   | Yes  | Direct        |
-| Transfer mechanisms  | SCCs | N/A  | Equiv| Govt | Different     |
-| Erasure scope        | Broad| Broad| Broad| Narrow| Different    |
-| Breach notification  | 72hr | ASAP | Reason| Varies| Different   |
-+-------------------------------------------------------------------+
++---------------------+-------+---------+--------+--------+--------------+
+| Requirement         | GDPR  | CCPA    | LGPD   | PIPL   | Conflict?    |
++---------------------+-------+---------+--------+--------+--------------+
+| Consent required    | Vary  | Opt-out | Vary   | Yes    | Inconsistent |
+| Data localization   | No    | No      | No     | Yes    | Direct       |
+| Transfer mechanisms | SCCs  | N/A     | Equiv  | Govt   | Different    |
+| Erasure scope       | Broad | Broad   | Broad  | Narrow | Different    |
+| Breach notification | 72hr  | ASAP    | Reason | Varies | Different    |
++---------------------+-------+---------+--------+--------+--------------+
 ~~~
 
 KTP federation can span jurisdictions. Which law applies?
@@ -1937,32 +1937,32 @@ Reference: KTP-PRIVACY §10.6, §11.5; KTP-GOVERNANCE §3.1.5
 # Summary of Solution States
 
 ~~~
-+-------------------------------------------------------------------+
-| #  | Problem                   | State      | Primary Gap         |
-+-------------------------------------------------------------------+
-| 1  | Heisenberg Penalty        | SOLVED     | Optimization only   |
-| 2  | Hypervisor Opaque Wall    | BOUNDED    | Cloud provider APIs |
-| 3  | False Positive Fatality   | MITIGATED* | Ethics of tradeoff  |
-| 4  | Baseline Poisoning        | MITIGATED  | Detection research  |
-| 5  | Oracle Risk               | MITIGATED  | Formal verification |
-| 6  | Standard Oil Monopoly     | EXTERNAL   | Governance/community|
-| 7  | Legal Black Box           | EXTERNAL   | Legal precedent     |
-| 8  | Quantum Cliff             | BOUNDED    | PQC standardization |
-| 9  | Agent Collusion           | MITIGATED  | Graph analysis      |
-| 10 | Jurisdictional Fragment.  | EXTERNAL   | International law   |
-| 11 | Time Oracle Attack        | MITIGATED  | Time source security|
-| 12 | Cultural Trust Relativism | OPEN       | Anthropology/ethics |
-| 13 | Bootstrap Paradox         | SOLVED     | IAL3 + ceremony     |
-| 14 | Sensor Saturation         | MITIGATED  | DoS research        |
-| 15 | Surveillance Risk         | MITIGATED+ | Governance required |
-| 16 | Privacy-Trust Paradox     | MITIGATED  | Theoretical limits  |
-| 17 | Function Creep            | MITIGATED+ | Eternal vigilance   |
-| 18 | Right to be Forgotten     | BOUNDED    | Legal interpretation|
-| 19 | Cross-Border Privacy      | EXTERNAL   | Jurisdictional law  |
-| 20 | Behavioral Fingerprinting | MITIGATED  | Research needed     |
-| 21 | Goodhart Abyss            | MITIGATED+ | Theoretical limits  |
-| 22 | Cultural Bedrock          | PARTIAL    | Ongoing consultation|
-+-------------------------------------------------------------------+
++----+---------------------------+------------+----------------------+
+| #  | Problem                   | State      | Primary Gap          |
++----+---------------------------+------------+----------------------+
+| 1  | Heisenberg Penalty        | SOLVED     | Optimization only    |
+| 2  | Hypervisor Opaque Wall    | BOUNDED    | Cloud provider APIs  |
+| 3  | False Positive Fatality   | MITIGATED* | Ethics of tradeoff   |
+| 4  | Baseline Poisoning        | MITIGATED  | Detection research   |
+| 5  | Oracle Risk               | MITIGATED  | Formal verification  |
+| 6  | Standard Oil Monopoly     | EXTERNAL   | Governance/community |
+| 7  | Legal Black Box           | EXTERNAL   | Legal precedent      |
+| 8  | Quantum Cliff             | BOUNDED    | PQC standardization  |
+| 9  | Agent Collusion           | MITIGATED  | Graph analysis       |
+| 10 | Jurisdictional Fragment.  | EXTERNAL   | International law    |
+| 11 | Time Oracle Attack        | MITIGATED  | Time source security |
+| 12 | Cultural Trust Relativism | OPEN       | Anthropology/ethics  |
+| 13 | Bootstrap Paradox         | SOLVED     | IAL3 + ceremony      |
+| 14 | Sensor Saturation         | MITIGATED  | DoS research         |
+| 15 | Surveillance Risk         | MITIGATED+ | Governance required  |
+| 16 | Privacy-Trust Paradox     | MITIGATED  | Theoretical limits   |
+| 17 | Function Creep            | MITIGATED+ | Eternal vigilance    |
+| 18 | Right to be Forgotten     | BOUNDED    | Legal interpretation |
+| 19 | Cross-Border Privacy      | EXTERNAL   | Jurisdictional law   |
+| 20 | Behavioral Fingerprinting | MITIGATED  | Research needed      |
+| 21 | Goodhart Abyss            | MITIGATED+ | Theoretical limits   |
+| 22 | Cultural Bedrock          | PARTIAL    | Ongoing consultation |
++----+---------------------------+------------+----------------------+
 ~~~
 
 Legend: SOLVED     = Architectural/mathematical solution exists BOUNDED    = Failure mode constrained to acceptable scope MITIGATED  = Risk reduced but not eliminated MITIGATED+ = Technical mitigations + governance/policy required PARTIAL    = Some aspects addressed, fundamental limits remain EXTERNAL   = Requires expertise outside computer science OPEN       = No satisfactory solution yet

@@ -163,32 +163,32 @@ A KTP deployment consists of the following components:
 |  |  Oracle 1  |<-->|  Oracle 2  |<-->|  Oracle 3  |  (threshold) |
 |  +------------+    +------------+    +------------+              |
 +------------------------------------------------------------------+
-|                    |                    | v                    v
-v
+         |                    |                    |
+         v                    v                    v
 +------------------------------------------------------------------+
 |                      CONTEXT TENSOR SENSORS                      |
-|  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]      |
+|  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]       |
 +------------------------------------------------------------------+
-|                    |                    | v                    v
-v
+         |                    |                    |
+         v                    v                    v
 +------------------------------------------------------------------+
 |                   POLICY ENFORCEMENT POINTS                      |
-|  +----------+  +----------+  +----------+  +----------+         | |
-| API GW   |  | Service  |  |   IAM    |  |    DB    |         | |  |
-|  |   Mesh   |  |          |  |   Proxy  |         | |  +----------+
-+----------+  +----------+  +----------+         |
+|  +----------+  +----------+  +----------+  +----------+          |
+|  | API GW   |  | Service  |  |   IAM    |  |    DB    |          |
+|  |          |  |   Mesh   |  |          |  |   Proxy  |          |
+|  +----------+  +----------+  +----------+  +----------+          |
 +------------------------------------------------------------------+
-|                    |                    | v                    v
-v
+         |                    |                    |
+         v                    v                    v
 +------------------------------------------------------------------+
 |                       AGENT POPULATION                           |
-|  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]   |
+|  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]  |
 +------------------------------------------------------------------+
-|                    |                    | v                    v
-v
+         |                    |                    |
+         v                    v                    v
 +------------------------------------------------------------------+
 |                    FLIGHT RECORDER (IMMUTABLE)                   |
-|  [Decision Geometry]  [Attestations]  [Trajectory Chains]       |
+|  [Decision Geometry]  [Attestations]  [Trajectory Chains]        |
 +------------------------------------------------------------------+
 ~~~
 
@@ -225,28 +225,33 @@ The basic authorization flow is:
 1. Response returned to agent with Trust Proof for potential forwarding to downstream services
 
 ~~~
-+--------+        +--------+        +--------+        +--------+ |
-Agent  |        |  PEP   |        | Trust  |        | Flight | |
-|        |        |        | Oracle |        |Recorder| +---+----+
-+---+----+        +---+----+        +---+----+ |                 |
-|                 | | 1. Request      |                 |
-| |---------------->|                 |                 | |
-| 2. Get/Validate |                 | |                 |    Trust
-Proof  |                 | |                 |---------------->|
-| |                 |                 | 3. Calculate    | |
-|                 |    E_base, R,   | |                 |
-|    E_trust      | |                 |                 |
-| |                 | 4. Trust Proof  |                 | |
-|<----------------|                 | |                 |
-|                 | |                 | 5. Evaluate     |
-| |                 |    A <= E_trust |                 | |
-|                 |                 | |                 | 6. Log
-Decision |                 | |
-|---------------------------------->| |                 |
-|                 | | 7. Response     |                 |
-| |    (with Proof) |                 |                 |
-|<----------------|                 |                 | |
-|                 |                 |
++--------+        +--------+        +--------+        +--------+
+| Agent  |        |  PEP   |        | Trust  |        | Flight |
+|        |        |        |        | Oracle |        |Recorder|
++---+----+        +---+----+        +---+----+        +---+----+
+    |                 |                 |                 |
+    | 1. Request      |                 |                 |
+    |---------------->|                 |                 |
+    |                 | 2. Get/Validate |                 |
+    |                 |    Trust Proof  |                 |
+    |                 |---------------->|                 |
+    |                 |                 | 3. Calculate    |
+    |                 |                 |    E_base, R,   |
+    |                 |                 |    E_trust      |
+    |                 |                 |                 |
+    |                 | 4. Trust Proof  |                 |
+    |                 |<----------------|                 |
+    |                 |                 |                 |
+    |                 | 5. Evaluate     |                 |
+    |                 |    A <= E_trust |                 |
+    |                 |                 |                 |
+    |                 | 6. Log Decision |                 |
+    |                 |---------------------------------->|
+    |                 |                 |                 |
+    | 7. Response     |                 |                 |
+    |    (with Proof) |                 |                 |
+    |<----------------|                 |                 |
+    |                 |                 |                 |
 ~~~
 
 Figure 2: KTP Authorization Flow
@@ -1021,14 +1026,16 @@ Values below s_min SHOULD be clamped to 0. Values above s_max SHOULD be clamped 
 Example normalization thresholds:
 
 ~~~
-+------------+------------+------------+------------+ | Dimension  |
-Sensor     | s_min      | s_max      |
-+------------+------------+------------+------------+ | Mass       |
-CO2 (ppm)  | 400        | 2000       | | Momentum   | Link %     | 0
-| 100        | | Heat       | WAF blocks | 0          | 10000/min  |
-| Time       | Hours out  | 72         | 0          | | Inertia    |
-Dep count  | 0          | 500        | | Observer   | VIP count  | 0
-| 50         | | Soul       | N/A        | Binary (0 or 1)         |
++------------+------------+------------+------------+
+| Dimension  | Sensor     | s_min      | s_max      |
++------------+------------+------------+------------+
+| Mass       | CO2 (ppm)  | 400        | 2000       |
+| Momentum   | Link %     | 0          | 100        |
+| Heat       | WAF blocks | 0          | 10000/min  |
+| Time       | Hours out  | 72         | 0          |
+| Inertia    | Dep count  | 0          | 500        |
+| Observer   | VIP count  | 0          | 50         |
+| Soul       | N/A        | Binary (0 or 1)         |
 +------------+------------+------------+------------+
 ~~~
 
@@ -1199,12 +1206,16 @@ The aggregation MUST be performed at the Trust Oracle.
 Sensor values SHOULD be refreshed at intervals appropriate to their rate of change:
 
 ~~~
-+------------+------------------------+ | Dimension  | Recommended
-Interval   | +------------+------------------------+ | Mass       |
-30-60 seconds          | | Momentum   | 1-5 seconds            | |
-Heat       | 1-5 seconds            | | Time       | 60 seconds
-| | Inertia    | 300 seconds            | | Observer   | 30 seconds
-| | Soul       | On-demand (per action) |
++------------+------------------------+
+| Dimension  | Recommended Interval   |
++------------+------------------------+
+| Mass       | 30-60 seconds          |
+| Momentum   | 1-5 seconds            |
+| Heat       | 1-5 seconds            |
+| Time       | 60 seconds             |
+| Inertia    | 300 seconds            |
+| Observer   | 30 seconds             |
+| Soul       | On-demand (per action) |
 +------------+------------------------+
 ~~~
 
@@ -1403,20 +1414,20 @@ The Silent Veto is the automatic denial of an action when A > E_trust. It is "si
 Each action type MUST be assigned an intrinsic risk score (A). The following table provides baseline classifications:
 
 ~~~
-+----------------------+-----+--------------------------------+ |
-Action Class         | A   | Description                    |
-+----------------------+-----+--------------------------------+ |
-Read (public)        | 10  | Read publicly accessible data  | | Read
-(internal)      | 20  | Read internal/private data     | | Read
-(sensitive)     | 30  | Read PII, credentials, keys    | | Write
-(append)       | 40  | Add new data, no modification  | | Write
-(modify)       | 50  | Modify existing data           | | Execute
-(safe)       | 60  | Run pre-approved operations    | | Execute
-(unsafe)     | 75  | Run arbitrary code             | | Delete
-(recoverable) | 80  | Delete with backup/undo        | | Delete
-(permanent)   | 85  | Delete without recovery        | | Admin
-(config)       | 90  | Change system configuration    | | Admin
-(infra)        | 95  | Modify infrastructure          |
++----------------------+-----+--------------------------------+
+| Action Class         | A   | Description                    |
++----------------------+-----+--------------------------------+
+| Read (public)        | 10  | Read publicly accessible data  |
+| Read (internal)      | 20  | Read internal/private data     |
+| Read (sensitive)     | 30  | Read PII, credentials, keys    |
+| Write (append)       | 40  | Add new data, no modification  |
+| Write (modify)       | 50  | Modify existing data           |
+| Execute (safe)       | 60  | Run pre-approved operations    |
+| Execute (unsafe)     | 75  | Run arbitrary code             |
+| Delete (recoverable) | 80  | Delete with backup/undo        |
+| Delete (permanent)   | 85  | Delete without recovery        |
+| Admin (config)       | 90  | Change system configuration    |
+| Admin (infra)        | 95  | Modify infrastructure          |
 +----------------------+-----+--------------------------------+
 ~~~
 

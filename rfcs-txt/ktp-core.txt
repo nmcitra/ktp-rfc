@@ -400,32 +400,32 @@ Internet-Draft                  KTP-CORE                     August 2026
    |  |  Oracle 1  |<-->|  Oracle 2  |<-->|  Oracle 3  |  (threshold) |
    |  +------------+    +------------+    +------------+              |
    +------------------------------------------------------------------+
-   |                    |                    | v                    v
-   v
+            |                    |                    |
+            v                    v                    v
    +------------------------------------------------------------------+
    |                      CONTEXT TENSOR SENSORS                      |
-   |  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]      |
+   |  [Mass]  [Velocity]  [Heat]  [Time]  [Inertia]  [Observer]       |
    +------------------------------------------------------------------+
-   |                    |                    | v                    v
-   v
+            |                    |                    |
+            v                    v                    v
    +------------------------------------------------------------------+
    |                   POLICY ENFORCEMENT POINTS                      |
-   |  +----------+  +----------+  +----------+  +----------+         | |
-   | API GW   |  | Service  |  |   IAM    |  |    DB    |         | |  |
-   |  |   Mesh   |  |          |  |   Proxy  |         | |  +----------+
-   +----------+  +----------+  +----------+         |
+   |  +----------+  +----------+  +----------+  +----------+          |
+   |  | API GW   |  | Service  |  |   IAM    |  |    DB    |          |
+   |  |          |  |   Mesh   |  |          |  |   Proxy  |          |
+   |  +----------+  +----------+  +----------+  +----------+          |
    +------------------------------------------------------------------+
-   |                    |                    | v                    v
-   v
+            |                    |                    |
+            v                    v                    v
    +------------------------------------------------------------------+
    |                       AGENT POPULATION                           |
-   |  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]   |
+   |  [Sponsored Agents]  [Independent Agents]  [Guarantor Lineages]  |
    +------------------------------------------------------------------+
-   |                    |                    | v                    v
-   v
+            |                    |                    |
+            v                    v                    v
    +------------------------------------------------------------------+
    |                    FLIGHT RECORDER (IMMUTABLE)                   |
-   |  [Decision Geometry]  [Attestations]  [Trajectory Chains]       |
+   |  [Decision Geometry]  [Attestations]  [Trajectory Chains]        |
    +------------------------------------------------------------------+
 
    Figure 1: KTP Architecture
@@ -506,28 +506,33 @@ Perkins                 Expires 14 February 2027                [Page 9]
 Internet-Draft                  KTP-CORE                     August 2026
 
 
-   +--------+        +--------+        +--------+        +--------+ |
-   Agent  |        |  PEP   |        | Trust  |        | Flight | |
-   |        |        |        | Oracle |        |Recorder| +---+----+
-   +---+----+        +---+----+        +---+----+ |                 |
-   |                 | | 1. Request      |                 |
-   | |---------------->|                 |                 | |
-   | 2. Get/Validate |                 | |                 |    Trust
-   Proof  |                 | |                 |---------------->|
-   | |                 |                 | 3. Calculate    | |
-   |                 |    E_base, R,   | |                 |
-   |    E_trust      | |                 |                 |
-   | |                 | 4. Trust Proof  |                 | |
-   |<----------------|                 | |                 |
-   |                 | |                 | 5. Evaluate     |
-   | |                 |    A <= E_trust |                 | |
-   |                 |                 | |                 | 6. Log
-   Decision |                 | |
-   |---------------------------------->| |                 |
-   |                 | | 7. Response     |                 |
-   | |    (with Proof) |                 |                 |
-   |<----------------|                 |                 | |
-   |                 |                 |
+   +--------+        +--------+        +--------+        +--------+
+   | Agent  |        |  PEP   |        | Trust  |        | Flight |
+   |        |        |        |        | Oracle |        |Recorder|
+   +---+----+        +---+----+        +---+----+        +---+----+
+       |                 |                 |                 |
+       | 1. Request      |                 |                 |
+       |---------------->|                 |                 |
+       |                 | 2. Get/Validate |                 |
+       |                 |    Trust Proof  |                 |
+       |                 |---------------->|                 |
+       |                 |                 | 3. Calculate    |
+       |                 |                 |    E_base, R,   |
+       |                 |                 |    E_trust      |
+       |                 |                 |                 |
+       |                 | 4. Trust Proof  |                 |
+       |                 |<----------------|                 |
+       |                 |                 |                 |
+       |                 | 5. Evaluate     |                 |
+       |                 |    A <= E_trust |                 |
+       |                 |                 |                 |
+       |                 | 6. Log Decision |                 |
+       |                 |---------------------------------->|
+       |                 |                 |                 |
+       | 7. Response     |                 |                 |
+       |    (with Proof) |                 |                 |
+       |<----------------|                 |                 |
+       |                 |                 |                 |
 
    Figure 2: KTP Authorization Flow
 
@@ -549,11 +554,6 @@ Internet-Draft                  KTP-CORE                     August 2026
       E (Environment): The current Effective Trust Score (E_trust),
       also expressed as a value from 0 to 100. This value is calculated
       in real-time based on agent history and environmental conditions.
-
-
-
-
-
 
 
 
@@ -1738,14 +1738,16 @@ Perkins                 Expires 14 February 2027               [Page 31]
 Internet-Draft                  KTP-CORE                     August 2026
 
 
-   +------------+------------+------------+------------+ | Dimension  |
-   Sensor     | s_min      | s_max      |
-   +------------+------------+------------+------------+ | Mass       |
-   CO2 (ppm)  | 400        | 2000       | | Momentum   | Link %     | 0
-   | 100        | | Heat       | WAF blocks | 0          | 10000/min  |
-   | Time       | Hours out  | 72         | 0          | | Inertia    |
-   Dep count  | 0          | 500        | | Observer   | VIP count  | 0
-   | 50         | | Soul       | N/A        | Binary (0 or 1)         |
+   +------------+------------+------------+------------+
+   | Dimension  | Sensor     | s_min      | s_max      |
+   +------------+------------+------------+------------+
+   | Mass       | CO2 (ppm)  | 400        | 2000       |
+   | Momentum   | Link %     | 0          | 100        |
+   | Heat       | WAF blocks | 0          | 10000/min  |
+   | Time       | Hours out  | 72         | 0          |
+   | Inertia    | Dep count  | 0          | 500        |
+   | Observer   | VIP count  | 0          | 50         |
+   | Soul       | N/A        | Binary (0 or 1)         |
    +------------+------------+------------+------------+
 
    Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress)
@@ -1784,8 +1786,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Implementations MUST allow configuration of domain weights.
    Implementations SHOULD provide pre-defined profiles for common
    domains.
-
-
 
 
 
@@ -1967,12 +1967,16 @@ Internet-Draft                  KTP-CORE                     August 2026
    Sensor values SHOULD be refreshed at intervals appropriate to their
    rate of change:
 
-   +------------+------------------------+ | Dimension  | Recommended
-   Interval   | +------------+------------------------+ | Mass       |
-   30-60 seconds          | | Momentum   | 1-5 seconds            | |
-   Heat       | 1-5 seconds            | | Time       | 60 seconds
-   | | Inertia    | 300 seconds            | | Observer   | 30 seconds
-   | | Soul       | On-demand (per action) |
+   +------------+------------------------+
+   | Dimension  | Recommended Interval   |
+   +------------+------------------------+
+   | Mass       | 30-60 seconds          |
+   | Momentum   | 1-5 seconds            |
+   | Heat       | 1-5 seconds            |
+   | Time       | 60 seconds             |
+   | Inertia    | 300 seconds            |
+   | Observer   | 30 seconds             |
+   | Soul       | On-demand (per action) |
    +------------+------------------------+
 
    Soul is evaluated on-demand because sovereignty constraints may be
@@ -2003,11 +2007,7 @@ Internet-Draft                  KTP-CORE                     August 2026
    shape - its outcomes are veto and no veto - so an undefined
    sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
 
-   Silence and absence do not separate.  A channel that returns nothing
-   and a channel that was never reachable are indistinguishable to the
-   decision, and an adversary who can produce one can produce the other.
-   An implementation MUST NOT resolve an unanswered input differently
-   from an absent one.
+
 
 
 
@@ -2017,6 +2017,12 @@ Perkins                 Expires 14 February 2027               [Page 36]
 
 Internet-Draft                  KTP-CORE                     August 2026
 
+
+   Silence and absence do not separate.  A channel that returns nothing
+   and a channel that was never reachable are indistinguishable to the
+   decision, and an adversary who can produce one can produce the other.
+   An implementation MUST NOT resolve an unanswered input differently
+   from an absent one.
 
 7.  Trust Proof Token
 
@@ -2061,18 +2067,14 @@ Internet-Draft                  KTP-CORE                     August 2026
       exp (Expiration): Unix timestamp of Trust Proof expiration
       jti (JWT ID): Unique identifier for this Trust Proof
 
-   KTP claims (in "ktp" object):
-
-
-
-
-
 
 
 Perkins                 Expires 14 February 2027               [Page 37]
 
 Internet-Draft                  KTP-CORE                     August 2026
 
+
+   KTP claims (in "ktp" object):
 
       e_base: Base Trust score (0-100)
       e_trust: Effective Trust score (0-100)
@@ -2101,8 +2103,6 @@ Internet-Draft                  KTP-CORE                     August 2026
       resilience_hash: Hash of current Proof of Resilience ledger
 
    Example Trust Proof payload (no sovereignty constraint):
-
-
 
 
 
@@ -2271,20 +2271,20 @@ Internet-Draft                  KTP-CORE                     August 2026
    Each action type MUST be assigned an intrinsic risk score (A).  The
    following table provides baseline classifications:
 
-   +----------------------+-----+--------------------------------+ |
-   Action Class         | A   | Description                    |
-   +----------------------+-----+--------------------------------+ |
-   Read (public)        | 10  | Read publicly accessible data  | | Read
-   (internal)      | 20  | Read internal/private data     | | Read
-   (sensitive)     | 30  | Read PII, credentials, keys    | | Write
-   (append)       | 40  | Add new data, no modification  | | Write
-   (modify)       | 50  | Modify existing data           | | Execute
-   (safe)       | 60  | Run pre-approved operations    | | Execute
-   (unsafe)     | 75  | Run arbitrary code             | | Delete
-   (recoverable) | 80  | Delete with backup/undo        | | Delete
-   (permanent)   | 85  | Delete without recovery        | | Admin
-   (config)       | 90  | Change system configuration    | | Admin
-   (infra)        | 95  | Modify infrastructure          |
+   +----------------------+-----+--------------------------------+
+   | Action Class         | A   | Description                    |
+   +----------------------+-----+--------------------------------+
+   | Read (public)        | 10  | Read publicly accessible data  |
+   | Read (internal)      | 20  | Read internal/private data     |
+   | Read (sensitive)     | 30  | Read PII, credentials, keys    |
+   | Write (append)       | 40  | Add new data, no modification  |
+   | Write (modify)       | 50  | Modify existing data           |
+   | Execute (safe)       | 60  | Run pre-approved operations    |
+   | Execute (unsafe)     | 75  | Run arbitrary code             |
+   | Delete (recoverable) | 80  | Delete with backup/undo        |
+   | Delete (permanent)   | 85  | Delete without recovery        |
+   | Admin (config)       | 90  | Change system configuration    |
+   | Admin (infra)        | 95  | Modify infrastructure          |
    +----------------------+-----+--------------------------------+
 
    Implementations MAY define additional action classes.

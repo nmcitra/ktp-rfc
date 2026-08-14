@@ -119,18 +119,18 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 ## Components
 
 ~~~
-+-------------------------------------------------------------------+
-| Component          | Function               | Trust Level         |
-+-------------------------------------------------------------------+
-| Trust Oracle       | Calculate Trust Scores | Highest             |
-| Policy Enforcement | Enforce A ≤ E          | High                |
-|   Point (PEP)      |                        |                     |
-| Flight Recorder    | Immutable audit log    | High                |
-| Sensor Aggregator  | Collect sensor data    | Medium              |
-| Sensors            | Measure environment    | Medium              |
-| Agents             | Request actions        | Variable (E_trust)  |
-| Federation Gateway | Inter-zone trust       | High                |
-+-------------------------------------------------------------------+
++--------------------+------------------------+--------------------+
+| Component          | Function               | Trust Level        |
++--------------------+------------------------+--------------------+
+| Trust Oracle       | Calculate Trust Scores | Highest            |
+| Policy Enforcement | Enforce A ≤ E          | High               |
+| Point (PEP)        |                        |                    |
+| Flight Recorder    | Immutable audit log    | High               |
+| Sensor Aggregator  | Collect sensor data    | Medium             |
+| Sensors            | Measure environment    | Medium             |
+| Agents             | Request actions        | Variable (E_trust) |
+| Federation Gateway | Inter-zone trust       | High               |
++--------------------+------------------------+--------------------+
 ~~~
 
 ## Data Flows
@@ -162,17 +162,26 @@ Trust boundaries exist at:
 Diagram:
 
 ~~~
-+------------------Zone Alpha------------------+ |
-| |  +--------+      +--------+      +--------+  | |  | Oracle
-|<---->| Oracle |<---->| Oracle |  | |  +--------+      +--------+
-+--------+  | |       ^              ^              ^        | |
-|              |              |        | |  +--------+     +--------+
-+--------+    | |  |  PEP   |     |Sensors |     |Flight  |    | |
-+--------+     +--------+     |Recorder|    | |       ^
-+--------+    | |       |                                      | |
-+--------+                                  | |  | Agents |
-| |  +--------+                                  | |
-| +----------------------------------------------+ | | Federation v
++------------------Zone Alpha------------------+
+|                                              |
+|  +--------+      +--------+      +--------+  |
+|  | Oracle |<---->| Oracle |<---->| Oracle |  |
+|  +--------+      +--------+      +--------+  |
+|       ^              ^              ^        |
+|       |              |              |        |
+|  +--------+     +--------+     +--------+    |
+|  |  PEP   |     |Sensors |     |Flight  |    |
+|  +--------+     +--------+     |Recorder|    |
+|       ^                        +--------+    |
+|       |                                      |
+|  +--------+                                  |
+|  | Agents |                                  |
+|  +--------+                                  |
+|                                              |
++----------------------------------------------+
+                       |
+                       | Federation
+                       v
 +------------------Zone Beta-------------------+
 ~~~
 
@@ -752,15 +761,15 @@ TM-TO-005: Oracle Time Manipulation Threat: Manipulate Oracle's time source Atta
 
 ~~~
 Summary:
-+-------------------------------------------------------------------+
-| Threat       | Impact   | Likelihood | Risk     | Mitigation      |
-+-------------------------------------------------------------------+
-| TM-TO-001    | CRITICAL | LOW        | MEDIUM   | HSM, threshold  |
-| TM-TO-002    | HIGH     | LOW        | LOW      | Distribution    |
-| TM-TO-003    | HIGH     | MEDIUM     | MEDIUM   | Signing, audit  |
-| TM-TO-004    | HIGH     | LOW        | LOW      | Validation      |
-| TM-TO-005    | MEDIUM   | MEDIUM     | MEDIUM   | Multiple sources|
-+-------------------------------------------------------------------+
++-----------+----------+------------+--------+------------------+
+| Threat    | Impact   | Likelihood | Risk   | Mitigation       |
++-----------+----------+------------+--------+------------------+
+| TM-TO-001 | CRITICAL | LOW        | MEDIUM | HSM, threshold   |
+| TM-TO-002 | HIGH     | LOW        | LOW    | Distribution     |
+| TM-TO-003 | HIGH     | MEDIUM     | MEDIUM | Signing, audit   |
+| TM-TO-004 | HIGH     | LOW        | LOW    | Validation       |
+| TM-TO-005 | MEDIUM   | MEDIUM     | MEDIUM | Multiple sources |
++-----------+----------+------------+--------+------------------+
 ~~~
 
 ## PEP Threats
@@ -777,14 +786,14 @@ TM-PEP-004: PEP Decision Override Threat: Override PEP decision externally Attac
 
 ~~~
 Summary:
-+-------------------------------------------------------------------+
-| Threat       | Impact   | Likelihood | Risk     | Mitigation      |
-+-------------------------------------------------------------------+
-| TM-PEP-001   | HIGH     | MEDIUM     | MEDIUM   | Segmentation    |
-| TM-PEP-002   | HIGH     | MEDIUM     | MEDIUM   | Defense in depth|
-| TM-PEP-003   | MEDIUM   | MEDIUM     | MEDIUM   | Short TTL, push |
-| TM-PEP-004   | HIGH     | LOW        | LOW      | No override     |
-+-------------------------------------------------------------------+
++------------+--------+------------+--------+------------------+
+| Threat     | Impact | Likelihood | Risk   | Mitigation       |
++------------+--------+------------+--------+------------------+
+| TM-PEP-001 | HIGH   | MEDIUM     | MEDIUM | Segmentation     |
+| TM-PEP-002 | HIGH   | MEDIUM     | MEDIUM | Defense in depth |
+| TM-PEP-003 | MEDIUM | MEDIUM     | MEDIUM | Short TTL, push  |
+| TM-PEP-004 | HIGH   | LOW        | LOW    | No override      |
++------------+--------+------------+--------+------------------+
 ~~~
 
 ## Sensor Threats
@@ -799,14 +808,14 @@ TM-SEN-004: Sensor Denial Threat: Disable sensors to blind system Attack: Networ
 
 ~~~
 Summary:
-+-------------------------------------------------------------------+
-| Threat       | Impact   | Likelihood | Risk     | Mitigation      |
-+-------------------------------------------------------------------+
-| TM-SEN-001   | MEDIUM   | MEDIUM     | MEDIUM   | Auth, diversity |
-| TM-SEN-002   | MEDIUM   | MEDIUM     | MEDIUM   | Rate limiting   |
-| TM-SEN-003   | HIGH     | MEDIUM     | MEDIUM   | Drift detection |
-| TM-SEN-004   | MEDIUM   | MEDIUM     | MEDIUM   | Redundancy      |
-+-------------------------------------------------------------------+
++------------+--------+------------+--------+-----------------+
+| Threat     | Impact | Likelihood | Risk   | Mitigation      |
++------------+--------+------------+--------+-----------------+
+| TM-SEN-001 | MEDIUM | MEDIUM     | MEDIUM | Auth, diversity |
+| TM-SEN-002 | MEDIUM | MEDIUM     | MEDIUM | Rate limiting   |
+| TM-SEN-003 | HIGH   | MEDIUM     | MEDIUM | Drift detection |
+| TM-SEN-004 | MEDIUM | MEDIUM     | MEDIUM | Redundancy      |
++------------+--------+------------+--------+-----------------+
 ~~~
 
 ## Flight Recorder Threats
@@ -821,14 +830,14 @@ TM-FR-004: Chain Gap Threat: Create gap in audit chain Attack: DoS during critic
 
 ~~~
 Summary:
-+-------------------------------------------------------------------+
-| Threat       | Impact   | Likelihood | Risk     | Mitigation      |
-+-------------------------------------------------------------------+
-| TM-FR-001    | HIGH     | MEDIUM     | MEDIUM   | Append-only     |
-| TM-FR-002    | HIGH     | LOW        | LOW      | Chaining        |
-| TM-FR-003    | MEDIUM   | MEDIUM     | MEDIUM   | Access control  |
-| TM-FR-004    | MEDIUM   | MEDIUM     | MEDIUM   | Buffering       |
-+-------------------------------------------------------------------+
++-----------+--------+------------+--------+----------------+
+| Threat    | Impact | Likelihood | Risk   | Mitigation     |
++-----------+--------+------------+--------+----------------+
+| TM-FR-001 | HIGH   | MEDIUM     | MEDIUM | Append-only    |
+| TM-FR-002 | HIGH   | LOW        | LOW    | Chaining       |
+| TM-FR-003 | MEDIUM | MEDIUM     | MEDIUM | Access control |
+| TM-FR-004 | MEDIUM | MEDIUM     | MEDIUM | Buffering      |
++-----------+--------+------------+--------+----------------+
 ~~~
 
 ## Federation Threats
@@ -843,14 +852,14 @@ TM-FED-004: Cross-Zone Attack Escalation Threat: Use federation to attack multip
 
 ~~~
 Summary:
-+-------------------------------------------------------------------+
-| Threat       | Impact   | Likelihood | Risk     | Mitigation      |
-+-------------------------------------------------------------------+
-| TM-FED-001   | HIGH     | LOW        | LOW      | Verification    |
-| TM-FED-002   | MEDIUM   | MEDIUM     | MEDIUM   | Limits, audit   |
-| TM-FED-003   | MEDIUM   | MEDIUM     | MEDIUM   | Redundancy      |
-| TM-FED-004   | HIGH     | LOW        | LOW      | Trust Factor    |
-+-------------------------------------------------------------------+
++------------+--------+------------+--------+---------------+
+| Threat     | Impact | Likelihood | Risk   | Mitigation    |
++------------+--------+------------+--------+---------------+
+| TM-FED-001 | HIGH   | LOW        | LOW    | Verification  |
+| TM-FED-002 | MEDIUM | MEDIUM     | MEDIUM | Limits, audit |
+| TM-FED-003 | MEDIUM | MEDIUM     | MEDIUM | Redundancy    |
+| TM-FED-004 | HIGH   | LOW        | LOW    | Trust Factor  |
++------------+--------+------------+--------+---------------+
 ~~~
 
 # Attack Trees
@@ -898,34 +907,34 @@ Likelihood scale: - HIGH: Likely to occur annually - MEDIUM: May occur over syst
 Risk = Impact × Likelihood
 
 ~~~
-+-------------------------------------------------------------------+
-|                    |        Impact                                |
-| Likelihood         | CRITICAL | HIGH   | MEDIUM | LOW            |
-+-------------------------------------------------------------------+
-| HIGH               | CRITICAL | HIGH   | MEDIUM | LOW            |
-| MEDIUM             | HIGH     | MEDIUM | MEDIUM | LOW            |
-| LOW                | MEDIUM   | MEDIUM | LOW    | LOW            |
-| VERY LOW           | MEDIUM   | LOW    | LOW    | VERY LOW       |
-+-------------------------------------------------------------------+
++--------------------+----------+--------+--------+----------+
+|                    |                 Impact                |
+| Likelihood         | CRITICAL | HIGH   | MEDIUM | LOW      |
++--------------------+----------+--------+--------+----------+
+| HIGH               | CRITICAL | HIGH   | MEDIUM | LOW      |
+| MEDIUM             | HIGH     | MEDIUM | MEDIUM | LOW      |
+| LOW                | MEDIUM   | MEDIUM | LOW    | LOW      |
+| VERY LOW           | MEDIUM   | LOW    | LOW    | VERY LOW |
++--------------------+----------+--------+--------+----------+
 ~~~
 
 Top risks by residual risk (after mitigation):
 
 ~~~
-+-------------------------------------------------------------------+
-| Threat             | Impact   | Likelihood | Residual Risk        |
-+-------------------------------------------------------------------+
-| TM-E-001 Score     | HIGH     | MEDIUM     | MEDIUM               |
-|   manipulation     |          |            |                      |
-| TM-SEN-003 Baseline| HIGH     | MEDIUM     | MEDIUM               |
-|   poisoning        |          |            |                      |
-| TM-TO-003 Config   | HIGH     | MEDIUM     | MEDIUM               |
-|   attack           |          |            |                      |
-| TM-E-003 Admin     | HIGH     | MEDIUM     | MEDIUM               |
-|   abuse            |          |            |                      |
-| TM-PEP-001 Bypass  | HIGH     | MEDIUM     | MEDIUM               |
-| TM-D-001 Oracle DoS| HIGH     | MEDIUM     | MEDIUM               |
-+-------------------------------------------------------------------+
++---------------------+--------+------------+---------------+
+| Threat              | Impact | Likelihood | Residual Risk |
++---------------------+--------+------------+---------------+
+| TM-E-001 Score      | HIGH   | MEDIUM     | MEDIUM        |
+| manipulation        |        |            |               |
+| TM-SEN-003 Baseline | HIGH   | MEDIUM     | MEDIUM        |
+| poisoning           |        |            |               |
+| TM-TO-003 Config    | HIGH   | MEDIUM     | MEDIUM        |
+| attack              |        |            |               |
+| TM-E-003 Admin      | HIGH   | MEDIUM     | MEDIUM        |
+| abuse               |        |            |               |
+| TM-PEP-001 Bypass   | HIGH   | MEDIUM     | MEDIUM        |
+| TM-D-001 Oracle DoS | HIGH   | MEDIUM     | MEDIUM        |
++---------------------+--------+------------+---------------+
 ~~~
 
 ## Residual Risks
@@ -1045,73 +1054,73 @@ Complete listing of all identified threats:
 
 ~~~
 Spoofing Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-S-001  | Agent Identity Spoofing | LOW    | §5.1.1             |
-| TM-S-002  | Oracle Impersonation    | LOW    | §5.1.2             |
-| TM-S-003  | Sensor Spoofing         | MEDIUM | §5.1.3             |
-| TM-S-004  | Federation Zone Spoofing| LOW    | §5.1.4             |
-+-------------------------------------------------------------------+
++----------+--------------------------+--------+-----------+
+| ID       | Name                     | Risk   | Reference |
++----------+--------------------------+--------+-----------+
+| TM-S-001 | Agent Identity Spoofing  | LOW    | §5.1.1    |
+| TM-S-002 | Oracle Impersonation     | LOW    | §5.1.2    |
+| TM-S-003 | Sensor Spoofing          | MEDIUM | §5.1.3    |
+| TM-S-004 | Federation Zone Spoofing | LOW    | §5.1.4    |
++----------+--------------------------+--------+-----------+
 ~~~
 
 ~~~
 Tampering Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-T-001  | Trust Proof Tampering   | V.LOW  | §5.2.1             |
-| TM-T-002  | Trajectory Tampering    | LOW    | §5.2.2             |
-| TM-T-003  | Flight Recorder Tamper  | MEDIUM | §5.2.3             |
-| TM-T-004  | Configuration Tampering | MEDIUM | §5.2.4             |
-+-------------------------------------------------------------------+
++----------+-------------------------+--------+-----------+
+| ID       | Name                    | Risk   | Reference |
++----------+-------------------------+--------+-----------+
+| TM-T-001 | Trust Proof Tampering   | V.LOW  | §5.2.1    |
+| TM-T-002 | Trajectory Tampering    | LOW    | §5.2.2    |
+| TM-T-003 | Flight Recorder Tamper  | MEDIUM | §5.2.3    |
+| TM-T-004 | Configuration Tampering | MEDIUM | §5.2.4    |
++----------+-------------------------+--------+-----------+
 ~~~
 
 ~~~
 Repudiation Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-R-001  | Action Repudiation      | LOW    | §5.3.1             |
-| TM-R-002  | Oracle Decision Repud.  | V.LOW  | §5.3.2             |
-| TM-R-003  | Sponsorship Repudiation | LOW    | §5.3.3             |
-+-------------------------------------------------------------------+
++----------+-------------------------+-------+-----------+
+| ID       | Name                    | Risk  | Reference |
++----------+-------------------------+-------+-----------+
+| TM-R-001 | Action Repudiation      | LOW   | §5.3.1    |
+| TM-R-002 | Oracle Decision Repud.  | V.LOW | §5.3.2    |
+| TM-R-003 | Sponsorship Repudiation | LOW   | §5.3.3    |
++----------+-------------------------+-------+-----------+
 ~~~
 
 ~~~
 Information Disclosure Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-I-001  | Trust Score Disclosure  | MEDIUM | §5.4.1             |
-| TM-I-002  | Trajectory Disclosure   | MEDIUM | §5.4.2             |
-| TM-I-003  | Sensor Data Disclosure  | LOW    | §5.4.3             |
-| TM-I-004  | Key Disclosure          | LOW    | §5.4.4             |
-+-------------------------------------------------------------------+
++----------+------------------------+--------+-----------+
+| ID       | Name                   | Risk   | Reference |
++----------+------------------------+--------+-----------+
+| TM-I-001 | Trust Score Disclosure | MEDIUM | §5.4.1    |
+| TM-I-002 | Trajectory Disclosure  | MEDIUM | §5.4.2    |
+| TM-I-003 | Sensor Data Disclosure | LOW    | §5.4.3    |
+| TM-I-004 | Key Disclosure         | LOW    | §5.4.4    |
++----------+------------------------+--------+-----------+
 ~~~
 
 ~~~
 Denial of Service Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-D-001  | Trust Oracle DoS        | MEDIUM | §5.5.1             |
-| TM-D-002  | Sensor Flooding         | MEDIUM | §5.5.2             |
-| TM-D-003  | Flight Recorder DoS     | MEDIUM | §5.5.3             |
-| TM-D-004  | Federation DoS          | LOW    | §5.5.4             |
-+-------------------------------------------------------------------+
++----------+---------------------+--------+-----------+
+| ID       | Name                | Risk   | Reference |
++----------+---------------------+--------+-----------+
+| TM-D-001 | Trust Oracle DoS    | MEDIUM | §5.5.1    |
+| TM-D-002 | Sensor Flooding     | MEDIUM | §5.5.2    |
+| TM-D-003 | Flight Recorder DoS | MEDIUM | §5.5.3    |
+| TM-D-004 | Federation DoS      | LOW    | §5.5.4    |
++----------+---------------------+--------+-----------+
 ~~~
 
 ~~~
 Elevation of Privilege Threats:
-+-------------------------------------------------------------------+
-| ID        | Name                    | Risk   | Reference          |
-+-------------------------------------------------------------------+
-| TM-E-001  | Trust Score Manipulation| MEDIUM | §5.6.1             |
-| TM-E-002  | Tier Boundary Bypass    | LOW    | §5.6.2             |
-| TM-E-003  | Admin Privilege Abuse   | MEDIUM | §5.6.3             |
-| TM-E-004  | Soul Constraint Bypass  | LOW    | §5.6.4             |
-+-------------------------------------------------------------------+
++----------+--------------------------+--------+-----------+
+| ID       | Name                     | Risk   | Reference |
++----------+--------------------------+--------+-----------+
+| TM-E-001 | Trust Score Manipulation | MEDIUM | §5.6.1    |
+| TM-E-002 | Tier Boundary Bypass     | LOW    | §5.6.2    |
+| TM-E-003 | Admin Privilege Abuse    | MEDIUM | §5.6.3    |
+| TM-E-004 | Soul Constraint Bypass   | LOW    | §5.6.4    |
++----------+--------------------------+--------+-----------+
 ~~~
 
 # Mitigation Mapping
@@ -1119,30 +1128,30 @@ Elevation of Privilege Threats:
 Mapping of mitigations to KTP specifications:
 
 ~~~
-+-------------------------------------------------------------------+
-| Mitigation              | Specification     | Section            |
-+-------------------------------------------------------------------+
-| Threshold signatures    | KTP-CRYPTO        | §4.3               |
-| HSM key storage         | KTP-CRYPTO        | §9                 |
-| Key rotation            | KTP-CRYPTO        | §8.4               |
-| TLS transport           | KTP-TRANSPORT     | §5                 |
-| Rate limiting           | KTP-TRANSPORT     | §14                |
-| Sensor authentication   | KTP-SENSORS       | §6                 |
-| Outlier detection       | KTP-SENSORS       | §2.3               |
-| Risk domain aggregation | KTP-SENSORS       | §2.3               |
-| Baseline drift detection| KTP-PROBLEMS      | §6                 |
-| Trajectory chaining     | KTP-IDENTITY      | §4                 |
-| Oracle co-signatures    | KTP-IDENTITY      | §4.3               |
-| Identity proofing       | KTP-IDENTITY      | §7                 |
-| Flight Recorder chain   | KTP-AUDIT         | §4                 |
-| Append-only storage     | KTP-AUDIT         | §5                 |
-| External anchoring      | KTP-AUDIT         | §6                 |
-| PEP enforcement         | KTP-ENFORCE       | §4                 |
-| Trust tiers             | KTP-ENFORCE       | §5                 |
-| No override mechanism   | KTP-ENFORCE       | §7                 |
-| Governance recursion    | KTP-HUMAN         | §5.4               |
-| Admin Trust Scores      | KTP-HUMAN         | §3                 |
-| Federation Trust Factor | KTP-FEDERATION    | §5                 |
-| Zone discovery signing  | KTP-FEDERATION    | §4                 |
-+-------------------------------------------------------------------+
++--------------------------+----------------+---------+
+| Mitigation               | Specification  | Section |
++--------------------------+----------------+---------+
+| Threshold signatures     | KTP-CRYPTO     | §4.3    |
+| HSM key storage          | KTP-CRYPTO     | §9      |
+| Key rotation             | KTP-CRYPTO     | §8.4    |
+| TLS transport            | KTP-TRANSPORT  | §5      |
+| Rate limiting            | KTP-TRANSPORT  | §14     |
+| Sensor authentication    | KTP-SENSORS    | §6      |
+| Outlier detection        | KTP-SENSORS    | §2.3    |
+| Risk domain aggregation  | KTP-SENSORS    | §2.3    |
+| Baseline drift detection | KTP-PROBLEMS   | §6      |
+| Trajectory chaining      | KTP-IDENTITY   | §4      |
+| Oracle co-signatures     | KTP-IDENTITY   | §4.3    |
+| Identity proofing        | KTP-IDENTITY   | §7      |
+| Flight Recorder chain    | KTP-AUDIT      | §4      |
+| Append-only storage      | KTP-AUDIT      | §5      |
+| External anchoring       | KTP-AUDIT      | §6      |
+| PEP enforcement          | KTP-ENFORCE    | §4      |
+| Trust tiers              | KTP-ENFORCE    | §5      |
+| No override mechanism    | KTP-ENFORCE    | §7      |
+| Governance recursion     | KTP-HUMAN      | §5.4    |
+| Admin Trust Scores       | KTP-HUMAN      | §3      |
+| Federation Trust Factor  | KTP-FEDERATION | §5      |
+| Zone discovery signing   | KTP-FEDERATION | §4      |
++--------------------------+----------------+---------+
 ~~~

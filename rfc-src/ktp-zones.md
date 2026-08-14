@@ -120,14 +120,14 @@ Zone Gradient: The spectrum of zone types from Deep Blue (maximum) to Wild (none
 Zones exist on a gradient of enforcement intensity:
 
 ~~~
-+------------+----------+----------------------------------------+ |
-Zone Type  | Color    | Enforcement Level                      |
-+------------+----------+----------------------------------------+ |
-Deep Blue  | #000080  | Maximum: full trajectory, high mass    | |
-Blue       | #0000FF  | Full: KTP + sponsorship                | |
-Cyan       | #00FFFF  | Partial: lightweight Trust Proof       | |
-Green      | #00FF00  | Minimal: passthrough validation        | |
-Wild       | None     | None: legacy internet                  |
++------------+----------+----------------------------------------+
+| Zone Type  | Color    | Enforcement Level                      |
++------------+----------+----------------------------------------+
+| Deep Blue  | #000080  | Maximum: full trajectory, high mass    |
+| Blue       | #0000FF  | Full: KTP + sponsorship                |
+| Cyan       | #00FFFF  | Partial: lightweight Trust Proof       |
+| Green      | #00FF00  | Minimal: passthrough validation        |
+| Wild       | None     | None: legacy internet                  |
 +------------+----------+----------------------------------------+
 ~~~
 
@@ -300,34 +300,34 @@ A Blue Zone requires the following components:
 |                          BLUE ZONE                               |
 |                                                                  |
 |  +------------------------------------------------------------+  |
-|  |                   Trust Oracle Mesh                         |  |
+|  |                   Trust Oracle Mesh                        |  |
 |  |     [Oracle 1] <--> [Oracle 2] <--> [Oracle 3]             |  |
-|  |              (threshold signatures)                         |  |
+|  |              (threshold signatures)                        |  |
 |  +------------------------------------------------------------+  |
 |                              |                                   |
 |  +------------------------------------------------------------+  |
-|  |                Context Signal Sensors                       |  |
+|  |                Context Signal Sensors                      |  |
 |  |   [M] [P] [H] [T] [I] [O] [S]                              |  |
 |  +------------------------------------------------------------+  |
 |                              |                                   |
 |  +------------------------------------------------------------+  |
-|  |               Policy Enforcement Points                     |  |
+|  |               Policy Enforcement Points                    |  |
 |  |   [API GW PEP] [Service Mesh PEP] [IAM PEP] [DB PEP]       |  |
 |  +------------------------------------------------------------+  |
 |                              |                                   |
 |  +------------------------------------------------------------+  |
-|  |                  Agent Population                           |  |
-|  |   [Sponsored] [Independent] [Guarantor]                      |  |
+|  |                  Agent Population                          |  |
+|  |   [Sponsored] [Independent] [Guarantor]                    |  |
 |  +------------------------------------------------------------+  |
 |                              |                                   |
 |  +------------------------------------------------------------+  |
-|  |              Flight Recorder (Immutable)                    |  |
+|  |              Flight Recorder (Immutable)                   |  |
 |  +------------------------------------------------------------+  |
 |                                                                  |
 +------------------------------------------------------------------+
-| [ZONE GATEWAY] |
+| [ZONE GATEWAY]                                                   |
 +------------------------------------------------------------------+
-|                     EXTERNAL (Other Zones / Wild)               |
+|                     EXTERNAL (Other Zones / Wild)                |
 +------------------------------------------------------------------+
 ~~~
 
@@ -540,13 +540,13 @@ Linkerd example:
 To enter a zone, an agent must satisfy the zone's ingress requirements:
 
 ~~~
-+-------------+--------------------------------------------------+ |
-Zone Type   | Ingress Requirements                             |
-+-------------+--------------------------------------------------+ |
-Deep Blue   | Trust Proof + E_base >= 70 + trajectory          | |
-Blue        | Trust Proof + E_base >= 50 OR sponsorship        | |
-Cyan        | Trust Proof OR identity + optional sponsorship   | |
-Green       | None (Trust Proof honored if present)            |
++-------------+--------------------------------------------------+
+| Zone Type   | Ingress Requirements                             |
++-------------+--------------------------------------------------+
+| Deep Blue   | Trust Proof + E_base >= 70 + trajectory          |
+| Blue        | Trust Proof + E_base >= 50 OR sponsorship        |
+| Cyan        | Trust Proof OR identity + optional sponsorship   |
+| Green       | None (Trust Proof honored if present)            |
 +-------------+--------------------------------------------------+
 ~~~
 

@@ -522,16 +522,16 @@ Hybrid agents operate in both KTP and legacy contexts:
    +-------------------------------------------------------------------+
    |                        HYBRID AGENT                               |
    |                                                                   |
-   |  +------------------+     +------------------+                    |
+   |  +------------------+     +-------------------+                   |
    |  |  KTP Identity    |     | Legacy Credentials|                   |
    |  |  - Agent ID      |     | - OAuth tokens    |                   |
    |  |  - Trajectory    |     | - SAML assertions |                   |
    |  |  - Trust Proof   |     | - mTLS certs      |                   |
-   |  +------------------+     +------------------+                    |
+   |  +------------------+     +-------------------+                   |
    |           |                       |                               |
    |           v                       v                               |
    |  +-----------------------------------------------+                |
-   |  |           Credential Manager                  |                |
+   |  |            Credential Manager                 |                |
    |  |  - Context detection                          |                |
    |  |  - Credential selection                       |                |
    |  |  - Trust translation                          |                |
@@ -539,8 +539,8 @@ Hybrid agents operate in both KTP and legacy contexts:
    |           |                       |                               |
    |           v                       v                               |
    |  +------------------+     +------------------+                    |
-   |  |   KTP Context    |     |  Legacy Context  |                    |
-   |  |   Operations     |     |  Operations      |                    |
+   |  |   KTP Context    |     | Legacy Context   |                    |
+   |  |   Operations     |     | Operations       |                    |
    |  +------------------+     +------------------+                    |
    |                                                                   |
    +-------------------------------------------------------------------+
@@ -715,7 +715,7 @@ Bridge at API gateway:
                        |   API Gateway |
                        |   + Bridge    |
                        +---------------+
-                             |
+                               |
            +--------+--------+--------+
            |        |        |        |
            v        v        v        v
@@ -733,19 +733,19 @@ Bridge integrated with service mesh:
    |        Service Mesh Control       |
    |        + KTP Bridge Control       |
    +-----------------------------------+
-                    |
-          +---------+---------+
-          |         |         |
-          v         v         v
-      +-------+ +-------+ +-------+
-      | Envoy | | Envoy | | Envoy |
-      |+Bridge| |+Bridge| |+Bridge|
-      +-------+ +-------+ +-------+
-          |         |         |
-          v         v         v
-      +-------+ +-------+ +-------+
-      | Svc A | | Svc B | | Svc C |
-      +-------+ +-------+ +-------+
+                 |
+       +---------+---------+
+       |         |         |
+       v         v         v
+   +-------+ +-------+ +-------+
+   | Envoy | | Envoy | | Envoy |
+   |+Bridge| |+Bridge| |+Bridge|
+   +-------+ +-------+ +-------+
+       |         |         |
+       v         v         v
+   +-------+ +-------+ +-------+
+   | Svc A | | Svc B | | Svc C |
+   +-------+ +-------+ +-------+
 ~~~
 
 # Security Considerations

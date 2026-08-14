@@ -218,65 +218,65 @@ The chain is append-only. Records MUST NOT be modified or deleted once added.
 Each Transaction Record contains:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| record_id          | string    | Unique identifier for this record|
-| chain_id           | string    | Agent's chain identifier         |
-| sequence           | integer   | Position in chain (0 = genesis)  |
-| timestamp          | datetime  | When transaction occurred        |
-| previous_hash      | string    | SHA-256 of previous record       |
-| previous_state     | object    | Agent state before transaction   |
-| current_state      | object    | Agent state after transaction    |
-| action             | object    | What action was performed        |
-| friction           | number    | Environmental R at time of action|
-| velocity           | number    | Agent's transaction rate         |
-| agent_signature    | string    | Agent's signature over record    |
-| oracle_attestation | object    | Trust Oracle's attestation       |
-| record_hash        | string    | SHA-256 of this record           |
-+-------------------------------------------------------------------+
++--------------------+----------+-----------------------------------+
+| Field              | Type     | Description                       |
++--------------------+----------+-----------------------------------+
+| record_id          | string   | Unique identifier for this record |
+| chain_id           | string   | Agent's chain identifier          |
+| sequence           | integer  | Position in chain (0 = genesis)   |
+| timestamp          | datetime | When transaction occurred         |
+| previous_hash      | string   | SHA-256 of previous record        |
+| previous_state     | object   | Agent state before transaction    |
+| current_state      | object   | Agent state after transaction     |
+| action             | object   | What action was performed         |
+| friction           | number   | Environmental R at time of action |
+| velocity           | number   | Agent's transaction rate          |
+| agent_signature    | string   | Agent's signature over record     |
+| oracle_attestation | object   | Trust Oracle's attestation        |
+| record_hash        | string   | SHA-256 of this record            |
++--------------------+----------+-----------------------------------+
 ~~~
 
 The previous_state and current_state objects contain:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| e_base             | number    | Base Trust at state              |
-| e_trust            | number    | Effective Trust at state         |
-| location           | string    | Logical location (zone, service) |
-| tier               | string    | Trust Tier at state              |
-| lineage            | string    | Lineage phase at state           |
-| generation         | integer   | Generation number at state       |
-+-------------------------------------------------------------------+
++------------+---------+----------------------------------+
+| Field      | Type    | Description                      |
++------------+---------+----------------------------------+
+| e_base     | number  | Base Trust at state              |
+| e_trust    | number  | Effective Trust at state         |
+| location   | string  | Logical location (zone, service) |
+| tier       | string  | Trust Tier at state              |
+| lineage    | string  | Lineage phase at state           |
+| generation | integer | Generation number at state       |
++------------+---------+----------------------------------+
 ~~~
 
 The action object contains:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| action_type        | string    | Category of action               |
-| action_risk        | number    | Risk score (A) of action         |
-| target             | string    | What the action targeted         |
-| result             | string    | "success" or "denied"            |
-| details            | object    | Action-specific metadata         |
-+-------------------------------------------------------------------+
++-------------+--------+--------------------------+
+| Field       | Type   | Description              |
++-------------+--------+--------------------------+
+| action_type | string | Category of action       |
+| action_risk | number | Risk score (A) of action |
+| target      | string | What the action targeted |
+| result      | string | "success" or "denied"    |
+| details     | object | Action-specific metadata |
++-------------+--------+--------------------------+
 ~~~
 
 The oracle_attestation object contains:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| oracle_id          | string    | Trust Oracle identifier          |
-| attestation_time   | datetime  | When Oracle attested             |
-| risk_factors       | object    | Environmental state at time      |
-| oracle_signature   | string    | Oracle's signature over record   |
-+-------------------------------------------------------------------+
++------------------+----------+--------------------------------+
+| Field            | Type     | Description                    |
++------------------+----------+--------------------------------+
+| oracle_id        | string   | Trust Oracle identifier        |
+| attestation_time | datetime | When Oracle attested           |
+| risk_factors     | object   | Environmental state at time    |
+| oracle_signature | string   | Oracle's signature over record |
++------------------+----------+--------------------------------+
 ~~~
 
 ## Co-Signature Requirements
@@ -369,19 +369,19 @@ Proof of Resilience is a ledger of attestations demonstrating an agent's success
 Each Proof of Resilience attestation contains:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| attestation_id     | string    | Unique identifier                |
-| agent_id           | string    | Agent being attested             |
-| transaction_ref    | string    | Reference to Transaction Record  |
-| friction           | number    | Environmental R during action    |
-| friction_category  | string    | Category (see Section 5.2)       |
-| action_risk        | number    | Risk score (A) of action         |
-| outcome            | string    | "success" or "graceful_degrade"  |
-| timestamp          | datetime  | When attestation issued          |
-| oracle_signature   | string    | Trust Oracle signature           |
-+-------------------------------------------------------------------+
++-------------------+----------+---------------------------------+
+| Field             | Type     | Description                     |
++-------------------+----------+---------------------------------+
+| attestation_id    | string   | Unique identifier               |
+| agent_id          | string   | Agent being attested            |
+| transaction_ref   | string   | Reference to Transaction Record |
+| friction          | number   | Environmental R during action   |
+| friction_category | string   | Category (see Section 5.2)      |
+| action_risk       | number   | Risk score (A) of action        |
+| outcome           | string   | "success" or "graceful_degrade" |
+| timestamp         | datetime | When attestation issued         |
+| oracle_signature  | string   | Trust Oracle signature          |
++-------------------+----------+---------------------------------+
 ~~~
 
 Attestations are issued by Trust Oracles when:
@@ -399,28 +399,28 @@ Attestations are NOT issued for routine operations under normal conditions. This
 Friction is categorized to enable meaningful comparison across different types of environmental stress:
 
 ~~~
-+-------------------------------------------------------------------+
-| Category           | R Range   | Description                      |
-+-------------------------------------------------------------------+
-| CALM               | 0.0 - 0.3 | Normal operations, no attestation|
-| ELEVATED           | 0.3 - 0.5 | Moderate stress                  |
-| HIGH               | 0.5 - 0.7 | Significant stress               |
-| SEVERE             | 0.7 - 0.9 | Near-crisis conditions           |
-| CRISIS             | 0.9 - 1.0 | Critical conditions              |
-+-------------------------------------------------------------------+
++----------+-----------+-----------------------------------+
+| Category | R Range   | Description                       |
++----------+-----------+-----------------------------------+
+| CALM     | 0.0 - 0.3 | Normal operations, no attestation |
+| ELEVATED | 0.3 - 0.5 | Moderate stress                   |
+| HIGH     | 0.5 - 0.7 | Significant stress                |
+| SEVERE   | 0.7 - 0.9 | Near-crisis conditions            |
+| CRISIS   | 0.9 - 1.0 | Critical conditions               |
++----------+-----------+-----------------------------------+
 ~~~
 
 Weight multipliers for Resilience Score:
 
 ~~~
-+-------------------------------------------------------------------+
-| Category           | Weight    | Rationale                        |
-+-------------------------------------------------------------------+
-| ELEVATED           | 1.0x      | Baseline for counted attestations|
-| HIGH               | 2.0x      | Notable achievement              |
-| SEVERE             | 5.0x      | Significant achievement          |
-| CRISIS             | 10.0x     | Exceptional achievement          |
-+-------------------------------------------------------------------+
++----------+--------+-----------------------------------+
+| Category | Weight | Rationale                         |
++----------+--------+-----------------------------------+
+| ELEVATED | 1.0x   | Baseline for counted attestations |
+| HIGH     | 2.0x   | Notable achievement               |
+| SEVERE   | 5.0x   | Significant achievement           |
+| CRISIS   | 10.0x  | Exceptional achievement           |
++----------+--------+-----------------------------------+
 ~~~
 
 An agent that successfully completes one action during CRISIS conditions earns the same Resilience Score as an agent that completes ten actions during ELEVATED conditions.
@@ -495,23 +495,23 @@ Sponsorship Bonds break this cycle by allowing established agents to "lend" a po
 A Sponsorship Bond contains:
 
 ~~~
-+-------------------------------------------------------------------+
-| Field              | Type      | Description                      |
-+-------------------------------------------------------------------+
-| bond_id            | string    | Unique identifier                |
-| sponsor_id         | string    | Sponsoring agent identifier      |
-| sponsored_id       | string    | New agent identifier             |
-| stake_percentage   | number    | Percentage of sponsor's E_base   |
-| stake_amount       | number    | Absolute E_base staked           |
-| residual_amount    | number    | Ancestral Liability, Section 6.4 |
-| penalty_rate       | number    | Penalty multiplier for violations|
-| duration           | duration  | Capital binding period (Sec 6.4) |
-| created_at         | datetime  | When bond was created            |
-| expires_at         | datetime  | When bond expires                |
-| status             | string    | Bond state, see Section 6.4      |
-| sponsor_signature  | string    | Sponsor's commitment signature   |
-| oracle_witness     | string    | Oracle's witness signature       |
-+-------------------------------------------------------------------+
++-------------------+----------+-----------------------------------+
+| Field             | Type     | Description                       |
++-------------------+----------+-----------------------------------+
+| bond_id           | string   | Unique identifier                 |
+| sponsor_id        | string   | Sponsoring agent identifier       |
+| sponsored_id      | string   | New agent identifier              |
+| stake_percentage  | number   | Percentage of sponsor's E_base    |
+| stake_amount      | number   | Absolute E_base staked            |
+| residual_amount   | number   | Ancestral Liability, Section 6.4  |
+| penalty_rate      | number   | Penalty multiplier for violations |
+| duration          | duration | Capital binding period (Sec 6.4)  |
+| created_at        | datetime | When bond was created             |
+| expires_at        | datetime | When bond expires                 |
+| status            | string   | Bond state, see Section 6.4       |
+| sponsor_signature | string   | Sponsor's commitment signature    |
+| oracle_witness    | string   | Oracle's witness signature        |
++-------------------+----------+-----------------------------------+
 ~~~
 
 The stake_amount is calculated from the sponsor's current E_base:
@@ -560,14 +560,14 @@ The penalty is deducted from the sponsor's E_base, potentially dropping them to 
 Violation severities:
 
 ~~~
-+-------------------------------------------------------------------+
-| Severity           | Multiplier | Example                         |
-+-------------------------------------------------------------------+
-| MINOR              | 0.1        | Excessive failed attempts       |
-| MODERATE           | 0.3        | Unauthorized data access        |
-| SEVERE             | 0.7        | System disruption               |
-| CRITICAL           | 1.0        | Security breach, data loss      |
-+-------------------------------------------------------------------+
++----------+------------+----------------------------+
+| Severity | Multiplier | Example                    |
++----------+------------+----------------------------+
+| MINOR    | 0.1        | Excessive failed attempts  |
+| MODERATE | 0.3        | Unauthorized data access   |
+| SEVERE   | 0.7        | System disruption          |
+| CRITICAL | 1.0        | Security breach, data loss |
++----------+------------+----------------------------+
 ~~~
 
 Closure conditions:
@@ -678,13 +678,13 @@ IAL3 - In-Person Proofing with Biometric:
 Sponsors MUST be identity-proofed to at least IAL2 before being permitted to sponsor other agents. This requirement ensures accountability for the agents they introduce to the system.
 
 ~~~
-+-------------------+----------------------------+------------------+
-| Sponsor IAL       | Can Sponsor                | Max Staked E_base|
-+-------------------+----------------------------+------------------+
-| IAL1              | None (cannot sponsor)      | 0                |
-| IAL2              | Sponsored agents only       | 20               |
-| IAL3              | All lineages               | 50               |
-+-------------------+----------------------------+------------------+
++-------------+-----------------------+-------------------+
+| Sponsor IAL | Can Sponsor           | Max Staked E_base |
++-------------+-----------------------+-------------------+
+| IAL1        | None (cannot sponsor) | 0                 |
+| IAL2        | Sponsored agents only | 20                |
+| IAL3        | All lineages          | 50                |
++-------------+-----------------------+-------------------+
 ~~~
 
 The rationale: If a sponsor creates malicious agents, there must be a verified identity to hold accountable. Anonymous sponsors could create agent swarms without consequence.
@@ -877,19 +877,19 @@ Generation advances on three conditions, all of which MUST hold:
 1. Time.  A minimum elapsed period per step, weighted toward the two regime changes:
 
 ~~~
-+-------------------------------------------------------------------+
-| Step               | Minimum elapsed | Why this step costs more    |
-+-------------------------------------------------------------------+
-| 0 -> 1             | 90 days         |                            |
-| 1 -> 2             | 90 days         |                            |
-| 2 -> 3             | 365 days        | tether release             |
-| 3 -> 4             | 180 days        |                            |
-| 4 -> 5             | 180 days        |                            |
-| 5 -> 6             | 180 days        |                            |
-| 6 -> 7             | 2,555 days      | terminal ceiling           |
-+-------------------------------------------------------------------+
-| Total to Guarantor| 3,640 days (10 years)                          |
-+-------------------------------------------------------------------+
++--------------------+-----------------+--------------------------+
+| Step               | Minimum elapsed | Why this step costs more |
++--------------------+-----------------+--------------------------+
+| 0 -> 1             | 90 days         |                          |
+| 1 -> 2             | 90 days         |                          |
+| 2 -> 3             | 365 days        | tether release           |
+| 3 -> 4             | 180 days        |                          |
+| 4 -> 5             | 180 days        |                          |
+| 5 -> 6             | 180 days        |                          |
+| 6 -> 7             | 2,555 days      | terminal ceiling         |
++--------------------+-----------------+--------------------------+
+| Total to Guarantor | 3,640 days (10 years)                      |
++--------------------+--------------------------------------------+
 ~~~
 
    A step's cost scales with whether it changes kind or amount, not with distance travelled.  The survival condition below is a claim about the absence of a rare event, and the absence of a rare event cannot be observed over a window shorter than its return period.
@@ -901,18 +901,18 @@ Generation advances on three conditions, all of which MUST hold:
 Generation caps E_base:
 
 ~~~
-+-------------------------------------------------------------------+
-| Generation         | E_base Cap | Lineage Phase                   |
-+-------------------------------------------------------------------+
-| 0                  | 25         | Sponsored                        |
-| 1                  | 35         | Sponsored                        |
-| 2                  | 45         | Sponsored                        |
-| 3                  | 55         | Independent                       |
-| 4                  | 65         | Independent                       |
-| 5                  | 75         | Independent                       |
-| 6                  | 85         | Independent                       |
-| 7+                 | 100        | Guarantor                      |
-+-------------------------------------------------------------------+
++------------+------------+---------------+
+| Generation | E_base Cap | Lineage Phase |
++------------+------------+---------------+
+| 0          | 25         | Sponsored     |
+| 1          | 35         | Sponsored     |
+| 2          | 45         | Sponsored     |
+| 3          | 55         | Independent   |
+| 4          | 65         | Independent   |
+| 5          | 75         | Independent   |
+| 6          | 85         | Independent   |
+| 7+         | 100        | Guarantor     |
++------------+------------+---------------+
 ~~~
 
 ## Lineage Inheritance

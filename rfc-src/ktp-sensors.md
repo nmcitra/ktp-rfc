@@ -58,6 +58,10 @@ This document provides detailed specifications for:
 
 The framework is designed to be modular at both the input level (new inputs can be added) and the feed level (sensors within each input can be configured per deployment).
 
+## Requirements Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
+
 # Sensor Architecture
 
 ## Modularity Principles

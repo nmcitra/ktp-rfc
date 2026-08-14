@@ -117,10 +117,55 @@ def audit(paths):
     return never, unlisted, ok
 
 
+# A capitalised MUST in a document that never invoked BCP 14 is not a MUST — it
+# is a capitalised English word. Success criterion 3 ("every normative MUST in
+# the release is checkable") could not be evaluated against eight documents
+# because a MISSING paragraph is invisible to a term-frequency checker: it reads
+# zero and looks clean. Same blind spot #40 recorded for the D1a symbol scheme.
+#
+# Measured at the time this rule was written (tracker#60, 2026-08-13): eight
+# rfc-src documents carried 132 normative keywords between them and none of the
+# BCP 14 paragraph. The largest was ktp-conformance at 47 — the document success
+# criterion 3 is evaluated THROUGH.
+#
+# Exemption is by NAME, never by silence. Demoting a document to informative to
+# dodge this check is then a visible edit to this list rather than the absence of
+# one, which is the whole point of the allowlist above applied one layer in.
+KEYWORD_RE = re.compile(
+    r"\b(MUST NOT|MUST|SHALL NOT|SHALL|SHOULD NOT|SHOULD|REQUIRED)\b")
+BOILERPLATE = "interpreted as described in BCP 14"
+
+INFORMATIVE = {
+    # document           why it carries no normative force
+    "ktp-migration": "deployment guidance and starting values; zero normative "
+                     "keywords, and Section 5.1.1's role table is explicitly "
+                     "informative (tracker#70)",
+}
+
+
+def bcp14(root):
+    """Every source document with normative keywords must invoke BCP 14."""
+    src = os.path.join(root, "rfc-src")
+    missing, exempt = [], []
+    for fn in sorted(os.listdir(src)):
+        if not fn.endswith(".md"):
+            continue
+        name = fn[:-3]
+        text = open(os.path.join(src, fn), encoding="utf-8").read()
+        n = len(KEYWORD_RE.findall(text))
+        if name in INFORMATIVE:
+            exempt.append((name, n, INFORMATIVE[name]))
+            continue
+        if n and BOILERPLATE not in text:
+            missing.append((name, n))
+    return missing, exempt
+
+
 def main():
     verbose = "--verbose" in sys.argv
     paths = tracked()
     never, unlisted, ok = audit(paths)
+    missing, exempt = bcp14(HERE)
 
     print("Repo hygiene — only what a future RFC reader needs\n")
     print(f"{'category':<14}{'files':>7}   what it is for")
@@ -143,15 +188,30 @@ def main():
             print(f"  {p}")
         print()
 
+    if missing:
+        print("NORMATIVE KEYWORDS WITHOUT BCP 14 — a capitalised MUST in a")
+        print("document that never invoked BCP 14 is not yet a MUST. Add the")
+        print("Requirements Language paragraph, or name the document in")
+        print("INFORMATIVE above with the reason:")
+        for name, n in missing:
+            print(f"  rfc-src/{name}.md{'':<{max(0, 24 - len(name))}} "
+                  f"{n:>3} keyword(s), no boilerplate")
+        print()
+
     if verbose:
         for cat in ("normative", "source", "generated", "site", "governance", "tooling"):
             print(f"\n--- {cat} ({len(ok.get(cat, []))})")
             for p in ok.get(cat, []):
                 print(f"  {p}")
+        if exempt:
+            print("\n--- informative by declaration")
+            for name, n, why in exempt:
+                print(f"  {name} ({n} keyword(s)) — {why}")
 
-    total = len(never) + len(unlisted)
+    total = len(never) + len(unlisted) + len(missing)
     print(f"[{len(paths)} tracked · {len(never)} must-not-be-tracked · "
-          f"{len(unlisted)} uncategorised]")
+          f"{len(unlisted)} uncategorised · {len(missing)} without BCP 14 · "
+          f"{len(exempt)} informative by declaration]")
     return 1 if total else 0
 
 

@@ -15,7 +15,6 @@ author:
 normative:
   RFC7519:
   RFC2119:
-informative:
   RFC8174:
 
 --- abstract
@@ -59,6 +58,10 @@ This document does NOT cover:
 - Performance benchmarks (deployment-specific)
 - Security certification (SOC 2, FedRAMP, etc.)
 - Domain-specific profiles (healthcare, finance, etc.)
+
+## Requirements Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
 # Terminology
 

@@ -39,6 +39,10 @@ Recovery objectives:
 
 1. AUDITABILITY All recovery actions must be logged and attributable.
 
+## Requirements Language
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
+
 # Recovery Principles
 
 PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point (\[KTP-CORE] Section 6.7). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.

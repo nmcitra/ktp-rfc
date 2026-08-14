@@ -1,180 +1,246 @@
-Kinetic Trust Protocol                                      C. Perkins
-Specification Draft                                           NMCITRA
-Version: 0.1                                             November 2025
 
 
-       Kinetic Trust Protocol (KTP) - Conformance Requirements
-                  Levels, Testing, and Certification
+
+
+Network Working Group                                         C. Perkins
+Internet-Draft                                                   NMCITRA
+Intended status: Experimental                             13 August 2026
+Expires: 14 February 2027
+
+
+Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing,
+                           and Certification
+                    draft-perkins-ktp-conformance-00
 
 Abstract
 
    This document specifies conformance requirements for Kinetic Trust
-   Protocol implementations. It defines three conformance levels (Basic,
-   Standard, Full), test suite requirements, certification procedures,
-   and interoperability verification.
+   Protocol implementations.  It defines three conformance levels
+   (Basic, Standard, Full), test suite requirements, certification
+   procedures, and interoperability verification.
 
    The specification enables implementers to validate their KTP
    deployments and provides a framework for ecosystem interoperability.
 
 Status of This Memo
 
-   This document is a draft specification developed by the New Mexico
-   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
-   been submitted to the IETF and does not represent an Internet
-   Standard or consensus of any standards body.
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
 
-   Feedback and contributions are welcome at:
-   https://github.com/nmcitra/ktp-rfc
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 14 February 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
-   under the Apache License, Version 2.0.
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 1]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
-   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   2
-       1.1.  Purpose  . . . . . . . . . . . . . . . . . . . . . . .   2
-       1.2.  Scope  . . . . . . . . . . . . . . . . . . . . . . . .   3
-       1.3.  Requirements Language . . . . . . . . . . . . . . . . .  3
-   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   4
-   3.  Conformance Levels . . . . . . . . . . . . . . . . . . . . .   5
-       3.1.  Level 1: Basic . . . . . . . . . . . . . . . . . . . .   5
-       3.2.  Level 2: Standard  . . . . . . . . . . . . . . . . . .   7
-       3.3.  Level 3: Full  . . . . . . . . . . . . . . . . . . . .   9
-       3.4.  Level Comparison . . . . . . . . . . . . . . . . . . .  11
-   4.  Component Requirements . . . . . . . . . . . . . . . . . . .  12
-       4.1.  Trust Oracle Requirements  . . . . . . . . . . . . . .  12
-       4.2.  Risk Factor Requirements. . . . . . . . . . . . . . .   15
-       4.3.  Policy Enforcement Point Requirements  . . . . . . . .  17
-       4.4.  Flight Recorder Requirements . . . . . . . . . . . . .  19
-       4.5.  Agent Requirements . . . . . . . . . . . . . . . . . .  21
-   5.  Protocol Requirements  . . . . . . . . . . . . . . . . . . .  23
-       5.1.  Trust Proof Format . . . . . . . . . . . . . . . . . .  23
-       5.2.  Zeroth Law Enforcement . . . . . . . . . . . . . . . .  25
-       5.3.  Tier Transitions . . . . . . . . . . . . . . . . . . .  26
-       5.4.  Cryptographic Requirements . . . . . . . . . . . . . .  27
-   6.  Test Suite . . . . . . . . . . . . . . . . . . . . . . . . .  29
-       6.1.  Test Categories  . . . . . . . . . . . . . . . . . . .  29
-       6.2.  Unit Tests . . . . . . . . . . . . . . . . . . . . . .  30
-       6.3.  Integration Tests  . . . . . . . . . . . . . . . . . .  32
-       6.4.  Interoperability Tests . . . . . . . . . . . . . . . .  34
-       6.5.  Stress Tests . . . . . . . . . . . . . . . . . . . . .  35
-   7.  Certification Process  . . . . . . . . . . . . . . . . . . .  37
-       7.1.  Self-Certification . . . . . . . . . . . . . . . . . .  37
-       7.2.  Third-Party Certification  . . . . . . . . . . . . . .  38
-       7.3.  Certification Maintenance  . . . . . . . . . . . . . .  39
-   8.  Interoperability . . . . . . . . . . . . . . . . . . . . . .  40
-       8.1.  Cross-Implementation Testing . . . . . . . . . . . . .  40
-       8.2.  Federation Compatibility . . . . . . . . . . . . . . .  41
-       8.3.  Version Compatibility  . . . . . . . . . . . . . . . .  42
-   9.  Conformance Claims . . . . . . . . . . . . . . . . . . . . .  43
-       9.1.  Claim Format . . . . . . . . . . . . . . . . . . . . .  43
-       9.2.  Claim Verification . . . . . . . . . . . . . . . . . .  44
-   10. Security Considerations  . . . . . . . . . . . . . . . . . .  45
-   11. References . . . . . . . . . . . . . . . . . . . . . . . . .  46
-   Appendix C.  Changes from v1 . . . . . . . . . . . . . . . . . .  46
-   Appendix C.  Changes from v1
-
-   This appendix records what a v1 implementation must change to conform
-   to v2.0.0. The break is deliberate and there is no dual-accept
-   period: an implementation reads v1 or it reads v2.
-
-   C.1. The lineage stage names
-
-   The three lineage stages are renamed on the wire and in prose.
-   Numeric protobuf values are unchanged, so only the symbol names move.
-
-   +---------------+---------------+
-   | v1            | v2.0.0        |
-   +---------------+---------------+
-   | tethered      | sponsored     |
-   | divergent     | independent   |
-   | persistent    | guarantor     |
-   +---------------+---------------+
-
-   This affects agent identifier strings (agent:<stage>:...), the
-   lineage enum, and the protobuf LineageType member names. The v1 words
-   each carried an unintended security reading -- in jailbreak and
-   intrusion vocabulary, "tethered" means a compromise that dies at
-   reboot and "persistent" is the established word for one that survives
-   a restart -- and the three together read as a coherent escalation
-   narrative rather than as a maturity ladder. Stage 3 is now named for
-   what it can be held to rather than what it is freed of.
-
-   C.2. The Trust Tier thresholds
-
-   +---------------+------------------+------------------+
-   | Tier          | v1               | v2.0.0           |
-   +---------------+------------------+------------------+
-   | Admin Mode    | E_trust >= 95    | E_trust >= 85    |
-   | Operator Mode | E_trust >= 85    | E_trust >= 72    |
-   | Analyst Mode  | E_trust >= 70    | E_trust >= 58    |
-   | Observer Mode | E_trust >= 50    | E_trust >= 22    |
-   | Hibernation   | E_trust < 50     | E_trust < 22     |
-   +---------------+------------------+------------------+
-
-   The v1 set was unreachable from the v1 generation ceilings:
-   generations 0 through 2 were capped below the lowest threshold, so an
-   agent was in Hibernation by lineage rather than by environment, and
-   the top tier could not be reached in any zone at the calm conditions
-   the specification's own worked example uses. The generation ceilings
-   are unchanged; one table moved, not two.
-
-   Two consequences travel with the change. Hibernation exit moves from
-   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
-   a floor of 50 becomes a thirty-three-point one over a floor of 22.
-   And the stable-conditions requirement for the top tier moves from R <
-   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
-   corpus illustrates.
-
-   C.3. Requirements Language
-
-   This document now invokes BCP 14. Its normative keywords were
-   previously capitalised without the paragraph that gives them meaning.
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.1.  Purpose . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.2.  Scope . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   3.  Conformance Levels  . . . . . . . . . . . . . . . . . . . . .   6
+     3.1.  Level 1: Basic  . . . . . . . . . . . . . . . . . . . . .   6
+       3.1.1.  Basic Requirements Summary  . . . . . . . . . . . . .   6
+       3.1.2.  Basic Limitations . . . . . . . . . . . . . . . . . .   7
+     3.2.  Level 2: Standard . . . . . . . . . . . . . . . . . . . .   7
+       3.2.1.  Standard Requirements Summary . . . . . . . . . . . .   8
+       3.2.2.  Standard Limitations  . . . . . . . . . . . . . . . .   9
+     3.3.  Level 3: Full . . . . . . . . . . . . . . . . . . . . . .   9
+       3.3.1.  Full Requirements Summary . . . . . . . . . . . . . .  10
+       3.3.2.  Full Additional Requirements  . . . . . . . . . . . .  11
+     3.4.  Level Comparison  . . . . . . . . . . . . . . . . . . . .  11
+   4.  Component Requirements  . . . . . . . . . . . . . . . . . . .  12
+     4.1.  Trust Oracle Requirements . . . . . . . . . . . . . . . .  12
+       4.1.1.  Basic Oracle Requirements . . . . . . . . . . . . . .  12
+       4.1.2.  Standard Oracle Requirements  . . . . . . . . . . . .  13
+       4.1.3.  Full Oracle Requirements  . . . . . . . . . . . . . .  13
+     4.2.  Risk Factor Requirements  . . . . . . . . . . . . . . . .  14
+       4.2.1.  Basic Requirements  . . . . . . . . . . . . . . . . .  14
+       4.2.2.  Standard Tensor Requirements  . . . . . . . . . . . .  15
+       4.2.3.  Full Tensor Requirements  . . . . . . . . . . . . . .  15
+     4.3.  Policy Enforcement Point Requirements . . . . . . . . . .  16
+       4.3.1.  Basic PEP Requirements  . . . . . . . . . . . . . . .  16
+       4.3.2.  Standard PEP Requirements . . . . . . . . . . . . . .  16
+       4.3.3.  Full PEP Requirements . . . . . . . . . . . . . . . .  17
+     4.4.  Flight Recorder Requirements  . . . . . . . . . . . . . .  17
+       4.4.1.  Basic Recorder Requirements . . . . . . . . . . . . .  17
+       4.4.2.  Standard Recorder Requirements  . . . . . . . . . . .  18
+       4.4.3.  Full Recorder Requirements  . . . . . . . . . . . . .  18
+     4.5.  Agent Requirements  . . . . . . . . . . . . . . . . . . .  19
+       4.5.1.  Basic Agent Requirements  . . . . . . . . . . . . . .  19
+       4.5.2.  Standard Agent Requirements . . . . . . . . . . . . .  19
+       4.5.3.  Full Agent Requirements . . . . . . . . . . . . . . .  20
 
 
-Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
+
+Perkins                 Expires 14 February 2027                [Page 2]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   5.  Protocol Requirements . . . . . . . . . . . . . . . . . . . .  20
+     5.1.  Trust Proof Format  . . . . . . . . . . . . . . . . . . .  20
+       5.1.1.  Basic Trust Proof . . . . . . . . . . . . . . . . . .  20
+       5.1.2.  Standard Trust Proof  . . . . . . . . . . . . . . . .  21
+       5.1.3.  Full Trust Proof  . . . . . . . . . . . . . . . . . .  21
+     5.2.  Zeroth Law Enforcement  . . . . . . . . . . . . . . . . .  22
+       5.2.1.  Enforcement Requirements (All Levels) . . . . . . . .  22
+       5.2.2.  Soul Constraint (Standard and Full) . . . . . . . . .  23
+     5.3.  Tier Transitions  . . . . . . . . . . . . . . . . . . . .  23
+       5.3.1.  Tier Boundaries (Standard and Full) . . . . . . . . .  23
+       5.3.2.  Transition Handling . . . . . . . . . . . . . . . . .  24
+     5.4.  Cryptographic Requirements  . . . . . . . . . . . . . . .  24
+       5.4.1.  Signature Algorithms  . . . . . . . . . . . . . . . .  24
+       5.4.2.  Hash Functions  . . . . . . . . . . . . . . . . . . .  25
+       5.4.3.  Key Management  . . . . . . . . . . . . . . . . . . .  25
+   6.  Test Suite  . . . . . . . . . . . . . . . . . . . . . . . . .  25
+     6.1.  Test Categories . . . . . . . . . . . . . . . . . . . . .  25
+     6.2.  Unit Tests  . . . . . . . . . . . . . . . . . . . . . . .  26
+       6.2.1.  Trust Oracle Unit Tests . . . . . . . . . . . . . . .  26
+       6.2.2.  Risk Factor Unit Tests  . . . . . . . . . . . . . . .  26
+       6.2.3.  PEP Unit Tests  . . . . . . . . . . . . . . . . . . .  27
+       6.2.4.  Flight Recorder Unit Tests  . . . . . . . . . . . . .  28
+     6.3.  Integration Tests . . . . . . . . . . . . . . . . . . . .  28
+       6.3.1.  End-to-End Flow Tests . . . . . . . . . . . . . . . .  28
+       6.3.2.  Failure Mode Tests  . . . . . . . . . . . . . . . . .  29
+     6.4.  Interoperability Tests  . . . . . . . . . . . . . . . . .  29
+       6.4.1.  Trust Proof Exchange  . . . . . . . . . . . . . . . .  30
+       6.4.2.  Federation Protocol . . . . . . . . . . . . . . . . .  30
+       6.4.3.  Flight Recorder . . . . . . . . . . . . . . . . . . .  30
+     6.5.  Stress Tests  . . . . . . . . . . . . . . . . . . . . . .  30
+       6.5.1.  Load Tests  . . . . . . . . . . . . . . . . . . . . .  30
+       6.5.2.  Chaos Tests . . . . . . . . . . . . . . . . . . . . .  30
+   7.  Certification Process . . . . . . . . . . . . . . . . . . . .  30
+     7.1.  Self-Certification  . . . . . . . . . . . . . . . . . . .  31
+       7.1.1.  Self-Certification Process  . . . . . . . . . . . . .  31
+       7.1.2.  Self-Certification Requirements . . . . . . . . . . .  31
+     7.2.  Third-Party Certification . . . . . . . . . . . . . . . .  31
+       7.2.1.  Certification Bodies  . . . . . . . . . . . . . . . .  31
+       7.2.2.  Third-Party Process . . . . . . . . . . . . . . . . .  32
+     7.3.  Certification Maintenance . . . . . . . . . . . . . . . .  32
+       7.3.1.  Recertification Triggers  . . . . . . . . . . . . . .  32
+       7.3.2.  Certification Revocation  . . . . . . . . . . . . . .  32
+   8.  Interoperability  . . . . . . . . . . . . . . . . . . . . . .  32
+     8.1.  Cross-Implementation Testing  . . . . . . . . . . . . . .  33
+       8.1.1.  Interoperability Events . . . . . . . . . . . . . . .  33
+       8.1.2.  Interoperability Matrix . . . . . . . . . . . . . . .  33
+     8.2.  Federation Compatibility  . . . . . . . . . . . . . . . .  33
+     8.3.  Version Compatibility . . . . . . . . . . . . . . . . . .  33
+
+
+
+Perkins                 Expires 14 February 2027                [Page 3]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   9.  Conformance Claims  . . . . . . . . . . . . . . . . . . . . .  33
+     9.1.  Claim Format  . . . . . . . . . . . . . . . . . . . . . .  34
+     9.2.  Claim Verification  . . . . . . . . . . . . . . . . . . .  34
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  34
+     10.1.  Test Suite Security  . . . . . . . . . . . . . . . . . .  34
+     10.2.  Certification Security . . . . . . . . . . . . . . . . .  34
+     10.3.  Implementation Security  . . . . . . . . . . . . . . . .  35
+   11. Normative References  . . . . . . . . . . . . . . . . . . . .  35
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  35
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  35
+     A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  36
+     A.3.  Requirements Language . . . . . . . . . . . . . . . . . .  36
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  36
 
 1.  Introduction
 
 1.1.  Purpose
 
    The Kinetic Trust Protocol comprises multiple components (Trust
-   Oracle, Context Signal sensors, PEPs, Flight Recorder) that must
-   work
-   together correctly. Implementations from different vendors or
+   Oracle, Context Signal sensors, PEPs, Flight Recorder) that must work
+   together correctly.  Implementations from different vendors or
    development teams must interoperate.
 
    This document establishes:
 
-   -  Conformance levels for different deployment scenarios
-   -  Specific requirements for each KTP component
-   -  Test suites for validating implementations
-   -  Certification procedures for claiming conformance
-   -  Interoperability requirements for federation
+   *  Conformance levels for different deployment scenarios
+
+   *  Specific requirements for each KTP component
+
+   *  Test suites for validating implementations
+
+   *  Certification procedures for claiming conformance
+
+   *  Interoperability requirements for federation
 
    Without conformance requirements, KTP implementations may be
-   incompatible, insecure, or incomplete. This document provides the
+   incompatible, insecure, or incomplete.  This document provides the
    framework for a healthy implementation ecosystem.
 
 1.2.  Scope
 
    This document covers:
 
-   -  Conformance levels (Basic, Standard, Full)
-   -  Component-specific requirements
-   -  Protocol requirements
-   -  Test suite specifications
-   -  Certification procedures
-   -  Interoperability testing
+   *  Conformance levels (Basic, Standard, Full)
+
+   *  Component-specific requirements
+
+   *  Protocol requirements
+
+
+
+Perkins                 Expires 14 February 2027                [Page 4]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Test suite specifications
+
+   *  Certification procedures
+
+   *  Interoperability testing
 
    This document does NOT cover:
 
-   -  Specific implementation guidance (see future Implementation Guide)
-   -  Performance benchmarks (deployment-specific)
-   -  Security certification (SOC 2, FedRAMP, etc.)
-   -  Domain-specific profiles (healthcare, finance, etc.)
+   *  Specific implementation guidance (see future Implementation Guide)
+
+   *  Performance benchmarks (deployment-specific)
+
+   *  Security certification (SOC 2, FedRAMP, etc.)
+
+   *  Domain-specific profiles (healthcare, finance, etc.)
 
 1.3.  Requirements Language
 
@@ -186,29 +252,38 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
 2.  Terminology
 
-   Conformance Level:  A defined tier of KTP implementation
-      completeness, with specific requirements for each level.
+   Conformance Level: A defined tier of KTP implementation completeness,
+   with specific requirements for each level.
 
-   Component:  A distinct functional unit of KTP (Trust Oracle, Context
-      Signal sensors, PEP, Flight Recorder, Agent).
+   Component: A distinct functional unit of KTP (Trust Oracle, Context
+   Signal sensors, PEP, Flight Recorder, Agent).
 
-   Test Case:  A specific, reproducible test with defined inputs,
-      expected outputs, and pass/fail criteria.
+   Test Case: A specific, reproducible test with defined inputs,
+   expected outputs, and pass/fail criteria.
 
-   Test Suite:  A collection of test cases organized by category and
-      conformance level.
+   Test Suite: A collection of test cases organized by category and
+   conformance level.
 
-   Certification:  Formal attestation that an implementation meets
-      conformance requirements for a specified level.
+   Certification: Formal attestation that an implementation meets
+   conformance requirements for a specified level.
 
-   Self-Certification:  Certification based on self-executed test suite
-      with published results.
+   Self-Certification: Certification based on self-executed test suite
+   with published results.
 
-   Third-Party Certification:  Certification based on independent
-      testing by an authorized certification body.
+   Third-Party Certification: Certification based on independent testing
+   by an authorized certification body.
 
-   Interoperability:  The ability of different KTP implementations to
-      work together correctly.
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 5]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   Interoperability: The ability of different KTP implementations to
+   work together correctly.
 
 3.  Conformance Levels
 
@@ -219,197 +294,329 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
    Basic conformance provides minimum viable KTP functionality suitable
    for:
 
-   -  Initial adoption and experimentation
-   -  Low-risk environments
-   -  Single-zone deployments
-   -  Development and testing
+   *  Initial adoption and experimentation
+
+   *  Low-risk environments
+
+   *  Single-zone deployments
+
+   *  Development and testing
 
 3.1.1.  Basic Requirements Summary
 
    Trust Oracle:
 
-   -  Single Oracle (no mesh required)
-   -  Trust Score calculation (E_trust = E_base × (1 - R))
-   -  Trust Proof generation and signing
-   -  Minimum 3 Risk Factor inputs
+   *  Single Oracle (no mesh required)
+
+   *  Trust Score calculation (E_trust = E_base × (1 - R))
+
+   *  Trust Proof generation and signing
+
+   *  Minimum 3 Risk Factor inputs
 
    Risk Factors:
 
-   -  Minimum 3 weighted inputs (Heat, Momentum, one other)
-   -  Basic normalization (min/max scaling)
-   -  Single risk domain (no Node/Neighborhood/Global separation)
+   *  Minimum 3 weighted inputs (Heat, Momentum, one other)
+
+   *  Basic normalization (min/max scaling)
+
+   *  Single risk domain (no Node/Neighborhood/Global separation)
 
    Policy Enforcement Point:
 
-   -  Zeroth Law enforcement (A <= E_trust)
-   -  Trust Proof validation
-   -  Binary allow/deny decisions
-   -  Basic logging
+   *  Zeroth Law enforcement (A <= E_trust)
+
+   *  Trust Proof validation
+
+   *  Binary allow/deny decisions
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 6]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Basic logging
 
    Flight Recorder:
 
-   -  Decision logging (allow/deny with context)
-   -  30-day minimum retention
-   -  No immutability requirement
+   *  Decision logging (allow/deny with context)
+
+   *  30-day minimum retention
+
+   *  No immutability requirement
 
    Agents:
 
-   -  Unique identifier
-   -  Trust Score tracking
-   -  Basic trajectory (action log)
+   *  Unique identifier
+
+   *  Trust Score tracking
+
+   *  Basic trajectory (action log)
 
    Protocol:
 
-   -  Trust Proof JWT format
-   -  ES256 or Ed25519 signatures
-   -  60-second maximum proof lifetime
+   *  Trust Proof JWT format
+
+   *  ES256 or Ed25519 signatures
+
+   *  60-second maximum proof lifetime
 
 3.1.2.  Basic Limitations
 
    Basic conformance does NOT require:
 
-   -  Oracle mesh or threshold signatures
-   -  Soul veto or sovereignty constraints
-   -  Trust tiers (just binary allow/deny)
-   -  Federation capabilities
-   -  Cryptographic chaining in Flight Recorder
-   -  Proof of Resilience calculation
+   *  Oracle mesh or threshold signatures
+
+   *  Soul veto or sovereignty constraints
+
+   *  Trust tiers (just binary allow/deny)
+
+   *  Federation capabilities
+
+   *  Cryptographic chaining in Flight Recorder
+
+   *  Proof of Resilience calculation
 
 3.2.  Level 2: Standard
 
    Standard conformance provides production-ready KTP functionality
    suitable for:
 
-   -  Production deployments
-   -  Multi-zone environments
-   -  Regulatory compliance contexts
-   -  Enterprise adoption
+   *  Production deployments
+
+
+
+Perkins                 Expires 14 February 2027                [Page 7]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Multi-zone environments
+
+   *  Regulatory compliance contexts
+
+   *  Enterprise adoption
 
 3.2.1.  Standard Requirements Summary
 
    Trust Oracle:
 
-   -  Oracle mesh (minimum 3 nodes)
-   -  Threshold signatures (2-of-3 minimum)
-   -  Full Trust Score calculation
-   -  Trust velocity tracking (dE/dt)
-   -  All 6 weighted Risk Factor inputs
+   *  Oracle mesh (minimum 3 nodes)
+
+   *  Threshold signatures (2-of-3 minimum)
+
+   *  Full Trust Score calculation
+
+   *  Trust velocity tracking (dE/dt)
+
+   *  All 6 weighted Risk Factor inputs
 
    Risk Factors:
 
-   -  All 6 weighted inputs (evidence_density, trust_trend,
+   *  All 6 weighted inputs (evidence_density, trust_trend,
       adversarial_pressure, moment_criticality, update_resistance,
       attestation_coverage)
-   -  Soul veto support
-   -  Risk domain separation (Node, Neighborhood, Global)
-   -  Feed aggregation with configurable weights
+
+   *  Soul veto support
+
+   *  Risk domain separation (Node, Neighborhood, Global)
+
+   *  Feed aggregation with configurable weights
 
    Policy Enforcement Point:
 
-   -  Zeroth Law enforcement
-   -  Trust tier enforcement (all 5 tiers)
-   -  Soul veto checking
-   -  Graceful degradation on Oracle failure
-   -  Detailed decision logging
+   *  Zeroth Law enforcement
+
+   *  Trust tier enforcement (all 5 tiers)
+
+   *  Soul veto checking
+
+   *  Graceful degradation on Oracle failure
+
+   *  Detailed decision logging
 
    Flight Recorder:
 
-   -  Full Decision Geometry logging
-   -  Cryptographic chaining (tamper-evident)
-   -  1-year minimum retention for decisions
-   -  7-year minimum retention for Soul vetoes
-   -  Query interface for audit
+   *  Full Decision Geometry logging
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 8]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Cryptographic chaining (tamper-evident)
+
+   *  1-year minimum retention for decisions
+
+   *  7-year minimum retention for Soul vetoes
+
+   *  Query interface for audit
 
    Agents:
 
-   -  Full trajectory chain
-   -  Lineage tracking (Sponsored, Independent, Guarantor)
-   -  Proof of Resilience calculation
-   -  Sponsorship support
+   *  Full trajectory chain
+
+   *  Lineage tracking (Sponsored, Independent, Guarantor)
+
+   *  Proof of Resilience calculation
+
+   *  Sponsorship support
 
    Protocol:
 
-   -  Extended Trust Proof format
-   -  Threshold signatures
-   -  30-second maximum proof lifetime (normal operation)
-   -  Federation protocol support
+   *  Extended Trust Proof format
+
+   *  Threshold signatures
+
+   *  30-second maximum proof lifetime (normal operation)
+
+   *  Federation protocol support
 
 3.2.2.  Standard Limitations
 
    Standard conformance does NOT require:
 
-   -  Deep Blue zone capability
-   -  Full interplanetary/celestial support
-   -  Real-time Oracle mesh consensus
-   -  Formal verification of components
+   *  Deep Blue zone capability
+
+   *  Full interplanetary/celestial support
+
+   *  Real-time Oracle mesh consensus
+
+   *  Formal verification of components
 
 3.3.  Level 3: Full
 
    Full conformance provides comprehensive KTP functionality suitable
    for:
 
-   -  Critical infrastructure
-   -  High-security environments
-   -  Deep Blue zone operation
-   -  Federation anchors
+   *  Critical infrastructure
+
+   *  High-security environments
+
+
+
+Perkins                 Expires 14 February 2027                [Page 9]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Deep Blue zone operation
+
+   *  Federation anchors
 
 3.3.1.  Full Requirements Summary
 
    Trust Oracle:
 
-   -  Geographically distributed mesh (minimum 5 nodes)
-   -  Threshold signatures (3-of-5 minimum)
-   -  Sub-second Trust Proof refresh
-   -  Real-time consensus protocol
-   -  Cryptographic audit trail
+   *  Geographically distributed mesh (minimum 5 nodes)
+
+   *  Threshold signatures (3-of-5 minimum)
+
+   *  Sub-second Trust Proof refresh
+
+   *  Real-time consensus protocol
+
+   *  Cryptographic audit trail
 
    Risk Factors:
 
-   -  All 7 inputs (including Soul)
-   -  Full Indigenous Data Sovereignty support
-   -  Sub-second sensor refresh for critical dimensions
-   -  Sensor health monitoring and failover
+   *  All 7 inputs (including Soul)
+
+   *  Full Indigenous Data Sovereignty support
+
+   *  Sub-second sensor refresh for critical dimensions
+
+   *  Sensor health monitoring and failover
 
    Policy Enforcement Point:
 
-   -  Complete enforcement at all zone types
-   -  < 15ms evaluation latency
-   -  Zero-downtime deployment support
-   -  Defense in depth (multiple PEP layers)
+   *  Complete enforcement at all zone types
+
+   *  < 15ms evaluation latency
+
+   *  Zero-downtime deployment support
+
+   *  Defense in depth (multiple PEP layers)
 
    Flight Recorder:
 
-   -  Full Decision Geometry with counterfactuals
-   -  External anchoring (blockchain or equivalent)
-   -  Multi-region replication
-   -  Forensic reconstruction capability
-   -  Complete audit trail for certification
+   *  Full Decision Geometry with counterfactuals
+
+   *  External anchoring (blockchain or equivalent)
+
+   *  Multi-region replication
+
+   *  Forensic reconstruction capability
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 10]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Complete audit trail for certification
 
    Agents:
 
-   -  Complete trajectory chain with verification
-   -  Cross-zone portable identity
-   -  Attestation chain support
-   -  Celestial wayfinding support (if applicable)
+   *  Complete trajectory chain with verification
+
+   *  Cross-zone portable identity
+
+   *  Attestation chain support
+
+   *  Celestial wayfinding support (if applicable)
 
    Protocol:
 
-   -  All Trust Proof formats
-   -  All signature algorithms
-   -  Federation protocol (full)
-   -  Celestial protocol (extended proofs)
+   *  All Trust Proof formats
+
+   *  All signature algorithms
+
+   *  Federation protocol (full)
+
+   *  Celestial protocol (extended proofs)
 
 3.3.2.  Full Additional Requirements
 
    Full conformance additionally requires:
 
-   -  Formal security review
-   -  Penetration testing
-   -  Incident response procedures
-   -  Documented recovery procedures
-   -  Third-party certification
+   *  Formal security review
+
+   *  Penetration testing
+
+   *  Incident response procedures
+
+   *  Documented recovery procedures
+
+   *  Third-party certification
 
 3.4.  Level Comparison
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 11]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
    +---------------------------+--------+----------+------+
    | Requirement               | Basic  | Standard | Full |
@@ -441,24 +648,41 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Accept Risk Factor input
-   -  Calculate Risk Factor: R = Σ(w_i × D_i)
-   -  Calculate E_trust: E_trust = E_base × (1 - R)
-   -  Generate signed Trust Proofs
-   -  Support ES256 or Ed25519 signatures
-   -  Expose health check endpoint
-   -  Log all Trust Proof issuances
+   *  Accept Risk Factor input
+
+   *  Calculate Risk Factor: R = Σ(w_i × D_i)
+
+   *  Calculate E_trust: E_trust = E_base × (1 - R)
+
+   *  Generate signed Trust Proofs
+
+   *  Support ES256 or Ed25519 signatures
+
+   *  Expose health check endpoint
+
+   *  Log all Trust Proof issuances
 
    SHOULD:
 
-   -  Support configurable dimension weights
-   -  Cache recent Trust Proofs
-   -  Provide metrics endpoint
+   *  Support configurable dimension weights
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 12]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Cache recent Trust Proofs
+
+   *  Provide metrics endpoint
 
    MAY:
 
-   -  Support single-node operation
-   -  Use simplified E_base (static assignment)
+   *  Support single-node operation
+
+   *  Use simplified E_base (static assignment)
 
 4.1.2.  Standard Oracle Requirements
 
@@ -466,21 +690,31 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Operate as mesh (minimum 3 nodes)
-   -  Implement threshold signatures (2-of-3)
-   -  Support all 6 weighted dimensions
-   -  Support the Soul veto
-   -  Calculate and track dE/dt (Trust velocity)
-   -  Support agent lineage tracking
-   -  Calculate Proof of Resilience
-   -  Implement graceful degradation
-   -  Support federation protocol
+   *  Operate as mesh (minimum 3 nodes)
+
+   *  Implement threshold signatures (2-of-3)
+
+   *  Support all 6 weighted dimensions
+
+   *  Support the Soul veto
+
+   *  Calculate and track dE/dt (Trust velocity)
+
+   *  Support agent lineage tracking
+
+   *  Calculate Proof of Resilience
+
+   *  Implement graceful degradation
+
+   *  Support federation protocol
 
    SHOULD:
 
-   -  Geographic distribution of nodes
-   -  Automatic failover
-   -  Load balancing across nodes
+   *  Geographic distribution of nodes
+
+   *  Automatic failover
+
+   *  Load balancing across nodes
 
 4.1.3.  Full Oracle Requirements
 
@@ -488,19 +722,35 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Operate as 5+ node mesh
-   -  Implement threshold signatures (3-of-5)
-   -  Sub-second proof refresh capability
-   -  Real-time consensus protocol
-   -  Geographic distribution across 3+ regions
-   -  Complete audit trail
-   -  Support celestial protocol (extended proofs)
-   -  External audit anchor support
+
+
+
+Perkins                 Expires 14 February 2027               [Page 13]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Operate as 5+ node mesh
+
+   *  Implement threshold signatures (3-of-5)
+
+   *  Sub-second proof refresh capability
+
+   *  Real-time consensus protocol
+
+   *  Geographic distribution across 3+ regions
+
+   *  Complete audit trail
+
+   *  Support celestial protocol (extended proofs)
+
+   *  External audit anchor support
 
    SHOULD:
 
-   -  Formal verification of consensus logic
-   -  Hardware security module (HSM) for keys
+   *  Formal verification of consensus logic
+
+   *  Hardware security module (HSM) for keys
 
 4.2.  Risk Factor Requirements
 
@@ -508,19 +758,33 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Support minimum 3 dimensions
-      -  adversarial_pressure - required
-      -  trust_trend - required
-      -  One additional dimension
-   -  Normalize values to 0-1 range
-   -  Report sensor health status
-   -  Handle sensor failure gracefully
+   *  Support minimum 3 dimensions - adversarial_pressure - required -
+      trust_trend - required - One additional dimension
+
+   *  Normalize values to 0-1 range
+
+   *  Report sensor health status
+
+   *  Handle sensor failure gracefully
 
    SHOULD:
 
-   -  Support configurable normalization
-   -  Support multiple feeds per dimension
-   -  Refresh within 60 seconds
+   *  Support configurable normalization
+
+   *  Support multiple feeds per dimension
+
+   *  Refresh within 60 seconds
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 14]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 4.2.2.  Standard Tensor Requirements
 
@@ -528,21 +792,29 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Support all 6 weighted inputs (evidence_density, trust_trend,
+   *  Support all 6 weighted inputs (evidence_density, trust_trend,
       adversarial_pressure, moment_criticality, update_resistance,
       attestation_coverage)
-   -  Support the Soul veto
-   -  Implement 3 risk domains (Node, Neighborhood, Global)
-   -  Weighted aggregation across domains
-   -  Feed-level configuration
-   -  Sensor validation and quality metrics
-   -  Refresh within 30 seconds
+
+   *  Support the Soul veto
+
+   *  Implement 3 risk domains (Node, Neighborhood, Global)
+
+   *  Weighted aggregation across domains
+
+   *  Feed-level configuration
+
+   *  Sensor validation and quality metrics
+
+   *  Refresh within 30 seconds
 
    SHOULD:
 
-   -  Support custom dimension extension
-   -  Anomaly detection on sensor data
-   -  Historical trend tracking
+   *  Support custom dimension extension
+
+   *  Anomaly detection on sensor data
+
+   *  Historical trend tracking
 
 4.2.3.  Full Tensor Requirements
 
@@ -550,18 +822,29 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Full Indigenous Data Sovereignty support
-      -  TK Label integration
-      -  OCAP/CARE protocol support
-   -  Sub-second refresh for critical dimensions
-   -  Sensor redundancy (no single point of failure)
-   -  Automatic failover between feeds
-   -  Complete sensor audit trail
+   *  Full Indigenous Data Sovereignty support - TK Label integration -
+      OCAP/CARE protocol support
+
+   *  Sub-second refresh for critical dimensions
+
+   *  Sensor redundancy (no single point of failure)
+
+   *  Automatic failover between feeds
+
+   *  Complete sensor audit trail
 
    SHOULD:
 
-   -  Formal specification of normalization
-   -  Verified sensor calibration
+
+
+Perkins                 Expires 14 February 2027               [Page 15]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Formal specification of normalization
+
+   *  Verified sensor calibration
 
 4.3.  Policy Enforcement Point Requirements
 
@@ -569,18 +852,25 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Intercept all protected requests
-   -  Validate Trust Proof signature
-   -  Check Trust Proof expiration
-   -  Enforce Zeroth Law (A <= E_trust)
-   -  Return appropriate HTTP status codes
-   -  Log all decisions
+   *  Intercept all protected requests
+
+   *  Validate Trust Proof signature
+
+   *  Check Trust Proof expiration
+
+   *  Enforce Zeroth Law (A <= E_trust)
+
+   *  Return appropriate HTTP status codes
+
+   *  Log all decisions
 
    SHOULD:
 
-   -  Cache Trust Proof validation
-   -  Support multiple signature algorithms
-   -  Provide bypass for health checks
+   *  Cache Trust Proof validation
+
+   *  Support multiple signature algorithms
+
+   *  Provide bypass for health checks
 
 4.3.2.  Standard PEP Requirements
 
@@ -588,19 +878,35 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Enforce Trust Tiers (all 5)
-   -  Check Soul constraint (S = 0)
-   -  Support action risk classification
-   -  Graceful degradation on Oracle failure
-   -  Report decisions to Flight Recorder
-   -  Include full context in denial responses
-   -  Support multiple deployment patterns
+   *  Enforce Trust Tiers (all 5)
+
+   *  Check Soul constraint (S = 0)
+
+   *  Support action risk classification
+
+   *  Graceful degradation on Oracle failure
+
+   *  Report decisions to Flight Recorder
+
+   *  Include full context in denial responses
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 16]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Support multiple deployment patterns
 
    SHOULD:
 
-   -  Evaluation latency < 50ms
-   -  Support async Flight Recorder logging
-   -  Circuit breaker for Oracle calls
+   *  Evaluation latency < 50ms
+
+   *  Support async Flight Recorder logging
+
+   *  Circuit breaker for Oracle calls
 
 4.3.3.  Full PEP Requirements
 
@@ -608,17 +914,23 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Evaluation latency < 15ms
-   -  Zero-downtime deployment
-   -  Defense in depth (multiple layers)
-   -  Complete decision context to Flight Recorder
-   -  Support all zone types
-   -  Cryptographic binding to session
+   *  Evaluation latency < 15ms
+
+   *  Zero-downtime deployment
+
+   *  Defense in depth (multiple layers)
+
+   *  Complete decision context to Flight Recorder
+
+   *  Support all zone types
+
+   *  Cryptographic binding to session
 
    SHOULD:
 
-   -  Formal verification of enforcement logic
-   -  Hardware-accelerated cryptography
+   *  Formal verification of enforcement logic
+
+   *  Hardware-accelerated cryptography
 
 4.4.  Flight Recorder Requirements
 
@@ -626,15 +938,27 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Log all authorization decisions
-   -  Include: timestamp, agent, action, outcome, Trust Score
-   -  Minimum 30-day retention
-   -  Query by time range and agent
+   *  Log all authorization decisions
+
+   *  Include: timestamp, agent, action, outcome, Trust Score
+
+   *  Minimum 30-day retention
+
+   *  Query by time range and agent
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 17]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
    SHOULD:
 
-   -  Include environmental context
-   -  Support export format (JSON)
+   *  Include environmental context
+
+   *  Support export format (JSON)
 
 4.4.2.  Standard Recorder Requirements
 
@@ -642,20 +966,29 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Full Decision Geometry
-   -  Cryptographic chaining (SHA-256)
-   -  Tamper detection
-   -  1-year decision retention
-   -  7-year Soul veto retention
-   -  Multi-tier storage (hot/warm/cold)
-   -  Query by: time, agent, outcome, environment
-   -  Compliance export (SOC 2, GDPR, HIPAA)
+   *  Full Decision Geometry
+
+   *  Cryptographic chaining (SHA-256)
+
+   *  Tamper detection
+
+   *  1-year decision retention
+
+   *  7-year Soul veto retention
+
+   *  Multi-tier storage (hot/warm/cold)
+
+   *  Query by: time, agent, outcome, environment
+
+   *  Compliance export (SOC 2, GDPR, HIPAA)
 
    SHOULD:
 
-   -  Counterfactual analysis
-   -  Aggregate analytics
-   -  Anomaly detection
+   *  Counterfactual analysis
+
+   *  Aggregate analytics
+
+   *  Anomaly detection
 
 4.4.3.  Full Recorder Requirements
 
@@ -663,17 +996,31 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  External anchoring (hourly minimum)
-   -  Multi-region replication
-   -  Complete forensic reconstruction
-   -  Third-party audit access
-   -  7-year retention for all record types
-   -  Chain verification on query
+   *  External anchoring (hourly minimum)
+
+   *  Multi-region replication
+
+   *  Complete forensic reconstruction
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 18]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Third-party audit access
+
+   *  7-year retention for all record types
+
+   *  Chain verification on query
 
    SHOULD:
 
-   -  Real-time chain verification
-   -  Formal proof of immutability
+   *  Real-time chain verification
+
+   *  Formal proof of immutability
 
 4.5.  Agent Requirements
 
@@ -681,15 +1028,19 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Unique agent identifier
-   -  Obtain and present Trust Proof
-   -  Refresh Trust Proof before expiration
-   -  Handle denial gracefully
+   *  Unique agent identifier
+
+   *  Obtain and present Trust Proof
+
+   *  Refresh Trust Proof before expiration
+
+   *  Handle denial gracefully
 
    SHOULD:
 
-   -  Cache Trust Proof appropriately
-   -  Log own decisions locally
+   *  Cache Trust Proof appropriately
+
+   *  Log own decisions locally
 
 4.5.2.  Standard Agent Requirements
 
@@ -697,17 +1048,31 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Maintain trajectory chain
-   -  Support lineage (Sponsored, Independent, Guarantor)
-   -  Handle tier transitions
-   -  Support delegation (if human or delegating)
-   -  Implement graceful degradation
+   *  Maintain trajectory chain
+
+   *  Support lineage (Sponsored, Independent, Guarantor)
+
+   *  Handle tier transitions
+
+   *  Support delegation (if human or delegating)
+
+   *  Implement graceful degradation
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 19]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
    SHOULD:
 
-   -  Track own dE/dt
-   -  Anticipate tier transitions
-   -  Support sponsorship protocol
+   *  Track own dE/dt
+
+   *  Anticipate tier transitions
+
+   *  Support sponsorship protocol
 
 4.5.3.  Full Agent Requirements
 
@@ -715,15 +1080,19 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    MUST:
 
-   -  Complete trajectory verification
-   -  Cross-zone identity portability
-   -  Attestation chain support
-   -  Extended proof support (celestial)
+   *  Complete trajectory verification
+
+   *  Cross-zone identity portability
+
+   *  Attestation chain support
+
+   *  Extended proof support (celestial)
 
    SHOULD:
 
-   -  Whakapapa chain maintenance
-   -  Predictive trust awareness
+   *  Whakapapa chain maintenance
+
+   *  Predictive trust awareness
 
 5.  Protocol Requirements
 
@@ -734,6 +1103,24 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
    Format: JWT (RFC 7519)
 
    Required claims:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 20]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
       {
         "iss": "oracle-identifier",
@@ -780,6 +1167,17 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    All Standard claims, plus:
 
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 21]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
       {
         "ktp": {
           ...
@@ -813,38 +1211,57 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
    The Zeroth Law (A <= E_trust) MUST be enforced as follows:
 
    1.  Extract E_trust from Trust Proof
+
    2.  Determine action risk (A) from classification
+
    3.  Compute the Zeroth Law margin from A and E_trust
+
    4.  If margin <= M_veto: supervision = silent_veto (Silent Veto)
+
    5.  Otherwise: derive supervision and tightenedConstraints from the
        margin per [KTP-CORE] Section 6.6 (proceed to other checks)
 
    Implementation MUST NOT:
 
-   -  Allow override of Zeroth Law
-   -  Skip Zeroth Law check under any condition
-   -  Modify A or E_trust to force allow
+   *  Allow override of Zeroth Law
+
+   *  Skip Zeroth Law check under any condition
+
+
+
+Perkins                 Expires 14 February 2027               [Page 22]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Modify A or E_trust to force allow
 
    Implementation MUST:
 
-   -  Log all Zeroth Law evaluations
-   -  Include A and E_trust in denial response
-   -  Provide remediation guidance in denial
+   *  Log all Zeroth Law evaluations
+
+   *  Include A and E_trust in denial response
+
+   *  Provide remediation guidance in denial
 
 5.2.2.  Soul Constraint (Standard and Full)
 
    Before Zeroth Law evaluation:
 
    1.  Check Soul constraint from Trust Proof
-   2.  If S = 1: supervision = silent_veto with
-       SOVEREIGNTY_CONSTRAINT (Soul Veto), skip Zeroth Law
+
+   2.  If S = 1: supervision = silent_veto with SOVEREIGNTY_CONSTRAINT
+       (Soul Veto), skip Zeroth Law
+
    3.  If S = 0: Proceed to Zeroth Law
 
    Soul Veto MUST:
 
-   -  Take precedence over all other checks
-   -  Be logged with special retention (7 years)
-   -  Include constraint source in denial
+   *  Take precedence over all other checks
+
+   *  Be logged with special retention (7 years)
+
+   *  Include constraint source in denial
 
 5.3.  Tier Transitions
 
@@ -862,21 +1279,36 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
    | Hibernation | < 22            |
    +-------------+-----------------+
 
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 23]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
 5.3.2.  Transition Handling
 
    On tier transition:
 
    MUST:
 
-   -  Update agent's effective tier immediately
-   -  Log transition to Flight Recorder
-   -  Notify agent of transition (if possible)
+   *  Update agent's effective tier immediately
+
+   *  Log transition to Flight Recorder
+
+   *  Notify agent of transition (if possible)
 
    SHOULD:
 
-   -  Apply hysteresis (±2 points) to prevent oscillation
-   -  Provide transition warning before demotion
-   -  Allow grace period for in-flight operations
+   *  Apply hysteresis (±2 points) to prevent oscillation
+
+   *  Provide transition warning before demotion
+
+   *  Allow grace period for in-flight operations
 
 5.4.  Cryptographic Requirements
 
@@ -884,46 +1316,67 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Basic Level:
 
-   -  ES256 (ECDSA with P-256 and SHA-256) - REQUIRED
-   -  Ed25519 - RECOMMENDED
+   *  ES256 (ECDSA with P-256 and SHA-256) - REQUIRED
+
+   *  Ed25519 - RECOMMENDED
 
    Standard Level:
 
-   -  ES256 - REQUIRED
-   -  Ed25519 - REQUIRED
-   -  Threshold signatures - REQUIRED
+   *  ES256 - REQUIRED
+
+   *  Ed25519 - REQUIRED
+
+   *  Threshold signatures - REQUIRED
 
    Full Level:
 
-   -  All Standard algorithms
-   -  ES384 (ECDSA with P-384) - RECOMMENDED
-   -  Key rotation support - REQUIRED
+   *  All Standard algorithms
+
+   *  ES384 (ECDSA with P-384) - RECOMMENDED
+
+   *  Key rotation support - REQUIRED
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 24]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 5.4.2.  Hash Functions
 
    All Levels:
 
-   -  SHA-256 - REQUIRED for chaining and integrity
-   -  SHA-384 - RECOMMENDED for Full level
+   *  SHA-256 - REQUIRED for chaining and integrity
+
+   *  SHA-384 - RECOMMENDED for Full level
 
 5.4.3.  Key Management
 
    Basic Level:
 
-   -  Secure key storage
-   -  Manual key rotation supported
+   *  Secure key storage
+
+   *  Manual key rotation supported
 
    Standard Level:
 
-   -  HSM recommended for Oracle keys
-   -  Automated key rotation
-   -  Key versioning in proofs
+   *  HSM recommended for Oracle keys
+
+   *  Automated key rotation
+
+   *  Key versioning in proofs
 
    Full Level:
 
-   -  HSM required for Oracle keys
-   -  Automated key rotation with zero downtime
-   -  Complete key audit trail
+   *  HSM required for Oracle keys
+
+   *  Automated key rotation with zero downtime
+
+   *  Complete key audit trail
 
 6.  Test Suite
 
@@ -932,11 +1385,22 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
    The KTP test suite comprises four categories:
 
    1.  Unit Tests: Individual component functionality
+
    2.  Integration Tests: Component interaction
+
    3.  Interoperability Tests: Cross-implementation compatibility
+
    4.  Stress Tests: Performance under load
 
    Each category has tests for each conformance level.
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 25]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 6.2.  Unit Tests
 
@@ -944,96 +1408,151 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Basic:
 
-   -  TO-B-001: Risk Factor calculation accuracy
-   -  TO-B-002: E_trust calculation accuracy
-   -  TO-B-003: Trust Proof generation
-   -  TO-B-004: Signature validation
-   -  TO-B-005: Proof expiration enforcement
+   *  TO-B-001: Risk Factor calculation accuracy
+
+   *  TO-B-002: E_trust calculation accuracy
+
+   *  TO-B-003: Trust Proof generation
+
+   *  TO-B-004: Signature validation
+
+   *  TO-B-005: Proof expiration enforcement
 
    Standard:
 
-   -  TO-S-001: Threshold signature generation
-   -  TO-S-002: Trust velocity calculation
-   -  TO-S-003: Proof of Resilience calculation
-   -  TO-S-004: Soul constraint handling
-   -  TO-S-005: Mesh consensus (simulated)
+   *  TO-S-001: Threshold signature generation
+
+   *  TO-S-002: Trust velocity calculation
+
+   *  TO-S-003: Proof of Resilience calculation
+
+   *  TO-S-004: Soul constraint handling
+
+   *  TO-S-005: Mesh consensus (simulated)
 
    Full:
 
-   -  TO-F-001: Sub-second proof refresh
-   -  TO-F-002: Real-time consensus
-   -  TO-F-003: Geographic distribution handling
-   -  TO-F-004: Extended proof generation (celestial)
+   *  TO-F-001: Sub-second proof refresh
+
+   *  TO-F-002: Real-time consensus
+
+   *  TO-F-003: Geographic distribution handling
+
+   *  TO-F-004: Extended proof generation (celestial)
 
 6.2.2.  Risk Factor Unit Tests
 
    Basic:
 
-   -  CT-B-001: Dimension normalization
-   -  CT-B-002: Risk Factor aggregation
-   -  CT-B-003: Sensor failure handling
-   -  CT-B-004: Configuration loading
+   *  CT-B-001: Dimension normalization
+
+   *  CT-B-002: Risk Factor aggregation
+
+   *  CT-B-003: Sensor failure handling
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 26]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  CT-B-004: Configuration loading
 
    Standard:
 
-   -  CT-S-001: All 7 input support
-   -  CT-S-002: Risk domain aggregation
-   -  CT-S-003: Feed weighting
-   -  CT-S-004: Soul veto logic
-   -  CT-S-005: Sensor validation
+   *  CT-S-001: All 7 input support
+
+   *  CT-S-002: Risk domain aggregation
+
+   *  CT-S-003: Feed weighting
+
+   *  CT-S-004: Soul veto logic
+
+   *  CT-S-005: Sensor validation
 
    Full:
 
-   -  CT-F-001: TK Label integration
-   -  CT-F-002: Sub-second refresh
-   -  CT-F-003: Sensor redundancy failover
+   *  CT-F-001: TK Label integration
+
+   *  CT-F-002: Sub-second refresh
+
+   *  CT-F-003: Sensor redundancy failover
 
 6.2.3.  PEP Unit Tests
 
    Basic:
 
-   -  PEP-B-001: Trust Proof validation
-   -  PEP-B-002: Zeroth Law enforcement
-   -  PEP-B-003: Denial response format
-   -  PEP-B-004: Logging completeness
+   *  PEP-B-001: Trust Proof validation
+
+   *  PEP-B-002: Zeroth Law enforcement
+
+   *  PEP-B-003: Denial response format
+
+   *  PEP-B-004: Logging completeness
 
    Standard:
 
-   -  PEP-S-001: Tier enforcement
-   -  PEP-S-002: Soul veto enforcement
-   -  PEP-S-003: Action risk classification
-   -  PEP-S-004: Graceful degradation
-   -  PEP-S-005: Decision Geometry reporting
+   *  PEP-S-001: Tier enforcement
+
+   *  PEP-S-002: Soul veto enforcement
+
+   *  PEP-S-003: Action risk classification
+
+   *  PEP-S-004: Graceful degradation
+
+   *  PEP-S-005: Decision Geometry reporting
 
    Full:
 
-   -  PEP-F-001: Latency < 15ms
-   -  PEP-F-002: Zero-downtime update
-   -  PEP-F-003: Defense in depth
+
+
+
+Perkins                 Expires 14 February 2027               [Page 27]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  PEP-F-001: Latency < 15ms
+
+   *  PEP-F-002: Zero-downtime update
+
+   *  PEP-F-003: Defense in depth
 
 6.2.4.  Flight Recorder Unit Tests
 
    Basic:
 
-   -  FR-B-001: Decision logging
-   -  FR-B-002: Retention enforcement
-   -  FR-B-003: Query by time range
-   -  FR-B-004: Query by agent
+   *  FR-B-001: Decision logging
+
+   *  FR-B-002: Retention enforcement
+
+   *  FR-B-003: Query by time range
+
+   *  FR-B-004: Query by agent
 
    Standard:
 
-   -  FR-S-001: Cryptographic chaining
-   -  FR-S-002: Tamper detection
-   -  FR-S-003: Decision Geometry completeness
-   -  FR-S-004: Multi-tier storage
-   -  FR-S-005: Compliance export
+   *  FR-S-001: Cryptographic chaining
+
+   *  FR-S-002: Tamper detection
+
+   *  FR-S-003: Decision Geometry completeness
+
+   *  FR-S-004: Multi-tier storage
+
+   *  FR-S-005: Compliance export
 
    Full:
 
-   -  FR-F-001: External anchoring
-   -  FR-F-002: Multi-region replication
-   -  FR-F-003: Forensic reconstruction
-   -  FR-F-004: Chain verification performance
+   *  FR-F-001: External anchoring
+
+   *  FR-F-002: Multi-region replication
+
+   *  FR-F-003: Forensic reconstruction
+
+   *  FR-F-004: Chain verification performance
 
 6.3.  Integration Tests
 
@@ -1041,77 +1560,127 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Basic:
 
-   -  INT-B-001: Agent obtains proof and accesses resource
-   -  INT-B-002: Agent denied due to A > E_trust
-   -  INT-B-003: Environmental change affects E_trust
+   *  INT-B-001: Agent obtains proof and accesses resource
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 28]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  INT-B-002: Agent denied due to A > E_trust
+
+   *  INT-B-003: Environmental change affects E_trust
 
    Standard:
 
-   -  INT-S-001: Tier transition on E_trust change
-   -  INT-S-002: Soul veto propagation
-   -  INT-S-003: Oracle mesh failover
-   -  INT-S-004: Federation handshake
-   -  INT-S-005: Complete audit trail verification
+   *  INT-S-001: Tier transition on E_trust change
+
+   *  INT-S-002: Soul veto propagation
+
+   *  INT-S-003: Oracle mesh failover
+
+   *  INT-S-004: Federation handshake
+
+   *  INT-S-005: Complete audit trail verification
 
    Full:
 
-   -  INT-F-001: Cross-zone agent migration
-   -  INT-F-002: Celestial transit simulation
-   -  INT-F-003: Complete disaster recovery
+   *  INT-F-001: Cross-zone agent migration
+
+   *  INT-F-002: Celestial transit simulation
+
+   *  INT-F-003: Complete disaster recovery
 
 6.3.2.  Failure Mode Tests
 
    All Levels:
 
-   -  FAIL-001: Oracle unavailable
-   -  FAIL-002: Sensor failure
-   -  FAIL-003: PEP failure
-   -  FAIL-004: Flight Recorder failure
-   -  FAIL-005: Network partition
+   *  FAIL-001: Oracle unavailable
+
+   *  FAIL-002: Sensor failure
+
+   *  FAIL-003: PEP failure
+
+   *  FAIL-004: Flight Recorder failure
+
+   *  FAIL-005: Network partition
 
    Standard/Full:
 
-   -  FAIL-S-001: Oracle mesh node failure
-   -  FAIL-S-002: Threshold signature node loss
-   -  FAIL-S-003: Federation partner unavailable
+   *  FAIL-S-001: Oracle mesh node failure
+
+   *  FAIL-S-002: Threshold signature node loss
+
+   *  FAIL-S-003: Federation partner unavailable
 
 6.4.  Interoperability Tests
 
+
+
+
+Perkins                 Expires 14 February 2027               [Page 29]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
 6.4.1.  Trust Proof Exchange
 
-   -  INTEROP-001: Proof generated by Impl A, validated by Impl B
-   -  INTEROP-002: Threshold proof with mixed implementations
-   -  INTEROP-003: Proof with all optional claims
+   *  INTEROP-001: Proof generated by Impl A, validated by Impl B
+
+   *  INTEROP-002: Threshold proof with mixed implementations
+
+   *  INTEROP-003: Proof with all optional claims
 
 6.4.2.  Federation Protocol
 
-   -  INTEROP-010: Zone discovery across implementations
-   -  INTEROP-011: Cross-zone attestation
-   -  INTEROP-012: Trust factor negotiation
+   *  INTEROP-010: Zone discovery across implementations
+
+   *  INTEROP-011: Cross-zone attestation
+
+   *  INTEROP-012: Trust factor negotiation
 
 6.4.3.  Flight Recorder
 
-   -  INTEROP-020: Decision record format compatibility
-   -  INTEROP-021: Chain verification across implementations
-   -  INTEROP-022: Export format compatibility
+   *  INTEROP-020: Decision record format compatibility
+
+   *  INTEROP-021: Chain verification across implementations
+
+   *  INTEROP-022: Export format compatibility
 
 6.5.  Stress Tests
 
 6.5.1.  Load Tests
 
-   -  STRESS-001: 1000 proofs/second sustained
-   -  STRESS-002: 10000 PEP evaluations/second
-   -  STRESS-003: 1000 concurrent agents
-   -  STRESS-004: Flight Recorder write throughput
+   *  STRESS-001: 1000 proofs/second sustained
+
+   *  STRESS-002: 10000 PEP evaluations/second
+
+   *  STRESS-003: 1000 concurrent agents
+
+   *  STRESS-004: Flight Recorder write throughput
 
 6.5.2.  Chaos Tests
 
-   -  CHAOS-001: Random Oracle node failure
-   -  CHAOS-002: Random sensor failure
-   -  CHAOS-003: Network latency injection
-   -  CHAOS-004: Clock skew injection
+   *  CHAOS-001: Random Oracle node failure
+
+   *  CHAOS-002: Random sensor failure
+
+   *  CHAOS-003: Network latency injection
+
+   *  CHAOS-004: Clock skew injection
 
 7.  Certification Process
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 30]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 7.1.  Self-Certification
 
@@ -1120,24 +1689,32 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 7.1.1.  Self-Certification Process
 
    1.  Execute complete test suite for target level
+
    2.  Document all test results
+
    3.  Document any deviations with justification
+
    4.  Publish results to public repository
+
    5.  Submit certification claim
 
 7.1.2.  Self-Certification Requirements
 
    MUST:
 
-   -  Pass 100% of required tests for level
-   -  Document test execution environment
-   -  Make test results publicly available
-   -  Maintain certification with each release
+   *  Pass 100% of required tests for level
+
+   *  Document test execution environment
+
+   *  Make test results publicly available
+
+   *  Maintain certification with each release
 
    MAY:
 
-   -  Skip optional tests (clearly documented)
-   -  Use custom test execution framework (if equivalent)
+   *  Skip optional tests (clearly documented)
+
+   *  Use custom test execution framework (if equivalent)
 
 7.2.  Third-Party Certification
 
@@ -1148,19 +1725,35 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Authorized certification bodies must:
 
-   -  Demonstrate KTP expertise
-   -  Maintain independence from implementers
-   -  Follow documented certification procedures
-   -  Publish certification criteria
-   -  Maintain certification records
+   *  Demonstrate KTP expertise
+
+   *  Maintain independence from implementers
+
+   *  Follow documented certification procedures
+
+
+
+Perkins                 Expires 14 February 2027               [Page 31]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   *  Publish certification criteria
+
+   *  Maintain certification records
 
 7.2.2.  Third-Party Process
 
    1.  Implementer submits for certification
+
    2.  Certification body reviews documentation
+
    3.  Certification body executes test suite
+
    4.  Certification body performs security review (Full only)
+
    5.  Certification body issues certificate or findings
+
    6.  Certificate published to registry
 
 7.3.  Certification Maintenance
@@ -1169,22 +1762,37 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Recertification required when:
 
-   -  Major version release
-   -  Security vulnerability discovered and patched
-   -  Significant architecture change
-   -  Conformance level upgrade
-   -  Annual renewal (Full level)
+   *  Major version release
+
+   *  Security vulnerability discovered and patched
+
+   *  Significant architecture change
+
+   *  Conformance level upgrade
+
+   *  Annual renewal (Full level)
 
 7.3.2.  Certification Revocation
 
    Certification may be revoked for:
 
-   -  Discovered non-compliance
-   -  Security incident demonstrating inadequacy
-   -  Failure to address reported issues
-   -  False certification claims
+   *  Discovered non-compliance
+
+   *  Security incident demonstrating inadequacy
+
+   *  Failure to address reported issues
+
+   *  False certification claims
 
 8.  Interoperability
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 32]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 8.1.  Cross-Implementation Testing
 
@@ -1195,9 +1803,11 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Regular interoperability testing events:
 
-   -  Quarterly virtual plugfests
-   -  Annual in-person interop event
-   -  Continuous integration testing (automated)
+   *  Quarterly virtual plugfests
+
+   *  Annual in-person interop event
+
+   *  Continuous integration testing (automated)
 
 8.1.2.  Interoperability Matrix
 
@@ -1208,10 +1818,13 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    For federation to work, implementations must agree on:
 
-   -  Zone discovery protocol
-   -  Trust Proof format
-   -  Attestation format
-   -  Federation agreement structure
+   *  Zone discovery protocol
+
+   *  Trust Proof format
+
+   *  Attestation format
+
+   *  Federation agreement structure
 
    Interoperability tests verify cross-implementation federation.
 
@@ -1219,20 +1832,31 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Implementations SHOULD support:
 
-   -  Current specification version
-   -  Previous major version (18-month deprecation)
+   *  Current specification version
+
+   *  Previous major version (18-month deprecation)
 
    Version negotiation required for federation.
 
 9.  Conformance Claims
 
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 33]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
 9.1.  Claim Format
 
    Conformance claims MUST follow this format:
 
-   "[Product Name] [Version] conforms to KTP [Level] per
-   [KTP-CONFORMANCE] [Version], [self-certified/certified by
-   [Certification Body]] on [Date]."
+   "[Product Name] [Version] conforms to KTP [Level] per [KTP-
+   CONFORMANCE] [Version], [self-certified/certified by [Certification
+   Body]] on [Date]."
 
    Example:
 
@@ -1243,9 +1867,11 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    Claims can be verified by:
 
-   -  Reviewing published test results (self-certification)
-   -  Checking certification registry (third-party)
-   -  Executing interoperability tests
+   *  Reviewing published test results (self-certification)
+
+   *  Checking certification registry (third-party)
+
+   *  Executing interoperability tests
 
 10.  Security Considerations
 
@@ -1253,53 +1879,194 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  47
 
    The test suite itself must be secure:
 
-   -  Test data must not contain real credentials
-   -  Test environments must be isolated
-   -  Test results must be integrity-protected
+   *  Test data must not contain real credentials
+
+   *  Test environments must be isolated
+
+   *  Test results must be integrity-protected
 
 10.2.  Certification Security
 
    Certification process must be secure:
 
-   -  Certification bodies must be vetted
-   -  Certificates must be tamper-evident
-   -  Revocation must be prompt and public
+   *  Certification bodies must be vetted
+
+   *  Certificates must be tamper-evident
+
+   *  Revocation must be prompt and public
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 34]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
 10.3.  Implementation Security
 
    Conformance does not guarantee security:
 
-   -  Conformance tests verify protocol correctness
-   -  Security review is separate (required for Full)
-   -  Deployment security is implementer responsibility
+   *  Conformance tests verify protocol correctness
 
-11.  References
+   *  Security review is separate (required for Full)
 
-11.1.  Normative References
+   *  Deployment security is implementer responsibility
 
-   [KTP-CORE]
-              Perkins, C., "Kinetic Trust Protocol - Core
-              Specification", NMCITRA, November 2025.
-
-   [KTP-SENSORS]
-              Perkins, C., "Kinetic Trust Protocol - Context Signal
-              Sensor Specification", NMCITRA, November 2025.
-
-   [KTP-ENFORCE]
-              Perkins, C., "Kinetic Trust Protocol - Enforcement Layer
-              Specification", NMCITRA, November 2025.
+11.  Normative References
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
-              (JWT)", RFC 7519, May 2015.
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/info/rfc7519>.
 
-11.2.  Informative References
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, May 2017.
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-Authors' Addresses
+Appendix A.  Changes from v1
+
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0.  The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+A.1.  The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+                       +============+=============+
+                       | v1         | v2.0.0      |
+                       +============+=============+
+                       | tethered   | sponsored   |
+                       +------------+-------------+
+                       | divergent  | independent |
+                       +------------+-------------+
+                       | persistent | guarantor   |
+                       +------------+-------------+
+
+                                 Table 1
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 35]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names.  The v1
+   words each carried an unintended security reading - in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart - and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder.  Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+A.2.  The Trust Tier thresholds
+
+             +===============+===============+===============+
+             | Tier          | v1            | v2.0.0        |
+             +===============+===============+===============+
+             | Admin Mode    | E_trust >= 95 | E_trust >= 85 |
+             +---------------+---------------+---------------+
+             | Operator Mode | E_trust >= 85 | E_trust >= 72 |
+             +---------------+---------------+---------------+
+             | Analyst Mode  | E_trust >= 70 | E_trust >= 58 |
+             +---------------+---------------+---------------+
+             | Observer Mode | E_trust >= 50 | E_trust >= 22 |
+             +---------------+---------------+---------------+
+             | Hibernation   | E_trust < 50  | E_trust < 22  |
+             +---------------+---------------+---------------+
+
+                                  Table 2
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses.  The generation ceilings
+   are unchanged; one table moved, not two.
+
+   Two consequences travel with the change.  Hibernation exit moves from
+   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
+   a floor of 50 becomes a thirty-three-point one over a floor of 22.
+   And the stable-conditions requirement for the top tier moves from R <
+   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
+   corpus illustrates.
+
+A.3.  Requirements Language
+
+   This document now invokes BCP 14.  Its normative keywords were
+   previously capitalised without the paragraph that gives them meaning.
+
+Author's Address
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 36]
+
+Internet-Draft               KTP-CONFORMANCE                 August 2026
+
 
    Chris Perkins
-   New Mexico Cyber Intelligence & Threat Response Alliance (NMCITRA)
-
+   NMCITRA
    Email: cperkins@nmcitra.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 37]

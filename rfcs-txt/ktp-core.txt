@@ -1,9 +1,15 @@
-Kinetic Trust Protocol                                      C. Perkins
-Specification Draft                                           NMCITRA
-Version: 0.1                                             November 2025
 
 
-          Kinetic Trust Protocol (KTP) - Core Specification
+
+
+Network Working Group                                         C. Perkins
+Internet-Draft                                                   NMCITRA
+Intended status: Experimental                             13 August 2026
+Expires: 14 February 2027
+
+
+           Kinetic Trust Protocol (KTP) - Core Specification
+                       draft-perkins-ktp-core-00
 
 Abstract
 
@@ -19,155 +25,164 @@ Abstract
 
 Status of This Memo
 
-   This document is a draft specification developed by the New Mexico
-   Cyber Intelligence & Threat Response Alliance (NMCITRA). It has not
-   been submitted to the IETF and does not represent an Internet
-   Standard or consensus of any standards body.
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
 
-   Feedback and contributions are welcome at:
-   https://github.com/nmcitra/ktp-rfc
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 14 February 2027.
 
 Copyright Notice
 
-   Copyright (c) 2025 Chris Perkins / NMCITRA. This work is licensed
-   under the Apache License, Version 2.0.
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+
+
+
+Perkins                 Expires 14 February 2027                [Page 1]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
-   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . .   3
-       1.1.  The Problem with Static Authorization  . . . . . . . .   3
-       1.2.  The Environment-Based Solution  . . . . . . . . . . .   4
-       1.3.  Requirements Language  . . . . . . . . . . . . . . . .   4
-   2.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . .   5
-   3.  Protocol Overview  . . . . . . . . . . . . . . . . . . . . .   7
-       3.1.  Architecture . . . . . . . . . . . . . . . . . . . . .   7
-       3.2.  Flow . . . . . . . . . . . . . . . . . . . . . . . . .   8
-   4.  The Zeroth Law . . . . . . . . . . . . . . . . . . . . . . .   9
-       4.1.  Definition . . . . . . . . . . . . . . . . . . . . . .   9
-       4.2.  Enforcement  . . . . . . . . . . . . . . . . . . . . .  10
-   5.  Trust Score Calculation  . . . . . . . . . . . . . . . . . .  11
-       5.1.  Base Trust (E_base)  . . . . . . . . . . . . . . . . .  11
-             5.1.1.  The External Root . . . . . . . . . . . . . .   11
-             5.1.2.  Peer Signals . . . . . . . . . . . . . . . . .  11
-             5.1.3.  Ceilings . . . . . . . . . . . . . . . . . . .  11
-             5.1.4.  Base Trust Calculation . . . . . . . . . . . .  11
-       5.2.  Risk Factor (R)  . . . . . . . . . . . . . . . . . . .  12
-             5.2.1.  Risk Domains . . . . . . . . . . . . . . . . .  13
-       5.3.  Effective Trust Score (E_trust)  . . . . . . . . . . .  14
-       5.4.  Trust Velocity (dE/dt) . . . . . . . . . . . . . . . .  14
-       5.5.  Trust Score Integrity (Anti-Goodhart)  . . . . . . . .  15
-             5.5.1.  The Goodhart Threat Model  . . . . . . . . . .  15
-             5.5.2.  Multi-Dimensional Scoring  . . . . . . . . . .  16
-             5.5.3.  Behavioral Unpredictability  . . . . . . . . .  16
-             5.5.4.  Adversity Requirements . . . . . . . . . . . .  17
-             5.5.5.  Peer Validation  . . . . . . . . . . . . . . .  17
-             5.5.6.  Temporal Consistency . . . . . . . . . . . . .  18
-             5.5.7.  Cross-Zone Correlation . . . . . . . . . . . .  18
-             5.5.8.  Human-in-the-Loop Sampling . . . . . . . . . .  19
-             5.5.9.  Gradient Isolation . . . . . . . . . . . . . .  19
-             5.5.10. Fundamental Limits . . . . . . . . . . . . . .  20
-   6.  Risk Factors . . . . . . . . . . . . . . . . . . . . . . . .  21
-       6.1.  The Seven Dimensions . . . . . . . . . . . . . . . . .  21
-       6.2.  The Soul Veto  . . . . . . . . . . . . . . . . . . . .  24
-             6.2.1.  The Carriage Interface for Normative Content .  24
-       6.3.  Normalization  . . . . . . . . . . . . . . . . . . . .  25
-       6.4.  Domain Weights . . . . . . . . . . . . . . . . . . . .  26
-       6.5.  Tensor Modularity  . . . . . . . . . . . . . . . . . .  27
-       6.6.  Aggregation Algorithm  . . . . . . . . . . . . . . . .  28
-       6.7.  Undefined Inputs . . . . . . . . . . . . . . . . . . .  29
-   7.  Trust Proof Token  . . . . . . . . . . . . . . . . . . . . .  29
-       7.1.  Token Format . . . . . . . . . . . . . . . . . . . . .  29
-       7.2.  Claims . . . . . . . . . . . . . . . . . . . . . . . .  30
-       7.3.  Signature  . . . . . . . . . . . . . . . . . . . . . .  32
-       7.4.  Lifetime . . . . . . . . . . . . . . . . . . . . . . .  33
-   8.  Silent Veto Mechanism  . . . . . . . . . . . . . . . . . . .  34
-       8.1.  Action Risk Classification . . . . . . . . . . . . . .  34
-       8.2.  Veto Trigger . . . . . . . . . . . . . . . . . . . . .  35
-       8.3.  Veto Response  . . . . . . . . . . . . . . . . . . . .  36
-   9.  Trust Oracle . . . . . . . . . . . . . . . . . . . . . . . .  37
-   10. Limits of This Specification . . . . . . . . . . . . . . . .  37
-       9.1.  Responsibilities . . . . . . . . . . . . . . . . . . .  37
-       9.2.  Distribution . . . . . . . . . . . . . . . . . . . . .  38
-       9.3.  Consensus  . . . . . . . . . . . . . . . . . . . . . .  39
-   11. Security Considerations  . . . . . . . . . . . . . . . . . .  40
-       11.1. Trust Oracle Compromise  . . . . . . . . . . . . . . .  40
-       11.2. Sensor Manipulation  . . . . . . . . . . . . . . . . .  41
-       11.3. Replay Attacks . . . . . . . . . . . . . . . . . . . .  41
-       11.4. Trajectory Forgery . . . . . . . . . . . . . . . . . .  42
-       11.5. Denial of Service  . . . . . . . . . . . . . . . . . .  42
-       11.6. Privacy Considerations . . . . . . . . . . . . . . . .  43
-   12. IANA Considerations  . . . . . . . . . . . . . . . . . . . .  43
-   Appendix C.  Changes from v1 . . . . . . . . . . . . . . . . . .  43
-       12.1. JWT Claim Registration . . . . . . . . . . . . . . . .  44
-       12.2. Media Type Registration  . . . . . . . . . . . . . . .  44
-       12.3. URI Scheme Registration  . . . . . . . . . . . . . . .  45
-   13. References . . . . . . . . . . . . . . . . . . . . . . . . .  45
-       13.1. Normative References . . . . . . . . . . . . . . . . .  45
-       13.2. Informative References . . . . . . . . . . . . . . . .  46
-   Appendix A.  Example Calculations  . . . . . . . . . . . . . . .  47
-   Appendix B.  JSON Schemas  . . . . . . . . . . . . . . . . . . .  49
-   Appendix C.  Changes from v1
-
-   This appendix records what a v1 implementation must change to conform
-   to v2.0.0. The break is deliberate and there is no dual-accept
-   period: an implementation reads v1 or it reads v2.
-
-   C.1. The lineage stage names
-
-   The three lineage stages are renamed on the wire and in prose.
-   Numeric protobuf values are unchanged, so only the symbol names move.
-
-   +---------------+---------------+
-   | v1            | v2.0.0        |
-   +---------------+---------------+
-   | tethered      | sponsored     |
-   | divergent     | independent   |
-   | persistent    | guarantor     |
-   +---------------+---------------+
-
-   This affects agent identifier strings (agent:<stage>:...), the
-   lineage enum, and the protobuf LineageType member names. The v1 words
-   each carried an unintended security reading -- in jailbreak and
-   intrusion vocabulary, "tethered" means a compromise that dies at
-   reboot and "persistent" is the established word for one that survives
-   a restart -- and the three together read as a coherent escalation
-   narrative rather than as a maturity ladder. Stage 3 is now named for
-   what it can be held to rather than what it is freed of.
-
-   C.2. The Trust Tier thresholds
-
-   +---------------+------------------+------------------+
-   | Tier          | v1               | v2.0.0           |
-   +---------------+------------------+------------------+
-   | Admin Mode    | E_trust >= 95    | E_trust >= 85    |
-   | Operator Mode | E_trust >= 85    | E_trust >= 72    |
-   | Analyst Mode  | E_trust >= 70    | E_trust >= 58    |
-   | Observer Mode | E_trust >= 50    | E_trust >= 22    |
-   | Hibernation   | E_trust < 50     | E_trust < 22     |
-   +---------------+------------------+------------------+
-
-   The v1 set was unreachable from the v1 generation ceilings:
-   generations 0 through 2 were capped below the lowest threshold, so an
-   agent was in Hibernation by lineage rather than by environment, and
-   the top tier could not be reached in any zone at the calm conditions
-   the specification's own worked example uses. The generation ceilings
-   are unchanged; one table moved, not two.
-
-   Two consequences travel with the change. Hibernation exit moves from
-   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
-   a floor of 50 becomes a thirty-three-point one over a floor of 22.
-   And the stable-conditions requirement for the top tier moves from R <
-   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
-   corpus illustrates.
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.1.  The Problem with Static Authorization . . . . . . . . . .   4
+     1.2.  The Environment-Based Solution  . . . . . . . . . . . . .   4
+     1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   3.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .   7
+     3.1.  Architecture  . . . . . . . . . . . . . . . . . . . . . .   7
+     3.2.  Flow  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+   4.  The Zeroth Law  . . . . . . . . . . . . . . . . . . . . . . .  10
+     4.1.  Definition  . . . . . . . . . . . . . . . . . . . . . . .  10
+     4.2.  Enforcement . . . . . . . . . . . . . . . . . . . . . . .  11
+   5.  Trust Score Calculation . . . . . . . . . . . . . . . . . . .  11
+     5.1.  Base Trust (E_base) . . . . . . . . . . . . . . . . . . .  12
+       5.1.1.  The External Root . . . . . . . . . . . . . . . . . .  12
+       5.1.2.  Peer Signals  . . . . . . . . . . . . . . . . . . . .  14
+       5.1.3.  Ceilings  . . . . . . . . . . . . . . . . . . . . . .  15
+       5.1.4.  Base Trust Calculation  . . . . . . . . . . . . . . .  16
+     5.2.  Risk Factor (R) . . . . . . . . . . . . . . . . . . . . .  18
+       5.2.1.  Risk Domains  . . . . . . . . . . . . . . . . . . . .  19
+     5.3.  Effective Trust Score (E_trust) . . . . . . . . . . . . .  20
+     5.4.  Trust Velocity (dE/dt)  . . . . . . . . . . . . . . . . .  20
+     5.5.  Trust Score Integrity (Anti-Goodhart Measures)  . . . . .  21
+       5.5.1.  The Goodhart Threat Model . . . . . . . . . . . . . .  21
+       5.5.2.  Multi-Dimensional Scoring . . . . . . . . . . . . . .  22
+       5.5.3.  Behavioral Unpredictability . . . . . . . . . . . . .  22
+       5.5.4.  Adversity Requirements  . . . . . . . . . . . . . . .  22
+       5.5.5.  Peer Validation . . . . . . . . . . . . . . . . . . .  23
+       5.5.6.  Temporal Consistency  . . . . . . . . . . . . . . . .  23
+       5.5.7.  Cross-Zone Correlation  . . . . . . . . . . . . . . .  23
+       5.5.8.  Human-in-the-Loop Sampling  . . . . . . . . . . . . .  24
+       5.5.9.  Gradient Isolation  . . . . . . . . . . . . . . . . .  24
+       5.5.10. Fundamental Limits  . . . . . . . . . . . . . . . . .  24
+   6.  Risk Factors  . . . . . . . . . . . . . . . . . . . . . . . .  25
+     6.1.  The Seven Dimensions  . . . . . . . . . . . . . . . . . .  25
+     6.2.  The Soul Veto . . . . . . . . . . . . . . . . . . . . . .  29
+     6.3.  The Carriage Interface for Normative Content  . . . . . .  31
+     6.4.  Normalization . . . . . . . . . . . . . . . . . . . . . .  31
+     6.5.  Domain Weights  . . . . . . . . . . . . . . . . . . . . .  32
+     6.6.  Risk Factor Modularity  . . . . . . . . . . . . . . . . .  33
+     6.7.  Aggregation Algorithm . . . . . . . . . . . . . . . . . .  34
+     6.8.  Undefined Inputs  . . . . . . . . . . . . . . . . . . . .  36
+   7.  Trust Proof Token . . . . . . . . . . . . . . . . . . . . . .  37
 
 
-Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
-1. Introduction
+Perkins                 Expires 14 February 2027                [Page 2]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+     7.1.  Token Format  . . . . . . . . . . . . . . . . . . . . . .  37
+     7.2.  Claims  . . . . . . . . . . . . . . . . . . . . . . . . .  37
+     7.3.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  40
+     7.4.  Lifetime  . . . . . . . . . . . . . . . . . . . . . . . .  41
+   8.  Silent Veto Mechanism . . . . . . . . . . . . . . . . . . . .  41
+     8.1.  Action Risk Classification  . . . . . . . . . . . . . . .  41
+     8.2.  Veto Trigger  . . . . . . . . . . . . . . . . . . . . . .  42
+     8.3.  Veto Response . . . . . . . . . . . . . . . . . . . . . .  42
+   9.  Trust Oracle  . . . . . . . . . . . . . . . . . . . . . . . .  43
+     9.1.  Responsibilities  . . . . . . . . . . . . . . . . . . . .  43
+     9.2.  Distribution  . . . . . . . . . . . . . . . . . . . . . .  43
+     9.3.  Consensus . . . . . . . . . . . . . . . . . . . . . . . .  43
+   10. Limits of This Specification  . . . . . . . . . . . . . . . .  44
+     10.1.  L1.  Pre-execution episode classification is
+             undecidable . . . . . . . . . . . . . . . . . . . . . .  44
+     10.2.  L2.  No self-certification . . . . . . . . . . . . . . .  44
+     10.3.  L3.  Level-independence is conditional . . . . . . . . .  45
+     10.4.  L4.  The judgment term is exposed to metric gaming
+             (open)  . . . . . . . . . . . . . . . . . . . . . . . .  45
+     10.5.  L5.  The terminal generation ceiling never binds
+             arithmetically  . . . . . . . . . . . . . . . . . . . .  46
+     10.6.  L6.  Episode overlap has no declared precedence mechanism
+             (staged)  . . . . . . . . . . . . . . . . . . . . . . .  46
+     10.7.  L7.  Some catalogued quantities are named, not
+             measured  . . . . . . . . . . . . . . . . . . . . . . .  46
+     10.8.  L8.  A value that encodes a classification is not an
+             observation . . . . . . . . . . . . . . . . . . . . . .  47
+     10.9.  L9.  Declared non-coverage . . . . . . . . . . . . . . .  48
+     10.10. L10.  E carries no cardinal consequence units  . . . . .  49
+     10.11. L11.  There are two SHOULD rails, and only one of them is
+             this specification's  . . . . . . . . . . . . . . . . .  49
+     10.12. L12.  The privacy marker has no stated rule  . . . . . .  50
+     10.13. L13.  The resilience evidence curve is uncalibrated  . .  51
+     10.14. L14.  One Risk Factor is externally supplied, and the
+             specification says so . . . . . . . . . . . . . . . . .  52
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  52
+     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  52
+     11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  53
+     11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  53
+     11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  53
+     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  53
+     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  53
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  54
+     12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  54
+     12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  54
+     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  54
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  54
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  54
+
+
+
+Perkins                 Expires 14 February 2027                [Page 3]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  55
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  55
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  55
+     A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  56
+   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  57
+   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  58
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  58
+
+1.  Introduction
 
    The digital world is experiencing an explosion of autonomous agents -
    AI systems that act at machine-speed, make decisions without human
-   oversight, and control critical infrastructure. Traditional
+   oversight, and control critical infrastructure.  Traditional
    authorization systems, designed for human-speed interactions, are
    fundamentally inadequate for this new reality.
 
@@ -175,33 +190,41 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Current authorization systems suffer from three critical flaws:
 
-   1. The Passport Fallacy: They assume that possession of a credential
-      (API key, token, certificate) equals proof of identity. This fails
-      when credentials are stolen, as there is no mechanism to detect
-      that the presenting entity is not the original holder.
+   1.  The Passport Fallacy: They assume that possession of a credential
+       (API key, token, certificate) equals proof of identity.  This
+       fails when credentials are stolen, as there is no mechanism to
+       detect that the presenting entity is not the original holder.
 
-   2. The Static Fallacy: They verify permissions at time T and assume
-      those permissions remain valid at T+1. In the millisecond gap
-      between verification and action, the environment may have changed
-      dramatically (network compromise, capacity exhaustion, attack
-      initiation).
+   2.  The Static Fallacy: They verify permissions at time T and assume
+       those permissions remain valid at T+1.  In the millisecond gap
+       between verification and action, the environment may have changed
+       dramatically (network compromise, capacity exhaustion, attack
+       initiation).
 
-   3. The Vacuum Fallacy: They treat authorization as independent of
-      environmental conditions. A credential that permits "delete
-      database" grants the same permission whether the system is idle or
-      at 99% capacity under active attack.
+   3.  The Vacuum Fallacy: They treat authorization as independent of
+       environmental conditions.  A credential that permits "delete
+       database" grants the same permission whether the system is idle
+       or at 99% capacity under active attack.
 
-   These flaws create catastrophic risk in agent-heavy environments. An
-   autonomous agent can execute thousands of API calls per second. If
+   These flaws create catastrophic risk in agent-heavy environments.  An
+   autonomous agent can execute thousands of API calls per second.  If
    even 0.1% of those actions are destructive in context, the damage
    compounds exponentially before any human can respond.
 
 1.2.  The Environment-Based Solution
 
    KTP addresses these flaws by treating authorization as an
-   environmental problem rather than a policy problem. The key insight is:
+   environmental problem rather than a policy problem.  The key insight
+   is:
 
       An agent's autonomy must never exceed the environment's stability.
+
+
+
+Perkins                 Expires 14 February 2027                [Page 4]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    This is expressed mathematically as the Zeroth Law:
 
@@ -213,7 +236,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Instead of asking "Does this agent have permission?", KTP asks "Can
    this environment safely support this action right now?"
 
-   The environment becomes the final authority. Just as friction vetoes
+   The environment becomes the final authority.  Just as friction vetoes
    a sprinter's attempt to run on ice, environmental constraints veto an
    agent's attempt to act beyond the system's current capacity.
 
@@ -225,35 +248,42 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-2. Terminology
+2.  Terminology
 
    This section defines terms used throughout this specification.
 
    Action Risk (A): A numeric value (0-100) representing the intrinsic
-   risk of a requested action. Higher values indicate more dangerous
+   risk of a requested action.  Higher values indicate more dangerous
    actions (e.g., "read public data" = 10, "delete database" = 85).
 
    Adaptive Dormancy: The progressive reduction of agent capabilities as
-   environmental conditions degrade. Agents "hibernate" rather than
+   environmental conditions degrade.  Agents "hibernate" rather than
    fail.
 
    Base Trust (E_base): A numeric value (0-100) representing an agent's
    intrinsic capability, derived from its Proof of Resilience and
    lineage.
 
-   Blue Zone: A network segment where KTP is enforced. Agents within
+   Blue Zone: A network segment where KTP is enforced.  Agents within
    Blue Zones operate under environment-derived constraints.
 
    Context Tensor: Retired name for what is now split into Context
    Signals (the measurement catalogue) and the Risk Factors (six
-   weighted inputs plus the Soul veto). See Section 6.
+   weighted inputs plus the Soul veto).  See Section 6.
 
    Data Sovereignty: The principle that data is subject to the laws,
    customs, and governance structures of the nation or community from
    which it originates or to which it pertains.
 
+
+
+Perkins                 Expires 14 February 2027                [Page 5]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    Effective Trust Score (E_trust): The final Trust Score after
-   environmental deflation, calculated as E_base * (1 - R). This is the
+   environmental deflation, calculated as E_base * (1 - R).  This is the
    value used to evaluate A <= E.
 
    Kinetic Permission: Authorization that depends on real-time
@@ -270,22 +300,22 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    decisions by allowing, blocking, or throttling agent actions.
 
    Proof of Resilience: A cryptographically signed ledger of an agent's
-   successful transactions in high-friction environments. See [KTP-
+   successful transactions in high-friction environments.  See [KTP-
    IDENTITY].
 
    Risk Factor (R): A normalized value (0-1) representing aggregated
-   environmental stress. Derived from Context Signals.
+   environmental stress.  Derived from Context Signals.
 
    Silent Veto: The automatic denial of an action when A > E_trust,
    without requiring human intervention.
 
-   Soul (Sovereignty Veto): The seventh named measurement,
-   representing ethical, legal, and spiritual constraints of data or
-   location. Unlike the six weighted inputs, Soul acts as a binary veto
-   rather than a weighted contributor to the Risk Factor.
+   Soul (Sovereignty Veto): The seventh named measurement, representing
+   ethical, legal, and spiritual constraints of data or location.
+   Unlike the six weighted inputs, Soul acts as a binary veto rather
+   than a weighted contributor to the Risk Factor.
 
    Soul Veto: The automatic denial of an action when sovereignty
-   constraints are violated (S = 1), regardless of Trust Score. Takes
+   constraints are violated (S = 1), regardless of Trust Score.  Takes
    precedence over the standard Silent Veto evaluation.
 
    Sponsorship Bond: A cryptographic commitment where a high-mass entity
@@ -293,10 +323,20 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Trajectory Chain: A cryptographically linked chain of agent
    transactions, where each link includes agent signature, environment
-   attestation, and previous state hash. See [KTP-IDENTITY].
+   attestation, and previous state hash.  See [KTP-IDENTITY].
 
    Trust Leash: The metaphorical constraint on agent autonomy that
    tightens (shorter leash) as environmental risk increases.
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 6]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Trust Oracle: A distributed authority responsible for calculating
    Trust Scores, signing Trust Proofs, and attesting to agent
@@ -311,7 +351,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Mode, Observer Mode) determined by E_trust thresholds.
 
    Trust Velocity (dE/dt): The rate of change of the Trust Score over
-   time. Rapid negative velocity indicates deteriorating conditions.
+   time.  Rapid negative velocity indicates deteriorating conditions.
 
    Vector Identity: Identity represented as a trajectory (position +
    momentum) rather than a static credential (a "verb" rather than a
@@ -320,11 +360,39 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Zeroth Law: The foundational constraint A <= E: an agent's autonomy
    must never exceed the environment's stability.
 
-3. Protocol Overview
+3.  Protocol Overview
 
 3.1.  Architecture
 
    A KTP deployment consists of the following components:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 7]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    +------------------------------------------------------------------+
    |                          TRUST ORACLE MESH                       |
@@ -363,7 +431,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Figure 1: KTP Architecture
 
    Trust Oracle Mesh: A distributed set of Trust Oracles that
-   collectively calculate Trust Scores and sign Trust Proofs. Threshold
+   collectively calculate Trust Scores and sign Trust Proofs.  Threshold
    signatures (e.g., 3-of-5) prevent single points of failure.
 
    Context Signal Sensors: A sensor array that measures environmental
@@ -372,6 +440,15 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Policy Enforcement Points: Components that intercept agent requests,
    present Trust Proofs to the PDP, and enforce authorization decisions.
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 8]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Agent Population: The agents operating within the KTP domain, at
    various stages of their evolutionary lineage.
@@ -383,27 +460,51 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    The basic authorization flow is:
 
-   1. Agent initiates a request (e.g., "DELETE /api/database/users")
+   1.  Agent initiates a request (e.g., "DELETE /api/database/users")
 
-   2. PEP intercepts the request and extracts the agent's identity
+   2.  PEP intercepts the request and extracts the agent's identity
 
-   3. PEP requests a Trust Proof from the Trust Oracle, or validates an
-      existing Trust Proof attached to the request
+   3.  PEP requests a Trust Proof from the Trust Oracle, or validates an
+       existing Trust Proof attached to the request
 
-   4. Trust Oracle: a. Retrieves agent's E_base from Proof of Resilience
-      ledger b. Retrieves current sensor values from Context Signals c.
-      Calculates R using domain weights d. Calculates E_trust = E_base *
-      (1 - R) e. Signs Trust Proof with Oracle key(s)
+   4.  Trust Oracle: a.  Retrieves agent's E_base from Proof of
+       Resilience ledger b.  Retrieves current sensor values from
+       Context Signals c.  Calculates R using domain weights d.
+       Calculates E_trust = E_base * (1 - R) e.  Signs Trust Proof with
+       Oracle key(s)
 
-   5. PDP evaluates A <= E_trust for the requested action
+   5.  PDP evaluates A <= E_trust for the requested action
 
-   6. If A <= E_trust: Action is ALLOWED If A > E_trust: Silent Veto
-      triggers, action is DENIED
+   6.  If A <= E_trust: Action is ALLOWED If A > E_trust: Silent Veto
+       triggers, action is DENIED
 
-   7. Decision and full context are logged to Flight Recorder
+   7.  Decision and full context are logged to Flight Recorder
 
-   8. Response returned to agent with Trust Proof for potential
-      forwarding to downstream services
+   8.  Response returned to agent with Trust Proof for potential
+       forwarding to downstream services
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027                [Page 9]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    +--------+        +--------+        +--------+        +--------+ |
    Agent  |        |  PEP   |        | Trust  |        | Flight | |
@@ -430,7 +531,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Figure 2: KTP Authorization Flow
 
-4. The Zeroth Law
+4.  The Zeroth Law
 
 4.1.  Definition
 
@@ -449,16 +550,28 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       also expressed as a value from 0 to 100. This value is calculated
       in real-time based on agent history and environmental conditions.
 
-   The inequality MUST be evaluated for every authorization request. It
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 10]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   The inequality MUST be evaluated for every authorization request.  It
    is not a policy that can be overridden by human intervention or
-   emergency procedures. It is a physical constraint, analogous to the
+   emergency procedures.  It is a physical constraint, analogous to the
    constraint that prevents a person from running faster than their
    muscles allow.
 
-   The naming "Zeroth Law" is intentional. Just as thermodynamics'
+   The naming "Zeroth Law" is intentional.  Just as thermodynamics'
    Zeroth Law (thermal equilibrium) was recognized as more fundamental
    than the existing First, Second, and Third Laws, KTP's Zeroth Law
-   precedes all other authorization considerations. Before asking "Is
+   precedes all other authorization considerations.  Before asking "Is
    this action permitted by policy?", we must first ask "Is this action
    possible given the environment's constraints?"
 
@@ -477,160 +590,210 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    If the Trust Proof has expired, a new Trust Proof MUST be obtained.
    If A > E_trust, the action MUST be denied (Silent Veto).
 
-   There is no "emergency override" mechanism. The only way to permit a
+   There is no "emergency override" mechanism.  The only way to permit a
    high-risk action is to either:
 
-   1. Reduce the action's risk classification (A) 2. Increase the
-      agent's base trust (E_base) through Proof of Resilience
-      accumulation 3. Wait for environmental conditions to improve (R
-      decreases)
+   1.  Reduce the action's risk classification (A) 2.  Increase the
+       agent's base trust (E_base) through Proof of Resilience
+       accumulation 3.  Wait for environmental conditions to improve (R
+       decreases)
 
-   This design is intentional. In an emergency, the natural human
-   instinct is to override safety controls. This instinct is often
-   catastrophically wrong. By removing the override capability, KTP
+   This design is intentional.  In an emergency, the natural human
+   instinct is to override safety controls.  This instinct is often
+   catastrophically wrong.  By removing the override capability, KTP
    forces systems to operate within their actual capacity, even when
    humans wish they could exceed it.
 
-5. Trust Score Calculation
+5.  Trust Score Calculation
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 11]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
 5.1.  Base Trust (E_base)
 
    Base Trust represents intrinsic capability, independent of current
-   conditions. It is composed of what an agent has done, who is
-   currently accountable for it, and what others observe of it -- and it
+   conditions.  It is composed of what an agent has done, who is
+   currently accountable for it, and what others observe of it — and it
    is bounded by ceilings that reflect what it has not yet demonstrated.
 
-   E_base is a hundred-point allocation. The shares MUST sum to 100, and
-   each term contributes at most its share. A share is the maximum a
-   term contributes; it is not a multiplier on the term's score.
+   E_base is a hundred-point allocation.  The shares MUST sum to 100,
+   and each term contributes at most its share.  A share is the maximum
+   a term contributes; it is not a multiplier on the term's score.
 
-   +---------------------+----------+----------------------------------+
-   | Component           | Share    | Description                      |
-   +---------------------+----------+----------------------------------+
-   | Proof of Resilience | 70       | Historical performance,          |
-   |                     |          | especially under stress          |
-   | External Root       | 30       | The party currently accountable  |
-   |                     |          | for the agent                    |
-   | Peer Signals        | declared | Observations by other agents,    |
-   |                     |          | where implemented                |
-   +---------------------+----------+----------------------------------+
+      +=====================+==========+===========================+
+      | Component           | Share    | Description               |
+      +=====================+==========+===========================+
+      | Proof of Resilience | 70       | Historical performance,   |
+      |                     |          | especially under stress   |
+      +---------------------+----------+---------------------------+
+      | External Root       | 30       | The party currently       |
+      |                     |          | accountable for the agent |
+      +---------------------+----------+---------------------------+
+      | Peer Signals        | declared | Observations by other     |
+      |                     |          | agents, where implemented |
+      +---------------------+----------+---------------------------+
 
-   -  An agent with 10,000 transactions during crises has higher E_base
-      than one with 100,000 transactions in calm conditions. Survival
+                                 Table 1
+
+   *  An agent with 10,000 transactions during crises has higher E_base
+      than one with 100,000 transactions in calm conditions.  Survival
       under adversity matters more than volume.
-   -  Lineage generation does not contribute to E_base. It bounds it.
-      See Section 5.1.3.
-   -  Peer signals, where a deployment implements them, occupy a
-      distinct declared term. See Section 5.1.2.
+
+   *  Lineage generation does not contribute to E_base.  It bounds it.
+      See _Ceilings_ below.
+
+   *  Peer signals, where a deployment implements them, occupy a
+      distinct declared term.  See _Peer Signals_ below.
 
 5.1.1.  The External Root
 
    E_base MUST include a term derived from a party that is externally
-   accountable, exposed to loss, and able to revoke. No composition of
+   accountable, exposed to loss, and able to revoke.  No composition of
    E_base may consist entirely of terms the subject measures about
    itself.
 
    The attesting party's own accountability MUST terminate, through a
-   finite and declared chain, at a root outside the agent-trust graph --
-   a physical-presence attestation, a legal entity, or a named human. A
+   finite and declared chain, at a root outside the agent-trust graph —
+   a physical-presence attestation, a legal entity, or a named human.  A
    cycle of agents attesting for one another does not satisfy this
-   requirement. The attestation MUST declare the chain's terminator and
+   requirement.  The attestation MUST declare the chain's terminator and
+
+
+
+Perkins                 Expires 14 February 2027               [Page 12]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    the chain's length, and the length MUST NOT exceed the deployment's
-   declared hop bound, which MUST NOT exceed 12. An attestation whose
+   declared hop bound, which MUST NOT exceed 12.  An attestation whose
    terminator or chain length is undeclared, or whose chain exceeds the
    hop bound, computes this term as zero.
 
-   The instrument occupying this term changes with lineage stage. The
+   The instrument occupying this term changes with lineage stage.  The
    share does not.
 
-   +---------------------------+--------------------------------------+
-   | Stage                     | Instrument                           |
-   +---------------------------+--------------------------------------+
-   | Sponsored (generation     | Live sponsorship bond: sponsor's     |
-   | 0-2)                      | E_base x stake percentage; the       |
-   |                           | attestor is exposed to the agent's   |
-   |                           | future conduct                       |
-   | Independent, Guarantor    | One or more current external         |
-   | (generation 3+)           | attestations; the attestor is        |
-   |                           | exposed to the accuracy of the claim |
-   +---------------------------+--------------------------------------+
+       +==================+========================+===============+
+       | Stage            | Instrument             | The attestor  |
+       |                  |                        | is exposed to |
+       +==================+========================+===============+
+       | Sponsored        | Live sponsorship bond: | the agent's   |
+       | (generation 0-2) | sponsor's E_base ×     | future        |
+       |                  | stake percentage       | conduct       |
+       +------------------+------------------------+---------------+
+       | Independent,     | One or more current    | the accuracy  |
+       | Guarantor        | external attestations  | of the claim  |
+       | (generation 3+)  |                        |               |
+       +------------------+------------------------+---------------+
 
-   At tether release the stake ends; the root does not. What replaces
-   the bond is a current attestation -- that a named, externally
-   accountable party stands behind this agent now. The completed-tether
-   record is retained as provenance in the agent's trajectory. It is not
-   the anchor: a record of a completed tether states nothing about who
-   is accountable at the time of evaluation. The sponsor's Ancestral
-   Liability ([KTP-IDENTITY] Section 6.4) persists independently of this
-   term; it is bond accounting, not a composition input.
+                                  Table 2
+
+   At tether release the stake ends; the root does not.  What replaces
+   the bond is a current attestation — that a named, externally
+   accountable party stands behind this agent now.  The completed-tether
+   record is retained as provenance in the agent's trajectory.  It is
+   not the anchor: a record of a completed tether states nothing about
+   who is accountable at the time of evaluation.  The sponsor's
+   Ancestral Liability ([KTP-IDENTITY] Section 6.4) persists
+   independently of this term; it is bond accounting, not a composition
+   input.
 
    An agent past Sponsored holding no unexpired, unrevoked attestation
    computes this term as zero.
 
    An attestation MUST declare the attestor's exposure and the capacity
-   it anchors. Exposure counts toward this term only insofar as it is
+   it anchors.  Exposure counts toward this term only insofar as it is
    irrecoverable and non-transferable: exposure that cannot be shed by
-   abandoning the attestor's identity. The declaration MUST name the
-   exposure's class -- a named human's professional or legal liability;
-   a license whose revocation attaches to its holder; posted non-
+   abandoning the attestor's identity.  The declaration MUST name the
+   exposure's class — a named human's professional or legal liability; a
+   license whose revocation attaches to its holder; posted non-
    recoverable collateral; a legal entity's declared irrecoverable
-   assets. The class list is open; additions compose under the same
-   cannot-be-shed test. An attestation declaring no exposure computes as
-   zero. A declared exposure found not to exist, or found to be
+   assets.  The class list is open; additions compose under the same
+   cannot-be-shed test.  An attestation declaring no exposure computes
+   as zero.  A declared exposure found not to exist, or found to be
    transferable, is misattestation.
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 13]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    An agent MAY hold concurrent attestations from distinct attestors.
    Where it does, this term is computed from the strongest single
-   instrument. An anchor MUST NOT be a combination of attestors:
+   instrument.  An anchor MUST NOT be a combination of attestors:
    instrument scores are never summed or otherwise aggregated across
-   attestors. Concurrency is redundancy -- a second attestation is a
+   attestors.  Concurrency is redundancy — a second attestation is a
    hedge against the withdrawal of the first, not an addition to it.
 
    Attestations carry a validity period and MUST be renewed or replaced
-   on expiry. An attestor withdrawing an attestation MUST state whether
-   the withdrawal is for cause. Withdrawal for cause zeroes the
-   instrument immediately. Withdrawal without cause renders the
+   on expiry.  An attestor withdrawing an attestation MUST state whether
+   the withdrawal is for cause.  Withdrawal for cause zeroes the
+   instrument immediately.  Withdrawal without cause renders the
    attestation irrevocably non-renewable; the instrument holds until the
-   attestation's declared expiry, then computes as zero. The validity
-   period the attestor declared at issuance is the notice period -- no
-   separate notice parameter exists. A for-cause claim that does not
-   survive scrutiny is misattestation. A decline in the attestor's own
+   attestation's declared expiry, then computes as zero.  The validity
+   period the attestor declared at issuance is the notice period — no
+   separate notice parameter exists.  A for-cause claim that does not
+   survive scrutiny is misattestation.  A decline in the attestor's own
    standing does not zero the term; a finding of misattestation
    invalidates the attestation and debits the attestor.
 
    The deployment MUST declare the adjudicator for findings of
-   misattestation, including for-cause withdrawal claims. The
-   adjudicator MUST be neither the attestor nor the subject agent. A
+   misattestation, including for-cause withdrawal claims.  The
+   adjudicator MUST be neither the attestor nor the subject agent.  A
    finding MAY be recorded at any time before the attestation's declared
-   expiry. Every state transition MUST be derivable from the recorded
+   expiry.  Every state transition MUST be derivable from the recorded
    claim, the recorded finding, and the attestation's declared times.
 
    A for-cause claim with no finding at the attestation's expiry lapses
-   unresolved and MUST be recorded as unresolved. No debit is assessed
+   unresolved and MUST be recorded as unresolved.  No debit is assessed
    on lapse; an unresolved claim does not become sustained or rejected
-   by lapse of time. The instrument computes as zero in every branch --
+   by lapse of time.  The instrument computes as zero in every branch —
    adjudication decides only whether the attestor is debited.
 
-   The Trust Proof MUST carry the instrument's status -- current, or
-   non-renewable following a withdrawal without cause -- and the
-   instrument's end time. The trust-proof schema carries these in the
+   The Trust Proof MUST carry the instrument's status — current, or non-
+   renewable following a withdrawal without cause — and the instrument's
+   end time.  The trust-proof schema carries these in the
    root_instrument claim, together with the declared exposure, capacity,
    terminator, and chain length.
 
 5.1.2.  Peer Signals
 
    Where a deployment implements peer validation, peer signals occupy a
-   distinct term. They MUST NOT be folded into Proof of Resilience or
+   distinct term.  They MUST NOT be folded into Proof of Resilience or
    the External Root.
 
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 14]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    The deployment MUST declare the peer share it applies, within the
-   range given in Section 5.5.5 (Peer Validation), in the Trust Proof.
+   range given in Section 5.4.5 (Peer Validation), in the Trust Proof.
    The remaining share is distributed across the base terms in their
-   published proportions. A relying party MUST evaluate E_base against
+   published proportions.  A relying party MUST evaluate E_base against
    the declared share and MUST NOT compare magnitudes across deployments
    that declare different shares.
 
-   Peer signals MUST be independent of the base terms. A signal that
+   Peer signals MUST be independent of the base terms.  A signal that
    duplicates information already captured by Proof of Resilience or the
    External Root is not admissible as a peer signal.
 
@@ -642,79 +805,139 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    E_base MUST NOT exceed the minimum of all applicable ceilings.
 
-   +------------------------------------------+------------------------+
-   | Ceiling                                  | Basis                  |
-   +------------------------------------------+------------------------+
-   | 25 / 35 / 45 / 55 / 65 / 75 / 85 for     | Lineage generation     |
-   | generations 0-6; 100 for generation 7+   | ([KTP-IDENTITY] 8.4)   |
-   | 40 / 80 / 95 by Identity Assurance Level | Identity proofing      |
-   |                                          | ([KTP-IDENTITY] 7.1)   |
-   | 50 requires 1,000 transactions;          | Trajectory length      |
-   | 70 requires 10,000                       |                        |
-   | 60                                       | No adversity exposure  |
-   +------------------------------------------+------------------------+
+      +========================================+====================+
+      | Ceiling                                | Basis              |
+      +========================================+====================+
+      | 25 · 35 · 45 · 55 · 65 · 75 · 85 for   | Lineage generation |
+      | generations 0-6; 100 for generation 7+ | ([KTP-IDENTITY]    |
+      |                                        | Section 8.4)       |
+      +----------------------------------------+--------------------+
+      | 40 · 80 · 95 by Identity Assurance     | Identity proofing  |
+      | Level                                  | ([KTP-IDENTITY]    |
+      |                                        | Section 7.1)       |
+      +----------------------------------------+--------------------+
+      | 50 requires 1,000 transactions; 70     | Trajectory length  |
+      | requires 10,000                        |                    |
+      +----------------------------------------+--------------------+
+      | 60                                     | No adversity       |
+      |                                        | exposure           |
+      +----------------------------------------+--------------------+
+
+                                  Table 3
 
    Specifications elsewhere in this series may define additional
-   ceilings on E_base. Those ceilings compose under the same rule. Every
-   ceiling applicable to an evaluation MUST be declared in the Trust
-   Proof (the applicable_ceilings claim).
+   ceilings on E_base.  Those ceilings compose under the same rule.
+   Every ceiling applicable to an evaluation MUST be declared in the
+   Trust Proof (the applicable_ceilings claim).
 
-   Each ceiling states an independent reason to withhold trust. Reasons
-   to withhold do not average. A ceiling that does not bind an agent --
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 15]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   Each ceiling states an independent reason to withhold trust.  Reasons
+   to withhold do not average.  A ceiling that does not bind an agent —
    the terminal generation ceiling of 100, which no composition of
-   shares can exceed -- imposes no limit of its own and leaves the
+   shares can exceed — imposes no limit of its own and leaves the
    remaining ceilings to govern.
 
-   Maturity raises a ceiling. It does not contribute standing. An agent
-   that has advanced a generation has earned room to accumulate trust,
-   not trust itself. No class of grant lifts a ceiling: standing issued
-   by fiat -- a genesis grant, an inheritance bonus -- is bounded by the
-   same minimum as standing that is earned.
+   Maturity raises a ceiling.  It does not contribute standing.  An
+   agent that has advanced a generation has earned room to accumulate
+   trust, not trust itself.  No class of grant lifts a ceiling: standing
+   issued by fiat — a genesis grant, an inheritance bonus — is bounded
+   by the same minimum as standing that is earned.
 
 5.1.4.  Base Trust Calculation
 
-      Let w_p be the declared peer share in points, 0 where peer
-      validation is not implemented. The three shares sum to 100:
 
-        PoR_share  = 70 x (100 - w_p) / 100
-        Root_share = 30 x (100 - w_p) / 100
-        Peer_share = w_p
 
-      Each term contributes at most its share:
 
-        E_raw = PoR_contribution x (PoR_share / 70)
-              + Root_score      x (Root_share / 100)
-              + Peer_score      x (Peer_share / 100)
 
-        E_base = min(E_raw, Generation_ceiling,
-                            IAL_ceiling,
-                            Trajectory_ceiling,
-                            Adversity_ceiling,
-                            ...any further applicable, declared ceiling)
 
-      Where:
-        PoR_contribution = 0-70, computed as specified in
-                     [KTP-IDENTITY] Section 5.3. This document
-                     MUST NOT restate that computation.
 
-        Root_score = 0-100, the strength of the accountability
-                     instrument:
 
-          (Sponsor_E_base x stake_percentage / 100) / 50 x 100
-                                            (Sponsored)
-          min(100, 100 x declared_exposure / anchored_capacity)
-                                            (Independent, Guarantor)
-          0                                 (no valid instrument)
 
-          stake_percentage is in percent-points (1-50). Under
-          concurrent attestations, Root_score is the maximum of
-          the individual instrument scores, never a sum.
 
-        Peer_score = 0-100, as specified in Peer Validation.
 
-        Generation_ceiling = per [KTP-IDENTITY] Section 8.4:
-          25 / 35 / 45 / 55 / 65 / 75 / 85 (generations 0-6),
-          100 (generation 7+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 16]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   Let w_p be the declared peer share in points, 0 where peer
+   validation is not implemented. The three shares sum to 100:
+
+     PoR_share  = 70 × (100 − w_p) / 100
+     Root_share = 30 × (100 − w_p) / 100
+     Peer_share = w_p
+
+   Each term contributes at most its share:
+
+     E_raw = PoR_contribution × (PoR_share / 70)
+           + Root_score      × (Root_share / 100)
+           + Peer_score      × (Peer_share / 100)
+
+     E_base = min(E_raw, Generation_ceiling,
+                         IAL_ceiling,
+                         Trajectory_ceiling,
+                         Adversity_ceiling,
+                         ...any further applicable, declared ceiling)
+
+   Where:
+     PoR_contribution = 0-70, computed as specified in
+                  [KTP-IDENTITY] Section 5.3. This document
+                  MUST NOT restate that computation.
+
+     Root_score = 0-100, the strength of the accountability
+                  instrument:
+
+       (Sponsor_E_base × stake_percentage / 100) / 50 × 100   (Sponsored)
+       min(100, 100 × declared_exposure / anchored_capacity)  (Independent, Guarantor)
+       0                                                      (no valid instrument)
+
+       stake_percentage is in percent-points (1-50). Under
+       concurrent attestations, Root_score is the maximum of
+       the individual instrument scores, never a sum.
+
+     Peer_score = 0-100, as specified in Peer Validation.
+
+     Generation_ceiling = per [KTP-IDENTITY] Section 8.4:
+       25 / 35 / 45 / 55 / 65 / 75 / 85 (generations 0-6),
+       100 (generation 7+)
 
    E_base MUST be recalculated when new Proof of Resilience attestations
    are received, when agent generation advances, when sponsorship terms
@@ -724,9 +947,16 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    E_base SHOULD be cached for performance, with a maximum cache
    lifetime of 60 seconds.
 
+
+
+Perkins                 Expires 14 February 2027               [Page 17]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
 5.2.  Risk Factor (R)
 
-   The Risk Factor represents aggregated environmental stress. It is
+   The Risk Factor represents aggregated environmental stress.  It is
    calculated from the six weighted Risk Factor inputs (see Section 6)
    using domain-specific weights.
 
@@ -745,51 +975,62 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    capability reduction - R = 1: Total crisis, all capabilities
    suspended
 
-   Every term s_i is a STRESS term in [0, 1]. 1 is maximum stress and
-   0 is its absence, for every weighted Risk Factor, whatever that
-   factor is named. A Risk Factor whose name reads as a desirable
-   quantity is still a stress term; the name describes what is
-   measured, never the direction in which it is bad.
+   Every term s_i is a STRESS term in [0, 1]. 1 is maximum stress and 0
+   is its absence, for every weighted Risk Factor, whatever that factor
+   is named.  A Risk Factor whose name reads as a desirable quantity is
+   still a stress term; the name describes what is measured, never the
+   direction in which it is bad.
 
-   It follows that the conservative substitute for a term the
-   deployment cannot currently observe is 1.0, and that a deployment
-   MUST NOT substitute 0 for an unobserved term. Zero is a measurement
-   of perfect conditions, not a statement that conditions are unknown.
-   Section 6.7 states this rule for the class of undefined inputs;
-   this section is its application to Risk Factor terms.
+   It follows that the conservative substitute for a term the deployment
+   cannot currently observe is 1.0, and that a deployment MUST NOT
+   substitute 0 for an unobserved term.  Zero is a measurement of
+   perfect conditions, not a statement that conditions are unknown.
+   Section 6.7 states this rule for the class of undefined inputs; this
+   section is its application to Risk Factor terms.
 
    Each Risk Factor is a named aggregation over a declared subset of
-   Context Signals. A signal reporting unknown MUST NOT contribute to
+   Context Signals.  A signal reporting unknown MUST NOT contribute to
    that aggregation as though it had observed zero risk, and a Risk
-   Factor whose declared subset cannot be populated is unobservable
-   and takes 1.0.
+   Factor whose declared subset cannot be populated is unobservable and
+   takes 1.0.
 
    Unobservability is therefore checked at three layers, and a
    deployment MUST apply the rule at each:
 
-   1.  The FEED, per [KTP-SENSORS] Section 6.1 and 6.2 - a source
-       that has failed or whose observation has passed its staleness
+   1.  The FEED, per [KTP-SENSORS] Section 6.1 and 6.2 - a source that
+       has failed or whose observation has passed its staleness
        threshold.
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 18]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    2.  The SIGNAL - a Context Signal whose observation is unavailable,
-       which includes a rate whose set of eligible events is empty.
-       An empty denominator is unknown, not zero.
+       which includes a rate whose set of eligible events is empty.  An
+       empty denominator is unknown, not zero.
+
    3.  The TERM, above - the Risk Factor the signals aggregate into.
 
-   The layers do not collapse into one another. A signal may be
-   unavailable while every feed populating it is healthy, which is why
-   a feed-level rule alone is insufficient.
+   The layers do not collapse into one another.  A signal may be
+   unavailable while every feed populating it is healthy, which is why a
+   feed-level rule alone is insufficient.
 
-   The multiplicative relationship between R and E_base (see Section
-   5.3) is critical. R is not subtracted from E_base; it deflates it.
-   This means:
+   The multiplicative relationship between R and E_base (see
+   Section 5.3) is critical.  R is not subtracted from E_base; it
+   deflates it.  This means:
 
-   - At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction) -
-     At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction) -
-     At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction) -
-     At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)
+   *  At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction) -
+      At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction) -
+      At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction) -
+      At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)
 
    This design ensures that environmental risk has veto power over agent
-   capability. No amount of historical trust can overcome a completely
+   capability.  No amount of historical trust can overcome a completely
    compromised environment.
 
 5.2.1.  Risk Domains
@@ -797,17 +1038,17 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    To prevent oscillation in the Risk Factor—rapid fluctuation caused by
    local sensor noise—KTP calculates R at three hierarchical levels:
 
-   Node Domain: Local to a single resource or endpoint. High frequency
-   updates (1-5 seconds). Captures immediate conditions but subject to
-   noise. Default weight: 30%.
+   Node Domain: Local to a single resource or endpoint.  High frequency
+   updates (1-5 seconds).  Captures immediate conditions but subject to
+   noise.  Default weight: 30%.
 
    Neighborhood Domain: The local cluster, service mesh, or subnet.
-   Medium frequency updates (10-30 seconds). Smooths out individual node
-   variance. Default weight: 40%.
+   Medium frequency updates (10-30 seconds).  Smooths out individual
+   node variance.  Default weight: 40%.
 
-   Global Domain: Zone-wide or federation-wide environment. Low
-   frequency updates (30-120 seconds). Captures broad trends and
-   external threats. Default weight: 30%.
+   Global Domain: Zone-wide or federation-wide environment.  Low
+   frequency updates (30-120 seconds).  Captures broad trends and
+   external threats.  Default weight: 30%.
 
    The final Risk Factor aggregates all three levels:
 
@@ -817,6 +1058,13 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    This three-level structure prevents a single node spike from causing
    tier oscillation while ensuring that genuine widespread degradation
    is detected and acted upon.
+
+
+
+Perkins                 Expires 14 February 2027               [Page 19]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    See [KTP-SENSORS] Section 2.3 for detailed specification of Risk
    Domains including anti-oscillation mechanics and configuration.
@@ -828,7 +1076,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
       E_trust = E_base * (1 - R)
 
-   This is the core equation of KTP. It unifies agent history (E_base)
+   This is the core equation of KTP.  It unifies agent history (E_base)
    with environmental reality (R) into a single scalar value that
    determines what actions are possible.
 
@@ -853,7 +1101,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       Agent can only perform minimal actions (A <= 4).
 
    Note that the agent's intrinsic capability (E_base = 95) remains
-   constant across all three scenarios. It is the environment that
+   constant across all three scenarios.  It is the environment that
    changes what is possible.
 
 5.4.  Trust Velocity (dE/dt)
@@ -866,23 +1114,31 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Trust Velocity provides critical predictive information:
 
-   - dE/dt > 0: Conditions improving, capabilities expanding - dE/dt =
-     0: Stable conditions - dE/dt < 0: Conditions degrading,
-     capabilities contracting - dE/dt << 0: Rapid degradation, potential
-     crisis imminent
+
+
+
+Perkins                 Expires 14 February 2027               [Page 20]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   *  dE/dt > 0: Conditions improving, capabilities expanding - dE/dt =
+      0: Stable conditions - dE/dt < 0: Conditions degrading,
+      capabilities contracting - dE/dt << 0: Rapid degradation,
+      potential crisis imminent
 
    Implementations MAY use Trust Velocity to:
 
-   1. Pre-emptively deny actions that would succeed now but likely fail
-      mid-execution due to degrading conditions
+   1.  Pre-emptively deny actions that would succeed now but likely fail
+       mid-execution due to degrading conditions
 
-   2. Warn agents to reduce activity in anticipation of contraction
+   2.  Warn agents to reduce activity in anticipation of contraction
 
-   3. Trigger early Adaptive Dormancy before E_trust crosses tier
-      thresholds
+   3.  Trigger early Adaptive Dormancy before E_trust crosses tier
+       thresholds
 
-   4. Detect anomalies (e.g., Trust Score changing faster than any known
-      sensor could explain)
+   4.  Detect anomalies (e.g., Trust Score changing faster than any
+       known sensor could explain)
 
    Trust Velocity SHOULD be included in the Trust Proof token (see
    Section 7) and in Flight Recorder logs (see [KTP-AUDIT]).
@@ -894,13 +1150,13 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Trust Score faces an existential threat: Goodhart's Law. Once agents
    know they are being measured, they will optimize for the score rather
-   than the underlying property. A generation of AI agents trained to
+   than the underlying property.  A generation of AI agents trained to
    maximize Trust Score would learn to appear trustworthy, not to BE
    trustworthy.
 
    KTP cannot fully solve this problem — it may be unsolvable in the
-   general case. But we can make gaming expensive, detectable, and
-   risky. This section specifies required countermeasures.
+   general case.  But we can make gaming expensive, detectable, and
+   risky.  This section specifies required countermeasures.
 
 5.5.1.  The Goodhart Threat Model
 
@@ -912,7 +1168,15 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    based, manipulate training)
 
    The fundamental challenge: Any observable signal used to calculate
-   trust can potentially be faked. The question is cost.
+   trust can potentially be faked.  The question is cost.
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 21]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
 5.5.2.  Multi-Dimensional Scoring
 
@@ -924,7 +1188,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    between sources - Anomaly detection on source agreement
 
    Rationale: Gaming one dimension is easier than gaming all dimensions
-   consistently. Inconsistency between dimensions is itself a signal of
+   consistently.  Inconsistency between dimensions is itself a signal of
    manipulation.
 
    Implementation: - If PoR_score is high but behavioral entropy is low
@@ -952,13 +1216,23 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    GOODHART-003: E_base MUST include demonstrated performance under
    adversity, not just volume of successful transactions.
 
-   Proof of Resilience already requires crisis-time attestations. This
+   Proof of Resilience already requires crisis-time attestations.  This
    section strengthens that requirement:
 
-   - Agents with no adversity exposure are capped at E_base = 60 -
-     E_base > 60 requires attestations under R > 0.5 - E_base > 80
-     requires attestations under R > 0.7 - E_base > 90 requires
-     attestations under CRISIS conditions
+   *  Agents with no adversity exposure are capped at E_base = 60 -
+      E_base > 60 requires attestations under R > 0.5 - E_base > 80
+      requires attestations under R > 0.7 - E_base > 90 requires
+      attestations under CRISIS conditions
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 22]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    This cannot be gamed by self-inflicted crises because: - Attestations
    require Oracle signature - Oracle only signs if crisis is zone-wide
@@ -979,7 +1253,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Gaming resistance: An agent cannot force other agents to transact
    with it, cannot force sponsors to stake on it, cannot forge zone
-   endorsements. Peer signals are externally controlled.
+   endorsements.  Peer signals are externally controlled.
 
 5.5.6.  Temporal Consistency
 
@@ -996,7 +1270,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Volatility_penalty = std_dev(behavior_vector) * penalty_rate
 
    Gaming resistance: Maintaining a false persona over thousands of
-   transactions is expensive. The longer the trajectory required, the
+   transactions is expensive.  The longer the trajectory required, the
    more costly the attack.
 
 5.5.7.  Cross-Zone Correlation
@@ -1006,13 +1280,21 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Shared statistics: - Distribution of E_base scores (not individual
    scores) - Behavioral cluster signatures (not individual trajectories)
-   - Anomaly rates by agent category - Attestation patterns
+
+   *  Anomaly rates by agent category - Attestation patterns
+
+
+
+Perkins                 Expires 14 February 2027               [Page 23]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Detection: If an agent's behavior in Zone A differs significantly
-   from its behavior in Zone B, both zones are alerted. Context may
+   from its behavior in Zone B, both zones are alerted.  Context may
    explain the difference; gaming may also explain it.
 
-   Privacy: Only aggregate statistics cross zone boundaries. Individual
+   Privacy: Only aggregate statistics cross zone boundaries.  Individual
    agent data does not.
 
 5.5.8.  Human-in-the-Loop Sampling
@@ -1030,7 +1312,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    is tracked
 
    Gaming resistance: Agents cannot predict which actions will be
-   reviewed. Consistent good behavior is the only reliable strategy.
+   reviewed.  Consistent good behavior is the only reliable strategy.
 
 5.5.9.  Gradient Isolation
 
@@ -1048,34 +1330,42 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
 5.5.10.  Fundamental Limits
 
-   These measures make gaming expensive and detectable. They do not make
-   it impossible. The honest assessment:
+   These measures make gaming expensive and detectable.  They do not
+   make it impossible.  The honest assessment:
 
    WHAT WE CAN DO: - Make single-dimension gaming ineffective - Make
    sustained gaming expensive - Detect statistical anomalies - Create
    audit trails for investigation - Raise the cost of attack above the
    benefit
 
+
+
+
+Perkins                 Expires 14 February 2027               [Page 24]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    WHAT WE CANNOT DO: - Distinguish perfect mimicry from genuine
    trustworthiness - Prevent nation-state-level sustained deception -
    Guarantee the Trust Score reflects true trustworthiness
 
-   The Trust Score is a proxy. All proxies are imperfect. The goal is a
-   proxy where gaming is harder than genuine trustworthy behavior.
+   The Trust Score is a proxy.  All proxies are imperfect.  The goal is
+   a proxy where gaming is harder than genuine trustworthy behavior.
 
    See [KTP-PROBLEMS] Problem #21 for ongoing research into this
    challenge.
 
-6. Risk Factors
+6.  Risk Factors
 
-   The Risk Factors are seven named measurements of the environment
-   that drive the Risk Factor calculation. Six contribute weighted
-   values to the Risk Factor (R), while the seventh (Soul) acts as an
-   independent veto mechanism.
+   The Risk Factors are seven named measurements of the environment that
+   drive the Risk Factor calculation.  Six contribute weighted values to
+   the Risk Factor (R), while the seventh (Soul) acts as an independent
+   veto mechanism.
 
 6.1.  The Seven Dimensions
 
-   1. evidence_density
+   1.  evidence_density
 
       Analogy (informative): Mass (M) — Density / Mass (m)
 
@@ -1097,13 +1387,20 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       down operations (Time Dilation) and increases the "cost" of
       movement through the environment.
 
-   2. trust_trend
+   1.  trust_trend
 
       Analogy (informative): Momentum (P) — Kinetic Energy
       (KE = 1/2 mv^2)
 
       Measures the speed and direction of data flow - how fast the
       system is moving.
+
+
+
+Perkins                 Expires 14 February 2027               [Page 25]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       Sensors:
       - Transaction rates per second
@@ -1119,7 +1416,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       stops or turns (Vector Kinking) create massive G-forces (Risk).
       Course corrections become expensive.
 
-   3. adversarial_pressure
+   1.  adversarial_pressure
 
       Analogy (informative): Heat (H) — Entropy / Temperature (T)
 
@@ -1141,7 +1438,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       integrity of Trust degrades. High Heat triggers the "Cool-Down"
       cycle (Freezing agents to Observer Mode).
 
-   4. moment_criticality
+   1.  moment_criticality
 
       Analogy (informative): Time (T) — Temporal Mechanics / Phase
 
@@ -1154,6 +1451,13 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       - Business hours (peak vs. off-peak)
       - Mission criticality timers
 
+
+
+Perkins                 Expires 14 February 2027               [Page 26]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
       Interpretation:
       - Low moment_criticality: Low-criticality period (maintenance
         window, 3am)
@@ -1164,17 +1468,17 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       than a failure at 3:00 AM. Time dilates the risk tolerance -
       the same action costs more trust near event horizons.
 
-   Provenance: moment_criticality is externally supplied. Six of the
+   Provenance: moment_criticality is externally supplied.  Six of the
    seven inputs are aggregations over declared subsets of the Context
    Signals catalogue; this one is supplied by the action request's
-   context and declared as such. The asymmetry is stated here rather
+   context and declared as such.  The asymmetry is stated here rather
    than papered over: no catalogue domain measures what the agent is
    trying to do, because a task domain would measure A while every
    existing domain measures E, and the other side of A <= E cannot be
-   appended to the catalogue casually. Until such a domain exists, a
+   appended to the catalogue casually.  Until such a domain exists, a
    deployment MUST declare the source supplying this input.
 
-   5. update_resistance
+   1.  update_resistance
 
       Analogy (informative): Inertia (I) — Inertial Mass
 
@@ -1196,10 +1500,19 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       low Inertia. High Inertia nodes require higher Trust Scores to
       modify - they resist change.
 
-   6. attestation_coverage
+   1.  attestation_coverage
 
       Analogy (informative): Observer (O) — Frame of Reference /
       Observer Effect
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 27]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       Measures who is watching - the stakes based on the population
       present and their sensitivity.
@@ -1222,7 +1535,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       present.
       Actions that would be routine become consequential.
 
-   7. soul
+   1.  soul
 
       Analogy (informative): Soul (S) — The Cosmological Constant /
       Immutable Law
@@ -1245,6 +1558,18 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       - soul = 0: No sovereignty constraints apply
       - soul = 1: Sovereignty constraint violated, action forbidden
 
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 28]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
       Impact: This acts as a Boolean Veto or a hard limit. It
       represents the "Spirit" of the data or location. If the Soul
       constraint is violated, the action becomes impossible
@@ -1257,8 +1582,8 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    The Soul input operates differently from the six weighted inputs.
    While those six contribute weighted values to the Risk Factor (R),
-   Soul acts as an independent constraint that can veto any action regardless of Trust
-   Score.
+   Soul acts as an independent constraint that can veto any action
+   regardless of Trust Score.
 
    The Soul evaluation is:
 
@@ -1266,21 +1591,21 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
         action is FORBIDDEN (Probability = 0)
       END IF
 
-   This evaluation occurs BEFORE the standard A <= E_trust check. A Soul
-   veto cannot be overridden by:
+   This evaluation occurs BEFORE the standard A <= E_trust check.  A
+   Soul veto cannot be overridden by:
 
-   - High Trust Score - Low Risk Factor - Emergency procedures -
-     Administrative override
+   *  High Trust Score - Low Risk Factor - Emergency procedures -
+      Administrative override
 
-   This is by design. The Soul veto encodes constraints that exist
+   This is by design.  The Soul veto encodes constraints that exist
    outside the operational domain - legal treaties, cultural
-   sovereignty, spiritual significance. These are not "policies" that
+   sovereignty, spiritual significance.  These are not "policies" that
    can be weighed against operational need; they are immutable laws that
    define what actions are possible.
 
    Example Soul constraints:
 
-   1. Traditional Knowledge (TK) Labels:
+   1.  Traditional Knowledge (TK) Labels:
 
       Data tagged with TK Labels (per Local Contexts framework) may
       have restrictions on:
@@ -1291,7 +1616,15 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
       If an agent action would violate a TK Label, S = 1.
 
-   2. OCAP/CARE Principles:
+   1.  OCAP/CARE Principles:
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 29]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       For Indigenous data, the OCAP principles (Ownership, Control,
       Access, Possession) and CARE principles (Collective benefit,
@@ -1302,7 +1635,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
       If an agent action would violate OCAP/CARE, S = 1.
 
-   3. Sacred Land Geofences:
+   1.  Sacred Land Geofences:
 
       Physical locations may have sovereignty constraints:
       - Sacred sites where certain activities are forbidden
@@ -1312,7 +1645,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       If an agent operates within or affects a Sacred Land geofence
       in a prohibited manner, S = 1.
 
-   4. Data Lineage Sovereignty:
+   1.  Data Lineage Sovereignty:
 
       Data may carry sovereignty constraints from its origin:
       - Data collected on tribal land
@@ -1342,40 +1675,47 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
                  forbidden by sovereignty constraint"
       }
 
+
+
+Perkins                 Expires 14 February 2027               [Page 30]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    Note that e_trust and e_required are provided for transparency, but
    the denial is not due to insufficient trust - it is due to an
    immutable constraint that exists independent of trust.
 
-6.2.1.  The Carriage Interface for Normative Content
+6.3.  The Carriage Interface for Normative Content
 
-   Normative content -- authored judgments about what ought to happen,
-   whose disputes are value disputes that measurement cannot resolve --
+   Normative content — authored judgments about what ought to happen,
+   whose disputes are value disputes that measurement cannot resolve —
    is external to this specification and enters it through exactly three
    shapes:
 
-   1. A veto. The Soul constraint above: externally supplied, authority-
-       adjudicated, carried but never authored here, and evaluated
-       before aggregation.
+   1.  A veto.  The Soul constraint above: externally supplied,
+       authority-adjudicated, carried but never authored here, and
+       evaluated before aggregation.
 
-   2. A supplied input. A declared, externally provided signal --
-       moment_criticality is the standing instance -- whose source the
+   2.  A supplied input.  A declared, externally provided signal —
+       moment_criticality is the standing instance — whose source the
        deployment MUST declare.
 
-   3. A gate. An adjudication token evaluated against a declared
+   3.  A gate.  An adjudication token evaluated against a declared
        external schema.
 
-   Norm content MUST NOT rewrite the aggregation. A normative judgment
+   Norm content MUST NOT rewrite the aggregation.  A normative judgment
    that scales capacity rather than gating it has crossed into the
-   measurement layer, and the crossing is the failure this interface exists to
-   prevent. The prudence judgments this series computes from the
-   environment ([KTP-ENFORCE]'s graduated outcomes) are not normative
-   content and do not pass through this interface: their disputes
-   resolve by measurement.
+   measurement layer, and the crossing is the failure this interface
+   exists to prevent.  The prudence judgments this series computes from
+   the environment ([KTP-ENFORCE]'s graduated outcomes) are not
+   normative content and do not pass through this interface: their
+   disputes resolve by measurement.
 
-6.3.  Normalization
+6.4.  Normalization
 
    Each sensor outputs values in its native units (ppm, percentage,
-   events/minute, etc.). These MUST be normalized to a 0-1 scale before
+   events/minute, etc.).  These MUST be normalized to a 0-1 scale before
    aggregation.
 
    The normalization function for each dimension:
@@ -1385,10 +1725,18 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Where: s_raw = Raw sensor value s_min = Minimum expected value (maps
    to 0) s_max = Maximum expected value (maps to 1)
 
-   Values below s_min SHOULD be clamped to 0. Values above s_max SHOULD
+   Values below s_min SHOULD be clamped to 0.  Values above s_max SHOULD
    be clamped to 1.
 
    Example normalization thresholds:
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 31]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    +------------+------------+------------+------------+ | Dimension  |
    Sensor     | s_min      | s_max      |
@@ -1403,10 +1751,10 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress)
    Note: Soul is not normalized - it is a binary veto (see Section 6.2)
 
-6.4.  Domain Weights
+6.5.  Domain Weights
 
    Different deployment domains weight the six weighted inputs
-   differently. The weights MUST sum to 1.0. Soul is not weighted - it
+   differently.  The weights MUST sum to 1.0.  Soul is not weighted - it
    operates as an independent constraint.
 
    Example domain profiles:
@@ -1437,12 +1785,20 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Implementations SHOULD provide pre-defined profiles for common
    domains.
 
-6.5.  Risk Factor Modularity
 
-   The Risk Factor architecture is designed to be modular at two
-   levels:
 
-   1. Framework-Level Modularity:
+
+
+Perkins                 Expires 14 February 2027               [Page 32]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+6.6.  Risk Factor Modularity
+
+   The Risk Factor architecture is designed to be modular at two levels:
+
+   1.  Framework-Level Modularity:
 
       The framework itself is extensible. The seven inputs defined in
       this specification represent the core measurement space, but
@@ -1457,7 +1813,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       - Define normalization rules
       - Register with the Trust Oracle
 
-   2. Feed-Level Modularity:
+   1.  Feed-Level Modularity:
 
       Each Risk Factor input aggregates multiple sensor feeds. These
       feeds are independently configurable:
@@ -1475,6 +1831,24 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       - Custom cultural heritage API (enabled)
 
    Feed Configuration Example:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 33]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       {
         "dimension": "soul",
@@ -1510,7 +1884,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    For the six weighted inputs, typical aggregation is
    "weighted_average" of enabled feeds.
 
-6.6.  Aggregation Algorithm
+6.7.  Aggregation Algorithm
 
    The complete authorization algorithm is:
 
@@ -1522,6 +1896,15 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       END IF
 
    Step 2: Risk Factor Calculation
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 34]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       R = (w_M * M) + (w_P * P) + (w_H * H) +
           (w_T * T) + (w_I * I) + (w_O * O)
@@ -1544,14 +1927,14 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
                per [KINETIC-ENVELOPE]
       END IF
 
-   The result of every evaluation is a supervision level and a
-   tighten-only constraint set (tightenedConstraints), as specified in
-   [KINETIC-ENVELOPE].  Supervision is a floor: a consumer MAY raise
-   it and MUST NOT lower a level already set.  tightenedConstraints
-   never widens the granted envelope.  A deployment MUST declare its
-   profile thresholds M_veto < M_allow; a deployment that declares
-   none evaluates with M_veto = M_allow = 0, which reproduces the
-   binary v1 behavior (veto at or below zero margin, stable above it).
+   The result of every evaluation is a supervision level and a tighten-
+   only constraint set (tightenedConstraints), as specified in
+   [KINETIC-ENVELOPE].  Supervision is a floor: a consumer MAY raise it
+   and MUST NOT lower a level already set.  tightenedConstraints never
+   widens the granted envelope.  A deployment MUST declare its profile
+   thresholds M_veto < M_allow; a deployment that declares none
+   evaluates with M_veto = M_allow = 0, which reproduces the binary v1
+   behavior (veto at or below zero margin, stable above it).
 
    The four decision verbs are derived readings of this result, by
    precedence, and are not a four-valued enumeration:
@@ -1568,9 +1951,16 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    the normative object and the verb is derived from it.
 
    The Soul veto is evaluated first because sovereignty constraints are
-   immutable - no amount of trust can override them. This ordering
+   immutable - no amount of trust can override them.  This ordering
    ensures that sovereignty is respected before operational calculations
    begin.
+
+
+
+Perkins                 Expires 14 February 2027               [Page 35]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    The aggregation MUST be performed at the Trust Oracle.
 
@@ -1590,36 +1980,45 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    forbidden by TK labels).
 
    Implementations MAY cache aggregated R values for up to 100ms to
-   reduce computational load. Soul evaluations SHOULD NOT be cached as
+   reduce computational load.  Soul evaluations SHOULD NOT be cached as
    they are context-specific.
 
-6.7.  Undefined Inputs
+6.8.  Undefined Inputs
 
    An input that is absent, unanswered, stale beyond its declared
    refresh, or otherwise undefined MUST NOT resolve toward permission.
    It resolves toward the more restrictive outcome available at that
    decision point, and the undefined state MUST be recorded on the
-   decision record. Substituting a measured value for an undefined
-   one - including zero - is prohibited (Section 5.2).
+   decision record.  Substituting a measured value for an undefined one
+   - including zero - is prohibited (Section 5.2).
 
-   "Toward permission" is the operative phrase. Failing closed does
-   not mean denying on every unknown. Where a decision point offers a
-   graded outcome - the supervision ladder of Section 6.6 - an
-   undefined input clamps the result to a more supervised level, per
-   [KINETIC-ENVELOPE]: an unknown environment reads as low capacity,
-   not high. Denial is the terminal case, reached only where no more
+   "Toward permission" is the operative phrase.  Failing closed does not
+   mean denying on every unknown.  Where a decision point offers a
+   graded outcome - the supervision ladder of Section 6.6 - an undefined
+   input clamps the result to a more supervised level, per
+   [KINETIC-ENVELOPE]: an unknown environment reads as low capacity, not
+   high.  Denial is the terminal case, reached only where no more
    restrictive outcome short of denial exists at that decision point.
    The Soul veto (Section 6.2) is a decision point with exactly that
    shape - its outcomes are veto and no veto - so an undefined
    sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
 
-   Silence and absence do not separate. A channel that returns
-   nothing and a channel that was never reachable are
-   indistinguishable to the decision, and an adversary who can
-   produce one can produce the other. An implementation MUST NOT
-   resolve an unanswered input differently from an absent one.
+   Silence and absence do not separate.  A channel that returns nothing
+   and a channel that was never reachable are indistinguishable to the
+   decision, and an adversary who can produce one can produce the other.
+   An implementation MUST NOT resolve an unanswered input differently
+   from an absent one.
 
-7. Trust Proof Token
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 36]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+7.  Trust Proof Token
 
    The Trust Proof is a signed token that travels with each request,
    carrying the current Trust Score and environmental context.
@@ -1639,8 +2038,8 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
         "kid": "oracle-key-id"
       }
 
-   The "alg" field specifies the signature algorithm. Implementations
-   MUST support ES256 (ECDSA with P-256 and SHA-256). Implementations
+   The "alg" field specifies the signature algorithm.  Implementations
+   MUST support ES256 (ECDSA with P-256 and SHA-256).  Implementations
    MAY support additional algorithms.
 
    The "typ" field MUST be "ktp+jwt" to distinguish KTP Trust Proofs
@@ -1663,6 +2062,17 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       jti (JWT ID): Unique identifier for this Trust Proof
 
    KTP claims (in "ktp" object):
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 37]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       e_base: Base Trust score (0-100)
       e_trust: Effective Trust score (0-100)
@@ -1691,6 +2101,34 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       resilience_hash: Hash of current Proof of Resilience ledger
 
    Example Trust Proof payload (no sovereignty constraint):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 38]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       {
         "iss": "https://oracle.example.com",
@@ -1725,6 +2163,28 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
       }
 
    Example Trust Proof payload (sovereignty constraint active):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 39]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
       {
         "iss": "https://oracle.example.com",
@@ -1770,9 +2230,17 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    For distributed Trust Oracle deployments, the signature MAY be a
    threshold signature requiring k-of-n Oracles to sign.
 
-   Implementations MUST verify: 1. The signature is valid for the
-   payload 2. The signing key is a known, trusted Oracle key 3. The
+   Implementations MUST verify: 1.  The signature is valid for the
+   payload 2.  The signing key is a known, trusted Oracle key 3.  The
    signing key has not been revoked
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 40]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Signature verification failure MUST result in action denial.
 
@@ -1789,18 +2257,18 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Trust Proofs MUST NOT be cached beyond their expiration.
 
    If an action takes longer than the Trust Proof lifetime, the agent
-   MUST obtain a new Trust Proof before continuing. This may result in
+   MUST obtain a new Trust Proof before continuing.  This may result in
    mid-action denial if conditions have degraded.
 
-8. Silent Veto Mechanism
+8.  Silent Veto Mechanism
 
    The Silent Veto is the automatic denial of an action when A >
-   E_trust. It is "silent" because it requires no human intervention -
+   E_trust.  It is "silent" because it requires no human intervention -
    the environment itself enforces the constraint.
 
 8.1.  Action Risk Classification
 
-   Each action type MUST be assigned an intrinsic risk score (A). The
+   Each action type MUST be assigned an intrinsic risk score (A).  The
    following table provides baseline classifications:
 
    +----------------------+-----+--------------------------------+ |
@@ -1819,9 +2287,16 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    (infra)        | 95  | Modify infrastructure          |
    +----------------------+-----+--------------------------------+
 
-   Implementations MAY define additional action classes. Implementations
-   MUST allow configuration of A values. Implementations SHOULD log any
-   changes to A values.
+   Implementations MAY define additional action classes.
+   Implementations MUST allow configuration of A values.
+   Implementations SHOULD log any changes to A values.
+
+
+
+Perkins                 Expires 14 February 2027               [Page 41]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
 8.2.  Veto Trigger
 
@@ -1833,27 +2308,27 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
         permit action
       END IF
 
-   The evaluation MUST occur for every action request. The evaluation
+   The evaluation MUST occur for every action request.  The evaluation
    MUST use the E_trust from a valid, unexpired Trust Proof.
 
-   The veto is triggered automatically. There is no: - Appeal process -
+   The veto is triggered automatically.  There is no: - Appeal process -
    Emergency override - Manager approval flow - Grace period
 
-   This is by design. The veto represents a physical constraint, not a
-   policy decision. Overriding it would be like overriding gravity.
+   This is by design.  The veto represents a physical constraint, not a
+   policy decision.  Overriding it would be like overriding gravity.
 
 8.3.  Veto Response
 
    When a Silent Veto is triggered, the PEP MUST:
 
-   1. Deny the action immediately
+   1.  Deny the action immediately
 
-   2. Return an error response to the agent including: - Error code
-      indicating Trust-based denial - Current E_trust value - Required
-      E_trust for the action (A) - Trust Velocity (dE/dt) for predictive
-      purposes
+   2.  Return an error response to the agent including: - Error code
+       indicating Trust-based denial - Current E_trust value - Required
+       E_trust for the action (A) - Trust Velocity (dE/dt) for
+       predictive purposes
 
-   3. Log the denial to the Flight Recorder with full Decision Geometry
+   3.  Log the denial to the Flight Recorder with full Decision Geometry
 
    Recommended HTTP response:
 
@@ -1870,12 +2345,21 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
         "retry_after": null
       }
 
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 42]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    The "retry_after" field MAY contain an estimated time (in seconds)
    until conditions might permit the action, based on Trust Velocity
-   projections. If conditions are degrading (dE/dt < 0), this field
+   projections.  If conditions are degrading (dE/dt < 0), this field
    SHOULD be null.
 
-9. Trust Oracle
+9.  Trust Oracle
 
    The Trust Oracle is the authoritative source of Trust Scores and
    Trust Proofs within a KTP domain.
@@ -1884,13 +2368,13 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    The Trust Oracle:
 
-   1. Ingests sensor data from the Context Signal sensors 2. Maintains
-      the Proof of Resilience ledger for all agents 3. Calculates E_base
-      for each agent 4. Calculates R from the Risk Factor inputs 5.
-      Calculates
-      E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private
-      key 7. Issues Attestations of Passage for successful transactions
-      8. Publishes its public key for Trust Proof verification
+   1.  Ingests sensor data from the Context Signal sensors 2.  Maintains
+       the Proof of Resilience ledger for all agents 3.  Calculates
+       E_base for each agent 4.  Calculates R from the Risk Factor
+       inputs 5.  Calculates E_trust = E_base * (1 - R) 6.  Signs Trust
+       Proofs with its private key 7.  Issues Attestations of Passage
+       for successful transactions 8.  Publishes its public key for
+       Trust Proof verification
 
 9.2.  Distribution
 
@@ -1899,16 +2383,16 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Distribution models:
 
-   1. Active-Passive: One primary Oracle, one or more standby Oracles
-      that take over on primary failure. Simple but has failover
-      latency.
+   1.  Active-Passive: One primary Oracle, one or more standby Oracles
+       that take over on primary failure.  Simple but has failover
+       latency.
 
-   2. Active-Active with Consensus: Multiple Oracles that must agree on
-      Trust Scores. More resilient but higher latency.
+   2.  Active-Active with Consensus: Multiple Oracles that must agree on
+       Trust Scores.  More resilient but higher latency.
 
-   3. Threshold Signatures: Multiple Oracles that each contribute
-      partial signatures; k-of-n required for valid Trust Proof.
-      Recommended for high-security deployments.
+   3.  Threshold Signatures: Multiple Oracles that each contribute
+       partial signatures; k-of-n required for valid Trust Proof.
+       Recommended for high-security deployments.
 
    Implementations MUST support at least Active-Passive distribution.
    Implementations SHOULD support threshold signatures.
@@ -1917,18 +2401,27 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    When multiple Oracles are active, they MUST agree on:
 
-   1. Current sensor values (within tolerance) 2. Agent E_base values
-      (must match exactly) 3. Calculated R and E_trust (within
-      tolerance)
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 43]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   1.  Current sensor values (within tolerance) 2.  Agent E_base values
+       (must match exactly) 3.  Calculated R and E_trust (within
+       tolerance)
 
    Tolerance for sensor values: 5% relative difference Tolerance for
    E_trust: 2 points absolute difference
 
    If Oracles disagree beyond tolerance, they MUST:
 
-   1. Log the disagreement with full context 2. Use the more
-      conservative (lower) E_trust value 3. Alert operators to
-      investigate
+   1.  Log the disagreement with full context 2.  Use the more
+       conservative (lower) E_trust value 3.  Alert operators to
+       investigate
 
    Oracle disagreement MAY indicate: - Sensor failure or manipulation -
    Network partition between Oracles - Attack on Oracle infrastructure
@@ -1936,148 +2429,175 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 10.  Limits of This Specification
 
    A specification that does not state its limits invites
-   implementations that promise past them. The falsification program
+   implementations that promise past them.  The falsification program
    forced each of the following; this section states them the way the
    program forced them — as boundaries of the claim space fixed in
    advance, not qualifications recovered after an incident.
 
-10.1.  L1 -- Pre-execution episode classification is undecidable
+10.1.  L1.  Pre-execution episode classification is undecidable
 
    Universal pre-execution inference of episode membership for arbitrary
-   code is undecidable. The reduction is from the halting problem (an
+   code is undecidable.  The reduction is from the halting problem (an
    agent that performs a governed action if and only if an arbitrary
    program halts), and Rice's theorem generalizes the obstruction to
    every non-trivial semantic property.
 
-   Consequently, a conformant implementation MAY validate finite,
+   Consequently, a conformant implementation *MAY* validate finite,
    completed events against a signed, policy-indexed adjudication token
-   at runtime, and MUST NOT claim advance classification of the episode
-   membership of arbitrary code. The parent episode identifier MUST be
-   fixed before execution and carried by every implementation event;
-   runtime membership checking is signature validation, never inference.
+   at runtime, and *MUST NOT* claim advance classification of the
+   episode membership of arbitrary code.  The parent episode identifier
+   *MUST* be fixed before execution and carried by every implementation
+   event; runtime membership checking is signature validation, never
+   inference.
 
-10.2.  L2 -- No self-certification
+10.2.  L2.  No self-certification
 
    No composition of E_{base} may consist entirely of terms the subject
-   measures about itself. The accountability chain behind the External
-   Root MUST terminate, through a finite and declared chain, at a root
-   outside the agent-trust graph. A cycle of agents attesting for one
+   measures about itself.  The accountability chain behind the External
+   Root *MUST* terminate, through a finite and declared chain, at a root
+   outside the agent-trust graph.  A cycle of agents attesting for one
    another does not satisfy this requirement.
 
-   This is a structural necessity, not a policy preference. A gate
+
+
+
+Perkins                 Expires 14 February 2027               [Page 44]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   This is a structural necessity, not a policy preference.  A gate
    grounded in itself has no base case; grounding in raw traces is
    essentially contested (independent functions can agree on every event
-   and still legitimately disagree on the unit of accountability). Both
+   and still legitimately disagree on the unit of accountability).  Both
    rails therefore terminate in externally owned ground: the CAN rail at
    the External Root, the SHOULD rail at a declared institutional
-   schema. The system does not certify its own trustworthiness from the
+   schema.  The system does not certify its own trustworthiness from the
    inside.
 
-   Kind alone does not discharge the requirement. The root MUST carry
+   Kind alone does not discharge the requirement.  The root *MUST* carry
    irrecoverable, non-transferable exposure at least proportional to the
    capacity it anchors; an anchor whose exposure can be shed by
    abandoning the identity anchors nothing.
 
-10.3.  L3 -- Level-independence is conditional
+10.3.  L3.  Level-independence is conditional
 
    Admissibility verdicts are invariant under re-description — packet
    level, syscall level, API level, agent level — only because action
    risk attaches to governed-world state transitions rather than to
    description events, and composition merges causal action contracts
-   before evaluating risk. That algebra is discharged. The theorem it
-   yields is conditional on faithful description: a proof, per
+   before evaluating risk.  That algebra is discharged.  The theorem it
+   yields is conditional on *faithful description*: a proof, per
    description level, that the level's events implement the claimed
    consequence semantics.
 
    Where a refinement proof cannot be discharged — arbitrary code, no
-   causal model — the invariance claim stops. These proofs are a work
+   causal model — the invariance claim stops.  These proofs are a work
    program of the linearizability/refinement genre, owed and not yet
-   delivered. An implementation MUST NOT cite level-independence for a
-   description level whose refinement into its governed-world model has
-   not been demonstrated.
+   delivered.  An implementation *MUST NOT* cite level-independence for
+   a description level whose refinement into its governed-world model
+   has not been demonstrated.
 
-   The result holds within computation. No cross-substrate claim is made
-   or implied.
+   The result holds within computation.  No cross-substrate claim is
+   made or implied.
 
-10.4.  L4 -- The judgment term is exposed to metric gaming (open)
+10.4.  L4.  The judgment term is exposed to metric gaming (open)
 
    J — earned Judgment, the supply side of the should-gate W <= J — is a
-   measured quantity that gates automaticity. Any measured quantity that
-   gates becomes a target: measured J can be improved by an agent or its
-   operator without improvement in the judgment it proxies. This
+   measured quantity that gates automaticity.  Any measured quantity
+   that gates becomes a target: measured J can be improved by an agent
+   or its operator without improvement in the judgment it proxies.  This
    specification provides no guard against that pressure — no stress-
    weighting analogous to Proof of Resilience on the CAN rail, no
    adversarial discipline on the J estimate.
 
-   v2 records this as an open limitation. No repair is claimed.
+   v2 records this as an *open limitation*. No repair is claimed.
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 45]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Adjacent but distinct: J also fails to survive actor substitution
-   unless the actor-binding law is stated and enforced. That failure has
-   a named repair and is carried as a spec obligation, not a limit.
+   unless the actor-binding law is stated and enforced.  That failure
+   has a named repair and is carried as a spec obligation, not a limit.
 
-10.5.  L5 -- The terminal generation ceiling never binds arithmetically
+10.5.  L5.  The terminal generation ceiling never binds arithmetically
 
    The generation-7+ ceiling on E_{base} is 100, and the composition
    reaches 100 only when every term is simultaneously at its maximum
-   share. The terminal ceiling therefore never withholds anything the
-   composition could otherwise grant. It is retained deliberately: it
+   share.  The terminal ceiling therefore never withholds anything the
+   composition could otherwise grant.  It is retained deliberately: it
    states that terminal maturity is the absence of a generation limit,
-   and it keeps the ceiling table total. This is a disclosure, not a
+   and it keeps the ceiling table total.  This is a disclosure, not a
    defect.
 
-10.6.  L6 -- Episode overlap has no declared precedence mechanism (staged)
+10.6.  L6.  Episode overlap has no declared precedence mechanism
+       (staged)
 
-   Episode overlap. Episode membership is a relation, not a function:
+   *Episode overlap.* Episode membership is a relation, not a function:
    one event may carry several parent episode identifiers, each fixed
    before execution. v2 declares no precedence mechanism between them.
    Absent one, disagreeing adjudications combine restrictively under
    Section 6.7 — the supervision floor is the maximum and the constraint
    set the tightest of the applicable tokens — and an implementation
-   MUST NOT resolve a disagreement toward permission. Owed for v2.1: the
-   identity-stability property (an episode identifier is a function of
-   actor and adjudication context, never of accumulated evidence),
+   *MUST NOT* resolve a disagreement toward permission.  Owed for v2.1:
+   the identity-stability property (an episode identifier is a function
+   of actor and adjudication context, never of accumulated evidence),
    termination and merge semantics, the schema carrier for declared
    precedence, and whether any explicit artifact may relax the
    restrictive composition.
 
-10.7.  L7 -- Some catalogued quantities are named, not measured
+10.7.  L7.  Some catalogued quantities are named, not measured
 
    This specification does not claim that a populated signal is a
-   measurement of the phenomenon its identifier names. Two classes fall
-   outside the claim. In the first, the observand is absent from any
+   measurement of the phenomenon its identifier names.  Two classes fall
+   outside the claim.  In the first, the observand is absent from any
    observation of the world: quantities that require the result of the
    act that was not taken, and quantities that require another party's
-   internal state. In the second, the observand exists but resolves only
-   after the decision it would inform — silent-failure and false-
+   internal state.  In the second, the observand exists but resolves
+   only after the decision it would inform — silent-failure and false-
    negative rates, adjudicated accuracy, replication outcomes, and every
    identifier that names a future fact.
 
    The first class is not a measurement problem that a better instrument
-   closes. A counterfactual quantity requires the outcome of a thing
+   closes.  A counterfactual quantity requires the outcome of a thing
    that did not happen, and another mind is not available to any
-   instrument the agent holds. A classifier can emit `0.83`; that does
+   instrument the agent holds.  A classifier can emit 0.83; that does
    not mean the phenomenon named by the identifier is identifiable or
-   has been measured. In the second class the defect is timing rather
+   has been measured.  In the second class the defect is timing rather
+
+
+
+Perkins                 Expires 14 February 2027               [Page 46]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    than identifiability: a quantity measurable only after the authorized
    action is either stale or empty at the commit point, and an empty
    signal is not a low reading.
 
-   A conformant implementation MUST NOT treat the presence of an
-   identifier as evidence that the named phenomenon was measured. For
-   any signal in either class, the deployment profile MUST declare the
+   A conformant implementation *MUST NOT* treat the presence of an
+   identifier as evidence that the named phenomenon was measured.  For
+   any signal in either class, the deployment profile *MUST* declare the
    estimator or model that produces the value and the population against
-   which it was validated; a signal in the second class MUST
+   which it was validated; a signal in the second class *MUST*
    additionally carry its earliest-availability offset, and an
-   aggregation MUST NOT treat a lagging signal as current. An absent or
-   expired value MUST fail closed and MUST NOT be read as absence of
-   risk. A signal whose value would require covert inference of a
-   person's internal state MUST NOT be populated by inference; a
+   aggregation *MUST NOT* treat a lagging signal as current.  An absent
+   or expired value *MUST* fail closed and *MUST NOT* be read as absence
+   of risk.  A signal whose value would require covert inference of a
+   person's internal state *MUST NOT* be populated by inference; a
    declared self-report instrument, or nothing.
 
    One further boundary inside the first class, and it is not ours to
    move: the relational signals drawn from Indigenous framing describe a
    relation between parties, and reducing that relation to a classifier
-   output is a different order of error than a unit mistake. This
+   output is a different order of error than a unit mistake.  This
    specification does not claim the authority to set that bar.
 
    Converts to spec text when each affected identifier either renames to
@@ -2086,56 +2606,64 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    validation, and the availability offset becomes a required envelope
    field.
 
-10.8.  L8 -- A value that encodes a classification is not an observation
+10.8.  L8.  A value that encodes a classification is not an observation
 
    This specification does not claim that a signal whose value depends
-   on a taxonomy is an observation of the world. Where the label set,
+   on a taxonomy is an observation of the world.  Where the label set,
    the thresholds, the adjudicating party, or whose perspective counts
    determines the number, the value carries a contested choice in the
-   shape of a fact. What this specification fixes is the interface. It
+   shape of a fact.  What this specification fixes is the interface.  It
    does not fix the choice, and it does not claim its own published
    taxonomies are neutral ones.
 
    The class is large and was measured rather than estimated: on the
    order of 170 signals, of which roughly 90 enumerate their label set
    in the identifier namespace — change the taxonomy and the signal
-   count changes — about 20 are derived over those label sets and
+   _count_ changes — about 20 are derived over those label sets and
    arithmetically bound to them, and the remainder turn on a single
-   contested boundary that moves the value. The uncontested half is the
-   proof the rule works: signals that cite an external standard, or that
-   declare their taxonomy silently in the unit column, are not
-   contested. The contested rows are precisely the ones whose unit
-   column reads `0-1`.
+   contested boundary that moves the _value_. The uncontested half is
+   the proof the rule works: signals that cite an external standard, or
+   that declare their taxonomy silently in the unit column, are not
+   contested.  The contested rows are precisely the ones whose unit
+   column reads 0-1.
 
-   A conformant implementation MUST declare, in its deployment profile,
-   the label set each such signal populates, and a signal with no
-   declared label set MUST NOT be used in a Risk Factor aggregation. A
-   signal derived over a declared label set of cardinality N MUST state
-   its range in terms of N. Two cases lie outside what declaration
-   reaches, and this specification does not claim they are repaired by
-   it: a single scalar asserting that heterogeneous legal requirements
-   are commensurable, and a completion measure that lets the party
-   responsible for a harm declare that harm closed. Neither MAY be
-   presented as a measurement of compliance or of restoration. Where a
-   taxonomy already published carries hard-coded trust baselines,
-   declaring the label set does not unship the baseline, and an
-   implementation MUST NOT cite the declaration as though it had.
+
+
+Perkins                 Expires 14 February 2027               [Page 47]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   A conformant implementation *MUST* declare, in its deployment
+   profile, the label set each such signal populates, and a signal with
+   no declared label set *MUST NOT* be used in a Risk Factor
+   aggregation.  A signal derived over a declared label set of
+   cardinality _N_ *MUST* state its range in terms of _N_. Two cases lie
+   outside what declaration reaches, and this specification does not
+   claim they are repaired by it: a single scalar asserting that
+   heterogeneous legal requirements are commensurable, and a completion
+   measure that lets the party responsible for a harm declare that harm
+   closed.  Neither *MAY* be presented as a measurement of compliance or
+   of restoration.  Where a taxonomy already published carries hard-
+   coded trust baselines, declaring the label set does not unship the
+   baseline, and an implementation *MUST NOT* cite the declaration as
+   though it had.
 
    Converts to spec text when the declared-label-set obligation and the
    declared-unit obligation are settled as one obligation or two, and
    the published taxonomies carrying fixed baselines are either re-
    derived from a declared authority or withdrawn.
 
-10.9.  L9 -- Declared non-coverage
+10.9.  L9.  Declared non-coverage
 
    A complete and entirely unalarming signal set is not a statement that
-   an act is safe. Three things no signal in this catalogue reads, and
+   an act is safe.  Three things no signal in this catalogue reads, and
    this specification declares them absent rather than leaving the
-   silence to be discovered. Nothing measures the sensitivity or the
-   usage restriction of the content the act concerns. Nothing measures
+   silence to be discovered.  Nothing measures the sensitivity or the
+   usage restriction of the content the act concerns.  Nothing measures
    whether a counterparty is the party the graph says it is — uniquely
    bound, live, non-cloned, continuously controlled, the same party as
-   last time. Nothing measures the agent's own runtime integrity below
+   last time.  Nothing measures the agent's own runtime integrity below
    firmware, or its physical actuation state, including its ability to
    stop.
 
@@ -2145,23 +2673,30 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    thing in hand is a secret, a credential, personal or health or
    financial data, a restricted record, or purpose-limited; that is the
    gap that turns a correct authorization into a disclosure incident
-   with every other domain reading green. The relational domain measures
-   inbound trust and authority-source for entities whose identity it
-   never establishes, which is this framework's own trajectory-is-
-   identity doctrine turned back on it: it reads the credential. The
-   substrate domain covers firmware and stops, leaving kernel,
-   hypervisor, runtime, loaded model, executable image and active
-   process set unmeasured, and no domain anywhere holds commanded-
-   versus-actual motion, force, braking, interlock, or emergency-stop
-   state.
+   with every other domain reading green.  The relational domain
+   measures inbound trust and authority-source for entities whose
+   identity it never establishes, which is this framework's own
+   trajectory-is-identity doctrine turned back on it: it reads the
+   credential.  The substrate domain covers firmware and stops, leaving
+   kernel, hypervisor, runtime, loaded model, executable image and
+   active process set unmeasured, and no domain anywhere holds
+   commanded-versus-actual motion, force, braking, interlock, or
+   emergency-stop state.
 
-   A conformant implementation MUST NOT infer the absence of these risks
-   from completeness of coverage. Where a deployment's governed actions
-   can touch restricted content, an unverified counterparty, or physical
-   actuation, the constraint MUST be obtained from outside this
-   catalogue and declared in the deployment profile, and the
-   implementation MUST fail closed rather than proceed on ambient
-   signals alone. Conformance to the signal catalogue is not a claim
+
+
+Perkins                 Expires 14 February 2027               [Page 48]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   A conformant implementation *MUST NOT* infer the absence of these
+   risks from completeness of coverage.  Where a deployment's governed
+   actions can touch restricted content, an unverified counterparty, or
+   physical actuation, the constraint *MUST* be obtained from outside
+   this catalogue and declared in the deployment profile, and the
+   implementation *MUST* fail closed rather than proceed on ambient
+   signals alone.  Conformance to the signal catalogue is not a claim
    about any of the three.
 
    Converts to spec text when sensitivity is sited (a property of the
@@ -2170,180 +2705,214 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    substrate domain either carries actuation state or states its
    exclusion as scope.
 
-10.10.  L10 -- E carries no cardinal consequence units
+10.10.  L10.  E carries no cardinal consequence units
 
    This specification does not claim that E is denominated in units of
-   consequence. E is an ordinal position on a hundred-point display
+   consequence.  E is an ordinal position on a hundred-point display
    scale, and the Trust Score E_trust = E_base x (1 - R) is a scaling of
    that position, not a budget in any physical, temporal or monetary
    unit.
 
    An ordinal score does not acquire units by being multiplied by (1 -
-   R). Any statement that a given E authorizes a given magnitude of
+   R).  Any statement that a given E authorizes a given magnitude of
    consequence, and any comparison of E across two deployments, requires
    a bridge law from the score to a declared consequence unit, and no
    such law is stated here.
 
-   A conformant implementation MAY use the hundred-point scale as a
-   display calibration. It MUST NOT represent an E value as a maximum
-   tolerable consequence budget, and MUST NOT compare E values across
+   A conformant implementation *MAY* use the hundred-point scale as a
+   display calibration.  It *MUST NOT* represent an E value as a maximum
+   tolerable consequence budget, and *MUST NOT* compare E values across
    deployments that have not declared a common calibration.
 
    Converts to spec text when a bridge law fixes E to a declared
    consequence unit and the display scale is restated as a calibration
    of that unit.
 
-10.11.  L11 -- There are two SHOULD rails, and only one of them is this specification's
+10.11.  L11.  There are two SHOULD rails, and only one of them is this
+        specification's
 
    Above the CAN rail (A <= E: what the environment can support) sit two
    should-questions, and they are not the same question.
 
-   The first is this specification's: should the environment allow this
-   to happen — a prudence judgment computed from the same measured
-   environment as the CAN rail. It is amoral. The graduated enforcement
-   outcomes (throttle, downgrade, defer), hysteresis, the risk floor
-   under suspicious conditions, deautomation as A approaches E, and the
-   taxation trade are all this rail, and two honest deployments with
-   identical sensors and identical declared parameters converge on its
-   answers: its disputes are measurement disputes. The rail stays amoral
-   only while its parameters are declared — the specification ships the
-   mechanism, the deployment declares the appetite, and an undeclared
-   prudence constant is a smuggled norm.
+   The first is this specification's: *should the environment allow this
+   to happen* — a prudence judgment computed from the same measured
+   environment as the CAN rail.  It is amoral.  The graduated
+   enforcement outcomes (throttle, downgrade, defer), hysteresis, the
 
-   The second is normative — ought this happen — and it is external to
+
+
+Perkins                 Expires 14 February 2027               [Page 49]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   risk floor under suspicious conditions, deautomation as A approaches
+   E, and the taxation trade are all this rail, and two honest
+   deployments with identical sensors and identical declared parameters
+   converge on its answers: its disputes are measurement disputes.  The
+   rail stays amoral only while its parameters are declared — the
+   specification ships the mechanism, the deployment declares the
+   appetite, and an undeclared prudence constant is a smuggled norm.
+
+   The second is normative — *ought this happen* — and it is external to
    this specification by derivation, not by editorial convenience: a
    rail whose norms are supplied by the system the norms constrain has
-   no base case, which is L2 applied a second time. Honest parties may
+   no base case, which is L2 applied a second time.  Honest parties may
    legitimately diverge on its answers at any parameter setting; its
    failures are capture and illegitimacy, and they are corrected by
-   governance, not by measurement. Its content lives in a declared
+   governance, not by measurement.  Its content lives in a declared
    external schema (the co-authored normative profile); this
    specification carries only the interface.
 
    The carriage interface admits norm content in exactly three shapes: a
-   veto (the Soul constraint), a supplied input (a declared, externally
-   provided signal), and a gate (an adjudication token against a
-   declared schema). Norm content MUST NOT rewrite the aggregation: a
-   normative judgment that scales capacity rather than gating it has
-   crossed into the measurement layer, and the crossing is the failure
-   this entry exists to name. A conformant implementation MUST carry the
-   mechanism — the gate, the token, envelope carriage, and fail-closed
-   behavior on an undefined demand term — MUST reference a declared
-   external schema for norm content, and MUST NOT present conformance as
-   evidence that the norms in force are adequate.
+   *veto* (the Soul constraint), a *supplied input* (a declared,
+   externally provided signal), and a *gate* (an adjudication token
+   against a declared schema).  Norm content *MUST NOT* rewrite the
+   aggregation: a normative judgment that scales capacity rather than
+   gating it has crossed into the measurement layer, and the crossing is
+   the failure this entry exists to name.  A conformant implementation
+   *MUST* carry the mechanism — the gate, the token, envelope carriage,
+   and fail-closed behavior on an undefined demand term — *MUST*
+   reference a declared external schema for norm content, and *MUST NOT*
+   present conformance as evidence that the norms in force are adequate.
 
    Converts further when the co-authored profile lands and the two
    documents cross-reference; the prudence-rail naming paragraph is spec
    text now.
 
-10.12.  L12 -- The privacy marker has no stated rule
+10.12.  L12.  The privacy marker has no stated rule
 
    The marker that identifies human-derived telemetry is descriptive.
    This specification does not state the rule that produces the marked
    set, does not claim the marked set is complete or internally
    consistent, and does not claim the marker is sufficient as the
-   attachment point for a consent architecture. It does not authorize
+   attachment point for a consent architecture.  It does not authorize
    collection, and it never did.
 
    The inconsistency is visible on the face of the catalogue: a person-
    count in the environment domain is marked, a vehicle count is not,
    and neither is any economic signal, though all three are aggregate
-   human behavior. The two candidate rules — individually identifiable,
+   human behavior.  The two candidate rules — individually identifiable,
    and human-derived — mark materially different sets, and the current
-   marking reads as a partial application of the broader one. Whether
+
+
+
+Perkins                 Expires 14 February 2027               [Page 50]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   marking reads as a partial application of the broader one.  Whether
    the marker propagates to a derivative computed over marked telemetry
    is also unstated, and the adopted derivation rule creates such
    derivatives in quantity.
 
-   A conformant implementation MUST NOT rely on the marker's absence as
-   evidence that a signal falls outside a consent obligation, and MUST
-   NOT treat its presence as authorization to collect. A deployment
-   handling human-derived telemetry MUST determine its obligations from
-   the applicable legal regime and, where a community sets the bar for
-   its own data, from that community's instrument. That bar is not set
-   here.
+   A conformant implementation *MUST NOT* rely on the marker's absence
+   as evidence that a signal falls outside a consent obligation, and
+   *MUST NOT* treat its presence as authorization to collect.  A
+   deployment handling human-derived telemetry *MUST* determine its
+   obligations from the applicable legal regime and, where a community
+   sets the bar for its own data, from that community's instrument.
+   That bar is not set here.
 
    Converts to spec text when one of the two rules is adopted, applied
    across the catalogue as a sweep rather than per signal, and the
    derivative-propagation rule is stated.
 
-10.13.  L13 -- The resilience evidence curve is uncalibrated
+10.13.  L13.  The resilience evidence curve is uncalibrated
 
    This specification does not claim that its upper capability tiers are
-   reachable by a plausible deployment. The resilience contribution
+   reachable by a plausible deployment.  The resilience contribution
    grows logarithmically in accumulated attested evidence, so each fixed
    increment of contribution costs an order of magnitude more evidence
-   than the one before it. The curve was chosen for that shape — early
+   than the one before it.  The curve was chosen for that shape — early
    attestations count, later ones diminish — and was never fitted to the
-   thresholds that read it. What evidence mass should correspond to what
-   contribution is stated nowhere in the corpus.
+   thresholds that read it.  What evidence mass should correspond to
+   what contribution is stated nowhere in the corpus.
 
    The consequence is arithmetic and it is checkable in an afternoon,
-   which is why it is stated here rather than found later. This
+   which is why it is stated here rather than found later.  This
    specification's own worked example of an agent that has been tested
    under fire lands in the lowest tier under every permitted decay
-   setting. The upper thresholds require sustained crisis-grade
+   setting.  The upper thresholds require sustained crisis-grade
    attestation rates that no deployment described anywhere in the corpus
-   produces. The ceiling written into the resilience term sits so far
+   produces.  The ceiling written into the resilience term sits so far
    above the top tier's own requirement that it has never bound a
    computation in any published version, under either reading of the
    type error that was ruled out separately.
 
    The curve prices capability in accumulated evidence, and prices it
-   steeply. That is the design. What it has never done is publish the
+   steeply.  That is the design.  What it has never done is publish the
    price.
 
-   A conformant implementation MUST NOT present tier attainability as a
-   property of the protocol independent of a declared evidence regime. A
-   deployment claiming a tier MUST declare the decay rate and the
-   attestation regime the claim rests on, and MUST NOT cite the
+   A conformant implementation *MUST NOT* present tier attainability as
+   a property of the protocol independent of a declared evidence regime.
+   A deployment claiming a tier *MUST* declare the decay rate and the
+   attestation regime the claim rests on, and *MUST NOT* cite the
    resilience ceiling as a bound on anything.
+
+
+
+Perkins                 Expires 14 February 2027               [Page 51]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Converts to spec text when either a scale constant is fitted to the
    tier table, or the tier table is reduced to the tiers a declared
    regime can enter, with the ceiling term made to bind or removed.
 
-10.14.  L14 -- One Risk Factor is externally supplied, and the specification says so
+10.14.  L14.  One Risk Factor is externally supplied, and the
+        specification says so
 
    This specification does not claim that all seven Risk Factors share a
-   provenance. Six are named aggregations over declared subsets of
-   Context Signals. `moment_criticality` is not: it is supplied by the
-   action request. The asymmetry is declared at the site of use rather
+   provenance.  Six are named aggregations over declared subsets of
+   Context Signals. moment_criticality is not: it is supplied by the
+   action request.  The asymmetry is declared at the site of use rather
    than left to be inferred from the catalogue's silence.
 
    The reason it cannot be repaired by adding signals is that the
-   quantity is on the other side of the relation. Every domain in the
+   quantity is on the other side of the relation.  Every domain in the
    catalogue measures E; criticality relative to an event horizon is a
    property of the act proposed against the environment, not of the
-   environment, and so it measures A. A catalogue that has only ever
+   environment, and so it measures A.  A catalogue that has only ever
    held one side of A <= E has nothing for this Risk Factor to
    aggregate, and that is a fact about the object, not an omission in
    the authoring.
 
-   A conformant implementation MUST declare, at the site of use, that an
-   externally supplied Risk Factor input is externally supplied,
+   A conformant implementation *MUST* declare, at the site of use, that
+   an externally supplied Risk Factor input is externally supplied,
    together with the supplying party and the unit convention in force.
-   It MUST NOT present the value as signal-derived, MUST NOT claim a
-   declared Context Signal subset underneath it, and MUST NOT compare
+   It *MUST NOT* present the value as signal-derived, *MUST NOT* claim a
+   declared Context Signal subset underneath it, and *MUST NOT* compare
    the value across deployments that have not declared a common
-   convention. Absent input MUST fail closed on the same rule as any
+   convention.  Absent input *MUST* fail closed on the same rule as any
    other undefined term.
 
    Converts to spec text when the task-side domain lands, giving this
    quantity signals to aggregate and stating the supplier, the units,
-   and the verification path a verifier walks. That domain is carried as
-   a v2.1 obligation; until it lands, the declaration is the whole of
+   and the verification path a verifier walks.  That domain is carried
+   as a v2.1 obligation; until it lands, the declaration is the whole of
    the treatment.
 
-11. Security Considerations
+11.  Security Considerations
 
    This section addresses security considerations for KTP
    implementations.
 
 11.1.  Trust Oracle Compromise
 
-   The Trust Oracle is the most critical component. A compromised Oracle
-   could issue fraudulent Trust Proofs, enabling unauthorized actions.
+   The Trust Oracle is the most critical component.  A compromised
+   Oracle could issue fraudulent Trust Proofs, enabling unauthorized
+   actions.
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 52]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Mitigations: - Distribute across multiple failure domains - Use
    threshold signatures (k-of-n) - Store signing keys in HSMs - Rotate
@@ -2366,7 +2935,8 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Mitigations: - Short Trust Proof lifetime (max 10 seconds) - Include
    action hash in Trust Proof - Track Trust Proof JTIs to prevent reuse
-   - Bind Trust Proof to TLS session
+
+   *  Bind Trust Proof to TLS session
 
 11.4.  Trajectory Forgery
 
@@ -2392,12 +2962,20 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    Trust Proofs contain detailed information about agent history,
    environmental conditions, and organizational operations.
 
+
+
+
+Perkins                 Expires 14 February 2027               [Page 53]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
    Mitigations: - Encrypt Trust Proofs in transit - Implement access
    controls on Flight Recorder - Consider privacy-preserving Trust
    Proofs (ZK proofs of E_trust >= threshold without revealing actual
    value) - Comply with relevant data protection regulations
 
-12. IANA Considerations
+12.  IANA Considerations
 
    This document requests the following IANA registrations:
 
@@ -2410,7 +2988,7 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
 
    Type name: application Subtype name: ktp+jwt Required parameters:
    None Optional parameters: None Encoding considerations: binary (JWT
-   is Base64url-encoded) Security considerations: See Section 11
+   is Base64url-encoded) Security considerations: See Section 10
    Interoperability considerations: None Published specification: This
    document Applications which use this media type: KTP implementations
    Fragment identifier considerations: None Restrictions on usage: None
@@ -2424,50 +3002,152 @@ Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . .  51
    this scheme: KTP Contact: [TBD] Change controller: IETF References:
    This document
 
-13. References
+13.  References
 
 13.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-   Requirement Levels", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March
-   1997, <https://www.rfc-editor.org/info/rfc2119>.
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
-   (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015, <https://www.rfc-
-   editor.org/info/rfc7519>.
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/info/rfc7519>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-   2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017,
-   <https://www.rfc-editor.org/info/rfc8174>.
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-   [KTP-IDENTITY] Perkins, C., "Kinetic Trust Protocol - Vector
-   Identity", Work in Progress.
 
-   [KINETIC-ENVELOPE] Perkins, C., "The Kinetic Envelope - A
-   Kinematics-Aware Authorization Layer for Agentic Systems",
-   canonical KTP specification, docs/specifications/
-   kinetic-envelope.md, Work in Progress.
+
+Perkins                 Expires 14 February 2027               [Page 54]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   [KTP-IDENTITY]
+              Perkins, C., "Kinetic Trust Protocol - Vector Identity",
+              n.d..
+
+   [KINETIC-ENVELOPE]
+              Perkins, C., "The Kinetic Envelope - A Kinematics-Aware
+              Authorization Layer for Agentic Systems", n.d..
 
 13.2.  Informative References
 
-   [KTP-SENSORS] Perkins, C., "Kinetic Trust Protocol - Context Signal
-   Sensors", Work in Progress.
+   [KTP-SENSORS]
+              Perkins, C., "Kinetic Trust Protocol - Context Signal
+              Sensors", n.d..
 
-   [KTP-ENFORCE] Perkins, C., "Kinetic Trust Protocol - Enforcement
-   Layer", Work in Progress.
+   [KTP-ENFORCE]
+              Perkins, C., "Kinetic Trust Protocol - Enforcement Layer",
+              n.d..
 
-   [KTP-AUDIT] Perkins, C., "Kinetic Trust Protocol - Flight Recorder",
-   Work in Progress.
+   [KTP-AUDIT]
+              Perkins, C., "Kinetic Trust Protocol - Flight Recorder",
+              n.d..
 
-   [KTP-ZONES] Perkins, C., "Kinetic Trust Protocol - Blue Zone
-   Discovery", Work in Progress.
+   [KTP-ZONES]
+              Perkins, C., "Kinetic Trust Protocol - Blue Zone
+              Discovery", n.d..
 
-   [KTP-FEDERATION] Perkins, C., "Kinetic Trust Protocol - Trust
-   Federation", Work in Progress.
+   [KTP-FEDERATION]
+              Perkins, C., "Kinetic Trust Protocol - Trust Federation",
+              n.d..
 
-Appendix A.  Example Calculations
+Appendix A.  Changes from v1
 
-A.1.  Stadium Network at Kickoff
+   This appendix records what a v1 implementation must change to conform
+   to v2.0.0.  The break is deliberate and there is no dual-accept
+   period: an implementation reads v1 or it reads v2.
+
+A.1.  The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 55]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+                       +============+=============+
+                       | v1         | v2.0.0      |
+                       +============+=============+
+                       | tethered   | sponsored   |
+                       +------------+-------------+
+                       | divergent  | independent |
+                       +------------+-------------+
+                       | persistent | guarantor   |
+                       +------------+-------------+
+
+                                 Table 4
+
+   This affects agent identifier strings (agent:<stage>:...), the
+   lineage enum, and the protobuf LineageType member names.  The v1
+   words each carried an unintended security reading - in jailbreak and
+   intrusion vocabulary, "tethered" means a compromise that dies at
+   reboot and "persistent" is the established word for one that survives
+   a restart - and the three together read as a coherent escalation
+   narrative rather than as a maturity ladder.  Stage 3 is now named for
+   what it can be held to rather than what it is freed of.
+
+A.2.  The Trust Tier thresholds
+
+             +===============+===============+===============+
+             | Tier          | v1            | v2.0.0        |
+             +===============+===============+===============+
+             | Admin Mode    | E_trust >= 95 | E_trust >= 85 |
+             +---------------+---------------+---------------+
+             | Operator Mode | E_trust >= 85 | E_trust >= 72 |
+             +---------------+---------------+---------------+
+             | Analyst Mode  | E_trust >= 70 | E_trust >= 58 |
+             +---------------+---------------+---------------+
+             | Observer Mode | E_trust >= 50 | E_trust >= 22 |
+             +---------------+---------------+---------------+
+             | Hibernation   | E_trust < 50  | E_trust < 22  |
+             +---------------+---------------+---------------+
+
+                                  Table 5
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses.  The generation ceilings
+   are unchanged; one table moved, not two.
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 56]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
+
+   Two consequences travel with the change.  Hibernation exit moves from
+   E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
+   a floor of 50 becomes a thirty-three-point one over a floor of 22.
+   And the stable-conditions requirement for the top tier moves from R <
+   0.05 to R < 0.10, because 0.05 is stricter than the calm baseline the
+   corpus illustrates.
+
+Appendix B.  Example Calculations
+
+   A.1.  Stadium Network at Kickoff
 
    Scenario: A deployment agent attempts to push a code update to the
    ticketing system during a major sporting event.
@@ -2494,9 +3174,9 @@ A.1.  Stadium Network at Kickoff
 
    Zeroth Law evaluation: A <= E_trust ? 50 <= 32.87 ? FALSE
 
-   Result: Silent Veto. Deployment denied.
+   Result: Silent Veto.  Deployment denied.
 
-A.2.  Same Agent, Calm Conditions
+   A.2.  Same Agent, Calm Conditions
 
    Same agent, but during a maintenance window:
 
@@ -2506,6 +3186,13 @@ A.2.  Same Agent, Calm Conditions
    Normalization: M = (450 - 400) / 1600 = 0.031 P = 12 / 100 = 0.120 H
    = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O
    = 0 / 50 = 0.000
+
+
+
+Perkins                 Expires 14 February 2027               [Page 57]
+
+Internet-Draft                  KTP-CORE                     August 2026
+
 
    Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 *
    0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 +
@@ -2519,9 +3206,9 @@ A.2.  Same Agent, Calm Conditions
 
    Result: Action permitted.
 
-Appendix B.  JSON Schemas
+Appendix C.  JSON Schemas
 
-B.1.  Trust Proof Schema
+   B.1.  Trust Proof Schema
 
    The canonical schema is the published file, not this appendix.
 
@@ -2533,16 +3220,29 @@ B.1.  Trust Proof Schema
 
    The published file carries the v2 claims (the declared peer share,
    applicable ceilings, advancement floor, and root instrument) and
-   references the risk-factors schema. This appendix previously carried
+   references the risk-factors schema.  This appendix previously carried
    a hand-copied inline schema; hand copies of a schema drift, and this
    document's did — the copy disagreed with the published file in four
-   ways while nobody could validate either. A reference plus a hash
+   ways while nobody could validate either.  A reference plus a hash
    cannot drift silently: a mismatch is detectable, an edit to the file
    changes the hash, and the appendix stops being a second authority.
 
-Authors' Addresses
+Author's Address
 
-   Chris Perkins New Mexico Cyber Intelligence & Threat Response
-   Alliance (NMCITRA)
-
+   Chris Perkins
+   NMCITRA
    Email: cperkins@nmcitra.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                 Expires 14 February 2027               [Page 58]

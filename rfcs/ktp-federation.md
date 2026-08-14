@@ -115,5 +115,5 @@ A formal JSON contract specifying trust factors, expiration dates, and dispute r
 
 ??? note "View Complete RFC Text (ktp-federation.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-federation.txt"
+    --8<-- "rfc-src/ktp-federation.md"
     ```

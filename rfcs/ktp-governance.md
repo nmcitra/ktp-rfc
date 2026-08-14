@@ -190,5 +190,5 @@ graph TD
 
 ??? note "View Complete RFC Text (ktp-governance.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-governance.txt"
+    --8<-- "rfc-src/ktp-governance.md"
     ```

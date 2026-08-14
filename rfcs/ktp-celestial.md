@@ -106,5 +106,5 @@ sequenceDiagram
 
 ??? note "View Complete RFC Text (ktp-celestial.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-celestial.txt"
+    --8<-- "rfc-src/ktp-celestial.md"
     ```

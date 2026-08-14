@@ -99,5 +99,5 @@ KTP-Recovery defines the protocols for handling failures at every level, from a 
 
 ??? note "View Complete RFC Text (ktp-recovery.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-recovery.txt"
+    --8<-- "rfc-src/ktp-recovery.md"
     ```

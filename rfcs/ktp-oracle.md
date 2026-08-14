@@ -160,5 +160,5 @@ Critical operations (like changing the zone's constraint parameters) require **T
 
 ??? note "View Complete RFC Text (ktp-oracle.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-oracle.txt"
+    --8<-- "rfc-src/ktp-oracle.md"
     ```

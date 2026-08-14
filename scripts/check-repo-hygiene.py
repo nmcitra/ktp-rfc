@@ -34,8 +34,10 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALLOWED = [
     ("normative", r"^rfcs/[^/]+\.md$",
      "the spec set — the reason this repo exists"),
-    ("normative", r"^rfcs-txt/[^/]+\.txt$",
-     "the canonical .txt half; parity with rfcs/ is checked separately"),
+    ("generated", r"^rfcs-txt/[^/]+\.txt$",
+     "the five filed Internet-Drafts, generated from rfc-src/ by "
+     "gen-rfc-txt.sh — the flip ran 2026-08-14; never hand-edited, and "
+     "gen-rfc-txt.sh --check is the diff gate"),
     ("normative", r"^(glossary\.md|constitution\.txt)$",
      "root-level normative companions to the set"),
     ("normative", r"^catalog/[^/]+\.md$",

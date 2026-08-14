@@ -533,5 +533,5 @@ For high-volume sensors:
 
 ??? note "View Complete RFC Text (ktp-transport.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-transport.txt"
+    --8<-- "rfc-src/ktp-transport.md"
     ```

@@ -150,5 +150,5 @@ sequenceDiagram
 
 ??? note "View Complete RFC Text (ktp-human.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-human.txt"
+    --8<-- "rfc-src/ktp-human.md"
     ```

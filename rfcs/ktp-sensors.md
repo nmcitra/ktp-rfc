@@ -124,5 +124,5 @@ The **Soul Veto** is unique. It does not use weighted averages. Instead, it acts
 
 ??? note "View Complete RFC Text (ktp-sensors.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-sensors.txt"
+    --8<-- "rfc-src/ktp-sensors.md"
     ```

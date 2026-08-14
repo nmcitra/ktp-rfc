@@ -142,5 +142,5 @@ Agents use the following logic to determine their environment:
 
 ??? note "View Complete RFC Text (ktp-zones.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-zones.txt"
+    --8<-- "rfc-src/ktp-zones.md"
     ```

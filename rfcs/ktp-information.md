@@ -96,5 +96,5 @@ Where $G_i$ represents major groups like:
 
 ??? note "View Complete RFC Text (ktp-information.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-information.txt"
+    --8<-- "rfc-src/ktp-information.md"
     ```

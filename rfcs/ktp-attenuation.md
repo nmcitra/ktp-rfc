@@ -96,5 +96,5 @@ graph TD
 
 ??? note "View Complete RFC Text (ktp-attenuation.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-attenuation.txt"
+    --8<-- "rfc-src/ktp-attenuation.md"
     ```

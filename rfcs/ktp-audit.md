@@ -123,5 +123,5 @@ This capability is critical for proving that the system behaved correctly during
 
 ??? note "View Complete RFC Text (ktp-audit.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-audit.txt"
+    --8<-- "rfc-src/ktp-audit.md"
     ```

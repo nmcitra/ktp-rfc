@@ -132,5 +132,5 @@ graph TD
 
 ??? note "View Complete RFC Text (ktp-migration.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-migration.txt"
+    --8<-- "rfc-src/ktp-migration.md"
     ```

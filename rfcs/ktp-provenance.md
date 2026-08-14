@@ -124,5 +124,5 @@ sequenceDiagram
 
 ??? note "View Complete RFC Text (ktp-provenance.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-provenance.txt"
+    --8<-- "rfc-src/ktp-provenance.md"
     ```

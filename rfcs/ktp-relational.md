@@ -97,5 +97,5 @@ Major decisions must be assessed across time horizons.
 
 ??? note "View Complete RFC Text (ktp-relational.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-relational.txt"
+    --8<-- "rfc-src/ktp-relational.md"
     ```

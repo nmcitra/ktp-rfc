@@ -184,5 +184,5 @@ graph LR
 
 ??? note "View Complete RFC Text (ktp-signals.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-signals.txt"
+    --8<-- "rfc-src/ktp-signals.md"
     ```

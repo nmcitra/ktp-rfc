@@ -144,5 +144,5 @@ graph TD
 
 ??? note "View Complete RFC Text (ktp-threat-model.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-threat-model.txt"
+    --8<-- "rfc-src/ktp-threat-model.md"
     ```

@@ -112,5 +112,5 @@ A read-only, immutable record of the agent's life.
 
 ??? note "View Complete RFC Text (ktp-deprecation.txt)"
     ```text
-    --8<-- "rfcs-txt/ktp-deprecation.txt"
+    --8<-- "rfc-src/ktp-deprecation.md"
     ```

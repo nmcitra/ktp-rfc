@@ -775,6 +775,8 @@ The Risk Factors are seven named measurements of the environment that drive the 
    the same action costs more trust near event horizons.
 ~~~
 
+Provenance: moment_criticality is externally supplied. Six of the seven inputs are aggregations over declared subsets of the Context Signals catalogue; this one is supplied by the action request's context and declared as such. The asymmetry is stated here rather than papered over: no catalogue domain measures what the agent is trying to do, because a task domain would measure A while every existing domain measures E, and the other side of A <= E cannot be appended to the catalogue casually. Until such a domain exists, a deployment MUST declare the source supplying this input.
+
 1. update_resistance
 
 ~~~
@@ -989,6 +991,18 @@ The Soul veto response differs from the standard Silent Veto:
 ~~~
 
 Note that e_trust and e_required are provided for transparency, but the denial is not due to insufficient trust - it is due to an immutable constraint that exists independent of trust.
+
+## The Carriage Interface for Normative Content
+
+Normative content — authored judgments about what ought to happen, whose disputes are value disputes that measurement cannot resolve — is external to this specification and enters it through exactly three shapes:
+
+1. A veto. The Soul constraint above: externally supplied, authority-adjudicated, carried but never authored here, and evaluated before aggregation.
+
+1. A supplied input. A declared, externally provided signal — moment_criticality is the standing instance — whose source the deployment MUST declare.
+
+1. A gate. An adjudication token evaluated against a declared external schema.
+
+Norm content MUST NOT rewrite the aggregation. A normative judgment that scales capacity rather than gating it has crossed into the measurement layer, and the crossing is the failure this interface exists to prevent. The prudence judgments this series computes from the environment ({{KTP-ENFORCE}}'s graduated outcomes) are not normative content and do not pass through this interface: their disputes resolve by measurement.
 
 ## Normalization
 
@@ -1494,6 +1508,367 @@ If Oracles disagree beyond tolerance, they MUST:
 1. Log the disagreement with full context 2. Use the more conservative (lower) E_trust value 3. Alert operators to investigate
 
 Oracle disagreement MAY indicate: - Sensor failure or manipulation - Network partition between Oracles - Attack on Oracle infrastructure
+
+# Limits of This Specification
+
+A specification that does not state its limits invites implementations that promise past them. The falsification program forced each of the following; this section states them the way the program forced them — as boundaries of the claim space fixed in advance, not qualifications recovered after an incident.
+
+## L1. Pre-execution episode classification is undecidable
+
+Universal pre-execution inference of episode membership for arbitrary code is
+undecidable. The reduction is from the halting problem (an agent that performs a
+governed action if and only if an arbitrary program halts), and Rice's theorem
+generalizes the obstruction to every non-trivial semantic property.
+
+Consequently, a conformant implementation **MAY** validate finite, completed
+events against a signed, policy-indexed adjudication token at runtime, and
+**MUST NOT** claim advance classification of the episode membership of arbitrary
+code. The parent episode identifier **MUST** be fixed before execution and
+carried by every implementation event; runtime membership checking is signature
+validation, never inference.
+
+## L2. No self-certification
+
+No composition of E_{base} may consist entirely of terms the subject measures
+about itself. The accountability chain behind the External Root **MUST**
+terminate, through a finite and declared chain, at a root outside the
+agent-trust graph. A cycle of agents attesting for one another does not satisfy
+this requirement.
+
+This is a structural necessity, not a policy preference. A gate grounded in
+itself has no base case; grounding in raw traces is essentially contested
+(independent functions can agree on every event and still legitimately disagree
+on the unit of accountability). Both rails therefore terminate in externally
+owned ground: the CAN rail at the External Root, the SHOULD rail at a declared
+institutional schema. The system does not certify its own trustworthiness from
+the inside.
+
+Kind alone does not discharge the requirement. The root **MUST** carry
+irrecoverable, non-transferable exposure at least proportional to the capacity
+it anchors; an anchor whose exposure can be shed by abandoning the identity
+anchors nothing.
+
+## L3. Level-independence is conditional
+
+Admissibility verdicts are invariant under re-description — packet level,
+syscall level, API level, agent level — only because action risk attaches to
+governed-world state transitions rather than to description events, and
+composition merges causal action contracts before evaluating risk. That algebra
+is discharged. The theorem it yields is conditional on **faithful description**:
+a proof, per description level, that the level's events implement the claimed
+consequence semantics.
+
+Where a refinement proof cannot be discharged — arbitrary code, no causal model
+— the invariance claim stops. These proofs are a work program of the
+linearizability/refinement genre, owed and not yet delivered. An implementation
+**MUST NOT** cite level-independence for a description level whose refinement
+into its governed-world model has not been demonstrated.
+
+The result holds within computation. No cross-substrate claim is made or
+implied.
+
+## L4. The judgment term is exposed to metric gaming (open)
+
+J — earned Judgment, the supply side of the should-gate W <= J — is a
+measured quantity that gates automaticity. Any measured quantity that gates
+becomes a target: measured J can be improved by an agent or its operator
+without improvement in the judgment it proxies. This specification provides no
+guard against that pressure — no stress-weighting analogous to Proof of
+Resilience on the CAN rail, no adversarial discipline on the J estimate.
+
+v2 records this as an **open limitation**. No repair is claimed.
+
+Adjacent but distinct: J also fails to survive actor substitution unless the
+actor-binding law is stated and enforced. That failure has a named repair and is
+carried as a spec obligation, not a limit.
+
+## L5. The terminal generation ceiling never binds arithmetically
+
+The generation-7+ ceiling on E_{base} is 100, and the composition reaches 100
+only when every term is simultaneously at its maximum share. The terminal
+ceiling therefore never withholds anything the composition could otherwise
+grant. It is retained deliberately: it states that terminal maturity is the
+absence of a generation limit, and it keeps the ceiling table total. This is a
+disclosure, not a defect.
+
+## L6. Episode overlap has no declared precedence mechanism (staged)
+
+**Episode overlap.** Episode membership is a relation, not a function: one
+event may carry several parent episode identifiers, each fixed before
+execution. v2 declares no precedence mechanism between them. Absent one,
+disagreeing adjudications combine restrictively under Section
+6.7 — the supervision floor is the maximum and the constraint set the
+tightest of the applicable tokens — and an implementation **MUST NOT** resolve
+a disagreement toward permission. Owed for v2.1: the identity-stability
+property (an episode identifier is a function of actor and adjudication
+context, never of accumulated evidence), termination and merge semantics,
+the schema carrier for declared precedence, and whether any explicit
+artifact may relax the restrictive composition.
+
+## L7. Some catalogued quantities are named, not measured
+
+This specification does not claim that a populated signal is a measurement of
+the phenomenon its identifier names. Two classes fall outside the claim. In the
+first, the observand is absent from any observation of the world: quantities
+that require the result of the act that was not taken, and quantities that
+require another party's internal state. In the second, the observand exists but
+resolves only after the decision it would inform — silent-failure and
+false-negative rates, adjudicated accuracy, replication outcomes, and every
+identifier that names a future fact.
+
+The first class is not a measurement problem that a better instrument closes. A
+counterfactual quantity requires the outcome of a thing that did not happen, and
+another mind is not available to any instrument the agent holds. A classifier
+can emit `0.83`; that does not mean the phenomenon named by the identifier is
+identifiable or has been measured. In the second class the defect is timing
+rather than identifiability: a quantity measurable only after the authorized
+action is either stale or empty at the commit point, and an empty signal is not
+a low reading.
+
+A conformant implementation **MUST NOT** treat the presence of an identifier as
+evidence that the named phenomenon was measured. For any signal in either
+class, the deployment profile **MUST** declare the estimator or model that
+produces the value and the population against which it was validated; a signal
+in the second class **MUST** additionally carry its earliest-availability
+offset, and an aggregation **MUST NOT** treat a lagging signal as current. An
+absent or expired value **MUST** fail closed and **MUST NOT** be read as absence
+of risk. A signal whose value would require covert inference of a person's
+internal state **MUST NOT** be populated by inference; a declared self-report
+instrument, or nothing.
+
+One further boundary inside the first class, and it is not ours to move: the
+relational signals drawn from Indigenous framing describe a relation between
+parties, and reducing that relation to a classifier output is a different order
+of error than a unit mistake. This specification does not claim the authority to
+set that bar.
+
+Converts to spec text when each affected identifier either renames to the
+estimator the system actually holds, with provenance as a required field, or
+carries a declared instrument with stated validation, and the availability
+offset becomes a required envelope field.
+
+## L8. A value that encodes a classification is not an observation
+
+This specification does not claim that a signal whose value depends on a
+taxonomy is an observation of the world. Where the label set, the thresholds,
+the adjudicating party, or whose perspective counts determines the number, the
+value carries a contested choice in the shape of a fact. What this specification
+fixes is the interface. It does not fix the choice, and it does not claim its
+own published taxonomies are neutral ones.
+
+The class is large and was measured rather than estimated: on the order of 170
+signals, of which roughly 90 enumerate their label set in the identifier
+namespace — change the taxonomy and the signal *count* changes — about 20 are
+derived over those label sets and arithmetically bound to them, and the
+remainder turn on a single contested boundary that moves the *value*. The
+uncontested half is the proof the rule works: signals that cite an external
+standard, or that declare their taxonomy silently in the unit column, are not
+contested. The contested rows are precisely the ones whose unit column reads
+`0-1`.
+
+A conformant implementation **MUST** declare, in its deployment profile, the
+label set each such signal populates, and a signal with no declared label set
+**MUST NOT** be used in a Risk Factor aggregation. A signal derived over a
+declared label set of cardinality *N* **MUST** state its range in terms of *N*.
+Two cases lie outside what declaration reaches, and this specification does not
+claim they are repaired by it: a single scalar asserting that heterogeneous
+legal requirements are commensurable, and a completion measure that lets the
+party responsible for a harm declare that harm closed. Neither **MAY** be
+presented as a measurement of compliance or of restoration. Where a taxonomy
+already published carries hard-coded trust baselines, declaring the label set
+does not unship the baseline, and an implementation **MUST NOT** cite the
+declaration as though it had.
+
+Converts to spec text when the declared-label-set obligation and the
+declared-unit obligation are settled as one obligation or two, and the published
+taxonomies carrying fixed baselines are either re-derived from a declared
+authority or withdrawn.
+
+## L9. Declared non-coverage
+
+A complete and entirely unalarming signal set is not a statement that an act is
+safe. Three things no signal in this catalogue reads, and this specification
+declares them absent rather than leaving the silence to be discovered. Nothing
+measures the sensitivity or the usage restriction of the content the act
+concerns. Nothing measures whether a counterparty is the party the graph says it
+is — uniquely bound, live, non-cloned, continuously controlled, the same party
+as last time. Nothing measures the agent's own runtime integrity below firmware,
+or its physical actuation state, including its ability to stop.
+
+Each gap has a specific consequence and that is why they are named. The
+epistemic domain measures whether the environment is truthful, manipulated,
+fresh and amplified, and none of that reads whether the thing in hand is a
+secret, a credential, personal or health or financial data, a restricted record,
+or purpose-limited; that is the gap that turns a correct authorization into a
+disclosure incident with every other domain reading green. The relational domain
+measures inbound trust and authority-source for entities whose identity it never
+establishes, which is this framework's own trajectory-is-identity doctrine
+turned back on it: it reads the credential. The substrate domain covers firmware
+and stops, leaving kernel, hypervisor, runtime, loaded model, executable image
+and active process set unmeasured, and no domain anywhere holds commanded-versus-actual
+motion, force, braking, interlock, or emergency-stop state.
+
+A conformant implementation **MUST NOT** infer the absence of these risks from
+completeness of coverage. Where a deployment's governed actions can touch
+restricted content, an unverified counterparty, or physical actuation, the
+constraint **MUST** be obtained from outside this catalogue and declared in the
+deployment profile, and the implementation **MUST** fail closed rather than
+proceed on ambient signals alone. Conformance to the signal catalogue is not a
+claim about any of the three.
+
+Converts to spec text when sensitivity is sited (a property of the act or a
+signal about the environment; declared label, detected label, or both),
+counterparty identity assurance is sited, and the substrate domain either
+carries actuation state or states its exclusion as scope.
+
+## L10. E carries no cardinal consequence units
+
+This specification does not claim that E is denominated in units of
+consequence. E is an ordinal position on a hundred-point display scale, and
+the Trust Score E_trust = E_base x (1 - R) is a scaling of that
+position, not a budget in any physical, temporal or monetary unit.
+
+An ordinal score does not acquire units by being multiplied by (1 - R). Any
+statement that a given E authorizes a given magnitude of consequence, and any
+comparison of E across two deployments, requires a bridge law from the score
+to a declared consequence unit, and no such law is stated here.
+
+A conformant implementation **MAY** use the hundred-point scale as a display
+calibration. It **MUST NOT** represent an E value as a maximum tolerable
+consequence budget, and **MUST NOT** compare E values across deployments that
+have not declared a common calibration.
+
+Converts to spec text when a bridge law fixes E to a declared consequence
+unit and the display scale is restated as a calibration of that unit.
+
+## L11. There are two SHOULD rails, and only one of them is this specification's
+
+Above the CAN rail (A <= E: what the environment can support) sit two
+should-questions, and they are not the same question.
+
+The first is this specification's: **should the environment allow this to
+happen** — a prudence judgment computed from the same measured environment as the CAN rail.
+It is amoral. The graduated enforcement outcomes (throttle, downgrade, defer),
+hysteresis, the risk floor under suspicious conditions, deautomation as A
+approaches E, and the taxation trade are all this rail, and two honest
+deployments with identical sensors and identical declared parameters converge
+on its answers: its disputes are measurement disputes. The rail stays amoral
+only while its parameters are declared — the specification ships the
+mechanism, the deployment declares the appetite, and an undeclared prudence
+constant is a smuggled norm.
+
+The second is normative — **ought this happen** — and it is external to this
+specification by derivation, not by editorial convenience: a rail whose norms
+are supplied by the system the norms constrain has no base case, which is L2
+applied a second time. Honest parties may legitimately diverge on its answers
+at any parameter setting; its failures are capture and illegitimacy, and they
+are corrected by governance, not by measurement. Its content lives in a
+declared external schema (the co-authored normative profile); this
+specification carries only the interface.
+
+The carriage interface admits norm content in exactly three shapes: a **veto**
+(the Soul constraint), a **supplied input** (a declared, externally provided
+signal), and a **gate** (an adjudication token against a declared schema).
+Norm content **MUST NOT** rewrite the aggregation: a normative judgment that
+scales capacity rather than gating it has crossed into the measurement layer, and the
+crossing is the failure this entry exists to name. A conformant implementation
+**MUST** carry the mechanism — the gate, the token, envelope carriage, and
+fail-closed behavior on an undefined demand term — **MUST** reference a
+declared external schema for norm content, and **MUST NOT** present
+conformance as evidence that the norms in force are adequate.
+
+Converts further when the co-authored profile lands and the two documents
+cross-reference; the prudence-rail naming paragraph is spec text now.
+
+## L12. The privacy marker has no stated rule
+
+The marker that identifies human-derived telemetry is descriptive. This
+specification does not state the rule that produces the marked set, does not
+claim the marked set is complete or internally consistent, and does not claim
+the marker is sufficient as the attachment point for a consent architecture. It
+does not authorize collection, and it never did.
+
+The inconsistency is visible on the face of the catalogue: a person-count in the
+environment domain is marked, a vehicle count is not, and neither is any
+economic signal, though all three are aggregate human behavior. The two
+candidate rules — individually identifiable, and human-derived — mark materially
+different sets, and the current marking reads as a partial application of the
+broader one. Whether the marker propagates to a derivative computed over marked
+telemetry is also unstated, and the adopted derivation rule creates such
+derivatives in quantity.
+
+A conformant implementation **MUST NOT** rely on the marker's absence as
+evidence that a signal falls outside a consent obligation, and **MUST NOT**
+treat its presence as authorization to collect. A deployment handling
+human-derived telemetry **MUST** determine its obligations from the applicable
+legal regime and, where a community sets the bar for its own data, from that
+community's instrument. That bar is not set here.
+
+Converts to spec text when one of the two rules is adopted, applied across the
+catalogue as a sweep rather than per signal, and the derivative-propagation rule
+is stated.
+
+## L13. The resilience evidence curve is uncalibrated
+
+This specification does not claim that its upper capability tiers are reachable
+by a plausible deployment. The resilience contribution grows logarithmically in
+accumulated attested evidence, so each fixed increment of contribution costs an
+order of magnitude more evidence than the one before it. The curve was chosen
+for that shape — early attestations count, later ones diminish — and was never
+fitted to the thresholds that read it. What evidence mass should correspond to
+what contribution is stated nowhere in the corpus.
+
+The consequence is arithmetic and it is checkable in an afternoon, which is why
+it is stated here rather than found later. This specification's own worked
+example of an agent that has been tested under fire lands in the lowest tier
+under every permitted decay setting. The upper thresholds require sustained
+crisis-grade attestation rates that no deployment described anywhere in the
+corpus produces. The ceiling written into the resilience term sits so far above
+the top tier's own requirement that it has never bound a computation in any
+published version, under either reading of the type error that was ruled out
+separately.
+
+The curve prices capability in accumulated evidence, and prices it steeply. That
+is the design. What it has never done is publish the price.
+
+A conformant implementation **MUST NOT** present tier attainability as a
+property of the protocol independent of a declared evidence regime. A deployment
+claiming a tier **MUST** declare the decay rate and the attestation regime the
+claim rests on, and **MUST NOT** cite the resilience ceiling as a bound on
+anything.
+
+Converts to spec text when either a scale constant is fitted to the tier table,
+or the tier table is reduced to the tiers a declared regime can enter, with the
+ceiling term made to bind or removed.
+
+## L14. One Risk Factor is externally supplied, and the specification says so
+
+This specification does not claim that all seven Risk Factors share a
+provenance. Six are named aggregations over declared subsets of Context Signals.
+`moment_criticality` is not: it is supplied by the action request. The asymmetry
+is declared at the site of use rather than left to be inferred from the
+catalogue's silence.
+
+The reason it cannot be repaired by adding signals is that the quantity is on
+the other side of the relation. Every domain in the catalogue measures E;
+criticality relative to an event horizon is a property of the act proposed
+against the environment, not of the environment, and so it measures A. A
+catalogue that has only ever held one side of A <= E has nothing for this
+Risk Factor to aggregate, and that is a fact about the object, not an omission
+in the authoring.
+
+A conformant implementation **MUST** declare, at the site of use, that an
+externally supplied Risk Factor input is externally supplied, together with the
+supplying party and the unit convention in force. It **MUST NOT** present the
+value as signal-derived, **MUST NOT** claim a declared Context Signal subset
+underneath it, and **MUST NOT** compare the value across deployments that have
+not declared a common convention. Absent input **MUST** fail closed on the same
+rule as any other undefined term.
+
+Converts to spec text when the task-side domain lands, giving this quantity
+signals to aggregate and stating the supplier, the units, and the verification
+path a verifier walks. That domain is carried as a v2.1 obligation; until it
+lands, the declaration is the whole of the treatment.
 
 # Security Considerations
 

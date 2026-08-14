@@ -56,6 +56,8 @@ The Enforcement Layer is where the constraint model becomes operational reality.
 
 Traditional authorization enforcement is binary: allowed or denied. KTP enforcement is graduated: actions may be allowed, denied, throttled, downgraded, or deferred based on the relationship between action risk and environmental capacity.
 
+The graduated outcomes are one rail, and this specification names it: the prudence rail. Above the CAN question (A <= E_trust: can the environment support this action) sits a second, still amoral question — should the environment allow it now, with margin — and every graduated mechanism in this document answers it: throttling, downgrading, deferral, promotion hysteresis, the risk floor under suspicious conditions, deautomation as A approaches E_trust, and the Section 9.5 taxation trade. The rail is computed from the same measured environment as the CAN rail, and its disputes are measurement disputes: two deployments with identical sensors and identical declared parameters converge on its answers. It stays amoral only while its parameters are declared — this specification ships the mechanisms, the deployment declares the appetite, and an undeclared prudence constant is a smuggled norm. Normative judgment — ought this happen — is a different rail with a different home; see {{KTP-CORE}}'s carriage interface.
+
 ## Enforcement Philosophy
 
 The core philosophy of KTP enforcement is:

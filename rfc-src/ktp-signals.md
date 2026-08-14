@@ -65,6 +65,14 @@ Context Signals follow these principles:
 
 1. Instrumentable: Every signal must be measurable with existing or near-term technology.
 
+## Scope: the Environment's Present, Not the Agent's Past
+
+The catalogue measures the environment now. Trajectory-the-object — the agent's history, the shape of how it has moved — lives in {{KTP-IDENTITY}}: the trajectory chain, the append-only ledger. The near-total absence of time-shaped signals here is that scope line, not an oversight: principle 3 ("trajectory over snapshot") is honored for the agent on the identity side, and the environment's own shape over time is supplied by the derivation rule below.
+
+## Declared Derivatives
+
+Any signal MAY expose declared derivatives — trend, variance, time-above-threshold, recurrence — computed over its declared refresh window. A derivative MUST declare the base signal, the derivative form, and the window it is computed over; a derivative is undefined without its window. Derivatives are marked as derived and are never counted as new observations of the environment: they are shape over existing observations, and the meta domain's refresh signals are what make their windows checkable.
+
 # Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).

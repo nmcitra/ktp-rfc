@@ -1,6 +1,6 @@
 # KTP v2.0.0 — Gödel
 
-**Draft release notes.** The full list of changes is in
+The full list of changes is in
 [`CHANGELOG.md`](CHANGELOG.md); what a v1.0.1 implementer has to change is in
 [`MIGRATION.md`](MIGRATION.md). This document is the account of why the release
 exists.

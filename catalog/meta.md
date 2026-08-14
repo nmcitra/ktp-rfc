@@ -133,34 +133,28 @@ quantity is not re-emitted here. `meta.refresh.sample_count` is deliberately not
 named `observation_count`, which `time.history` already uses for the agent's
 operational history.
 
-```text
-  [ HOLD — the [P] paragraph is not written. The [P] rule has never been
-    stated (nmcitra/ktp-rfc#67, open). No Meta signal carries the mark; the
-    hole is kept so the domain files agree in shape. Whether meta signals are
-    themselves subject to the rule is named in tracker#18's What this opens
-    and is not decided here. ]
-```
+**Privacy.** No Meta signal carries the `[P]` mark. Whether signals that
+measure the instruments fall under the mark at all is open under
+nmcitra/ktp-rfc#67, which owns the rule and has not stated it.
 
-```text
-  [ HOLD — waves 2 and 3 are not authored. Wave 2 is coverage and staleness;
-    wave 3 is tamper indicators and cross-sensor disagreement, with
-    provenance, calibration and uncertainty alongside them. Each appends a
-    group to catalog/meta.json and a line to the group-assignment block
-    above. The line this wave holds: a refresh row reports a time, a count,
-    or a ratio of two rates; a row reporting a FRACTION OF THE DECLARED SET,
-    or one that has to consult a policy threshold in order to decide, is
-    wave 2. Prompt P2 in worklog/ktp-spec/PROMPT-ROUND-2.md carries the
-    group plan; worklog/ktp-spec/signals/refresh-authoring-notes.md carries
-    this wave's boundary reasoning and its dropped rows. ]
-```
+## What the later waves take
 
-```text
-  [ HOLD — the regress is open. tracker#18 asks who measures the meta
-    domain's own coverage, and it terminates at a declared attestation root
-    or not at all. Every row in this wave is computable by the aggregator
-    from its own ingest log and its own configuration, so the regress does
-    not bite here; it bites on wave 2. ]
-```
+Wave 2 is coverage and staleness. Wave 3 is tamper indicators and cross-sensor
+disagreement, with provenance, calibration and uncertainty alongside them. Each
+appends a group to `catalog/meta.json` and a line to the group-assignment block
+above.
+
+The boundary this wave holds, so a later run does not have to re-derive it: **a
+refresh row reports a time, a count, or a ratio of two rates. A row reporting a
+fraction of the declared set — or one that has to consult a policy threshold in
+order to decide — is wave 2.** `declared_stale_threshold` reads the threshold
+and reports it, which is why it is here; a row that applied it would not be.
+
+**The regress is open and this wave does not reach it.** tracker#18 asks who
+measures the Meta domain's own coverage, and the answer terminates at a declared
+attestation root or not at all. Every row in this wave is computable by the
+aggregator from its own ingest log and its own configuration, so the question
+does not bite on refresh. It bites on coverage.
 
 
 ## Signals

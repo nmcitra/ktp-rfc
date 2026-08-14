@@ -73,6 +73,18 @@ ALLOWED = [
     ("governance", r"^SECURITY-NOTES\.md$",
      "defects found in a published tag, readable before the release that "
      "corrects them — tags never move, so this is the only place they can go"),
+    ("governance", r"^CHANGELOG\.md$",
+     "the normative change record, one entry per change with the finding that "
+     "forced it — a MAJOR release is a promise about what broke, and the "
+     "promise has to be written down somewhere a citation resolves against"),
+    ("governance", r"^MIGRATION\.md$",
+     "what an implementer pinned to the previous release has to change, split "
+     "wire-format break from prose change — the set breaks deliberately and "
+     "ships no dual-accept machinery, so this document is the migration path"),
+    ("governance", r"^RELEASE-NOTES-v[0-9]+\.[0-9]+\.[0-9]+\.md$",
+     "the account of why a release exists, which the tag's own notes are "
+     "drawn from — versioned in the filename because a published release's "
+     "notes are not rewritten by the next one"),
 
     ("tooling", r"^scripts/[^/]+\.(py|sh)$",
      "the executable success criteria — checkable or they are aspirations"),

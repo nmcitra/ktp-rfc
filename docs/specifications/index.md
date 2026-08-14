@@ -30,7 +30,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     Physics-aware authorization: A ≤ E evaluated per action, graduated deautomation, and a seven-vector conformance suite.
 
-    [:octicons-arrow-right-24: Read the spec](kinetic-envelope.md)
+    [:octicons-arrow-right-24: Read the spec](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md)
 
 -   :material-clipboard-check:{ .lg .middle } **Deployment Profile**
 
@@ -38,7 +38,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     The declaration surface: one object carrying every declaration the series requires of a deployment — the Risk Factor bridge, feed mapping, aliases, normalization, and the declared parameters.
 
-    [:octicons-arrow-right-24: Read the spec](deployment-profile.md)
+    [:octicons-arrow-right-24: Read the spec](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md)
 
 -   :material-code-json:{ .lg .middle } **Schemas**
 

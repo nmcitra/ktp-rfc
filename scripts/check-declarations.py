@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Validate a deployment profile against the catalogue — the conformance
-instrument for docs/specifications/deployment-profile.md (#108).
+instrument for specifications/deployment-profile.md (#108).
 
 The JSON Schema (schemas/deployment-profile.json) constrains shape; this
 script checks what a schema cannot — the joins against catalog/, which stays

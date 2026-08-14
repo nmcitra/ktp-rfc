@@ -31,6 +31,11 @@ WHAT IS IN SCOPE
     same repo as the specs and it is the source the site mirrors, so the two
     have to match. All three make claims, so their vocabulary is a claim.
 
+    `specifications/` is IN on the same reasoning, and the same run found
+    "physics veto" twice in the ROS2 reference vectors — the word the set
+    ruled retired (#64, C), sitting in the artifact a provider conforms
+    against. The document's own name for it is a kinematic veto.
+
     `schemas/` is IN, .md AND .json, from the v2 layout move. Scope here is by
     PATH, so when the wire artifacts left docs/ they would have left
     jurisdiction with it — silently, which is the failure mode this file
@@ -72,7 +77,8 @@ import sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SCOPE = [("rfcs", (".md",)), ("rfcs-txt", (".txt",)), ("docs", (".md",)),
-         ("schemas", (".md", ".json")), ("catalog", (".md", ".json"))]
+         ("schemas", (".md", ".json")), ("specifications", (".md", ".json")),
+         ("catalog", (".md", ".json"))]
 
 # Lines carrying one of these are recording history, not making a claim.
 HISTORICAL = re.compile(

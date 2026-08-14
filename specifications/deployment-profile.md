@@ -4,7 +4,7 @@
 
 The specification series keeps requiring declarations rather than publishing constants — the peer-signal share, the sponsorship chain's terminator and hop bound, the normalization function behind every synthetic score, which member of an alias set a deployment populates, the signals behind each Risk Factor. Each of those obligations was ruled separately, and until this document none of them had a place to be discharged: **a framework that requires declarations and provides no declaration site has an obligation nobody can discharge** (nmcitra/ktp-rfc#108, consolidating #101 and #106).
 
-This document is that site. It defines one object — the **deployment profile** — carrying every deployment-level declaration the series requires, so that the alias declarations, the Risk Factor bridge, and the feed mapping are one schema rather than three that have to agree. The machine form is `docs/schemas/deployment-profile.json`; `scripts/check-declarations.py` validates a profile instance against both the schema and the catalogue.
+This document is that site. It defines one object — the **deployment profile** — carrying every deployment-level declaration the series requires, so that the alias declarations, the Risk Factor bridge, and the feed mapping are one schema rather than three that have to agree. The machine form is `schemas/deployment-profile.json`; `scripts/check-declarations.py` validates a profile instance against both the schema and the catalogue.
 
 ## What a declaration is
 

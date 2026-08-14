@@ -43,6 +43,16 @@ ALLOWED = [
     ("normative", r"^catalog/[^/]+\.md$",
      "the catalogue's hand-authored halves — the index's normative rules and "
      "each domain's conventions prose (D5/#66, built by #108)"),
+    ("normative", r"^specifications/[^/]+\.md$",
+     "normative documents that are not RFCs in the set — the Kinetic "
+     "Envelope and the deployment profile. They bind an implementation the "
+     "same way rfcs/ does, so they sit beside it rather than inside a "
+     "documentation directory, where a reader cannot tell a ruled document "
+     "from a page describing one"),
+    ("normative", r"^specifications/conformance/[^/]+\.json$",
+     "the reference vectors those documents are conformed against — a "
+     "conformance claim is worth exactly the vectors it names, so the "
+     "vectors are part of the normative artifact and not an attachment"),
 
     ("source", r"^rfc-src/[^/]+\.md$",
      "kramdown-rfc source for all 27 specs (#78) — authored here once the "

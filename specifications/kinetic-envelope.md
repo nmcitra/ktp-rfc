@@ -156,7 +156,7 @@ const REFERENCE_V0_1 = {
 
 ## Conformance
 
-The canonical suite is the seven-vector ROS2 reference set ([`conformance/ros2-reference-v0.1.json`](https://github.com/nmcitra/ktp-rfc/blob/main/docs/specifications/conformance/ros2-reference-v0.1.json)). Normative per vector: `decision`, `supervision`, `policyCode` on a veto, and `tightenedAtMost` (a ceiling the result must not exceed). `referenceMargin` is informative. Any provider conforms if it matches the decisions and supervision and tightens at least as hard, so implementations disagree on the formula without producing looser decisions.
+The canonical suite is the seven-vector ROS2 reference set ([`conformance/ros2-reference-v0.1.json`](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/conformance/ros2-reference-v0.1.json)). Normative per vector: `decision`, `supervision`, `policyCode` on a veto, and `tightenedAtMost` (a ceiling the result must not exceed). `referenceMargin` is informative. Any provider conforms if it matches the decisions and supervision and tightens at least as hard, so implementations disagree on the formula without producing looser decisions.
 
 The suite declares `"profile": "ros2-reference-v0.1"` in its first line, so each vector's `tightenedAtMost` is read as ceilings over that profile's declared magnitudes — the compact map form of `ceilings`. A substrate declaring its own profile publishes its own suite; passing this one is a claim about ROS2, not about the interface in general.
 

@@ -129,3 +129,49 @@ demand*, and the schema set minimums of 100 and 1000 with no slot for that
 sentinel. v2.0.0 admits `0` explicitly and says what it means. No behavior
 depended on this; it is recorded because a schema that rejects its own example
 is not a schema anyone has run.
+
+---
+
+## SN-003 — `ktp-enforce` §9.1 states the v1 Hibernation threshold (50) against a tier table that says 22
+
+**Affects:** v2.0.0 (`v2.0.0`)
+**Component:** `rfcs-txt/ktp-enforce.txt` and `rfcs-md/ktp-enforce.md`, §9.1 "Hibernation Mode"; source `rfc-src/ktp-enforce.md`
+**Found:** 2026-09-03, reported by Mike Storm · **Corrected in:** v2.0.1
+**Tracking:** the v2.0.1 release; the reporter's public filing is pending and will be linked here when it lands
+
+### What is wrong
+
+§9.1 opens:
+
+> Hibernation is the most extreme dormancy state, entered when E_trust falls below 50.
+
+The tier table in §5.1 gives Hibernation as `< 22`, the §5.1.5 heading reads
+"Hibernation Mode (E_trust < 22)", and the migration table at the end of the
+document records the move from `< 50` to `< 22`. v2.0.0 moved the tier
+thresholds from 95 · 85 · 70 · 50 to 85 · 72 · 58 · 22, and this sentence was
+missed.
+
+### Why it matters
+
+In v2 the Observer tier is `>= 22, < 58`. An implementation that gates on §9.1
+hibernates every agent between 22 and 50 — agents the tier table says hold
+Observer capability. That band is where an agent recovering from degraded
+conditions sits, so the effect is that recovering agents are held
+heartbeat-only and cannot climb out by acting.
+
+The failure is silent. Both values are plausible, the migration table is
+correct, and the document reads as self-consistent unless §5.1.5 and §9.1 are
+read together — a reader who checks the migration table concludes the change
+landed.
+
+### What to do on v2.0.0
+
+Gate Hibernation on the tier table: `E_trust < 22`. The tier table and §5.1.5
+are the normative statements; the §9.1 sentence is an erratum. Nothing else in
+the tag carries a surviving v1 threshold in normative prose — every other
+95 · 85 · 70 · 50 occurrence (`ktp-enforce`, `ktp-core`, `ktp-conformance`) is a
+two-column v1→v2 migration table and is correct as written.
+
+### How it is corrected
+
+v2.0.1 changes the sentence to "below 22". No other change to the set.

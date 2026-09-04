@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Enforcement Layer Specification"
 abbrev: "KTP-ENFORCE"
 docname: draft-perkins-ktp-enforce-00
-date: 2026-08-13
+date: 2026-09-03
 category: exp
 ipr: trust200902
 
@@ -912,7 +912,7 @@ Recovery SHOULD be gradual to avoid oscillation:
 
 ## Hibernation Mode
 
-Hibernation is the most extreme dormancy state, entered when E_trust falls below 50.
+Hibernation is the most extreme dormancy state, entered when E_trust falls below 22.
 
 In Hibernation:
 

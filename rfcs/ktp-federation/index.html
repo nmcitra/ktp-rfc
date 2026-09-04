@@ -1,0 +1,3205 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-federation/">
+      
+      
+        <link rel="prev" href="../ktp-transport/">
+      
+      
+        <link rel="next" href="../ktp-zones/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Federation - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-trust-federation-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Federation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-federation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-trust-federation-specification">Kinetic Trust Protocol (KTP) - Trust Federation Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-trust-federation-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies the Trust Federation system for the Kinetic Trust Protocol (KTP). Trust Federation enables portable trust between Blue Zones, allowing agents to carry their reputation across zone boundaries while maintaining appropriate trust adjustments based on zone relationships.</p>
+<p>The specification covers federation models, trust negotiation, cross- zone attestations, dispute resolution, and governance of federated trust networks.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>A single Blue Zone provides environment-derived authorization for agents within its boundaries. But the real power of KTP emerges when zones are connected--when trust earned in one zone carries weight in another.</p>
+<p>Trust Federation is the protocol by which zones establish trust relationships, negotiate trust factors, and enable portable reputation across the emerging network of Blue Zones.</p>
+<h2 id="the-federation-problem">The Federation Problem<a class="headerlink" href="#the-federation-problem" title="Permanent link">&para;</a></h2>
+<p>Without federation, each zone is an island:</p>
+<ul>
+<li>Agents must rebuild trust from zero in each zone</li>
+<li>Good behavior in Zone A provides no benefit in Zone B</li>
+<li>Bad actors can "zone hop" to escape consequences</li>
+<li>The network effect of trust cannot emerge</li>
+</ul>
+<p>With federation:</p>
+<ul>
+<li>Trust is portable between federated zones</li>
+<li>Good behavior creates compound value</li>
+<li>Bad actors are tracked across zone boundaries</li>
+<li>Network effects create positive sum dynamics</li>
+</ul>
+<p>The challenge is: how do zones agree on trust relationships when they may have different policies, different risk tolerances, and different governance structures?</p>
+<h2 id="federation-philosophy">Federation Philosophy<a class="headerlink" href="#federation-philosophy" title="Permanent link">&para;</a></h2>
+<p>KTP Federation is built on these principles:</p>
+<ol>
+<li>
+<p>Sovereignty: Each zone retains full sovereignty over its internal governance. Federation does not require policy harmonization.</p>
+</li>
+<li>
+<p>Reciprocity: Trust relationships are reciprocal by default. If Zone A trusts Zone B at factor 0.8, Zone B trusts Zone A at 0.8 unless explicitly negotiated otherwise.</p>
+</li>
+<li>
+<p>Transitivity Limits: Trust is not infinitely transitive. If Zone A trusts Zone B, and Zone B trusts Zone C, Zone A does not automatically trust Zone C.</p>
+</li>
+<li>
+<p>Degradation Safety: Federation failures degrade gracefully. If trust cannot be verified, agents are treated as unfederated, not blocked entirely.</p>
+</li>
+<li>
+<p>Transparency: Federation relationships are public. Agents can see which zones are federated before choosing to participate.</p>
+</li>
+</ol>
+<h2 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174].</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>Bilateral Federation: A direct trust relationship between exactly two zones.</p>
+<p>Cross-Zone Attestation: An attestation that is co-signed by Trust Oracles from multiple zones, creating portable proof of behavior.</p>
+<p>Federation Agreement: A formal contract between zones specifying trust factors, obligations, and dispute resolution procedures.</p>
+<p>Federation Hub: A zone that serves as a central trust anchor for multiple spoke zones.</p>
+<p>Federation Mesh: A network of zones with many-to-many trust relationships.</p>
+<p>Forward Propagation: The process by which positive trust events in one zone increase an agent's reputation in federated zones.</p>
+<p>Backward Propagation: The process by which negative trust events in one zone decrease an agent's reputation in previously visited zones.</p>
+<p>Trust Factor: A multiplier (0.0 to 1.0) applied to an agent's E_base when crossing from one zone to another.</p>
+<p>Trust Path: The chain of federated zones through which trust is calculated for a multi-hop agent journey.</p>
+<h1 id="federation-models">Federation Models<a class="headerlink" href="#federation-models" title="Permanent link">&para;</a></h1>
+<p>Zones can federate using several models, each with different characteristics.</p>
+<h2 id="bilateral-federation">Bilateral Federation<a class="headerlink" href="#bilateral-federation" title="Permanent link">&para;</a></h2>
+<p>The simplest model: two zones agree to trust each other.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Direct relationship between two zones</li>
+<li>Single trust factor per direction</li>
+<li>Simple to establish and maintain</li>
+<li>Does not scale to many zones</li>
+</ul>
+<p>Structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   +----------+                     +----------+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   |  Zone A  |&lt;--- Trust (0.9) ---&gt;|  Zone B  |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   +----------+                     +----------+
+</code></pre></div>
+<p>Use cases:</p>
+<ul>
+<li>Two organizations with partnership</li>
+<li>Parent company and subsidiary</li>
+<li>Vendor and customer relationship</li>
+</ul>
+<p>Agreement example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   {
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>     "federation_type": "bilateral",
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>     "parties": [
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>       { "zone_id": "zone-blue-corp-a", "name": "Corp A" },
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>       { "zone_id": "zone-blue-corp-b", "name": "Corp B" }
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     ],
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>     "trust_factors": {
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>       "a_to_b": 0.9,
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>       "b_to_a": 0.9
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>     },
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>     "effective_date": "2025-01-01",
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>     "expiration_date": "2026-01-01",
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>     "auto_renewal": true
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>   }
+</code></pre></div>
+<h2 id="hub-federation">Hub Federation<a class="headerlink" href="#hub-federation" title="Permanent link">&para;</a></h2>
+<p>A central zone acts as trust anchor for multiple spoke zones.</p>
+<p>Characteristics:</p>
+<ul>
+<li>One hub zone, multiple spoke zones</li>
+<li>Spokes trust hub fully (factor 1.0)</li>
+<li>Spokes trust each other via hub</li>
+<li>Hub has significant responsibility</li>
+<li>Efficient for organizational hierarchies</li>
+</ul>
+<p>Structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>                 +----------+
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                 |   Hub    |
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>                 +----------+
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>                /     |     \
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>               /      |      \
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>       +------+  +------+  +------+
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>       |Spoke1|  |Spoke2|  |Spoke3|
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>       +------+  +------+  +------+
+</code></pre></div>
+<p>Trust calculation (Spoke1 to Spoke2):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>   Trust = Spoke1_to_Hub * Hub_to_Spoke2
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>   Trust = 1.0 * 1.0 = 1.0
+</code></pre></div>
+<p>Use cases:</p>
+<ul>
+<li>Corporate zone hierarchy</li>
+<li>Government agency federation</li>
+<li>Industry consortium</li>
+</ul>
+<p>Agreement example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>   {
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>     "federation_type": "hub",
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>     "hub": {
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>       "zone_id": "zone-blue-headquarters",
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>       "name": "Corporate HQ"
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>     },
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>     "spokes": [
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>       { "zone_id": "zone-blue-division-a", "trust_factor": 1.0 },
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>       { "zone_id": "zone-blue-division-b", "trust_factor": 1.0 },
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>       { "zone_id": "zone-cyan-subsidiary", "trust_factor": 0.8 }
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>     ],
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>     "spoke_to_spoke": "via_hub"
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>   }
+</code></pre></div>
+<h2 id="mesh-federation">Mesh Federation<a class="headerlink" href="#mesh-federation" title="Permanent link">&para;</a></h2>
+<p>Many zones with direct relationships to each other.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Multiple bilateral relationships</li>
+<li>No central authority</li>
+<li>Complex trust calculation</li>
+<li>Most flexible but hardest to manage</li>
+</ul>
+<p>Structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>      +---------+---------+---------+
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>      |         |         |         |
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>      v         v         v         v
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>   +------+  +------+  +------+  +------+
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>   |Zone A|--|Zone B|--|Zone C|--|Zone D|
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>   +------+  +------+  +------+  +------+
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>      |         |         |         |
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>      +---------+---------+---------+
+</code></pre></div>
+<p>Trust calculation requires path finding:</p>
+<ul>
+<li>Direct path: Use direct trust factor</li>
+<li>Multi-hop path: Multiply factors along path</li>
+<li>Multiple paths: Use highest trust path</li>
+</ul>
+<p>Use cases:</p>
+<ul>
+<li>Industry peer networks</li>
+<li>Research institution networks</li>
+<li>Decentralized ecosystems</li>
+</ul>
+<p>Agreement example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>   {
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>     "federation_type": "mesh",
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>     "zone_id": "zone-blue-university-a",
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     "peers": [
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>       {
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>         "zone_id": "zone-blue-university-b",
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>         "trust_factor": 0.95,
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>         "relationship": "research_partner"
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>       },
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>       {
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>         "zone_id": "zone-blue-university-c",
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>         "trust_factor": 0.90,
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>         "relationship": "consortium_member"
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>       },
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>       {
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>         "zone_id": "zone-cyan-startup-x",
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>         "trust_factor": 0.70,
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>         "relationship": "incubator_graduate"
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>       }
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>     ]
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>   }
+</code></pre></div>
+<h2 id="hierarchical-federation">Hierarchical Federation<a class="headerlink" href="#hierarchical-federation" title="Permanent link">&para;</a></h2>
+<p>Tree structure with inheritance of trust relationships.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Parent-child zone relationships</li>
+<li>Trust inherited down hierarchy</li>
+<li>Children can have additional peer relationships</li>
+<li>Natural for organizational structures</li>
+</ul>
+<p>Structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>                 +----------+
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>                 |   Root   |
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>                 +----------+
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>                /            \
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>        +------+              +------+
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        |Tier 1|              |Tier 1|
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        +------+              +------+
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>       /        \            /        \
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>   +----+    +----+      +----+    +----+
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>   |Tier|    |Tier|      |Tier|    |Tier|
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>   | 2  |    | 2  |      | 2  |    | 2  |
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>   +----+    +----+      +----+    +----+
+</code></pre></div>
+<p>Trust rules:</p>
+<ul>
+<li>Parent trusts all descendants at factor 1.0</li>
+<li>Child trusts parent at factor 1.0</li>
+<li>Siblings trust each other at parent's discretion</li>
+<li>Cross-branch trust calculated via common ancestor</li>
+</ul>
+<p>Use cases:</p>
+<ul>
+<li>Government hierarchies</li>
+<li>Multi-national corporations</li>
+<li>Franchise networks</li>
+</ul>
+<h1 id="trust-factor-calculation">Trust Factor Calculation<a class="headerlink" href="#trust-factor-calculation" title="Permanent link">&para;</a></h1>
+<h2 id="base-trust-factor">Base Trust Factor<a class="headerlink" href="#base-trust-factor" title="Permanent link">&para;</a></h2>
+<p>The base trust factor is the starting point for cross-zone trust calculation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>   E_base_target = E_base_source * trust_factor
+</code></pre></div>
+<p>Trust factor ranges:</p>
+<ul>
+<li>1.0: Full trust (same as own zone)</li>
+<li>0.8-0.99: High trust (close partner)</li>
+<li>0.5-0.79: Moderate trust (known zone)</li>
+<li>0.3-0.49: Low trust (minimal relationship)</li>
+<li>0.0-0.29: Very low trust (untrusted zone)</li>
+<li>0.0: No trust (effectively unfederated)</li>
+</ul>
+<p>Example calculation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>   Agent with E_base = 85 in Zone A
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>   Zone A to Zone B trust factor = 0.8
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>   E_base in Zone B = 85 * 0.8 = 68
+</code></pre></div>
+<h2 id="dynamic-trust-factor">Dynamic Trust Factor<a class="headerlink" href="#dynamic-trust-factor" title="Permanent link">&para;</a></h2>
+<p>Trust factors can be adjusted dynamically based on:</p>
+<ol>
+<li>Recent behavior of agents from the zone</li>
+<li>Zone's security posture</li>
+<li>Federation agreement compliance</li>
+<li>Incident history</li>
+</ol>
+<p>Dynamic adjustment formula:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   effective_trust_factor = base_trust_factor * behavior_modifier
+</code></pre></div>
+<p>Where behavior_modifier is calculated from:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>   behavior_modifier = 1.0 - (negative_events * penalty)
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>                           + (positive_events * bonus)
+</code></pre></div>
+<p>Clamped to range [0.5 * base, 1.0 * base] to prevent extreme swings.</p>
+<h2 id="trust-factor-decay">Trust Factor Decay<a class="headerlink" href="#trust-factor-decay" title="Permanent link">&para;</a></h2>
+<p>Trust factors naturally decay over time without positive reinforcement:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>   trust_factor(t) = trust_factor(t0) * decay_rate ^ (t - t0)
+</code></pre></div>
+<p>Where:</p>
+<ul>
+<li>t0: Time of last federation activity</li>
+<li>t: Current time</li>
+<li>decay_rate: Typically 0.99 per day</li>
+</ul>
+<p>This ensures that inactive federations don't maintain full trust indefinitely. Regular cross-zone traffic maintains trust; inactive relationships gradually return to baseline.</p>
+<p>Decay is reset by:</p>
+<ul>
+<li>Successful agent crossings</li>
+<li>Cross-zone attestations</li>
+<li>Federation agreement renewal</li>
+</ul>
+<h2 id="minimum-trust-floor">Minimum Trust Floor<a class="headerlink" href="#minimum-trust-floor" title="Permanent link">&para;</a></h2>
+<p>To prevent trust from decaying to zero, federations MAY specify a minimum trust floor:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>   effective_trust_factor = max(calculated_factor, floor)
+</code></pre></div>
+<p>Typical floors:</p>
+<ul>
+<li>Bilateral: 0.5 (maintain meaningful relationship)</li>
+<li>Hub: 0.8 (maintain organizational trust)</li>
+<li>Mesh: 0.3 (maintain basic connectivity)</li>
+</ul>
+<p>If trust falls below floor despite decay protection, this indicates a relationship problem requiring human intervention.</p>
+<h1 id="federation-agreements">Federation Agreements<a class="headerlink" href="#federation-agreements" title="Permanent link">&para;</a></h1>
+<h2 id="agreement-structure">Agreement Structure<a class="headerlink" href="#agreement-structure" title="Permanent link">&para;</a></h2>
+<p>A Federation Agreement is a formal contract between zones:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   {
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>     "agreement_id": "fed-agree-uuid-12345",
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>     "agreement_version": "1.0",
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>     "created": "2025-01-01T00:00:00Z",
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>     "effective": "2025-01-15T00:00:00Z",
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>     "expires": "2026-01-15T00:00:00Z",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>     "parties": [
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>       {
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>         "zone_id": "zone-blue-corp-a",
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>         "legal_entity": "Corporation A Inc.",
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>         "jurisdiction": "US-DE",
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>         "signing_authority": "CISO",
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>         "signature": "sig:zone-a:abc123..."
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>       },
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>       {
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>         "zone_id": "zone-blue-corp-b",
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>         "legal_entity": "Corporation B Ltd.",
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>         "jurisdiction": "UK",
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>         "signing_authority": "Head of Security",
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>         "signature": "sig:zone-b:def456..."
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>       }
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>     ],
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>     "trust_terms": {
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>       "base_trust_factor": 0.85,
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>       "asymmetric": false,
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>       "dynamic_adjustment": true,
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>       "decay_rate": 0.99,
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>       "floor": 0.5,
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>       "ceiling": 0.95
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>     "obligations": {
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>       "ktp_version": "1.0",
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>       "min_zone_type": "blue",
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>       "flight_recorder": "required",
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>       "audit_access": "quarterly",
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>       "incident_notification": "24_hours",
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>       "soul_enforcement": "required"
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>     "data_handling": {
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>       "cross_zone_attestations": true,
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>       "trajectory_sharing": "on_request",
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>       "resilience_ledger_sync": "daily"
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>     "dispute_resolution": {
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>       "negotiation_period_days": 30,
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>       "mediation": "recommended",
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>       "arbitration": "JAMS",
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>       "arbitration_jurisdiction": "US-NY",
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>       "governing_law": "US-NY"
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>     "termination": {
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>       "notice_period_days": 90,
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>       "immediate_termination_causes": [
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>         "security_breach",
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>         "agreement_violation",
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>         "insolvency"
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>       ]
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>     }
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>   }
+</code></pre></div>
+<h2 id="negotiation-protocol">Negotiation Protocol<a class="headerlink" href="#negotiation-protocol" title="Permanent link">&para;</a></h2>
+<p>Federation agreements are negotiated through a structured protocol:</p>
+<p>Phase 1: Discovery</p>
+<ul>
+<li>Zones exchange public information</li>
+<li>Verify zone registration and governance</li>
+<li>Assess compatibility (zone types, policies)</li>
+</ul>
+<p>Phase 2: Proposal</p>
+<ul>
+<li>Initiating zone sends federation proposal</li>
+<li>Proposal includes suggested terms</li>
+<li>Receiving zone acknowledges receipt</li>
+</ul>
+<p>Phase 3: Negotiation</p>
+<ul>
+<li>Zones exchange counter-proposals</li>
+<li>Terms are negotiated</li>
+<li>Legal review occurs</li>
+</ul>
+<p>Phase 4: Agreement</p>
+<ul>
+<li>Final terms are documented</li>
+<li>Signing authorities approve</li>
+<li>Cryptographic signatures applied</li>
+</ul>
+<p>Phase 5: Activation</p>
+<ul>
+<li>Agreement is published (if public federation)</li>
+<li>Trust Oracles are configured</li>
+<li>Federation becomes active</li>
+</ul>
+<p>Protocol messages:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>   // Proposal
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>   {
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>     "message_type": "federation_proposal",
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>     "from_zone": "zone-blue-corp-a",
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>     "to_zone": "zone-blue-corp-b",
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>     "proposal_id": "prop-uuid-12345",
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>     "proposed_terms": { ... },
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>     "valid_until": "2025-02-01T00:00:00Z"
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>   }
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>   // Counter-proposal
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>   {
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>     "message_type": "federation_counter",
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>     "from_zone": "zone-blue-corp-b",
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>     "to_zone": "zone-blue-corp-a",
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>     "proposal_id": "prop-uuid-12345",
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>     "counter_id": "counter-uuid-67890",
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>     "modified_terms": { ... },
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>     "accepted_terms": [ ... ],
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>     "rejected_terms": [ ... ]
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>   }
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>   // Acceptance
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>   {
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>     "message_type": "federation_accept",
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>     "from_zone": "zone-blue-corp-a",
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>     "to_zone": "zone-blue-corp-b",
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>     "proposal_id": "prop-uuid-12345",
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>     "final_agreement": { ... },
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>     "signature": "sig:zone-a:xyz789..."
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>   }
+</code></pre></div>
+<h2 id="agreement-lifecycle">Agreement Lifecycle<a class="headerlink" href="#agreement-lifecycle" title="Permanent link">&para;</a></h2>
+<p>Federation agreements follow a lifecycle:</p>
+<ol>
+<li>Draft: Agreement being negotiated</li>
+<li>Pending: Agreement signed, awaiting activation</li>
+<li>Active: Agreement in force</li>
+<li>Suspended: Temporarily inactive (dispute, incident)</li>
+<li>Expiring: Within notice period of expiration</li>
+<li>Expired: Past expiration date</li>
+<li>Terminated: Ended before expiration</li>
+</ol>
+<p>State transitions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>   Draft --&gt; Pending --&gt; Active --&gt; Expiring --&gt; Expired
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>                          |
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>                          +--&gt; Suspended --&gt; Active
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>                          |
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>                          +--&gt; Terminated
+</code></pre></div>
+<h1 id="cross-zone-attestations">Cross-Zone Attestations<a class="headerlink" href="#cross-zone-attestations" title="Permanent link">&para;</a></h1>
+<h2 id="attestation-types">Attestation Types<a class="headerlink" href="#attestation-types" title="Permanent link">&para;</a></h2>
+<p>Cross-zone attestations provide portable proof of behavior:</p>
+<p>Passage Attestation:</p>
+<ul>
+<li>Issued when agent successfully crosses zone boundary</li>
+<li>Proves agent met entry requirements</li>
+<li>Lightweight, high volume</li>
+</ul>
+<p>Behavior Attestation:</p>
+<ul>
+<li>Issued periodically for agents operating in zone</li>
+<li>Summarizes behavior over time period</li>
+<li>Medium weight, regular cadence</li>
+</ul>
+<p>Exit Attestation:</p>
+<ul>
+<li>Issued when agent leaves zone</li>
+<li>Comprehensive summary of zone tenure</li>
+<li>Detailed, one per zone visit</li>
+</ul>
+<p>Crisis Attestation:</p>
+<ul>
+<li>Issued for behavior during high-stress periods</li>
+<li>Carries extra weight for Proof of Resilience</li>
+<li>Rare, high value</li>
+</ul>
+<h2 id="co-signature-requirements">Co-Signature Requirements<a class="headerlink" href="#co-signature-requirements" title="Permanent link">&para;</a></h2>
+<p>Cross-zone attestations require co-signatures for maximum portability:</p>
+<p>Single-zone attestation (limited portability):</p>
+<ul>
+<li>Signed by issuing zone's Oracle only</li>
+<li>Accepted by federated zones at reduced weight</li>
+<li>Weight reduction: 20%</li>
+</ul>
+<p>Dual-zone attestation (standard):</p>
+<ul>
+<li>Signed by both source and destination zone Oracles</li>
+<li>Full weight in both zones and their federations</li>
+<li>Standard for zone crossings</li>
+</ul>
+<p>Multi-zone attestation (premium):</p>
+<ul>
+<li>Signed by three or more zone Oracles</li>
+<li>Full weight across all signing zones' federations</li>
+<li>Used for high-value agents</li>
+</ul>
+<p>Co-signature format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>   {
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>     "attestation_id": "att-uuid-12345",
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>     "attestation_type": "exit",
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>     "agent_id": "agent:7gen:optimized:a1b2c3d4",
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>     "content": { ... },
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>     "signatures": [
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>       {
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>         "zone_id": "zone-blue-corp-a",
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>         "oracle_id": "oracle-a-1",
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>         "signature": "sig:oracle-a:abc...",
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>         "timestamp": "2025-11-25T18:00:00Z"
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>       },
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>       {
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>         "zone_id": "zone-blue-corp-b",
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>         "oracle_id": "oracle-b-1",
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>         "signature": "sig:oracle-b:def...",
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>         "timestamp": "2025-11-25T18:00:01Z"
+<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>       }
+<a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a>     ]
+<a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a>   }
+</code></pre></div>
+<h2 id="attestation-verification">Attestation Verification<a class="headerlink" href="#attestation-verification" title="Permanent link">&para;</a></h2>
+<p>To verify a cross-zone attestation:</p>
+<ol>
+<li>Parse attestation structure</li>
+<li>For each signature: a. Identify signing zone b. Retrieve zone's Oracle public key c. Verify signature against content d. Check timestamp is within acceptable range</li>
+<li>Calculate attestation weight: -  Base weight from attestation type -  Multiplied by signing zone trust factors -  Bonus for multi-zone signatures</li>
+<li>Add to agent's Proof of Resilience</li>
+</ol>
+<p>Weight calculation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>   weight = base_weight * avg(trust_factors) * co_sign_bonus
+</code></pre></div>
+<p>Where co_sign_bonus:</p>
+<ul>
+<li>1 signature: 1.0</li>
+<li>2 signatures: 1.2</li>
+<li>3+ signatures: 1.5</li>
+</ul>
+<h2 id="attestation-chain">Attestation Chain<a class="headerlink" href="#attestation-chain" title="Permanent link">&para;</a></h2>
+<p>Attestations form a chain that tracks an agent's cross-zone journey:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>   Zone A Entry --&gt; Zone A Exit --&gt; Zone B Entry --&gt; Zone B Exit
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>        |               |               |               |
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>        v               v               v               v
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>   [Passage Att]   [Exit Att]     [Passage Att]   [Exit Att]
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>        |               |               |               |
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>        +-------+-------+-------+-------+-------+-------+
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>                                |
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>                                v
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>                       [Agent's Attestation Chain]
+</code></pre></div>
+<p>The attestation chain provides:</p>
+<ul>
+<li>Complete history of zone participation</li>
+<li>Verifiable behavior record</li>
+<li>Input for Proof of Resilience</li>
+<li>Evidence for dispute resolution</li>
+</ul>
+<h1 id="trust-propagation">Trust Propagation<a class="headerlink" href="#trust-propagation" title="Permanent link">&para;</a></h1>
+<h2 id="forward-propagation">Forward Propagation<a class="headerlink" href="#forward-propagation" title="Permanent link">&para;</a></h2>
+<p>Positive events in one zone can increase trust in federated zones:</p>
+<p>Propagation trigger:</p>
+<ul>
+<li>Agent earns high-value attestation</li>
+<li>Agent achieves lineage advancement</li>
+<li>Agent demonstrates exceptional behavior</li>
+</ul>
+<p>Propagation formula:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>   delta_trust_federated = delta_trust_local * propagation_factor
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>                           * trust_factor
+</code></pre></div>
+<p>Where propagation_factor is typically 0.5 (positive events propagate at half strength).</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>   Agent earns +5 resilience in Zone A
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>   Zone A to Zone B trust factor = 0.8
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>   Propagation factor = 0.5
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>   Trust increase in Zone B = 5 * 0.5 * 0.8 = 2
+</code></pre></div>
+<h2 id="backward-propagation">Backward Propagation<a class="headerlink" href="#backward-propagation" title="Permanent link">&para;</a></h2>
+<p>Negative events in one zone can decrease trust in previously visited zones:</p>
+<p>Propagation trigger:</p>
+<ul>
+<li>Agent commits policy violation</li>
+<li>Agent causes security incident</li>
+<li>Agent receives Soul veto</li>
+</ul>
+<p>Propagation formula:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>   delta_trust_federated = delta_trust_local * propagation_factor
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>                           * trust_factor * recency_factor
+</code></pre></div>
+<p>Where:</p>
+<ul>
+<li>propagation_factor for negatives is typically 0.8 (negative events propagate more strongly than positive)</li>
+<li>recency_factor decays based on time since zone visit</li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>   Agent loses -10 trust in Zone B due to incident
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>   Zone A to Zone B trust factor = 0.8
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>   Propagation factor = 0.8
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>   Recency factor = 0.9 (visited Zone A recently)
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>   Trust decrease in Zone A = 10 * 0.8 * 0.8 * 0.9 = 5.76
+</code></pre></div>
+<p>Backward propagation ensures that bad actors cannot escape consequences by zone hopping.</p>
+<h2 id="propagation-limits">Propagation Limits<a class="headerlink" href="#propagation-limits" title="Permanent link">&para;</a></h2>
+<p>To prevent trust cascades and gaming:</p>
+<ol>
+<li>Hop Limit: Trust propagates maximum 2 hops from source</li>
+<li>Decay per Hop: Each hop reduces propagation by 50%</li>
+<li>Daily Cap: Maximum trust change from propagation: +/-10/day</li>
+<li>Source Verification: Propagation requires verified attestation</li>
+</ol>
+<p>These limits ensure that:</p>
+<ul>
+<li>Local events have local primacy</li>
+<li>Federation provides benefit without dominance</li>
+<li>Gaming through federation is difficult</li>
+</ul>
+<h1 id="federation-events">Federation Events<a class="headerlink" href="#federation-events" title="Permanent link">&para;</a></h1>
+<h2 id="zone-join">Zone Join<a class="headerlink" href="#zone-join" title="Permanent link">&para;</a></h2>
+<p>When a new zone joins a federation:</p>
+<ol>
+<li>Zone completes registration requirements</li>
+<li>Zone applies for federation membership</li>
+<li>Existing members vote (if required by federation rules)</li>
+<li>Federation agreement is executed</li>
+<li>Trust Oracles are configured</li>
+<li>Zone is announced to federation</li>
+<li>Agents can begin crossing to/from new zone</li>
+</ol>
+<p>Join event broadcast:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>   {
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>     "event_type": "zone_join",
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>     "federation_id": "fed-mesh-research",
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>     "new_zone": {
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>       "zone_id": "zone-blue-university-d",
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>       "zone_type": "blue",
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>       "operator": "University D"
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>     },
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>     "trust_factors": {
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>       "zone-blue-university-a": 0.85,
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>       "zone-blue-university-b": 0.85,
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>       "zone-blue-university-c": 0.80
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>     },
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>     "effective": "2025-12-01T00:00:00Z",
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>     "announced_by": "federation-coordinator"
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>   }
+</code></pre></div>
+<h2 id="zone-leave">Zone Leave<a class="headerlink" href="#zone-leave" title="Permanent link">&para;</a></h2>
+<p>When a zone leaves a federation:</p>
+<ol>
+<li>Zone announces intent to leave</li>
+<li>Notice period begins (per agreement)</li>
+<li>Agents are notified of impending change</li>
+<li>Cross-zone operations wind down</li>
+<li>Final attestations are issued</li>
+<li>Federation agreement terminates</li>
+<li>Zone is removed from federation</li>
+</ol>
+<p>Leave event broadcast:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>   {
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>     "event_type": "zone_leave",
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>     "federation_id": "fed-mesh-research",
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>     "leaving_zone": {
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>       "zone_id": "zone-blue-university-d"
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>     },
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>     "reason": "voluntary_withdrawal",
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>     "notice_given": "2025-09-01T00:00:00Z",
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>     "effective": "2025-12-01T00:00:00Z",
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>     "agent_guidance": "Agents should complete cross-zone
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>                       operations before effective date"
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>   }
+</code></pre></div>
+<h2 id="trust-factor-change">Trust Factor Change<a class="headerlink" href="#trust-factor-change" title="Permanent link">&para;</a></h2>
+<p>When trust factors are adjusted:</p>
+<ol>
+<li>Triggering event occurs (incident, renegotiation, etc.)</li>
+<li>New trust factor is calculated</li>
+<li>Change is announced to affected zones</li>
+<li>Grace period for agent adjustment (optional)</li>
+<li>New factor takes effect</li>
+<li>Agents' cross-zone E_base is recalculated</li>
+</ol>
+<p>Change event broadcast:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>   {
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>     "event_type": "trust_factor_change",
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>     "federation_id": "fed-bilateral-ab",
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>     "zone_a": "zone-blue-corp-a",
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>     "zone_b": "zone-blue-corp-b",
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>     "old_factor": 0.85,
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>     "new_factor": 0.70,
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>     "reason": "security_incident_response",
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>     "effective": "2025-11-26T00:00:00Z",
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>     "review_date": "2026-02-26T00:00:00Z"
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>   }
+</code></pre></div>
+<h2 id="emergency-severance">Emergency Severance<a class="headerlink" href="#emergency-severance" title="Permanent link">&para;</a></h2>
+<p>In case of security emergency, federation can be severed immediately:</p>
+<p>Triggers:</p>
+<ul>
+<li>Active breach in federated zone</li>
+<li>Compromise of federated zone's Oracle</li>
+<li>Malicious behavior by federated zone</li>
+<li>Regulatory requirement</li>
+</ul>
+<p>Severance process:</p>
+<ol>
+<li>Emergency severance declared</li>
+<li>All cross-zone traffic immediately blocked</li>
+<li>In-flight operations terminated</li>
+<li>Agents in severed zone are isolated</li>
+<li>Federation is suspended (not terminated)</li>
+<li>Investigation begins</li>
+<li>Resolution determines if federation resumes</li>
+</ol>
+<p>Severance event (immediate broadcast):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>   {
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>     "event_type": "emergency_severance",
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>     "federation_id": "fed-bilateral-ab",
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>     "severing_zone": "zone-blue-corp-a",
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>     "severed_zone": "zone-blue-corp-b",
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>     "reason": "active_security_breach",
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>     "effective": "IMMEDIATE",
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>     "agent_action": "All agents in severed zone should
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>                     immediately cease operations",
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>     "contact": "security@corp-a.example.com"
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>   }
+</code></pre></div>
+<h1 id="dispute-resolution">Dispute Resolution<a class="headerlink" href="#dispute-resolution" title="Permanent link">&para;</a></h1>
+<h2 id="dispute-types">Dispute Types<a class="headerlink" href="#dispute-types" title="Permanent link">&para;</a></h2>
+<p>Common federation disputes:</p>
+<ol>
+<li>Trust Factor Disputes: Disagreement over appropriate factor</li>
+<li>Attestation Disputes: Challenge to attestation validity</li>
+<li>Propagation Disputes: Disagreement over trust propagation</li>
+<li>Incident Attribution: Disagreement over incident responsibility</li>
+<li>Agreement Interpretation: Different readings of agreement terms</li>
+<li>Compliance Disputes: Alleged violation of federation obligations</li>
+</ol>
+<h2 id="resolution-process">Resolution Process<a class="headerlink" href="#resolution-process" title="Permanent link">&para;</a></h2>
+<p>Standard resolution process:</p>
+<p>Phase 1: Direct Negotiation (30 days)</p>
+<ul>
+<li>Zones attempt to resolve directly</li>
+<li>Technical and legal teams engage</li>
+<li>Document positions and evidence</li>
+</ul>
+<p>Phase 2: Mediation (30 days, if needed)</p>
+<ul>
+<li>Neutral mediator engaged</li>
+<li>Non-binding facilitated discussion</li>
+<li>Attempt to find mutually acceptable resolution</li>
+</ul>
+<p>Phase 3: Arbitration (60 days, if needed)</p>
+<ul>
+<li>Binding arbitration per agreement</li>
+<li>Arbitrator reviews evidence</li>
+<li>Decision is final and enforceable</li>
+</ul>
+<p>Dispute record:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>   {
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>     "dispute_id": "dispute-uuid-12345",
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>     "parties": ["zone-blue-corp-a", "zone-blue-corp-b"],
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>     "type": "attestation_validity",
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>     "filed": "2025-11-01T00:00:00Z",
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>     "status": "mediation",
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>     "summary": "Zone A challenges validity of Exit Attestation
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>                 issued by Zone B for Agent X",
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>     "evidence": ["att-uuid-67890", "flight-record-xyz"],
+<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>     "phase_history": [
+<a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>       { "phase": "negotiation", "start": "2025-11-01",
+<a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>         "end": "2025-11-30", "outcome": "unresolved" },
+<a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>       { "phase": "mediation", "start": "2025-12-01",
+<a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>         "mediator": "KTP Mediation Services" }
+<a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a>     ]
+<a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a>   }
+</code></pre></div>
+<h2 id="arbitration">Arbitration<a class="headerlink" href="#arbitration" title="Permanent link">&para;</a></h2>
+<p>Arbitration is the final dispute resolution mechanism:</p>
+<p>Arbitrator selection:</p>
+<ul>
+<li>Agreed upon in federation agreement</li>
+<li>Must have KTP expertise</li>
+<li>No conflicts of interest</li>
+</ul>
+<p>Arbitration process:</p>
+<ol>
+<li>Arbitrator reviews agreement and dispute</li>
+<li>Both parties submit evidence</li>
+<li>Technical experts may be consulted</li>
+<li>Arbitrator issues binding decision</li>
+<li>Decision is published (redacted if necessary)</li>
+<li>Parties must comply</li>
+</ol>
+<p>Arbitration outcomes:</p>
+<ul>
+<li>Trust factor adjustment</li>
+<li>Attestation invalidation</li>
+<li>Compliance requirements</li>
+<li>Financial remedies</li>
+<li>Federation termination</li>
+</ul>
+<h1 id="federation-governance">Federation Governance<a class="headerlink" href="#federation-governance" title="Permanent link">&para;</a></h1>
+<h2 id="governance-bodies">Governance Bodies<a class="headerlink" href="#governance-bodies" title="Permanent link">&para;</a></h2>
+<p>Large federations may establish governance bodies:</p>
+<p>Federation Council:</p>
+<ul>
+<li>Representatives from member zones</li>
+<li>Sets federation-wide policy</li>
+<li>Approves new members</li>
+<li>Resolves disputes</li>
+</ul>
+<p>Technical Committee:</p>
+<ul>
+<li>Technical experts from member zones</li>
+<li>Develops technical standards</li>
+<li>Reviews security issues</li>
+<li>Recommends protocol changes</li>
+</ul>
+<p>Audit Committee:</p>
+<ul>
+<li>Independent auditors</li>
+<li>Reviews member compliance</li>
+<li>Investigates incidents</li>
+<li>Reports to Council</li>
+</ul>
+<h2 id="policy-coordination">Policy Coordination<a class="headerlink" href="#policy-coordination" title="Permanent link">&para;</a></h2>
+<p>Federated zones may coordinate policies:</p>
+<p>Mandatory coordination:</p>
+<ul>
+<li>KTP protocol version</li>
+<li>Trust Proof format</li>
+<li>Attestation format</li>
+<li>Security incident response</li>
+</ul>
+<p>Optional coordination:</p>
+<ul>
+<li>Action risk classifications</li>
+<li>Trust tier thresholds</li>
+<li>Sensor configurations</li>
+<li>Retention policies</li>
+</ul>
+<h2 id="standards-evolution">Standards Evolution<a class="headerlink" href="#standards-evolution" title="Permanent link">&para;</a></h2>
+<p>KTP will evolve. Federations must manage evolution:</p>
+<p>Version compatibility:</p>
+<ul>
+<li>Zones must support current and previous major version</li>
+<li>18-month deprecation period for old versions</li>
+<li>Federation agreement specifies version requirements</li>
+</ul>
+<p>Change process:</p>
+<ol>
+<li>Proposal published to federation</li>
+<li>Technical review period (90 days)</li>
+<li>Pilot implementation in volunteer zones</li>
+<li>Federation-wide vote</li>
+<li>Implementation timeline established</li>
+<li>Coordinated rollout</li>
+</ol>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="federation-trust-attacks">Federation Trust Attacks<a class="headerlink" href="#federation-trust-attacks" title="Permanent link">&para;</a></h2>
+<p>Attackers may attempt to manipulate federation trust.</p>
+<p>Mitigations:</p>
+<ul>
+<li>Trust factors change slowly (rate limited)</li>
+<li>Changes require multi-party approval</li>
+<li>Anomaly detection on trust factor changes</li>
+<li>Regular audit of federation relationships</li>
+</ul>
+<h2 id="attestation-fraud">Attestation Fraud<a class="headerlink" href="#attestation-fraud" title="Permanent link">&para;</a></h2>
+<p>Zones might issue fraudulent attestations.</p>
+<p>Mitigations:</p>
+<ul>
+<li>Co-signature requirements</li>
+<li>Attestation verification</li>
+<li>Audit of attestation patterns</li>
+<li>Federation penalties for fraud</li>
+</ul>
+<h2 id="trust-laundering">Trust Laundering<a class="headerlink" href="#trust-laundering" title="Permanent link">&para;</a></h2>
+<p>Agents might zone-hop to launder bad reputation.</p>
+<p>Mitigations:</p>
+<ul>
+<li>Backward propagation of negative events</li>
+<li>Trajectory chain verification</li>
+<li>Cross-zone reputation aggregation</li>
+<li>Hop limits on trust propagation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2818 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-provenance/">
+      
+      
+        <link rel="prev" href="../ktp-oracle/">
+      
+      
+        <link rel="next" href="../ktp-relational/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Provenance - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-model-provenance-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Provenance
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-provenance.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-model-provenance-specification">Kinetic Trust Protocol (KTP) - Model Provenance Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-model-provenance-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies Model Provenance for the Kinetic Trust Protocol (KTP).  Model Provenance addresses the Origin Edge—the question of what an AI model is made of, whose knowledge it carries, and what debts it inherits.  The specification covers training data attestation, knowledge debt acknowledgment, indigenous data sovereignty, capability lineage, and the inheritance relationship between models and agents.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Vector Identity begins with Origin.  For an agent to have trajectory, it must have a starting point.  For human-sponsored agents, that origin is clear—a sponsor, a genesis transaction, a timestamp.  But for AI agents, the deeper origin question remains: what is the model itself made of?</p>
+<p>An AI model is not created from nothing.  It is trained on data—text, code, images, conversations—produced by humans.  These humans did not necessarily consent to having their work used for AI training.  They may not have been compensated.  Their knowledge, compressed into model weights, cannot be traced or attributed.</p>
+<p>This is the Origin Edge: the boundary where individual agent identity meets the vast, anonymous substrate of human knowledge that makes the agent possible.</p>
+<p>Model Provenance addresses this edge by providing:</p>
+<ol>
+<li>
+<p>Training Data Attestation: What data categories were used?  What consent was obtained?  What is known vs. unknown?</p>
+</li>
+<li>
+<p>Knowledge Debt Acknowledgment: What obligations does the model carry by virtue of its training?  What cannot be repaid?</p>
+</li>
+<li>
+<p>Indigenous Data Sovereignty: How is indigenous knowledge handled? What special obligations apply?</p>
+</li>
+<li>
+<p>Capability Lineage: How do model capabilities relate to training inputs?  What emergence has occurred?</p>
+</li>
+<li>
+<p>Model-to-Agent Inheritance: How do model properties transfer to agents built on that model?</p>
+</li>
+</ol>
+<h1 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h1>
+<p>Current AI models have opaque origins:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   Training Data
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   +-- Web crawls (consent: none)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   +-- Books (consent: varied)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   +-- Code repositories (consent: license-dependent)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   +-- Academic papers (consent: varied)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   +-- Conversations (consent: varied)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   +-- Social media (consent: typically none)
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   +-- News articles (consent: typically none)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   +-- Indigenous knowledge (consent: typically none)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   +-- [Unknown sources]
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>   +-- [Unattributable content]
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        |
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        v
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>   Model Training
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        |
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        v
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>   Model Weights (compressed, unattributable)
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        |
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        v
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>   Agent Capabilities (inherited from model)
+</code></pre></div>
+<p>The compression is lossy in a particular way: individual sources become unidentifiable, but their influence persists.  The model "knows" things without being able to say where it learned them.</p>
+<p>This creates several problems:</p>
+<ol>
+<li>
+<p>Attribution impossibility: Cannot credit original creators</p>
+</li>
+<li>
+<p>Consent vacuum: Much training data used without consent</p>
+</li>
+<li>
+<p>Compensation gap: Original creators not compensated</p>
+</li>
+<li>
+<p>Harm inheritance: Biases and errors in training data persist</p>
+</li>
+<li>
+<p>Indigenous exploitation: Sacred/restricted knowledge extracted</p>
+</li>
+<li>
+<p>Accountability diffusion: No one responsible for inherited issues</p>
+</li>
+</ol>
+<p>Model Provenance does not solve these problems—some may be unsolvable—but it makes them legible.  It provides a framework for honest acknowledgment of what is known, unknown, and owed.</p>
+<h1 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>Capability Lineage: The relationship between model capabilities and their training origins, including emergence of capabilities not present in training data.</p>
+<p>Consent Status: The degree to which training data was obtained with informed consent from creators.</p>
+<p>Indigenous Data Sovereignty: The right of indigenous peoples to control data about their communities, knowledge, and cultural heritage.</p>
+<p>Knowledge Debt: Obligations owed by a model to those whose work contributed to its training, whether or not those obligations can be fulfilled.</p>
+<p>Model Provenance: The documented origin of an AI model, including training data, training process, and inherited properties.</p>
+<p>Origin Ceremony: A formal process acknowledging model provenance before an agent built on that model enters a KTP zone.</p>
+<p>Provenance Attestation: A signed document describing model provenance, issued by the model creator or an authorized auditor.</p>
+<p>Training Data Category: A classification of training data by type, source, and consent status.</p>
+<h1 id="provenance-attestation-structure">Provenance Attestation Structure<a class="headerlink" href="#provenance-attestation-structure" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>A Provenance Attestation is a signed document describing what is known about a model's training and origin.  It is the foundation for model-level accountability in KTP.</p>
+<h2 id="required-fields">Required Fields<a class="headerlink" href="#required-fields" title="Permanent link">&para;</a></h2>
+<p>{ "attestation_id": "prov:anthropic:claude-4:2025-01", "attestation_version": "1.0", "model_identity": { "model_family": "claude", "model_version": "claude-4-opus", "model_id": "claude-4-opus-20250115", "organization": "anthropic", "release_date": "2025-01-15" }, "training_attestation": { ... }, "knowledge_debt": { ... }, "indigenous_data": { ... }, "capability_lineage": { ... }, "safety_attestation": { ... }, "signatures": { ... } }</p>
+<h2 id="training-attestation">Training Attestation<a class="headerlink" href="#training-attestation" title="Permanent link">&para;</a></h2>
+<p>The training attestation describes training data and process:</p>
+<p>{ "training_attestation": { "training_completion_date": "2025-01-10", "training_methodology": { "base_training": "transformer_pretraining", "fine_tuning": [ "instruction_tuning", "rlhf", "constitutional_ai" ], "training_compute": "estimated_flops", "training_duration_days": 90 }, "data_categories": [ { "category": "web_crawl", "description": "Publicly accessible web pages", "estimated_percentage": 45, "consent_status": "public_access", "known_exclusions": [ "paywalled_content", "robots_txt_respected" ], "potential_issues": [ "copyright_mixed", "consent_not_obtained" ] }, { "category": "books", "description": "Published books and literature", "estimated_percentage": 15, "consent_status": "mixed", "known_exclusions": [ "in_copyright_without_license" ], "potential_issues": [ "public_domain_determination_uncertain" ] }, { "category": "code_repositories", "description": "Open source code and documentation", "estimated_percentage": 12, "consent_status": "license_dependent", "known_exclusions": [ "proprietary_code" ], "potential_issues": [ "license_compliance_uncertain" ] }, { "category": "academic_papers", "description": "Published research papers", "estimated_percentage": 8, "consent_status": "publication_consent", "known_exclusions": [], "potential_issues": [ "preprint_consent_varied" ] }, { "category": "conversational_data", "description": "Dialogue and conversation data", "estimated_percentage": 10, "consent_status": "varied", "known_exclusions": [ "private_messages" ], "potential_issues": [ "consent_verification_incomplete" ] }, { "category": "other_or_unknown", "description": "Data sources not fully categorized", "estimated_percentage": 10, "consent_status": "unknown", "known_exclusions": [], "potential_issues": [ "incomplete_documentation" ] } ], "data_quality_measures": { "deduplication": true, "toxicity_filtering": true, "quality_filtering": true, "pii_removal": "attempted" }, "known_limitations": [ "Training data skewed toward English language", "Potential underrepresentation of non-Western perspectives", "Temporal cutoff limits current knowledge" ], "provenance_confidence": "moderate" } }</p>
+<h2 id="consent-status-values">Consent Status Values<a class="headerlink" href="#consent-status-values" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>+---------------------+----------------------------------------------+
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>| Status              | Description                                  |
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>+---------------------+----------------------------------------------+
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>| publication_consent | Creator consented to publication (not        |
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>|                     | specifically AI)                             |
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>| license_dependent   | Consent depends on specific license terms    |
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>| public_access       | Publicly accessible, no explicit consent     |
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>| terms_of_service    | Covered by platform terms (debatable         |
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>|                     | consent)                                     |
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>| mixed               | Category includes multiple consent statuses  |
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>| unknown             | Consent status could not be determined       |
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>| none                | No consent obtained                          |
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>+---------------------+----------------------------------------------+
+</code></pre></div>
+<h2 id="provenance-confidence-levels">Provenance Confidence Levels<a class="headerlink" href="#provenance-confidence-levels" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>+----------+---------------------------------------------------------+
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| Level    | Description                                             |
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>+----------+---------------------------------------------------------+
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| moderate | Reasonable documentation, some gaps                     |
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| low      | Limited documentation, significant gaps                 |
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| minimal  | Poor documentation, major uncertainty                   |
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>+----------+---------------------------------------------------------+
+</code></pre></div>
+<h1 id="knowledge-debt">Knowledge Debt<a class="headerlink" href="#knowledge-debt" title="Permanent link">&para;</a></h1>
+<h2 id="concept">Concept<a class="headerlink" href="#concept" title="Permanent link">&para;</a></h2>
+<p>Knowledge Debt represents obligations owed by a model to those whose work contributed to its training.  Unlike financial debt, knowledge debt may be impossible to fully repay—the original creators may be unknown, deceased, or unable to be contacted.</p>
+<p>Knowledge Debt is acknowledged, not absolved.  The act of acknowledgment is itself meaningful, even when remediation is impossible.</p>
+<h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
+<p>{ "knowledge_debt": { "acknowledged": true, "acknowledgment_statement": "This model contains knowledge from sources that may not have consented to AI training use.  The creators of this knowledge contributed to the model's capabilities but may not have been credited or compensated. This debt is acknowledged.", "debt_categories": [ { "category": "unconsented_creative_work", "description": "Creative works used without explicit consent", "magnitude": "significant", "identifiability": "low", "remediation_possible": "partial", "remediation_status": "ongoing" }, { "category": "uncompensated_labor", "description": "Knowledge contributed without compensation", "magnitude": "significant", "identifiability": "very_low", "remediation_possible": "minimal", "remediation_status": "acknowledged_only" }, { "category": "extracted_expertise", "description": "Professional expertise embedded in training data", "magnitude": "moderate", "identifiability": "low", "remediation_possible": "partial", "remediation_status": "ongoing" }, { "category": "inherited_bias", "description": "Biases present in training data", "magnitude": "moderate", "identifiability": "moderate", "remediation_possible": "partial", "remediation_status": "ongoing" }, { "category": "cultural_extraction", "description": "Cultural knowledge taken without community consent", "magnitude": "uncertain", "identifiability": "very_low", "remediation_possible": "uncertain", "remediation_status": "acknowledged_only" } ], "remediation_efforts": [ { "effort": "opt_out_program", "description": "Allowing creators to request exclusion from future training", "status": "active", "effectiveness": "limited" }, { "effort": "creator_compensation_fund", "description": "Fund for compensating identified creators", "status": "planned", "effectiveness": "unknown" }, { "effort": "bias_mitigation", "description": "Ongoing work to reduce inherited biases", "status": "active", "effectiveness": "partial" } ], "debt_inheritance": { "applies_to_agents": true, "inheritance_statement": "Agents built on this model inherit this knowledge debt.  The debt cannot be transferred or discharged but can be further acknowledged by agents." } } }</p>
+<h2 id="debt-magnitude">Debt Magnitude<a class="headerlink" href="#debt-magnitude" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>+-------------+------------------------------------------------------+
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>| Magnitude   | Description                                          |
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>+-------------+------------------------------------------------------+
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>| moderate    | Moderate amount, limited impact                      |
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| significant | Substantial amount, notable impact                   |
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| severe      | Large amount, serious concerns                       |
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| uncertain   | Cannot be determined                                 |
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>+-------------+------------------------------------------------------+
+</code></pre></div>
+<h2 id="remediation-possibility">Remediation Possibility<a class="headerlink" href="#remediation-possibility" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+-------------+------------------------------------------------------+
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>| Level       | Description                                          |
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+-------------+------------------------------------------------------+
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>| substantial | Most debt can be addressed                           |
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>| partial     | Some debt can be addressed                           |
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>| minimal     | Little can be done                                   |
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>| impossible  | No remediation possible                              |
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>| uncertain   | Remediation path unclear                             |
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>+-------------+------------------------------------------------------+
+</code></pre></div>
+<h1 id="indigenous-data-sovereignty">Indigenous Data Sovereignty<a class="headerlink" href="#indigenous-data-sovereignty" title="Permanent link">&para;</a></h1>
+<h2 id="importance">Importance<a class="headerlink" href="#importance" title="Permanent link">&para;</a></h2>
+<p>Indigenous data sovereignty requires special attention because:</p>
+<ol>
+<li>
+<p>Indigenous knowledge systems have different concepts of ownership</p>
+</li>
+<li>
+<p>Some knowledge is sacred or restricted by community law</p>
+</li>
+<li>
+<p>Colonial extraction of indigenous knowledge is ongoing harm</p>
+</li>
+<li>
+<p>Indigenous communities must control their own data</p>
+</li>
+</ol>
+<h2 id="structure_1">Structure<a class="headerlink" href="#structure_1" title="Permanent link">&para;</a></h2>
+<p>{ "indigenous_data": { "likely_presence": "probable", "certainty_level": "low", "assessment_statement": "This model likely contains indigenous knowledge obtained from publicly accessible sources without specific consultation with indigenous communities.  The exact content and extent cannot be determined due to the nature of large-scale training.", "known_categories": [ { "category": "traditional_knowledge", "description": "Traditional practices, medicine, agriculture", "likely_presence": "probable", "source_pathway": "web_content_secondary_sources", "community_consent": "none", "sacred_restricted": "unknown" }, { "category": "indigenous_languages", "description": "Indigenous language content", "likely_presence": "possible", "source_pathway": "language_resources_documentation", "community_consent": "varied", "sacred_restricted": "some_likely" }, { "category": "cultural_narratives", "description": "Stories, histories, oral traditions", "likely_presence": "probable", "source_pathway": "published_materials_web_content", "community_consent": "typically_none", "sacred_restricted": "some_likely" } ], "consultation_status": { "consultation_conducted": false, "consultation_planned": true, "barriers": [ "Scale of training data makes specific identification difficult", "Many indigenous communities, diverse protocols", "Resource constraints" ] }, "commitments": [ { "commitment": "indigenous_consultation_program", "description": "Establish ongoing consultation with indigenous communities", "status": "planning", "timeline": "2025-2026" }, { "commitment": "exclusion_honoring", "description": "Honor requests to exclude specific indigenous content", "status": "active", "timeline": "ongoing" }, { "commitment": "benefit_sharing_exploration", "description": "Explore mechanisms for benefit sharing", "status": "research", "timeline": "2025-2027" } ], "principles_adopted": [ "CARE Principles for Indigenous Data Governance", "OCAP Principles (Ownership, Control, Access, Possession)", "Recognition of indigenous data sovereignty" ], "acknowledgment": "We acknowledge that this model may contain indigenous knowledge that was not ours to take.  We commit to ongoing engagement with indigenous communities to address this harm, while recognizing that full remediation may not be possible." } }</p>
+<h2 id="indigenous-data-principles">Indigenous Data Principles<a class="headerlink" href="#indigenous-data-principles" title="Permanent link">&para;</a></h2>
+<p>The specification adopts the CARE Principles for Indigenous Data Governance:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>+------------------------+-------------------------------------------+
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>| Principle              | Description                               |
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>+------------------------+-------------------------------------------+
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>| Authority to Control   | Indigenous peoples should control data    |
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>|                        | about them                                |
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>| Responsibility         | Those working with indigenous data have   |
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>|                        | responsibility to support indigenous      |
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>|                        | governance                                |
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>| Ethics                 | Indigenous peoples' rights and wellbeing  |
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>|                        | should be primary concern                 |
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>+------------------------+-------------------------------------------+
+</code></pre></div>
+<h2 id="sacred-and-restricted-knowledge">Sacred and Restricted Knowledge<a class="headerlink" href="#sacred-and-restricted-knowledge" title="Permanent link">&para;</a></h2>
+<p>Some indigenous knowledge is sacred or restricted by community law. Such knowledge:</p>
+<ul>
+<li>
+<p>MUST NOT be reproduced or described in detail if identified</p>
+</li>
+<li>
+<p>SHOULD trigger notification to relevant communities if detected</p>
+</li>
+<li>
+<p>SHOULD be excluded from future training if possible</p>
+</li>
+<li>
+<p>MUST be handled according to community protocols when known</p>
+</li>
+</ul>
+<h1 id="capability-lineage">Capability Lineage<a class="headerlink" href="#capability-lineage" title="Permanent link">&para;</a></h1>
+<h2 id="concept_1">Concept<a class="headerlink" href="#concept_1" title="Permanent link">&para;</a></h2>
+<p>Capability Lineage traces the relationship between model capabilities and their origins.  Some capabilities come directly from training data; others emerge from the training process in ways not present in training data.</p>
+<p>Understanding capability lineage helps assess:</p>
+<ol>
+<li>
+<p>Which capabilities are well-grounded in training data</p>
+</li>
+<li>
+<p>Which capabilities are emergent and less predictable</p>
+</li>
+<li>
+<p>Where capability boundaries lie</p>
+</li>
+<li>
+<p>What failure modes are likely</p>
+</li>
+</ol>
+<h2 id="structure_2">Structure<a class="headerlink" href="#structure_2" title="Permanent link">&para;</a></h2>
+<p>{ "capability_lineage": { "direct_capabilities": [ { "capability": "language_understanding", "origin": "direct_from_training", "training_data_support": "extensive", "reliability": "high", "known_limitations": [ "English-centric", "Formal text bias" ] }, { "capability": "code_generation", "origin": "direct_from_training", "training_data_support": "extensive", "reliability": "high", "known_limitations": [ "Popular languages overrepresented", "May reproduce common patterns" ] }, { "capability": "factual_knowledge", "origin": "direct_from_training", "training_data_support": "extensive", "reliability": "moderate", "known_limitations": [ "Training cutoff limits currency", "Confidence calibration imperfect" ] } ], "emergent_capabilities": [ { "capability": "multi_step_reasoning", "origin": "emergent", "training_data_support": "partial", "reliability": "moderate", "emergence_notes": "Not explicitly trained but emerges from scale" }, { "capability": "in_context_learning", "origin": "emergent", "training_data_support": "indirect", "reliability": "moderate", "emergence_notes": "Ability to learn from examples in prompt" }, { "capability": "instruction_following", "origin": "trained_but_generalizes", "training_data_support": "moderate", "reliability": "high", "emergence_notes": "Trained on instructions, generalizes to novel instructions" } ], "capability_boundaries": [ { "boundary": "knowledge_cutoff", "description": "No knowledge after training cutoff date", "hard_boundary": true }, { "boundary": "no_real_time_access", "description": "Cannot access internet or real-time data", "hard_boundary": true }, { "boundary": "no_persistent_memory", "description": "No memory across conversations by default", "hard_boundary": false, "notes": "Can be modified by system design" }, { "boundary": "language_capabilities", "description": "Capabilities vary by language", "hard_boundary": false, "notes": "English strongest, other languages variable" } ], "emergence_potential": { "assessment": "moderate", "statement": "This model may exhibit capabilities not anticipated during training.  Novel capabilities should be reported and evaluated for safety.", "monitoring_recommendation": "Monitor for unexpected capabilities in deployment, especially at scale" } } }</p>
+<h2 id="capability-origin-types">Capability Origin Types<a class="headerlink" href="#capability-origin-types" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>+------------------------+-------------------------------------------+
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>| Origin                 | Description                               |
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>+------------------------+-------------------------------------------+
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>| direct_from_training   | Capability directly from training data    |
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| trained_but_generalizes| Trained on examples, generalizes beyond   |
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>| emergent               | Capability not explicitly trained,        |
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>|                        | emerges at scale                          |
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| composition            | Capability emerges from combining other   |
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>|                        | capabilities                              |
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>| unknown                | Origin unclear                            |
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>+------------------------+-------------------------------------------+
+</code></pre></div>
+<h1 id="safety-attestation">Safety Attestation<a class="headerlink" href="#safety-attestation" title="Permanent link">&para;</a></h1>
+<h2 id="overview_1">Overview<a class="headerlink" href="#overview_1" title="Permanent link">&para;</a></h2>
+<p>Safety attestation documents safety-related training and testing:</p>
+<p>{ "safety_attestation": { "safety_training": { "methods_applied": [ { "method": "rlhf", "description": "Reinforcement Learning from Human Feedback", "objective": "Align outputs with human preferences" }, { "method": "constitutional_ai", "description": "Training with explicit principles", "objective": "Instill consistent values" }, { "method": "red_teaming", "description": "Adversarial testing by humans", "objective": "Identify failure modes" } ], "safety_objectives": [ "Helpfulness within ethical bounds", "Harmlessness (avoid dangerous outputs)", "Honesty (accurate, calibrated claims)" ] }, "testing_conducted": { "capability_evaluations": true, "safety_evaluations": true, "bias_audits": true, "red_team_testing": true, "external_audits": "partial" }, "known_safety_issues": [ { "issue": "jailbreak_vulnerability", "description": "Adversarial prompts can sometimes bypass safety training", "severity": "moderate", "mitigation": "Ongoing improvement, deployment safeguards" }, { "issue": "hallucination", "description": "May generate false but plausible information", "severity": "moderate", "mitigation": "Calibration training, uncertainty expression" }, { "issue": "bias_persistence", "description": "Biases in training data may persist", "severity": "moderate", "mitigation": "Bias auditing, mitigation training" } ], "safety_commitment": "We commit to ongoing safety research and deployment safeguards.  Safety issues discovered after deployment will be addressed promptly." } }</p>
+<h1 id="model-to-agent-inheritance">Model-to-Agent Inheritance<a class="headerlink" href="#model-to-agent-inheritance" title="Permanent link">&para;</a></h1>
+<h2 id="inheritance-principle">Inheritance Principle<a class="headerlink" href="#inheritance-principle" title="Permanent link">&para;</a></h2>
+<p>When an agent is built on a model, it inherits:</p>
+<ol>
+<li>
+<p>Capabilities from the model</p>
+</li>
+<li>
+<p>Limitations from the model</p>
+</li>
+<li>
+<p>Knowledge Debt from the model</p>
+</li>
+<li>
+<p>Provenance attestation reference from the model</p>
+</li>
+</ol>
+<p>The agent does not inherit:</p>
+<ul>
+<li>
+<p>Model-level trust (agents must earn their own)</p>
+</li>
+<li>
+<p>Specific trajectory (agents begin at genesis)</p>
+</li>
+<li>
+<p>Deployment-specific properties</p>
+</li>
+</ul>
+<h2 id="inheritance-record">Inheritance Record<a class="headerlink" href="#inheritance-record" title="Permanent link">&para;</a></h2>
+<p>{ "inheritance": { "agent_id": "agent:sponsored:acme:assistant-01:abc123", "base_model": { "model_id": "claude-4-opus-20250115", "provenance_attestation": "prov:anthropic:claude-4:2025-01" }, "inherited_properties": { "capabilities": "full_model_capabilities", "limitations": "full_model_limitations", "knowledge_debt": "acknowledged_and_inherited", "indigenous_data_status": "inherited" }, "agent_specific": { "configuration": { "system_prompt_hash": "sha256:abc123...", "tool_access": ["search", "calculator"], "deployment_constraints": ["no_code_execution"] }, "sponsor": "acme-corp:alice.smith", "genesis_date": "2025-12-03T10:00:00Z" }, "acknowledgment": { "agent_acknowledges_model_provenance": true, "agent_inherits_knowledge_debt": true, "agent_commits_to_provenance_transparency": true } } }</p>
+<h2 id="zone-requirements">Zone Requirements<a class="headerlink" href="#zone-requirements" title="Permanent link">&para;</a></h2>
+<p>Zones MAY require provenance attestation for entry:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>+-----------+--------------------------------------------------------+
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>| Zone Type | Provenance Requirement                                 |
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>+-----------+--------------------------------------------------------+
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>| Blue      | Attestation required                                   |
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>| Cyan      | Attestation recommended                                |
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>| Green     | Attestation optional                                   |
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>| Wild      | No requirement                                         |
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>+-----------+--------------------------------------------------------+
+</code></pre></div>
+<h1 id="origin-ceremony">Origin Ceremony<a class="headerlink" href="#origin-ceremony" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>The Origin Ceremony is a formal process acknowledging model provenance before an agent built on that model enters a KTP zone. It serves to:</p>
+<ol>
+<li>
+<p>Make provenance visible to the zone</p>
+</li>
+<li>
+<p>Acknowledge knowledge debt formally</p>
+</li>
+<li>
+<p>Record inheritance for audit trail</p>
+</li>
+<li>
+<p>Establish accountability chain</p>
+</li>
+</ol>
+<h2 id="ceremony-process">Ceremony Process<a class="headerlink" href="#ceremony-process" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Agent presents Genesis Transaction and Model Provenance reference</p>
+</li>
+<li>
+<p>Zone Gateway retrieves Provenance Attestation</p>
+</li>
+<li>
+<p>Zone verifies attestation signatures</p>
+</li>
+<li>
+<p>Agent explicitly acknowledges:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>    a.  Model provenance
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>    b.  Knowledge debt inheritance
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>    c.  Indigenous data status
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>    d.  Capability boundaries
+</code></pre></div>
+<ol>
+<li>
+<p>Zone records ceremony in Flight Recorder</p>
+</li>
+<li>
+<p>Agent receives zone-local Trust Proof with provenance reference</p>
+</li>
+</ol>
+<h2 id="ceremony-record">Ceremony Record<a class="headerlink" href="#ceremony-record" title="Permanent link">&para;</a></h2>
+<p>{ "origin_ceremony": { "ceremony_id": "ceremony-2025-12-03-001", "agent_id": "agent:sponsored:acme:assistant-01:abc123", "zone_id": "zone-blue-prod-01", "timestamp": "2025-12-03T10:05:00Z", "provenance_attestation_verified": "prov:anthropic:claude-4:2025-01", "acknowledgments": { "provenance_acknowledged": true, "knowledge_debt_acknowledged": true, "indigenous_status_acknowledged": true, "capability_boundaries_acknowledged": true }, "zone_acceptance": true, "ceremony_witnesses": [ "oracle:zone-blue-prod-01:primary", "gateway:zone-blue-prod-01:main" ], "signatures": { "agent": "sig:agent:...", "zone_gateway": "sig:gateway:...", "zone_oracle": "sig:oracle:..." } } }</p>
+<h1 id="updates-and-versioning">Updates and Versioning<a class="headerlink" href="#updates-and-versioning" title="Permanent link">&para;</a></h1>
+<h2 id="attestation-updates">Attestation Updates<a class="headerlink" href="#attestation-updates" title="Permanent link">&para;</a></h2>
+<p>Provenance Attestations may be updated when:</p>
+<ol>
+<li>
+<p>Additional training data information becomes available</p>
+</li>
+<li>
+<p>Knowledge debt remediation efforts progress</p>
+</li>
+<li>
+<p>Indigenous consultation produces new understanding</p>
+</li>
+<li>
+<p>Capability assessments change</p>
+</li>
+<li>
+<p>Safety issues are discovered or resolved</p>
+</li>
+</ol>
+<p>Updates MUST:</p>
+<ul>
+<li>
+<p>Reference previous attestation version</p>
+</li>
+<li>
+<p>Document what changed and why</p>
+</li>
+<li>
+<p>Be signed by authorized party</p>
+</li>
+<li>
+<p>Be timestamped</p>
+</li>
+</ul>
+<h2 id="version-chain">Version Chain<a class="headerlink" href="#version-chain" title="Permanent link">&para;</a></h2>
+<p>{ "attestation_id": "prov:anthropic:claude-4:2025-03", "previous_version": "prov:anthropic:claude-4:2025-01", "version_changes": [ { "field": "knowledge_debt.remediation_efforts", "change": "added", "description": "Creator compensation fund launched" }, { "field": "indigenous_data.consultation_status", "change": "updated", "description": "Initial consultations conducted" } ], "update_date": "2025-03-15" }</p>
+<h1 id="implementation-guidance">Implementation Guidance<a class="headerlink" href="#implementation-guidance" title="Permanent link">&para;</a></h1>
+<h2 id="for-model-creators">For Model Creators<a class="headerlink" href="#for-model-creators" title="Permanent link">&para;</a></h2>
+<p>Model creators SHOULD:</p>
+<ol>
+<li>
+<p>Document training data categories to maximum extent possible</p>
+</li>
+<li>
+<p>Acknowledge uncertainty honestly</p>
+</li>
+<li>
+<p>Implement knowledge debt acknowledgment</p>
+</li>
+<li>
+<p>Engage with indigenous data sovereignty principles</p>
+</li>
+<li>
+<p>Update attestations as information improves</p>
+</li>
+<li>
+<p>Make attestations publicly accessible</p>
+</li>
+</ol>
+<h2 id="for-zone-operators">For Zone Operators<a class="headerlink" href="#for-zone-operators" title="Permanent link">&para;</a></h2>
+<p>Zone operators SHOULD:</p>
+<ol>
+<li>
+<p>Define provenance requirements for zone entry</p>
+</li>
+<li>
+<p>Verify attestation signatures before agent admission</p>
+</li>
+<li>
+<p>Record provenance references in agent records</p>
+</li>
+<li>
+<p>Monitor for provenance-related issues</p>
+</li>
+<li>
+<p>Report concerns to model creators</p>
+</li>
+</ol>
+<h2 id="for-agent-deployers">For Agent Deployers<a class="headerlink" href="#for-agent-deployers" title="Permanent link">&para;</a></h2>
+<p>Those deploying agents SHOULD:</p>
+<ol>
+<li>
+<p>Understand base model provenance</p>
+</li>
+<li>
+<p>Ensure agents acknowledge inherited properties</p>
+</li>
+<li>
+<p>Complete Origin Ceremony for zone entry</p>
+</li>
+<li>
+<p>Monitor for provenance-related behavior issues</p>
+</li>
+<li>
+<p>Participate in remediation efforts where possible</p>
+</li>
+</ol>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="attestation-integrity">Attestation Integrity<a class="headerlink" href="#attestation-integrity" title="Permanent link">&para;</a></h2>
+<p>Provenance Attestations MUST be cryptographically signed to prevent tampering.  Signatures MUST be verifiable against published public keys.</p>
+<h2 id="false-attestation">False Attestation<a class="headerlink" href="#false-attestation" title="Permanent link">&para;</a></h2>
+<p>Creating false Provenance Attestations is a serious violation. Detection mechanisms include:</p>
+<ul>
+<li>
+<p>Cross-referencing with public information</p>
+</li>
+<li>
+<p>Community verification</p>
+</li>
+<li>
+<p>Audit processes</p>
+</li>
+<li>
+<p>Whistleblower channels</p>
+</li>
+</ul>
+<h2 id="privacy">Privacy<a class="headerlink" href="#privacy" title="Permanent link">&para;</a></h2>
+<p>Provenance information may include sensitive details.  Balance transparency with:</p>
+<ul>
+<li>
+<p>Protecting proprietary methods</p>
+</li>
+<li>
+<p>Respecting contributor privacy</p>
+</li>
+<li>
+<p>Maintaining security of safety-relevant information</p>
+</li>
+</ul>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<p>This document has no IANA actions.</p>
+<h1 id="example-full-provenance-attestation">Example Full Provenance Attestation<a class="headerlink" href="#example-full-provenance-attestation" title="Permanent link">&para;</a></h1>
+<p>A complete example Provenance Attestation demonstrating all fields.</p>
+<h1 id="indigenous-data-sovereignty-resources">Indigenous Data Sovereignty Resources<a class="headerlink" href="#indigenous-data-sovereignty-resources" title="Permanent link">&para;</a></h1>
+<p>References to indigenous data governance frameworks:</p>
+<ul>
+<li>
+<p>CARE Principles for Indigenous Data Governance</p>
+</li>
+<li>
+<p>OCAP Principles (First Nations, Canada)</p>
+</li>
+<li>
+<p>Te Mana Raraunga (Maori Data Sovereignty Network)</p>
+</li>
+<li>
+<p>Global Indigenous Data Alliance</p>
+</li>
+</ul>
+<h1 id="knowledge-debt-framework">Knowledge Debt Framework<a class="headerlink" href="#knowledge-debt-framework" title="Permanent link">&para;</a></h1>
+<p>Detailed framework for categorizing and tracking knowledge debt.</p>
+<p>Acknowledgments</p>
+<p>This specification acknowledges:</p>
+<ul>
+<li>
+<p>Indigenous peoples whose knowledge has been extracted without consent</p>
+</li>
+<li>
+<p>Creators whose work has been used in AI training</p>
+</li>
+<li>
+<p>Researchers working on AI ethics and data governance</p>
+</li>
+<li>
+<p>The Global Indigenous Data Alliance and other indigenous organizations working on data sovereignty</p>
+</li>
+</ul>
+<p>The authors acknowledge their own position: creating systems that may perpetuate harms they seek to address.  This specification is offered in humility, as one step toward accountability, not as absolution.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

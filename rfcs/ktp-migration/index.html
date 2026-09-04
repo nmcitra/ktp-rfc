@@ -1,0 +1,3248 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-migration/">
+      
+      
+        <link rel="prev" href="../ktp-recovery/">
+      
+      
+        <link rel="next" href="../ktp-legacy/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Migration - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-migration-guide-adoption-pathways-from-legacy-systems" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Migration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-migration.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-migration-guide-adoption-pathways-from-legacy-systems">Kinetic Trust Protocol (KTP) - Migration Guide Adoption Pathways from Legacy Systems<a class="headerlink" href="#kinetic-trust-protocol-ktp-migration-guide-adoption-pathways-from-legacy-systems" title="Permanent link">&para;</a></h1>
+<p>This document specifies migration patterns for adopting the Kinetic Trust Protocol in existing environments. It covers integration with legacy authorization systems (OAuth 2.0, SAML, API keys, mTLS), progressive deployment strategies, trust bootstrapping, hybrid operation during transition, and success metrics.</p>
+<p>The specification acknowledges that no organization will adopt KTP through wholesale replacement. Migration must be incremental, reversible, and demonstrably valuable at each stage.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<h2 id="the-adoption-problem">The Adoption Problem<a class="headerlink" href="#the-adoption-problem" title="Permanent link">&para;</a></h2>
+<p>The best protocol is worthless if no one can adopt it.</p>
+<p>KTP proposes a fundamentally different approach to authorization: environment-derived constraints rather than policy enforcement, Trust Scores derived from environmental sensors, Silent Veto that cannot be overridden. This is a significant departure from OAuth tokens, RBAC policies, and API key validation.</p>
+<p>Organizations considering KTP face real barriers:</p>
+<ul>
+<li>Existing investment in identity infrastructure</li>
+<li>Integration contracts with vendors and partners</li>
+<li>Compliance requirements tied to current systems</li>
+<li>Operational expertise in current tooling</li>
+<li>Risk of disruption during transition</li>
+</ul>
+<p>No organization will abandon working systems for an unproven alternative. Migration must be:</p>
+<ul>
+<li>Incremental: Value delivered at each stage</li>
+<li>Reversible: Easy rollback if problems arise</li>
+<li>Observable: Clear visibility into behavior before enforcement</li>
+<li>Compatible: Works alongside existing systems during transition</li>
+</ul>
+<p>This document provides the adoption pathway that makes KTP practical, not just theoretical.</p>
+<h2 id="migration-principles">Migration Principles<a class="headerlink" href="#migration-principles" title="Permanent link">&para;</a></h2>
+<p>Principle 1: Observe Before Enforce</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   Never enforce KTP constraints until you have observed their
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   impact in your specific environment. Shadow mode lets you see
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   what would have happened without affecting production.
+</code></pre></div>
+<p>Principle 2: Coexist, Don't Replace</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   KTP should run alongside existing authorization during
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   transition. Dual-stack operation allows comparison and provides
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   fallback. Full replacement comes only after confidence is
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   established.
+</code></pre></div>
+<p>Principle 3: Earn Trust for the System</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>   Ironically, KTP itself must earn trust before organizations will
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>   trust it. Each migration stage builds confidence through
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   demonstrated reliability and value.
+</code></pre></div>
+<p>Principle 4: Preserve Optionality</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>   Every stage should be reversible. Design migration so that
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>   rollback is straightforward and data is preserved regardless
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>   of direction.
+</code></pre></div>
+<p>Principle 5: Start Small, Expand Gradually</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>   Begin with a single service, a single API, a single team. Prove
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   value in a constrained scope before expanding. Island of Blue
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   in a sea of Wild.
+</code></pre></div>
+<h2 id="status-of-this-document">Status of This Document<a class="headerlink" href="#status-of-this-document" title="Permanent link">&para;</a></h2>
+<p>This document is <strong>informative</strong>. It records deployment guidance, integration patterns, and starting values for operators migrating an existing estate onto KTP. It states no normative requirement and uses no BCP 14 keyword; where a value in this document differs from a requirement in the normative set, the normative set governs.</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>Advisory Mode: A deployment stage where KTP evaluates requests and reports recommendations, but legacy authorization makes final decisions.</p>
+<p>Bootstrap Trust: Initial Trust Score assigned to existing identities when joining KTP, based on historical behavior and role.</p>
+<p>Canary Enforcement: Selective enforcement of KTP constraints on a small percentage of traffic while the remainder uses legacy authorization.</p>
+<p>Dual-Stack: Operating both legacy authorization and KTP simultaneously, with configurable priority and fallback.</p>
+<p>Full Enforcement: Complete reliance on KTP for authorization decisions, with legacy systems retired or relegated to identity provision.</p>
+<p>Green Zone: KTP zone type with minimal enforcement, suitable as transition boundary between Wild (no KTP) and Blue (full KTP).</p>
+<p>Legacy System: Existing authorization infrastructure (OAuth, SAML, API keys, etc.) operating before KTP adoption.</p>
+<p>Migration Stage: A defined phase in the transition from legacy authorization to KTP enforcement, each with specific characteristics and success criteria.</p>
+<p>Observation Mode: Initial deployment stage focused on collecting telemetry and establishing baselines without any KTP evaluation.</p>
+<p>Progressive Enforcement: Gradual expansion of KTP enforcement scope (services, actions, agents) based on demonstrated success.</p>
+<p>Shadow Mode: A deployment stage where KTP evaluates all requests but does not affect authorization decisions. Results are logged for comparison with legacy system decisions.</p>
+<p>Trust Bridging: The process of translating legacy credentials (OAuth tokens, SAML assertions) into KTP Trust Proofs during hybrid operation.</p>
+<h1 id="legacy-system-integration">Legacy System Integration<a class="headerlink" href="#legacy-system-integration" title="Permanent link">&para;</a></h1>
+<h2 id="oauth-20-oidc-integration">OAuth 2.0 / OIDC Integration<a class="headerlink" href="#oauth-20-oidc-integration" title="Permanent link">&para;</a></h2>
+<p>OAuth 2.0 and OpenID Connect are the most common authorization frameworks for modern applications. KTP can integrate at multiple points.</p>
+<h3 id="token-enrichment">Token Enrichment<a class="headerlink" href="#token-enrichment" title="Permanent link">&para;</a></h3>
+<p>The simplest integration adds KTP claims to existing OAuth tokens:</p>
+<p>Standard OAuth Token:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>   {
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>     "sub": "user-123",
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>     "scope": "read write",
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>     "exp": 1732550400
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>   }
+</code></pre></div>
+<p>KTP-Enriched Token:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>   {
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>     "sub": "user-123",
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>     "scope": "read write",
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     "exp": 1732550400,
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>     "ktp": {
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>       "e_base": 72,
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>       "e_trust": 68,
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>       "tier": "analyst",
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>       "trajectory_hash": "sha256:abc...",
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>       "oracle": "https://oracle.example.com",
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>       "proof_exp": 1732547000
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>     }
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>   }
+</code></pre></div>
+<p>Token enrichment preserves OAuth compatibility while adding KTP context. Resource servers can:</p>
+<ul>
+<li>Ignore KTP claims (full backward compatibility)</li>
+<li>Use KTP claims for additional constraints (hybrid mode)</li>
+<li>Require KTP claims (forward migration)</li>
+</ul>
+<h3 id="authorization-server-extension">Authorization Server Extension<a class="headerlink" href="#authorization-server-extension" title="Permanent link">&para;</a></h3>
+<p>The OAuth Authorization Server can be extended to:</p>
+<ol>
+<li>Query Trust Oracle during token issuance</li>
+<li>Embed Trust Proof in access token</li>
+<li>Adjust token lifetime based on Trust Score</li>
+<li>Limit scopes based on Trust Tier</li>
+</ol>
+<p>Example flow:</p>
+<ol>
+<li>Client requests token with scopes [read, write, admin]</li>
+<li>AuthZ Server authenticates user</li>
+<li>AuthZ Server queries Trust Oracle for user's Trust Proof</li>
+<li>Trust Oracle returns E_trust = 68, tier = analyst</li>
+<li>AuthZ Server filters scopes: [read, write] (admin requires operator)</li>
+<li>AuthZ Server issues token with KTP claims and filtered scopes</li>
+</ol>
+<h3 id="resource-server-enforcement">Resource Server Enforcement<a class="headerlink" href="#resource-server-enforcement" title="Permanent link">&para;</a></h3>
+<p>Resource servers can enforce KTP constraints independently:</p>
+<p>Request arrives with OAuth token:</p>
+<ol>
+<li>Validate OAuth token signature and expiration</li>
+<li>Extract KTP claims (if present)</li>
+<li>If KTP claims present: a. Verify Trust Proof signature against known Oracle b. Check Trust Proof expiration c. Evaluate A &lt;= E_trust for requested action d. If KTP denies, return 403 with KTP error</li>
+<li>If KTP claims absent: a. Evaluate OAuth scopes per legacy logic b. Optionally query Trust Oracle for real-time proof</li>
+</ol>
+<p>This approach allows gradual enforcement:</p>
+<ul>
+<li>Phase 1: Accept requests with or without KTP claims</li>
+<li>Phase 2: Require KTP claims, use OAuth as fallback</li>
+<li>Phase 3: Require KTP claims, OAuth for identity only</li>
+</ul>
+<h3 id="oidc-userinfo-extension">OIDC UserInfo Extension<a class="headerlink" href="#oidc-userinfo-extension" title="Permanent link">&para;</a></h3>
+<p>The OIDC UserInfo endpoint can be extended to provide Trust Score:</p>
+<p>Standard UserInfo Response:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>   {
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>     "sub": "user-123",
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>     "name": "Alice Smith",
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>     "email": "alice@example.com"
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>   }
+</code></pre></div>
+<p>KTP-Extended UserInfo Response:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>   {
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>     "sub": "user-123",
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>     "name": "Alice Smith",
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>     "email": "alice@example.com",
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>     "ktp_trust_score": {
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>       "e_base": 72,
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>       "e_trust": 68,
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>       "tier": "analyst",
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>       "trajectory_url":
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>         "https://oracle.example.com/trajectory/user-123",
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>       "proof_url":
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>         "https://oracle.example.com/proof/user-123"
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>     }
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>   }
+</code></pre></div>
+<h2 id="saml-20-integration">SAML 2.0 Integration<a class="headerlink" href="#saml-20-integration" title="Permanent link">&para;</a></h2>
+<p>SAML remains common in enterprise environments. KTP integrates through attribute extensions.</p>
+<h3 id="attribute-statement-extension">Attribute Statement Extension<a class="headerlink" href="#attribute-statement-extension" title="Permanent link">&para;</a></h3>
+<p>SAML Assertions can include KTP attributes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>   &lt;saml:AttributeStatement&gt;
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>     &lt;saml:Attribute Name="ktp:e_base"&gt;
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>       &lt;saml:AttributeValue&gt;72&lt;/saml:AttributeValue&gt;
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>     &lt;/saml:Attribute&gt;
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>     &lt;saml:Attribute Name="ktp:e_trust"&gt;
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>       &lt;saml:AttributeValue&gt;68&lt;/saml:AttributeValue&gt;
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>     &lt;/saml:Attribute&gt;
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>     &lt;saml:Attribute Name="ktp:tier"&gt;
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>       &lt;saml:AttributeValue&gt;analyst&lt;/saml:AttributeValue&gt;
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>     &lt;/saml:Attribute&gt;
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>     &lt;saml:Attribute Name="ktp:proof"&gt;
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>       &lt;saml:AttributeValue&gt;[base64-encoded Trust Proof]
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>       &lt;/saml:AttributeValue&gt;
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>     &lt;/saml:Attribute&gt;
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>   &lt;/saml:AttributeStatement&gt;
+</code></pre></div>
+<h3 id="identity-provider-extension">Identity Provider Extension<a class="headerlink" href="#identity-provider-extension" title="Permanent link">&para;</a></h3>
+<p>The SAML IdP can query Trust Oracle during assertion generation:</p>
+<ol>
+<li>User authenticates to IdP</li>
+<li>IdP queries Trust Oracle for user's current Trust Proof</li>
+<li>IdP includes KTP attributes in SAML Assertion</li>
+<li>SP receives assertion with embedded Trust Proof</li>
+<li>SP validates both SAML signature and KTP Trust Proof</li>
+</ol>
+<h3 id="service-provider-enforcement">Service Provider Enforcement<a class="headerlink" href="#service-provider-enforcement" title="Permanent link">&para;</a></h3>
+<p>SPs can enforce KTP constraints on SAML-authenticated sessions:</p>
+<ol>
+<li>Validate SAML Assertion per standard SAML processing</li>
+<li>Extract KTP attributes from AttributeStatement</li>
+<li>Verify embedded Trust Proof against known Oracle</li>
+<li>For each request during session: a. Evaluate A &lt;= E_trust b. Enforce tier-appropriate constraints</li>
+<li>Optionally refresh Trust Proof periodically during session</li>
+</ol>
+<h2 id="api-key-integration">API Key Integration<a class="headerlink" href="#api-key-integration" title="Permanent link">&para;</a></h2>
+<p>API keys remain common for service-to-service communication and developer access. KTP can enhance API key systems without replacing them.</p>
+<h3 id="api-key-to-agent-mapping">API Key to Agent Mapping<a class="headerlink" href="#api-key-to-agent-mapping" title="Permanent link">&para;</a></h3>
+<p>Each API key maps to a KTP agent identity:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   {
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>     "api_key_hash": "sha256:xyz...",
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>     "agent_id": "agent:service:payment-processor",
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>     "created": "2024-01-15T00:00:00Z",
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>     "owner": "team:payments",
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>     "ktp_binding": {
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>       "oracle": "https://oracle.example.com",
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>       "e_base": 65,
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>       "lineage": "sponsored",
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>       "sponsor": "agent:guarantor:payments-team-lead"
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>     }
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>   }
+</code></pre></div>
+<p>When a request arrives with an API key:</p>
+<ol>
+<li>Validate API key exists and is active</li>
+<li>Look up associated agent_id</li>
+<li>Query Trust Oracle for current Trust Proof</li>
+<li>Evaluate request against Trust Score</li>
+</ol>
+<h3 id="key-embedded-trust-proofs">Key-Embedded Trust Proofs<a class="headerlink" href="#key-embedded-trust-proofs" title="Permanent link">&para;</a></h3>
+<p>For reduced latency, Trust Proofs can be embedded in enhanced API key format:</p>
+<p>Traditional API key:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>   X-API-Key: abc123xyz
+</code></pre></div>
+<p>KTP-enhanced header:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>   X-API-Key: abc123xyz
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>   X-KTP-Proof: eyJhbGciOiJFUzI1NiIs... [JWT Trust Proof]
+</code></pre></div>
+<p>Or combined format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>   X-API-Key: abc123xyz.eyJhbGciOiJFUzI1NiIs...
+</code></pre></div>
+<p>The client is responsible for refreshing the Trust Proof component before expiration.</p>
+<h3 id="tiered-api-keys">Tiered API Keys<a class="headerlink" href="#tiered-api-keys" title="Permanent link">&para;</a></h3>
+<p>API keys can be issued with tier constraints:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   {
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>     "api_key_hash": "sha256:xyz...",
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>     "agent_id": "agent:service:readonly-analytics",
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>     "tier_cap": "observer",
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>     "allowed_actions": ["read_public", "read_internal"],
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>     "max_action_risk": 30
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>   }
+</code></pre></div>
+<p>Even if the agent's Trust Score would permit higher capabilities, the key itself constrains what can be done. This allows:</p>
+<ul>
+<li>Production keys with full capability</li>
+<li>Staging keys with reduced capability</li>
+<li>Read-only keys for analytics</li>
+<li>Emergency keys with minimal access</li>
+</ul>
+<h2 id="mutual-tls-mtls-integration">Mutual TLS (mTLS) Integration<a class="headerlink" href="#mutual-tls-mtls-integration" title="Permanent link">&para;</a></h2>
+<p>mTLS provides strong cryptographic identity for services. KTP complements mTLS with dynamic trust.</p>
+<h3 id="certificate-to-agent-mapping">Certificate to Agent Mapping<a class="headerlink" href="#certificate-to-agent-mapping" title="Permanent link">&para;</a></h3>
+<p>X.509 certificates map to KTP agent identities:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>   {
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>     "certificate_fingerprint": "sha256:abc...",
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>     "subject_dn": "CN=payment-service,O=Example,C=US",
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>     "agent_id": "agent:service:payment-processor",
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>     "ktp_binding": {
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>       "oracle": "https://oracle.example.com",
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>       "e_base": 85,
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>       "lineage": "guarantor"
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>     }
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>   }
+</code></pre></div>
+<p>Certificate identity establishes WHO; KTP establishes WHAT they can do right now.</p>
+<h3 id="tls-extension-for-trust-proof">TLS Extension for Trust Proof<a class="headerlink" href="#tls-extension-for-trust-proof" title="Permanent link">&para;</a></h3>
+<p>A TLS extension can carry Trust Proof during handshake:</p>
+<p>Extension Type: ktp_trust_proof (TBD by IANA) Extension Data: Serialized Trust Proof</p>
+<p>This allows trust evaluation at connection establishment, before any application data is exchanged.</p>
+<h3 id="post-handshake-trust-updates">Post-Handshake Trust Updates<a class="headerlink" href="#post-handshake-trust-updates" title="Permanent link">&para;</a></h3>
+<p>For long-lived connections, Trust Proofs can be updated via:</p>
+<ol>
+<li>Application-layer refresh (HTTP header on each request)</li>
+<li>TLS post-handshake authentication with new proof</li>
+<li>Periodic trust channel messages (WebSocket, gRPC stream)</li>
+</ol>
+<h2 id="service-mesh-identity-spiffespire">Service Mesh Identity (SPIFFE/SPIRE)<a class="headerlink" href="#service-mesh-identity-spiffespire" title="Permanent link">&para;</a></h2>
+<p>SPIFFE provides service identity in cloud-native environments. KTP integrates naturally with SPIFFE identities.</p>
+<h3 id="spiffe-id-to-agent-mapping">SPIFFE ID to Agent Mapping<a class="headerlink" href="#spiffe-id-to-agent-mapping" title="Permanent link">&para;</a></h3>
+<p>SPIFFE IDs map directly to KTP agent identities:</p>
+<p>SPIFFE ID: spiffe://example.com/service/payment-processor</p>
+<p>KTP Agent ID: agent:spiffe:example.com:service:payment-processor</p>
+<p>The mapping is deterministic, requiring no separate registry.</p>
+<h3 id="svid-enhancement">SVID Enhancement<a class="headerlink" href="#svid-enhancement" title="Permanent link">&para;</a></h3>
+<p>SPIFFE Verifiable Identity Documents (SVIDs) can include KTP claims in the x509-svid or jwt-svid:</p>
+<p>JWT-SVID with KTP claims:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>   {
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>     "sub": "spiffe://example.com/service/payment-processor",
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>     "aud": ["spiffe://example.com/service/api-gateway"],
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>     "exp": 1732550400,
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>     "ktp": {
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>       "e_base": 85,
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>       "e_trust": 78,
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>       "tier": "operator",
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>       "proof_sig": "sig:oracle:abc..."
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>     }
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>   }
+</code></pre></div>
+<h3 id="trust-oracle-as-spire-plugin">Trust Oracle as SPIRE Plugin<a class="headerlink" href="#trust-oracle-as-spire-plugin" title="Permanent link">&para;</a></h3>
+<p>SPIRE can be extended with a Trust Oracle plugin:</p>
+<ol>
+<li>Workload requests SVID from SPIRE Agent</li>
+<li>SPIRE Agent attests workload identity</li>
+<li>SPIRE Agent queries Trust Oracle plugin</li>
+<li>Trust Oracle returns current Trust Proof for workload</li>
+<li>SPIRE Agent issues SVID with embedded KTP claims</li>
+<li>Workload presents enhanced SVID to peers</li>
+</ol>
+<p>This integrates KTP into existing SPIFFE/SPIRE deployments with minimal architectural change.</p>
+<h1 id="deployment-stages">Deployment Stages<a class="headerlink" href="#deployment-stages" title="Permanent link">&para;</a></h1>
+<h2 id="stage-0-observation">Stage 0: Observation<a class="headerlink" href="#stage-0-observation" title="Permanent link">&para;</a></h2>
+<p>Purpose: Establish baselines without any KTP evaluation.</p>
+<p>Duration: 2-4 weeks minimum</p>
+<p>Activities:</p>
+<ul>
+<li>Deploy Context Signal sensors</li>
+<li>Collect environmental telemetry</li>
+<li>Identify agents and action patterns</li>
+<li>Establish normal operating ranges</li>
+<li>No Trust Oracle, no Trust Proofs</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Sensor coverage map</li>
+<li>Environmental baseline report</li>
+<li>Agent inventory</li>
+<li>Action classification draft</li>
+<li>Risk assessment for Stage 1</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>All target sensors reporting</li>
+<li>&lt; 1% data gaps in telemetry</li>
+<li>Agent inventory &gt; 95% complete</li>
+<li>Baseline variance understood</li>
+</ul>
+<p>What You Learn:</p>
+<ul>
+<li>What is "normal" for your environment</li>
+<li>Which sensors are reliable/noisy</li>
+<li>How to classify your actions by risk</li>
+<li>Where the boundaries should be</li>
+</ul>
+<h3 id="sensor-deployment">Sensor Deployment<a class="headerlink" href="#sensor-deployment" title="Permanent link">&para;</a></h3>
+<p>Stage 0 sensor deployment focuses on observability:</p>
+<p>Minimum sensors:</p>
+<ul>
+<li>CPU/memory utilization (adversarial_pressure input)</li>
+<li>Network throughput (trust_trend input)</li>
+<li>Active connections (evidence_density input)</li>
+<li>Error rates (adversarial_pressure input)</li>
+<li>Request latency (trust_trend input)</li>
+</ul>
+<p>Do NOT deploy:</p>
+<ul>
+<li>Trust Oracle (not ready)</li>
+<li>Policy Enforcement Points (nothing to enforce)</li>
+<li>Flight Recorder (no decisions to record)</li>
+</ul>
+<h3 id="agent-discovery">Agent Discovery<a class="headerlink" href="#agent-discovery" title="Permanent link">&para;</a></h3>
+<p>Identify all entities that will become KTP agents:</p>
+<ul>
+<li>Service accounts</li>
+<li>API clients</li>
+<li>Human users (via SSO)</li>
+<li>Automated jobs</li>
+<li>Third-party integrations</li>
+</ul>
+<p>For each, capture:</p>
+<ul>
+<li>Current authorization method</li>
+<li>Typical action patterns</li>
+<li>Peak usage times</li>
+<li>Historical incidents</li>
+</ul>
+<h2 id="stage-1-shadow-mode">Stage 1: Shadow Mode<a class="headerlink" href="#stage-1-shadow-mode" title="Permanent link">&para;</a></h2>
+<p>Purpose: Evaluate KTP decisions without enforcement.</p>
+<p>Duration: 4-8 weeks minimum</p>
+<p>Activities:</p>
+<ul>
+<li>Deploy Trust Oracle (non-authoritative)</li>
+<li>Generate Trust Proofs for all agents</li>
+<li>Evaluate every request against KTP</li>
+<li>Compare KTP decision to legacy decision</li>
+<li>Log discrepancies for analysis</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Shadow decision log</li>
+<li>Discrepancy analysis report</li>
+<li>False positive rate</li>
+<li>False negative rate</li>
+<li>Tuning recommendations</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>KTP evaluation on &gt; 99% of requests</li>
+<li>False positive rate &lt; 5%</li>
+<li>False negative rate &lt; 1%</li>
+<li>No production impact</li>
+</ul>
+<p>What You Learn:</p>
+<ul>
+<li>How KTP decisions compare to current authorization</li>
+<li>Where Trust Scores need calibration</li>
+<li>Which action risk classifications need adjustment</li>
+<li>Likely impact of enforcement</li>
+</ul>
+<h3 id="shadow-architecture">Shadow Architecture<a class="headerlink" href="#shadow-architecture" title="Permanent link">&para;</a></h3>
+<p>Shadow mode runs KTP in parallel:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>                 ┌─────────────────┐
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>                 │  Incoming       │
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>                 │  Request        │
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>                 └────────┬────────┘
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>                          │
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>                 ┌────────▼────────┐
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>                 │  API Gateway    │
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>                 │  (Dual Eval)    │
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>                 └────────┬────────┘
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>                          │
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>           ┌──────────────┼──────────────┐
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>           │              │              │
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>           ▼              ▼              ▼
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>   ┌───────────┐  ┌───────────┐  ┌───────────┐
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>   │  Legacy   │  │   KTP     │  │  Shadow   │
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>   │  AuthZ    │  │  Eval     │  │  Logger   │
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>   └─────┬─────┘  └─────┬─────┘  └───────────┘
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>         │              │              ▲
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>         │              └──────────────┘
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>         │                (log only)
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>         ▼
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>   ┌───────────┐
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>   │  Backend  │
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>   │  Service  │
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>   └───────────┘
+</code></pre></div>
+<p>Legacy authorization remains authoritative. KTP evaluates but does not affect the request. Discrepancies are logged.</p>
+<h3 id="discrepancy-analysis">Discrepancy Analysis<a class="headerlink" href="#discrepancy-analysis" title="Permanent link">&para;</a></h3>
+<p>For each request, log:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>   {
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>     "timestamp": "2025-11-25T14:30:00Z",
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>     "request_id": "req-abc-123",
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>     "agent": "service:payment-processor",
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>     "action": "write_transaction",
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>     "legacy_decision": "allow",
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>     "legacy_reason": "scope:write present",
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>     "ktp_decision": "deny",
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>     "ktp_reason": "A(65) &gt; E_trust(58)",
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>     "ktp_context": {
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>       "e_base": 72,
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>       "e_trust": 58,
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>       "risk_factor": 0.19,
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>       "action_risk": 65,
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>       "tier": "analyst",
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>       "tier_max_risk": 60
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>     },
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>     "discrepancy": true,
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>     "discrepancy_type": "legacy_allow_ktp_deny"
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>   }
+</code></pre></div>
+<p>Aggregate discrepancies by:</p>
+<ul>
+<li>Agent (which agents are most affected?)</li>
+<li>Action (which actions are most contentious?)</li>
+<li>Time (are there temporal patterns?)</li>
+<li>Environmental state (high-risk times?)</li>
+</ul>
+<h2 id="stage-2-advisory-mode">Stage 2: Advisory Mode<a class="headerlink" href="#stage-2-advisory-mode" title="Permanent link">&para;</a></h2>
+<p>Purpose: Present KTP recommendations to operators without automatic enforcement.</p>
+<p>Duration: 2-4 weeks</p>
+<p>Activities:</p>
+<ul>
+<li>Surface KTP recommendations in admin UI</li>
+<li>Alert on high-risk requests that KTP would deny</li>
+<li>Allow operators to manually apply KTP constraints</li>
+<li>Gather operator feedback on recommendations</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Operator feedback report</li>
+<li>Recommendation accuracy assessment</li>
+<li>UI/UX refinements</li>
+<li>Enforcement readiness assessment</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>Operators find recommendations useful</li>
+<li>
+<blockquote>
+<p>80% of KTP denials validated by operators</p>
+</blockquote>
+</li>
+<li>&lt; 10% of recommendations overridden</li>
+<li>Operators comfortable with enforcement</li>
+</ul>
+<h3 id="advisory-dashboard">Advisory Dashboard<a class="headerlink" href="#advisory-dashboard" title="Permanent link">&para;</a></h3>
+<p>The advisory dashboard shows:</p>
+<ul>
+<li>Current environmental state (Context Signals)</li>
+<li>Agent Trust Scores (real-time)</li>
+<li>Recent KTP recommendations</li>
+<li>Discrepancy trend (improving?)</li>
+<li>Projected enforcement impact</li>
+</ul>
+<p>Operators can:</p>
+<ul>
+<li>Acknowledge recommendations</li>
+<li>Override with justification (logged)</li>
+<li>Adjust Trust Scores (within bounds)</li>
+<li>Tune action risk classifications</li>
+</ul>
+<h3 id="alert-integration">Alert Integration<a class="headerlink" href="#alert-integration" title="Permanent link">&para;</a></h3>
+<p>Advisory mode integrates with existing alerting:</p>
+<ul>
+<li>PagerDuty: High-risk requests KTP would deny</li>
+<li>Slack: Summary of recommendations</li>
+<li>SIEM: All KTP evaluations for correlation</li>
+<li>Dashboard: Real-time Trust Score display</li>
+</ul>
+<h2 id="stage-3-canary-enforcement">Stage 3: Canary Enforcement<a class="headerlink" href="#stage-3-canary-enforcement" title="Permanent link">&para;</a></h2>
+<p>Purpose: Enforce KTP on small percentage of traffic.</p>
+<p>Duration: 2-4 weeks per increment</p>
+<p>Activities:</p>
+<ul>
+<li>Enable KTP enforcement for 1% of traffic</li>
+<li>Monitor for unexpected denials</li>
+<li>Compare business metrics (latency, errors, conversions)</li>
+<li>Gradually increase percentage</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Canary performance report</li>
+<li>Business metric comparison</li>
+<li>Incident log (if any)</li>
+<li>Expansion readiness assessment</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>No unexpected outages</li>
+<li>Business metrics within tolerance</li>
+<li>Denial rate matches shadow predictions</li>
+<li>Team confidence for expansion</li>
+</ul>
+<h3 id="canary-selection">Canary Selection<a class="headerlink" href="#canary-selection" title="Permanent link">&para;</a></h3>
+<p>Canary traffic can be selected by:</p>
+<ul>
+<li>Random sampling (1%, 5%, 10%, etc.)</li>
+<li>Specific agents (start with lowest risk)</li>
+<li>Specific actions (start with read-only)</li>
+<li>Specific time windows (off-peak first)</li>
+<li>Specific user segments (internal first)</li>
+</ul>
+<p>Recommended progression:</p>
+<ol>
+<li>1% random, read-only actions</li>
+<li>5% random, read-only actions</li>
+<li>10% random, all actions</li>
+<li>25% random, all actions</li>
+<li>50% random, all actions</li>
+<li>Stage 4 (progressive by service)</li>
+</ol>
+<h3 id="canary-metrics">Canary Metrics<a class="headerlink" href="#canary-metrics" title="Permanent link">&para;</a></h3>
+<p>Monitor during canary:</p>
+<ul>
+<li>Request success rate (KTP vs legacy cohort)</li>
+<li>P50/P95/P99 latency (KTP overhead)</li>
+<li>Denial rate (expected vs actual)</li>
+<li>False positive reports (user complaints)</li>
+<li>Business conversion (if applicable)</li>
+</ul>
+<h2 id="stage-4-progressive-enforcement">Stage 4: Progressive Enforcement<a class="headerlink" href="#stage-4-progressive-enforcement" title="Permanent link">&para;</a></h2>
+<p>Purpose: Expand KTP enforcement service by service.</p>
+<p>Duration: 1-2 weeks per service</p>
+<p>Activities:</p>
+<ul>
+<li>Enable full KTP enforcement for one service</li>
+<li>Monitor and validate</li>
+<li>Move to next service</li>
+<li>Repeat until all services covered</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Per-service enforcement report</li>
+<li>Cross-service dependency validation</li>
+<li>Full coverage timeline</li>
+<li>Legacy deprecation plan</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>Each service stable under KTP enforcement</li>
+<li>Cross-service calls function correctly</li>
+<li>No rollbacks required</li>
+<li>Team operating confidently</li>
+</ul>
+<h3 id="service-ordering">Service Ordering<a class="headerlink" href="#service-ordering" title="Permanent link">&para;</a></h3>
+<p>Order services for progressive enforcement by:</p>
+<ol>
+<li>Dependency depth (leaves first, then parents)</li>
+<li>Risk level (low-risk first)</li>
+<li>Traffic volume (low-traffic first for learning)</li>
+<li>Team readiness (willing teams first)</li>
+</ol>
+<p>Example ordering:</p>
+<ul>
+<li>Week 1: Internal tools, documentation services</li>
+<li>Week 2: Analytics, reporting services</li>
+<li>Week 3: Customer-facing read APIs</li>
+<li>Week 4: Customer-facing write APIs</li>
+<li>Week 5: Payment processing</li>
+<li>Week 6: Core platform services</li>
+</ul>
+<h3 id="boundary-management">Boundary Management<a class="headerlink" href="#boundary-management" title="Permanent link">&para;</a></h3>
+<p>During progressive enforcement, manage boundaries between:</p>
+<ul>
+<li>KTP-enforced services (Blue)</li>
+<li>Legacy-authorized services (Wild)</li>
+</ul>
+<p>Cross-boundary calls:</p>
+<ul>
+<li>Blue -&gt; Wild: Include Trust Proof (Wild may ignore)</li>
+<li>Wild -&gt; Blue: Require Trust Proof or bridge</li>
+</ul>
+<p>Trust bridging at boundary:</p>
+<ul>
+<li>Wild service presents OAuth token</li>
+<li>Gateway validates OAuth, queries Trust Oracle</li>
+<li>Gateway issues Trust Proof based on OAuth identity</li>
+<li>Request proceeds with bridged Trust Proof</li>
+</ul>
+<h2 id="stage-5-full-enforcement">Stage 5: Full Enforcement<a class="headerlink" href="#stage-5-full-enforcement" title="Permanent link">&para;</a></h2>
+<p>Purpose: Complete KTP enforcement across all services.</p>
+<p>Duration: Ongoing</p>
+<p>Activities:</p>
+<ul>
+<li>Retire legacy authorization for covered services</li>
+<li>Operate Trust Oracle as authoritative</li>
+<li>Full Flight Recorder logging</li>
+<li>Continuous tuning and improvement</li>
+</ul>
+<p>Deliverables:</p>
+<ul>
+<li>Legacy deprecation complete</li>
+<li>Full KTP operational runbook</li>
+<li>Incident response procedures</li>
+<li>Ongoing metrics and reporting</li>
+</ul>
+<p>Success Criteria:</p>
+<ul>
+<li>All services under KTP enforcement</li>
+<li>Legacy authorization retired or identity-only</li>
+<li>Operational stability demonstrated</li>
+<li>Team fully trained and confident</li>
+</ul>
+<h3 id="legacy-retirement">Legacy Retirement<a class="headerlink" href="#legacy-retirement" title="Permanent link">&para;</a></h3>
+<p>After full enforcement, legacy systems can be:</p>
+<ul>
+<li>Retired completely (ideal for API keys)</li>
+<li>Reduced to identity-only (OAuth for authn, KTP for authz)</li>
+<li>Maintained as emergency fallback (temporary)</li>
+</ul>
+<p>Do NOT maintain parallel authorization long-term. This creates:</p>
+<ul>
+<li>Confusion about authoritative source</li>
+<li>Maintenance burden</li>
+<li>Potential bypass vectors</li>
+<li>Inconsistent audit trail</li>
+</ul>
+<h1 id="trust-bootstrapping">Trust Bootstrapping<a class="headerlink" href="#trust-bootstrapping" title="Permanent link">&para;</a></h1>
+<p>New agents entering KTP need initial Trust Scores. For migration, existing identities need bootstrap trust based on historical behavior.</p>
+<h2 id="initial-trust-assignment">Initial Trust Assignment<a class="headerlink" href="#initial-trust-assignment" title="Permanent link">&para;</a></h2>
+<p>Bootstrap trust is assigned based on:</p>
+<ol>
+<li>Role category</li>
+<li>Historical behavior (if available)</li>
+<li>Sponsorship relationship</li>
+<li>Service criticality</li>
+</ol>
+<h3 id="role-based-bootstrap">Role-Based Bootstrap<a class="headerlink" href="#role-based-bootstrap" title="Permanent link">&para;</a></h3>
+<p>Default initial E_base by role category:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>+----------------------+---------+
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>| Role Category        | E_base  |
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>+----------------------+---------+
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>| Infrastructure/Admin | 70      |
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>| Production Service   | 60      |
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>| Internal Tool        | 50      |
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>| External Integration | 40      |
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>| New/Unknown          | 30      |
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>| Probationary         | 20      |
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>+----------------------+---------+
+</code></pre></div>
+<p>These are starting points for planning an estate.  Trust increases through demonstrated reliable operation.</p>
+<p>Two limits on how this table may be read, both of which an earlier revision got wrong.</p>
+<p>The table carried a third column naming a Trust Tier per role, and it has been removed.  Trust Tiers are thresholds on E_trust, not on E_base, and E_trust is E_base deflated by the environment.  No static column can name the tier a given E_base produces, because the deflator is not in the table and is not constant: three of the six rows named a tier their own number could not reach under the environmental conditions the corpus's own worked examples use.  A tier is read at evaluation time or not at all.</p>
+<p>None of these values survives contact with the ceilings.  E_base is bounded by the minimum of every applicable ceiling (see the normative set), and a migrating identity begins at generation 0 unless it carries a lineage.  A value in this table is the level the operator is planning toward, not the level the agent arrives with.</p>
+<h3 id="behavioral-import">Behavioral Import<a class="headerlink" href="#behavioral-import" title="Permanent link">&para;</a></h3>
+<p>For identities with historical data, adjust bootstrap based on:</p>
+<ul>
+<li>Incident history (reduce for past issues)</li>
+<li>Operational tenure (increase for long stable operation)</li>
+<li>Access patterns (increase for consistent patterns)</li>
+<li>Compliance record (increase for clean audits)</li>
+</ul>
+<p>Example adjustment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>   base_bootstrap = 60 (production service)
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>   tenure_bonus = +5 (3+ years stable operation)
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>   incident_penalty = -10 (major incident in past year)
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>   compliance_bonus = +3 (clean SOC 2 audit)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>   final_bootstrap = 60 + 5 - 10 + 3 = 58
+</code></pre></div>
+<h2 id="historical-behavior-import">Historical Behavior Import<a class="headerlink" href="#historical-behavior-import" title="Permanent link">&para;</a></h2>
+<p>If historical logs are available, construct synthetic trajectory:</p>
+<ol>
+<li>Extract access events from legacy logs</li>
+<li>Classify each event by action risk</li>
+<li>Identify any incidents or anomalies</li>
+<li>Calculate what Trust Score would have been</li>
+<li>Use terminal value as bootstrap E_base</li>
+</ol>
+<p>This gives agents "credit" for historical good behavior.</p>
+<h3 id="log-sources-for-import">Log Sources for Import<a class="headerlink" href="#log-sources-for-import" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SIEM logs (authentication, authorization events)</li>
+<li>Application logs (API calls, database queries)</li>
+<li>Cloud provider logs (AWS CloudTrail, GCP Audit)</li>
+<li>Network logs (flow data, firewall events)</li>
+<li>Incident management (PagerDuty, ServiceNow)</li>
+</ul>
+<h3 id="import-limitations">Import Limitations<a class="headerlink" href="#import-limitations" title="Permanent link">&para;</a></h3>
+<p>Historical import has limits:</p>
+<ul>
+<li>Cannot reconstruct environmental context (R unknown)</li>
+<li>Action risk classification may differ from current</li>
+<li>Legacy systems may not log all relevant events</li>
+<li>Time window affects reliability (recent &gt; old)</li>
+</ul>
+<p>Treat imported history as approximation, not truth.</p>
+<h2 id="sponsorship-chains">Sponsorship Chains<a class="headerlink" href="#sponsorship-chains" title="Permanent link">&para;</a></h2>
+<p>For agents without sufficient history, sponsorship provides bootstrap trust:</p>
+<ol>
+<li>Established agent sponsors new agent</li>
+<li>Sponsor stakes portion of their own trust</li>
+<li>New agent receives bootstrap from sponsor</li>
+<li>New agent operates as Sponsored until sufficient history</li>
+</ol>
+<p>Sponsorship during migration:</p>
+<ul>
+<li>Infrastructure team sponsors production services</li>
+<li>Service owners sponsor their integrations</li>
+<li>Security team sponsors security tooling</li>
+<li>No agent bootstraps without sponsor</li>
+</ul>
+<h1 id="hybrid-operation">Hybrid Operation<a class="headerlink" href="#hybrid-operation" title="Permanent link">&para;</a></h1>
+<h2 id="dual-stack-authorization">Dual-Stack Authorization<a class="headerlink" href="#dual-stack-authorization" title="Permanent link">&para;</a></h2>
+<p>During migration, both systems operate simultaneously:</p>
+<p>Request evaluation:</p>
+<ol>
+<li>Legacy system evaluates (OAuth scope, RBAC policy, etc.)</li>
+<li>KTP evaluates (A &lt;= E_trust, tier constraints)</li>
+<li>Final decision based on configuration: - "legacy_primary": Legacy decides, KTP logged - "ktp_primary": KTP decides, legacy fallback - "unanimous": Both must allow - "either": Either allowing is sufficient</li>
+</ol>
+<p>Recommended progression:</p>
+<ul>
+<li>Stage 1-2: legacy_primary</li>
+<li>Stage 3: unanimous (most restrictive, safest)</li>
+<li>Stage 4: ktp_primary</li>
+<li>Stage 5: KTP only</li>
+</ul>
+<h2 id="boundary-enforcement">Boundary Enforcement<a class="headerlink" href="#boundary-enforcement" title="Permanent link">&para;</a></h2>
+<p>During migration, clear boundaries define where KTP is enforced:</p>
+<ul>
+<li>KTP Zone: Full KTP enforcement (Blue/Cyan)</li>
+<li>Legacy Zone: Legacy authorization only (Wild)</li>
+<li>Boundary Zone: Dual-stack, trust bridging (Green)</li>
+</ul>
+<p>Boundary PEPs handle translation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>   ┌─────────────────┐    ┌─────────────────┐
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>   │    KTP Zone     │    │   Legacy Zone   │
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>   │                 │    │                 │
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>   │  ┌───────────┐  │    │  ┌───────────┐  │
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>   │  │ Service A │◄─┼────┼──│ Service X │  │
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>   │  └───────────┘  │    │  └───────────┘  │
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>   │       │         │    │       │         │
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>   │       ▼         │    │       ▼         │
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>   │  ┌───────────┐  │    │  ┌───────────┐  │
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>   │  │ Service B │──┼────┼─►│ Service Y │  │
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>   │  └───────────┘  │    │  └───────────┘  │
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>   │                 │    │                 │
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>   └────────┬────────┘    └────────┬────────┘
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>            │                      │
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>            └──────────┬───────────┘
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>                       │
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>               ┌───────▼───────┐
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>               │ Boundary PEP  │
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>               │ (Trust Bridge)│
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>               └───────────────┘
+</code></pre></div>
+<h2 id="gradual-perimeter-expansion">Gradual Perimeter Expansion<a class="headerlink" href="#gradual-perimeter-expansion" title="Permanent link">&para;</a></h2>
+<p>Expand KTP enforcement perimeter gradually:</p>
+<p>Phase 1: Single service island</p>
+<ul>
+<li>One service fully KTP-enforced</li>
+<li>All dependencies via boundary PEP</li>
+<li>Prove concept, build confidence</li>
+</ul>
+<p>Phase 2: Service cluster</p>
+<ul>
+<li>Group of related services under KTP</li>
+<li>Internal calls KTP-native</li>
+<li>External calls via boundary</li>
+</ul>
+<p>Phase 3: Domain coverage</p>
+<ul>
+<li>Entire domain (payments, users, etc.) under KTP</li>
+<li>Cross-domain calls via boundary</li>
+<li>Boundary shrinks as coverage expands</li>
+</ul>
+<p>Phase 4: Full coverage</p>
+<ul>
+<li>All services under KTP</li>
+<li>Boundary only at external edge</li>
+<li>Legacy retired internally</li>
+</ul>
+<h1 id="rollback-procedures">Rollback Procedures<a class="headerlink" href="#rollback-procedures" title="Permanent link">&para;</a></h1>
+<h2 id="stage-regression">Stage Regression<a class="headerlink" href="#stage-regression" title="Permanent link">&para;</a></h2>
+<p>If problems arise, regress to previous stage:</p>
+<ul>
+<li>Stage 5 -&gt; 4: Re-enable legacy for problematic services</li>
+<li>Stage 4 -&gt; 3: Reduce to canary percentage</li>
+<li>Stage 3 -&gt; 2: Disable enforcement, advisory only</li>
+<li>Stage 2 -&gt; 1: Disable recommendations, shadow only</li>
+<li>Stage 1 -&gt; 0: Disable KTP evaluation entirely</li>
+</ul>
+<p>Rollback should be:</p>
+<ul>
+<li>Pre-planned (runbook ready)</li>
+<li>Fast (&lt; 5 minutes to execute)</li>
+<li>Safe (no data loss)</li>
+<li>Reversible (can re-advance when ready)</li>
+</ul>
+<h2 id="emergency-fallback">Emergency Fallback<a class="headerlink" href="#emergency-fallback" title="Permanent link">&para;</a></h2>
+<p>For critical incidents:</p>
+<ol>
+<li>Disable KTP enforcement at gateway (single config change)</li>
+<li>All requests fall back to legacy authorization</li>
+<li>KTP continues logging (shadow mode) for analysis</li>
+<li>Investigate root cause</li>
+<li>Fix and re-enable</li>
+</ol>
+<p>Emergency fallback configuration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>   {
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>     "enforcement_mode": "emergency_fallback",
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>     "legacy_authoritative": true,
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>     "ktp_evaluation": "shadow",
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>     "alert": "security-team",
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>     "auto_restore_after": null,
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>     "requires_manual_restore": true
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>   }
+</code></pre></div>
+<h2 id="data-preservation">Data Preservation<a class="headerlink" href="#data-preservation" title="Permanent link">&para;</a></h2>
+<p>During rollback, preserve:</p>
+<ul>
+<li>Trust Scores (don't reset agent progress)</li>
+<li>Trajectory chains (maintain history)</li>
+<li>Flight Recorder logs (audit continuity)</li>
+<li>Configuration (restore point)</li>
+</ul>
+<p>Rollback affects enforcement, not data. When re-advancing, agents retain earned trust.</p>
+<h1 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h1>
+<p>Track these metrics throughout migration:</p>
+<h2 id="adoption-metrics">Adoption Metrics<a class="headerlink" href="#adoption-metrics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Sensor coverage (% of environment instrumented)</li>
+<li>Agent coverage (% of identities with Trust Scores)</li>
+<li>Request coverage (% of requests KTP-evaluated)</li>
+<li>Enforcement coverage (% of requests KTP-enforced)</li>
+</ul>
+<h2 id="accuracy-metrics">Accuracy Metrics<a class="headerlink" href="#accuracy-metrics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>False positive rate (KTP denied, should have allowed)</li>
+<li>False negative rate (KTP allowed, should have denied)</li>
+<li>Discrepancy rate (KTP differs from legacy)</li>
+<li>Override rate (operators overriding KTP)</li>
+</ul>
+<h2 id="performance-metrics">Performance Metrics<a class="headerlink" href="#performance-metrics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Evaluation latency (KTP overhead per request)</li>
+<li>Oracle response time (Trust Proof generation)</li>
+<li>PEP throughput (requests per second)</li>
+<li>System availability (Oracle, PEP uptime)</li>
+</ul>
+<h2 id="security-metrics">Security Metrics<a class="headerlink" href="#security-metrics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Incidents prevented (Silent Veto in action)</li>
+<li>Time to detect (anomaly identification)</li>
+<li>Blast radius reduction (compared to legacy)</li>
+<li>Audit completeness (Flight Recorder coverage)</li>
+</ul>
+<h2 id="business-metrics">Business Metrics<a class="headerlink" href="#business-metrics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Request latency (user-facing impact)</li>
+<li>Error rate (failed requests)</li>
+<li>Conversion rate (if applicable)</li>
+<li>Operational cost (compared to legacy)</li>
+</ul>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="migration-specific-risks">Migration-Specific Risks<a class="headerlink" href="#migration-specific-risks" title="Permanent link">&para;</a></h2>
+<p>Dual-Stack Bypass: Attackers may target the weaker of two systems during hybrid operation. Ensure legacy system remains hardened.</p>
+<p>Trust Bootstrap Manipulation: Attackers may attempt to manipulate historical data to inflate bootstrap Trust Scores. Verify import sources.</p>
+<p>Boundary Exploitation: Attackers may exploit trust bridging at zone boundaries. Apply principle of least privilege at boundaries.</p>
+<p>Rollback Exploitation: Attackers may trigger conditions that cause rollback, then exploit legacy weaknesses. Monitor for patterns.</p>
+<h2 id="mitigations">Mitigations<a class="headerlink" href="#mitigations" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Maintain legacy security posture during migration</li>
+<li>Verify historical data integrity before import</li>
+<li>Apply KTP constraints at boundaries even during bridging</li>
+<li>Require approval for rollback, investigate triggers</li>
+<li>Monitor for migration-aware attack patterns</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

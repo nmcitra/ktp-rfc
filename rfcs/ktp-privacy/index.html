@@ -1,0 +1,3250 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-privacy/">
+      
+      
+        <link rel="prev" href="../ktp-human/">
+      
+      
+        <link rel="next" href="../ktp-enforce/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Privacy - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-privacy-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Privacy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-privacy.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-privacy-specification">Kinetic Trust Protocol (KTP) - Privacy Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-privacy-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies privacy requirements, protections, and data subject rights for the Kinetic Trust Protocol (KTP). It operationalizes global privacy frameworks including GDPR, CCPA, ICCPR Article 17, and other international privacy instruments.</p>
+<p>Privacy is not a feature. It is a fundamental human right. KTP is designed with privacy as a core architectural principle, not a compliance checkbox.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<h2 id="privacy-as-human-right">Privacy as Human Right<a class="headerlink" href="#privacy-as-human-right" title="Permanent link">&para;</a></h2>
+<p>Privacy is a fundamental human right recognized by:</p>
+<ul>
+<li>Universal Declaration of Human Rights (Article 12) - International Covenant on Civil and Political Rights (Article 17) - European Convention on Human Rights (Article 8) - Charter of Fundamental Rights of the EU (Articles 7, 8)</li>
+</ul>
+<p>ICCPR Article 17:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   "1. No one shall be subjected to arbitrary or unlawful
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    interference with his privacy, family, home or correspondence,
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    nor to unlawful attacks on his honour and reputation.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>    2. Everyone has the right to the protection of the law against
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    such interference or attacks."
+</code></pre></div>
+<p>KTP treats privacy not as a regulatory burden but as a design constraint of equal importance to security. A system that provides security through surveillance is not acceptable.</p>
+<h2 id="the-surveillance-paradox">The Surveillance Paradox<a class="headerlink" href="#the-surveillance-paradox" title="Permanent link">&para;</a></h2>
+<p>KTP faces a fundamental tension:</p>
+<p>SECURITY REQUIRES VISIBILITY - Trust Scores require behavioral observation - Context Signals require environmental monitoring - Flight Recorder requires comprehensive logging - Proof of Resilience requires historical data</p>
+<p>PRIVACY REQUIRES INVISIBILITY - Individuals should not be tracked - Behavior should not create dossiers - Actions should not be permanently recorded - Inferences should not be drawn without consent</p>
+<p>KTP resolves this paradox through:</p>
+<ol>
+<li>
+<p>AGGREGATE OVER INDIVIDUAL Sensors measure environment, not individuals. Statistics over populations, not profiles.</p>
+</li>
+<li>
+<p>EPHEMERAL OVER PERMANENT Trust Proofs expire in seconds. Behavioral data has retention limits. Right to erasure is real, not theoretical.</p>
+</li>
+<li>
+<p>LOCAL OVER CENTRAL Trust calculation can be distributed. Data need not leave local zone. Federation transmits proofs, not raw data.</p>
+</li>
+<li>
+<p>AGENT OVER HUMAN KTP primarily tracks agents (software), not humans. Human data requires explicit consent. Human operators have privacy rights.</p>
+</li>
+</ol>
+<h2 id="privacy-hierarchy">Privacy Hierarchy<a class="headerlink" href="#privacy-hierarchy" title="Permanent link">&para;</a></h2>
+<p>When privacy interests conflict, KTP applies this hierarchy:</p>
+<ol>
+<li>
+<p>INDIVIDUALS Individual human privacy is paramount. Individuals can opt out of non-essential processing. Individual rights override system convenience.</p>
+</li>
+<li>
+<p>COMMUNITIES Community privacy protections come second. Cultural data and traditional knowledge protected. Soul constraints can encode community privacy.</p>
+</li>
+<li>
+<p>ENTERPRISES Enterprise data protection comes third. Trade secrets and confidential data protected. But not at expense of individual rights.</p>
+</li>
+<li>
+<p>GOVERNMENT Government operational security comes fourth. Legitimate security needs accommodated. But not through mass surveillance.</p>
+</li>
+<li>
+<p>PUBLIC INTEREST Public interest processing comes last. Requires explicit legal basis. Subject to proportionality review.</p>
+</li>
+</ol>
+<p>This hierarchy is normative. When a feature benefits enterprise but harms individual privacy, the feature is modified or rejected.</p>
+<h2 id="contextual-integrity">Contextual Integrity<a class="headerlink" href="#contextual-integrity" title="Permanent link">&para;</a></h2>
+<p>"Privacy is neither a right to secrecy nor a right to control but a right to appropriate flow of personal information." - Helen Nissenbaum</p>
+<h3 id="the-framework">The Framework<a class="headerlink" href="#the-framework" title="Permanent link">&para;</a></h3>
+<p>Contextual Integrity, developed by Helen Nissenbaum, provides a rigorous framework for evaluating privacy that goes beyond simple notice-and-consent. It argues that privacy violations occur when information flows violate context-specific norms.</p>
+<p>Every information flow has parameters: - SENDER: Who transmits the information - RECIPIENT: Who receives it - SUBJECT: Whose information it is - INFORMATION TYPE: What kind of information - TRANSMISSION PRINCIPLE: Under what terms (confidentiality, consent, reciprocity, etc.)</p>
+<p>Privacy is violated when any parameter violates the norms of the operative context.</p>
+<h3 id="contexts-in-ktp">Contexts in KTP<a class="headerlink" href="#contexts-in-ktp" title="Permanent link">&para;</a></h3>
+<p>KTP operates across multiple contexts, each with distinct norms:</p>
+<p>SECURITY CONTEXT - Norms: Information flows to protect systems - Appropriate: Trust Scores, threat indicators, audit trails - Inappropriate: Content inspection, behavioral profiling</p>
+<p>EMPLOYMENT CONTEXT - Norms: Information flows for legitimate work purposes - Appropriate: Role-based access, audit for compliance - Inappropriate: Performance surveillance, personal monitoring</p>
+<p>HEALTHCARE CONTEXT - Norms: Information flows for treatment and safety - Appropriate: Emergency access, care coordination - Inappropriate: Marketing, employment decisions</p>
+<p>PERSONAL CONTEXT - Norms: Individual autonomy and control - Appropriate: Self-directed data portability - Inappropriate: Any flow without meaningful consent</p>
+<p>COMMUNITY CONTEXT - Norms: Collective benefit and cultural protocols</p>
+<ul>
+<li>Appropriate: Community-approved data governance - Inappropriate: External extraction without community consent</li>
+</ul>
+<h3 id="contextual-integrity-analysis-for-ktp">Contextual Integrity Analysis for KTP<a class="headerlink" href="#contextual-integrity-analysis-for-ktp" title="Permanent link">&para;</a></h3>
+<p>For each KTP data flow, we analyze:</p>
+<p>TRUST SCORE CALCULATION - Sender: Agent (via trajectory) - Recipient: Trust Oracle - Subject: Agent (and indirectly, operator) - Information: Behavioral metadata - Transmission: Contractual, for security - Assessment: Appropriate IF limited to security context, violates integrity IF used for employment/social purposes</p>
+<p>FLIGHT RECORDER LOGGING - Sender: All components - Recipient: Audit system - Subject: Agents, operators, resources - Information: Decision records - Transmission: Legal/compliance requirement - Assessment: Appropriate for audit context, requires access controls to prevent context collapse</p>
+<p>FEDERATION DATA SHARING - Sender: Origin zone - Recipient: Partner zone - Subject: Agents operating cross-zone - Information: Trust Proofs (not trajectories) - Transmission: Bilateral agreement - Assessment: Appropriate IF minimized to proofs, violates integrity IF raw data shared</p>
+<h3 id="implementation-requirements">Implementation Requirements<a class="headerlink" href="#implementation-requirements" title="Permanent link">&para;</a></h3>
+<p>CI-001: Context Classification Required - Every data flow must identify operative context - Multiple contexts may apply (with strictest norms governing)</p>
+<p>CI-002: Norm Documentation - Document contextual norms for each deployment domain - Healthcare, finance, government have distinct norms</p>
+<p>CI-003: Context Collapse Prevention - Technical controls prevent data from crossing contexts - Security data cannot flow to HR systems - Health data cannot flow to marketing</p>
+<p>CI-004: Transmission Principle Enforcement - Each flow specifies transmission principle - System enforces stated principle - Violations logged and alerted</p>
+<p>CI-005: Context-Aware Consent - Consent tied to specific contexts - New context requires new consent - Context change disclosed to subject</p>
+<h3 id="contextual-integrity-assessment">Contextual Integrity Assessment<a class="headerlink" href="#contextual-integrity-assessment" title="Permanent link">&para;</a></h3>
+<p>Before deployment, perform Contextual Integrity Assessment:</p>
+<ol>
+<li>IDENTIFY all information flows 2. CLASSIFY each flow's context 3. DETERMINE applicable norms (entrenched and evolving) 4. EVALUATE whether flows conform to norms 5. JUSTIFY any norm-departing flows 6. IMPLEMENT controls for conformance 7. MONITOR for context violations</li>
+</ol>
+<p>See Appendix D for assessment template.</p>
+<h2 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.</p>
+<h1 id="foundational-principles">Foundational Principles<a class="headerlink" href="#foundational-principles" title="Permanent link">&para;</a></h1>
+<h2 id="data-minimization">Data Minimization<a class="headerlink" href="#data-minimization" title="Permanent link">&para;</a></h2>
+<p>"Collect only what you need. Keep only what you must."</p>
+<h3 id="collection-minimization">Collection Minimization<a class="headerlink" href="#collection-minimization" title="Permanent link">&para;</a></h3>
+<p>KTP components MUST collect only data necessary for their function:</p>
+<p>TRUST ORACLE - Collects: Agent ID, action requests, timestamps - Does NOT collect: User identity, IP addresses, device info - Retention: Transient (proof generation only)</p>
+<p>SENSORS - Collect: Environmental readings (CPU, memory, network) - Do NOT collect: Request content, user behavior, PII - Retention: Aggregated immediately, raw data ephemeral</p>
+<p>FLIGHT RECORDER - Collects: Decisions, context, proofs (for audit) - Does NOT collect: Request payloads, user data - Retention: Per policy (default 7 years for compliance)</p>
+<p>PEP - Collects: Authorization decisions (for caching) - Does NOT collect: Request/response content - Retention: Cache lifetime only</p>
+<h3 id="adequacy-principle">Adequacy Principle<a class="headerlink" href="#adequacy-principle" title="Permanent link">&para;</a></h3>
+<p>Data collected must be: - Adequate: Sufficient for stated purpose - Relevant: Related to stated purpose - Limited: Not excessive beyond purpose</p>
+<p>Example: To calculate Trust Score, we need: - Agent identity: YES (required) - Agent location: NO (not needed for calculation) - Agent owner's name: NO (not needed) - Historical action count: YES (for trajectory) - Historical action content: NO (only metadata)</p>
+<h3 id="implementation-requirements_1">Implementation Requirements<a class="headerlink" href="#implementation-requirements_1" title="Permanent link">&para;</a></h3>
+<p>SENSOR-001: Sensors MUST NOT capture content of communications SENSOR-002: Sensors MUST aggregate readings before transmission SENSOR-003: Sensors SHOULD operate on statistical summaries</p>
+<p>ORACLE-001: Oracles MUST NOT log request payloads ORACLE-002: Oracles MUST NOT retain data beyond proof lifetime ORACLE-003: Oracles SHOULD process without persistent storage</p>
+<p>AUDIT-001: Flight Recorder MUST NOT capture user content AUDIT-002: Flight Recorder SHOULD capture only decision metadata AUDIT-003: Flight Recorder MUST support configurable redaction</p>
+<h2 id="purpose-limitation">Purpose Limitation<a class="headerlink" href="#purpose-limitation" title="Permanent link">&para;</a></h2>
+<p>"Data collected for one purpose shall not be used for another."</p>
+<h3 id="defined-purposes">Defined Purposes<a class="headerlink" href="#defined-purposes" title="Permanent link">&para;</a></h3>
+<p>KTP defines these lawful processing purposes:</p>
+<p>PURPOSE-TRUST: Trust Score calculation - Data: Agent ID, action metadata, trajectory summary - Users: Trust Oracle, PEP</p>
+<p>PURPOSE-AUDIT: Security audit and compliance - Data: Decision records, context snapshots - Users: Auditors, compliance officers</p>
+<p>PURPOSE-SECURITY: Security incident response - Data: Extended context during incidents - Users: Security team, incident responders</p>
+<p>PURPOSE-IMPROVEMENT: System improvement - Data: Anonymized/aggregated statistics only - Users: System administrators, developers</p>
+<h3 id="purpose-creep-prevention">Purpose Creep Prevention<a class="headerlink" href="#purpose-creep-prevention" title="Permanent link">&para;</a></h3>
+<p>Data collected for PURPOSE-TRUST: - SHALL NOT be used for employee monitoring - SHALL NOT be used for performance evaluation - SHALL NOT be used for marketing - SHALL NOT be used for law enforcement (without legal process) - SHALL NOT be shared with third parties (without consent)</p>
+<p>New purposes require: - Privacy Impact Assessment - Data subject notification - Consent (where consent is the legal basis) - Technical Committee approval (for specification changes)</p>
+<h3 id="implementation-requirements_2">Implementation Requirements<a class="headerlink" href="#implementation-requirements_2" title="Permanent link">&para;</a></h3>
+<p>PURPOSE-001: All data MUST be tagged with collection purpose PURPOSE-002: Access controls MUST enforce purpose limitation PURPOSE-003: Audit logs MUST record purpose of each access PURPOSE-004: Purpose changes MUST trigger review</p>
+<h2 id="storage-limitation">Storage Limitation<a class="headerlink" href="#storage-limitation" title="Permanent link">&para;</a></h2>
+<p>"Don't keep what you don't need."</p>
+<h3 id="retention-limits">Retention Limits<a class="headerlink" href="#retention-limits" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>+-------------------------+-------------------+--------------------+
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| Data Type               | Default Retention | Maximum Retention  |
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>+-------------------------+-------------------+--------------------+
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| Trust Proofs            | 60 seconds        | 5 minutes (cached) |
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| Context Signal readings | 24 hours          | 7 days             |
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| Trajectory summaries    | 1 year            | 7 years            |
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>| Flight Recorder (ops)   | 90 days           | 1 year             |
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>| Flight Recorder (audit) | 7 years           | 10 years           |
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>| Identity proofing       | Duration of agent | Duration + 1 year  |
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>| Sensor raw readings     | 1 hour            | 24 hours           |
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>+-------------------------+-------------------+--------------------+
+</code></pre></div>
+<h3 id="retention-justification">Retention Justification<a class="headerlink" href="#retention-justification" title="Permanent link">&para;</a></h3>
+<p>Longer retention requires documented justification: - Legal requirement (cite specific law) - Contractual requirement (cite specific contract) - Business necessity (demonstrate necessity)</p>
+<p>All justifications subject to periodic review (annual minimum).</p>
+<h3 id="deletion-requirements">Deletion Requirements<a class="headerlink" href="#deletion-requirements" title="Permanent link">&para;</a></h3>
+<p>DELETION-001: Data MUST be deleted when retention expires DELETION-002: Deletion MUST be cryptographic where possible DELETION-003: Deletion MUST include backups within 30 days DELETION-004: Deletion MUST be logged (metadata only)</p>
+<h2 id="transparency">Transparency<a class="headerlink" href="#transparency" title="Permanent link">&para;</a></h2>
+<p>"People should know what you're doing with their data."</p>
+<h3 id="notice-requirements">Notice Requirements<a class="headerlink" href="#notice-requirements" title="Permanent link">&para;</a></h3>
+<p>Before KTP processes personal data:</p>
+<p>NOTICE-001: Clear explanation of what data is collected NOTICE-002: Clear explanation of why data is collected NOTICE-003: Clear explanation of how long data is kept NOTICE-004: Clear explanation of who has access NOTICE-005: Clear explanation of data subject rights NOTICE-006: Contact information for privacy inquiries</p>
+<h3 id="transparency-for-agents">Transparency for Agents<a class="headerlink" href="#transparency-for-agents" title="Permanent link">&para;</a></h3>
+<p>For AI agents (non-human): - Agent owners/operators receive notice - Agents cannot consent (owners must consent) - Agent behavior is visible to owners</p>
+<p>For human operators: - Full privacy notice required - Consent required where applicable - All rights apply (see Section 4)</p>
+<h3 id="system-transparency">System Transparency<a class="headerlink" href="#system-transparency" title="Permanent link">&para;</a></h3>
+<p>KTP system operation is transparent: - Algorithms are published (this specification) - Weights and thresholds are documented - Trust calculation is explainable - Decisions are logged with rationale</p>
+<h2 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h2>
+<p>"Privacy requires security, but security does not require privacy violation."</p>
+<h3 id="security-measures">Security Measures<a class="headerlink" href="#security-measures" title="Permanent link">&para;</a></h3>
+<p>All personal data MUST be protected by:</p>
+<ul>
+<li>Encryption at rest (AES-256 minimum) - Encryption in transit (TLS 1.3) - Access controls (role-based, least privilege) - Audit logging (all access logged) - Integrity protection (cryptographic)</li>
+</ul>
+<p>See KTP-CRYPTO for detailed requirements.</p>
+<h3 id="breach-protection">Breach Protection<a class="headerlink" href="#breach-protection" title="Permanent link">&para;</a></h3>
+<p>See Section 13 for breach notification requirements.</p>
+<h2 id="accountability">Accountability<a class="headerlink" href="#accountability" title="Permanent link">&para;</a></h2>
+<p>"Someone is responsible. Someone is answerable."</p>
+<h3 id="controller-and-processor">Controller and Processor<a class="headerlink" href="#controller-and-processor" title="Permanent link">&para;</a></h3>
+<p>In KTP deployments:</p>
+<p>DATA CONTROLLER (typically): - Organization deploying KTP zone - Determines purposes and means - Responsible for compliance</p>
+<p>DATA PROCESSOR (typically): - Trust Oracle operator (if different from controller) - Cloud infrastructure provider - Managed service providers</p>
+<p>Joint controllers possible for federated zones.</p>
+<h3 id="documentation-requirements">Documentation Requirements<a class="headerlink" href="#documentation-requirements" title="Permanent link">&para;</a></h3>
+<p>Controllers MUST maintain: - Records of processing activities - Privacy Impact Assessments - Data subject request logs - Breach notification records - Consent records (where applicable)</p>
+<h1 id="data-classification">Data Classification<a class="headerlink" href="#data-classification" title="Permanent link">&para;</a></h1>
+<h2 id="personal-data-in-ktp">Personal Data in KTP<a class="headerlink" href="#personal-data-in-ktp" title="Permanent link">&para;</a></h2>
+<h3 id="definition">Definition<a class="headerlink" href="#definition" title="Permanent link">&para;</a></h3>
+<p>Personal data is any information relating to an identified or identifiable natural person ("data subject").</p>
+<p>In KTP, this includes:</p>
+<p>DIRECTLY IDENTIFYING - Human agent identifiers (if linked to person)</p>
+<ul>
+<li>Email addresses in identity proofing - Names in sponsorship records</li>
+<li>Biometric data (if used for IAL3)</li>
+</ul>
+<p>INDIRECTLY IDENTIFYING - Agent identifiers (if agent is operated by single person) - Action patterns (if unique to individual) - Trajectory data (if reveals individual behavior) - Trust Scores (if used for individual decisions)</p>
+<h3 id="pseudonymous-data">Pseudonymous Data<a class="headerlink" href="#pseudonymous-data" title="Permanent link">&para;</a></h3>
+<p>Data is pseudonymous if identifier is replaced by pseudonym, but re- identification remains possible.</p>
+<p>In KTP: - Agent IDs are pseudonyms for human operators - Re- identification possible via sponsorship chain - Pseudonymous data is still personal data - But may have reduced compliance burden</p>
+<h3 id="anonymous-data">Anonymous Data<a class="headerlink" href="#anonymous-data" title="Permanent link">&para;</a></h3>
+<p>Truly anonymous data is not personal data and not subject to privacy regulation.</p>
+<p>For data to be anonymous: - Cannot identify individual - Cannot be combined with other data to identify - Irreversibly anonymized</p>
+<p>KTP approaches to anonymization: - Aggregate statistics (min 50 agents per bucket) - Differential privacy (see Section 7.3) - K-anonymity with k≥10</p>
+<h2 id="sensitive-personal-data">Sensitive Personal Data<a class="headerlink" href="#sensitive-personal-data" title="Permanent link">&para;</a></h2>
+<p>Some personal data requires heightened protection.</p>
+<h3 id="special-categories-gdpr-article-9">Special Categories (GDPR Article 9)<a class="headerlink" href="#special-categories-gdpr-article-9" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Racial or ethnic origin - Political opinions - Religious or philosophical beliefs - Trade union membership - Genetic data - Biometric data (for identification) - Health data - Sex life or sexual orientation</li>
+</ul>
+<p>KTP SHOULD NOT process special categories.</p>
+<p>If unavoidable (e.g., biometric IAL3): - Explicit consent required - Processing minimized - Additional security measures - Immediate deletion when purpose fulfilled</p>
+<h3 id="criminal-data">Criminal Data<a class="headerlink" href="#criminal-data" title="Permanent link">&para;</a></h3>
+<p>Data relating to criminal convictions requires legal basis. KTP Trust Scores MUST NOT be based on criminal history.</p>
+<h3 id="childrens-data">Children's Data<a class="headerlink" href="#childrens-data" title="Permanent link">&para;</a></h3>
+<p>See Section 5.3.</p>
+<h2 id="behavioral-data">Behavioral Data<a class="headerlink" href="#behavioral-data" title="Permanent link">&para;</a></h2>
+<p>Behavioral data is particularly sensitive because it reveals patterns, preferences, and predictions.</p>
+<h3 id="types-in-ktp">Types in KTP<a class="headerlink" href="#types-in-ktp" title="Permanent link">&para;</a></h3>
+<p>TRAJECTORY DATA - History of agent actions - Basis for Trust Score - Reveals behavioral patterns - SENSITIVE: May reveal human operator behavior</p>
+<p>ACTION METADATA - What actions were requested - When actions occurred</p>
+<ul>
+<li>Resource targets - SENSITIVE: May reveal work patterns</li>
+</ul>
+<p>RISK FACTOR CONTRIBUTIONS - Individual sensor readings - Aggregated to zone level - NOT SENSITIVE: Environmental, not behavioral</p>
+<h3 id="behavioral-data-protections">Behavioral Data Protections<a class="headerlink" href="#behavioral-data-protections" title="Permanent link">&para;</a></h3>
+<p>BEHAVIOR-001: Behavioral data MUST be aggregated where possible BEHAVIOR-002: Behavioral profiles MUST NOT be created for humans BEHAVIOR-003: Behavioral data MUST NOT be sold or shared BEHAVIOR-004: Behavioral data retention MUST be limited BEHAVIOR-005: Behavioral data MUST be deletable (right to erasure)</p>
+<h2 id="derived-data">Derived Data<a class="headerlink" href="#derived-data" title="Permanent link">&para;</a></h2>
+<p>Derived data is created through inference from other data.</p>
+<h3 id="types-in-ktp_1">Types in KTP<a class="headerlink" href="#types-in-ktp_1" title="Permanent link">&para;</a></h3>
+<p>TRUST SCORES - Derived from trajectory, context, lineage - Summarizes behavior in single number - May be considered personal data</p>
+<p>RISK ASSESSMENTS - Derived from sensor readings - Zone-level, not individual - Generally not personal data</p>
+<p>PREDICTIONS - If system predicts agent behavior - Based on historical patterns - PROHIBITED for human behavior prediction</p>
+<h3 id="derived-data-rights">Derived Data Rights<a class="headerlink" href="#derived-data-rights" title="Permanent link">&para;</a></h3>
+<p>Data subjects have rights over derived data: - Right to know inferences are made - Right to access derived data - Right to explanation of derivation - Right to challenge inaccurate derived data</p>
+<h1 id="data-subject-rights">Data Subject Rights<a class="headerlink" href="#data-subject-rights" title="Permanent link">&para;</a></h1>
+<p>Data subjects have rights over their personal data. KTP implementations MUST provide mechanisms to exercise these rights.</p>
+<h2 id="right-of-access">Right of Access<a class="headerlink" href="#right-of-access" title="Permanent link">&para;</a></h2>
+<p>"You have the right to know what we know about you."</p>
+<h3 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h3>
+<p>Data subjects may request: - Whether their data is processed - What data is processed - Purposes of processing - Categories of data - Recipients of data - Retention periods - Source of data (if not from subject) - Existence of automated decision-making</p>
+<h3 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h3>
+<p>ACCESS-001: Subject Access Request (SAR) endpoint REQUIRED ACCESS-002: Response within 30 days (GDPR) or 45 days (CCPA) ACCESS-003: No fee for first request per year ACCESS-004: Machine- readable format available ACCESS-005: Identity verification before disclosure</p>
+<h3 id="ktp-access-endpoint">KTP Access Endpoint<a class="headerlink" href="#ktp-access-endpoint" title="Permanent link">&para;</a></h3>
+<p>GET /v1/privacy/subject-access/{subject_id}</p>
+<p>Response includes: { "subject_id": "...", "request_date": "...", "data_categories": [ { "category": "agent_identity", "data": { ... }, "purposes": ["trust_calculation"], "retention": "duration_of_agent", "source": "registration" }, { "category": "trajectory_summary", "data": { ... }, "purposes": ["trust_calculation", "audit"], "retention": "1_year", "source": "behavioral" } ], "automated_decisions": [ { "type": "trust_score_calculation", "logic": "See KTP-CORE specification", "significance": "Determines access permissions" } ], "recipients": ["trust_oracle", "pep", "flight_recorder"], "your_rights": { ... } }</p>
+<h2 id="right-to-rectification">Right to Rectification<a class="headerlink" href="#right-to-rectification" title="Permanent link">&para;</a></h2>
+<p>"You can correct what we got wrong."</p>
+<h3 id="scope_1">Scope<a class="headerlink" href="#scope_1" title="Permanent link">&para;</a></h3>
+<p>Data subjects may request correction of: - Inaccurate data - Incomplete data</p>
+<h3 id="implementation_1">Implementation<a class="headerlink" href="#implementation_1" title="Permanent link">&para;</a></h3>
+<p>RECTIFY-001: Rectification request endpoint REQUIRED RECTIFY-002: Response within 30 days RECTIFY-003: Notify recipients of corrections RECTIFY-004: Log rectification (but not original erroneous data)</p>
+<h3 id="limitations-in-ktp">Limitations in KTP<a class="headerlink" href="#limitations-in-ktp" title="Permanent link">&para;</a></h3>
+<p>Some KTP data cannot be rectified: - Cryptographically signed records (integrity protected) - Trajectory chain entries (chain would break)</p>
+<p>For immutable data: - Append correction record instead - Original marked as corrected - Correction included in access requests</p>
+<h3 id="ktp-rectification-endpoint">KTP Rectification Endpoint<a class="headerlink" href="#ktp-rectification-endpoint" title="Permanent link">&para;</a></h3>
+<p>POST /v1/privacy/rectification</p>
+<p>Request: { "subject_id": "...", "data_category": "agent_identity", "field": "metadata.purpose", "current_value": "Data processing agent", "correct_value": "Analytics agent", "evidence": "See attached documentation" }</p>
+<h2 id="right-to-erasure">Right to Erasure<a class="headerlink" href="#right-to-erasure" title="Permanent link">&para;</a></h2>
+<p>"You can ask us to forget you."</p>
+<p>Also known as "Right to be Forgotten."</p>
+<h3 id="scope_2">Scope<a class="headerlink" href="#scope_2" title="Permanent link">&para;</a></h3>
+<p>Data subjects may request erasure when: - Data no longer necessary for purpose - Consent withdrawn (and no other legal basis) - Subject objects (and no overriding interest) - Data unlawfully processed - Legal obligation requires deletion - Data collected from child</p>
+<h3 id="implementation_2">Implementation<a class="headerlink" href="#implementation_2" title="Permanent link">&para;</a></h3>
+<p>ERASE-001: Erasure request endpoint REQUIRED ERASE-002: Response within 30 days ERASE-003: Erasure MUST include all copies ERASE-004: Erasure MUST include backups (within 30 days) ERASE-005: Notify recipients of erasure ERASE-006: Log erasure request (not erased data)</p>
+<h3 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h3>
+<p>Erasure may be refused when data is needed for: - Legal claims defense - Legal obligation compliance - Public health reasons - Archiving in public interest - Exercise of free expression</p>
+<p>Refusal must be documented with specific justification.</p>
+<h3 id="ktp-erasure-mechanics">KTP Erasure Mechanics<a class="headerlink" href="#ktp-erasure-mechanics" title="Permanent link">&para;</a></h3>
+<p>Erasing an agent:</p>
+<ol>
+<li>VERIFY identity and authority 2. MARK agent as "erasure_pending" 3. DELETE agent registry entry 4. DELETE trajectory chain (or cryptographically shred) 5. DELETE Trust Score state 6. REDACT Flight Recorder entries (keep structure, remove PII) 7. NOTIFY federated zones 8. CONFIRM erasure to subject</li>
+</ol>
+<p>Flight Recorder special handling: - Decision records are audit- critical - Redact personal identifiers - Retain anonymized decision metadata - "Agent [REDACTED] performed action [type] at [time]"</p>
+<h3 id="cryptographic-erasure">Cryptographic Erasure<a class="headerlink" href="#cryptographic-erasure" title="Permanent link">&para;</a></h3>
+<p>For encrypted data: - Delete encryption key - Data becomes cryptographically inaccessible - Equivalent to deletion for GDPR purposes</p>
+<p>KTP supports key-per-agent encryption: - Each agent's data encrypted with unique key - Erasure = delete key - Immediate, complete, verifiable</p>
+<h3 id="ktp-erasure-endpoint">KTP Erasure Endpoint<a class="headerlink" href="#ktp-erasure-endpoint" title="Permanent link">&para;</a></h3>
+<p>DELETE /v1/privacy/erasure/{subject_id}</p>
+<p>Response: { "subject_id": "...", "erasure_status": "complete", "erased_categories": [ "agent_identity", "trajectory_chain", "trust_score_state" ], "redacted_categories": [ "flight_recorder_entries" ], "federated_zones_notified": ["zone:beta", "zone:gamma"], "completion_timestamp": "..." }</p>
+<h2 id="right-to-restriction">Right to Restriction<a class="headerlink" href="#right-to-restriction" title="Permanent link">&para;</a></h2>
+<p>"You can ask us to stop using it (without deleting it)."</p>
+<h3 id="scope_3">Scope<a class="headerlink" href="#scope_3" title="Permanent link">&para;</a></h3>
+<p>Data subjects may request restriction when: - Accuracy contested (pending verification) - Processing unlawful but erasure opposed - Data no longer needed but subject needs for legal claims - Subject has objected (pending verification of override)</p>
+<h3 id="implementation_3">Implementation<a class="headerlink" href="#implementation_3" title="Permanent link">&para;</a></h3>
+<p>During restriction: - Data is stored but not processed - Only storage is lawful - Subject notified before lifting restriction</p>
+<p>RESTRICT-001: Restriction request endpoint REQUIRED RESTRICT-002: Technical measures to prevent processing RESTRICT-003: Flag data as restricted RESTRICT-004: Notify before unrestricting</p>
+<h2 id="right-to-data-portability">Right to Data Portability<a class="headerlink" href="#right-to-data-portability" title="Permanent link">&para;</a></h2>
+<p>"You can take your data elsewhere."</p>
+<h3 id="scope_4">Scope<a class="headerlink" href="#scope_4" title="Permanent link">&para;</a></h3>
+<p>Applies to: - Data provided by subject - Processed by automated means</p>
+<ul>
+<li>Based on consent or contract</li>
+</ul>
+<p>Subject may request: - Data in structured, machine-readable format - Direct transmission to another controller (where feasible)</p>
+<h3 id="implementation_4">Implementation<a class="headerlink" href="#implementation_4" title="Permanent link">&para;</a></h3>
+<p>PORTABLE-001: Export endpoint REQUIRED PORTABLE-002: Structured format (JSON, CSV) PORTABLE-003: No proprietary formats PORTABLE-004: Include all portable data PORTABLE-005: Direct transmission where technically feasible</p>
+<h3 id="ktp-portability-format">KTP Portability Format<a class="headerlink" href="#ktp-portability-format" title="Permanent link">&para;</a></h3>
+<p>Portable data export: { "format": "ktp-export-v1", "export_date": "...", "subject_id": "...", "agent_data": { "identity": { ... }, "public_key": "...", "lineage": { ... }, "metadata": { ... } }, "trajectory_summary": { "transaction_count": 1547832, "resilience_score": 12500, "oldest_record": "..." }, "current_trust": { "e_base": 87, "tier": "operator" } }</p>
+<p>Note: Full trajectory chain may be large. Summary provided by default; full chain available on request.</p>
+<h2 id="right-to-object">Right to Object<a class="headerlink" href="#right-to-object" title="Permanent link">&para;</a></h2>
+<p>"You can say no to certain processing."</p>
+<h3 id="scope_5">Scope<a class="headerlink" href="#scope_5" title="Permanent link">&para;</a></h3>
+<p>Subjects may object to: - Processing based on legitimate interests - Processing for direct marketing (absolute right) - Processing for research/statistics</p>
+<h3 id="implementation_5">Implementation<a class="headerlink" href="#implementation_5" title="Permanent link">&para;</a></h3>
+<p>OBJECT-001: Objection endpoint REQUIRED OBJECT-002: Stop processing unless compelling grounds shown OBJECT-003: Marketing objections honored immediately OBJECT-004: Document any override with justification</p>
+<h3 id="objection-in-ktp">Objection in KTP<a class="headerlink" href="#objection-in-ktp" title="Permanent link">&para;</a></h3>
+<p>Objection to Trust Score calculation: - If agent is human-operated, objection may be valid - Controller must demonstrate compelling legitimate interest - If no compelling interest, agent cannot be processed - Agent effectively cannot participate in zone</p>
+<p>This creates tension: trust calculation requires data. Resolution: provide alternative (manual approval process) at subject's choice, with documented limitations.</p>
+<h2 id="rights-related-to-automated-decision-making">Rights Related to Automated Decision-Making<a class="headerlink" href="#rights-related-to-automated-decision-making" title="Permanent link">&para;</a></h2>
+<p>"You have rights when machines decide about you."</p>
+<h3 id="scope_6">Scope<a class="headerlink" href="#scope_6" title="Permanent link">&para;</a></h3>
+<p>Applies to decisions that: - Are solely automated (no human involvement) - Produce legal effects or similarly significant effects</p>
+<ul>
+<li>Affect the data subject</li>
+</ul>
+<p>Rights include: - Right not to be subject to such decisions - Right to human intervention - Right to express point of view - Right to contest decision</p>
+<h3 id="ktp-and-automated-decisions">KTP and Automated Decisions<a class="headerlink" href="#ktp-and-automated-decisions" title="Permanent link">&para;</a></h3>
+<p>KTP Trust Score calculation is automated.</p>
+<p>Is it "solely automated"? - Trust Proof issuance: Fully automated - But: Soul constraints add human judgment - But: Tier boundaries set by humans - Analysis: Not "solely" automated in most cases</p>
+<p>Does it produce "legal effects or similarly significant effects"? - Access denial: Potentially significant - Tier demotion: Significant for operator role - Hibernation: Very significant - Analysis: Yes, can be significant</p>
+<h3 id="implementation_6">Implementation<a class="headerlink" href="#implementation_6" title="Permanent link">&para;</a></h3>
+<p>AUTOMATED-001: Document which decisions are automated AUTOMATED-002: Provide explanation of logic AUTOMATED-003: Human review available on request AUTOMATED-004: Allow contest of automated decisions AUTOMATED-005: Special protections for sensitive categories</p>
+<h3 id="human-review-process">Human Review Process<a class="headerlink" href="#human-review-process" title="Permanent link">&para;</a></h3>
+<p>When subject requests human review of Trust Score:</p>
+<ol>
+<li>Automated processing paused 2. Human reviewer examines: - Input data (trajectory, context) - Calculation logic - Output (Trust Score, tier) - Subject's concerns 3. Reviewer may: - Confirm automated decision - Adjust manually (with documentation) - Escalate for further review 4. Subject notified of outcome</li>
+</ol>
+<p>Response time: 7 days for routine, 24 hours if urgent.</p>
+<h1 id="lawful-basis-and-consent">Lawful Basis and Consent<a class="headerlink" href="#lawful-basis-and-consent" title="Permanent link">&para;</a></h1>
+<h2 id="lawful-basis-for-processing">Lawful Basis for Processing<a class="headerlink" href="#lawful-basis-for-processing" title="Permanent link">&para;</a></h2>
+<p>Personal data processing requires lawful basis.</p>
+<h3 id="available-bases-gdpr-article-6">Available Bases (GDPR Article 6)<a class="headerlink" href="#available-bases-gdpr-article-6" title="Permanent link">&para;</a></h3>
+<p>(a) CONSENT: Subject has given consent (b) CONTRACT: Necessary for contract performance (c) LEGAL OBLIGATION: Required by law (d) VITAL INTERESTS: Protect someone's life (e) PUBLIC TASK: Official authority or public interest (f) LEGITIMATE INTERESTS: Controller's interests, balanced</p>
+<h3 id="ktp-lawful-basis-analysis">KTP Lawful Basis Analysis<a class="headerlink" href="#ktp-lawful-basis-analysis" title="Permanent link">&para;</a></h3>
+<p>AGENT REGISTRATION - Primary basis: CONTRACT (participation agreement) - Alternative: CONSENT - Note: Agent agrees to processing by registering</p>
+<p>TRUST SCORE CALCULATION - Primary basis: LEGITIMATE INTERESTS - Legitimate interest: Zone security - Balancing: Minimal privacy impact (pseudonymous) - Alternative: CONTRACT (if in participation agreement)</p>
+<p>FLIGHT RECORDER LOGGING - Primary basis: LEGAL OBLIGATION (audit requirements) - Alternative: LEGITIMATE INTERESTS (security) - Note: Proportionality required</p>
+<p>IDENTITY PROOFING (HUMAN SPONSORS) - Primary basis: CONSENT (explicit) - Alternative: LEGAL OBLIGATION (if regulated industry) - Special categories: Biometric requires explicit consent</p>
+<h3 id="legitimate-interest-assessment">Legitimate Interest Assessment<a class="headerlink" href="#legitimate-interest-assessment" title="Permanent link">&para;</a></h3>
+<p>When relying on legitimate interests:</p>
+<ol>
+<li>
+<p>IDENTIFY the legitimate interest - Zone security - Fraud prevention - Network integrity</p>
+</li>
+<li>
+<p>NECESSITY test - Is processing necessary for interest? - Is there less intrusive alternative?</p>
+</li>
+<li>
+<p>BALANCING test - Impact on data subject - Reasonable expectations - Vulnerable individuals - Safeguards in place</p>
+</li>
+</ol>
+<p>Document the assessment. Review annually.</p>
+<h2 id="consent-requirements">Consent Requirements<a class="headerlink" href="#consent-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="valid-consent">Valid Consent<a class="headerlink" href="#valid-consent" title="Permanent link">&para;</a></h3>
+<p>Consent must be:</p>
+<p>FREELY GIVEN - No detriment for refusing - Genuine choice - Power imbalance considered</p>
+<p>SPECIFIC - For specific purpose(s) - Separate consent for separate purposes</p>
+<p>INFORMED - Clear information provided - Plain language - Identity of controller known</p>
+<p>UNAMBIGUOUS - Clear affirmative action - No pre-ticked boxes - Silence is not consent</p>
+<h3 id="consent-for-special-categories">Consent for Special Categories<a class="headerlink" href="#consent-for-special-categories" title="Permanent link">&para;</a></h3>
+<p>Processing special category data (Section 3.2) requires EXPLICIT consent:</p>
+<ul>
+<li>Written or recorded statement - Specifically mentioning the data type - Specifically mentioning the purpose - Subject demonstrably understood</li>
+</ul>
+<h3 id="withdrawal-of-consent">Withdrawal of Consent<a class="headerlink" href="#withdrawal-of-consent" title="Permanent link">&para;</a></h3>
+<p>Consent can be withdrawn at any time.</p>
+<p>Withdrawal must be: - As easy as giving consent - Honored promptly - Without detriment to subject</p>
+<p>After withdrawal: - Processing stops - Data retained only if other basis exists - Or deleted per Section 4.3</p>
+<h3 id="ktp-consent-implementation">KTP Consent Implementation<a class="headerlink" href="#ktp-consent-implementation" title="Permanent link">&para;</a></h3>
+<p>CONSENT-001: Consent recorded with timestamp CONSENT-002: Consent granular by purpose CONSENT-003: Withdrawal mechanism available CONSENT-004: Consent renewal for long-term processing CONSENT-005: Consent UI/UX reviewed for manipulation</p>
+<h2 id="childrens-privacy">Children's Privacy<a class="headerlink" href="#childrens-privacy" title="Permanent link">&para;</a></h2>
+<p>Children deserve enhanced protection.</p>
+<h3 id="age-thresholds">Age Thresholds<a class="headerlink" href="#age-thresholds" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>+---------------+---------------------+-------------------------+
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>| Jurisdiction  | Digital Consent Age | Parental Required Below |
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>+---------------+---------------------+-------------------------+
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>| GDPR default  | 16                  | Yes                     |
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| GDPR (member) | 13-16 (varies)      | Yes                     |
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| COPPA (US)    | 13                  | Yes                     |
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| UK Age Code   | 18 (for design)     | Enhanced protections    |
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>+---------------+---------------------+-------------------------+
+</code></pre></div>
+<h3 id="ktp-child-protection">KTP Child Protection<a class="headerlink" href="#ktp-child-protection" title="Permanent link">&para;</a></h3>
+<p>CHILD-001: Age verification before human registration CHILD-002: Parental consent for children under threshold CHILD-003: No behavioral profiling of children CHILD-004: Enhanced data minimization for children CHILD-005: No retention beyond session for children CHILD-006: Easy parental access and deletion rights</p>
+<h1 id="anti-surveillance-architecture">Anti-Surveillance Architecture<a class="headerlink" href="#anti-surveillance-architecture" title="Permanent link">&para;</a></h1>
+<p>"We build trust infrastructure, not surveillance infrastructure."</p>
+<h2 id="no-mass-surveillance">No Mass Surveillance<a class="headerlink" href="#no-mass-surveillance" title="Permanent link">&para;</a></h2>
+<h3 id="the-eff-concern">The EFF Concern<a class="headerlink" href="#the-eff-concern" title="Permanent link">&para;</a></h3>
+<p>The Electronic Frontier Foundation and similar organizations rightfully worry that any trust/identity system could become surveillance infrastructure.</p>
+<p>Historical examples: - SSN became universal identifier (scope creep)</p>
+<ul>
+<li>CCTV became facial recognition network - Website cookies became behavioral tracking - Phone metadata became relationship mapping</li>
+</ul>
+<p>KTP must not repeat these mistakes.</p>
+<h3 id="architectural-safeguards">Architectural Safeguards<a class="headerlink" href="#architectural-safeguards" title="Permanent link">&para;</a></h3>
+<p>SURVEILLANCE-001: No central database of all agent activity - Trajectory data stays in origin zone - Federation transmits proofs, not raw data - No cross-zone behavioral aggregation</p>
+<p>SURVEILLANCE-002: No persistent identifiers across contexts - Agents can have multiple identities - Linkability not required for function</p>
+<ul>
+<li>Correlation by design prevented where possible</li>
+</ul>
+<p>SURVEILLANCE-003: No behavioral prediction of humans - Trust Scores predict agent behavior, not human behavior - Human operators not profiled - No "social credit" functionality</p>
+<p>SURVEILLANCE-004: No real-time location tracking - Context Signals measure resources, not location - IP addresses not retained - Physical location not inferred</p>
+<p>SURVEILLANCE-005: No content inspection - Sensors measure metadata only - Request/response content not examined - End-to-end encryption preserved</p>
+<h3 id="design-patterns-to-avoid">Design Patterns to Avoid<a class="headerlink" href="#design-patterns-to-avoid" title="Permanent link">&para;</a></h3>
+<p>KTP MUST NOT implement:</p>
+<ul>
+<li>Universal unique identifiers that span contexts - Mandatory identity linking across systems - Behavioral fingerprinting of individuals - Social graph construction - Centralized query interface for subject lookup - Bulk data export capabilities - "Admin mode" that bypasses privacy controls</li>
+</ul>
+<h2 id="no-function-creep">No Function Creep<a class="headerlink" href="#no-function-creep" title="Permanent link">&para;</a></h2>
+<h3 id="the-function-creep-problem">The Function Creep Problem<a class="headerlink" href="#the-function-creep-problem" title="Permanent link">&para;</a></h3>
+<p>Function creep: Using a system for purposes beyond its original intent.</p>
+<p>KTP risk: Trust infrastructure → Social credit → Total control</p>
+<p>This is not hypothetical. It has happened before.</p>
+<h3 id="technical-barriers-to-function-creep">Technical Barriers to Function Creep<a class="headerlink" href="#technical-barriers-to-function-creep" title="Permanent link">&para;</a></h3>
+<p>CREEP-001: Purpose tagging mandatory and enforced - Every data field tagged with permitted purposes - Access denied for non-matching purposes - Logged and alerted when attempted</p>
+<p>CREEP-002: Architectural separation - Trust calculation separate from enforcement - Audit separate from operations - No single system has all data</p>
+<p>CREEP-003: Deliberate capability limitation - Some things KTP cannot do by design - Cannot correlate across zones without federation - Cannot identify humans from agent behavior - Cannot reconstruct content from metadata</p>
+<p>CREEP-004: Change control for new purposes - New purposes require: * Privacy Impact Assessment * Public notice period (30 days) * Technical Committee approval * Implementation review</p>
+<h3 id="prohibited-uses">Prohibited Uses<a class="headerlink" href="#prohibited-uses" title="Permanent link">&para;</a></h3>
+<p>The following uses are PROHIBITED and implementations MUST NOT support them:</p>
+<p>PROHIBITED-001: Social credit scoring of individuals PROHIBITED-002: Political opinion or affiliation tracking PROHIBITED-003: Religious belief or practice tracking PROHIBITED-004: Health status inference (without consent) PROHIBITED-005: Relationship or social graph mapping PROHIBITED-006: Real-time population surveillance PROHIBITED-007: Predictive policing input PROHIBITED-008: Immigration enforcement without due process PROHIBITED-009: Employment discrimination input PROHIBITED-010: Insurance underwriting without disclosure</p>
+<p>Implementations enabling prohibited uses are NON-CONFORMANT.</p>
+<h2 id="no-backdoors">No Backdoors<a class="headerlink" href="#no-backdoors" title="Permanent link">&para;</a></h2>
+<h3 id="the-backdoor-problem">The Backdoor Problem<a class="headerlink" href="#the-backdoor-problem" title="Permanent link">&para;</a></h3>
+<p>Governments and others pressure for "exceptional access": - Law enforcement access to encrypted data - Intelligence agency access to communications - "Lawful intercept" capabilities</p>
+<p>Backdoors are: - Technically dangerous (exploited by adversaries) - Ethically problematic (violate privacy rights) - Legally questionable (depending on jurisdiction)</p>
+<h3 id="ktp-backdoor-prohibition">KTP Backdoor Prohibition<a class="headerlink" href="#ktp-backdoor-prohibition" title="Permanent link">&para;</a></h3>
+<p>BACKDOOR-001: No cryptographic backdoors - No key escrow with governments - No deliberately weakened algorithms - No hidden access mechanisms</p>
+<p>BACKDOOR-002: No administrative override for privacy - Admin Mode cannot bypass privacy controls - Erasure cannot be prevented by admin</p>
+<ul>
+<li>Access requests cannot be suppressed</li>
+</ul>
+<p>BACKDOOR-003: No stealth surveillance mode - All monitoring is disclosed - No hidden data collection - No covert processing</p>
+<p>BACKDOOR-004: Warrant canary support - Organizations can publish warrant canaries - Absence of canary = potential government access - User notification where legally permitted</p>
+<h3 id="law-enforcement-access">Law Enforcement Access<a class="headerlink" href="#law-enforcement-access" title="Permanent link">&para;</a></h3>
+<p>Law enforcement can access data through:</p>
+<p>LEGITIMATE PROCESS - Valid legal process (warrant, subpoena) - Specific, not bulk - Documented and auditable - Data subject notified (unless court order prohibits)</p>
+<p>Data provided: - Only data specified in legal process - Only data that exists (no creation of new data) - With documentation of what was provided - With challenge if process is overbroad</p>
+<h2 id="proportionality">Proportionality<a class="headerlink" href="#proportionality" title="Permanent link">&para;</a></h2>
+<h3 id="the-proportionality-principle">The Proportionality Principle<a class="headerlink" href="#the-proportionality-principle" title="Permanent link">&para;</a></h3>
+<p>Privacy interference must be: - Necessary for stated purpose - Proportionate to harm prevented - Minimally intrusive means used</p>
+<p>Per European Court of Human Rights jurisprudence.</p>
+<h3 id="ktp-proportionality-requirements">KTP Proportionality Requirements<a class="headerlink" href="#ktp-proportionality-requirements" title="Permanent link">&para;</a></h3>
+<p>PROPORTIONAL-001: Least intrusive means - If purpose achievable with less data, use less data - If purpose achievable without personal data, don't use it - If purpose achievable with anonymized data, anonymize</p>
+<p>PROPORTIONAL-002: Balancing required - Document privacy impact - Document security benefit - Show benefit outweighs harm - Review periodically</p>
+<p>PROPORTIONAL-003: Graduated response - Low-risk situations: minimal data collection - High-risk situations: proportionately more - Emergency: time-limited expanded collection - Return to minimal after emergency</p>
+<h1 id="technical-privacy-measures">Technical Privacy Measures<a class="headerlink" href="#technical-privacy-measures" title="Permanent link">&para;</a></h1>
+<h2 id="privacy-by-design">Privacy by Design<a class="headerlink" href="#privacy-by-design" title="Permanent link">&para;</a></h2>
+<p>Privacy by Design (PbD) principles (Ann Cavoukian):</p>
+<ol>
+<li>Proactive not reactive 2. Privacy as default 3. Privacy embedded in design 4. Full functionality (positive-sum) 5. End-to-end security 6. Visibility and transparency 7. Respect for user privacy</li>
+</ol>
+<h3 id="ktp-privacy-by-design">KTP Privacy by Design<a class="headerlink" href="#ktp-privacy-by-design" title="Permanent link">&para;</a></h3>
+<p>PBD-001: Privacy requirements in every RFC - Every specification includes privacy section - Privacy Working Group reviews all changes</p>
+<p>PBD-002: Privacy-preserving defaults - Minimal data collection by default - Shortest retention by default - Most restrictive sharing by default</p>
+<p>PBD-003: Privacy in development lifecycle - Privacy review at design phase - Privacy testing in QA - Privacy audit pre-deployment</p>
+<h2 id="anonymization-and-pseudonymization">Anonymization and Pseudonymization<a class="headerlink" href="#anonymization-and-pseudonymization" title="Permanent link">&para;</a></h2>
+<h3 id="pseudonymization">Pseudonymization<a class="headerlink" href="#pseudonymization" title="Permanent link">&para;</a></h3>
+<p>Pseudonymization replaces identifiers with pseudonyms while maintaining linkability within dataset.</p>
+<p>KTP uses pseudonymization: - Agent IDs are pseudonyms - Real identity held by sponsor (if human) - Reduces risk, but still personal data</p>
+<h3 id="anonymization">Anonymization<a class="headerlink" href="#anonymization" title="Permanent link">&para;</a></h3>
+<p>Anonymization removes all identifying information so that re- identification is not possible.</p>
+<p>Techniques: - Generalization (age 34 → age 30-40) - Suppression (remove identifying fields) - Noise addition (perturb values) - Data swapping (exchange between records) - Synthetic data generation</p>
+<p>KTP anonymization standards: - K-anonymity with k ≥ 10 (at minimum) - L-diversity for sensitive attributes - T-closeness where applicable</p>
+<h3 id="implementation_7">Implementation<a class="headerlink" href="#implementation_7" title="Permanent link">&para;</a></h3>
+<p>ANON-001: Anonymization function provided ANON-002: Anonymized exports for research ANON-003: Re-identification risk assessment ANON-004: No anonymization reversal attempts</p>
+<h2 id="differential-privacy">Differential Privacy<a class="headerlink" href="#differential-privacy" title="Permanent link">&para;</a></h2>
+<p>Differential privacy provides mathematical guarantee that individual contribution cannot be detected.</p>
+<h3 id="application-in-ktp">Application in KTP<a class="headerlink" href="#application-in-ktp" title="Permanent link">&para;</a></h3>
+<p>DP for aggregate statistics: - Context Signal zone-wide statistics - Trust Score distributions - System performance metrics</p>
+<p>Implementation: - Add calibrated noise to queries - Privacy budget tracking - Query restrictions when budget exhausted</p>
+<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<p>DIFFERENTIAL-001: ε (epsilon) ≤ 1.0 for default DIFFERENTIAL-002: Privacy budget per entity per day DIFFERENTIAL-003: Composition accounting DIFFERENTIAL-004: No raw data access for stats</p>
+<h2 id="cryptographic-privacy">Cryptographic Privacy<a class="headerlink" href="#cryptographic-privacy" title="Permanent link">&para;</a></h2>
+<h3 id="encryption">Encryption<a class="headerlink" href="#encryption" title="Permanent link">&para;</a></h3>
+<p>Encryption protects confidentiality: - At rest: AES-256-GCM - In transit: TLS 1.3 - Key per agent: Enables cryptographic erasure</p>
+<h3 id="zero-knowledge-proofs">Zero-Knowledge Proofs<a class="headerlink" href="#zero-knowledge-proofs" title="Permanent link">&para;</a></h3>
+<p>ZKPs can prove properties without revealing data.</p>
+<p>Potential KTP applications: - Prove Trust Score &gt; threshold without revealing exact score - Prove age &gt; 18 without revealing birth date - Prove membership in group without revealing identity</p>
+<p>Status: OPTIONAL, for future consideration</p>
+<h3 id="homomorphic-encryption">Homomorphic Encryption<a class="headerlink" href="#homomorphic-encryption" title="Permanent link">&para;</a></h3>
+<p>Homomorphic encryption allows computation on encrypted data.</p>
+<p>Potential KTP applications: - Trust Score calculation on encrypted trajectory - Aggregate statistics without decryption</p>
+<p>Status: EXPERIMENTAL, performance not yet practical</p>
+<h2 id="decentralized-identity">Decentralized Identity<a class="headerlink" href="#decentralized-identity" title="Permanent link">&para;</a></h2>
+<h3 id="self-sovereign-identity-alignment">Self-Sovereign Identity Alignment<a class="headerlink" href="#self-sovereign-identity-alignment" title="Permanent link">&para;</a></h3>
+<p>Self-sovereign identity (SSI) principles:</p>
+<ul>
+<li>User controls identity - User controls data sharing - Minimal disclosure - Portability - No vendor lock-in</li>
+</ul>
+<p>KTP supports SSI: - Agents can have multiple identities - Data portability (Section 4.5) - No central identity provider required - Open specification enables choice</p>
+<h3 id="decentralized-identifiers-dids">Decentralized Identifiers (DIDs)<a class="headerlink" href="#decentralized-identifiers-dids" title="Permanent link">&para;</a></h3>
+<p>KTP agent identifiers can be DIDs:</p>
+<p>did:ktp:zone:alpha:agent:a1b2c3d4</p>
+<p>Benefits: - No central registry required - Verifiable without contacting issuer - Portable across zones</p>
+<p>Status: RECOMMENDED for Level 3</p>
+<h1 id="privacy-impact-assessments">Privacy Impact Assessments<a class="headerlink" href="#privacy-impact-assessments" title="Permanent link">&para;</a></h1>
+<h2 id="when-pias-are-required">When PIAs Are Required<a class="headerlink" href="#when-pias-are-required" title="Permanent link">&para;</a></h2>
+<p>Privacy Impact Assessment (PIA) required before:</p>
+<p>PIA-TRIGGER-001: Deploying new KTP zone PIA-TRIGGER-002: Significant processing changes PIA-TRIGGER-003: New data categories processed PIA-TRIGGER-004: New technology deployment PIA-TRIGGER-005: Cross- border data transfers (new) PIA-TRIGGER-006: Large-scale processing PIA-TRIGGER-007: Systematic monitoring</p>
+<p>Per GDPR Article 35 and equivalent requirements.</p>
+<h2 id="pia-content">PIA Content<a class="headerlink" href="#pia-content" title="Permanent link">&para;</a></h2>
+<p>PIA must include:</p>
+<p>PIA-CONTENT-001: Description of processing - What data, what purposes, what means</p>
+<p>PIA-CONTENT-002: Necessity assessment - Why is this processing necessary? - What alternatives were considered?</p>
+<p>PIA-CONTENT-003: Risk assessment - Risks to data subjects - Likelihood and severity - Sources of risk</p>
+<p>PIA-CONTENT-004: Mitigation measures - Technical measures - Organizational measures - Residual risk after mitigation</p>
+<p>PIA-CONTENT-005: Stakeholder consultation - Data subject consultation (if appropriate) - DPO consultation - Expert consultation (for high- risk)</p>
+<p>See Appendix C for PIA template.</p>
+<h2 id="pia-review-process">PIA Review Process<a class="headerlink" href="#pia-review-process" title="Permanent link">&para;</a></h2>
+<ol>
+<li>DRAFT PIA by privacy team 2. REVIEW by Data Protection Officer 3. CONSULT stakeholders 4. REVISE based on feedback 5. APPROVE by controller 6. PUBLISH (redacted if necessary) 7. IMPLEMENT measures 8. REVIEW annually</li>
+</ol>
+<h1 id="cross-border-data-transfers">Cross-Border Data Transfers<a class="headerlink" href="#cross-border-data-transfers" title="Permanent link">&para;</a></h1>
+<h2 id="transfer-mechanisms">Transfer Mechanisms<a class="headerlink" href="#transfer-mechanisms" title="Permanent link">&para;</a></h2>
+<h3 id="gdpr-requirements">GDPR Requirements<a class="headerlink" href="#gdpr-requirements" title="Permanent link">&para;</a></h3>
+<p>Transfers outside EEA require legal basis:</p>
+<p>ADEQUACY DECISION - Country deemed adequate by European Commission - Data can flow like intra-EU - Currently: UK, Japan, Korea, Argentina, etc.</p>
+<p>APPROPRIATE SAFEGUARDS - Standard Contractual Clauses (SCCs) - Binding Corporate Rules (BCRs) - Codes of Conduct with binding commitments - Certification mechanisms</p>
+<p>DEROGATIONS - Explicit consent (for specific transfer) - Contract necessity - Legal claims - Vital interests - Public register</p>
+<h3 id="ktp-transfer-mechanism">KTP Transfer Mechanism<a class="headerlink" href="#ktp-transfer-mechanism" title="Permanent link">&para;</a></h3>
+<p>TRANSFER-001: SCCs for federation with non-adequate countries TRANSFER-002: Supplementary measures as required TRANSFER-003: Transfer Impact Assessment before new routes TRANSFER-004: Data localization option available</p>
+<h3 id="us-eu-transfers">US-EU Transfers<a class="headerlink" href="#us-eu-transfers" title="Permanent link">&para;</a></h3>
+<p>Following Schrems II: - Privacy Shield invalidated - SCCs require supplementary measures - EU-US Data Privacy Framework (new adequacy)</p>
+<p>KTP deployments must assess: - US surveillance laws applicability - Effectiveness of safeguards - Supplementary technical measures</p>
+<h2 id="data-localization">Data Localization<a class="headerlink" href="#data-localization" title="Permanent link">&para;</a></h2>
+<h3 id="jurisdictional-requirements">Jurisdictional Requirements<a class="headerlink" href="#jurisdictional-requirements" title="Permanent link">&para;</a></h3>
+<p>Some jurisdictions require data localization: - Russia (personal data of citizens) - China (important data, personal data) - India (certain sensitive data) - Others emerging</p>
+<h3 id="ktp-localization-support">KTP Localization Support<a class="headerlink" href="#ktp-localization-support" title="Permanent link">&para;</a></h3>
+<p>LOCALIZE-001: Zone-local processing option - Data never leaves zone - Federation disabled for zone - Cross-zone proofs not accepted</p>
+<p>LOCALIZE-002: Residency tagging - Data tagged with residency requirement - Technical controls prevent transfer - Audit of transfer attempts</p>
+<h2 id="federation-privacy">Federation Privacy<a class="headerlink" href="#federation-privacy" title="Permanent link">&para;</a></h2>
+<p>Federation introduces cross-zone data flows.</p>
+<h3 id="federation-data-types">Federation Data Types<a class="headerlink" href="#federation-data-types" title="Permanent link">&para;</a></h3>
+<p>Minimal data in federation: - Trust Proofs (pseudonymous) - Zone status (aggregate) - Heartbeats (operational)</p>
+<p>NOT transferred: - Raw trajectory data - Individual sensor readings - Flight Recorder entries - Identity proofing data</p>
+<h3 id="federation-privacy-requirements">Federation Privacy Requirements<a class="headerlink" href="#federation-privacy-requirements" title="Permanent link">&para;</a></h3>
+<p>FED-PRIVACY-001: Minimize federation data FED-PRIVACY-002: Pseudonymize where possible FED-PRIVACY-003: Legal basis for each federation partner FED-PRIVACY-004: Data Processing Agreement required FED-PRIVACY-005: Right to withdraw from federation</p>
+<h1 id="special-categories">Special Categories<a class="headerlink" href="#special-categories" title="Permanent link">&para;</a></h1>
+<h2 id="healthcare-settings">Healthcare Settings<a class="headerlink" href="#healthcare-settings" title="Permanent link">&para;</a></h2>
+<p>Healthcare has unique privacy requirements.</p>
+<h3 id="regulatory-framework">Regulatory Framework<a class="headerlink" href="#regulatory-framework" title="Permanent link">&para;</a></h3>
+<ul>
+<li>HIPAA (US): Protected Health Information - GDPR Article 9: Health data is special category - National laws: Additional protections</li>
+</ul>
+<h3 id="healthcare-ktp-requirements">Healthcare KTP Requirements<a class="headerlink" href="#healthcare-ktp-requirements" title="Permanent link">&para;</a></h3>
+<p>HEALTH-001: Health data not in Trust Score calculation - Trust Score based on behavior, not health - No inference of health status from behavior</p>
+<p>HEALTH-002: BAA required for covered entities - Business Associate Agreement for HIPAA - Data Processing Agreement for GDPR</p>
+<p>HEALTH-003: Minimum necessary for healthcare operations - Only access needed for treatment - Audit of all PHI access</p>
+<p>HEALTH-004: Emergency access procedures - Break-glass for emergencies</p>
+<ul>
+<li>Retrospective audit required - See KTP-PROBLEMS Hospital Problem</li>
+</ul>
+<h3 id="healthcare-specific-protections">Healthcare-Specific Protections<a class="headerlink" href="#healthcare-specific-protections" title="Permanent link">&para;</a></h3>
+<ul>
+<li>No Trust Score impact from healthcare access patterns - No behavioral profiling in healthcare context - Patient choice respected (opt-out of enhanced monitoring) - De-identification for research (Safe Harbor or Expert)</li>
+</ul>
+<h2 id="employment-context">Employment Context<a class="headerlink" href="#employment-context" title="Permanent link">&para;</a></h2>
+<p>Employment creates power imbalance affecting consent validity.</p>
+<h3 id="regulatory-framework_1">Regulatory Framework<a class="headerlink" href="#regulatory-framework_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>GDPR: Consent may not be valid due to imbalance - CCPA: Employee data exemption (ending) - Labor laws: Various protections</li>
+</ul>
+<h3 id="employment-ktp-requirements">Employment KTP Requirements<a class="headerlink" href="#employment-ktp-requirements" title="Permanent link">&para;</a></h3>
+<p>EMPLOY-001: Legitimate interest, not consent - Don't rely on employee consent - Use legitimate interest with balancing - Document necessity</p>
+<p>EMPLOY-002: No Trust Score in HR decisions - Trust Score not for hiring - Trust Score not for firing - Trust Score not for promotion - Trust Score for system access only</p>
+<p>EMPLOY-003: Works council consultation (where applicable) - EU: Worker representation rights - Consultation before deployment - Ongoing monitoring governance</p>
+<p>EMPLOY-004: Employee transparency - Clear notice of monitoring - Access to own data - Challenge mechanisms</p>
+<h2 id="financial-services">Financial Services<a class="headerlink" href="#financial-services" title="Permanent link">&para;</a></h2>
+<h3 id="regulatory-framework_2">Regulatory Framework<a class="headerlink" href="#regulatory-framework_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>GLBA (US): Financial privacy - PSD2 (EU): Payment data - PCI-DSS: Card data - National banking laws</li>
+</ul>
+<h3 id="financial-ktp-requirements">Financial KTP Requirements<a class="headerlink" href="#financial-ktp-requirements" title="Permanent link">&para;</a></h3>
+<p>FINANCE-001: Segregation from financial data - KTP does not access transaction content - Trust Score from metadata only - No financial decision impact</p>
+<p>FINANCE-002: Audit requirements - Financial audit needs met - Flight Recorder adequate for compliance - Retention per regulatory requirements</p>
+<p>FINANCE-003: Customer notice - Privacy notice includes KTP processing</p>
+<ul>
+<li>Opt-out where regulation permits</li>
+</ul>
+<h2 id="law-enforcement">Law Enforcement<a class="headerlink" href="#law-enforcement" title="Permanent link">&para;</a></h2>
+<p>Law enforcement access requires special care.</p>
+<h3 id="general-principles">General Principles<a class="headerlink" href="#general-principles" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Rule of law: Legal process required - Proportionality: Request must be proportionate - Minimization: Only necessary data - Transparency: Notify subject where permitted</li>
+</ul>
+<h3 id="ktp-law-enforcement-requirements">KTP Law Enforcement Requirements<a class="headerlink" href="#ktp-law-enforcement-requirements" title="Permanent link">&para;</a></h3>
+<p>LE-001: Valid legal process required - Warrant for content - Subpoena for metadata (where applicable) - Court order for ongoing access</p>
+<p>LE-002: Specific, not bulk - Individual subject identified - Time period specified - Data types specified - No fishing expeditions</p>
+<p>LE-003: Challenge overbroad requests - Legal review before compliance</p>
+<ul>
+<li>Challenge in court if appropriate - Partial compliance if possible</li>
+</ul>
+<p>LE-004: Transparency where permitted - Notify data subject unless prohibited - Publish aggregate statistics - Warrant canary</p>
+<p>LE-005: No direct access - No API for law enforcement - All requests through legal process - Human review before disclosure</p>
+<h2 id="national-security">National Security<a class="headerlink" href="#national-security" title="Permanent link">&para;</a></h2>
+<p>National security presents tension with privacy.</p>
+<h3 id="general-principles_1">General Principles<a class="headerlink" href="#general-principles_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Necessity: Must be necessary, not convenient - Proportionality: Balanced against rights - Legality: Authorized by law - Oversight: Subject to judicial/independent oversight</li>
+</ul>
+<h3 id="ktp-national-security-position">KTP National Security Position<a class="headerlink" href="#ktp-national-security-position" title="Permanent link">&para;</a></h3>
+<p>NS-001: No mass surveillance capability - Bulk access not supported - Technical architecture prevents - Policy prohibits</p>
+<p>NS-002: Legal process required - Same as law enforcement - Court order or equivalent - No informal requests</p>
+<p>NS-003: No secret capabilities - No hidden features for agencies - No undisclosed access - No "exceptional access" backdoors</p>
+<p>NS-004: International standards - Necessary and Proportionate principles - UN Special Rapporteur guidance - NGO input considered</p>
+<h2 id="indigenous-data-sovereignty">Indigenous Data Sovereignty<a class="headerlink" href="#indigenous-data-sovereignty" title="Permanent link">&para;</a></h2>
+<p>Indigenous peoples have inherent rights over their data. These rights derive from sovereignty, not from Western privacy frameworks.</p>
+<h3 id="foundational-recognition">Foundational Recognition<a class="headerlink" href="#foundational-recognition" title="Permanent link">&para;</a></h3>
+<p>"Data is a living taonga (treasure). It carries the breath of our ancestors and speaks to our future generations." - Māori Data Sovereignty Network</p>
+<p>Indigenous Data Sovereignty recognizes that: - Indigenous peoples have rights to control data FROM them - Indigenous peoples have rights to control data ABOUT them - Collective rights exist alongside individual rights - Data governance follows cultural protocols - Western privacy frameworks are insufficient</p>
+<p>KTP acknowledges these rights and provides mechanisms for their implementation.</p>
+<h3 id="international-instruments">International Instruments<a class="headerlink" href="#international-instruments" title="Permanent link">&para;</a></h3>
+<p>UNITED NATIONS DECLARATION ON THE RIGHTS OF INDIGENOUS PEOPLES (UNDRIP, 2007)</p>
+<p>Article 31: "Indigenous peoples have the right to maintain, control, protect and develop their cultural heritage, traditional knowledge and traditional cultural expressions, as well as the manifestations of their sciences, technologies and cultures, including... genetic resources, seeds, medicines, knowledge of the properties of fauna and flora..."</p>
+<p>Article 18: "Indigenous peoples have the right to participate in decision-making in matters which would affect their rights, through representatives chosen by themselves in accordance with their own procedures..."</p>
+<p>Article 19 (Free, Prior and Informed Consent): "States shall consult and cooperate in good faith with the indigenous peoples concerned through their own representative institutions in order to obtain their free, prior and informed consent before adopting and implementing legislative or administrative measures that may affect them."</p>
+<p>ILO CONVENTION 169 (Indigenous and Tribal Peoples, 1989) - Consultation and participation rights - Respect for customs and traditions - Prior consultation for development projects</p>
+<h3 id="indigenous-data-governance-frameworks">Indigenous Data Governance Frameworks<a class="headerlink" href="#indigenous-data-governance-frameworks" title="Permanent link">&para;</a></h3>
+<p>CARE PRINCIPLES FOR INDIGENOUS DATA GOVERNANCE (Global Indigenous Data Alliance, 2019)</p>
+<p>C - COLLECTIVE BENEFIT - Data ecosystems shall be designed to enable Indigenous peoples to derive benefit from data - Inclusive development and innovation - Improved governance and citizen engagement - Equitable outcomes</p>
+<p>A - AUTHORITY TO CONTROL - Indigenous peoples' rights and interests in Indigenous data must be recognized and their authority to control such data respected - Indigenous data governance - Governance of Indigenous data - Self-determination</p>
+<p>R - RESPONSIBILITY - Those working with Indigenous data have a responsibility to share how those data are used to support Indigenous peoples' self-determination and collective benefit - For positive relationships - For expanding capability and capacity - For Indigenous languages and worldviews</p>
+<p>E - ETHICS - Indigenous peoples' rights and wellbeing should be the primary concern at all stages of the data life cycle - For minimizing harm and maximizing benefit - For justice - For future use</p>
+<p>OCAP® PRINCIPLES (First Nations Information Governance Centre) (Specific to First Nations in Canada)</p>
+<p>O - OWNERSHIP - A community or group owns information collectively in the same way an individual owns their personal information</p>
+<p>C - CONTROL - Indigenous peoples, their communities and representative bodies are within their rights to seek control over all aspects of research and information management processes</p>
+<p>A - ACCESS - Indigenous peoples must have access to information and data about themselves and their communities</p>
+<p>P - POSSESSION - Physical control of data. Possession is a mechanism to assert and protect ownership and control</p>
+<p>TE MANA RARAUNGA (Māori Data Sovereignty Network) - Whakapapa (relationships and origins) - Whanaungatanga (kinship and collective responsibility) - Kotahitanga (unity and collective action) - Kaitiakitanga (guardianship and stewardship) - Manaakitanga (hospitality and care) - Rangatiratanga (self-determination and sovereignty)</p>
+<h3 id="ktp-indigenous-data-requirements">KTP Indigenous Data Requirements<a class="headerlink" href="#ktp-indigenous-data-requirements" title="Permanent link">&para;</a></h3>
+<p>IND-001: Recognition of Collective Rights - Individual consent insufficient for Indigenous data - Community consent mechanisms required - Traditional governance structures respected</p>
+<p>IND-002: Indigenous Data Classification - Data ABOUT Indigenous peoples - Data COLLECTED BY Indigenous peoples - Data WITH Indigenous knowledge - Traditional knowledge and cultural expressions - Genetic and biological data</p>
+<p>IND-003: Free, Prior and Informed Consent (FPIC) - Before processing Indigenous data - Through appropriate community representatives - In culturally appropriate manner - With right to refuse without penalty</p>
+<p>IND-004: Indigenous Data Governance Zones - Zones can be governed by Indigenous communities - Zone policies follow traditional protocols - Soul constraints encode community decisions - External access requires community consent</p>
+<p>IND-005: No Extraction Without Consent - Data cannot be extracted from Indigenous zones - Federation only with explicit community agreement - Research use requires community approval - Commercial use requires benefit-sharing</p>
+<p>IND-006: Repatriation Rights - Communities can request return of data</p>
+<ul>
+<li>Historical data subject to repatriation - Erasure on community request</li>
+</ul>
+<p>IND-007: Cultural Protocol Integration - Data handling follows cultural protocols - Sacred/restricted data categories supported - Seasonal or ceremonial access restrictions - Gender-based access restrictions where appropriate</p>
+<h3 id="implementation-mechanisms">Implementation Mechanisms<a class="headerlink" href="#implementation-mechanisms" title="Permanent link">&para;</a></h3>
+<p>INDIGENOUS DATA SOVEREIGNTY ZONES</p>
+<p>KTP supports Indigenous-governed zones: { "zone_id": "zone:iwi:ngati- example", "governance": { "type": "indigenous_collective", "authority": "Ngāti Example Iwi Authority", "protocols": "te_mana_raraunga", "consent_mechanism": "hui_decision" }, "soul_constraints": [ { "constraint_type": "FPIC_REQUIRED", "scope": "all_external_access", "authority": "iwi_governance_board" }, { "constraint_type": "NO_EXTRACTION", "scope": "traditional_knowledge", "exceptions": "community_approved_research" } ] }</p>
+<p>COMMUNITY CONSENT ENDPOINTS</p>
+<p>POST /v1/indigenous/consent-request { "requesting_entity": "...", "purpose": "research|commercial|government|other", "data_scope": "...", "duration": "...", "benefit_sharing": { ... }, "community_id": "...", "cultural_protocol_acknowledgment": true }</p>
+<p>Response requires community process completion: { "consent_status": "pending_hui|approved|denied", "consent_authority": "...", "conditions": [ ... ], "benefit_sharing_agreement": { ... }, "expiration": "..." }</p>
+<h3 id="traditional-knowledge-protection">Traditional Knowledge Protection<a class="headerlink" href="#traditional-knowledge-protection" title="Permanent link">&para;</a></h3>
+<p>Traditional Knowledge (TK) requires special protection:</p>
+<p>TK-001: TK is not "public domain" - Prior publication does not void rights - Misappropriated TK can be reclaimed - Cultural protocols continue to apply</p>
+<p>TK-002: TK Classification - Sacred/secret: Never shared without ceremony - Restricted: Limited by gender, age, initiation - Community: Shared within community - Public: Appropriate for external sharing</p>
+<p>TK-003: TK in KTP - TK data type recognized - Access controls per classification - No machine learning on TK without consent - No derivative works without permission</p>
+<h3 id="researcher-and-developer-obligations">Researcher and Developer Obligations<a class="headerlink" href="#researcher-and-developer-obligations" title="Permanent link">&para;</a></h3>
+<p>Those building KTP systems involving Indigenous data must:</p>
+<ol>
+<li>
+<p>ENGAGE EARLY - Before design decisions - Not just before deployment - Throughout development</p>
+</li>
+<li>
+<p>RESPECT GOVERNANCE - Follow community decision processes - Accept "no" as valid answer - Don't pressure for consent</p>
+</li>
+<li>
+<p>BUILD RELATIONSHIPS - Long-term engagement, not extraction - Reciprocity and mutual benefit - Cultural competency development</p>
+</li>
+<li>
+<p>SHARE BENEFITS - Capacity building in communities - Data skills transfer - Economic benefit sharing - Recognition and attribution</p>
+</li>
+<li>
+<p>RETURN DATA - Communities receive copies - Results shared first with communities - Interpretation involves communities</p>
+</li>
+</ol>
+<h1 id="regulatory-alignment">Regulatory Alignment<a class="headerlink" href="#regulatory-alignment" title="Permanent link">&para;</a></h1>
+<h2 id="gdpr-european-union">GDPR (European Union)<a class="headerlink" href="#gdpr-european-union" title="Permanent link">&para;</a></h2>
+<p>General Data Protection Regulation (EU) 2016/679</p>
+<h3 id="alignment-summary">Alignment Summary<a class="headerlink" href="#alignment-summary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+-------------------------------------+-------------------------+
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>| GDPR Requirement                    | KTP Implementation      |
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+-------------------------------------+-------------------------+
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>| Lawful basis (Art. 6)               | Section 5.1             |
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>| Special categories (Art. 9)         | Section 3.2, 5.2.2      |
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>| Transparency (Art. 12-14)           | Section 2.4             |
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>| Data subject rights (Art. 15-22)    | Section 4               |
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>| Data protection by design (Art. 25) | Section 7.1             |
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>| Security (Art. 32)                  | Section 2.5, KTP-CRYPTO |
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>| Breach notification (Art. 33-34)    | Section 13              |
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>| DPIA (Art. 35)                      | Section 8               |
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>| Data transfers (Art. 44-49)         | Section 9               |
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>| DPO (Art. 37-39)                    | Section 12              |
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>+-------------------------------------+-------------------------+
+</code></pre></div>
+<h3 id="gdpr-specific-requirements">GDPR-Specific Requirements<a class="headerlink" href="#gdpr-specific-requirements" title="Permanent link">&para;</a></h3>
+<p>GDPR-001: DPO designation where required GDPR-002: Records of processing activities GDPR-003: Representative in EU (if applicable) GDPR-004: Supervisory authority cooperation</p>
+<h2 id="ccpacpra-california">CCPA/CPRA (California)<a class="headerlink" href="#ccpacpra-california" title="Permanent link">&para;</a></h2>
+<p>California Consumer Privacy Act / Privacy Rights Act</p>
+<h3 id="alignment-summary_1">Alignment Summary<a class="headerlink" href="#alignment-summary_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>+----------------------------------+--------------------+
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>| CCPA/CPRA Requirement            | KTP Implementation |
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>+----------------------------------+--------------------+
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>| Right to know (§1798.100)        | Section 4.1        |
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>| Right to delete (§1798.105)      | Section 4.3        |
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>| Right to opt-out (§1798.120)     | Section 4.6        |
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>| Right to correct (§1798.106)     | Section 4.2        |
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>| Right to portability (§1798.130) | Section 4.5        |
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>| Data minimization                | Section 2.1        |
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>| Purpose limitation               | Section 2.2        |
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>| Security (§1798.81.5)            | Section 2.5        |
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>+----------------------------------+--------------------+
+</code></pre></div>
+<h3 id="ccpa-specific-requirements">CCPA-Specific Requirements<a class="headerlink" href="#ccpa-specific-requirements" title="Permanent link">&para;</a></h3>
+<p>CCPA-001: "Do Not Sell" support - KTP does not sell personal information - But tracking across sites could trigger - Implement opt-out where applicable</p>
+<p>CCPA-002: No financial incentives for data - No discount for more data - No penalty for less data</p>
+<p>CCPA-003: Authorized agent support - Third party can exercise rights</p>
+<ul>
+<li>Verification required</li>
+</ul>
+<h2 id="iccpr-article-17">ICCPR Article 17<a class="headerlink" href="#iccpr-article-17" title="Permanent link">&para;</a></h2>
+<p>International Covenant on Civil and Political Rights</p>
+<h3 id="alignment">Alignment<a class="headerlink" href="#alignment" title="Permanent link">&para;</a></h3>
+<p>ICCPR requires protection against arbitrary or unlawful interference with privacy.</p>
+<p>KTP alignment: - Lawful basis required (not arbitrary) - Proportionality review (not excessive) - Legal protections (judicial oversight) - No discrimination</p>
+<h3 id="human-rights-due-diligence">Human Rights Due Diligence<a class="headerlink" href="#human-rights-due-diligence" title="Permanent link">&para;</a></h3>
+<p>ICCPR-001: Human rights impact assessment - Consider deployment impacts - Especially in high-risk jurisdictions - Document and mitigate</p>
+<p>ICCPR-002: No deployment for rights violations - Decline deployment if used for oppression - Soul constraints can encode refusal - Exit strategy for existing deployments</p>
+<h2 id="contextual-integrity-framework">Contextual Integrity Framework<a class="headerlink" href="#contextual-integrity-framework" title="Permanent link">&para;</a></h2>
+<p>Helen Nissenbaum's Contextual Integrity provides a philosophical and practical framework for privacy that KTP operationalizes.</p>
+<h3 id="framework-elements">Framework Elements<a class="headerlink" href="#framework-elements" title="Permanent link">&para;</a></h3>
+<p>INFORMATIONAL NORMS - Context-specific rules governing information flow - Determine appropriate transmission principles - Evolve with social practice</p>
+<p>ACTORS - Data subjects, senders, recipients - Roles define expectations</p>
+<p>ATTRIBUTES - Types of information - Context determines sensitivity</p>
+<p>TRANSMISSION PRINCIPLES - Confidentiality, consent, reciprocity - Notice, entitlement, forced</p>
+<h3 id="ktp-alignment">KTP Alignment<a class="headerlink" href="#ktp-alignment" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>+-------------------------+-----------------------------------------+
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>| CI Element              | KTP Implementation                      |
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>+-------------------------+-----------------------------------------+
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>| Context identification  | Zone purpose, domain classification     |
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| Actor roles             | Agent lineage, sponsor relationships    |
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>| Information types       | Data classification (§3)                |
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>| Transmission principles | Purpose limitation (§2.2), consent (§5) |
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| Norm enforcement        | Soul constraints, PEP policies          |
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>| Context collapse        | Zone isolation, federation controls     |
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>+-------------------------+-----------------------------------------+
+</code></pre></div>
+<p>CI-ALIGN-001: Context documentation for each zone CI-ALIGN-002: Norm specification in zone policy CI-ALIGN-003: Transmission principle enforcement CI-ALIGN-004: Context integrity assessment (Appendix D)</p>
+<h3 id="context-collapse-prevention">Context Collapse Prevention<a class="headerlink" href="#context-collapse-prevention" title="Permanent link">&para;</a></h3>
+<p>Context collapse occurs when information flows across contexts inappropriately. KTP prevents this through:</p>
+<ul>
+<li>Zone boundaries (architectural) - Purpose tagging (metadata) - Access controls (enforcement) - Federation restrictions (policy)</li>
+</ul>
+<h2 id="indigenous-frameworks">Indigenous Frameworks<a class="headerlink" href="#indigenous-frameworks" title="Permanent link">&para;</a></h2>
+<p>Indigenous Data Sovereignty frameworks have emerged as critical complements to Western privacy law.</p>
+<h3 id="framework-comparison">Framework Comparison<a class="headerlink" href="#framework-comparison" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>+------------------+-----------+-------------------------------------+
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>| Framework        | Origin    | Focus                               |
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>+------------------+-----------+-------------------------------------+
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>| CARE Principles  | Global    | Collective benefit, authority       |
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>| OCAP®            | Canada    | Ownership, control, access, possess |
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>| Te Mana Raraunga | Aotearoa  | Māori data sovereignty              |
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>| USIDSN           | USA       | US Indigenous data sovereignty      |
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>| Maiam nayri      | Australia | Aboriginal data sovereignty         |
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>+------------------+-----------+-------------------------------------+
+</code></pre></div>
+<h3 id="integration-with-privacy-law">Integration with Privacy Law<a class="headerlink" href="#integration-with-privacy-law" title="Permanent link">&para;</a></h3>
+<p>Indigenous frameworks complement GDPR/CCPA by adding:</p>
+<ul>
+<li>Collective rights (not just individual) - Community consent (not just individual consent) - Benefit sharing (not just non-harm) - Repatriation rights (not just portability) - Traditional knowledge protection (not just PII)</li>
+</ul>
+<p>KTP implements these through Section 10.6.</p>
+<h3 id="key-references">Key References<a class="headerlink" href="#key-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li>UNDRIP (2007): Articles 18, 19, 31 - ILO Convention 169 (1989) - CARE Principles (2019) - OCAP® Principles (First Nations, Canada) - Te Mana Raraunga Charter (2018)</li>
+</ul>
+<h2 id="other-frameworks">Other Frameworks<a class="headerlink" href="#other-frameworks" title="Permanent link">&para;</a></h2>
+<h3 id="apec-privacy-framework">APEC Privacy Framework<a class="headerlink" href="#apec-privacy-framework" title="Permanent link">&para;</a></h3>
+<p>Asia-Pacific Economic Cooperation</p>
+<p>Principles: - Preventing harm - Notice - Collection limitation - Use limitation - Choice - Integrity - Security - Access and correction - Accountability</p>
+<p>KTP fully aligned.</p>
+<h3 id="oecd-privacy-guidelines">OECD Privacy Guidelines<a class="headerlink" href="#oecd-privacy-guidelines" title="Permanent link">&para;</a></h3>
+<p>Organisation for Economic Co-operation and Development (1980/2013)</p>
+<p>Principles: - Collection limitation - Data quality - Purpose specification - Use limitation - Security safeguards - Openness - Individual participation - Accountability</p>
+<p>KTP fully aligned.</p>
+<h3 id="council-of-europe-convention-108">Council of Europe Convention 108+<a class="headerlink" href="#council-of-europe-convention-108" title="Permanent link">&para;</a></h3>
+<p>Convention for the Protection of Individuals with regard to Automatic Processing of Personal Data (modernized)</p>
+<p>KTP aligns with: - Legitimate processing - Data quality - Special categories - Data subject rights - Trans-border flows - Supervisory authorities</p>
+<h3 id="other-national-laws">Other National Laws<a class="headerlink" href="#other-national-laws" title="Permanent link">&para;</a></h3>
+<p>KTP designed to align with:</p>
+<ul>
+<li>Brazil LGPD (Lei Geral de Proteção de Dados) - India DPDP (Digital Personal Data Protection) - Japan APPI (Act on Protection of Personal Information) - South Korea PIPA (Personal Information Protection Act) - Australia Privacy Act 1988 - Canada PIPEDA (Personal Information Protection and Electronic Documents Act) - Singapore PDPA (Personal Data Protection Act) - Thailand PDPA - South Africa POPIA</li>
+</ul>
+<p>Consult local counsel for specific jurisdiction.</p>
+<h1 id="privacy-governance">Privacy Governance<a class="headerlink" href="#privacy-governance" title="Permanent link">&para;</a></h1>
+<h2 id="data-protection-officer">Data Protection Officer<a class="headerlink" href="#data-protection-officer" title="Permanent link">&para;</a></h2>
+<p>Where required (GDPR, national law), appoint DPO.</p>
+<p>DPO role: - Advise on compliance - Monitor compliance - Cooperate with authorities - Contact point for subjects</p>
+<h2 id="privacy-team">Privacy Team<a class="headerlink" href="#privacy-team" title="Permanent link">&para;</a></h2>
+<p>PRIVACY-TEAM-001: Privacy expertise in development PRIVACY-TEAM-002: Privacy review in change process PRIVACY-TEAM-003: Privacy training for staff PRIVACY-TEAM-004: Privacy incident response capability</p>
+<h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
+<p>Maintain: - Records of processing activities - PIAs and reviews - Consent records - Data subject requests and responses - Breach records - Training records</p>
+<h1 id="breach-notification">Breach Notification<a class="headerlink" href="#breach-notification" title="Permanent link">&para;</a></h1>
+<h2 id="definition_1">Definition<a class="headerlink" href="#definition_1" title="Permanent link">&para;</a></h2>
+<p>Personal data breach: Security incident leading to accidental or unlawful destruction, loss, alteration, unauthorized disclosure, or access to personal data.</p>
+<h2 id="detection">Detection<a class="headerlink" href="#detection" title="Permanent link">&para;</a></h2>
+<p>BREACH-001: Monitoring for breach indicators BREACH-002: Incident classification procedure BREACH-003: Breach determination within 24 hours</p>
+<h2 id="notification-requirements">Notification Requirements<a class="headerlink" href="#notification-requirements" title="Permanent link">&para;</a></h2>
+<p>AUTHORITY NOTIFICATION (GDPR: 72 hours) - To supervisory authority - Unless unlikely to result in risk - Include: nature, categories, numbers, consequences, measures</p>
+<p>SUBJECT NOTIFICATION (without undue delay) - When high risk to rights and freedoms - Clear, plain language - Include: nature, contact, consequences, measures</p>
+<h2 id="documentation_1">Documentation<a class="headerlink" href="#documentation_1" title="Permanent link">&para;</a></h2>
+<p>BREACH-004: Document all breaches BREACH-005: Document decision not to notify (with justification) BREACH-006: Retain records for supervision</p>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<p>Security and privacy are complementary, not competing.</p>
+<h2 id="privacy-requires-security">Privacy Requires Security<a class="headerlink" href="#privacy-requires-security" title="Permanent link">&para;</a></h2>
+<p>Without security: - Data cannot be protected - Access controls meaningless - Encryption useless</p>
+<h2 id="security-does-not-require-privacy-violation">Security Does Not Require Privacy Violation<a class="headerlink" href="#security-does-not-require-privacy-violation" title="Permanent link">&para;</a></h2>
+<p>Security can be achieved without: - Mass surveillance - Behavioral profiling - Content inspection - Permanent retention</p>
+<p>KTP proves this.</p>
+<h2 id="privacy-enhancing-technologies">Privacy Enhancing Technologies<a class="headerlink" href="#privacy-enhancing-technologies" title="Permanent link">&para;</a></h2>
+<p>Invest in PETs: - Differential privacy - Zero-knowledge proofs - Secure multi-party computation - Federated learning - Homomorphic encryption</p>
+<h2 id="legal-instruments">Legal Instruments<a class="headerlink" href="#legal-instruments" title="Permanent link">&para;</a></h2>
+<p>[UDHR]     United Nations, "Universal Declaration of Human Rights", 1948.</p>
+<p>[ICCPR]    United Nations, "International Covenant on Civil and Political Rights", 1966.</p>
+<p>[GDPR]     European Parliament, "General Data Protection Regulation (EU) 2016/679", 2016.</p>
+<p>[CCPA]     California Legislature, "California Consumer Privacy Act of 2018", 2018.</p>
+<p>[CPRA]     California Legislature, "California Privacy Rights Act of 2020", 2020.</p>
+<p>[COE108]   Council of Europe, "Convention for the Protection of Individuals with regard to Automatic Processing of Personal Data" (Convention 108+), 2018.</p>
+<p>[APEC]     Asia-Pacific Economic Cooperation, "APEC Privacy Framework", 2015.</p>
+<p>[OECD]     OECD, "Guidelines Governing the Protection of Privacy and Transborder Flows of Personal Data", 2013.</p>
+<h2 id="guidance">Guidance<a class="headerlink" href="#guidance" title="Permanent link">&para;</a></h2>
+<p>[A29WP]    Article 29 Working Party/EDPB Opinions and Guidelines.</p>
+<p>[NIST-PF]  NIST, "Privacy Framework: A Tool for Improving Privacy through Enterprise Risk Management", 2020.</p>
+<p>[CAVOUKIAN] Cavoukian, A., "Privacy by Design: The 7 Foundational Principles", 2011.</p>
+<h2 id="contextual-integrity_1">Contextual Integrity<a class="headerlink" href="#contextual-integrity_1" title="Permanent link">&para;</a></h2>
+<p>[NISSENBAUM] Nissenbaum, H., "Privacy in Context: Technology, Policy, and the Integrity of Social Life", Stanford University Press, 2010.</p>
+<p>[NISSENBAUM-RESPECTINGCONTEXT] Nissenbaum, H., "Respecting Context to Protect Privacy: Why Meaning Matters", Science and Engineering Ethics, 24(3), 831-852, 2018.</p>
+<p>[CI-FRAMEWORK] Nissenbaum, H., "A Contextual Approach to Privacy Online", Daedalus, 140(4), 32-48, 2011.</p>
+<h2 id="indigenous-data-sovereignty_1">Indigenous Data Sovereignty<a class="headerlink" href="#indigenous-data-sovereignty_1" title="Permanent link">&para;</a></h2>
+<p>[UNDRIP]   United Nations, "Declaration on the Rights of Indigenous Peoples", A/RES/61/295, 2007.</p>
+<p>[ILO169]   International Labour Organization, "Indigenous and Tribal Peoples Convention", C169, 1989.</p>
+<p>[CARE]     Global Indigenous Data Alliance, "CARE Principles for Indigenous Data Governance", 2019. https://www.gida-global.org/care</p>
+<p>[OCAP]     First Nations Information Governance Centre, "The First Nations Principles of OCAP®", 2014. https://fnigc.ca/ocap-training/</p>
+<p>[TEMANARARAUNGA] Te Mana Raraunga, "Māori Data Sovereignty Network Charter", 2018. https://www.temanararaunga.maori.nz/</p>
+<p>[USIDSN]   US Indigenous Data Sovereignty Network, https://usindigenousdata.org/</p>
+<p>[MAIMNAYRIWINGARA] Maiam nayri Wingara, "Indigenous Data Sovereignty Communique", 2018. https://www.maiamnayriwingara.org/</p>
+<p>[RAINIE-RODRIGUEZ] Rainie, S.C., Schultz, J.L., Briggs, E., Riggs, P., and Palmanteer-Holder, N.L., "Data as a Strategic Resource: Self- determination, Governance, and the Data Challenge for Indigenous Nations in the United States", International Indigenous Policy Journal, 8(2), 2017.</p>
+<h2 id="civil-society">Civil Society<a class="headerlink" href="#civil-society" title="Permanent link">&para;</a></h2>
+<p>[EFF]      Electronic Frontier Foundation, various publications, https://eff.org/</p>
+<p>[ACCESSNOW] Access Now, various publications, https://accessnow.org/</p>
+<p>[EPICORG]  Electronic Privacy Information Center, https://epic.org/</p>
+<p>[NECESS]   Necessary and Proportionate: International Principles on the Application of Human Rights to Communications Surveillance, 2014.</p>
+<h1 id="privacy-rights-matrix">Privacy Rights Matrix<a class="headerlink" href="#privacy-rights-matrix" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>+------------------+------+------+------+------+------+---------+
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>| Right            | GDPR | CCPA | LGPD | APPI | PIPA | PDPA-SG |
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>+------------------+------+------+------+------+------+---------+
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>| Access           | Yes  | Yes  | Yes  | Yes  | Yes  | Yes     |
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>| Rectification    | Yes  | Yes  | Yes  | Yes  | Yes  | Yes     |
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>| Erasure          | Yes  | Yes  | Yes  | Lim  | Yes  | Yes     |
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>| Portability      | Yes  | Yes  | Yes  | No   | Yes  | Yes     |
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>| Object           | Yes  | Lim  | Yes  | No   | Yes  | Lim     |
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>| Restrict         | Yes  | No   | Yes  | No   | Lim  | No      |
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>| Not be profiled  | Yes  | Lim  | Yes  | No   | No   | Lim     |
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>| Withdraw consent | Yes  | N/A  | Yes  | Yes  | Yes  | Yes     |
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>+------------------+------+------+------+------+------+---------+
+</code></pre></div>
+<h1 id="data-retention-schedule">Data Retention Schedule<a class="headerlink" href="#data-retention-schedule" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>+------------------------+----------+----------+----------------+
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>| Data Category          | Default  | Maximum  | Legal Basis    |
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>+------------------------+----------+----------+----------------+
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>| Trust Proofs           | 60 sec   | 5 min    | Function       |
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| Trust Scores (current) | Current  | Current  | Function       |
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| Trust Scores (history) | 90 days  | 1 year   | Audit          |
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>| Context Signals        | 24 hours | 7 days   | Function       |
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>| Trajectory (active)    | Lifetime | Lifetime | Trust calc     |
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>| Trajectory (archived)  | 1 year   | 7 years  | Audit          |
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>| Flight Recorder        | 7 years  | 10 years | Legal/Audit    |
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>| Agent identity         | Lifetime | Life+1yr | Function       |
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>| Sponsorship records    | 7 years  | 10 years | Accountability |
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>| Consent records        | 7 years  | 10 years | Proof          |
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>| Access request logs    | 3 years  | 7 years  | Compliance     |
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>| Breach records         | 7 years  | Indef    | Compliance     |
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>+------------------------+----------+----------+----------------+
+</code></pre></div>
+<h1 id="pia-template">PIA Template<a class="headerlink" href="#pia-template" title="Permanent link">&para;</a></h1>
+<p>SECTION 1: PROCESSING DESCRIPTION</p>
+<p>1.1 What data will be processed? 1.2 What are the purposes of processing? 1.3 Who are the data subjects? 1.4 What is the lawful basis? 1.5 How long will data be retained? 1.6 Who will have access?</p>
+<p>SECTION 2: NECESSITY ASSESSMENT</p>
+<p>2.1 Is this processing necessary for the purpose? 2.2 What alternatives were considered? 2.3 Why were alternatives rejected? 2.4 Can the purpose be achieved with less data?</p>
+<p>SECTION 3: RISK ASSESSMENT</p>
+<p>3.1 What are the risks to data subjects? 3.2 What is the likelihood of each risk? 3.3 What is the severity of each risk? 3.4 Risk matrix (likelihood × severity)</p>
+<p>SECTION 4: MITIGATION MEASURES</p>
+<p>4.1 Technical measures 4.2 Organizational measures 4.3 Residual risk after mitigation 4.4 Is residual risk acceptable?</p>
+<p>SECTION 5: CONSULTATION</p>
+<p>5.1 DPO consultation (date, findings) 5.2 Data subject consultation (if applicable) 5.3 Expert consultation (if high risk)</p>
+<p>SECTION 6: APPROVAL</p>
+<p>6.1 Approver name and title 6.2 Approval date 6.3 Review date 6.4 Conditions (if any)</p>
+<h1 id="contextual-integrity-assessment_1">Contextual Integrity Assessment<a class="headerlink" href="#contextual-integrity-assessment_1" title="Permanent link">&para;</a></h1>
+<p>Based on Nissenbaum's Contextual Integrity framework.</p>
+<p>SECTION 1: CONTEXT IDENTIFICATION</p>
+<p>1.1 What is the operative social context? [ ] Healthcare   [ ] Employment   [ ] Financial [ ] Education    [ ] Commercial   [ ] Government [ ] Personal     [ ] Community    [ ] Research [ ] Other: <strong><em>_</em></strong>______</p>
+<p>1.2 What are the governing norms of this context? (Describe entrenched informational norms)</p>
+<p>1.3 Are there evolving norms to consider? (New technologies or practices may shift norms)</p>
+<p>SECTION 2: INFORMATION FLOW MAPPING</p>
+<p>For each information flow in the system:</p>
+<p>2.1 Sender: Who/what transmits the information? 2.2 Subject: Whose information is it? 2.3 Recipient: Who/what receives the information? 2.4 Information Type: What kind of information? 2.5 Transmission Principle: [ ] Consent      [ ] Confidentiality  [ ] Reciprocity [ ] Notice       [ ] Entitlement      [ ] Need-to-know [ ] Legal requirement  [ ] Other: <strong><em>_</em></strong>______</p>
+<p>SECTION 3: NORM CONFORMITY ANALYSIS</p>
+<p>3.1 Does this flow conform to entrenched norms? [ ] Yes - flow is appropriate to context [ ] No - flow violates contextual norms [ ] Uncertain - norms are unclear or evolving</p>
+<p>3.2 If non-conforming, what norm is violated? - Actor violation (wrong sender or recipient) - Attribute violation (wrong information type) - Transmission principle violation</p>
+<p>3.3 Justification for norm-departing flow: (Must provide compelling argument why departure is acceptable)</p>
+<p>SECTION 4: CONTEXT COLLAPSE RISK</p>
+<p>4.1 Could information flow across context boundaries? [ ] Yes  [ ] No</p>
+<p>4.2 What controls prevent context collapse? - Technical: <strong><em>_</em></strong><strong><em>_</em>_ - Policy: </strong><strong><em>_</em></strong><strong><em>_ - Contractual: </em></strong><strong><em>_</em></strong>___</p>
+<p>4.3 Residual context collapse risk: [ ] High  [ ] Medium  [ ] Low</p>
+<p>SECTION 5: INDIGENOUS DATA CONSIDERATIONS</p>
+<p>5.1 Does processing involve Indigenous peoples' data? [ ] Yes  [ ] No [ ] Unknown</p>
+<p>5.2 If yes, which Indigenous data frameworks apply? [ ] CARE Principles  [ ] OCAP®  [ ] Te Mana Raraunga [ ] UNDRIP Article 31  [ ] Other: <strong><em>_</em></strong>______</p>
+<p>5.3 Has community consent been obtained through appropriate cultural processes? [ ] Yes  [ ] No  [ ] Not applicable  [ ] In progress</p>
+<p>5.4 Is benefit-sharing arrangement in place? [ ] Yes  [ ] No  [ ] Not applicable</p>
+<p>SECTION 6: ASSESSMENT OUTCOME</p>
+<p>6.1 Overall assessment: [ ] Flows conform to contextual norms [ ] Flows depart from norms with justification [ ] Flows violate norms - redesign required</p>
+<p>6.2 Required modifications:</p>
+<p>6.3 Assessor: <strong><em>_</em></strong><strong><em>_</em>_ 6.4 Date: </strong><strong><em>_</em></strong><strong><em>_ 6.5 Review date: </em></strong><strong><em>_</em></strong>___</p>
+<h1 id="indigenous-data-sovereignty-checklist">Indigenous Data Sovereignty Checklist<a class="headerlink" href="#indigenous-data-sovereignty-checklist" title="Permanent link">&para;</a></h1>
+<p>For deployments affecting Indigenous communities.</p>
+<p>PRE-ENGAGEMENT</p>
+<p>[ ] Identified relevant Indigenous communities [ ] Researched applicable Indigenous data frameworks [ ] Identified appropriate community representatives [ ] Reviewed UNDRIP and relevant national legislation [ ] Prepared culturally appropriate engagement approach</p>
+<p>CONSULTATION</p>
+<p>[ ] Engaged community through their governance structures [ ] Provided complete information in accessible format [ ] Allowed adequate time for community deliberation [ ] Respected community's right to say no [ ] Documented consultation process</p>
+<p>CONSENT</p>
+<p>[ ] Obtained Free, Prior and Informed Consent (FPIC) [ ] Consent obtained through culturally appropriate process [ ] Consent is specific to purpose and scope [ ] Community understands right to withdraw consent [ ] Consent documented per community preference</p>
+<p>DATA GOVERNANCE</p>
+<p>[ ] Community has authority over their data [ ] Data governance follows community protocols [ ] Community access to their data ensured [ ] Community can request data deletion/repatriation [ ] No extraction without community approval</p>
+<p>BENEFIT SHARING</p>
+<p>[ ] Benefits identified and documented [ ] Benefit-sharing agreement in place [ ] Capacity building included [ ] Community attribution/recognition included [ ] Economic benefits fairly distributed</p>
+<p>ONGOING RELATIONSHIP</p>
+<p>[ ] Regular reporting to community [ ] Community can raise concerns [ ] Process for addressing grievances [ ] Relationship managed for long-term [ ] Community involvement in research outputs</p>
+<p>TRADITIONAL KNOWLEDGE</p>
+<p>[ ] TK identified and classified [ ] TK access controls implemented [ ] No unauthorized TK disclosure [ ] No machine learning on TK without consent [ ] TK holders properly attributed</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3206 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-oracle/">
+      
+      
+        <link rel="prev" href="../ktp-celestial/">
+      
+      
+        <link rel="next" href="../ktp-provenance/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Oracle - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-trust-oracle-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Oracle
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-oracle.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-trust-oracle-specification">Kinetic Trust Protocol (KTP) - Trust Oracle Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-trust-oracle-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies the Trust Oracle for the Kinetic Trust Protocol (KTP).  The Trust Oracle is the authoritative source of trust state within a zone—issuing Trust Proofs, co-signing trajectory records, calculating environmental stability (E), and enforcing Digital Gravity.  The specification covers Oracle architecture, consensus mechanisms, threshold signatures, mesh topology, Oracle accountability, and Oracle-to-Oracle federation.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>The Trust Oracle is the nerve center of a KTP zone.  It performs the calculations that make Digital Gravity possible:</p>
+<ul>
+<li>
+<p>Collects Context Signal measurements</p>
+</li>
+<li>
+<p>Calculates Risk Factor (R) and Environmental Stability (E)</p>
+</li>
+<li>
+<p>Issues Trust Proofs to agents</p>
+</li>
+<li>
+<p>Co-signs trajectory chain transactions</p>
+</li>
+<li>
+<p>Enforces the Zeroth Law (A ≤ E)</p>
+</li>
+<li>
+<p>Applies gravity constraints when needed</p>
+</li>
+<li>
+<p>Attests to agent behavior for Proof of Resilience</p>
+</li>
+</ul>
+<p>Without a functioning Trust Oracle, KTP cannot operate.  The Oracle is both critical infrastructure and potential single point of failure.  This specification addresses both the capabilities required and the resilience necessary.</p>
+<h1 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h1>
+<p>The Trust Oracle embodies these principles:</p>
+<ol>
+<li>
+<p>Availability: The Oracle MUST be available for zone operation. Downtime means agents cannot act.</p>
+</li>
+<li>
+<p>Integrity: Oracle decisions MUST be consistent and correct. Corrupted Oracles corrupt the entire trust system.</p>
+</li>
+<li>
+<p>Accountability: Oracles are themselves subject to KTP.  They cannot exempt themselves from the constraints.</p>
+</li>
+<li>
+<p>Transparency: Oracle operations MUST be auditable.  Trust requires visibility.</p>
+</li>
+<li>
+<p>Resilience: Single Oracle failure MUST NOT disable the zone. Redundancy is required.</p>
+</li>
+<li>
+<p>Performance: Oracle latency MUST NOT bottleneck agent operations.  Speed matters.</p>
+</li>
+</ol>
+<h1 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>Attestation: A signed statement by the Oracle confirming some fact about an agent or transaction.</p>
+<p>Consensus: Agreement among multiple Oracle nodes on trust state.</p>
+<p>Oracle Mesh: A network of connected Oracle nodes providing redundancy and consensus.</p>
+<p>Oracle Node: A single instance of Trust Oracle software and associated cryptographic identity.</p>
+<p>Quorum: The minimum number of Oracle nodes required for valid decisions.</p>
+<p>Split Brain: A failure mode where Oracle nodes disagree and cannot reach consensus.</p>
+<p>Threshold Signature: A cryptographic signature requiring M-of-N participants to produce.</p>
+<p>Trust Proof: A signed attestation of an agent's current trust state, issued by the Oracle.</p>
+<h1 id="oracle-architecture">Oracle Architecture<a class="headerlink" href="#oracle-architecture" title="Permanent link">&para;</a></h1>
+<h2 id="single-node-architecture">Single Node Architecture<a class="headerlink" href="#single-node-architecture" title="Permanent link">&para;</a></h2>
+<p>A single Oracle node contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>+------------------------------------------------------------------+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|                      TRUST ORACLE NODE                           |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>|                                                                  |
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|  |                    Signal Collector                        |  |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|  |   Receives measurements from all six signal domains        |  |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|                              |                                   |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|  |                    Risk Calculator                         |  |
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|  |   R = weighted_aggregate(domain_risks)                     |  |
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|  |   E = E_base × (1 - R)                                     |  |
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|                              |                                   |
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|  |                   Zeroth Law Engine                        |  |
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|  |   Evaluates A ≤ E for every action request                 |  |
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>|                              |                                   |
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>|  |                   Gravity Calculator                       |  |
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>|  |   G = f(A, E, threshold) — determines constraint level     |  |
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>|                              |                                   |
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>|  |                   Trust Proof Issuer                       |  |
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>|  |   Issues signed Trust Proofs to agents                     |  |
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>|                              |                                   |
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>|  |                   Trajectory Co-Signer                     |  |
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>|  |   Co-signs agent transaction records                       |  |
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>|                              |                                   |
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>|  |                   Attestation Engine                       |  |
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>|  |   Issues Proof of Resilience attestations                  |  |
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>|                              |                                   |
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>|  |                    Key Management                          |  |
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>|  |   HSM-backed cryptographic operations                      |  |
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>|                              |                                   |
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>|  |                   Consensus Client                         |  |
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>|  |   Participates in Oracle Mesh consensus                    |  |
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>|  +------------------------------------------------------------+  |
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>|                                                                  |
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>+------------------------------------------------------------------+
+</code></pre></div>
+<h2 id="component-specifications">Component Specifications<a class="headerlink" href="#component-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="signal-collector">Signal Collector<a class="headerlink" href="#signal-collector" title="Permanent link">&para;</a></h3>
+<p>The Signal Collector receives measurements from Context Signal instrumentation:</p>
+<ul>
+<li>
+<p>Input: Body domain Source: Infrastructure monitoring Rate: 1-100 Hz</p>
+</li>
+<li>
+<p>Input: World domain Source: Environmental sensors/simulation Rate: 0.1-10 Hz</p>
+</li>
+<li>
+<p>Input: Time domain Source: Time subsystem Rate: Per transaction</p>
+</li>
+<li>
+<p>Input: Relational domain Source: Relationship monitoring Rate: Per interaction</p>
+</li>
+<li>
+<p>Input: Information domain Source: Information environment monitoring Rate: 1 Hz</p>
+</li>
+</ul>
+<p>The Collector MUST:</p>
+<ul>
+<li>
+<p>Validate incoming measurements</p>
+</li>
+<li>
+<p>Detect anomalous or spoofed data</p>
+</li>
+<li>
+<p>Maintain measurement history for smoothing</p>
+</li>
+<li>
+<p>Provide current Risk Factor state on demand</p>
+</li>
+</ul>
+<h3 id="risk-calculator">Risk Calculator<a class="headerlink" href="#risk-calculator" title="Permanent link">&para;</a></h3>
+<p>The Risk Calculator computes R from Risk Factor measurements:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   R = Σ(risk_factor_i × weight_i) for i in the six inputs
+</code></pre></div>
+<p>Where weights sum to 1.0 (default):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>   soul_weight       = 0.25
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>   body_weight       = 0.10
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   world_weight      = 0.15
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>   time_weight       = 0.15
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>   relational_weight = 0.20
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>   signal_weight     = 0.15
+</code></pre></div>
+<p>The Calculator MUST:</p>
+<ul>
+<li>
+<p>Update R within 10ms of an input change</p>
+</li>
+<li>
+<p>Apply temporal smoothing to prevent oscillation</p>
+</li>
+<li>
+<p>Handle missing input data gracefully</p>
+</li>
+<li>
+<p>Log R changes for audit</p>
+</li>
+</ul>
+<h3 id="zeroth-law-engine">Zeroth Law Engine<a class="headerlink" href="#zeroth-law-engine" title="Permanent link">&para;</a></h3>
+<p>The Zeroth Law Engine evaluates A ≤ E for every action:</p>
+<p>Input:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>   action_request {
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>     agent_id,
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>     action_type,
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>     target,
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>     parameters
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>   }
+</code></pre></div>
+<p>Process:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>   1.  Calculate A = autonomy(action_request)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   2.  Retrieve agent E_base
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   3.  Get current R
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>   4.  Calculate E = E_base × (1 - R)
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>   5.  Evaluate A ≤ E
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>   {
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>     permitted: boolean,
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>     A: number,
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>     E: number,
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>     gravity_recommended: number
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>   }
+</code></pre></div>
+<p>The Engine MUST:</p>
+<ul>
+<li>
+<p>Complete evaluation within 1ms</p>
+</li>
+<li>
+<p>Be deterministic (same inputs → same outputs)</p>
+</li>
+<li>
+<p>Log all evaluations</p>
+</li>
+<li>
+<p>Handle concurrent requests</p>
+</li>
+</ul>
+<h3 id="trust-proof-issuer">Trust Proof Issuer<a class="headerlink" href="#trust-proof-issuer" title="Permanent link">&para;</a></h3>
+<p>The Trust Proof Issuer creates signed Trust Proofs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>   {
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>     "proof_id": "tp-2025-12-03-001",
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>     "agent_id": "agent:independent:3gen:acme:abc123",
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     "issued_at": "2025-12-03T14:32:15.123Z",
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>     "expires_at": "2025-12-03T14:32:25.123Z",
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>     "trust_state": {
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>       "e_base": 55,
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>       "e_trust": 44,
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>       "r_current": 0.2,
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>       "tier": "analyst",
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>       "lineage": "independent",
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>       "generation": 3
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>     },
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>     "constraints": {
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>       "max_action_risk": 44,
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>       "restricted_actions": [],
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>       "gravity_active": false
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>     },
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>     "oracle_id": "oracle:zone-blue-prod-01:primary",
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>     "signature": "sig:oracle:..."
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>   }
+</code></pre></div>
+<p>Trust Proofs MUST:</p>
+<ul>
+<li>
+<p>Have short expiration (default: 10 seconds)</p>
+</li>
+<li>
+<p>Be signed by Oracle key</p>
+</li>
+<li>
+<p>Include current trust state</p>
+</li>
+<li>
+<p>Be verifiable by any party with Oracle public key</p>
+</li>
+</ul>
+<h3 id="trajectory-co-signer">Trajectory Co-Signer<a class="headerlink" href="#trajectory-co-signer" title="Permanent link">&para;</a></h3>
+<p>The Co-Signer adds Oracle attestation to trajectory records:</p>
+<p>Input: transaction_record (agent-signed)</p>
+<p>Process:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>   1.  Verify agent signature
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>   2.  Verify action was permitted
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>   3.  Verify state transitions are valid
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>   4.  Capture Risk Factor snapshot
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>   5.  Add Oracle attestation
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>   6.  Sign complete record
+</code></pre></div>
+<p>Output: transaction_record (co-signed)</p>
+<p>The Co-Signer MUST:</p>
+<ul>
+<li>
+<p>Verify before signing (never blind sign)</p>
+</li>
+<li>
+<p>Include the Risk Factor snapshot at time of transaction</p>
+</li>
+<li>
+<p>Refuse to sign invalid records</p>
+</li>
+<li>
+<p>Log all signing operations</p>
+</li>
+</ul>
+<h1 id="oracle-mesh">Oracle Mesh<a class="headerlink" href="#oracle-mesh" title="Permanent link">&para;</a></h1>
+<h2 id="mesh-topology">Mesh Topology<a class="headerlink" href="#mesh-topology" title="Permanent link">&para;</a></h2>
+<p>Production deployments MUST use multiple Oracle nodes in a mesh:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>+------------------+      +------------------+
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>|   Oracle Node 1  |&lt;----&gt;|   Oracle Node 2  |
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>+------------------+      +------------------+
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>         ^                         ^
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>         |                         |
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>         v                         v
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>+------------------+      +------------------+
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>|   Oracle Node 3  |&lt;----&gt;|   Oracle Node 4  |
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>+------------------+      +------------------+
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>         ^                         ^
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>         |                         |
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>         v                         v
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>+------------------+      +------------------+
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>|   Oracle Node 5  |&lt;----&gt;|   Oracle Node 6  |
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>+------------------+      +------------------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>           All-to-all connectivity for consensus
+</code></pre></div>
+<h2 id="mesh-requirements">Mesh Requirements<a class="headerlink" href="#mesh-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Requirement: Geographic distribution Minimum: 2 locations Recommended: 3+ locations</p>
+</li>
+<li>
+<p>Requirement: Network latency (inter-node) Minimum: &lt;100ms Recommended: &lt;50ms</p>
+</li>
+<li>
+<p>Requirement: Quorum for operations Minimum: (N/2)+1 Recommended: (2N/3)+1</p>
+</li>
+</ul>
+<h2 id="node-roles">Node Roles<a class="headerlink" href="#node-roles" title="Permanent link">&para;</a></h2>
+<p>All nodes are peers, but roles may be assigned:</p>
+<ul>
+<li>
+<p>Role: Primary Responsibility: Receives requests, initiates consensus</p>
+</li>
+<li>
+<p>Role: Secondary Responsibility: Participates in consensus, can become primary</p>
+</li>
+<li>
+<p>Role: Witness Responsibility: Participates in consensus, does not serve requests</p>
+</li>
+</ul>
+<p>Primary selection uses leader election:</p>
+<ul>
+<li>
+<p>Highest-uptime node becomes primary</p>
+</li>
+<li>
+<p>Automatic failover on primary failure</p>
+</li>
+<li>
+<p>No single primary required (multi-primary possible)</p>
+</li>
+</ul>
+<h1 id="consensus-mechanisms">Consensus Mechanisms<a class="headerlink" href="#consensus-mechanisms" title="Permanent link">&para;</a></h1>
+<h2 id="consensus-requirements">Consensus Requirements<a class="headerlink" href="#consensus-requirements" title="Permanent link">&para;</a></h2>
+<p>Oracle consensus must achieve:</p>
+<ol>
+<li>
+<p>Agreement: All honest nodes reach same decision</p>
+</li>
+<li>
+<p>Validity: Decision reflects actual trust state</p>
+</li>
+<li>
+<p>Termination: Decision is reached in bounded time</p>
+</li>
+<li>
+<p>Fault tolerance: Tolerates f &lt; N/3 Byzantine failures</p>
+</li>
+</ol>
+<h2 id="consensus-protocol">Consensus Protocol<a class="headerlink" href="#consensus-protocol" title="Permanent link">&para;</a></h2>
+<p>The Oracle Mesh uses a simplified PBFT-style consensus:</p>
+<p>Phase 1: PRE-PREPARE</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   Primary receives request
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>   Primary assigns sequence number
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>   Primary broadcasts &lt;PRE-PREPARE, seq, request&gt; to all nodes
+</code></pre></div>
+<p>Phase 2: PREPARE</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>   Nodes verify request
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   Nodes broadcast &lt;PREPARE, seq, digest&gt; to all nodes
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>   Node enters PREPARED state when 2f+1 PREPARE messages received
+</code></pre></div>
+<p>Phase 3: COMMIT</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>   Nodes broadcast &lt;COMMIT, seq, digest&gt; to all nodes
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>   Node enters COMMITTED state when 2f+1 COMMIT messages received
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>   Node executes request and responds to client
+</code></pre></div>
+<h2 id="consensus-scope">Consensus Scope<a class="headerlink" href="#consensus-scope" title="Permanent link">&para;</a></h2>
+<p>Not all operations require full consensus:</p>
+<ul>
+<li>
+<p>Operation: Zeroth Law evaluation Consensus Required: No (single node sufficient)</p>
+</li>
+<li>
+<p>Operation: Trust Proof issuance Consensus Required: No (single node sufficient)</p>
+</li>
+<li>
+<p>Operation: Trajectory co-signing Consensus Required: Yes (quorum required)</p>
+</li>
+<li>
+<p>Operation: E_base modification Consensus Required: Yes (quorum required)</p>
+</li>
+<li>
+<p>Operation: Agent Genesis Consensus Required: Yes (quorum required)</p>
+</li>
+<li>
+<p>Operation: Zone configuration change Consensus Required: Yes (supermajority required)</p>
+</li>
+</ul>
+<h2 id="split-brain-prevention">Split Brain Prevention<a class="headerlink" href="#split-brain-prevention" title="Permanent link">&para;</a></h2>
+<p>Split brain occurs when network partition creates multiple sub-quorums.  Prevention:</p>
+<ol>
+<li>
+<p>Quorum requirement: Operations require (N/2)+1 nodes</p>
+</li>
+<li>
+<p>Fencing: Partitioned nodes fence themselves</p>
+</li>
+<li>
+<p>Witness nodes: Odd number of nodes prevents even splits</p>
+</li>
+<li>
+<p>Merge protocol: Reconciliation when partition heals</p>
+</li>
+</ol>
+<h1 id="threshold-signatures">Threshold Signatures<a class="headerlink" href="#threshold-signatures" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Critical Oracle operations use threshold signatures—requiring M of N Oracle nodes to produce a valid signature.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>   Standard signature: 1 key → 1 signature
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>   Threshold signature: M of N key shares → 1 signature
+</code></pre></div>
+<p>Example (3-of-5):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   Node 1 holds share 1
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>   Node 2 holds share 2
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>   Node 3 holds share 3
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>   Node 4 holds share 4
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>   Node 5 holds share 5
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>   Any 3 nodes can combine shares to produce valid signature
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>   No single node can sign alone
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>   Signature is indistinguishable from standard signature
+</code></pre></div>
+<h2 id="threshold-scheme">Threshold Scheme<a class="headerlink" href="#threshold-scheme" title="Permanent link">&para;</a></h2>
+<p>The Oracle uses Shamir's Secret Sharing with threshold ECDSA:</p>
+<ul>
+<li>
+<p>Parameter: N Description: Total number of nodes Default: 5</p>
+</li>
+<li>
+<p>Parameter: M Description: Threshold for signing Default: 3</p>
+</li>
+<li>
+<p>Parameter: Curve Description: Elliptic curve Default: secp256k1</p>
+</li>
+<li>
+<p>Parameter: Hash Description: Hash algorithm Default: SHA-256</p>
+</li>
+</ul>
+<h2 id="key-ceremony">Key Ceremony<a class="headerlink" href="#key-ceremony" title="Permanent link">&para;</a></h2>
+<p>Threshold keys are generated in a key ceremony:</p>
+<ol>
+<li>
+<p>All N nodes generate random contributions</p>
+</li>
+<li>
+<p>Contributions are combined using DKG protocol</p>
+</li>
+<li>
+<p>Each node receives its key share</p>
+</li>
+<li>
+<p>No node ever sees complete private key</p>
+</li>
+<li>
+<p>Public key is published</p>
+</li>
+<li>
+<p>Ceremony is recorded and witnessed</p>
+</li>
+</ol>
+<h2 id="operations-requiring-threshold-signature">Operations Requiring Threshold Signature<a class="headerlink" href="#operations-requiring-threshold-signature" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Operation: E_base modification Threshold: 3-of-5</p>
+</li>
+<li>
+<p>Operation: Zone configuration change Threshold: 4-of-5</p>
+</li>
+<li>
+<p>Operation: Oracle key rotation Threshold: 4-of-5</p>
+</li>
+<li>
+<p>Operation: Zone dissolution Threshold: 5-of-5</p>
+</li>
+</ul>
+<h1 id="trust-proof-lifecycle">Trust Proof Lifecycle<a class="headerlink" href="#trust-proof-lifecycle" title="Permanent link">&para;</a></h1>
+<h2 id="issuance">Issuance<a class="headerlink" href="#issuance" title="Permanent link">&para;</a></h2>
+<p>Trust Proofs are issued on demand:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>   Agent → Oracle: RequestTrustProof(agent_id)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>   Oracle:
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>     1.  Verify agent identity
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>     2.  Calculate current E_trust
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>     3.  Determine tier and constraints
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>     4.  Create Trust Proof
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>     5.  Sign with Oracle key
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>   Oracle → Agent: TrustProof
+</code></pre></div>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<p>Any party can validate a Trust Proof:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>   Validator:
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>     1.  Check proof not expired
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>     2.  Verify Oracle signature against known public key
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>     3.  Verify agent_id matches expected agent
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>     4.  Check constraints are appropriate for action
+</code></pre></div>
+<h2 id="refresh">Refresh<a class="headerlink" href="#refresh" title="Permanent link">&para;</a></h2>
+<p>Trust Proofs expire quickly and must be refreshed:</p>
+<ul>
+<li>
+<p>Zone Type: Blue Default Expiration: 10 seconds Refresh Recommendation: Every 5 seconds</p>
+</li>
+<li>
+<p>Zone Type: Cyan Default Expiration: 30 seconds Refresh Recommendation: Every 15 seconds</p>
+</li>
+<li>
+<p>Zone Type: Green Default Expiration: 60 seconds Refresh Recommendation: Every 30 seconds</p>
+</li>
+</ul>
+<h2 id="revocation">Revocation<a class="headerlink" href="#revocation" title="Permanent link">&para;</a></h2>
+<p>Trust Proofs can be revoked before expiration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>   Oracle: RevokeTrustProof(proof_id, reason)
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>     1.  Add proof_id to revocation list
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>     2.  Broadcast revocation to mesh
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>     3.  Notify agent
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>     4.  Log revocation
+</code></pre></div>
+<p>Revocation reasons:</p>
+<ul>
+<li>
+<p>Agent violation detected</p>
+</li>
+<li>
+<p>E_base reduced</p>
+</li>
+<li>
+<p>Zone policy change</p>
+</li>
+<li>
+<p>Security incident</p>
+</li>
+</ul>
+<h1 id="oracle-accountability">Oracle Accountability<a class="headerlink" href="#oracle-accountability" title="Permanent link">&para;</a></h1>
+<h2 id="oracles-under-gravity">Oracles Under Gravity<a class="headerlink" href="#oracles-under-gravity" title="Permanent link">&para;</a></h2>
+<p>The recursive constraint principle: Oracles are subject to KTP.</p>
+<p>Oracle actions have autonomy (A):</p>
+<ul>
+<li>
+<p>Issuing Trust Proof: A = 10</p>
+</li>
+<li>
+<p>Co-signing transaction: A = 20</p>
+</li>
+<li>
+<p>Modifying E_base: A = 60</p>
+</li>
+<li>
+<p>Changing zone config: A = 80</p>
+</li>
+</ul>
+<p>Oracle has E_base based on its own trajectory:</p>
+<ul>
+<li>
+<p>Uptime history</p>
+</li>
+<li>
+<p>Decision accuracy</p>
+</li>
+<li>
+<p>Consensus participation</p>
+</li>
+<li>
+<p>No Byzantine behavior</p>
+</li>
+</ul>
+<p>Oracle actions are constrained: A_oracle ≤ E_oracle</p>
+<h2 id="oracle-trajectory">Oracle Trajectory<a class="headerlink" href="#oracle-trajectory" title="Permanent link">&para;</a></h2>
+<p>Oracles maintain their own trajectory chains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>   {
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>     "oracle_id": "oracle:zone-blue-prod-01:node-1",
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>     "trajectory": {
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>       "genesis_date": "2025-01-15T00:00:00Z",
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>       "uptime_percentage": 99.97,
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>       "transactions_co-signed": 4847293,
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>       "consensus_participation_rate": 0.998,
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>       "byzantine_incidents": 0,
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>       "e_base": 95
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>     }
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>   }
+</code></pre></div>
+<h2 id="oracle-audit">Oracle Audit<a class="headerlink" href="#oracle-audit" title="Permanent link">&para;</a></h2>
+<p>Oracle operations are logged to Flight Recorder:</p>
+<ul>
+<li>
+<p>Event: Transaction co-signed Logged Data: Transaction hash, agent, result</p>
+</li>
+<li>
+<p>Event: Zeroth Law evaluation Logged Data: A, E, result, agent, action</p>
+</li>
+<li>
+<p>Event: Consensus participation Logged Data: Vote, sequence, outcome</p>
+</li>
+<li>
+<p>Event: Configuration change Logged Data: Change details, authorizer</p>
+</li>
+</ul>
+<h2 id="oracle-misbehavior">Oracle Misbehavior<a class="headerlink" href="#oracle-misbehavior" title="Permanent link">&para;</a></h2>
+<p>Detected misbehavior triggers consequences:</p>
+<ul>
+<li>
+<p>Misbehavior: Consensus equivocation Detection: Protocol detection Consequence: Removal from mesh</p>
+</li>
+<li>
+<p>Misbehavior: Availability failure Detection: Heartbeat timeout Consequence: Temporary removal</p>
+</li>
+<li>
+<p>Misbehavior: Byzantine behavior Detection: BFT detection Consequence: Permanent removal</p>
+</li>
+</ul>
+<h1 id="federation">Federation<a class="headerlink" href="#federation" title="Permanent link">&para;</a></h1>
+<h2 id="oracle-to-oracle-federation">Oracle-to-Oracle Federation<a class="headerlink" href="#oracle-to-oracle-federation" title="Permanent link">&para;</a></h2>
+<p>Oracles in different zones can federate:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>   Zone A Oracle &lt;---&gt; Zone B Oracle
+</code></pre></div>
+<p>Federation enables:</p>
+<ul>
+<li>
+<p>Cross-zone Trust Proof validation</p>
+</li>
+<li>
+<p>Trajectory verification requests</p>
+</li>
+<li>
+<p>Exit Attestation verification</p>
+</li>
+<li>
+<p>Coordinated emergency response</p>
+</li>
+</ul>
+<h2 id="federation-establishment">Federation Establishment<a class="headerlink" href="#federation-establishment" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Zone A Oracle requests federation with Zone B</p>
+</li>
+<li>
+<p>Zone B reviews Zone A governance and attestations</p>
+</li>
+<li>
+<p>Both zones sign Federation Agreement</p>
+</li>
+<li>
+<p>Public keys exchanged</p>
+</li>
+<li>
+<p>Trust factors established</p>
+</li>
+<li>
+<p>Federation active</p>
+</li>
+</ol>
+<h2 id="federation-trust-factor">Federation Trust Factor<a class="headerlink" href="#federation-trust-factor" title="Permanent link">&para;</a></h2>
+<p>Trust is discounted across federation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>   {
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>     "federation": {
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>       "zone_a": "zone-blue-prod-01",
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>       "zone_b": "zone-blue-prod-02",
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>       "trust_factor_a_to_b": 0.9,
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>       "trust_factor_b_to_a": 0.9,
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>       "established": "2025-06-01T00:00:00Z",
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>       "last_verified": "2025-12-01T00:00:00Z"
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>     }
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>   }
+</code></pre></div>
+<h2 id="cross-zone-operations">Cross-Zone Operations<a class="headerlink" href="#cross-zone-operations" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Operation: Verify foreign trajectory Federation Requirement: Federation active</p>
+</li>
+<li>
+<p>Operation: Accept Exit Attestation Federation Requirement: Federation active</p>
+</li>
+<li>
+<p>Operation: Cross-zone agent migration Federation Requirement: Federation active</p>
+</li>
+</ul>
+<h1 id="performance-requirements">Performance Requirements<a class="headerlink" href="#performance-requirements" title="Permanent link">&para;</a></h1>
+<h2 id="latency-targets">Latency Targets<a class="headerlink" href="#latency-targets" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Operation: Zeroth Law evaluation Target: 1ms Maximum: 5ms</p>
+</li>
+<li>
+<p>Operation: Trust Proof issuance Target: 5ms Maximum: 20ms</p>
+</li>
+<li>
+<p>Operation: Transaction co-signing Target: 10ms Maximum: 50ms</p>
+</li>
+<li>
+<p>Operation: Consensus round Target: 50ms Maximum: 200ms</p>
+</li>
+</ul>
+<h2 id="throughput-targets">Throughput Targets<a class="headerlink" href="#throughput-targets" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Metric: Evaluations/second Target: 100,000 Notes: Per node</p>
+</li>
+<li>
+<p>Metric: Co-signatures/second Target: 1,000 Notes: Consensus limited</p>
+</li>
+</ul>
+<h2 id="mesh-and-node-availability-targets">Mesh and node availability targets<a class="headerlink" href="#mesh-and-node-availability-targets" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Metric: Mesh availability Target: 99.99%</p>
+</li>
+<li>
+<p>Metric: Single node availability Target: 99.9%</p>
+</li>
+<li>
+<p>Metric: Recovery time (node failure) Target: &lt;10 seconds</p>
+</li>
+<li>
+<p>Metric: Recovery time (quorum loss) Target: &lt;60 seconds</p>
+</li>
+</ul>
+<h1 id="deployment-models">Deployment Models<a class="headerlink" href="#deployment-models" title="Permanent link">&para;</a></h1>
+<h2 id="cloud-deployment">Cloud Deployment<a class="headerlink" href="#cloud-deployment" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>+------------------+    +------------------+    +------------------+
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>|    Region A      |    |    Region B      |    |    Region C      |
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>|   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>|   | Oracle 1 |   |    |   | Oracle 2 |   |    |   | Oracle 3 |   |
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>|   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>|   | Oracle 4 |   |    |   | Oracle 5 |   |    |                  |
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>|   +----------+   |    |   +----------+   |    |                  |
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>+------------------+    +------------------+    +------------------+
+</code></pre></div>
+<h2 id="on-premises-deployment">On-Premises Deployment<a class="headerlink" href="#on-premises-deployment" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>+------------------+    +------------------+
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>|  Data Center A   |    |  Data Center B   |
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>|   +----------+   |    |   +----------+   |
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>|   | Oracle 1 |   |    |   | Oracle 3 |   |
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>|   +----------+   |    |   +----------+   |
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>|   | Oracle 2 |   |    |   | Oracle 4 |   |
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>|   +----------+   |    |   +----------+   |
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>|                  |    |   | Oracle 5 |   |
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>|                  |    |   +----------+   |
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>+------------------+    +------------------+
+</code></pre></div>
+<h2 id="hybrid-deployment">Hybrid Deployment<a class="headerlink" href="#hybrid-deployment" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>+------------------+    +------------------+    +------------------+
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>|   On-Premises    |    |    Cloud A       |    |    Cloud B       |
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>|   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>|   | Oracle 1 |   |    |   | Oracle 3 |   |    |   | Oracle 5 |   |
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>|   +----------+   |    |   +----------+   |    |   +----------+   |
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>|   | Oracle 2 |   |    |   | Oracle 4 |   |    |                  |
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>|   +----------+   |    |   +----------+   |    |                  |
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>+------------------+    +------------------+    +------------------+
+</code></pre></div>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="key-protection">Key Protection<a class="headerlink" href="#key-protection" title="Permanent link">&para;</a></h2>
+<p>Oracle private keys MUST be protected:</p>
+<ul>
+<li>
+<p>HSM storage required for production</p>
+</li>
+<li>
+<p>Key shares never assembled outside ceremony</p>
+</li>
+<li>
+<p>Access controls on key operations</p>
+</li>
+<li>
+<p>Audit logging of all key use</p>
+</li>
+</ul>
+<h2 id="network-security">Network Security<a class="headerlink" href="#network-security" title="Permanent link">&para;</a></h2>
+<p>Oracle mesh communication MUST be secured:</p>
+<ul>
+<li>
+<p>Mutual TLS between all nodes</p>
+</li>
+<li>
+<p>Certificate pinning</p>
+</li>
+<li>
+<p>Network isolation where possible</p>
+</li>
+<li>
+<p>DDoS protection</p>
+</li>
+</ul>
+<h2 id="byzantine-fault-tolerance">Byzantine Fault Tolerance<a class="headerlink" href="#byzantine-fault-tolerance" title="Permanent link">&para;</a></h2>
+<p>The mesh tolerates Byzantine (malicious) nodes:</p>
+<ul>
+<li>
+<p>Up to f &lt; N/3 Byzantine nodes tolerated</p>
+</li>
+<li>
+<p>Byzantine behavior detected by protocol</p>
+</li>
+<li>
+<p>Detected Byzantine nodes removed</p>
+</li>
+<li>
+<p>Mesh continues with remaining honest nodes</p>
+</li>
+</ul>
+<h2 id="oracle-compromise-response">Oracle Compromise Response<a class="headerlink" href="#oracle-compromise-response" title="Permanent link">&para;</a></h2>
+<p>If Oracle compromise is detected:</p>
+<ol>
+<li>
+<p>Isolate compromised node</p>
+</li>
+<li>
+<p>Revoke node's key share</p>
+</li>
+<li>
+<p>Issue key rotation if threshold compromised</p>
+</li>
+<li>
+<p>Audit all recent decisions</p>
+</li>
+<li>
+<p>Notify affected agents</p>
+</li>
+<li>
+<p>Post-incident review</p>
+</li>
+</ol>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<p>This document has no IANA actions.</p>
+<h1 id="back-matter">Back Matter<a class="headerlink" href="#back-matter" title="Permanent link">&para;</a></h1>
+<h1 id="oracle-node-specification">Oracle Node Specification<a class="headerlink" href="#oracle-node-specification" title="Permanent link">&para;</a></h1>
+<p>Hardware and software requirements for Oracle nodes.</p>
+<p>Minimum Hardware:</p>
+<ul>
+<li>
+<p>Component: CPU Requirement: 8 cores</p>
+</li>
+<li>
+<p>Component: RAM Requirement: 32 GB</p>
+</li>
+<li>
+<p>Component: Storage Requirement: 500 GB NVMe SSD</p>
+</li>
+<li>
+<p>Component: Network Requirement: 1 Gbps</p>
+</li>
+<li>
+<p>Component: HSM Requirement: FIPS 140-2 Level 3</p>
+</li>
+</ul>
+<p>Recommended Hardware:</p>
+<ul>
+<li>
+<p>Component: CPU Requirement: 16+ cores</p>
+</li>
+<li>
+<p>Component: RAM Requirement: 64 GB</p>
+</li>
+<li>
+<p>Component: Storage Requirement: 1 TB NVMe SSD (RAID)</p>
+</li>
+<li>
+<p>Component: Network Requirement: 10 Gbps</p>
+</li>
+<li>
+<p>Component: HSM Requirement: FIPS 140-2 Level 3, HA</p>
+</li>
+</ul>
+<h1 id="consensus-protocol-details">Consensus Protocol Details<a class="headerlink" href="#consensus-protocol-details" title="Permanent link">&para;</a></h1>
+<p>Detailed specification of the consensus protocol.</p>
+<h1 id="threshold-signature-implementation">Threshold Signature Implementation<a class="headerlink" href="#threshold-signature-implementation" title="Permanent link">&para;</a></h1>
+<p>Implementation guidance for threshold ECDSA.</p>
+<p>Acknowledgments</p>
+<p>The Trust Oracle design draws on distributed systems research, Byzantine fault tolerance literature, and production experience with consensus systems.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

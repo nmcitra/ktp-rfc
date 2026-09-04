@@ -1,0 +1,3266 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-recovery/">
+      
+      
+        <link rel="prev" href="../ktp-audit/">
+      
+      
+        <link rel="next" href="../ktp-migration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Recovery - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-recovery-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Recovery
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-recovery.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-recovery-specification">Kinetic Trust Protocol (KTP) - Recovery Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-recovery-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies disaster recovery, backup, restoration, and failure handling procedures for Kinetic Trust Protocol (KTP) deployments. It addresses Oracle mesh failures, zone recovery, federation partition handling, and data restoration procedures.</p>
+<p>Security systems must be resilient. This specification ensures KTP deployments can recover from failures without compromising security properties.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>"Everything fails, all the time." - Werner Vogels</p>
+<p>KTP systems protect critical operations. When components fail, the system must either continue operating safely or recover quickly. This specification defines how.</p>
+<p>Recovery objectives:</p>
+<ol>
+<li>
+<p>SECURITY PRESERVATION Recovery must not compromise security properties. "Fail secure" takes precedence over "fail available."</p>
+</li>
+<li>
+<p>DATA INTEGRITY Recovered state must be consistent and verifiable. No silent data corruption or loss.</p>
+</li>
+<li>
+<p>MINIMAL DISRUPTION Recovery should be as fast as possible while meeting objectives 1 and 2.</p>
+</li>
+<li>
+<p>AUDITABILITY All recovery actions must be logged and attributable.</p>
+</li>
+</ol>
+<h2 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.</p>
+<h1 id="recovery-principles">Recovery Principles<a class="headerlink" href="#recovery-principles" title="Permanent link">&para;</a></h1>
+<p>PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point ([KTP-CORE] Section 6.7). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.</p>
+<p>PRINCIPLE 2: NO SINGLE POINT OF FAILURE Every critical component should have redundancy. Threshold cryptography for Oracles. Multiple Flight Recorders. Distributed sensors.</p>
+<p>PRINCIPLE 3: DEFENSE IN DEPTH FOR RECOVERY Backup your backups. Verify your verifications. Test your tests. Recovery procedures themselves can fail.</p>
+<p>PRINCIPLE 4: SECURITY DURING RECOVERY Recovery mode is an attractive attack window. Maintain authentication, authorization, and audit during recovery.</p>
+<p>PRINCIPLE 5: KNOWN-GOOD STATE Recovery should restore to a known-good state, not just "last state." Compromised state should not be restored.</p>
+<p>Recovery Time Objectives (RTO):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>+----------------------+----------+------------+------------+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>| Component            | Level 1  | Level 2    | Level 3    |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>+----------------------+----------+------------+------------+
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>| Single Oracle node   | 1 hour   | 15 minutes | 5 minutes  |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>| Oracle mesh (quorum) | 4 hours  | 1 hour     | 15 minutes |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>| Flight Recorder      | 24 hours | 4 hours    | 1 hour     |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>| Federation gateway   | 4 hours  | 1 hour     | 15 minutes |
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>| Full zone            | 24 hours | 8 hours    | 2 hours    |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>+----------------------+----------+------------+------------+
+</code></pre></div>
+<p>Recovery Point Objectives (RPO):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>+--------------------+----------+------------+---------------+
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>| Data Type          | Level 1  | Level 2    | Level 3       |
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>+--------------------+----------+------------+---------------+
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>| Trust Score state  | 1 hour   | 15 minutes | 1 minute      |
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>| Trajectory records | 24 hours | 1 hour     | 15 minutes    |
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>| Flight Recorder    | 1 hour   | 15 minutes | 0 (real-time) |
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>| Configuration      | 24 hours | 4 hours    | 1 hour        |
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>+--------------------+----------+------------+---------------+
+</code></pre></div>
+<h1 id="failure-modes">Failure Modes<a class="headerlink" href="#failure-modes" title="Permanent link">&para;</a></h1>
+<h2 id="oracle-node-failure">Oracle Node Failure<a class="headerlink" href="#oracle-node-failure" title="Permanent link">&para;</a></h2>
+<p>Definition: Single Oracle node becomes unavailable while remaining nodes continue operating.</p>
+<h3 id="detection">Detection<a class="headerlink" href="#detection" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Heartbeat failure (3 consecutive missed, 30 seconds)</li>
+<li>Threshold signing failure (node doesn't contribute)</li>
+<li>Health check endpoint returns error or timeout</li>
+<li>Network unreachability</li>
+</ul>
+<h3 id="impact-assessment">Impact Assessment<a class="headerlink" href="#impact-assessment" title="Permanent link">&para;</a></h3>
+<p>Impact depends on threshold configuration:</p>
+<ul>
+<li>5-of-7 threshold: 2 nodes can fail, still operational</li>
+<li>3-of-5 threshold: 2 nodes can fail, still operational</li>
+<li>2-of-3 threshold: 1 node can fail, still operational</li>
+</ul>
+<p>Single node failure with adequate threshold:</p>
+<ul>
+<li>No Trust Proof issuance interruption</li>
+<li>Slight latency increase (fewer signing participants)</li>
+<li>Reduced fault tolerance margin</li>
+</ul>
+<h3 id="automatic-response">Automatic Response<a class="headerlink" href="#automatic-response" title="Permanent link">&para;</a></h3>
+<ol>
+<li>DETECT: Monitoring detects node failure</li>
+<li>ISOLATE: Remove node from signing rotation</li>
+<li>ALERT: Notify operations team</li>
+<li>CONTINUE: Remaining nodes continue operation</li>
+<li>REDISTRIBUTE: Rebalance load across healthy nodes</li>
+</ol>
+<h3 id="manual-recovery">Manual Recovery<a class="headerlink" href="#manual-recovery" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>DIAGNOSE: Determine failure cause -  Hardware failure -&gt; Replace hardware -  Software crash -&gt; Analyze, restart or redeploy -  Network issue -&gt; Resolve network problem -  Compromise suspected -&gt; Initiate incident response</p>
+</li>
+<li>
+<p>RESTORE: Return node to operation -  Restart service if software issue -  Redeploy to new hardware if hardware issue -  Re-sync state from healthy nodes</p>
+</li>
+<li>
+<p>VERIFY: Confirm proper operation -  Health check passes -  Participates in threshold signing -  State matches other nodes</p>
+</li>
+<li>
+<p>REINTEGRATE: Add back to rotation -  Gradually increase traffic -  Monitor for issues -  Restore full participation</p>
+</li>
+</ol>
+<h3 id="key-share-considerations">Key Share Considerations<a class="headerlink" href="#key-share-considerations" title="Permanent link">&para;</a></h3>
+<p>Oracle node has threshold key share. If node is compromised:</p>
+<ul>
+<li>DO NOT restore node with same key share</li>
+<li>Initiate key rotation procedure (KTP-CRYPTO Section 8.4)</li>
+<li>Generate new key shares for all nodes</li>
+<li>Old key enters grace period, then expires</li>
+</ul>
+<p>If node failure is NOT compromise:</p>
+<ul>
+<li>Key share can be restored from backup</li>
+<li>Or regenerated from other shares (if supported)</li>
+<li>HSM attestation should verify integrity</li>
+</ul>
+<h2 id="oracle-mesh-partition">Oracle Mesh Partition<a class="headerlink" href="#oracle-mesh-partition" title="Permanent link">&para;</a></h2>
+<p>Definition: Oracle mesh splits into disconnected groups, neither having quorum.</p>
+<h3 id="detection_1">Detection<a class="headerlink" href="#detection_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Threshold signing fails (insufficient participants)</li>
+<li>Nodes report partial connectivity</li>
+<li>Network monitoring shows partition</li>
+</ul>
+<h3 id="impact">Impact<a class="headerlink" href="#impact" title="Permanent link">&para;</a></h3>
+<p>CRITICAL: Trust Proof issuance stops zone-wide</p>
+<ul>
+<li>No new Trust Proofs can be issued</li>
+<li>Existing proofs continue until expiration</li>
+<li>PEPs enter degraded mode (cache or fail-closed)</li>
+<li>Operations requiring new proofs fail</li>
+</ul>
+<h3 id="degradation-behavior">Degradation Behavior<a class="headerlink" href="#degradation-behavior" title="Permanent link">&para;</a></h3>
+<p>During partition, PEPs should:</p>
+<ol>
+<li>
+<p>CACHE MODE (short partition, &lt;5 minutes) -  Continue honoring cached Trust Proofs -  Allow actions within cached proof validity -  Queue proof refresh requests</p>
+</li>
+<li>
+<p>CONSERVATIVE MODE (medium partition, 5-30 minutes) -  Honor cached proofs for existing sessions -  Deny new sessions requiring fresh proofs -  Allow only low-risk actions</p>
+</li>
+<li>
+<p>FAIL-CLOSED MODE (long partition, &gt;30 minutes) -  Deny all actions requiring Trust Proofs -  Allow only pre-authorized emergency actions -  Alert administrators</p>
+</li>
+</ol>
+<h3 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>IDENTIFY partition cause -  Network failure between sites -  BGP issue, firewall misconfiguration -  DDoS attack on network links</p>
+</li>
+<li>
+<p>RESOLVE network issue -  Work with network team -  Activate backup network paths -  Engage ISP if external</p>
+</li>
+<li>
+<p>RECONCILE state after healing -  Nodes compare state -  Resolve any conflicts (rare, but possible) -  Resume threshold signing</p>
+</li>
+</ol>
+<h3 id="prevention">Prevention<a class="headerlink" href="#prevention" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Geographic diversity but network redundancy</li>
+<li>Multiple network paths between Oracle sites</li>
+<li>Monitoring of network health</li>
+<li>Regular partition testing</li>
+</ul>
+<h2 id="total-oracle-loss">Total Oracle Loss<a class="headerlink" href="#total-oracle-loss" title="Permanent link">&para;</a></h2>
+<p>Definition: All Oracle nodes fail or are unreachable. No threshold signing is possible.</p>
+<p>This is the most severe failure mode.</p>
+<h3 id="detection_2">Detection<a class="headerlink" href="#detection_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All health checks fail</li>
+<li>No nodes respond to signing requests</li>
+<li>Monitoring shows all nodes down</li>
+</ul>
+<h3 id="impact_1">Impact<a class="headerlink" href="#impact_1" title="Permanent link">&para;</a></h3>
+<p>CRITICAL: Zone is effectively offline for new trust decisions</p>
+<ul>
+<li>No new Trust Proofs</li>
+<li>Existing proofs expire within seconds</li>
+<li>All enforced actions eventually blocked</li>
+<li>Zone enters emergency mode</li>
+</ul>
+<h3 id="emergency-mode-operation">Emergency Mode Operation<a class="headerlink" href="#emergency-mode-operation" title="Permanent link">&para;</a></h3>
+<p>When total Oracle loss detected:</p>
+<ol>
+<li>
+<p>PEPs switch to EMERGENCY MODE -  Pre-configured emergency policy takes effect -  Only explicitly allowed actions permitted -  All other actions denied</p>
+</li>
+<li>
+<p>Emergency policy should define: -  Life-safety actions always allowed -  Critical infrastructure maintenance allowed -  All other actions denied -  Aggressive alerting</p>
+</li>
+<li>
+<p>Human intervention REQUIRED -  Automated recovery cannot restore from total loss -  Key ceremony may be required -  Business continuity procedures activated</p>
+</li>
+</ol>
+<h3 id="recovery-from-total-loss">Recovery from Total Loss<a class="headerlink" href="#recovery-from-total-loss" title="Permanent link">&para;</a></h3>
+<p>SCENARIO A: Infrastructure failure (all nodes down but intact)</p>
+<ol>
+<li>Restore infrastructure (network, power, hardware)</li>
+<li>Restart Oracle nodes</li>
+<li>Nodes recover state from local storage</li>
+<li>Verify threshold signing works</li>
+<li>Exit emergency mode</li>
+</ol>
+<p>SCENARIO B: Data loss (nodes destroyed)</p>
+<ol>
+<li>Provision new Oracle infrastructure</li>
+<li>Restore from backup: -  Configuration from backup -  State from backup -  Key shares from secure backup (if available)</li>
+<li>If key shares not recoverable: -  Initiate key recovery ceremony -  Recover from trustee-held shares</li>
+<li>Verify and reintegrate</li>
+</ol>
+<p>SCENARIO C: Suspected compromise (all nodes potentially hostile)</p>
+<ol>
+<li>DO NOT restore from current backups (may be compromised)</li>
+<li>Activate incident response</li>
+<li>Rebuild from known-good golden images</li>
+<li>Key ceremony to generate new keys</li>
+<li>Re-enroll all agents (may be required)</li>
+<li>Forensic investigation of compromise</li>
+</ol>
+<h2 id="flight-recorder-failure">Flight Recorder Failure<a class="headerlink" href="#flight-recorder-failure" title="Permanent link">&para;</a></h2>
+<p>Definition: Flight Recorder becomes unavailable or corrupted.</p>
+<h3 id="detection_3">Detection<a class="headerlink" href="#detection_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Write failures from components</li>
+<li>Read failures for queries</li>
+<li>Integrity check failures</li>
+<li>Storage exhaustion</li>
+</ul>
+<h3 id="impact_2">Impact<a class="headerlink" href="#impact_2" title="Permanent link">&para;</a></h3>
+<p>MEDIUM-HIGH: Audit trail may have gaps</p>
+<ul>
+<li>New decisions may not be recorded</li>
+<li>Historical queries fail</li>
+<li>Compliance impact</li>
+<li>Forensic capability degraded</li>
+</ul>
+<p>Note: Flight Recorder failure does NOT stop Trust Proof issuance. Operations can continue, but without audit.</p>
+<h3 id="degradation-behavior_1">Degradation Behavior<a class="headerlink" href="#degradation-behavior_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>LOCAL BUFFERING -  Components buffer audit records locally -  Typical buffer: 1 hour of records -  Buffer overflow: oldest records dropped (with count)</p>
+</li>
+<li>
+<p>SECONDARY FLIGHT RECORDER -  If configured, switch to secondary -  Primary failure logged</p>
+</li>
+<li>
+<p>ALERTING -  Immediate alert on Flight Recorder failure -  Escalating alerts as buffer fills</p>
+</li>
+</ol>
+<h3 id="recovery">Recovery<a class="headerlink" href="#recovery" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Restore Flight Recorder service</li>
+<li>Flush buffered records from components</li>
+<li>Verify chain integrity -  Chain will have gap marker if records lost -  Gap is itself recorded and auditable</li>
+<li>Investigate cause of failure</li>
+</ol>
+<h3 id="chain-gap-handling">Chain Gap Handling<a class="headerlink" href="#chain-gap-handling" title="Permanent link">&para;</a></h3>
+<p>If records were lost during failure:</p>
+<p>{ "record_type": "chain_gap", "gap_start": "2025-11-25T10:00:00Z", "gap_end": "2025-11-25T10:15:00Z", "estimated_records_lost": 1500, "cause": "flight_recorder_failure", "recovery_action": "restored_from_backup", "signature": "..." }</p>
+<p>Gap records are signed by Oracle and become part of permanent audit trail.</p>
+<h2 id="sensor-aggregator-failure">Sensor Aggregator Failure<a class="headerlink" href="#sensor-aggregator-failure" title="Permanent link">&para;</a></h2>
+<p>Definition: Sensor aggregator becomes unavailable.</p>
+<h3 id="impact_3">Impact<a class="headerlink" href="#impact_3" title="Permanent link">&para;</a></h3>
+<p>MEDIUM: Context Signal updates degraded</p>
+<ul>
+<li>Sensors cannot deliver readings</li>
+<li>Risk Factor inputs use stale data</li>
+<li>Risk Factor calculation affected</li>
+</ul>
+<h3 id="degradation-behavior_2">Degradation Behavior<a class="headerlink" href="#degradation-behavior_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>SENSOR BUFFERING -  Sensors buffer readings locally -  Typical buffer: 5 minutes</p>
+</li>
+<li>
+<p>STALE DATA MARKING -  Oracle marks Risk Factor inputs as stale -  Stale inputs may increase Risk Factor -  Or use conservative defaults</p>
+</li>
+<li>
+<p>FAILOVER -  Sensors switch to backup aggregator (if configured)</p>
+</li>
+</ol>
+<h3 id="recovery_1">Recovery<a class="headerlink" href="#recovery_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Restore aggregator service</li>
+<li>Sensors flush buffered readings</li>
+<li>Context Signals return to real-time</li>
+<li>Trust Scores normalize</li>
+</ol>
+<h2 id="federation-gateway-failure">Federation Gateway Failure<a class="headerlink" href="#federation-gateway-failure" title="Permanent link">&para;</a></h2>
+<p>Definition: Federation gateway becomes unavailable.</p>
+<h3 id="impact_4">Impact<a class="headerlink" href="#impact_4" title="Permanent link">&para;</a></h3>
+<p>MEDIUM: Cross-zone trust affected</p>
+<ul>
+<li>Cannot accept foreign Trust Proofs</li>
+<li>Cannot issue cross-zone attestations</li>
+<li>Federation heartbeat fails</li>
+<li>Partner zones see this zone as degraded</li>
+</ul>
+<h3 id="degradation-behavior_3">Degradation Behavior<a class="headerlink" href="#degradation-behavior_3" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>CACHED FOREIGN PROOFS -  Honor cached foreign proofs until expiration -  No new foreign proofs accepted</p>
+</li>
+<li>
+<p>LOCAL OPERATION -  Zone operates independently -  Local agents unaffected -  Cross-zone agents cannot operate</p>
+</li>
+<li>
+<p>PARTNER NOTIFICATION -  Heartbeat failure notifies partners -  Partners reduce trust factor for this zone</p>
+</li>
+</ol>
+<h3 id="recovery_2">Recovery<a class="headerlink" href="#recovery_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Restore federation gateway</li>
+<li>Re-establish federation connections</li>
+<li>Resume heartbeat</li>
+<li>Trust factor gradually recovers</li>
+</ol>
+<h2 id="zone-wide-failure">Zone-Wide Failure<a class="headerlink" href="#zone-wide-failure" title="Permanent link">&para;</a></h2>
+<p>Definition: Entire zone becomes unavailable (natural disaster, massive infrastructure failure, coordinated attack).</p>
+<h3 id="impact_5">Impact<a class="headerlink" href="#impact_5" title="Permanent link">&para;</a></h3>
+<p>CRITICAL: All zone operations cease</p>
+<ul>
+<li>All agents in zone cannot operate</li>
+<li>All protected resources inaccessible</li>
+<li>Federation partners lose connection</li>
+</ul>
+<h3 id="recovery-options">Recovery Options<a class="headerlink" href="#recovery-options" title="Permanent link">&para;</a></h3>
+<p>OPTION A: Restore in place</p>
+<ul>
+<li>Rebuild infrastructure at same location</li>
+<li>Restore from backups</li>
+<li>Resume operations</li>
+</ul>
+<p>OPTION B: Failover to DR site</p>
+<ul>
+<li>Activate disaster recovery site</li>
+<li>Restore from replicated data</li>
+<li>Update DNS/routing to DR site</li>
+<li>Resume operations at DR</li>
+</ul>
+<p>OPTION C: Migrate to partner zone (temporary)</p>
+<ul>
+<li>Federated partner accepts refugees</li>
+<li>Agents operate with reduced trust (foreign zone penalty)</li>
+<li>Temporary until primary zone restored</li>
+</ul>
+<h3 id="dr-site-requirements">DR Site Requirements<a class="headerlink" href="#dr-site-requirements" title="Permanent link">&para;</a></h3>
+<p>For Level 3 deployments, DR site MUST:</p>
+<ul>
+<li>Be geographically separate (&gt;100 miles recommended)</li>
+<li>Have independent power and network</li>
+<li>Maintain synchronized state (RPO per Section 2)</li>
+<li>Have HSMs with key shares</li>
+<li>Be tested quarterly</li>
+</ul>
+<h1 id="backup-procedures">Backup Procedures<a class="headerlink" href="#backup-procedures" title="Permanent link">&para;</a></h1>
+<h2 id="what-to-back-up">What to Back Up<a class="headerlink" href="#what-to-back-up" title="Permanent link">&para;</a></h2>
+<h3 id="critical-must-back-up">Critical (MUST back up)<a class="headerlink" href="#critical-must-back-up" title="Permanent link">&para;</a></h3>
+<p>ORACLE SIGNING KEY SHARES</p>
+<ul>
+<li>Threshold key shares for Trust Proof signing</li>
+<li>Backup encrypted to recovery keys</li>
+<li>Stored with trustees (not with Oracle)</li>
+<li>Recovery requires M-of-N trustees</li>
+</ul>
+<p>ZONE CONFIGURATION</p>
+<ul>
+<li>Security policies, thresholds, weights</li>
+<li>Soul constraints</li>
+<li>Trust Tier boundaries</li>
+<li>Federation agreements</li>
+</ul>
+<p>FLIGHT RECORDER DATA</p>
+<ul>
+<li>All audit records</li>
+<li>Chain hashes</li>
+<li>External anchor references</li>
+</ul>
+<h3 id="important-should-back-up">Important (SHOULD back up)<a class="headerlink" href="#important-should-back-up" title="Permanent link">&para;</a></h3>
+<p>AGENT REGISTRY</p>
+<ul>
+<li>Registered agents</li>
+<li>Public keys</li>
+<li>Lineage information</li>
+<li>Current E_base (can be recalculated)</li>
+</ul>
+<p>TRAJECTORY CHAINS</p>
+<ul>
+<li>Agent transaction history</li>
+<li>Proof of Resilience records</li>
+<li>(Large; may use differential backups)</li>
+</ul>
+<p>SENSOR CONFIGURATION</p>
+<ul>
+<li>Sensor registrations</li>
+<li>Aggregator mappings</li>
+<li>Baseline calibrations</li>
+</ul>
+<h3 id="reconstructible-may-back-up">Reconstructible (MAY back up)<a class="headerlink" href="#reconstructible-may-back-up" title="Permanent link">&para;</a></h3>
+<p>TRUST SCORES</p>
+<ul>
+<li>Current E_trust values</li>
+<li>Can be recalculated from E_base and the Risk Factor inputs</li>
+</ul>
+<p>CONTEXT SIGNALS</p>
+<ul>
+<li>Current sensor readings</li>
+<li>Will be refreshed by live sensors</li>
+</ul>
+<p>CACHED TRUST PROOFS</p>
+<ul>
+<li>Short-lived, will be re-issued</li>
+</ul>
+<h2 id="backup-frequency">Backup Frequency<a class="headerlink" href="#backup-frequency" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>+-------------------+-------------------+----------------------+
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| Data Type         | Backup Frequency  | Retention            |
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>+-------------------+-------------------+----------------------+
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| Key shares        | On change only    | Forever              |
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| Configuration     | On change + daily | 1 year               |
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| Flight Recorder   | Continuous/hourly | Per policy (7 years) |
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>| Agent Registry    | Daily             | 90 days              |
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>| Trajectory Chains | Daily incremental | 1 year full, 7 incr  |
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>| Sensor Config     | Daily             | 90 days              |
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>+-------------------+-------------------+----------------------+
+</code></pre></div>
+<h2 id="backup-security">Backup Security<a class="headerlink" href="#backup-security" title="Permanent link">&para;</a></h2>
+<p>ENCRYPTION</p>
+<ul>
+<li>All backups encrypted at rest</li>
+<li>Encryption key separate from backed-up keys</li>
+<li>Key shares backed up to different location than data</li>
+</ul>
+<p>ACCESS CONTROL</p>
+<ul>
+<li>Backup access requires authentication</li>
+<li>Restore requires multi-person authorization (Level 2+)</li>
+<li>All access logged</li>
+</ul>
+<p>INTEGRITY</p>
+<ul>
+<li>Backups include cryptographic checksums</li>
+<li>Verify integrity before restore</li>
+<li>Detect tampering</li>
+</ul>
+<p>ISOLATION</p>
+<ul>
+<li>Backups stored separately from production</li>
+<li>Air-gapped for highest security (Level 3)</li>
+<li>Ransomware cannot reach backups</li>
+</ul>
+<h2 id="backup-verification">Backup Verification<a class="headerlink" href="#backup-verification" title="Permanent link">&para;</a></h2>
+<p>VERIFICATION SCHEDULE</p>
+<ul>
+<li>Automated integrity check: Daily</li>
+<li>Restore test to isolated environment: Monthly</li>
+<li>Full DR test: Quarterly (Level 2+), Monthly (Level 3)</li>
+</ul>
+<p>VERIFICATION PROCEDURES</p>
+<ol>
+<li>Verify backup file integrity (checksums)</li>
+<li>Verify backup completeness (all expected files)</li>
+<li>Restore to isolated environment</li>
+<li>Verify restored system functions</li>
+<li>Verify restored data matches source</li>
+<li>Document results</li>
+</ol>
+<h1 id="restoration-procedures">Restoration Procedures<a class="headerlink" href="#restoration-procedures" title="Permanent link">&para;</a></h1>
+<h2 id="oracle-restoration">Oracle Restoration<a class="headerlink" href="#oracle-restoration" title="Permanent link">&para;</a></h2>
+<h3 id="single-node-restoration">Single Node Restoration<a class="headerlink" href="#single-node-restoration" title="Permanent link">&para;</a></h3>
+<p>Prerequisites:</p>
+<ul>
+<li>Healthy Oracle mesh (other nodes operational)</li>
+<li>Backup of node configuration</li>
+<li>Key share (from backup or ceremony)</li>
+</ul>
+<p>Procedure:</p>
+<ol>
+<li>
+<p>PROVISION infrastructure -  Deploy new VM/hardware -  Install Oracle software -  Configure network</p>
+</li>
+<li>
+<p>RESTORE configuration -  Apply configuration from backup -  Verify configuration matches zone</p>
+</li>
+<li>
+<p>RESTORE key share -  If HSM available: Import key share -  If HSM destroyed: Recover from trustee backup</p>
+</li>
+<li>
+<p>SYNC state -  Connect to healthy nodes -  Sync current Trust Score state -  Sync recent trajectory updates</p>
+</li>
+<li>
+<p>VERIFY operation -  Run health checks -  Participate in test signing -  Verify state matches other nodes</p>
+</li>
+<li>
+<p>REINTEGRATE -  Add to load balancer -  Enable full traffic</p>
+</li>
+</ol>
+<h3 id="full-mesh-restoration">Full Mesh Restoration<a class="headerlink" href="#full-mesh-restoration" title="Permanent link">&para;</a></h3>
+<p>Prerequisites:</p>
+<ul>
+<li>New infrastructure for all nodes</li>
+<li>Configuration backups</li>
+<li>Key shares (from trustees or ceremony)</li>
+<li>State backups</li>
+</ul>
+<p>Procedure:</p>
+<ol>
+<li>
+<p>PROVISION all infrastructure -  Deploy all Oracle nodes -  Configure network between nodes</p>
+</li>
+<li>
+<p>RESTORE configuration to all nodes -  Same configuration on all nodes</p>
+</li>
+<li>
+<p>KEY RECOVERY CEREMONY -  Convene required trustees -  Recover threshold key shares -  Install shares in HSMs</p>
+</li>
+<li>
+<p>RESTORE state -  Restore Agent Registry from backup -  Restore trajectory data from backup -  Restore last known Trust Scores</p>
+</li>
+<li>
+<p>VERIFY threshold signing -  Attempt to sign test message -  Verify k-of-n nodes can sign</p>
+</li>
+<li>
+<p>RESUME operations -  Enable PEP connections -  Issue Trust Proofs -  Monitor closely</p>
+</li>
+</ol>
+<h2 id="key-recovery">Key Recovery<a class="headerlink" href="#key-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="key-recovery-prerequisites">Key Recovery Prerequisites<a class="headerlink" href="#key-recovery-prerequisites" title="Permanent link">&para;</a></h3>
+<p>Key recovery requires:</p>
+<ul>
+<li>M-of-N trustees (typically 3-of-5 or 5-of-7)</li>
+<li>Trustees have recovery key shares</li>
+<li>Secure environment for ceremony</li>
+<li>New HSMs to receive recovered keys</li>
+</ul>
+<p>Trustees should be:</p>
+<ul>
+<li>Geographically distributed</li>
+<li>Organizationally independent</li>
+<li>Personally reliable</li>
+<li>Reachable in emergency</li>
+</ul>
+<h3 id="key-recovery-ceremony">Key Recovery Ceremony<a class="headerlink" href="#key-recovery-ceremony" title="Permanent link">&para;</a></h3>
+<p>PHASE 1: CONVENE</p>
+<ol>
+<li>Incident commander declares key recovery needed</li>
+<li>Contact trustees (secure channel)</li>
+<li>Schedule ceremony (virtual or in-person)</li>
+<li>Prepare secure environment</li>
+</ol>
+<p>PHASE 2: AUTHENTICATE</p>
+<ol>
+<li>Verify trustee identity (multi-factor)</li>
+<li>Verify ceremony authorization</li>
+<li>Record ceremony (video + transcript)</li>
+<li>Witnesses present (if required)</li>
+</ol>
+<p>PHASE 3: RECOVER</p>
+<ol>
+<li>Each trustee decrypts their recovery share</li>
+<li>Shares combined in secure environment</li>
+<li>Master key material reconstructed</li>
+<li>New threshold shares generated</li>
+<li>Shares installed in HSMs</li>
+<li>Master key material destroyed (never stored)</li>
+</ol>
+<p>PHASE 4: VERIFY</p>
+<ol>
+<li>Test threshold signing</li>
+<li>Verify all nodes can participate</li>
+<li>Issue test Trust Proof</li>
+<li>Verify signature validates</li>
+</ol>
+<p>PHASE 5: DOCUMENT</p>
+<ol>
+<li>Record ceremony completion</li>
+<li>Update key inventory</li>
+<li>Notify stakeholders</li>
+<li>Archive ceremony recording (secure)</li>
+</ol>
+<h3 id="key-recovery-security">Key Recovery Security<a class="headerlink" href="#key-recovery-security" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Recovery environment: Air-gapped if possible</li>
+<li>No photography except official recording</li>
+<li>All attendees logged</li>
+<li>Ceremony room swept for bugs (Level 3)</li>
+<li>Shares transmitted encrypted, never in clear</li>
+</ul>
+<h2 id="state-reconstruction">State Reconstruction<a class="headerlink" href="#state-reconstruction" title="Permanent link">&para;</a></h2>
+<p>If state backups are unavailable or suspect:</p>
+<h3 id="agent-registry-reconstruction">Agent Registry Reconstruction<a class="headerlink" href="#agent-registry-reconstruction" title="Permanent link">&para;</a></h3>
+<p>If backup unavailable:</p>
+<ol>
+<li>Agents must re-register</li>
+<li>Identity proofing re-verified</li>
+<li>Sponsor relationships re-established</li>
+<li>E_base starts from initial value (not historical)</li>
+</ol>
+<p>Impact: Agents lose accumulated trust. Significant operational disruption. Use backup restoration if at all possible.</p>
+<h3 id="trust-score-reconstruction">Trust Score Reconstruction<a class="headerlink" href="#trust-score-reconstruction" title="Permanent link">&para;</a></h3>
+<p>Trust Scores can be recalculated if:</p>
+<ul>
+<li>E_base known (from trajectory or backup)</li>
+<li>Context Signals available (from sensors)</li>
+</ul>
+<p>E_trust = E_base x Context_modifier x Risk_factor</p>
+<p>If E_base unknown, must use default for lineage type.</p>
+<h3 id="trajectory-reconstruction">Trajectory Reconstruction<a class="headerlink" href="#trajectory-reconstruction" title="Permanent link">&para;</a></h3>
+<p>Trajectory chains are cryptographically linked. If chain is broken:</p>
+<ol>
+<li>Recover as much chain as possible from backup</li>
+<li>Mark gap in chain</li>
+<li>Continue new records after gap</li>
+<li>Agent's E_base calculation notes gap</li>
+</ol>
+<p>Gaps in trajectory reduce trust (unverifiable history).</p>
+<h2 id="trajectory-recovery">Trajectory Recovery<a class="headerlink" href="#trajectory-recovery" title="Permanent link">&para;</a></h2>
+<p>Trajectory data may be large. Recovery strategies:</p>
+<p>FULL RESTORE</p>
+<ul>
+<li>Restore complete trajectory from backup</li>
+<li>Slowest but most complete</li>
+<li>Use for complete zone recovery</li>
+</ul>
+<p>POINT-IN-TIME RESTORE</p>
+<ul>
+<li>Restore trajectory to specific point</li>
+<li>Useful if recent data corrupted</li>
+<li>Records after restore point lost</li>
+</ul>
+<p>DIFFERENTIAL RESTORE</p>
+<ul>
+<li>Restore base + incremental backups</li>
+<li>Faster than full restore</li>
+<li>Standard approach for routine recovery</li>
+</ul>
+<h1 id="graceful-degradation">Graceful Degradation<a class="headerlink" href="#graceful-degradation" title="Permanent link">&para;</a></h1>
+<h2 id="degradation-levels">Degradation Levels<a class="headerlink" href="#degradation-levels" title="Permanent link">&para;</a></h2>
+<p>KTP defines four degradation levels:</p>
+<p>LEVEL 0: NORMAL</p>
+<ul>
+<li>All components operational</li>
+<li>Full functionality</li>
+<li>Standard Trust Score calculation</li>
+</ul>
+<p>LEVEL 1: DEGRADED</p>
+<ul>
+<li>Some redundancy lost</li>
+<li>Full functionality maintained</li>
+<li>Increased monitoring</li>
+<li>Example: 1 Oracle node down (but quorum intact)</li>
+</ul>
+<p>LEVEL 2: IMPAIRED</p>
+<ul>
+<li>Some functionality reduced</li>
+<li>Core security maintained</li>
+<li>Non-critical features disabled</li>
+<li>Example: Sensor aggregator down (stale Context Signals)</li>
+</ul>
+<p>LEVEL 3: EMERGENCY</p>
+<ul>
+<li>Critical functionality only</li>
+<li>Fail-closed for non-essential</li>
+<li>Human intervention required</li>
+<li>Example: Oracle mesh partitioned</li>
+</ul>
+<p>LEVEL 4: OFFLINE</p>
+<ul>
+<li>Zone non-operational</li>
+<li>All requests denied</li>
+<li>Recovery in progress</li>
+<li>Example: Total Oracle loss</li>
+</ul>
+<h2 id="automatic-failover">Automatic Failover<a class="headerlink" href="#automatic-failover" title="Permanent link">&para;</a></h2>
+<h3 id="oracle-failover">Oracle Failover<a class="headerlink" href="#oracle-failover" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automatic within threshold (node failure)</li>
+<li>Automatic leader election if needed</li>
+<li>No manual intervention for k-of-n failures</li>
+</ul>
+<h3 id="flight-recorder-failover">Flight Recorder Failover<a class="headerlink" href="#flight-recorder-failover" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automatic switch to secondary (if configured)</li>
+<li>Local buffering during transition</li>
+<li>Alert on primary failure</li>
+</ul>
+<h3 id="sensor-aggregator-failover">Sensor Aggregator Failover<a class="headerlink" href="#sensor-aggregator-failover" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Sensors automatically retry backup aggregator</li>
+<li>Oracle uses stale data with marking</li>
+<li>Automatic when aggregator returns</li>
+</ul>
+<h3 id="federation-failover">Federation Failover<a class="headerlink" href="#federation-failover" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Automatic failover to backup gateway</li>
+<li>Partners notified via heartbeat</li>
+<li>Automatic reconnection on recovery</li>
+</ul>
+<h2 id="manual-intervention">Manual Intervention<a class="headerlink" href="#manual-intervention" title="Permanent link">&para;</a></h2>
+<p>Some situations require manual intervention:</p>
+<ul>
+<li>Total Oracle loss</li>
+<li>Suspected compromise</li>
+<li>Key recovery</li>
+<li>DR site activation</li>
+<li>Configuration rollback</li>
+</ul>
+<p>Manual procedures are documented in Appendix A.</p>
+<h1 id="testing-and-validation">Testing and Validation<a class="headerlink" href="#testing-and-validation" title="Permanent link">&para;</a></h1>
+<h2 id="recovery-testing-requirements">Recovery Testing Requirements<a class="headerlink" href="#recovery-testing-requirements" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>+----------------------+-----------+-------------+-----------+
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>| Test Type            | Level 1   | Level 2     | Level 3   |
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>+----------------------+-----------+-------------+-----------+
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>| Backup verification  | Monthly   | Weekly      | Daily     |
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| Single node recovery | Quarterly | Monthly     | Monthly   |
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| Mesh partition test  | Annually  | Quarterly   | Monthly   |
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| Full DR test         | Annually  | Quarterly   | Monthly   |
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>| Key recovery drill   | Annually  | Semi-annual | Quarterly |
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>+----------------------+-----------+-------------+-----------+
+</code></pre></div>
+<h2 id="test-procedures">Test Procedures<a class="headerlink" href="#test-procedures" title="Permanent link">&para;</a></h2>
+<p>SINGLE NODE RECOVERY TEST</p>
+<ol>
+<li>Take one Oracle node offline (planned)</li>
+<li>Verify mesh continues operating</li>
+<li>Restore node from backup</li>
+<li>Verify node rejoins mesh</li>
+<li>Document time and issues</li>
+</ol>
+<p>PARTITION TEST</p>
+<ol>
+<li>Simulate network partition (firewall rules)</li>
+<li>Verify PEPs enter degraded mode</li>
+<li>Verify no Trust Proofs issued during partition</li>
+<li>Heal partition</li>
+<li>Verify normal operation resumes</li>
+</ol>
+<p>FULL DR TEST</p>
+<ol>
+<li>Activate DR site</li>
+<li>Restore all components from backup</li>
+<li>Verify full functionality</li>
+<li>Measure RTO and RPO achieved</li>
+<li>Fail back to primary</li>
+</ol>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="recovery-as-attack-vector">Recovery as Attack Vector<a class="headerlink" href="#recovery-as-attack-vector" title="Permanent link">&para;</a></h2>
+<p>Recovery procedures can be exploited:</p>
+<ul>
+<li>Attacker triggers failure to invoke recovery</li>
+<li>Attacker substitutes malicious backup</li>
+<li>Attacker compromises recovery process</li>
+<li>Attacker uses recovery mode to bypass controls</li>
+</ul>
+<p>Mitigations:</p>
+<ul>
+<li>Authenticate all recovery actions</li>
+<li>Verify backup integrity before restore</li>
+<li>Maintain audit during recovery</li>
+<li>Time-limit recovery mode</li>
+</ul>
+<h2 id="backup-security_1">Backup Security<a class="headerlink" href="#backup-security_1" title="Permanent link">&para;</a></h2>
+<p>Backups are high-value targets:</p>
+<ul>
+<li>Contain all secrets (encrypted, but still)</li>
+<li>May reveal system architecture</li>
+<li>May enable offline attacks</li>
+</ul>
+<p>Mitigations:</p>
+<ul>
+<li>Encrypt all backups</li>
+<li>Separate backup encryption keys</li>
+<li>Access control on backups</li>
+<li>Monitor backup access</li>
+</ul>
+<h2 id="key-recovery-security_1">Key Recovery Security<a class="headerlink" href="#key-recovery-security_1" title="Permanent link">&para;</a></h2>
+<p>Key recovery is highest-risk operation:</p>
+<ul>
+<li>Reconstitutes master key material</li>
+<li>Single point where key exists in full</li>
+<li>Attractive target for advanced attackers</li>
+</ul>
+<p>Mitigations:</p>
+<ul>
+<li>Ceremony with witnesses</li>
+<li>Secure environment</li>
+<li>Immediate destruction after use</li>
+<li>M-of-N trustee requirement</li>
+</ul>
+<h1 id="recovery-runbooks">Recovery Runbooks<a class="headerlink" href="#recovery-runbooks" title="Permanent link">&para;</a></h1>
+<p>A.1.  Runbook: Single Oracle Node Recovery</p>
+<p>TRIGGER: Oracle node health check fails for 5 minutes</p>
+<p>STEPS:</p>
+<ol>
+<li>
+<p>Verify failure (not monitoring false positive) $ ktp-cli oracle status --node oracle-1</p>
+</li>
+<li>
+<p>Check if quorum maintained $ ktp-cli oracle mesh-status Expected: "Mesh operational, X of Y nodes healthy"</p>
+</li>
+<li>
+<p>Attempt restart $ systemctl restart ktp-oracle Wait 60 seconds, check status</p>
+</li>
+<li>
+<p>If restart fails, check logs $ journalctl -u ktp-oracle -n 100</p>
+</li>
+<li>
+<p>If hardware issue, provision new node $ terraform apply -target=oracle-node-1</p>
+</li>
+<li>
+<p>Restore configuration $ ktp-backup restore --target oracle-1 --type config</p>
+</li>
+<li>
+<p>Restore key share (requires HSM access) $ ktp-hsm import-share --node oracle-1</p>
+</li>
+<li>
+<p>Verify and reintegrate $ ktp-cli oracle join-mesh --node oracle-1 $ ktp-cli oracle verify-signing --node oracle-1</p>
+</li>
+</ol>
+<p>ESCALATION: If not resolved in 30 minutes, page on-call lead</p>
+<p>A.2.  Runbook: Oracle Mesh Partition</p>
+<p>TRIGGER: Trust Proof issuance fails, partition detected</p>
+<p>STEPS:</p>
+<ol>
+<li>
+<p>Verify partition $ ktp-cli oracle mesh-status Expected: "Mesh partitioned, no quorum"</p>
+</li>
+<li>
+<p>Identify partition boundaries $ ktp-cli oracle connectivity-matrix</p>
+</li>
+<li>
+<p>Check network connectivity $ for node in oracle-{1..5}; do ping -c 1 <span class="arithmatex">\(node &amp;&amp; echo "\)</span>node reachable" done</p>
+</li>
+<li>
+<p>If network issue, engage network team -  Check firewall rules -  Check BGP status -  Check physical connectivity</p>
+</li>
+<li>
+<p>If single site isolated, verify other sites operational $ ktp-cli oracle site-status</p>
+</li>
+<li>
+<p>When partition heals, verify mesh reforms $ ktp-cli oracle mesh-status Expected: "Mesh operational"</p>
+</li>
+<li>
+<p>Check for state conflicts $ ktp-cli oracle state-consistency-check</p>
+</li>
+<li>
+<p>Resume normal operations $ ktp-cli zone set-degradation-level 0</p>
+</li>
+</ol>
+<p>ESCALATION: Immediate page to incident commander</p>
+<p>A.3.  Runbook: Total Oracle Loss Recovery</p>
+<p>TRIGGER: All Oracle nodes unreachable</p>
+<p>STEPS:</p>
+<ol>
+<li>
+<p>Declare incident -  Page incident commander -  Activate incident response team -  Begin incident timeline</p>
+</li>
+<li>
+<p>Assess situation -  Infrastructure failure vs. attack -  Data center status -  Network status</p>
+</li>
+<li>
+<p>If infrastructure failure: a.  Restore infrastructure b.  Restore from backup (see A.4)</p>
+</li>
+<li>
+<p>If suspected attack: a.  DO NOT restore from recent backups b.  Engage security team c.  Preserve evidence d.  Rebuild from golden images e.  Key recovery ceremony required</p>
+</li>
+<li>
+<p>Activate DR site (if available) $ ktp-dr activate --site dr-west</p>
+</li>
+<li>
+<p>Update DNS/routing to DR $ ktp-dns failover --to dr-west</p>
+</li>
+<li>
+<p>Verify DR operational $ ktp-cli oracle mesh-status --site dr-west</p>
+</li>
+<li>
+<p>Communicate status to stakeholders</p>
+</li>
+</ol>
+<p>ESCALATION: This IS the escalation</p>
+<p>A.4.  Runbook: Restore from Backup</p>
+<p>TRIGGER: Recovery requires backup restoration</p>
+<p>STEPS:</p>
+<ol>
+<li>
+<p>Identify backup to restore $ ktp-backup list --type full Select most recent known-good backup</p>
+</li>
+<li>
+<p>Verify backup integrity $ ktp-backup verify --backup-id \<id> MUST pass before proceeding</p>
+</li>
+<li>
+<p>Provision target infrastructure $ terraform apply</p>
+</li>
+<li>
+<p>Restore configuration $ ktp-backup restore --backup-id \<id> --type config</p>
+</li>
+<li>
+<p>Restore state data $ ktp-backup restore --backup-id \<id> --type state</p>
+</li>
+<li>
+<p>Restore trajectories (may take time) $ ktp-backup restore --backup-id \<id> --type trajectory</p>
+</li>
+<li>
+<p>Key recovery (if needed) -  Contact trustees -  Schedule ceremony -  Execute per Section 5.2.2</p>
+</li>
+<li>
+<p>Verify system operational $ ktp-cli oracle mesh-status $ ktp-cli oracle test-sign</p>
+</li>
+<li>
+<p>Gradually restore traffic $ ktp-cli zone set-degradation-level 1 Monitor for 15 minutes $ ktp-cli zone set-degradation-level 0</p>
+</li>
+</ol>
+<p>A.5.  Runbook: Key Recovery Ceremony</p>
+<p>TRIGGER: Key shares unrecoverable from backup</p>
+<p>PREPARATION:</p>
+<ol>
+<li>Incident commander authorizes ceremony</li>
+<li>Contact M trustees (need M of N)</li>
+<li>Schedule ceremony time (within RTO)</li>
+<li>Prepare secure environment: -  Air-gapped machine -  New HSMs -  Recording equipment -  Witness(es)</li>
+</ol>
+<p>CEREMONY:</p>
+<ol>
+<li>Verify all participants' identity</li>
+<li>Begin recording</li>
+<li>Read ceremony authorization into record</li>
+<li>Each trustee: a.  Connects to ceremony machine (isolated) b.  Decrypts their recovery share c.  Inputs share to recovery software d.  Disconnects</li>
+<li>Recovery software reconstructs master key</li>
+<li>Generate new threshold shares</li>
+<li>Install shares in HSMs</li>
+<li>Test threshold signing</li>
+<li>Securely destroy master key material</li>
+<li>End recording</li>
+</ol>
+<p>POST-CEREMONY:</p>
+<ol>
+<li>Verify all Oracle nodes operational</li>
+<li>Generate new trustee recovery shares</li>
+<li>Distribute to trustees</li>
+<li>Archive ceremony recording</li>
+<li>Update key inventory</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

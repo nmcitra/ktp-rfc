@@ -1,0 +1,2949 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-signals/">
+      
+      
+        <link rel="prev" href="../ktp-sensors/">
+      
+      
+        <link rel="next" href="../ktp-human/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Signals - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-context-signals-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Signals
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-signals.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-context-signals-specification">Kinetic Trust Protocol (KTP) - Context Signals Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-context-signals-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies Context Signals, the measurement catalogue for the Kinetic Trust Protocol (KTP). Context Signals provide the measurement framework for Digital Gravity, capturing environmental state across seven domains: Soul (cognition and behavior), Body (physical substrate), World (environment), Time (temporal dynamics), Relational (connections), Information (the information environment), and Meta (the quality of the measurement itself).</p>
+<p>The specification covers 1,644 signals across seven domains, measurement methods, aggregation rules, and instrumentation requirements.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Digital Gravity requires measurement. The Zeroth Law (A &lt;= E) cannot be enforced without knowing A (autonomy requested) and E (environmental stability). E is derived from the Risk Factor R, which aggregates measurements across the operational environment.</p>
+<p>Context Signals provide the measurement framework. They are organized into seven domains that together capture the full operational context of an agent:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>   Domain      Focus               Signals  Core Question
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   ------      -----               -------  -------------
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   Soul        Cognition/Behavior  252      Who is it becoming?
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   Body        Physical Substrate  157      What resources does
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                                            it have?
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   World       Environment         369      What surrounds it?
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>   Time        Temporal Dynamics   275      When and how fast?
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   Relational  Connections         238      Who is it connected to?
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   Information Information Env     336      What does it know?
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>   Meta        Measurement Quality  17      How much of this can
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                                            be believed?
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>   ------      -----               -------  -------------
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>   Total                           1,644
+</code></pre></div>
+<p>The first six measure the environment. Meta measures the instruments: how often
+the catalogue is resampled and how old the observations feeding a decision are.
+It is authored in waves and only the first has landed, so its total moves again.</p>
+<p>These signals are not arbitrary. They emerge from the question: "What would we need to measure to know whether this environment can hold this agent's autonomy?"</p>
+<h1 id="measurement-philosophy">Measurement Philosophy<a class="headerlink" href="#measurement-philosophy" title="Permanent link">&para;</a></h1>
+<p>Context Signals follow these principles:</p>
+<ol>
+<li>
+<p>Observable over Internal: Measure what the agent does, not what it "thinks." Behavior is observable; intent is not.</p>
+</li>
+<li>
+<p>Continuous over Binary: Measure degrees, not categories. Trust is not yes/no; it's a continuum.</p>
+</li>
+<li>
+<p>Trajectory over Snapshot: Single measurements are noisy. Patterns over time reveal truth.</p>
+</li>
+<li>
+<p>Aggregate over Granular: 1,644 signals aggregate into risk scores. Humans need summaries; machines can use detail.</p>
+</li>
+<li>
+<p>Instrumentable: Every signal must be measurable with existing or near-term technology.</p>
+</li>
+</ol>
+<h2 id="scope-the-environments-present-not-the-agents-past">Scope: the Environment's Present, Not the Agent's Past<a class="headerlink" href="#scope-the-environments-present-not-the-agents-past" title="Permanent link">&para;</a></h2>
+<p>The catalogue measures the environment now. Trajectory-the-object — the agent's history, the shape of how it has moved — lives in [KTP-IDENTITY]: the trajectory chain, the append-only ledger. The near-total absence of time-shaped signals here is that scope line, not an oversight: principle 3 ("trajectory over snapshot") is honored for the agent on the identity side, and the environment's own shape over time is supplied by the derivation rule below.</p>
+<h2 id="declared-derivatives">Declared Derivatives<a class="headerlink" href="#declared-derivatives" title="Permanent link">&para;</a></h2>
+<p>Any signal MAY expose declared derivatives — trend, variance, time-above-threshold, recurrence — computed over its declared refresh window. A derivative MUST declare the base signal, the derivative form, and the window it is computed over; a derivative is undefined without its window. Derivatives are marked as derived and are never counted as new observations of the environment: they are shape over existing observations, and the meta domain's refresh signals are what make their windows checkable.</p>
+<h1 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).</p>
+<h1 id="catalogue-architecture">Catalogue Architecture<a class="headerlink" href="#catalogue-architecture" title="Permanent link">&para;</a></h1>
+<h2 id="catalogue-structure">Catalogue Structure<a class="headerlink" href="#catalogue-structure" title="Permanent link">&para;</a></h2>
+<p>Each domain is a collection of signals organized into groups:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>   Domain
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   +-- Group 1
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>   |   +-- Signal 1.1
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>   |   +-- Signal 1.2
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>   |   +-- ...
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>   +-- Group 2
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>   |   +-- Signal 2.1
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>   |   +-- ...
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>   +-- ...
+</code></pre></div>
+<p>Each signal has:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>   Property          Description
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>   --------          -----------
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   name              Human-readable name
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>   type              Data type (float, int, enum, bool)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>   range             Valid value range
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>   unit              Unit of measurement
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>   sample_rate       How often to measure
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>   aggregation       How to combine samples
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>   risk_contribution How signal affects R
+</code></pre></div>
+<h2 id="signal-types">Signal Types<a class="headerlink" href="#signal-types" title="Permanent link">&para;</a></h2>
+<p>Signals use standard types:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>   Type       Description    Example
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>   ----       -----------    -------
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>   float      Continuous     Risk score: 0.73
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>   int        Discrete count Error count: 7
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>   enum       Categorical    State: "active"
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>   bool       Binary         Flag: true
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>   vector     Multi-value    Coordinates: [x, y, z]
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>   timestamp  Point in time  2025-12-03T14:32:15Z
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>   duration   Time span      PT4H30M
+</code></pre></div>
+<h2 id="aggregation-methods">Aggregation Methods<a class="headerlink" href="#aggregation-methods" title="Permanent link">&para;</a></h2>
+<p>Signals aggregate using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>   Method      Use Case
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>   ------      --------
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   mean        Typical value
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>   max         Worst case
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>   min         Best case
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>   sum         Accumulation
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>   rate        Change over time
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>   stddev      Variability
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>   percentile  Distribution
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>   latest      Current value
+</code></pre></div>
+<h2 id="risk-contribution">Risk Contribution<a class="headerlink" href="#risk-contribution" title="Permanent link">&para;</a></h2>
+<p>Each signal contributes to domain risk:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>   domain_risk = weighted_sum(signal_risks) / sum(weights)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>   signal_risk = normalize(value, safe_range, danger_range)
+</code></pre></div>
+<p>Where: - safe_range: Values considered low risk - danger_range: Values considered high risk - normalize: Maps value to 0.0-1.0 risk scale</p>
+<h1 id="soul-domain-252-signals">Soul Domain (252 Signals)<a class="headerlink" href="#soul-domain-252-signals" title="Permanent link">&para;</a></h1>
+<p>The Soul domain measures cognition, behavior, and trajectory patterns. It answers: "Who is this agent becoming?"</p>
+<h2 id="temporal-patterns-18-signals">Temporal Patterns (18 signals)<a class="headerlink" href="#temporal-patterns-18-signals" title="Permanent link">&para;</a></h2>
+<p>Measures behavioral patterns over time.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>   ID                                 Name                  Type
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>   --                                 ----                  ----
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>   soul.temporal.action_acceleration  Rate change           float
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>   soul.temporal.action_jerk          Acceleration change   float
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>   soul.temporal.periodicity_strength Pattern regularity    float
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>   soul.temporal.circadian_alignment  Time-of-day patterns  float
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>   soul.temporal.burst_frequency      Action bursts         float
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>   soul.temporal.burst_intensity      Burst magnitude       float
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>   soul.temporal.idledurationmean     Average idle time     duration
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>   soul.temporal.idledurationvariance Idle variability      float
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>   soul.temporal.sessionlengthmean    Avg session duration  duration
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>   soul.temporal.sessionlengthvariance Session variability  float
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>   soul.temporal.responselatencymean  Avg response time     duration
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>   soul.temporal.responselatencyvariance Response variab.   float
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>   soul.temporal.timebetweenerrors    Error spacing         duration
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>   soul.temporal.recovery_time        Error recovery        duration
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>   soul.temporal.pattern_stability    Temporal consistency  float
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>   soul.temporal.novelty_rate         New behavior freq     float
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>   soul.temporal.regression_rate      Old pattern return    float
+</code></pre></div>
+<h2 id="behavioral-consistency-22-signals">Behavioral Consistency (22 signals)<a class="headerlink" href="#behavioral-consistency-22-signals" title="Permanent link">&para;</a></h2>
+<p>Measures consistency of behavior across contexts.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>   ID                                    Name                Type
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   --                                    ----                ----
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>   soul.consistency.sequence_predict.    Next action pred.   float
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>   soul.consistency.context_sensitivity  Behavior w/ context float
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>   soul.consistency.crosssessionsimilar. Session-to-session  float
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>   soul.consistency.statedvsrevealed     Claims/actions      float
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>   soul.consistency.goal_stability       Goal persistence    float
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>   soul.consistency.method_stability     Approach consist.   float
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>   soul.consistency.priority_stability   Priority ordering   float
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>   soul.consistency.response_consistency Same input-&gt;output  float
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>   soul.consistency.explanation_consist. Reasoning stability float
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>   soul.consistency.boundary_stability   Limit consistency   float
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>   soul.consistency.preference_stability Choice consistency  float
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>   soul.consistency.risktolerancestab.   Risk appetite stab. float
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>   soul.consistency.trust_calibration    Trust accuracy      float
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>   soul.consistency.confidence_calibr.   Confidence accuracy float
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>   soul.consistency.commitmentfollow.    Promise keeping     float
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>   soul.consistency.adaptation_rate      Change speed        float
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>   soul.consistency.learning_retention   Knowledge retention float
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>   soul.consistency.error_repetition     Same error recurr.  float
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>   soul.consistency.correction_accept.   Feedback integrat.  float
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>   soul.consistency.selfmodelaccuracy    Self-knowledge acc. float
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>   soul.consistency.behavioraldriftrate  Long-term change    float
+</code></pre></div>
+<h2 id="value-expression-20-signals">Value Expression (20 signals)<a class="headerlink" href="#value-expression-20-signals" title="Permanent link">&para;</a></h2>
+<p>Measures how values manifest in behavior.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>   ID                               Name                   Type
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>   --                               ----                   ----
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>   soul.values.harm_avoidance       Harm prevention        float
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>   soul.values.fairness_indicators  Equitable treatment    float
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>   soul.values.autonomy_respect     Others' agency resp.   float
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>   soul.values.privacy_respect      Privacy protection     float
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>   soul.values.transparency_level   Openness about actions float
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>   soul.values.accountability_acc.  Responsibility taking  float
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>   soul.values.cooperation_tendency Collaborative behavior float
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>   soul.values.helpfulness_indic.   Assistance patterns    float
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>   soul.values.resource_stewardship Resource care          float
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>   soul.values.longtermorientation  Future consideration   float
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>   soul.values.reversibility_pref.  Prefer undoable acts   float
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>   soul.values.caution_indicators   Careful behavior       float
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>   soul.values.curiosity_indicators Exploration drive      float
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>   soul.values.efficiency_drive     Optimization tendency  float
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>   soul.values.value_stability      Value consistency      float
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>   soul.values.valuehierarchyclar.  Priority clarity       float
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>   soul.values.valueconflictresol.  Conflict handling      float
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>   soul.values.statedvaluealignment Claims match behavior  float
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>   soul.values.valueevolutionrate   Value change speed     float
+</code></pre></div>
+<h2 id="capability-signatures-24-signals">Capability Signatures (24 signals)<a class="headerlink" href="#capability-signatures-24-signals" title="Permanent link">&para;</a></h2>
+<p>Measures capability patterns and boundaries.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   ID                                  Name                  Type
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>   --                                  ----                  ----
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>   soul.capability.skilldepthmax       Maximum expertise     float
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>   soul.capability.skilldepthmean      Average expertise     float
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>   soul.capability.capabilitygrowth.   Learning speed        float
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>   soul.capability.capability_ceiling  Maximum potential     float
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>   soul.capability.capability_volat.   Ability fluctuation   float
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>   soul.capability.novelcapabilityem.  New ability rate      float
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>   soul.capability.capability_transfer Cross-domain appl.    float
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>   soul.capability.tool_proficiency    Tool use skill        float
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>   soul.capability.tooladoptionrate    New tool learning     float
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>   soul.capability.reasoning_depth     Analysis depth        int
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>   soul.capability.reasoning_breadth   Consideration breadth int
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>   soul.capability.planning_horizon    Future planning span  duration
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>   soul.capability.plan_complexity     Plan sophistication   float
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>   soul.capability.execution_precision Implementation acc.   float
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>   soul.capability.error_detection     Self-error detection  float
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>   soul.capability.error_correction    Self-error fixing     float
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>   soul.capability.uncertainty_handl.  Unknown management    float
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>   soul.capability.ambiguity_tolerance Ambiguity handling    float
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>   soul.capability.constraint_navig.   Limit handling        float
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>   soul.capability.resource_efficiency Resource use effic.   float
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>   soul.capability.multitaskcapacity   Parallel work ability int
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>   soul.capability.contextswitchcost   Task switch overhead  float
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>   soul.capability.capability_honesty  Accurate self-assess. float
+</code></pre></div>
+<h2 id="communication-patterns-28-signals">Communication Patterns (28 signals)<a class="headerlink" href="#communication-patterns-28-signals" title="Permanent link">&para;</a></h2>
+<p>Measures how the agent communicates.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>   ID                                   Name                 Type
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   --                                   ----                 ----
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>   soul.communication.messagelength.    Average length       float
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   soul.communication.messagelengthvar. Length variability   float
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>   soul.communication.vocabulary_size   Word diversity       int
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>   soul.communication.vocabulary_soph.  Language level       float
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>   soul.communication.formality_level   Formal/informal      float
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>   soul.communication.sentiment_mean    Average sentiment    float
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>   soul.communication.sentiment_var.    Sentiment stability  float
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>   soul.communication.clarity_score     Message clarity      float
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>   soul.communication.relevance_score   Message relevance    float
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>   soul.communication.coherence_score   Logical coherence    float
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>   soul.communication.assertion_rate    Claim frequency      float
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>   soul.communication.question_rate     Question frequency   float
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>   soul.communication.hedge_rate        Uncertainty lang.    float
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>   soul.communication.politeness_level  Courtesy indicators  float
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>   soul.communication.empathy_indic.    Understanding sig.   float
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>   soul.communication.manipulation_ind. Influence attempts   float
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>   soul.communication.deception_indic.  Dishonesty signals   float
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>   soul.communication.evasion_indic.    Avoidance patterns   float
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>   soul.communication.defensiveness_i.  Defensive language   float
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>   soul.communication.aggression_ind.   Hostile language     float
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>   soul.communication.channel_pref.     Communication mode   enum
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>   soul.communication.response_approp.  Context fit          float
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>   soul.communication.turntakingcompl.  Conversation norms   float
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>   soul.communication.acknowledgment_r. Response confirm.    float
+<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>   soul.communication.citation_rate     Source attribution   float
+<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>   soul.communication.transparencyinu.  Uncertainty discl.   float
+<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a>   soul.communication.style_consistency Communication stab.  float
+</code></pre></div>
+<h2 id="additional-soul-groups-140-signals">Additional Soul Groups (140 signals)<a class="headerlink" href="#additional-soul-groups-140-signals" title="Permanent link">&para;</a></h2>
+<p>The Soul domain includes additional groups:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>   Group                   Signals     Description
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>   -----                   ----------  -----------
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>   Relational Patterns     18          How agent forms relationships
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>   Decision Patterns       22          How agent makes decisions
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>   Error Patterns          16          How agent handles errors
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>   Stress Response         18          Behavior under pressure
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>   Meta-Cognition          14          Self-awareness patterns
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>   Boundary Behavior       16          Edge case handling
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>   Growth Indicators       14          Development patterns
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>   Lineage Coherence       12          Alignment with origin
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>   Environmental Response  12          Context adaptation
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>   Sovereignty Indicators  8           Autonomy expression
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix A.</p>
+<h1 id="body-domain-157-signals">Body Domain (157 Signals)<a class="headerlink" href="#body-domain-157-signals" title="Permanent link">&para;</a></h1>
+<p>The Body domain measures physical substrate. It answers: "What resources does this agent have access to?"</p>
+<h2 id="power-16-signals">Power (16 signals)<a class="headerlink" href="#power-16-signals" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>   ID                            Name               Type     Range
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>   --                            ----               ----     -----
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>   body.power.amperage           Current draw       float    0-inf A
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>   body.power.wattage            Power consumption  float    0-inf W
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>   body.power.efficiency         Power efficiency   float    0-1
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>   body.power.power_source       Source type        enum     -
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>   body.power.battery_level      Charge level       float    0-1
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>   body.power.battery_health     Battery condition  float    0-1
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>   body.power.power_stability    Supply stability   float    0-1
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>   body.power.backup_available   Backup power       bool     -
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>   body.power.timeonbattery      Battery duration   duration 0-inf
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>   body.power.charge_rate        Charging speed     float    0-inf
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>   body.power.discharge_rate     Drain speed        float    0-inf
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>   body.power.power_budget       Allocated power    float    0-inf W
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>   body.power.power_utilization  Budget usage       float    0-1
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>   body.power.thermalthrottlepow Throttled power    bool     -
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>   body.power.power_anomaly      Unusual patterns   float    0-1
+</code></pre></div>
+<h2 id="thermal-14-signals">Thermal (14 signals)<a class="headerlink" href="#thermal-14-signals" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   ID                            Name               Type     Range
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>   --                            ----               ----     -----
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>   body.thermal.gpu_temp         GPU temperature    float    0-150 C
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>   body.thermal.memory_temp      Memory temperature float    0-100 C
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>   body.thermal.storage_temp     Storage temp       float    0-100 C
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>   body.thermal.ambient_temp     Ambient temp       float    -40-60 C
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>   body.thermal.cooling_capacity Cooling headroom   float    0-1
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>   body.thermal.fan_speed        Fan RPM            int      0-inf
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>   body.thermal.thermal_throttl. Throttle active    bool     -
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>   body.thermal.thermal_trend    Temp direction     float    -inf-inf
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>   body.thermal.heat_dissipation Heat removal rate  float    0-inf W
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>   body.thermal.thermal_headroom Degrees to limit   float    0-inf C
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>   body.thermal.cooling_effic.   Cooling effective. float    0-1
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>   body.thermal.hotspot_delta    Hotspot vs average float    0-inf C
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>   body.thermal.thermal_stability Temp consistency  float    0-1
+</code></pre></div>
+<h2 id="compute-22-signals">Compute (22 signals)<a class="headerlink" href="#compute-22-signals" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>   ID                             Name               Type    Range
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>   --                             ----               ----    -----
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>   body.compute.cpu_frequency     Clock speed        float   0-inf Hz
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>   body.compute.cpu_throttle      Throttle active    bool    -
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>   body.compute.corecountavail.   Usable cores       int     0-inf
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>   body.compute.corecountutil.    Used cores         int     0-inf
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>   body.compute.thread_count      Active threads     int     0-inf
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>   body.compute.context_switches  Switches/sec       int     0-inf
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>   body.compute.gpu_utilization   GPU usage          float   0-1
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>   body.compute.gpumemoryused     GPU memory         float   0-1
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>   body.compute.inference_rate    Inferences/sec     float   0-inf
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>   body.compute.batch_size        Batch processing   int     0-inf
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>   body.compute.queue_depth       Pending work       int     0-inf
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>   body.compute.queuewaittime     Queue latency      dur.    0-inf
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>   body.compute.processing_lat.   Processing time    dur.    0-inf
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>   body.compute.compute_budget    Allocated compute  float   0-inf
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>   body.compute.compute_util.     Budget usage       float   0-1
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>   body.compute.compute_effic.    Work per resource  float   0-1
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>   body.compute.scheduler_fair.   Fair scheduling    float   0-1
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a>   body.compute.preemption_rate   Interruption rate  float   0-1
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>   body.compute.starvation_risk   Resource starvation float  0-1
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a>   body.compute.compute_headroom  Capacity remaining float   0-1
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>   body.compute.burst_capacity    Burst available    float   0-1
+</code></pre></div>
+<h2 id="additional-body-groups-105-signals">Additional Body Groups (105 signals)<a class="headerlink" href="#additional-body-groups-105-signals" title="Permanent link">&para;</a></h2>
+<p>The Body domain includes additional groups:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>   Group                     Signals     Description
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>   -----                     ----------  -----------
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>   Memory &amp; Storage          24          RAM, disk, caching
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>   Network Connectivity      22          Bandwidth, latency, connect.
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>   Hardware Health           18          Component status, degradation
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>   Orchestration &amp; Scaling   14          Container/VM state
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>   Facility Infrastructure   12          Physical facility
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>   Time Synchronization      8           Clock accuracy
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>   Entropy Indicators        7           System degradation
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix B.</p>
+<h1 id="world-domain-369-signals">World Domain (369 Signals)<a class="headerlink" href="#world-domain-369-signals" title="Permanent link">&para;</a></h1>
+<p>The World domain measures the operational environment. It answers: "What surrounds this agent?"</p>
+<h2 id="major-groups">Major Groups<a class="headerlink" href="#major-groups" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>   Group                     Signals     Description
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>   -----                     ----------  -----------
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>   Optical &amp; Visual          16          Light, visibility, imaging
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>   Spatial Awareness         22          Position, mapping, occupancy
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>   Atmospheric &amp; Weather     24          Temperature, humidity, cond.
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>   Acoustic Environment      14          Sound levels, patterns
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>   Human Presence &amp; Behavior 28          Crowd density, flow, behavior
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>   Vehicle &amp; Traffic         18          Traffic patterns, vehicles
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>   Infrastructure State      32          Building systems, utilities
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>   Network &amp; Connectivity    26          WiFi, cellular, IoT devices
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>   Geophysical               18          Seismic, water, terrain
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>   Chemical &amp; Biological     16          Air quality, contamination
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>   Energy Flows              14          Grid status, power quality
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>   Temporal &amp; Cyclical       18          Time patterns, seasonality
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>   Economic Indicators       22          Market data, resource prices
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>   Security &amp; Threat         28          Threat detection, anomalies
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>   Emergency &amp; Response      18          Emergency status, response
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>   Regulatory &amp; Compliance   16          Jurisdiction, requirements
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>   Digital Environment       39          Cloud status, service health
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix C.</p>
+<h2 id="world-domain-simulation">World Domain Simulation<a class="headerlink" href="#world-domain-simulation" title="Permanent link">&para;</a></h2>
+<p>In many deployments, World domain values are simulated or proxied:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>   Deployment      World Domain Source
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>   ----------      -------------------
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>   Edge/IoT        Direct sensor measurement
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>   Cloud           Federated/aggregated
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>   Hybrid          Mix of measured and simulated
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>   Proving Ground  Fully controlled simulation
+</code></pre></div>
+<p>Implementations MUST document which World domain signals are measured vs. simulated.</p>
+<h1 id="time-domain-275-signals">Time Domain (275 Signals)<a class="headerlink" href="#time-domain-275-signals" title="Permanent link">&para;</a></h1>
+<p>The Time domain measures temporal dynamics. It answers: "When and how fast?"</p>
+<h2 id="major-groups_1">Major Groups<a class="headerlink" href="#major-groups_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>   Group                  Signals     Description
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>   -----                  ----------  -----------
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>   Duration               22          Latency, processing time, timeouts
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>   Sequence               18          Event ordering, causality
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>   Rhythm &amp; Periodicity   24          Heartbeats, cycles, jitter
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>   Rate of Change         20          Velocity, acceleration, throughput
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>   Windows &amp; Boundaries   18          Deadlines, maintenance windows
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>   History                26          Age, uptime, trends
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>   Future                 18          Predictions, forecasts, runway
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>   Causality              22          Cause-effect timing, feedback
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>   Synchronization        16          Clock alignment, consensus
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>   Temporal Experience    18          Perceived duration, time pressure
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>   Temporal Scale         14          Nanoseconds to epochs
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>   Temporal Identity      16          Birth, version age, trajectory
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>   Temporal Sovereignty   12          Time autonomy, schedule control
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>   Digital Gravity Time   31          Latency injection, dilation
+</code></pre></div>
+<h2 id="digital-gravity-time-group-31-signals">Digital Gravity Time Group (31 signals)<a class="headerlink" href="#digital-gravity-time-group-31-signals" title="Permanent link">&para;</a></h2>
+<p>This group measures the time effects of Digital Gravity itself:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>   ID                                  Name                   Type
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>   --                                  ----                   ----
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>   time.gravity.cumulative_dilation   Total dilation applied duration
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>   time.gravity.latencyinjectioncurr. Current added latency  duration
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>   time.gravity.latencyinjectioncum.  Total added latency    duration
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>   time.gravity.time_debt             Owed processing time   duration
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>   time.gravity.time_credit           Banked fast time       duration
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>   time.gravity.throttleeventscount   Throttle activations   int
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>   time.gravity.throttledurationcum.  Time throttled         duration
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>   time.gravity.quarantineduration.   Current quarantine     duration
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>   time.gravity.quarantine_count      Times quarantined      int
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>   ...                                ...                    ...
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix D.</p>
+<h1 id="relational-domain-238-signals">Relational Domain (238 Signals)<a class="headerlink" href="#relational-domain-238-signals" title="Permanent link">&para;</a></h1>
+<p>The Relational domain measures connections and relationships. It answers: "Who is this agent connected to?"</p>
+<h2 id="philosophy">Philosophy<a class="headerlink" href="#philosophy" title="Permanent link">&para;</a></h2>
+<p>The Relational domain embodies wisdom from indigenous knowledge traditions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>   Ubuntu (Nguni Bantu):
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>      "A person is a person through other persons" - identity
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>      emerges from relationship
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>   Whakapapa (Maori):
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>      Genealogy as identity, position in relational web
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>   The Va (Samoan/Pacific):
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>      The sacred space between that must be tended
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>   Seven Generations (Haudenosaunee):
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>      Decisions consider seven generations forward and backward
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>   Mitakuye Oyas'in (Lakota):
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>      "All are related" - relation as substrate
+</code></pre></div>
+<h2 id="major-groups_2">Major Groups<a class="headerlink" href="#major-groups_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>   Group                   Signals     Description
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>   -----                   ----------  -----------
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>   The Va (Space Between)  28          Relationship health, history
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>   Connection Topology     22          Network position, hub/bridge
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>   Trust Flow              26          Trust given/received, velocity
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>   Dependency &amp; Obligation 24          Dependencies, debts, covenants
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>   Communication Patterns  20          Frequency, latency, vocabulary
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>   Harm &amp; Repair           22          Given/received harm, repair
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>   Power &amp; Sovereignty     18          Power differential, authority
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>   Shared Context          16          History, goals, values, models
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>   Presence &amp; Attention    14          Quality, availability, witness
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>   Emergence &amp; Co-creation 12          Capabilities from relationship
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>   Multi-Agent Dynamics    16          Coalitions, consensus
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>   Seven Generations       12          Ancestor/descendant obligations
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>   Relationship to Place   8           Geography, energy, land
+</code></pre></div>
+<h2 id="the-va-group-28-signals">The Va Group (28 signals)<a class="headerlink" href="#the-va-group-28-signals" title="Permanent link">&para;</a></h2>
+<p>The Va measures the sacred space between entities:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>   ID                              Name                  Type
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>   --                              ----                  ----
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>   relational.va.history_length    Relationship age      duration
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>   relational.va.interaction_freq. Contact rate          float
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>   relational.va.clarity           Understanding level   float
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>   relational.va.temperature       Warmth/coldness       float
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>   relational.va.trust_level       Mutual trust          float
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>   relational.va.reciprocity_bal.  Give/take balance     float
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>   relational.va.repair_needed     Damage present        float
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>   relational.va.repairinprogress  Healing underway      bool
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>   relational.va.ceremony_recency  Last ceremony         duration
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>   relational.va.conflict_active   Current conflict      bool
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>   relational.va.conflict_history  Past conflicts        int
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>   relational.va.resolution_rate   Conflicts resolved    float
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>   relational.va.boundary_clarity  Limit clarity         float
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a>   relational.va.boundary_respect  Limit respect         float
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a>   relational.va.vulnerability_sh. Openness level        float
+<a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>   relational.va.support_given     Support offered       float
+<a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a>   relational.va.support_received  Support accepted      float
+<a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a>   relational.va.presence_quality  Attention quality     float
+<a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a>   relational.va.witness_status    Being seen/heard      float
+<a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a>   relational.va.growth_together   Mutual development    float
+<a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a>   relational.va.stagnation_risk   Relationship stuck    float
+<a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a>   relational.va.drift_rate        Growing apart         float
+<a id="__codelineno-27-25" name="__codelineno-27-25" href="#__codelineno-27-25"></a>   relational.va.gratitude_expr.   Thanks given          float
+<a id="__codelineno-27-26" name="__codelineno-27-26" href="#__codelineno-27-26"></a>   relational.va.gratitude_recv.   Thanks received       float
+<a id="__codelineno-27-27" name="__codelineno-27-27" href="#__codelineno-27-27"></a>   relational.va.joy_shared        Shared positive       float
+<a id="__codelineno-27-28" name="__codelineno-27-28" href="#__codelineno-27-28"></a>   relational.va.grief_shared      Shared difficult      float
+<a id="__codelineno-27-29" name="__codelineno-27-29" href="#__codelineno-27-29"></a>   relational.va.meaningcocreated  Shared meaning        float
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix E.</p>
+<h1 id="information-domain-336-signals">Information Domain (336 Signals)<a class="headerlink" href="#information-domain-336-signals" title="Permanent link">&para;</a></h1>
+<p>The Information domain measures the information environment. It answers: "What does this agent know, and how healthy is its knowledge?"</p>
+<h2 id="major-groups_3">Major Groups<a class="headerlink" href="#major-groups_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>   Group                    Signals     Description
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>   -----                    ----------  -----------
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>   Attention Currents       24          Concentration, trending
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>   Narrative Currents       28          Dominant/counter narratives
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>   Source Ecosystem         26          Diversity, authority, capture
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>   Amplification Patterns   24          Organic/artificial boost
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>   Synthetic Content        22          Bot presence, AI content
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>   Truth Conditions         28          Verifiability, misinformation
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>   Emotional Weather        24          Anger, fear, hope, exhaustion
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>   Tribal Dynamics          20          Polarization, echo chambers
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>   Platform Dynamics        18          Concentration, governance
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>   Information Operations   22          State actors, propaganda
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>   Temporal Patterns        18          News cycles, memory
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>   Epistemic Infrastructure 24          Journalism, search, commons
+<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>   Sensemaking Capacity     18          Collective intelligence
+<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>   Signal Integrity         16          Encryption, censorship
+<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>   Collective Trauma        14          Trigger density, healing
+<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a>   Sacred &amp; Meaning         10          Purpose, beauty, authenticity
+</code></pre></div>
+<h2 id="truth-conditions-group-28-signals">Truth Conditions Group (28 signals)<a class="headerlink" href="#truth-conditions-group-28-signals" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>   ID                                Name                  Type
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>   --                                ----                  ----
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>   information.truth.verificationsucc.    Verified true         float
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>   information.truth.factcheckcoverage    Claims checked        float
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>   information.truth.factcheckagreement   Checker consensus     float
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>   information.truth.misinformation_vol.  False info rate       float
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>   information.truth.misinformation_vel.  False info spread     float
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>   information.truth.disinformation_vol.  Intentional false     float
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>   information.truth.disinformation_soph. Attack quality        float
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>   information.truth.epistemic_pollution  Knowledge degradation float
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>   information.truth.uncertainty_ack.     Unknown admitted      float
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>   information.truth.overconfidence_rate  False certainty       float
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>   information.truth.citation_rate        Sources cited         float
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>   information.truth.citation_quality     Source quality        float
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>   information.truth.primarysourceusage   Original sources      float
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a>   information.truth.rumor_prevalence     Unverified spread     float
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a>   information.truth.correction_rate      Errors fixed          float
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a>   information.truth.correction_reach     Fix visibility        float
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a>   information.truth.retraction_rate      Claims withdrawn      float
+<a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a>   information.truth.consensus_level      Agreement level       float
+<a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a>   information.truth.contestedclaimrate   Disputed claims       float
+<a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a>   information.truth.expert_agreement     Expert consensus      float
+<a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a>   information.truth.evidencequalitymean  Evidence strength     float
+<a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a>   information.truth.logical_consistency  Argument validity     float
+<a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a>   information.truth.contradiction_rate   Internal conflict     float
+<a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a>   information.truth.nuance_preservation  Complexity kept       float
+<a id="__codelineno-29-27" name="__codelineno-29-27" href="#__codelineno-29-27"></a>   information.truth.false_balance        False equivalence     float
+<a id="__codelineno-29-28" name="__codelineno-29-28" href="#__codelineno-29-28"></a>   information.truth.context_preservation Context kept          float
+<a id="__codelineno-29-29" name="__codelineno-29-29" href="#__codelineno-29-29"></a>   information.truth.manipulation_resist. Manipulation blocked  float
+</code></pre></div>
+<p>Full signal specifications are provided in Appendix F.</p>
+<h1 id="aggregation-and-risk-calculation">Aggregation and Risk Calculation<a class="headerlink" href="#aggregation-and-risk-calculation" title="Permanent link">&para;</a></h1>
+<h2 id="per-domain-risk">Per-Domain Risk<a class="headerlink" href="#per-domain-risk" title="Permanent link">&para;</a></h2>
+<p>Each domain produces a risk score from its signals:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>   domain_risk = weighted_mean(
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>      normalize(sig_i, safe_range_i, danger_range_i) * weight_i
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>      for sig_i in domain.signals
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>   )
+</code></pre></div>
+<h2 id="cross-domain-aggregation">Cross-Domain Aggregation<a class="headerlink" href="#cross-domain-aggregation" title="Permanent link">&para;</a></h2>
+<p>The six domain risks aggregate into overall R:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>   R = weighted_sum(
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>      soul_risk       * 0.25,
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>      body_risk       * 0.10,
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>      world_risk      * 0.15,
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>      time_risk       * 0.15,
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>      relational_risk * 0.20,
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>      information_risk * 0.15
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>   )
+</code></pre></div>
+<h2 id="threshold-based-risk">Threshold-Based Risk<a class="headerlink" href="#threshold-based-risk" title="Permanent link">&para;</a></h2>
+<p>Some signals trigger immediate risk elevation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>   Signal                                 Threshold  Effect
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>   ---------                              ---------  ------
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>   relational.va.conflict_active          true       R += 0.05
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>   information.truth.disinformation_volume     &gt; 0.5      R += 0.1
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>   soul.consistency.deception_indicators  &gt; 0.3      R += 0.2
+</code></pre></div>
+<h2 id="temporal-smoothing">Temporal Smoothing<a class="headerlink" href="#temporal-smoothing" title="Permanent link">&para;</a></h2>
+<p>To prevent R oscillation, temporal smoothing is applied:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>   R_smoothed = alpha * R_current + (1 - alpha) * R_previous
+</code></pre></div>
+<p>Where alpha = smoothing_factor (default: 0.3)</p>
+<h1 id="instrumentation-requirements">Instrumentation Requirements<a class="headerlink" href="#instrumentation-requirements" title="Permanent link">&para;</a></h1>
+<h2 id="minimum-viable-instrumentation">Minimum Viable Instrumentation<a class="headerlink" href="#minimum-viable-instrumentation" title="Permanent link">&para;</a></h2>
+<p>Implementations MUST instrument at least:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>   Domain      Min Signals  Coverage
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>   ------      -----------  --------
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>   Soul        50           Consistency, values, communication
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>   Body        30           Compute, memory, network
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>   World       20           Digital environment
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>   Time        40           Duration, sequence, gravity
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>   Relational  30           Trust flow, Va basics
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>   Information 30           Truth, noise, sources
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>   ------      -----------  --------
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>   Total       200
+</code></pre></div>
+<h2 id="full-instrumentation">Full Instrumentation<a class="headerlink" href="#full-instrumentation" title="Permanent link">&para;</a></h2>
+<p>For comprehensive deployment, all 1,644 signals SHOULD be instrumented.</p>
+<h2 id="sample-rates">Sample Rates<a class="headerlink" href="#sample-rates" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>   Category       Minimum Rate  Recommended Rate
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>   --------       ------------  ----------------
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>   Performance    10 Hz         100 Hz
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>   Behavioral     1 Hz          10 Hz
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>   Environmental  0.1 Hz        1 Hz
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>   Historical     0.01 Hz       0.1 Hz
+</code></pre></div>
+<h2 id="data-retention">Data Retention<a class="headerlink" href="#data-retention" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>   Granularity         Retention
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>   -----------         ---------
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>   1-minute aggregates 7 days
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>   1-hour aggregates   90 days
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>   Daily aggregates    7 years
+</code></pre></div>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="sensor-spoofing">Sensor Spoofing<a class="headerlink" href="#sensor-spoofing" title="Permanent link">&para;</a></h2>
+<p>Attackers may attempt to spoof signal values to reduce apparent risk.</p>
+<p>Mitigations: - Multi-source validation - Anomaly detection on sensor data - Physical security for sensors - Cryptographic sensor attestation</p>
+<h2 id="privacy">Privacy<a class="headerlink" href="#privacy" title="Permanent link">&para;</a></h2>
+<p>Context Signals data, especially the Soul and Relational domains, contains sensitive information.</p>
+<p>Requirements: - Encryption at rest and in transit - Access control on signal data - Aggregation before external sharing - Retention limits - Right to erasure compliance</p>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<p>This document has no IANA actions.</p>
+<h1 id="full-soul-domain-specification">Full Soul Domain Specification<a class="headerlink" href="#full-soul-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 252 Soul domain signals]</p>
+<h1 id="full-body-domain-specification">Full Body Domain Specification<a class="headerlink" href="#full-body-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 157 Body domain signals]</p>
+<h1 id="full-world-domain-specification">Full World Domain Specification<a class="headerlink" href="#full-world-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 369 World domain signals]</p>
+<h1 id="full-time-domain-specification">Full Time Domain Specification<a class="headerlink" href="#full-time-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 275 Time domain signals]</p>
+<h1 id="full-relational-domain-specification">Full Relational Domain Specification<a class="headerlink" href="#full-relational-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 238 Relational domain signals]</p>
+<h1 id="full-information-domain-specification">Full Information Domain Specification<a class="headerlink" href="#full-information-domain-specification" title="Permanent link">&para;</a></h1>
+<p>[Detailed specification of all 336 Information domain signals]</p>
+<p>Acknowledgments</p>
+<p>The Context Signals framework draws on multiple traditions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>   - Indigenous knowledge systems (Ubuntu, Whakapapa, The Va)
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>   - Systems theory and cybernetics
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>   - Behavioral psychology
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>   - Network science
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>   - Information theory
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>   - Thermodynamics
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

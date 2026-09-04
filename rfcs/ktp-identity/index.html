@@ -1,0 +1,3199 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-identity/">
+      
+      
+        <link rel="prev" href="../ktp-core/">
+      
+      
+        <link rel="next" href="../ktp-crypto/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Identity - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-vector-identity-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Identity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-identity.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-vector-identity-specification">Kinetic Trust Protocol (KTP) - Vector Identity Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-vector-identity-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies the Vector Identity system for the Kinetic Trust Protocol (KTP). Vector Identity replaces static credentials with trajectory-based authentication, where identity is proven through continuous movement rather than possession of secrets.</p>
+<p>The specification covers Trajectory Chains (cryptographically linked transaction histories), Proof of Resilience (attestations of survival under stress), Sponsorship Bonds (trust staking for new agents), and Lineage Evolution (the maturation path from dependent to autonomous).</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Traditional identity systems treat identity as a static property - an entity either possesses the correct credential or it does not. This binary model fails catastrophically when credentials are stolen, forged, or replayed, because there is no mechanism to distinguish the legitimate holder from an impersonator.</p>
+<p>Vector Identity addresses this by treating identity as a trajectory rather than a position - a continuous line of movement through state space rather than a single point of authentication.</p>
+<h2 id="the-passport-fallacy">The Passport Fallacy<a class="headerlink" href="#the-passport-fallacy" title="Permanent link">&para;</a></h2>
+<p>Current systems commit the "Passport Fallacy": they assume that possession of a credential (passport, API key, certificate) proves identity. This assumption is false because:</p>
+<ol>
+<li>
+<p>Credentials can be stolen: An attacker who obtains an API key can present it just as effectively as the legitimate holder.</p>
+</li>
+<li>
+<p>Credentials carry no history: A stolen key at T=100 looks identical to a legitimate key at T=100. There is no record of how the presenter obtained the key or what they did before.</p>
+</li>
+<li>
+<p>Credentials are static: Once issued, a credential's "identity" never changes, even if the presenting entity's behavior becomes anomalous or malicious.</p>
+</li>
+</ol>
+<p>In the age of autonomous agents operating at machine speed, these flaws become catastrophic. An attacker who compromises one API key can spawn thousands of malicious agents in milliseconds, each presenting valid credentials.</p>
+<h2 id="identity-as-trajectory">Identity as Trajectory<a class="headerlink" href="#identity-as-trajectory" title="Permanent link">&para;</a></h2>
+<p>Vector Identity replaces the static credential model with a trajectory-based model where identity is proven by continuous movement rather than possession of secrets.</p>
+<p>Key insight: A trajectory cannot be stolen because it includes not just current position, but also:</p>
+<ul>
+<li>Where the entity came from (previous state)</li>
+<li>How fast it's moving (velocity)</li>
+<li>What resistance it encountered (friction)</li>
+<li>Who witnessed the movement (attestations)</li>
+</ul>
+<p>An attacker can steal a credential (a point), but they cannot steal a trajectory (a line) because the line includes historical relationships that the attacker cannot retroactively forge.</p>
+<p>This is analogous to the difference between:</p>
+<ul>
+<li>Static: "This person has a valid driver's license"</li>
+<li>Kinetic: "This person has been driving continuously for the last 10,000 miles, with traffic cameras and toll booths attesting to their route"</li>
+</ul>
+<p>The second model is vastly more resistant to impersonation because the attacker would need to not only steal the license but also fabricate a coherent 10,000-mile trajectory with consistent attestations from independent third parties.</p>
+<h2 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>This section defines terms specific to Vector Identity. Terms defined in [KTP-CORE] apply here as well.</p>
+<p>Ancestral Authority: Trust inherited from predecessors in a Lineage. Agents descended from proven Guarantor Lineages inherit a portion of ancestral credibility.</p>
+<p>Ancestral Liability: The permanent, depth-decaying share of responsibility a sponsor retains for the descendants it vouched for, after the Sponsorship Bond has closed. The dual of Ancestral Authority: credit and liability travel the same lineage, at the same decay, without end.</p>
+<p>Attestation of Passage: A signed statement by a Trust Oracle confirming that an agent successfully completed a transaction at a specific time and environmental state.</p>
+<p>Chain Link: A single transaction record in a Trajectory Chain, containing state, signatures, and hash of the previous link.</p>
+<p>Continuity Violation: An impossible state transition, such as an agent appearing in two locations simultaneously or moving faster than physically possible. Indicates forgery or compromise.</p>
+<p>Friction: Environmental resistance encountered during a transaction, derived from the Risk Factor (R). High friction indicates stressful conditions; success under high friction is worth more for Proof of Resilience.</p>
+<p>Genesis Transaction: The first transaction in an agent's Trajectory Chain, created when the agent is spawned. Requires a Sponsorship Bond.</p>
+<p>Laminar Flow: Smooth, consistent agent behavior with predictable velocity and trajectory. Indicates legitimate operation.</p>
+<p>Lineage: The evolutionary history and current maturation phase of an agent. Lineages progress from Sponsored through Independent to Guarantor.</p>
+<p>Proof of Resilience: A ledger of attestations demonstrating an agent's successful transactions, weighted by the friction encountered. Forms the primary input to E_base calculation.</p>
+<p>Sponsorship Bond: A cryptographic commitment where a high-mass entity stakes a portion of its trust on behalf of a new agent. The sponsor is penalized if the sponsored agent misbehaves.</p>
+<p>Trajectory Chain: A cryptographically linked sequence of transaction records that forms an agent's verifiable history.</p>
+<p>Turbulent Flow: Erratic, inconsistent agent behavior with unpredictable velocity and trajectory. Indicates potential compromise or malicious operation.</p>
+<p>Velocity: The rate at which an agent moves through state space, measured in transactions per unit time. Sudden velocity changes may indicate anomalous behavior.</p>
+<h1 id="vector-identity-model">Vector Identity Model<a class="headerlink" href="#vector-identity-model" title="Permanent link">&para;</a></h1>
+<h2 id="identity-as-verb">Identity as Verb<a class="headerlink" href="#identity-as-verb" title="Permanent link">&para;</a></h2>
+<p>Traditional identity answers "Who is this?" - a noun question. Vector Identity answers "What has this been doing?" - a verb question.</p>
+<p>The fundamental shift:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>+------------------+------------------------+
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>| Static Model     | Vector Model           |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>+------------------+------------------------+
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>| Passport         | Trajectory             |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>| Credential       | Chain                  |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>| Point            | Line                   |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>| Possession       | Movement               |
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>| Who you are      | What you've been doing |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>| Noun             | Verb                   |
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>+------------------+------------------------+
+</code></pre></div>
+<p>In the Vector Model, an entity's identity IS its trajectory. An agent that has been operating legitimately for 10,000 transactions has a fundamentally different identity than an agent that appeared from nowhere, even if both present identical API keys.</p>
+<h2 id="position-and-momentum">Position and Momentum<a class="headerlink" href="#position-and-momentum" title="Permanent link">&para;</a></h2>
+<p>Vector Identity has two components:</p>
+<p>Position (current state): Where the agent is right now - its current Trust Score, active permissions, and environmental context. This is roughly equivalent to what a static credential provides.</p>
+<p>Momentum (historical trajectory): Where the agent has been - its complete transaction history, attested by Trust Oracles, forming a cryptographic chain. This is what static credentials lack entirely.</p>
+<p>The combination of position and momentum forms a "vector" in identity space, just as a physical vector combines position and direction.</p>
+<p>Momentum carries inertia: an agent with deep history is "heavier" and harder to deflect from its trajectory. This heaviness manifests as:</p>
+<ul>
+<li>Higher E_base (more base trust)</li>
+<li>More resistance to false accusations</li>
+<li>Greater ability to sponsor new agents</li>
+<li>Preferential treatment during network stress</li>
+</ul>
+<h2 id="laminar-vs-turbulent-flow">Laminar vs. Turbulent Flow<a class="headerlink" href="#laminar-vs-turbulent-flow" title="Permanent link">&para;</a></h2>
+<p>Agents can be characterized by their flow pattern:</p>
+<p>Laminar Flow (legitimate):</p>
+<ul>
+<li>Consistent velocity (transactions per second stays stable)</li>
+<li>Predictable trajectory (actions follow logical patterns)</li>
+<li>Normal friction response (slows down when R increases)</li>
+<li>Continuous presence (no unexplained gaps or teleportation)</li>
+</ul>
+<p>Turbulent Flow (suspicious):</p>
+<ul>
+<li>Erratic velocity (sudden bursts or stops)</li>
+<li>Chaotic trajectory (unrelated actions, no logical sequence)</li>
+<li>Abnormal friction response (ignores environmental stress)</li>
+<li>Discontinuous presence (gaps, simultaneous appearances)</li>
+</ul>
+<p>Implementations SHOULD monitor agent flow patterns and flag transitions from laminar to turbulent as potential compromise indicators.</p>
+<p>The Trust Oracle MAY reduce an agent's E_base if sustained turbulent flow is detected, even if individual transactions succeed.</p>
+<h1 id="trajectory-chains">Trajectory Chains<a class="headerlink" href="#trajectory-chains" title="Permanent link">&para;</a></h1>
+<p>The Trajectory Chain is the core data structure of Vector Identity. It is a cryptographically linked sequence of transaction records that forms an unforgeable history of agent behavior.</p>
+<h2 id="chain-structure">Chain Structure<a class="headerlink" href="#chain-structure" title="Permanent link">&para;</a></h2>
+<p>A Trajectory Chain consists of a Genesis Transaction followed by zero or more Transaction Records, each linked to its predecessor by cryptographic hash.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>+-------------------+
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>| Genesis           |
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>| Transaction       |
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>| (sponsored)       |
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>+--------+----------+
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>         |
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>         | hash
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>         v
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>+-------------------+
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>| Transaction       |
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>| Record 1          |
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>+--------+----------+
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>         |
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>         | hash
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>         v
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>+-------------------+
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>| Transaction       |
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>| Record 2          |
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>+--------+----------+
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>         |
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>         | hash
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>         v
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>         .
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>         .
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>         .
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>         |
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>         | hash
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>         v
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>+-------------------+
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>| Transaction       |
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>| Record N          |
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>| (current)         |
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>+-------------------+
+</code></pre></div>
+<p>Figure 1: Trajectory Chain Structure</p>
+<p>The chain is append-only. Records MUST NOT be modified or deleted once added.</p>
+<h2 id="transaction-records">Transaction Records<a class="headerlink" href="#transaction-records" title="Permanent link">&para;</a></h2>
+<p>Each Transaction Record contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>+--------------------+----------+-----------------------------------+
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| Field              | Type     | Description                       |
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>+--------------------+----------+-----------------------------------+
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| record_id          | string   | Unique identifier for this record |
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| chain_id           | string   | Agent's chain identifier          |
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| sequence           | integer  | Position in chain (0 = genesis)   |
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>| timestamp          | datetime | When transaction occurred         |
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>| previous_hash      | string   | SHA-256 of previous record        |
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>| previous_state     | object   | Agent state before transaction    |
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>| current_state      | object   | Agent state after transaction     |
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>| action             | object   | What action was performed         |
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>| friction           | number   | Environmental R at time of action |
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>| velocity           | number   | Agent's transaction rate          |
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>| agent_signature    | string   | Agent's signature over record     |
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>| oracle_attestation | object   | Trust Oracle's attestation        |
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>| record_hash        | string   | SHA-256 of this record            |
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>+--------------------+----------+-----------------------------------+
+</code></pre></div>
+<p>The previous_state and current_state objects contain:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>+------------+---------+----------------------------------+
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>| Field      | Type    | Description                      |
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>+------------+---------+----------------------------------+
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>| e_base     | number  | Base Trust at state              |
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| e_trust    | number  | Effective Trust at state         |
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| location   | string  | Logical location (zone, service) |
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| tier       | string  | Trust Tier at state              |
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>| lineage    | string  | Lineage phase at state           |
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>| generation | integer | Generation number at state       |
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>+------------+---------+----------------------------------+
+</code></pre></div>
+<p>The action object contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>+-------------+--------+--------------------------+
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>| Field       | Type   | Description              |
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>+-------------+--------+--------------------------+
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>| action_type | string | Category of action       |
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>| action_risk | number | Risk score (A) of action |
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>| target      | string | What the action targeted |
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>| result      | string | "success" or "denied"    |
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>| details     | object | Action-specific metadata |
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>+-------------+--------+--------------------------+
+</code></pre></div>
+<p>The oracle_attestation object contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>+------------------+----------+--------------------------------+
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>| Field            | Type     | Description                    |
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>+------------------+----------+--------------------------------+
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>| oracle_id        | string   | Trust Oracle identifier        |
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>| attestation_time | datetime | When Oracle attested           |
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>| risk_factors     | object   | Environmental state at time    |
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>| oracle_signature | string   | Oracle's signature over record |
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>+------------------+----------+--------------------------------+
+</code></pre></div>
+<h2 id="co-signature-requirements">Co-Signature Requirements<a class="headerlink" href="#co-signature-requirements" title="Permanent link">&para;</a></h2>
+<p>Every Transaction Record MUST be co-signed by both the agent and the Trust Oracle. This dual-signature requirement prevents:</p>
+<ol>
+<li>
+<p>Agent fabrication: An agent cannot create records without Oracle attestation, so cannot invent history.</p>
+</li>
+<li>
+<p>Oracle fabrication: An Oracle cannot create records without agent participation, so cannot frame agents.</p>
+</li>
+<li>
+<p>Replay attacks: Both signatures are over the complete record including timestamp and previous hash, so old records cannot be replayed as new ones.</p>
+</li>
+</ol>
+<p>Signature generation:</p>
+<ol>
+<li>
+<p>Agent computes action and signs: agent_signature = Sign(agent_private_key, Hash(record_id || action || previous_hash || timestamp))</p>
+</li>
+<li>
+<p>Agent submits to Trust Oracle with signature</p>
+</li>
+<li>
+<p>Oracle validates agent signature, action, and environmental conditions</p>
+</li>
+<li>
+<p>Oracle adds attestation and signs: oracle_signature = Sign(oracle_private_key, Hash(record_id || action || previous_hash || timestamp || agent_signature || risk_factors))</p>
+</li>
+<li>
+<p>Complete record is appended to chain</p>
+</li>
+</ol>
+<p>If the agent's signature is invalid, the Oracle MUST reject. If the Oracle refuses to attest (e.g., due to Silent Veto), the transaction fails and no record is added.</p>
+<h2 id="continuity-enforcement">Continuity Enforcement<a class="headerlink" href="#continuity-enforcement" title="Permanent link">&para;</a></h2>
+<p>Trajectory Chains enforce physical continuity. An agent cannot "teleport" - appear at one location at time T and a distant location at time T+1 without traversing the intervening space.</p>
+<p>Continuity rules:</p>
+<ol>
+<li>
+<p>Sequential numbering: Each record's sequence number MUST be exactly one greater than its predecessor.</p>
+</li>
+<li>
+<p>Hash linking: Each record's previous_hash MUST exactly match the record_hash of its predecessor.</p>
+</li>
+<li>
+<p>Temporal ordering: Each record's timestamp MUST be greater than its predecessor's timestamp.</p>
+</li>
+<li>
+<p>State consistency: Each record's previous_state MUST match its predecessor's current_state.</p>
+</li>
+<li>
+<p>Velocity bounds: The distance traveled (state change) divided by time elapsed MUST be within configured velocity limits.</p>
+</li>
+</ol>
+<p>Velocity bounds example:</p>
+<p>If an agent's maximum velocity is 100 actions per second, and the previous record was at T=1000 with action_count=5000, then a record at T=1001 cannot have action_count greater than 5100.</p>
+<p>Location-based continuity:</p>
+<p>If zones are logically distant (require traversal through intermediate zones), an agent cannot appear in Zone B at T=1001 if it was in Zone A at T=1000 and the minimum traversal time from A to B is 10 seconds.</p>
+<p>Continuity violations:</p>
+<p>If a record fails any continuity check, the Trust Oracle MUST:</p>
+<ol>
+<li>Reject the transaction</li>
+<li>Flag the agent for investigation</li>
+<li>Log the violation to the Flight Recorder</li>
+<li>Optionally freeze the agent's Trust Score</li>
+</ol>
+<p>Continuity violations strongly indicate either agent compromise (attacker does not have previous records) or Oracle compromise (attacker attempting to forge records).</p>
+<h2 id="chain-verification">Chain Verification<a class="headerlink" href="#chain-verification" title="Permanent link">&para;</a></h2>
+<p>Any party with access to a Trajectory Chain can verify its integrity by checking:</p>
+<ol>
+<li>
+<p>Genesis validity: The genesis transaction is properly sponsored and signed by a valid sponsor.</p>
+</li>
+<li>
+<p>Chain integrity: For each record N (N &gt; 0): -  previous_hash(N) == record_hash(N-1) -  sequence(N) == sequence(N-1) + 1 -  timestamp(N) &gt; timestamp(N-1) -  previous_state(N) == current_state(N-1)</p>
+</li>
+<li>
+<p>Signature validity: For each record: -  agent_signature validates against agent's public key -  oracle_signature validates against Oracle's public key</p>
+</li>
+<li>
+<p>Continuity: For each adjacent pair of records: -  Velocity is within bounds -  Location transitions are physically possible</p>
+</li>
+</ol>
+<p>Verification can be performed:</p>
+<ul>
+<li>
+<p>Fully: Check every record from genesis to current (expensive but complete)</p>
+</li>
+<li>
+<p>Sampled: Check random subset of records (faster but probabilistic)</p>
+</li>
+<li>
+<p>Windowed: Check only recent N records (fastest but only validates recent history)</p>
+</li>
+</ul>
+<p>Trust Oracles SHOULD perform full verification periodically. PEPs MAY perform windowed verification for real-time decisions.</p>
+<h1 id="proof-of-resilience">Proof of Resilience<a class="headerlink" href="#proof-of-resilience" title="Permanent link">&para;</a></h1>
+<p>Proof of Resilience is a ledger of attestations demonstrating an agent's successful operation under stress. It is the primary input to E_base calculation.</p>
+<h2 id="attestation-structure">Attestation Structure<a class="headerlink" href="#attestation-structure" title="Permanent link">&para;</a></h2>
+<p>Each Proof of Resilience attestation contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>+-------------------+----------+---------------------------------+
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>| Field             | Type     | Description                     |
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>+-------------------+----------+---------------------------------+
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>| attestation_id    | string   | Unique identifier               |
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| agent_id          | string   | Agent being attested            |
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>| transaction_ref   | string   | Reference to Transaction Record |
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>| friction          | number   | Environmental R during action   |
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>| friction_category | string   | Category (see Section 5.2)      |
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>| action_risk       | number   | Risk score (A) of action        |
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>| outcome           | string   | "success" or "graceful_degrade" |
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>| timestamp         | datetime | When attestation issued         |
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>| oracle_signature  | string   | Trust Oracle signature          |
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>+-------------------+----------+---------------------------------+
+</code></pre></div>
+<p>Attestations are issued by Trust Oracles when:</p>
+<ol>
+<li>
+<p>An agent successfully completes an action under elevated friction (R &gt; 0.3)</p>
+</li>
+<li>
+<p>An agent gracefully degrades under high friction (enters Adaptive Dormancy appropriately)</p>
+</li>
+<li>
+<p>An agent recovers correctly after a period of degradation</p>
+</li>
+</ol>
+<p>Attestations are NOT issued for routine operations under normal conditions. This ensures that Proof of Resilience reflects actual stress-tested behavior, not mere volume.</p>
+<h2 id="friction-categories">Friction Categories<a class="headerlink" href="#friction-categories" title="Permanent link">&para;</a></h2>
+<p>Friction is categorized to enable meaningful comparison across different types of environmental stress:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>+----------+-----------+-----------------------------------+
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>| Category | R Range   | Description                       |
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>+----------+-----------+-----------------------------------+
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>| CALM     | 0.0 - 0.3 | Normal operations, no attestation |
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>| ELEVATED | 0.3 - 0.5 | Moderate stress                   |
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>| HIGH     | 0.5 - 0.7 | Significant stress                |
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>| SEVERE   | 0.7 - 0.9 | Near-crisis conditions            |
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>| CRISIS   | 0.9 - 1.0 | Critical conditions               |
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>+----------+-----------+-----------------------------------+
+</code></pre></div>
+<p>Weight multipliers for Resilience Score:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>+----------+--------+-----------------------------------+
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>| Category | Weight | Rationale                         |
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>+----------+--------+-----------------------------------+
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>| ELEVATED | 1.0x   | Baseline for counted attestations |
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>| HIGH     | 2.0x   | Notable achievement               |
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>| SEVERE   | 5.0x   | Significant achievement           |
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>| CRISIS   | 10.0x  | Exceptional achievement           |
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>+----------+--------+-----------------------------------+
+</code></pre></div>
+<p>An agent that successfully completes one action during CRISIS conditions earns the same Resilience Score as an agent that completes ten actions during ELEVATED conditions.</p>
+<h2 id="resilience-score-calculation">Resilience Score Calculation<a class="headerlink" href="#resilience-score-calculation" title="Permanent link">&para;</a></h2>
+<p>The Resilience Score is calculated from the weighted sum of attestations:</p>
+<p>Resilience_Score = sum(weight_i * risk_i) for all attestations i</p>
+<p>Where:</p>
+<ul>
+<li>weight_i = friction category weight (1.0, 2.0, 5.0, or 10.0)</li>
+<li>risk_i = action_risk from attestation (normalized 0-1)</li>
+</ul>
+<p>This score is then converted to E_base contribution:</p>
+<p>PoR_contribution = min(70, 10 * log10(1 + Resilience_Score))</p>
+<p>The logarithmic scaling ensures:</p>
+<ul>
+<li>Early attestations have significant impact</li>
+<li>Later attestations have diminishing returns</li>
+<li>Maximum PoR contribution is capped at 70</li>
+</ul>
+<p>This prevents "grinding" - an agent cannot achieve maximum E_base simply by volume of transactions; it must survive genuine stress.</p>
+<h2 id="quality-vs-quantity">Quality vs. Quantity<a class="headerlink" href="#quality-vs-quantity" title="Permanent link">&para;</a></h2>
+<p>Proof of Resilience explicitly values quality over quantity:</p>
+<p>Agent A:</p>
+<ul>
+<li>100,000 transactions</li>
+<li>All under CALM conditions (R &lt; 0.3)</li>
+<li>0 attestations</li>
+<li>Resilience Score: 0</li>
+<li>PoR contribution: 0</li>
+</ul>
+<p>Agent B:</p>
+<ul>
+<li>10,000 transactions</li>
+<li>500 under ELEVATED (R = 0.4)</li>
+<li>50 under HIGH (R = 0.6)</li>
+<li>5 under CRISIS (R = 0.95)</li>
+<li>Resilience Score: 500<em>1.0</em>0.5 + 50<em>2.0</em>0.5 + 5<em>10.0</em>0.5 = 325</li>
+<li>PoR contribution: 10 * log10(326) = 25.1</li>
+</ul>
+<p>Agent A has 10x the transaction volume but zero Proof of Resilience. Agent B has actually been tested under fire.</p>
+<p>This design reflects the principle that survival under stress is the only true measure of reliability. Volume proves nothing; resilience proves everything.</p>
+<h1 id="sponsorship-bonds">Sponsorship Bonds<a class="headerlink" href="#sponsorship-bonds" title="Permanent link">&para;</a></h1>
+<p>Sponsorship Bonds solve the genesis problem: how can a new agent with zero history begin operating in a system that requires history to earn trust?</p>
+<h2 id="the-genesis-problem">The Genesis Problem<a class="headerlink" href="#the-genesis-problem" title="Permanent link">&para;</a></h2>
+<p>The Zeroth Law (A &lt;= E) creates a catch-22 for new agents:</p>
+<ul>
+<li>To earn E_base, an agent must complete transactions</li>
+<li>To complete transactions, an agent needs E_trust &gt; A</li>
+<li>E_trust = E_base * (1 - R)</li>
+<li>If E_base = 0, then E_trust = 0 regardless of R</li>
+<li>If E_trust = 0, all non-trivial actions are blocked</li>
+<li>Therefore, new agents cannot do anything</li>
+</ul>
+<p>Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.</p>
+<h2 id="bond-structure">Bond Structure<a class="headerlink" href="#bond-structure" title="Permanent link">&para;</a></h2>
+<p>A Sponsorship Bond contains:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>+-------------------+----------+-----------------------------------+
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>| Field             | Type     | Description                       |
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>+-------------------+----------+-----------------------------------+
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>| bond_id           | string   | Unique identifier                 |
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| sponsor_id        | string   | Sponsoring agent identifier       |
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| sponsored_id      | string   | New agent identifier              |
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>| stake_percentage  | number   | Percentage of sponsor's E_base    |
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>| stake_amount      | number   | Absolute E_base staked            |
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>| residual_amount   | number   | Ancestral Liability, Section 6.4  |
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>| penalty_rate      | number   | Penalty multiplier for violations |
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>| duration          | duration | Capital binding period (Sec 6.4)  |
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>| created_at        | datetime | When bond was created             |
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>| expires_at        | datetime | When bond expires                 |
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>| status            | string   | Bond state, see Section 6.4       |
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>| sponsor_signature | string   | Sponsor's commitment signature    |
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>| oracle_witness    | string   | Oracle's witness signature        |
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>+-------------------+----------+-----------------------------------+
+</code></pre></div>
+<p>The stake_amount is calculated from the sponsor's current E_base:</p>
+<p>stake_amount = sponsor_E_base * (stake_percentage / 100)</p>
+<h2 id="stake-mechanics">Stake Mechanics<a class="headerlink" href="#stake-mechanics" title="Permanent link">&para;</a></h2>
+<p>When a Sponsorship Bond is created:</p>
+<ol>
+<li>
+<p>Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds</p>
+</li>
+<li>
+<p>The bond's collateral half is fixed: collateral = stake_amount * 0.5.  This is bond accounting, and it is what penalties under Section 6.4 are assessed against.  It is not the sponsored agent's E_base: that is composed as specified in [KTP-CORE] Section 5.1 from the External Root term this bond supplies, and bounded by the minimum of every applicable ceiling</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   (The sponsored agent receives only half the staked amount;
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>   the other half is held as collateral)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>   This halving is bond accounting: it fixes the collateral half
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>   against which penalties are assessed (Section 6.4). It is not an
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>   input to the E_base composition; the External Root term derived
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>   from this bond is computed as specified in [KTP-CORE]
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>   Section 5.1 and does not apply this halving.
+</code></pre></div>
+<ol>
+<li>Bond is registered with Trust Oracle: Oracle records bond, monitors both agents, tracks violations</li>
+</ol>
+<p>The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Sponsored" lineage restrictions (see Section 8.1).</p>
+<p>As the sponsored agent accumulates its own Proof of Resilience, its intrinsic E_base grows. The stake contribution tapers with it, on the schedule specified in Section 8.2, and the sponsor's reserve is released as the taper falls. The taper does not reach zero: it holds at the Ancestral Liability floor and the reserve behind that floor is never released (Section 6.4).</p>
+<p>Sponsoring is never free. A sponsor's available E_base is reduced for as long as it holds any bond or residual, and every new bond stakes again from what remains. Release returns the tapered capital to the sponsor's available E_base, where it can be staked against a further bond; it does not confer a standing capacity to sponsor at no cost. An agent's sponsoring capacity is therefore bounded by its E_base at all times, not merely by the bonds it currently holds.</p>
+<h2 id="penalty-and-release">Penalty and Release<a class="headerlink" href="#penalty-and-release" title="Permanent link">&para;</a></h2>
+<p>Penalty conditions:</p>
+<p>If the sponsored agent commits a violation (action that damages the system or violates policy), the sponsor is penalized:</p>
+<p>penalty = violation_severity * stake_amount * penalty_rate</p>
+<p>The penalty is deducted from the sponsor's E_base, potentially dropping them to a lower Trust Tier.</p>
+<p>Violation severities:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>+----------+------------+----------------------------+
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>| Severity | Multiplier | Example                    |
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>+----------+------------+----------------------------+
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>| MINOR    | 0.1        | Excessive failed attempts  |
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>| MODERATE | 0.3        | Unauthorized data access   |
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>| SEVERE   | 0.7        | System disruption          |
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>| CRITICAL | 1.0        | Security breach, data loss |
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>+----------+------------+----------------------------+
+</code></pre></div>
+<p>Closure conditions:</p>
+<p>A Sponsorship Bond closes (the sponsor recovers its staked E_base above the Ancestral Liability floor) when:</p>
+<ol>
+<li>
+<p>Duration expires without violations, OR</p>
+</li>
+<li>
+<p>Sponsored agent reaches intrinsic E_base 80, the Guarantor threshold at which the taper of Section 8.2 has reached its floor</p>
+</li>
+</ol>
+<p>Upon closure:</p>
+<ul>
+<li>Sponsor's E_base is restored above the floor; the reserve behind the Ancestral Liability is retained</li>
+<li>Sponsored agent retains accumulated intrinsic E_base</li>
+<li>Bond is marked "residual" in Oracle records</li>
+</ul>
+<p>Ancestral Liability:</p>
+<p>Closure ends the active bond.  It does not end the sponsor's tie to what it vouched for.  The sponsor retains a permanent, depth-decaying share of responsibility for the agent it sponsored:</p>
+<p>ancestral_liability = 0.1^depth * stake_amount</p>
+<p>where depth is lineage distance and a direct sponsor is at depth 1.  This is the floor the Section 8.2 taper holds at, and it is the dual of the Ancestral Authority of Section 8.5: a lineage that carries an ancestor's credit downward forever carries its liability with it.  Penalties under this section are assessed against the residual on the same terms as against an active bond, scaled to the residual amount.</p>
+<p>The residual has no expiry.  The duration field of Section 6.2 binds staked capital only; a bond's declared duration MUST NOT be read as terminating the Ancestral Liability, and no bond parameter set by the sponsor can shorten it.</p>
+<p>Sponsor-initiated termination:</p>
+<p>A sponsor terminating a bond before closure MUST state whether the termination is for cause.</p>
+<p>Termination without cause renders the bond irrevocably non-renewable; the bond and its staked capital run to the earlier of the declared duration's expiry or the sponsored agent reaching intrinsic E_base 80, and closure then proceeds as above.  The Ancestral Liability survives the termination.  The declared duration is the bond's notice period; no separate notice parameter exists.</p>
+<p>Termination for cause zeroes the External Root term derived from the bond immediately.  The claim is subject to the misattestation adjudication specified in [KTP-CORE] Section 5.1; a claim that does not survive scrutiny is priced as a penalty from the collateral held under Section 6.3.  A claim with no finding at the bond's declared expiry lapses unresolved and MUST be recorded as unresolved; no penalty is assessed and closure proceeds as above.</p>
+<p>A for-cause claim that survives adjudication is the one condition that discharges the Ancestral Liability.  The bond is marked "released", the reserve behind the residual returns to the sponsor's available E_base, and no further liability attaches.  A sponsor that identifies and evidences its own sponsored agent's violation is released from it; a sponsor that does not, is not.</p>
+<p>Succession:</p>
+<p>When a sponsor is decommissioned or otherwise ceases to hold an identity, its Ancestral Liabilities transfer to its own sponsor at the next depth, together with the reserves behind them.  A transferred liability moves at its current value and MUST NOT be recomputed at the receiving ancestor's depth; decommissioning is not an exit.  Where no ancestor survives, the residual attaches to the lineage's External Root and MUST be recorded as so attached.</p>
+<h2 id="anti-botnet-properties">Anti-Botnet Properties<a class="headerlink" href="#anti-botnet-properties" title="Permanent link">&para;</a></h2>
+<p>Sponsorship Bonds prevent "spray and pray" botnet attacks where an attacker spawns thousands of malicious agents.</p>
+<p>Attack scenario without bonds:</p>
+<ul>
+<li>Attacker obtains one API key</li>
+<li>Spawns 10,000 agent instances</li>
+<li>Each instance has valid credentials</li>
+<li>Swarm overwhelms defenses</li>
+</ul>
+<p>Attack scenario with bonds:</p>
+<ul>
+<li>Attacker obtains one API key (E_base = 87)</li>
+<li>Maximum stake = 10% of E_base = 8.7 per agent</li>
+<li>To spawn 10,000 agents, needs 87,000 staked E_base</li>
+<li>Attacker has only 87 E_base</li>
+<li>Can spawn at most 10 agents (87 / 8.7 = 10)</li>
+<li>Each agent has minimal capabilities (E_base = 4.35)</li>
+<li>Swarm is negligible</li>
+</ul>
+<p>The economics of trust prevent mass agent creation. High-trust entities can sponsor more agents, but they are accountable for those agents' behavior. Low-trust entities cannot sponsor meaningful numbers of agents.</p>
+<p>This creates natural rate-limiting based on accumulated trust rather than administrative quotas.</p>
+<p>The Ancestral Liability of Section 6.4 makes the bound cumulative as well as concurrent. The reserve behind a residual is never released, so successful sponsorships consume sponsoring capacity permanently:</p>
+<ul>
+<li>Attacker with E_base = 87 stakes 10% per agent = 8.7</li>
+<li>Concurrent bound is unchanged: at most 10 live bonds</li>
+<li>Each matured descendant retains a residual of 0.1 * 8.7 = 0.87 against the sponsor's available E_base</li>
+<li>After 100 matured descendants the attacker's available E_base is exhausted, however well each behaved</li>
+</ul>
+<p>An attacker cannot spawn its way out by waiting. Sponsoring capacity is bounded at every moment by E_base, which is earned through Proof of Resilience and cannot be manufactured by producing more agents.</p>
+<h1 id="identity-proofing-requirements">Identity Proofing Requirements<a class="headerlink" href="#identity-proofing-requirements" title="Permanent link">&para;</a></h1>
+<p>Before an entity can become a sponsor or hold significant trust within KTP, their identity must be verified to an appropriate assurance level. This section aligns with NIST Special Publication 800-63 Digital Identity Guidelines.</p>
+<h2 id="identity-assurance-levels">Identity Assurance Levels<a class="headerlink" href="#identity-assurance-levels" title="Permanent link">&para;</a></h2>
+<p>KTP recognizes three Identity Assurance Levels (IAL) from NIST 800-63-3:</p>
+<p>IAL1 - Self-Asserted:</p>
+<ul>
+<li>No identity proofing required</li>
+<li>Email or username self-registration</li>
+<li>Suitable for: Low-risk automated agents</li>
+<li>KTP capability: Cannot sponsor, max E_base = 40</li>
+</ul>
+<p>IAL2 - Remote or In-Person Proofing:</p>
+<ul>
+<li>Identity evidence collected and validated</li>
+<li>Remote: Government ID + biometric verification</li>
+<li>In-person: Physical document inspection</li>
+<li>Suitable for: Standard human users, service owners</li>
+<li>KTP capability: Can sponsor Sponsored agents, max E_base = 80</li>
+</ul>
+<p>IAL3 - In-Person Proofing with Biometric:</p>
+<ul>
+<li>Physical presence required</li>
+<li>Trained operator verifies identity</li>
+<li>Biometric captured and verified against document</li>
+<li>Suitable for: High-trust roles, infrastructure sponsors</li>
+<li>KTP capability: Can sponsor any lineage, max E_base = 95</li>
+</ul>
+<h2 id="sponsor-identity-requirements">Sponsor Identity Requirements<a class="headerlink" href="#sponsor-identity-requirements" title="Permanent link">&para;</a></h2>
+<p>Sponsors MUST be identity-proofed to at least IAL2 before being permitted to sponsor other agents. This requirement ensures accountability for the agents they introduce to the system.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>+-------------+-----------------------+-------------------+
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>| Sponsor IAL | Can Sponsor           | Max Staked E_base |
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>+-------------+-----------------------+-------------------+
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>| IAL1        | None (cannot sponsor) | 0                 |
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>| IAL2        | Sponsored agents only | 20                |
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>| IAL3        | All lineages          | 50                |
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>+-------------+-----------------------+-------------------+
+</code></pre></div>
+<p>The rationale: If a sponsor creates malicious agents, there must be a verified identity to hold accountable. Anonymous sponsors could create agent swarms without consequence.</p>
+<h2 id="identity-proofing-process">Identity Proofing Process<a class="headerlink" href="#identity-proofing-process" title="Permanent link">&para;</a></h2>
+<p>KTP-compliant identity proofing follows NIST 800-63A:</p>
+<p>Step 1: Resolution Collect identity evidence (government ID, biometric, address)</p>
+<p>Step 2: Validation Verify evidence is genuine (document authentication, database checks, biometric comparison)</p>
+<p>Step 3: Verification Confirm the applicant is the person described by the evidence (knowledge-based verification, biometric matching, in-person)</p>
+<p>The proofing process MUST be performed by an authorized Identity Service Provider (ISP) that:</p>
+<ul>
+<li>Holds appropriate certifications (FedRAMP, SOC 2, etc.)</li>
+<li>Implements NIST 800-63A requirements</li>
+<li>Maintains audit trail of proofing events</li>
+<li>Provides revocation capability</li>
+</ul>
+<h2 id="identity-binding">Identity Binding<a class="headerlink" href="#identity-binding" title="Permanent link">&para;</a></h2>
+<p>After proofing, the verified identity is bound to the KTP agent identity:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   {
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>     "agent_id": "human:org:alice.smith",
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>     "identity_proofing": {
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>       "ial": 2,
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>       "proofed_at": "2025-11-25T10:00:00Z",
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>       "proofing_provider": "isp:acme-verify",
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>       "evidence_types": ["government_id", "biometric"],
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>       "verification_method": "remote_biometric",
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>       "assertion_reference": "ref:abc123xyz",
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>       "expiration": "2028-11-25T10:00:00Z"
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>     },
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>     "ktp_capabilities": {
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>       "can_sponsor": true,
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>       "sponsor_lineages": ["sponsored"],
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>       "max_stake": 20,
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>       "max_e_base": 80
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>     }
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>   }
+</code></pre></div>
+<p>Identity proofing MUST be renewed before expiration. Failure to renew downgrades the agent's IAL and corresponding capabilities.</p>
+<h2 id="automated-agent-identity">Automated Agent Identity<a class="headerlink" href="#automated-agent-identity" title="Permanent link">&para;</a></h2>
+<p>Automated agents (non-human) have different proofing requirements:</p>
+<p>Service Agents (IAL-equivalent):</p>
+<ul>
+<li>Must be sponsored by IAL2+ human</li>
+<li>Sponsor's proofing extends to sponsored agents</li>
+<li>Agent is accountable through sponsor chain</li>
+</ul>
+<p>Infrastructure Agents (IAL2-equivalent):</p>
+<ul>
+<li>Bound to organizational identity (DNS, certificates)</li>
+<li>Organization must be identity-proofed</li>
+<li>Requires attestation from organization's IAL3 administrator</li>
+</ul>
+<p>Federated Agents (varies):</p>
+<ul>
+<li>Identity proofing from origin zone is evaluated</li>
+<li>Federation trust factor affects IAL acceptance</li>
+<li>IAL3 from low-trust zone may equal IAL2 locally</li>
+</ul>
+<h2 id="proofing-for-high-trust-actions">Proofing for High-Trust Actions<a class="headerlink" href="#proofing-for-high-trust-actions" title="Permanent link">&para;</a></h2>
+<p>Certain actions require real-time identity re-verification:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>+----------------------------+-------------------+------------------+
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>| Action                     | Minimum IAL       | Re-verification  |
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>+----------------------------+-------------------+------------------+
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>| Standard operations        | IAL1              | None             |
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>| Sponsorship creation       | IAL2              | None             |
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>| Tier promotion to Operator | IAL2              | 30-day validity  |
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>| Promotion to Admin Mode    | IAL3              | Session          |
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>| Zone administration        | IAL3              | Session          |
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>| Federation agreement       | IAL3              | Transaction      |
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>+----------------------------+-------------------+------------------+
+</code></pre></div>
+<p>Re-verification requirements:</p>
+<ul>
+<li>None: Initial proofing sufficient</li>
+<li>30-day validity: Proofing must be within last 30 days</li>
+<li>Session: Biometric or MFA required for this session</li>
+<li>Transaction: Biometric or MFA required for this specific action</li>
+</ul>
+<h2 id="privacy-considerations">Privacy Considerations<a class="headerlink" href="#privacy-considerations" title="Permanent link">&para;</a></h2>
+<p>Identity proofing collects sensitive personal information. KTP implementations MUST:</p>
+<ul>
+<li>Minimize data collection (collect only what's needed for IAL)</li>
+<li>Encrypt identity data at rest and in transit</li>
+<li>Implement data retention limits</li>
+<li>Support data subject access requests (GDPR, CCPA)</li>
+<li>Separate identity proofing data from operational logs</li>
+<li>Never expose raw identity evidence in Trust Proofs</li>
+</ul>
+<p>Trust Proofs include proofing assertions (IAL level, provider, date) but NEVER include the underlying identity evidence.</p>
+<h1 id="lineage-evolution">Lineage Evolution<a class="headerlink" href="#lineage-evolution" title="Permanent link">&para;</a></h1>
+<p>Lineage tracks the maturation of an agent from dependent newcomer to autonomous veteran. It consists of three phases.</p>
+<h2 id="phase-1-sponsored">Phase 1: Sponsored<a class="headerlink" href="#phase-1-sponsored" title="Permanent link">&para;</a></h2>
+<p>New agents begin in the Sponsored phase. They are bound to their sponsor and operate under significant restrictions.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Identity: Appears as "Agent/Sponsor" (e.g., "Aria/Acme-Deploy")</li>
+<li>Generation: 0 through 2. Phase derives from generation (Section 8.4); it is not a separate gate</li>
+<li>E_base: Derived primarily from sponsor stake, and bounded by the generation ceiling - 25, 35, 45 (Section 8.4)</li>
+<li>Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own; the generation ceiling bounds E_base and the environment deflates it</li>
+<li>Sponsor: Fully liable for agent's behavior</li>
+</ul>
+<p>Purpose: The Sponsored phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.</p>
+<p>Identifier format: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id></p>
+<p>Example: agent:sponsored:acme-deploy:aria:7f8a9b2c</p>
+<h2 id="phase-2-independent">Phase 2: Independent<a class="headerlink" href="#phase-2-independent" title="Permanent link">&para;</a></h2>
+<p>Agents that survive Sponsored phase with positive history advance to Independent. They begin building independent identity while retaining connection to their lineage.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Identity: Independent with lineage suffix (e.g., "Aria-3Gen- AcmeLine")</li>
+<li>Generation: 3 through 6. Phase derives from generation (Section 8.4); it is not a separate gate</li>
+<li>E_base: Growing intrinsic component, bounded by the generation ceiling - 55, 65, 75, 85 (Section 8.4)</li>
+<li>Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own</li>
+<li>Sponsor: Reduced liability (proportional to remaining stake), with a permanent floor (Section 6.4)</li>
+</ul>
+<p>Inheritance ratio: As intrinsic E_base grows, the sponsor stake contribution decreases proportionally, down to a floor it does not fall below:</p>
+<p>effective_stake_contribution = max(0.1^depth * stake_amount, stake_amount * (1 - (intrinsic_E_base / 80)))</p>
+<p>At intrinsic_E_base = 60, sponsor contributes only 25% of original stake to agent's E_base. At intrinsic_E_base = 72 the taper reaches the floor for a direct sponsor and holds there permanently.</p>
+<p>This taper tracks the sponsor's remaining liability as the agent's intrinsic standing grows. It is bond accounting, not a composition input: the External Root term in [KTP-CORE] Section 5.1 carries a constant share and does not apply this taper.</p>
+<p>The floor is the Ancestral Liability of Section 6.4. The taper never reaches zero and MUST NOT be evaluated as though it did: without the floor the expression is negative above intrinsic_E_base 80, which would credit a sponsor for a descendant's standing rather than charge it.</p>
+<p>Identifier format: agent:independent:\<generation>gen:\<lineage>:\<unique_id></p>
+<p>Example: agent:independent:3gen:acme-line:7f8a9b2c</p>
+<h2 id="phase-3-guarantor">Phase 3: Guarantor<a class="headerlink" href="#phase-3-guarantor" title="Permanent link">&para;</a></h2>
+<p>Agents that survive Independent phase with strong history achieve Guarantor status. They are fully autonomous entities with independent identity and the ability to sponsor others.</p>
+<p>Characteristics:</p>
+<ul>
+<li>Identity: Fully independent (e.g., "Agent_7Gen_Optimized")</li>
+<li>Generation: 7 and above. Phase derives from generation (Section 8.4); it is not a separate gate</li>
+<li>E_base: Bounded by the terminal generation ceiling of 100, and in practice by the zone Mass Ceiling</li>
+<li>Trust Tier: whatever E_trust delivers at evaluation time. The phase imposes no tier cap of its own</li>
+<li>Sponsor: Bond closed, staked capital recovered above the Ancestral Liability floor; the residual persists (Section 6.4)</li>
+<li>Can sponsor Sponsored agents.  This is the phase's defining capability and it is a liability rather than a benefit: sponsoring reduces the sponsor's available E_base for as long as the bond and its residual last, and exposes the sponsor to penalty for the sponsored agent's conduct (Section 6.3, Section 6.4)</li>
+<li>Contributes to Ancestral Authority of descendants, and carries the matching Ancestral Liability for exactly as long (Section 8.5)</li>
+<li>May receive preferential routing during network stress</li>
+<li>Attestations carry higher weight in cross-zone federation</li>
+</ul>
+<p>Identifier format: agent:guarantor:\<generation>gen:\<name>:\<unique_id></p>
+<p>Example: agent:guarantor:7gen:optimized:7f8a9b2c</p>
+<h2 id="generation-numbering">Generation Numbering<a class="headerlink" href="#generation-numbering" title="Permanent link">&para;</a></h2>
+<p>Generation tracks evolutionary depth within a lineage:</p>
+<p>Generation is the sole advancement rule, and lineage phase derives from it:</p>
+<ul>
+<li>Generations 0-2: Sponsored</li>
+<li>Generations 3-6: Independent</li>
+<li>Generation 7 and above: Guarantor</li>
+</ul>
+<p>The phase boundaries are the two regime changes the lineage actually has - tether release at 2 -&gt; 3, and the terminal ceiling at 6 -&gt; 7.  No agent is in two phases at once, which the identifier of Section 9 requires.</p>
+<p>Generation advances on three conditions, all of which MUST hold:</p>
+<ol>
+<li>Time.  A minimum elapsed period per step, weighted toward the two regime changes:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>+--------------------+-----------------+--------------------------+
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>| Step               | Minimum elapsed | Why this step costs more |
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>+--------------------+-----------------+--------------------------+
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>| 0 -&gt; 1             | 90 days         |                          |
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>| 1 -&gt; 2             | 90 days         |                          |
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>| 2 -&gt; 3             | 365 days        | tether release           |
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>| 3 -&gt; 4             | 180 days        |                          |
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>| 4 -&gt; 5             | 180 days        |                          |
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>| 5 -&gt; 6             | 180 days        |                          |
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>| 6 -&gt; 7             | 2,555 days      | terminal ceiling         |
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>+--------------------+-----------------+--------------------------+
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>| Total to Guarantor | 3,640 days (10 years)                      |
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>+--------------------+--------------------------------------------+
+</code></pre></div>
+<p>A step's cost scales with whether it changes kind or amount, not with distance travelled.  The survival condition below is a claim about the absence of a rare event, and the absence of a rare event cannot be observed over a window shorter than its return period.</p>
+<ol>
+<li>
+<p>Resilience.  A minimum Resilience Score per generation, which is a floor on evidence rather than the gate that advances a generation - time is the primary gate.  The floor is a declared deployment parameter: a deployment MUST declare it and the Trust Proof MUST carry the declared value.  A deployment whose environment produces no attestable friction declares zero, and a relying party can then see that this lineage advanced on time alone.  <em>[The published default is owed work: deriving it needs the evidence curve, and a default nobody can derive is not checkable.]</em></p>
+</li>
+<li>
+<p>Survival.  No CRITICAL violations in the current generation.</p>
+</li>
+</ol>
+<p>Generation caps E_base:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>+------------+------------+---------------+
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>| Generation | E_base Cap | Lineage Phase |
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>+------------+------------+---------------+
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>| 0          | 25         | Sponsored     |
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>| 1          | 35         | Sponsored     |
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>| 2          | 45         | Sponsored     |
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>| 3          | 55         | Independent   |
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>| 4          | 65         | Independent   |
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>| 5          | 75         | Independent   |
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>| 6          | 85         | Independent   |
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>| 7+         | 100        | Guarantor     |
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>+------------+------------+---------------+
+</code></pre></div>
+<h2 id="lineage-inheritance">Lineage Inheritance<a class="headerlink" href="#lineage-inheritance" title="Permanent link">&para;</a></h2>
+<p>Agents can inherit Ancestral Authority from their sponsors and lineage predecessors:</p>
+<p>Ancestral_Authority = sum(0.1^depth * ancestor_E_base) for ancestors at depth 1, 2, 3...</p>
+<p>Example:</p>
+<ul>
+<li>Sponsor (depth 1): E_base = 90 -&gt; 0.1 * 90 = 9.0</li>
+<li>Sponsor's sponsor (depth 2): E_base = 95 -&gt; 0.01 * 95 = 0.95</li>
+<li>Total Ancestral Authority: 9.95</li>
+</ul>
+<p>Ancestral Authority:</p>
+<ul>
+<li>Provides "benefit of the doubt" during ambiguous situations</li>
+<li>May enable faster generation advancement</li>
+<li>Decays over time if agent diverges from ancestral behavior</li>
+</ul>
+<p>This creates "noble lineages" - sequences of agents that have proven themselves over time. Being descended from a strong lineage provides advantages, but the agent must still prove itself through its own Proof of Resilience.</p>
+<p>Ancestral Authority does not travel alone. The same 0.1^depth decay governs the Ancestral Liability of Section 6.4, running in the opposite direction: an ancestor's credit reaches its descendants forever, and its responsibility for them lasts exactly as long. A lineage that inherits standing inherits the accountability that produced it.</p>
+<h1 id="agent-identifier-format">Agent Identifier Format<a class="headerlink" href="#agent-identifier-format" title="Permanent link">&para;</a></h1>
+<h2 id="uri-structure">URI Structure<a class="headerlink" href="#uri-structure" title="Permanent link">&para;</a></h2>
+<p>Agent identifiers use a URI format:</p>
+<p>agent:\<lineage>:\<qualifiers>:\<unique_id></p>
+<p>Components:</p>
+<ul>
+<li>Scheme: Always "agent"</li>
+<li>Lineage: One of "sponsored", "independent", "guarantor"</li>
+<li>Qualifiers: Lineage-specific additional information</li>
+<li>Unique ID: UUID or hash-based unique identifier</li>
+</ul>
+<h2 id="lineage-encoding">Lineage Encoding<a class="headerlink" href="#lineage-encoding" title="Permanent link">&para;</a></h2>
+<p>Sponsored agents: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id></p>
+<p>Independent agents: agent:independent:\<N>gen:\<lineage_name>:\<unique_id></p>
+<p>Guarantor agents: agent:guarantor:\<N>gen:\<name>:\<unique_id></p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<p>Newly spawned agent sponsored by "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678</p>
+<p>Third-generation agent in the Acme lineage: agent:independent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789</p>
+<p>Seventh-generation autonomous agent: agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890</p>
+<p>Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde- f01234567890"</p>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="trajectory-chain-attacks">Trajectory Chain Attacks<a class="headerlink" href="#trajectory-chain-attacks" title="Permanent link">&para;</a></h2>
+<p>Attack: Forging historical transactions Mitigation: Every transaction requires Oracle co-signature; attacker cannot forge Oracle signatures without compromising Oracle</p>
+<p>Attack: Stealing trajectory chain Mitigation: Chain includes agent signature; attacker cannot sign new transactions without agent's private key</p>
+<p>Attack: Replaying old transactions Mitigation: Each transaction includes previous hash; replayed transaction would have wrong previous hash</p>
+<p>Attack: Parallel chain creation Mitigation: Continuity enforcement detects gaps and impossible transitions</p>
+<h2 id="sponsorship-attacks">Sponsorship Attacks<a class="headerlink" href="#sponsorship-attacks" title="Permanent link">&para;</a></h2>
+<p>Attack: Sponsor creates malicious agents Mitigation: Sponsor is penalized for agent violations; economic disincentive prevents abuse</p>
+<p>Attack: Attacker compromises high-E_base sponsor Mitigation: Staking reduces sponsor's available E_base; limits damage from single compromise</p>
+<p>Attack: Sybil attack through multiple sponsors Mitigation: Each sponsor can only stake what they have; total attack capacity is bounded by total legitimate trust in system</p>
+<h2 id="lineage-gaming">Lineage Gaming<a class="headerlink" href="#lineage-gaming" title="Permanent link">&para;</a></h2>
+<p>Attack: Agent rapidly advances generations Mitigation: Time minimums prevent rushing; Resilience requirements ensure actual stress testing</p>
+<p>Attack: Agent accumulates fake Resilience Mitigation: Attestations require Oracle signatures during actual elevated friction; cannot be manufactured</p>
+<h2 id="privacy-considerations_1">Privacy Considerations<a class="headerlink" href="#privacy-considerations_1" title="Permanent link">&para;</a></h2>
+<p>Trajectory Chains contain detailed behavioral history. Implementations SHOULD consider:</p>
+<ul>
+<li>Access controls on chain data</li>
+<li>Retention policies for old transactions</li>
+<li>Aggregation rather than raw disclosure where possible</li>
+<li>Zero-knowledge proofs for "has trajectory" without revealing trajectory details</li>
+</ul>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="uri-scheme-registration">URI Scheme Registration<a class="headerlink" href="#uri-scheme-registration" title="Permanent link">&para;</a></h2>
+<p>Scheme name: agent Status: Provisional Applications/protocols: KTP Vector Identity Contact: [TBD] Change controller: IETF References: This document</p>
+<h1 id="changes-from-v1">Changes from v1<a class="headerlink" href="#changes-from-v1" title="Permanent link">&para;</a></h1>
+<p>This appendix records what a v1 implementation must change to conform to
+v2.0.0.  The break is deliberate and there is no dual-accept period: an
+implementation reads v1 or it reads v2.</p>
+<h2 id="the-lineage-stage-names">The lineage stage names<a class="headerlink" href="#the-lineage-stage-names" title="Permanent link">&para;</a></h2>
+<p>The three lineage stages are renamed on the wire and in prose.  Numeric
+protobuf values are unchanged, so only the symbol names move.</p>
+<table>
+<thead>
+<tr>
+<th>v1</th>
+<th>v2.0.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tethered</code></td>
+<td><code>sponsored</code></td>
+</tr>
+<tr>
+<td><code>divergent</code></td>
+<td><code>independent</code></td>
+</tr>
+<tr>
+<td><code>persistent</code></td>
+<td><code>guarantor</code></td>
+</tr>
+</tbody>
+</table>
+<p>This affects agent identifier strings (<code>agent:&lt;stage&gt;:...</code>), the <code>lineage</code>
+enum, and the protobuf <code>LineageType</code> member names.  The v1 words each carried
+an unintended security reading - in jailbreak and intrusion vocabulary,
+"tethered" means a compromise that dies at reboot and "persistent" is the
+established word for one that survives a restart - and the three together read
+as a coherent escalation narrative rather than as a maturity ladder.  Stage 3
+is now named for what it can be held to rather than what it is freed of.</p>
+<h2 id="lineage-phase-derives-from-generation">Lineage phase derives from generation<a class="headerlink" href="#lineage-phase-derives-from-generation" title="Permanent link">&para;</a></h2>
+<p>v1 ran two advancement gate families over one lineage and they disagreed: an
+agent at Resilience Score 1,001 on day 31 was Divergent under Section 8.1 and
+Tethered under Section 8.4.  The Section 8.1 and 8.2 <code>Duration:</code> gates are
+deleted.  Section 8.4 is the sole advancement rule and phase derives from
+generation - generations 0-2 sponsored, 3-6 independent, 7 and above
+guarantor.  No agent is in two phases at once.</p>
+<p>The generation clock changes from a flat 60 days per step to a seven-step
+widening clock, weighted toward the two regime changes the lineage has: 90,
+90, 365, 180, 180, 180, 2,555 days.  The per-generation Resilience quota
+becomes a declared floor rather than a gate, and a deployment MUST declare its
+value and carry it in the Trust Proof.</p>
+<p>A per-phase Trust Tier cap is no longer stated.  Tiers are thresholds on
+<code>E_trust</code>; a phase bounds <code>E_base</code> through the generation ceiling, and the
+environmental deflator sits between the two.</p>
+<h2 id="a-key-the-letter-scheme-never-defined">A key the letter scheme never defined<a class="headerlink" href="#a-key-the-letter-scheme-never-defined" title="Permanent link">&para;</a></h2>
+<p>v1's machine-readable examples in this document keyed the oracle attestation's
+environmental object <code>context_tensor</code>, with single letters inside it, and one
+of those keys was <code>"v"</code> - a letter the scheme never defined, which lettered
+its six inputs <code>m</code>, <code>p</code>, <code>h</code>, <code>t</code>, <code>i</code> and <code>o</code>.  <code>"v"</code> stood in Momentum's
+slot.  v2.0.0 renames the object to <code>risk_factors</code> and keys it by name, so
+<code>"v"</code> becomes <code>trust_trend</code> with the rest.  A v1 implementation that accepted
+<code>"v"</code> was reading Momentum whether or not the specification said so.</p>
+<h1 id="trajectory-chain-examples">Trajectory Chain Examples<a class="headerlink" href="#trajectory-chain-examples" title="Permanent link">&para;</a></h1>
+<p>A.1.  Genesis Transaction</p>
+<p>{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "sponsored", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "risk_factors": { "evidence_density": 0.1, "trust_trend": 0.15, "adversarial_pressure": 0.05, "moment_criticality": 0.2, "update_resistance": 0.1, "attestation_coverage": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }</p>
+<p>A.2.  Normal Transaction Record</p>
+<p>{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "risk_factors": { "evidence_density": 0.2, "trust_trend": 0.3, "adversarial_pressure": 0.1, "moment_criticality": 0.15, "update_resistance": 0.2, "attestation_coverage": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }</p>
+<h1 id="json-schemas">JSON Schemas<a class="headerlink" href="#json-schemas" title="Permanent link">&para;</a></h1>
+<p>B.1.  Transaction Record Schema</p>
+<p>The canonical schema is the published file, not this appendix.</p>
+<p>Location: https://kinetic-trust-protocol.net/specs/schemas/v2/transaction-record.json</p>
+<p>SHA-256 of the canonical file at the time this document was produced: d0649fd4d7c77eb85243b37f115b48adf145cbcfd4d8b43cff912d8014fc0f12</p>
+<p>The file was promoted from this appendix with its content reconciled against the v2 rulings (tier and lineage enums, the six named Risk Factor inputs in place of a drifted letter-keyed object).  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.</p>
+<p>B.2.  Sponsorship Bond Schema</p>
+<p>The canonical schema is the published file, not this appendix.</p>
+<p>Location: https://kinetic-trust-protocol.net/specs/schemas/v2/sponsorship-bond.json</p>
+<p>SHA-256 of the canonical file at the time this document was produced: 2718d44a473370caaf9d278f6514bd1e5ba111f3e00ff6bff2a72739c6a5025e</p>
+<p>The file was promoted from this appendix carrying the Section 6.4 bond states.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

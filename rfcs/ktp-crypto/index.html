@@ -1,0 +1,3390 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-crypto/">
+      
+      
+        <link rel="prev" href="../ktp-identity/">
+      
+      
+        <link rel="next" href="../ktp-transport/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KTP-Crypto - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-cryptographic-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Crypto
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-crypto.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-cryptographic-specification">Kinetic Trust Protocol (KTP) - Cryptographic Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-cryptographic-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies the cryptographic requirements for the Kinetic Trust Protocol (KTP). It consolidates all cryptographic algorithms, key management procedures, credential formats, and security parameters required for conformant implementations.</p>
+<p>The specification covers signature schemes, hash functions, key derivation, threshold cryptography, hardware security module integration, key lifecycle management, and post-quantum cryptography considerations.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Cryptography is the enforcement mechanism for the trust model. The Zeroth Law (A ≤ E) is meaningless without cryptographic guarantees that Trust Proofs cannot be forged, trajectories cannot be falsified, and audit records cannot be altered.</p>
+<p>This specification consolidates all cryptographic requirements from across the KTP RFC series into a single normative document.</p>
+<h2 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
+<p>KTP cryptography follows these principles:</p>
+<ol>
+<li>
+<p>CONSERVATIVE CHOICES Prefer well-studied algorithms over novel constructions. Security margins should exceed minimum requirements.</p>
+</li>
+<li>
+<p>CRYPTOGRAPHIC AGILITY Support algorithm negotiation to enable future transitions. No algorithm is permanent; all must be replaceable.</p>
+</li>
+<li>
+<p>DEFENSE IN DEPTH Multiple cryptographic mechanisms protect critical assets. Compromise of one mechanism should not compromise all.</p>
+</li>
+<li>
+<p>HARDWARE ROOTS High-value keys should be protected by hardware. Software-only protection is acceptable only for Level 1.</p>
+</li>
+<li>
+<p>POST-QUANTUM AWARENESS Design for eventual quantum computer threat. Hybrid schemes available now; mandatory transition planned.</p>
+</li>
+</ol>
+<h2 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h2>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>This document uses the following terms:</p>
+<p>Signing Key: Private key used to create digital signatures.</p>
+<p>Verification Key: Public key used to verify digital signatures.</p>
+<p>Threshold Signature: Signature requiring k-of-n parties to cooperate.</p>
+<p>Key Ceremony: Formal procedure for generating or rotating keys.</p>
+<p>HSM (Hardware Security Module): Tamper-resistant hardware for key protection.</p>
+<p>PQC (Post-Quantum Cryptography): Algorithms resistant to quantum computer attacks.</p>
+<p>Hybrid Signature: Combination of classical and post-quantum signatures.</p>
+<p>Key Epoch: Time period during which a key is valid.</p>
+<h1 id="algorithm-requirements-by-level">Algorithm Requirements by Level<a class="headerlink" href="#algorithm-requirements-by-level" title="Permanent link">&para;</a></h1>
+<p>KTP defines three conformance levels with increasing cryptographic requirements.</p>
+<h2 id="level-1-basic">Level 1 (Basic)<a class="headerlink" href="#level-1-basic" title="Permanent link">&para;</a></h2>
+<p>Level 1 is suitable for development, testing, and low-risk deployments. It prioritizes ease of implementation.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Signature Algorithms (one REQUIRED):
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>+-----------+-------------------+----------------+-------------+
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>| Algorithm | Curve/Params      | Security Level | Status      |
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>+-----------+-------------------+----------------+-------------+
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>| ECDSA     | P-256 (secp256r1) | 128-bit        | REQUIRED    |
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>| EdDSA     | Ed25519           | 128-bit        | RECOMMENDED |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>+-----------+-------------------+----------------+-------------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Hash Functions (one REQUIRED):
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>+-----------+-------------+----------------+----------+
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>| Algorithm | Output Size | Security Level | Status   |
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>+-----------+-------------+----------------+----------+
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>| SHA-256   | 256 bits    | 128-bit        | REQUIRED |
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>| SHA-384   | 384 bits    | 192-bit        | OPTIONAL |
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>+-----------+-------------+----------------+----------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Symmetric Encryption (if needed):
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>+-------------+----------+----------------+-------------+
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>| Algorithm   | Key Size | Security Level | Status      |
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>+-------------+----------+----------------+-------------+
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| AES-128-GCM | 128 bits | 128-bit        | REQUIRED    |
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>| AES-256-GCM | 256 bits | 256-bit        | RECOMMENDED |
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>+-------------+----------+----------------+-------------+
+</code></pre></div>
+<p>Key Storage:</p>
+<ul>
+<li>Software keystore acceptable</li>
+<li>HSM RECOMMENDED but not required</li>
+<li>Key encryption at rest REQUIRED</li>
+</ul>
+<p>Threshold Signatures:</p>
+<ul>
+<li>NOT REQUIRED for Level 1</li>
+<li>Single Oracle signature acceptable</li>
+</ul>
+<h2 id="level-2-standard">Level 2 (Standard)<a class="headerlink" href="#level-2-standard" title="Permanent link">&para;</a></h2>
+<p>Level 2 is suitable for production deployments with moderate security requirements.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Signature Algorithms (all REQUIRED):
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>+-----------+--------------+----------------+-------------+
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>| Algorithm | Curve/Params | Security Level | Status      |
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>+-----------+--------------+----------------+-------------+
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>| ECDSA     | P-256        | 128-bit        | REQUIRED    |
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>| EdDSA     | Ed25519      | 128-bit        | REQUIRED    |
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>| ECDSA     | P-384        | 192-bit        | RECOMMENDED |
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>+-----------+--------------+----------------+-------------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Hash Functions (all listed REQUIRED):
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>+-----------+-------------+-------------------------------+
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>| Algorithm | Output Size | Use Case                      |
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+-----------+-------------+-------------------------------+
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>| SHA-256   | 256 bits    | General hashing               |
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>| SHA-384   | 384 bits    | High-security contexts        |
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>| SHA3-256  | 256 bits    | Flight Recorder (recommended) |
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>+-----------+-------------+-------------------------------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Symmetric Encryption:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>+---------------+----------+----------------+-------------+
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>| Algorithm     | Key Size | Security Level | Status      |
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>+---------------+----------+----------------+-------------+
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>| AES-256-GCM   | 256 bits | 256-bit        | REQUIRED    |
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>| ChaCha20-Poly | 256 bits | 256-bit        | RECOMMENDED |
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>+---------------+----------+----------------+-------------+
+</code></pre></div>
+<p>Key Storage:</p>
+<ul>
+<li>HSM REQUIRED for Oracle signing keys</li>
+<li>Software keystore acceptable for agent keys</li>
+<li>Key encryption at rest REQUIRED</li>
+<li>Key backup procedures REQUIRED</li>
+</ul>
+<p>Threshold Signatures:</p>
+<ul>
+<li>REQUIRED for Trust Proof issuance</li>
+<li>Minimum threshold: 2-of-3</li>
+<li>RECOMMENDED threshold: 3-of-5</li>
+</ul>
+<h2 id="level-3-full">Level 3 (Full)<a class="headerlink" href="#level-3-full" title="Permanent link">&para;</a></h2>
+<p>Level 3 is suitable for critical infrastructure, high-security environments, and federation anchor nodes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Signature Algorithms (all REQUIRED):
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>+------------+----------------+----------------+----------+
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>| Algorithm  | Curve/Params   | Security Level | Status   |
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>+------------+----------------+----------------+----------+
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>| ECDSA      | P-384          | 192-bit        | REQUIRED |
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>| EdDSA      | Ed448          | 224-bit        | REQUIRED |
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>| Hybrid PQC | See Section 11 | Post-quantum   | REQUIRED |
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>+------------+----------------+----------------+----------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Hash Functions:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>+-----------+-------------+-----------------+
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>| Algorithm | Output Size | Use Case        |
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>+-----------+-------------+-----------------+
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>| SHA-384   | 384 bits    | General hashing |
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>| SHA3-384  | 384 bits    | Flight Recorder |
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>| SHAKE256  | Variable    | Key derivation  |
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>+-----------+-------------+-----------------+
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Symmetric Encryption:
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>+---------------+----------+----------------+----------+
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>| Algorithm     | Key Size | Security Level | Status   |
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>+---------------+----------+----------------+----------+
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>| AES-256-GCM   | 256 bits | 256-bit        | REQUIRED |
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>| ChaCha20-Poly | 256 bits | 256-bit        | REQUIRED |
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>+---------------+----------+----------------+----------+
+</code></pre></div>
+<p>Key Storage:</p>
+<ul>
+<li>FIPS 140-2 Level 3 (or equivalent) HSM REQUIRED</li>
+<li>Multi-person access control REQUIRED</li>
+<li>Geographic distribution REQUIRED</li>
+<li>Key ceremony with witnesses REQUIRED</li>
+</ul>
+<p>Threshold Signatures:</p>
+<ul>
+<li>REQUIRED for all Oracle operations</li>
+<li>Minimum threshold: 3-of-5</li>
+<li>RECOMMENDED threshold: 5-of-7</li>
+<li>Geographic distribution of key shares REQUIRED</li>
+</ul>
+<h1 id="signature-schemes">Signature Schemes<a class="headerlink" href="#signature-schemes" title="Permanent link">&para;</a></h1>
+<h2 id="ecdsa">ECDSA<a class="headerlink" href="#ecdsa" title="Permanent link">&para;</a></h2>
+<p>ECDSA (Elliptic Curve Digital Signature Algorithm) per FIPS 186-4.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Supported Curves:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>+-------+------------+----------------+----------+
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>| Curve | Field Size | Security Level | JOSE alg |
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>+-------+------------+----------------+----------+
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| P-256 | 256 bits   | 128-bit        | ES256    |
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| P-384 | 384 bits   | 192-bit        | ES384    |
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>| P-521 | 521 bits   | 256-bit        | ES512    |
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>+-------+------------+----------------+----------+
+</code></pre></div>
+<p>Requirements:</p>
+<ol>
+<li>
+<p>Implementations MUST use deterministic ECDSA (RFC 6979) to prevent nonce reuse vulnerabilities.</p>
+</li>
+<li>
+<p>Implementations MUST validate that points are on the curve before use.</p>
+</li>
+<li>
+<p>Implementations MUST reject signatures with s &gt; n/2 (low-s normalization) to prevent malleability.</p>
+</li>
+<li>
+<p>Private keys MUST be generated using cryptographically secure random number generators.</p>
+</li>
+</ol>
+<p>Signature Format:</p>
+<p>ECDSA signatures in KTP use the compact representation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>   signature = r || s
+</code></pre></div>
+<p>Where r and s are fixed-size big-endian integers (32 bytes for P-256, 48 bytes for P-384, 66 bytes for P-521).</p>
+<p>For JWS/JWT contexts, signatures are base64url-encoded.</p>
+<h2 id="eddsa">EdDSA<a class="headerlink" href="#eddsa" title="Permanent link">&para;</a></h2>
+<p>EdDSA (Edwards-curve Digital Signature Algorithm) per RFC 8032.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Supported Curves:
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>+---------+------------+----------------+----------+
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>| Curve   | Field Size | Security Level | JOSE alg |
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>+---------+------------+----------------+----------+
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>| Ed25519 | 255 bits   | 128-bit        | EdDSA    |
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>| Ed448   | 448 bits   | 224-bit        | EdDSA    |
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>+---------+------------+----------------+----------+
+</code></pre></div>
+<p>Requirements:</p>
+<ol>
+<li>
+<p>Implementations MUST use Ed25519 or Ed448 as specified in RFC 8032 without modifications.</p>
+</li>
+<li>
+<p>Ed25519 implementations SHOULD use the "cofactored" variant for batch verification.</p>
+</li>
+<li>
+<p>Implementations MUST reject non-canonical signatures.</p>
+</li>
+</ol>
+<p>Advantages over ECDSA:</p>
+<ul>
+<li>Deterministic by design (no nonce to leak)</li>
+<li>Faster signing and verification</li>
+<li>Smaller attack surface</li>
+<li>Simpler implementation</li>
+</ul>
+<p>EdDSA is RECOMMENDED over ECDSA for new deployments.</p>
+<h2 id="threshold-signatures">Threshold Signatures<a class="headerlink" href="#threshold-signatures" title="Permanent link">&para;</a></h2>
+<p>Threshold signatures require k-of-n Oracles to cooperate, preventing single-point-of-failure attacks.</p>
+<h3 id="supported-schemes">Supported Schemes<a class="headerlink" href="#supported-schemes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>+----------------+----------------+----------------+-------------+
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>| Scheme         | Base Algorithm | Level Required | Status      |
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>+----------------+----------------+----------------+-------------+
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>| Shamir + ECDSA | ECDSA          | Level 2+       | REQUIRED    |
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>| FROST          | Schnorr        | Level 2+       | RECOMMENDED |
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>| BLS Threshold  | BLS12-381      | Level 3        | OPTIONAL    |
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>+----------------+----------------+----------------+-------------+
+</code></pre></div>
+<h3 id="shamir-based-threshold-ecdsa">Shamir-based Threshold ECDSA<a class="headerlink" href="#shamir-based-threshold-ecdsa" title="Permanent link">&para;</a></h3>
+<p>Uses Shamir Secret Sharing to distribute the signing key, with secure multi-party computation for signature generation.</p>
+<p>Protocol outline:</p>
+<ol>
+<li>
+<p>KEY GENERATION (one-time ceremony) -  Generate master signing key k -  Create n shares using Shamir (k,n)-threshold scheme -  Distribute shares to n Oracles -  Destroy master key (never reconstructed)</p>
+</li>
+<li>
+<p>SIGNATURE GENERATION (per Trust Proof) -  k Oracles receive signing request -  Each Oracle generates partial signature using share -  Coordinator combines k partial signatures -  Result is valid ECDSA signature</p>
+</li>
+</ol>
+<p>Security properties:</p>
+<ul>
+<li>Any k Oracles can sign</li>
+<li>Fewer than k Oracles learn nothing about key</li>
+<li>Individual shares never leave HSMs</li>
+<li>Master key is never reconstructed</li>
+</ul>
+<h3 id="frost-flexible-round-optimized-schnorr-threshold">FROST (Flexible Round-Optimized Schnorr Threshold)<a class="headerlink" href="#frost-flexible-round-optimized-schnorr-threshold" title="Permanent link">&para;</a></h3>
+<p>FROST provides threshold Schnorr signatures with two-round signing protocol.</p>
+<p>Advantages:</p>
+<ul>
+<li>Fewer rounds than threshold ECDSA</li>
+<li>Smaller signatures (single curve point + scalar)</li>
+<li>Provable security in random oracle model</li>
+</ul>
+<p>FROST is RECOMMENDED for new Level 2+ deployments.</p>
+<h3 id="threshold-configuration">Threshold Configuration<a class="headerlink" href="#threshold-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>+---------+---------------+-------------------+-------------+
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>| Level   | Minimum (k,n) | Recommended (k,n) | Max Latency |
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>+---------+---------------+-------------------+-------------+
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>| Level 1 | (1,1)         | (1,1)             | N/A         |
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>| Level 2 | (2,3)         | (3,5)             | 100ms       |
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>| Level 3 | (3,5)         | (5,7)             | 200ms       |
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>+---------+---------------+-------------------+-------------+
+</code></pre></div>
+<p>The threshold k SHOULD be greater than n/2 to prevent split-brain scenarios during network partitions.</p>
+<h2 id="algorithm-negotiation">Algorithm Negotiation<a class="headerlink" href="#algorithm-negotiation" title="Permanent link">&para;</a></h2>
+<p>KTP supports algorithm negotiation to enable future transitions.</p>
+<h3 id="algorithm-identifier-format">Algorithm Identifier Format<a class="headerlink" href="#algorithm-identifier-format" title="Permanent link">&para;</a></h3>
+<p>Algorithm identifiers use the format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>   &lt;scheme&gt;-&lt;curve_or_params&gt;[-&lt;variant&gt;]
+</code></pre></div>
+<p>Examples: ecdsa-p256 eddsa-ed25519 frost-secp256k1 threshold-bls12-381-3of5</p>
+<h3 id="negotiation-protocol">Negotiation Protocol<a class="headerlink" href="#negotiation-protocol" title="Permanent link">&para;</a></h3>
+<p>During zone federation or Oracle mesh formation:</p>
+<ol>
+<li>Initiator sends supported algorithms (ordered by preference)</li>
+<li>Responder selects highest-preference mutual algorithm</li>
+<li>Selected algorithm used for session</li>
+</ol>
+<p>Message format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>   {
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>     "supported_algorithms": [
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>       "eddsa-ed448",
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>       "eddsa-ed25519",
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>       "ecdsa-p384",
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>       "ecdsa-p256"
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>     ],
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>     "required_minimum": "ecdsa-p256"
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>   }
+</code></pre></div>
+<h3 id="algorithm-deprecation">Algorithm Deprecation<a class="headerlink" href="#algorithm-deprecation" title="Permanent link">&para;</a></h3>
+<p>When an algorithm is deprecated:</p>
+<ol>
+<li>ANNOUNCE: 18-month notice before mandatory transition</li>
+<li>WARN: Implementations log warnings when deprecated algorithm used</li>
+<li>REJECT: Implementations reject deprecated algorithm</li>
+<li>REMOVE: Algorithm removed from specification</li>
+</ol>
+<p>Current deprecation schedule:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>+-------------+---------------+------------------+--------------+
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>| Algorithm   | Status        | Deprecation Date | Removal Date |
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>+-------------+---------------+------------------+--------------+
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>| RSA-2048    | NOT SUPPORTED | N/A              | N/A          |
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>| ECDSA P-256 | SUPPORTED     | TBD (post PQC)   | TBD          |
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>| SHA-1       | NOT SUPPORTED | N/A              | N/A          |
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>+-------------+---------------+------------------+--------------+
+</code></pre></div>
+<h1 id="hash-functions">Hash Functions<a class="headerlink" href="#hash-functions" title="Permanent link">&para;</a></h1>
+<h2 id="sha-2-family">SHA-2 Family<a class="headerlink" href="#sha-2-family" title="Permanent link">&para;</a></h2>
+<p>SHA-2 per FIPS 180-4.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>+-----------+-------------+------------+----------------+
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>| Algorithm | Output Size | Block Size | KTP Usage      |
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>+-----------+-------------+------------+----------------+
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>| SHA-256   | 256 bits    | 512 bits   | General        |
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>| SHA-384   | 384 bits    | 1024 bits  | High-security  |
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>| SHA-512   | 512 bits    | 1024 bits  | Key derivation |
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>+-----------+-------------+------------+----------------+
+</code></pre></div>
+<p>SHA-256 is the default hash function for Level 1 and Level 2. SHA-384 is REQUIRED for Level 3.</p>
+<h2 id="sha-3-family">SHA-3 Family<a class="headerlink" href="#sha-3-family" title="Permanent link">&para;</a></h2>
+<p>SHA-3 per FIPS 202.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>+-----------+-------------+----------+---------------+
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>| Algorithm | Output Size | Capacity | KTP Usage     |
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>+-----------+-------------+----------+---------------+
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>| SHA3-256  | 256 bits    | 512 bits | Flight Rec.   |
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>| SHA3-384  | 384 bits    | 768 bits | Level 3 audit |
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>| SHAKE128  | Variable    | 256 bits | KDF (general) |
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>| SHAKE256  | Variable    | 512 bits | KDF (Level 3) |
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>+-----------+-------------+----------+---------------+
+</code></pre></div>
+<p>SHA-3 provides defense in depth against potential SHA-2 vulnerabilities. SHA3-256 is RECOMMENDED for Flight Recorder chain hashing.</p>
+<h2 id="blake3">BLAKE3<a class="headerlink" href="#blake3" title="Permanent link">&para;</a></h2>
+<p>BLAKE3 is a high-performance hash function suitable for bulk data hashing.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>+-----------+-------------+-----------+------------+
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>| Algorithm | Output Size | Speed     | KTP Usage  |
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>+-----------+-------------+-----------+------------+
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>| BLAKE3    | Variable    | Very fast | Trajectory |
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>+-----------+-------------+-----------+------------+
+</code></pre></div>
+<p>BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3 performance is insufficient. It MUST NOT be used for contexts requiring NIST-approved algorithms.</p>
+<h2 id="hash-function-selection">Hash Function Selection<a class="headerlink" href="#hash-function-selection" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>+-----------------------+---------+----------+----------+
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>| Context               | Level 1 | Level 2  | Level 3  |
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>+-----------------------+---------+----------+----------+
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>| Trust Proof hashing   | SHA-256 | SHA-256  | SHA-384  |
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>| Flight Recorder chain | SHA-256 | SHA3-256 | SHA3-384 |
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>| Trajectory chain      | SHA-256 | SHA-256  | SHA-384  |
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>| Key derivation        | SHA-256 | SHA-512  | SHAKE256 |
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>| Agent ID generation   | SHA-256 | SHA-256  | SHA-256  |
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>+-----------------------+---------+----------+----------+
+</code></pre></div>
+<h1 id="key-derivation">Key Derivation<a class="headerlink" href="#key-derivation" title="Permanent link">&para;</a></h1>
+<h2 id="hkdf">HKDF<a class="headerlink" href="#hkdf" title="Permanent link">&para;</a></h2>
+<p>HKDF (HMAC-based Key Derivation Function) per RFC 5869.</p>
+<p>KTP uses HKDF for deriving keys from shared secrets:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>   derived_key = HKDF-Expand(
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>     HKDF-Extract(salt, input_key_material),
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>     info,
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>     length
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>   )
+</code></pre></div>
+<p>Context strings (info parameter):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>+------------------------+------------------------------+
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>| Purpose                | Info String                  |
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>+------------------------+------------------------------+
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>| Trust Proof encryption | "ktp-trust-proof-encrypt-v1" |
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>| Trajectory chain key   | "ktp-trajectory-key-v1"      |
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>| Oracle session key     | "ktp-oracle-session-v1"      |
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>| Agent attestation key  | "ktp-agent-attestation-v1"   |
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>| Federation channel key | "ktp-federation-channel-v1"  |
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>+------------------------+------------------------------+
+</code></pre></div>
+<p>Salt SHOULD be random and unique per derivation. If salt is not available, use the zone identifier as salt.</p>
+<h2 id="argon2">Argon2<a class="headerlink" href="#argon2" title="Permanent link">&para;</a></h2>
+<p>Argon2 per RFC 9106 for password-based key derivation.</p>
+<p>Argon2id is REQUIRED when deriving keys from human-memorable secrets (e.g., recovery passphrases).</p>
+<p>Minimum parameters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>+---------+---------+------------+-------------+
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>| Level   | Memory  | Iterations | Parallelism |
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>+---------+---------+------------+-------------+
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>| Level 1 | 64 MiB  | 3          | 4           |
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>| Level 2 | 256 MiB | 4          | 4           |
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>| Level 3 | 1 GiB   | 6          | 8           |
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>+---------+---------+------------+-------------+
+</code></pre></div>
+<p>These parameters should be tuned to achieve approximately:</p>
+<ul>
+<li>Level 1: 0.5 second computation time</li>
+<li>Level 2: 1.0 second computation time</li>
+<li>Level 3: 3.0 second computation time</li>
+</ul>
+<h2 id="key-derivation-contexts">Key Derivation Contexts<a class="headerlink" href="#key-derivation-contexts" title="Permanent link">&para;</a></h2>
+<p>When deriving multiple keys from a single secret, each key MUST use a unique context:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>   master_secret = [from key agreement or ceremony]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>   encryption_key = HKDF(master_secret, salt, "encrypt", 32)
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>   mac_key = HKDF(master_secret, salt, "mac", 32)
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>   nonce_key = HKDF(master_secret, salt, "nonce", 16)
+</code></pre></div>
+<p>Keys derived from the same master MUST NOT be used for different algorithms (e.g., don't use same derived key for AES and ChaCha20).</p>
+<h1 id="symmetric-encryption">Symmetric Encryption<a class="headerlink" href="#symmetric-encryption" title="Permanent link">&para;</a></h1>
+<h2 id="aes-gcm">AES-GCM<a class="headerlink" href="#aes-gcm" title="Permanent link">&para;</a></h2>
+<p>AES-GCM per NIST SP 800-38D.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>+-------------+----------+------------+----------+
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>| Variant     | Key Size | Nonce Size | Tag Size |
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>+-------------+----------+------------+----------+
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>| AES-128-GCM | 128 bits | 96 bits    | 128 bits |
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>| AES-256-GCM | 256 bits | 96 bits    | 128 bits |
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>+-------------+----------+------------+----------+
+</code></pre></div>
+<p>Requirements:</p>
+<ol>
+<li>
+<p>Nonces MUST be unique per key. Random nonces are acceptable for AES-256-GCM with 96-bit nonce (collision probability acceptable up to 2^32 messages per key).</p>
+</li>
+<li>
+<p>For high-volume contexts, use counter-based nonces with unique prefix per sender.</p>
+</li>
+<li>
+<p>Tag size MUST be 128 bits (16 bytes). Truncated tags are NOT permitted.</p>
+</li>
+<li>
+<p>AAD (Additional Authenticated Data) SHOULD include context binding (e.g., agent ID, timestamp, purpose).</p>
+</li>
+</ol>
+<h2 id="chacha20-poly1305">ChaCha20-Poly1305<a class="headerlink" href="#chacha20-poly1305" title="Permanent link">&para;</a></h2>
+<p>ChaCha20-Poly1305 per RFC 8439.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>+----------+------------+----------+-------------+
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>| Key Size | Nonce Size | Tag Size | Status      |
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>+----------+------------+----------+-------------+
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>| 256 bits | 96 bits    | 128 bits | RECOMMENDED |
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>+----------+------------+----------+-------------+
+</code></pre></div>
+<p>ChaCha20-Poly1305 is RECOMMENDED as an alternative to AES-GCM:</p>
+<ul>
+<li>Better performance on systems without AES-NI</li>
+<li>Constant-time implementation is simpler</li>
+<li>No weak-key classes</li>
+</ul>
+<p>Both AES-256-GCM and ChaCha20-Poly1305 MUST be supported for Level 2+.</p>
+<h2 id="encryption-contexts">Encryption Contexts<a class="headerlink" href="#encryption-contexts" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>+----------------------------+---------------+------------------+
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>| Context                    | Algorithm     | Key Source       |
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>+----------------------------+---------------+------------------+
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>| Trust Proof (at rest)      | AES-256-GCM   | Zone key         |
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>| Flight Recorder encryption | AES-256-GCM   | Audit key        |
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>| Agent credentials          | AES-256-GCM   | Agent master key |
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>| Federation messages        | ChaCha20-Poly | Session key      |
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>| Sensor data (in transit)   | TLS 1.3       | TLS handshake    |
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>+----------------------------+---------------+------------------+
+</code></pre></div>
+<h1 id="key-management">Key Management<a class="headerlink" href="#key-management" title="Permanent link">&para;</a></h1>
+<h2 id="key-types">Key Types<a class="headerlink" href="#key-types" title="Permanent link">&para;</a></h2>
+<p>KTP defines the following key types:</p>
+<h3 id="oracle-signing-keys">Oracle Signing Keys<a class="headerlink" href="#oracle-signing-keys" title="Permanent link">&para;</a></h3>
+<p>Purpose: Sign Trust Proofs and trajectory attestations</p>
+<p>Properties:</p>
+<ul>
+<li>Threshold key shares (k-of-n)</li>
+<li>MUST be stored in HSM for Level 2+</li>
+<li>Rotation: Annual or upon compromise</li>
+<li>Lifetime: Maximum 2 years</li>
+</ul>
+<p>Format: { "key_type": "oracle_signing", "key_id": "oracle-zone-alpha-2025-001", "algorithm": "threshold-frost-ed25519-3of5", "public_key": "base64...", "created_at": "2025-01-01T00:00:00Z", "expires_at": "2027-01-01T00:00:00Z", "threshold": { "k": 3, "n": 5 }, "share_holders": [ "oracle-alpha-1", "oracle-alpha-2", "oracle-alpha-3", "oracle-alpha-4", "oracle-alpha-5" ] }</p>
+<h3 id="agent-identity-keys">Agent Identity Keys<a class="headerlink" href="#agent-identity-keys" title="Permanent link">&para;</a></h3>
+<p>Purpose: Prove agent identity, sign trajectory records</p>
+<p>Properties:</p>
+<ul>
+<li>Single-holder key (not threshold)</li>
+<li>May be software or HSM protected</li>
+<li>Rotation: Upon role change or compromise</li>
+<li>Lifetime: Tied to agent lifecycle</li>
+</ul>
+<p>Format: { "key_type": "agent_identity", "key_id": "agent-7gen-optimized-a1b2c3d4", "algorithm": "eddsa-ed25519", "public_key": "base64...", "created_at": "2025-06-15T10:30:00Z", "expires_at": null, "lineage": "guarantor", "generation": 7 }</p>
+<h3 id="zone-encryption-keys">Zone Encryption Keys<a class="headerlink" href="#zone-encryption-keys" title="Permanent link">&para;</a></h3>
+<p>Purpose: Encrypt data at rest within a zone</p>
+<p>Properties:</p>
+<ul>
+<li>Symmetric key (AES-256)</li>
+<li>Protected by Oracle key (envelope encryption)</li>
+<li>Rotation: Quarterly</li>
+<li>Lifetime: Maximum 1 year</li>
+</ul>
+<h3 id="federation-keys">Federation Keys<a class="headerlink" href="#federation-keys" title="Permanent link">&para;</a></h3>
+<p>Purpose: Secure communication between zones</p>
+<p>Properties:</p>
+<ul>
+<li>Key agreement (ECDH) + symmetric session keys</li>
+<li>Tied to federation agreement</li>
+<li>Rotation: Per session or hourly (whichever is shorter)</li>
+<li>Lifetime: Session-scoped</li>
+</ul>
+<h3 id="root-of-trust-keys">Root of Trust Keys<a class="headerlink" href="#root-of-trust-keys" title="Permanent link">&para;</a></h3>
+<p>Purpose: Anchor the entire key hierarchy</p>
+<p>Properties:</p>
+<ul>
+<li>Highest-security key in the system</li>
+<li>MUST be stored in FIPS 140-2 Level 3+ HSM</li>
+<li>Created in formal key ceremony with witnesses</li>
+<li>Rotation: Rare (5+ years) or upon compromise</li>
+<li>Used only to sign subordinate keys</li>
+</ul>
+<h2 id="key-generation">Key Generation<a class="headerlink" href="#key-generation" title="Permanent link">&para;</a></h2>
+<h3 id="randomness-requirements">Randomness Requirements<a class="headerlink" href="#randomness-requirements" title="Permanent link">&para;</a></h3>
+<p>All key generation MUST use cryptographically secure random number generators (CSPRNGs):</p>
+<ul>
+<li>Operating system: /dev/urandom (Linux), CryptGenRandom (Windows)</li>
+<li>HSM: Hardware random number generator</li>
+<li>Cloud: Cloud provider HSM RNG</li>
+</ul>
+<p>Implementations MUST NOT use:</p>
+<ul>
+<li>Predictable seeds</li>
+<li>Low-entropy sources</li>
+<li>User-provided randomness without mixing</li>
+</ul>
+<h3 id="key-generation-procedures">Key Generation Procedures<a class="headerlink" href="#key-generation-procedures" title="Permanent link">&para;</a></h3>
+<p>Level 1 (Software):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>   1. Generate 256 bits from CSPRNG
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>   2. Use as private key directly (Ed25519) or derive (ECDSA)
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>   3. Store encrypted in keystore
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>   4. Log generation event (without key material)
+</code></pre></div>
+<p>Level 2+ (HSM):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>   1. Initiate key generation on HSM
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>   2. HSM generates key internally using hardware RNG
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>   3. Private key never leaves HSM
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>   4. Export public key for distribution
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>   5. Log generation event with HSM attestation
+</code></pre></div>
+<p>Level 3 (Ceremony):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>   1. Convene key ceremony with required participants
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>   2. Each participant provides entropy contribution
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>   3. HSM mixes entropy and generates key
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>   4. Key shares distributed to separate HSMs
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>   5. Ceremony recorded and witnessed
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>   6. Ceremony artifacts archived
+</code></pre></div>
+<h2 id="key-storage">Key Storage<a class="headerlink" href="#key-storage" title="Permanent link">&para;</a></h2>
+<h3 id="storage-requirements-by-level">Storage Requirements by Level<a class="headerlink" href="#storage-requirements-by-level" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>+-------+------------------+-----------------+------------------+
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>| Level | Oracle Keys      | Agent Keys      | Audit Keys       |
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>+-------+------------------+-----------------+------------------+
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>| 1     | Encrypted file   | Encrypted file  | Encrypted file   |
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>| 2     | HSM (FIPS 140-2) | Encrypted file  | HSM or encrypted |
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>| 3     | HSM Level 3      | HSM recommended | HSM Level 3      |
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>+-------+------------------+-----------------+------------------+
+</code></pre></div>
+<h3 id="software-key-storage">Software Key Storage<a class="headerlink" href="#software-key-storage" title="Permanent link">&para;</a></h3>
+<p>For software-protected keys:</p>
+<ol>
+<li>
+<p>Encrypt with AES-256-GCM using key derived from: -  System entropy (hardware IDs, boot time, etc.) -  Optional: Human passphrase (Argon2-stretched)</p>
+</li>
+<li>
+<p>Store in protected location: -  Linux: /var/lib/ktp/keys with mode 0600 -  HSM-backed keystore if available</p>
+</li>
+<li>
+<p>Implement memory protection: -  mlock() to prevent swapping -  Secure memory wiping after use</p>
+</li>
+</ol>
+<h3 id="hsm-key-storage">HSM Key Storage<a class="headerlink" href="#hsm-key-storage" title="Permanent link">&para;</a></h3>
+<p>For HSM-protected keys:</p>
+<ol>
+<li>Generate keys on HSM (never import)</li>
+<li>Keys are non-extractable</li>
+<li>Access controlled by HSM authentication</li>
+<li>Backup via HSM-to-HSM key transfer (if supported)</li>
+</ol>
+<h2 id="key-rotation">Key Rotation<a class="headerlink" href="#key-rotation" title="Permanent link">&para;</a></h2>
+<h3 id="rotation-schedule">Rotation Schedule<a class="headerlink" href="#rotation-schedule" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>+--------------------+-----------------+---------------------------+
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>| Key Type           | Normal Rotation | Emergency Rotation        |
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>+--------------------+-----------------+---------------------------+
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>| Root of Trust      | 5 years         | Immediate upon compromise |
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>| Oracle Signing     | 1 year          | 24 hours upon compromise  |
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>| Zone Encryption    | 90 days         | Immediate upon compromise |
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>| Federation Session | 1 hour          | Immediate upon compromise |
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>| Agent Identity     | Role change     | Immediate upon compromise |
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>+--------------------+-----------------+---------------------------+
+</code></pre></div>
+<h3 id="rotation-procedure">Rotation Procedure<a class="headerlink" href="#rotation-procedure" title="Permanent link">&para;</a></h3>
+<p>For Oracle signing keys:</p>
+<ol>
+<li>
+<p>PREPARE (1 week before expiry) -  Generate new key shares on HSMs -  Distribute shares to Oracle nodes -  Verify all nodes have new shares</p>
+</li>
+<li>
+<p>OVERLAP (during transition window) -  Old key still valid for verification -  New key used for new signatures -  Both keys published in key directory</p>
+</li>
+<li>
+<p>COMMIT (after transition window) -  Old key marked as expired -  Old key retained for historical verification -  New key is sole signing key</p>
+</li>
+<li>
+<p>ARCHIVE (after retention period) -  Old key material securely destroyed -  Public key retained indefinitely for audit</p>
+</li>
+</ol>
+<h3 id="key-overlap-period">Key Overlap Period<a class="headerlink" href="#key-overlap-period" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>+-----------------+----------------+--------------+
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>| Key Type        | Overlap Period | Grace Period |
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>+-----------------+----------------+--------------+
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>| Oracle Signing  | 7 days         | 30 days      |
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>| Zone Encryption | 24 hours       | 7 days       |
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>| Federation      | 5 minutes      | 1 hour       |
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>+-----------------+----------------+--------------+
+</code></pre></div>
+<p>During overlap period, both old and new keys are valid. During grace period, old key valid for verification only.</p>
+<h2 id="key-revocation">Key Revocation<a class="headerlink" href="#key-revocation" title="Permanent link">&para;</a></h2>
+<h3 id="revocation-triggers">Revocation Triggers<a class="headerlink" href="#revocation-triggers" title="Permanent link">&para;</a></h3>
+<p>Keys MUST be revoked when:</p>
+<ol>
+<li>Compromise confirmed or suspected</li>
+<li>Key holder leaves organization</li>
+<li>Key holder role changes (if role-bound)</li>
+<li>Cryptographic weakness discovered in algorithm</li>
+<li>HSM containing key is decommissioned</li>
+</ol>
+<h3 id="revocation-procedure">Revocation Procedure<a class="headerlink" href="#revocation-procedure" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>IMMEDIATE (within minutes) -  Add key to revocation list -  Broadcast revocation to all zones -  Log revocation with reason</p>
+</li>
+<li>
+<p>PROPAGATION (within hours) -  All Trust Oracles update revocation lists -  All PEPs refresh revocation cache -  All agents receive revocation notice</p>
+</li>
+<li>
+<p>ENFORCEMENT -  Signatures by revoked key rejected -  Trust Proofs signed by revoked key invalidated -  Agents authenticated by revoked key demoted</p>
+</li>
+</ol>
+<h3 id="revocation-list-format">Revocation List Format<a class="headerlink" href="#revocation-list-format" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>   {
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>     "version": 1,
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>     "zone_id": "zone-alpha",
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>     "issued_at": "2025-11-25T12:00:00Z",
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>     "next_update": "2025-11-25T13:00:00Z",
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>     "revoked_keys": [
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>       {
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>         "key_id": "oracle-zone-alpha-2024-001",
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>         "revoked_at": "2025-11-25T11:30:00Z",
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>         "reason": "key_compromise",
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>         "replacement_key_id": "oracle-zone-alpha-2025-002"
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>       }
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a>     ],
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>     "signature": "..."
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a>   }
+</code></pre></div>
+<h2 id="key-escrow-and-recovery">Key Escrow and Recovery<a class="headerlink" href="#key-escrow-and-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="escrow-policy">Escrow Policy<a class="headerlink" href="#escrow-policy" title="Permanent link">&para;</a></h3>
+<p>KTP does NOT mandate key escrow for agent keys. Agents that lose their keys lose their trajectory history.</p>
+<p>KTP DOES require recovery capability for Oracle keys to prevent zone- wide lockout.</p>
+<h3 id="oracle-key-recovery">Oracle Key Recovery<a class="headerlink" href="#oracle-key-recovery" title="Permanent link">&para;</a></h3>
+<p>Threshold keys provide inherent recovery: any k-of-n shares can reconstruct signing capability.</p>
+<p>For disaster recovery (loss of k+ shares):</p>
+<ol>
+<li>
+<p>COLD BACKUP -  Encrypted backup of key shares stored offline -  Backup encrypted to recovery keys held by trustees -  M-of-N trustees required to recover</p>
+</li>
+<li>
+<p>RECOVERY CEREMONY -  Convene required trustees -  Decrypt backup shares -  Install on new HSMs -  Verify signing capability -  Destroy backup shares used</p>
+</li>
+</ol>
+<p>Recovery keys SHOULD be geographically distributed and held by different organizational roles.</p>
+<h1 id="hardware-security-modules">Hardware Security Modules<a class="headerlink" href="#hardware-security-modules" title="Permanent link">&para;</a></h1>
+<h2 id="hsm-requirements">HSM Requirements<a class="headerlink" href="#hsm-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="certification-requirements">Certification Requirements<a class="headerlink" href="#certification-requirements" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>+---------+---------------------------------------------+
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>| Level   | Minimum Certification                       |
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>+---------+---------------------------------------------+
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>| Level 1 | None (HSM optional)                         |
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>| Level 2 | FIPS 140-2 Level 2                          |
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>| Level 3 | FIPS 140-2 Level 3 or Common Criteria EAL4+ |
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>+---------+---------------------------------------------+
+</code></pre></div>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
+<p>HSMs used for KTP MUST support:</p>
+<ul>
+<li>Key generation using hardware RNG</li>
+<li>ECDSA signing with P-256, P-384 (P-521 recommended)</li>
+<li>EdDSA signing with Ed25519 (Ed448 recommended)</li>
+<li>AES-256-GCM encryption/decryption</li>
+<li>Non-extractable key storage</li>
+<li>Access control (authentication required for operations)</li>
+<li>Audit logging</li>
+</ul>
+<p>HSMs used for Level 3 MUST additionally support:</p>
+<ul>
+<li>Multi-person access control (M-of-N authentication)</li>
+<li>Remote attestation</li>
+<li>Tamper response (key zeroization)</li>
+<li>Secure key backup/restore</li>
+</ul>
+<h2 id="pkcs11-integration">PKCS#11 Integration<a class="headerlink" href="#pkcs11-integration" title="Permanent link">&para;</a></h2>
+<p>HSM integration SHOULD use PKCS#11 for portability.</p>
+<p>Required PKCS#11 mechanisms:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>+---------------------+-----------------------+
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>| Mechanism           | Use Case              |
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>+---------------------+-----------------------+
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>| CKM_EC_KEY_PAIR_GEN | ECDSA key generation  |
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>| CKM_ECDSA_SHA256    | ECDSA signing (P-256) |
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>| CKM_ECDSA_SHA384    | ECDSA signing (P-384) |
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>| CKM_AES_GCM         | Symmetric encryption  |
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>| CKM_SHA256          | Hashing               |
+<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>| CKM_SHA384          | Hashing               |
+<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a>+---------------------+-----------------------+
+</code></pre></div>
+<p>For EdDSA, use vendor-specific mechanisms or CKM_EDDSA if supported (PKCS#11 3.0+).</p>
+<h2 id="cloud-hsm-considerations">Cloud HSM Considerations<a class="headerlink" href="#cloud-hsm-considerations" title="Permanent link">&para;</a></h2>
+<p>Cloud HSMs (AWS CloudHSM, Azure Dedicated HSM, GCP Cloud HSM) are acceptable for Level 2 deployments.</p>
+<p>Considerations:</p>
+<ol>
+<li>TRUST: You are trusting the cloud provider's HSM implementation</li>
+<li>AVAILABILITY: Cloud HSM availability tied to region availability</li>
+<li>KEY BACKUP: Understand cloud provider's backup mechanisms</li>
+<li>MULTI-REGION: Consider cross-region HSM clusters for resilience</li>
+</ol>
+<p>For Level 3, dedicated (non-cloud) HSMs are RECOMMENDED due to the Hypervisor Opaque Wall concern (see KTP-PROBLEMS).</p>
+<h1 id="credential-formats">Credential Formats<a class="headerlink" href="#credential-formats" title="Permanent link">&para;</a></h1>
+<h2 id="trust-proof-format">Trust Proof Format<a class="headerlink" href="#trust-proof-format" title="Permanent link">&para;</a></h2>
+<p>Trust Proofs use JWS (JSON Web Signature) format per RFC 7515.</p>
+<p>Header: { "alg": "ES256", "typ": "ktp-trust-proof+jwt", "kid": "oracle-zone-alpha-2025-001", "ktp_level": 2, "threshold": "3of5" }</p>
+<p>Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4", "aud": "zone:alpha", "iat": 1700000000, "exp": 1700000010, "nbf": 1700000000, "jti": "proof-uuid-12345",</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>     "e_base": 87,
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>     "e_trust": 74,
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>     "risk_factor": 0.15,
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>     "tier": "operator",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>     "context": {
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>       "evidence_density": 0.12,
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>       "trust_trend": 0.08,
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>       "adversarial_pressure": 0.22,
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>       "moment_criticality": 0.05,
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>       "update_resistance": 0.18,
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>       "attestation_coverage": 0.10,
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>       "soul": 0
+<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>     "lineage": {
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>       "type": "guarantor",
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>       "generation": 7,
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>       "trajectory_hash": "sha256:abc123..."
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>     }
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>   }
+</code></pre></div>
+<p>Signature:</p>
+<ul>
+<li>For single-Oracle: Standard JWS signature</li>
+<li>For threshold: Aggregated threshold signature</li>
+</ul>
+<h2 id="agent-credential-format">Agent Credential Format<a class="headerlink" href="#agent-credential-format" title="Permanent link">&para;</a></h2>
+<p>Agent credentials establish identity binding.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>   {
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>     "credential_type": "ktp-agent-credential",
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>     "version": 1,
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>     "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>     "identity": {
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>       "public_key": "base64...",
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>       "algorithm": "eddsa-ed25519",
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>       "key_id": "agent-key-12345"
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>     "proofing": {
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>       "ial": 2,
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>       "proofed_at": "2025-01-15T10:00:00Z",
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>       "provider": "isp:acme-verify"
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>     "lineage": {
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>       "type": "guarantor",
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>       "generation": 7,
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>       "sponsor_chain": ["org:acme", "agent:acme-deploy"]
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>     "issued_at": "2025-01-15T10:00:00Z",
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>     "expires_at": "2026-01-15T10:00:00Z",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>     "issuer": {
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>       "zone_id": "zone:alpha",
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>       "oracle_key_id": "oracle-zone-alpha-2025-001"
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>     "signature": "base64..."
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>   }
+</code></pre></div>
+<h2 id="oracle-credential-format">Oracle Credential Format<a class="headerlink" href="#oracle-credential-format" title="Permanent link">&para;</a></h2>
+<p>Oracle credentials establish Oracle authority within a zone.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>   {
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>     "credential_type": "ktp-oracle-credential",
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>     "version": 1,
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a>     "oracle_id": "oracle-alpha-1",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>     "zone": {
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>       "zone_id": "zone:alpha",
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>       "zone_type": "blue",
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>       "zone_public_key": "base64..."
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>     "signing_capability": {
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>       "key_id": "oracle-zone-alpha-2025-001",
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>       "algorithm": "threshold-frost-ed25519",
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>       "share_index": 1,
+<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>       "threshold": {
+<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>         "k": 3,
+<a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>         "n": 5
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>       }
+<a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>     "attestation": {
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>       "hsm_attestation": "base64...",
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>       "platform_attestation": "base64..."
+<a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>     "issued_at": "2025-01-01T00:00:00Z",
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>     "expires_at": "2027-01-01T00:00:00Z",
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>     "issuer": {
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>       "root_key_id": "root-nmcitra-2024-001"
+<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>     "signature": "base64..."
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>   }
+</code></pre></div>
+<h2 id="federation-credential-format">Federation Credential Format<a class="headerlink" href="#federation-credential-format" title="Permanent link">&para;</a></h2>
+<p>Federation credentials establish inter-zone trust.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>   {
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>     "credential_type": "ktp-federation-credential",
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>     "version": 1,
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>     "local_zone": {
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>       "zone_id": "zone:alpha",
+<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>       "oracle_key_id": "oracle-zone-alpha-2025-001"
+<a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>     "remote_zone": {
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>       "zone_id": "zone:beta",
+<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>       "oracle_key_id": "oracle-zone-beta-2025-001"
+<a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>     "trust_parameters": {
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>       "trust_factor": 0.85,
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>       "max_transitive_trust": 0.7,
+<a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>       "allowed_operations": ["attest", "query", "federate"],
+<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>       "disallowed_operations": ["admin"]
+<a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>     "agreement": {
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>       "agreed_at": "2025-06-01T00:00:00Z",
+<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a>       "expires_at": "2026-06-01T00:00:00Z",
+<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a>       "renewal": "automatic"
+<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a>     },
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>     "signatures": {
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>       "alpha_signature": "base64...",
+<a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a>       "beta_signature": "base64..."
+<a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a>     }
+<a id="__codelineno-60-5" name="__codelineno-60-5" href="#__codelineno-60-5"></a>   }
+</code></pre></div>
+<h1 id="post-quantum-cryptography">Post-Quantum Cryptography<a class="headerlink" href="#post-quantum-cryptography" title="Permanent link">&para;</a></h1>
+<h2 id="threat-timeline">Threat Timeline<a class="headerlink" href="#threat-timeline" title="Permanent link">&para;</a></h2>
+<p>Current assessment of quantum computing threat:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>+-----------+--------------+----------------------------+
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>| Timeline  | Threat Level | Recommended Action         |
+<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a>+-----------+--------------+----------------------------+
+<a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a>| 2025-2030 | Low          | Plan transition, implement |
+<a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a>|           |              | hybrid                     |
+<a id="__codelineno-61-6" name="__codelineno-61-6" href="#__codelineno-61-6"></a>| 2030-2035 | Medium       | Deploy hybrid mandatory    |
+<a id="__codelineno-61-7" name="__codelineno-61-7" href="#__codelineno-61-7"></a>| 2035+     | High         | Full PQC transition        |
+<a id="__codelineno-61-8" name="__codelineno-61-8" href="#__codelineno-61-8"></a>+-----------+--------------+----------------------------+
+</code></pre></div>
+<p>"Harvest now, decrypt later" attacks make earlier action prudent for data that must remain confidential for 10+ years.</p>
+<p>KTP Trust Proofs have short lifetimes (seconds), so the threat is primarily to Flight Recorder data and trajectory histories.</p>
+<h2 id="hybrid-signatures">Hybrid Signatures<a class="headerlink" href="#hybrid-signatures" title="Permanent link">&para;</a></h2>
+<p>Hybrid signatures combine classical and post-quantum algorithms.</p>
+<p>Hybrid format:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>   hybrid_signature = classical_signature || pqc_signature
+</code></pre></div>
+<p>Both signatures must verify for the hybrid to be valid. This provides security as long as EITHER algorithm remains secure.</p>
+<p>Recommended hybrid pairs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>+-------------+------------+---------------+-------+
+<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>| Classical   | PQC        | Combined Size | Level |
+<a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>+-------------+------------+---------------+-------+
+<a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>| Ed25519     | Dilithium2 | ~2500 bytes   | 2     |
+<a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a>| Ed448       | Dilithium3 | ~3600 bytes   | 3     |
+<a id="__codelineno-63-6" name="__codelineno-63-6" href="#__codelineno-63-6"></a>| ECDSA P-384 | Dilithium3 | ~3700 bytes   | 3     |
+<a id="__codelineno-63-7" name="__codelineno-63-7" href="#__codelineno-63-7"></a>+-------------+------------+---------------+-------+
+</code></pre></div>
+<h2 id="pqc-algorithm-selection">PQC Algorithm Selection<a class="headerlink" href="#pqc-algorithm-selection" title="Permanent link">&para;</a></h2>
+<p>Based on NIST PQC standardization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>Signatures:
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>+-----------+------------+----------------+-------------+
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>| Algorithm | Type       | Security Level | Status      |
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a>+-----------+------------+----------------+-------------+
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a>| ML-DSA-44 | Lattice    | NIST 2         | RECOMMENDED |
+<a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>| ML-DSA-65 | Lattice    | NIST 3         | RECOMMENDED |
+<a id="__codelineno-64-7" name="__codelineno-64-7" href="#__codelineno-64-7"></a>| ML-DSA-87 | Lattice    | NIST 5         | OPTIONAL    |
+<a id="__codelineno-64-8" name="__codelineno-64-8" href="#__codelineno-64-8"></a>| SLH-DSA   | Hash-based | NIST 1-5       | OPTIONAL    |
+<a id="__codelineno-64-9" name="__codelineno-64-9" href="#__codelineno-64-9"></a>+-----------+------------+----------------+-------------+
+</code></pre></div>
+<p>(ML-DSA is the standardized name for Dilithium)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>Key Encapsulation (for future key agreement):
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>+-------------+---------+----------------+-------------+
+<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>| Algorithm   | Type    | Security Level | Status      |
+<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a>+-------------+---------+----------------+-------------+
+<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>| ML-KEM-768  | Lattice | NIST 3         | RECOMMENDED |
+<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>| ML-KEM-1024 | Lattice | NIST 5         | OPTIONAL    |
+<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a>+-------------+---------+----------------+-------------+
+</code></pre></div>
+<p>(ML-KEM is the standardized name for Kyber)</p>
+<h2 id="migration-strategy">Migration Strategy<a class="headerlink" href="#migration-strategy" title="Permanent link">&para;</a></h2>
+<p>Phase 1 (Now - 2027): PREPARATION</p>
+<ul>
+<li>Implement hybrid signature support</li>
+<li>Enable hybrid as OPTIONAL</li>
+<li>Inventory systems requiring long-term confidentiality</li>
+</ul>
+<p>Phase 2 (2027-2030): HYBRID DEPLOYMENT</p>
+<ul>
+<li>Hybrid signatures RECOMMENDED for Level 2+</li>
+<li>Hybrid signatures REQUIRED for Level 3</li>
+<li>Classical-only still accepted for Level 1</li>
+</ul>
+<p>Phase 3 (2030-2035): TRANSITION</p>
+<ul>
+<li>Hybrid signatures REQUIRED for Level 2+</li>
+<li>Classical-only deprecated</li>
+<li>Begin accepting PQC-only signatures</li>
+</ul>
+<p>Phase 4 (2035+): COMPLETION</p>
+<ul>
+<li>PQC-only REQUIRED for Level 3</li>
+<li>Classical algorithms removed from specification</li>
+<li>Hybrid accepted for backward compatibility</li>
+</ul>
+<h1 id="random-number-generation">Random Number Generation<a class="headerlink" href="#random-number-generation" title="Permanent link">&para;</a></h1>
+<p>Secure random number generation is critical for all cryptographic operations.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>All random values MUST be generated by a CSPRNG that:</p>
+<ol>
+<li>Is seeded from high-entropy sources (hardware RNG, OS entropy)</li>
+<li>Has been validated (NIST SP 800-90A compliance recommended)</li>
+<li>Provides at least 256 bits of security</li>
+<li>Is reseeded periodically</li>
+</ol>
+<h2 id="entropy-sources">Entropy Sources<a class="headerlink" href="#entropy-sources" title="Permanent link">&para;</a></h2>
+<p>Acceptable entropy sources:</p>
+<ul>
+<li>Hardware RNG (Intel RDRAND/RDSEED, ARM TRNG)</li>
+<li>Operating system entropy pool (/dev/urandom, CryptGenRandom)</li>
+<li>HSM hardware RNG</li>
+<li>Environmental noise (with appropriate mixing)</li>
+</ul>
+<p>NOT acceptable as sole source:</p>
+<ul>
+<li>Timestamps</li>
+<li>Process IDs</li>
+<li>User input</li>
+<li>Network data</li>
+</ul>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<p>Implementations SHOULD perform entropy health checks:</p>
+<ul>
+<li>NIST SP 800-90B health tests</li>
+<li>Continuous random number generator testing</li>
+<li>Startup self-tests</li>
+</ul>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="algorithm-downgrade-attacks">Algorithm Downgrade Attacks<a class="headerlink" href="#algorithm-downgrade-attacks" title="Permanent link">&para;</a></h2>
+<p>Attackers may attempt to force use of weaker algorithms.</p>
+<p>Mitigations:</p>
+<ul>
+<li>Require minimum algorithm strength per level</li>
+<li>Sign algorithm negotiation messages</li>
+<li>Alert on unexpected algorithm changes</li>
+</ul>
+<h2 id="side-channel-attacks">Side-Channel Attacks<a class="headerlink" href="#side-channel-attacks" title="Permanent link">&para;</a></h2>
+<p>Cryptographic implementations may leak information through:</p>
+<ul>
+<li>Timing variations</li>
+<li>Power analysis</li>
+<li>Electromagnetic emissions</li>
+<li>Cache behavior</li>
+</ul>
+<p>Mitigations:</p>
+<ul>
+<li>Use constant-time implementations</li>
+<li>Use HSMs for high-value keys</li>
+<li>Validate implementations against known test vectors</li>
+</ul>
+<h2 id="key-compromise">Key Compromise<a class="headerlink" href="#key-compromise" title="Permanent link">&para;</a></h2>
+<p>If a key is compromised:</p>
+<ul>
+<li>Oracle signing key: Revoke immediately, rotate threshold</li>
+<li>Agent key: Revoke agent, invalidate trajectory</li>
+<li>Zone encryption key: Re-encrypt data, rotate key</li>
+<li>Root key: Major incident, full ceremony required</li>
+</ul>
+<h2 id="implementation-vulnerabilities">Implementation Vulnerabilities<a class="headerlink" href="#implementation-vulnerabilities" title="Permanent link">&para;</a></h2>
+<p>Common vulnerabilities to avoid:</p>
+<ul>
+<li>Nonce reuse in AES-GCM (catastrophic)</li>
+<li>Weak random number generation</li>
+<li>Improper signature verification (accepting malformed)</li>
+<li>Memory leaks of key material</li>
+<li>Timing leaks in comparison operations</li>
+</ul>
+<p>Implementations SHOULD use well-tested cryptographic libraries:</p>
+<ul>
+<li>OpenSSL / BoringSSL</li>
+<li>libsodium</li>
+<li>AWS-LC</li>
+<li>Hardware vendor libraries for HSM</li>
+</ul>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<h2 id="algorithm-registry">Algorithm Registry<a class="headerlink" href="#algorithm-registry" title="Permanent link">&para;</a></h2>
+<p>This document requests establishment of a KTP Algorithm Registry with the following initial entries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>+--------+-------------------------+-----------+--------------+
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>| ID     | Name                    | Type      | Reference    |
+<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>+--------+-------------------------+-----------+--------------+
+<a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a>| 0x0001 | ecdsa-p256              | Signature | Section 4.1  |
+<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a>| 0x0002 | ecdsa-p384              | Signature | Section 4.1  |
+<a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a>| 0x0003 | ecdsa-p521              | Signature | Section 4.1  |
+<a id="__codelineno-66-7" name="__codelineno-66-7" href="#__codelineno-66-7"></a>| 0x0010 | eddsa-ed25519           | Signature | Section 4.2  |
+<a id="__codelineno-66-8" name="__codelineno-66-8" href="#__codelineno-66-8"></a>| 0x0011 | eddsa-ed448             | Signature | Section 4.2  |
+<a id="__codelineno-66-9" name="__codelineno-66-9" href="#__codelineno-66-9"></a>| 0x0020 | threshold-frost-ed25519 | Threshold | Section 4.3  |
+<a id="__codelineno-66-10" name="__codelineno-66-10" href="#__codelineno-66-10"></a>| 0x0030 | hybrid-ed25519-mldsa44  | Hybrid    | Section 11.2 |
+<a id="__codelineno-66-11" name="__codelineno-66-11" href="#__codelineno-66-11"></a>| 0x0100 | sha256                  | Hash      | Section 5.1  |
+<a id="__codelineno-66-12" name="__codelineno-66-12" href="#__codelineno-66-12"></a>| 0x0101 | sha384                  | Hash      | Section 5.1  |
+<a id="__codelineno-66-13" name="__codelineno-66-13" href="#__codelineno-66-13"></a>| 0x0110 | sha3-256                | Hash      | Section 5.2  |
+<a id="__codelineno-66-14" name="__codelineno-66-14" href="#__codelineno-66-14"></a>| 0x0200 | aes-256-gcm             | AEAD      | Section 7.1  |
+<a id="__codelineno-66-15" name="__codelineno-66-15" href="#__codelineno-66-15"></a>| 0x0201 | chacha20-poly1305       | AEAD      | Section 7.2  |
+<a id="__codelineno-66-16" name="__codelineno-66-16" href="#__codelineno-66-16"></a>+--------+-------------------------+-----------+--------------+
+</code></pre></div>
+<h1 id="algorithm-identifiers">Algorithm Identifiers<a class="headerlink" href="#algorithm-identifiers" title="Permanent link">&para;</a></h1>
+<p>Complete list of algorithm identifiers for use in KTP messages:</p>
+<p>Signature Algorithms: ecdsa-p256 ecdsa-p384 ecdsa-p521 eddsa-ed25519 eddsa-ed448 threshold-shamir-ecdsa-p256-KofN threshold-shamir-ecdsa-p384-KofN threshold-frost-ed25519-KofN threshold-frost-ed448-KofN threshold-bls12-381-KofN hybrid-ed25519-mldsa44 hybrid-ed448-mldsa65 hybrid-ecdsa-p384-mldsa65</p>
+<p>Hash Algorithms: sha256 sha384 sha512 sha3-256 sha3-384 sha3-512 shake128 shake256 blake3</p>
+<p>AEAD Algorithms: aes-128-gcm aes-256-gcm chacha20-poly1305</p>
+<p>KDF Algorithms: hkdf-sha256 hkdf-sha384 hkdf-sha512 argon2id</p>
+<h1 id="test-vectors">Test Vectors<a class="headerlink" href="#test-vectors" title="Permanent link">&para;</a></h1>
+<p>B.1.  Ed25519 Signature</p>
+<p>Private Key (hex): 9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60</p>
+<p>Public Key (hex): d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a</p>
+<p>Message: (empty)</p>
+<p>Signature (hex): e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e06522490155 5fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b</p>
+<p>B.2.  SHA-256 Hash</p>
+<p>Message: "abc"</p>
+<p>Hash (hex): ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad</p>
+<p>B.3.  AES-256-GCM Encryption</p>
+<p>Key (hex): feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308</p>
+<p>IV (hex): cafebabefacedbaddecaf888</p>
+<p>Plaintext (hex): d9313225f88406e5a55909c5aff5269a</p>
+<p>AAD (hex): feedfacedeadbeeffeedfacedeadbeef</p>
+<p>Ciphertext (hex): 522dc1f099567d07f47f37a32a84427d</p>
+<p>Tag (hex): 9fc0ef3636c83f6abbe3d6a6eb0e5bba</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

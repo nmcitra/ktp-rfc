@@ -30,6 +30,33 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
+## 2.1.0
+
+**Tag:** `v2.1.0` · **Date:** 2026-09-03 · **Previous:** 2.0.0 (`v2.0.0`, 2026-08-14)
+
+MINOR. One erratum in `ktp-enforce`: §9.1 "Hibernation Mode" still read
+*"entered when E_trust falls below 50"* — the v1 threshold — while the tier
+table (§5.1), the §5.1.5 heading and the v1→v2 migration table in the same
+document all state 22. The sentence now reads 22.
+
+Why MINOR and not PATCH: [`VERSIONING.md`](VERSIONING.md) resolves ambiguity
+upward, and this is its own definition of MINOR — *a clarified requirement that
+was already implied*. The requirement was never in doubt inside the set (three
+normative locations and the migration table agree on 22, and the 2.0.0 release
+notes named the threshold move as the change that "would bite you silently"),
+but an implementation that gated on the stale sentence changes behavior when it
+corrects, and a change that moves an implementation is not editorial. No
+conformant implementation of 2.0.0 becomes non-conformant; one that was out of
+step with the tier table is now told so. The effect and the interim rule for
+v2.0.0 are in [`SECURITY-NOTES.md`](SECURITY-NOTES.md) as SN-003.
+
+**Finding:** reported by **Mike Storm**, from a shipping v2.0.0 Risk Factor
+producer, while pinning a v1 implementation to v2 vocabulary and thresholds.
+He also swept the tag for surviving v1 thresholds: §9.1 was the only one in
+normative prose; every other 95 · 85 · 70 · 50 occurrence (`ktp-enforce`,
+`ktp-core`, `ktp-conformance`) is a two-column migration table and correct as
+written.
+
 ## 2.0.0 — Gödel
 
 **Date:** 2026-08-14 · **Previous:** 1.0.1 (`v1.0.1-provenance`, 2026-07-18)

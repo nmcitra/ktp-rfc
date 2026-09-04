@@ -1,8 +1,8 @@
 # Kinetic Trust Protocol (KTP) — RFC Series
 
-**Version**: 2.0.0 *Gödel* · **Status**: Draft specification — NMCITRA  
+**Version**: 2.1.0 *Gödel* · **Status**: Draft specification — NMCITRA  
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21938282.svg)](https://doi.org/10.5281/zenodo.21938282)  
-**First published**: November 2025 · **This release**: 14 August 2026
+**First published**: November 2025 · **This release**: 3 September 2026
 
 Draft specifications developed by the New Mexico Cyber Intelligence & Threat
 Response Alliance (NMCITRA). They have not been submitted to the IETF and do

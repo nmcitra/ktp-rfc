@@ -867,7 +867,7 @@ Recovery SHOULD be gradual to avoid oscillation:
 
 ## Hibernation Mode
 
-Hibernation is the most extreme dormancy state, entered when E_trust falls below 50.
+Hibernation is the most extreme dormancy state, entered when E_trust falls below 22.
 
 In Hibernation:
 

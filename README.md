@@ -1,7 +1,7 @@
 # Kinetic Trust Protocol (KTP) — RFC Series
 
 **Version**: 2.1.0 *Gödel* · **Status**: Draft specification — NMCITRA  
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21938282.svg)](https://doi.org/10.5281/zenodo.21938282)  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22293630.svg)](https://doi.org/10.5281/zenodo.22293630)  
 **First published**: November 2025 · **This release**: 3 September 2026
 
 Draft specifications developed by the New Mexico Cyber Intelligence & Threat
@@ -253,8 +253,12 @@ When your work materially uses or discusses KTP's named constructs, equations,
 or distinctive architecture, please cite it — see
 [`CITATION.cff`](CITATION.cff) and [`PROVENANCE.md`](PROVENANCE.md).
 
-The v2.0.0 release is archived at Zenodo:
+The v2.1.0 release is archived at Zenodo:
+[doi.org/10.5281/zenodo.22293630](https://doi.org/10.5281/zenodo.22293630);
+v2.0.0 *Gödel* remains at
 [doi.org/10.5281/zenodo.21938282](https://doi.org/10.5281/zenodo.21938282).
+The concept DOI [doi.org/10.5281/zenodo.21431487](https://doi.org/10.5281/zenodo.21431487)
+always resolves to the latest archived release.
 
 ## Contributing
 

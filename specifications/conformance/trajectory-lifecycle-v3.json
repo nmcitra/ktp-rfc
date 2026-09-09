@@ -1,0 +1,378 @@
+{
+  "suite": "trajectory-lifecycle-v3",
+  "kind": "normative-downstream-requirements",
+  "specification": "specifications/trajectory-signatures.md",
+  "note": "Semantic downstream scenarios, not wire fields. This repository does not implement or execute the consensus, governance, trusted-clock, head-store or migration-registry lifecycle described here. Cryptographic fixtures are in trajectory-signatures-v3.json. Positive outcomes mean eligibility only when every independent prerequisite passes.",
+  "vectors": [
+    {
+      "id": "T01-signatures-without-head",
+      "given": {
+        "validAgentAndOracleSignatures": true,
+        "authenticatedFinalHead": false
+      },
+      "expect": {
+        "authoritativeRecordAccepted": false
+      },
+      "reason": "Signatures establish integrity; they do not identify the unique accepted current head."
+    },
+    {
+      "id": "T02-intent-is-not-final-head",
+      "given": {
+        "intentCommitted": true,
+        "finalEnvelopeAnchorCommitted": false
+      },
+      "expect": {
+        "standingExposedAsAuthoritative": false
+      },
+      "reason": "A payload commitment precedes signing. The exact completed envelope must subsequently be selected before authority is exposed."
+    },
+    {
+      "id": "T03-final-head-context-mismatch",
+      "given": {
+        "validFinalAnchor": true,
+        "mismatchCases": [
+          "record-version",
+          "agent",
+          "zone",
+          "chain",
+          "sequence",
+          "predecessor",
+          "commit-intent",
+          "final-record-hash"
+        ]
+      },
+      "expect": {
+        "recordAccepted": false
+      },
+      "reason": "Run once per mismatch. The independently authenticated anchor must select this exact record in its full context."
+    },
+    {
+      "id": "T04-two-valid-envelopes-for-one-intent",
+      "given": {
+        "sameCommittedIntent": true,
+        "twoValidOracleSignatures": true,
+        "differentCompletedHashes": true,
+        "onlyFirstHashAnchored": true
+      },
+      "expect": {
+        "firstEligible": true,
+        "secondAccepted": false
+      },
+      "reason": "Another valid signature cannot replace the durably selected final hash; independent authorization checks still apply to the first."
+    },
+    {
+      "id": "T05-head-rewrite-on-recovery",
+      "given": {
+        "originalFinalHashCommitted": true,
+        "recoveryResignsSamePayload": true,
+        "replacementHashDiffers": true
+      },
+      "expect": {
+        "replacementAccepted": false
+      },
+      "reason": "Recover the original selected signed envelope and evidence rather than silently creating a new chain hash."
+    },
+    {
+      "id": "T06-signed-but-invalid-transition",
+      "given": {
+        "signaturesAndHashesValid": true,
+        "stateTransitionAllowed": false
+      },
+      "expect": {
+        "recordAccepted": false
+      },
+      "reason": "Signing coverage does not establish lawful standing, valid measurements, or a permitted state transition."
+    },
+    {
+      "id": "T07-predecessor-continuity",
+      "given": {
+        "signaturesValid": true,
+        "failureCases": [
+          "wrong-previous-hash",
+          "previous-state-mismatch",
+          "sequence-gap",
+          "nonincreasing-timestamp"
+        ]
+      },
+      "expect": {
+        "recordAccepted": false
+      },
+      "reason": "Run once per failure; verify the authenticated predecessor rather than merely accepting signed claims."
+    },
+    {
+      "id": "T08-candidate-selects-its-own-trust",
+      "given": {
+        "candidateHasValidSignatures": true,
+        "candidateSuppliesOwnKeysProfileAndExpectedHead": true,
+        "independentConfigurationVerified": false
+      },
+      "expect": {
+        "authorityAccepted": false
+      },
+      "reason": "Expected keys, roles, identities, profile, format floor and head come from pre-existing authenticated state."
+    },
+    {
+      "id": "T09-legacy-fallback-after-cutover",
+      "given": {
+        "trustedFormatFloor": "ktp-trajectory-v3",
+        "inputCases": [
+          "missing-version",
+          "legacy-v2",
+          "unknown-version",
+          "caller-requests-archive-mode"
+        ]
+      },
+      "expect": {
+        "currentAuthorityAccepted": false
+      },
+      "reason": "Run once per input. Archive interpretation cannot enable legacy authority or lower the trusted format floor."
+    },
+    {
+      "id": "T10-resign-legacy-unsigned-state",
+      "given": {
+        "legacyRecordStateNotIndependentlyVerified": true,
+        "recordReformattedAndResignedAsV3": true
+      },
+      "expect": {
+        "standingCarryForwardAccepted": false
+      },
+      "reason": "Fresh signatures cannot retroactively establish the truth of fields excluded by historical signatures."
+    },
+    {
+      "id": "T11-migration-checkpoint-untrusted",
+      "given": {
+        "checkpointSignatureValidUnderCandidateKey": true,
+        "incumbentAuthorityVerified": false
+      },
+      "expect": {
+        "migrationActivated": false
+      },
+      "reason": "A candidate cannot establish its own migration approvers or trust anchors."
+    },
+    {
+      "id": "T12-migration-state-revalidation-missing",
+      "given": {
+        "checkpointCryptographicSignatureValid": true,
+        "legacyHashPresent": true,
+        "carriedStateIndependentlyRevalidated": false
+      },
+      "expect": {
+        "migrationActivated": false
+      },
+      "reason": "An unkeyed legacy hash and new signature are not independent evidence of the previously unsigned standing."
+    },
+    {
+      "id": "T13-migration-target-substitution",
+      "given": {
+        "approvedCheckpointValid": true,
+        "mismatchCases": [
+          "new-agent",
+          "new-zone",
+          "new-chain",
+          "genesis-record-id",
+          "genesis-timestamp",
+          "profile",
+          "level",
+          "approved-state",
+          "checkpoint-digest"
+        ]
+      },
+      "expect": {
+        "migrationActivated": false
+      },
+      "reason": "Run once per mismatch. Genesis must match the exact independently approved migration target."
+    },
+    {
+      "id": "T14-migration-time-boundaries",
+      "given": {
+        "failureCases": [
+          "before-issued-at",
+          "at-expiration",
+          "after-expiration",
+          "invalid-time",
+          "clock-rollback"
+        ]
+      },
+      "expect": {
+        "newMigrationActivated": false
+      },
+      "reason": "Run once per failure. Activation requires trustworthy time within issued_at <= activation < expires_at."
+    },
+    {
+      "id": "T15-previously-activated-checkpoint-expires",
+      "given": {
+        "migrationPreviouslyActivatedWithValidTime": true,
+        "durableActivationAndLineageBindingVerified": true,
+        "checkpointNowExpired": true
+      },
+      "expect": {
+        "renewalRequiredSolelyForHistoricalVerification": false,
+        "lineageBindingErased": false
+      },
+      "reason": "Historical verification uses the authenticated activation. Current action authorization and proof expiry remain independent."
+    },
+    {
+      "id": "T16-repeated-lineage-migration",
+      "given": {
+        "legacyLineageAlreadyMigrated": true,
+        "replayCases": [
+          "new-checkpoint-id",
+          "resigned-checkpoint",
+          "different-new-chain",
+          "older-legacy-head",
+          "process-restart"
+        ]
+      },
+      "expect": {
+        "secondMigratedSuccessorAccepted": false
+      },
+      "reason": "Run once per replay. Atomic single-use scope is the legacy lineage and authenticated migration state, not just checkpoint ID."
+    },
+    {
+      "id": "T17-format-floor-rollback",
+      "given": {
+        "v3CutoverEstablished": true,
+        "restoreOldConfigurationOrBackup": true
+      },
+      "expect": {
+        "legacyAuthorityReenabled": false
+      },
+      "reason": "The accepted-format floor must be authenticated and durable across restore and failover."
+    },
+    {
+      "id": "T18-registry-unavailable",
+      "given": {
+        "migrationOrHeadRegistryUnverifiable": true,
+        "recordSignaturesValid": true
+      },
+      "expect": {
+        "authoritativeUseAccepted": false
+      },
+      "reason": "Missing trusted state causes a pause, not reconstruction from candidate assertions."
+    },
+    {
+      "id": "T19-nonrecursive-migration-order",
+      "given": {
+        "checkpointBindsLegacyEvidenceAndNewGenesisParameters": true,
+        "genesisBindsCheckpointDigest": true,
+        "completedGenesisFinalHashSeparatelyAnchored": true,
+        "independentApprovalAndAtomicActivationVerified": true
+      },
+      "expect": {
+        "migrationEligible": true
+      },
+      "reason": "The checkpoint precedes genesis signing and does not contain the final hash of a genesis that refers back to it."
+    },
+    {
+      "id": "T20-level-three-legacy-hash",
+      "given": {
+        "targetLevel": 3,
+        "legacyHashAlgorithm": "sha256",
+        "newArchiveCheckpointAndEvidenceHashes": "sha384",
+        "originalLegacyHashIndependentlyAuthenticated": true
+      },
+      "expect": {
+        "historicalHashRelabelRequired": false,
+        "migrationCryptographicBindingsEligible": true
+      },
+      "reason": "Preserve the original historical hash; stronger new hashes bind the preserved archive and new checkpoint rather than rewriting history."
+    },
+    {
+      "id": "T21-level-three-downgrade",
+      "given": {
+        "trustedLevel": 3,
+        "failureCases": [
+          "new-archive-sha256",
+          "checkpoint-binding-sha256",
+          "evaluation-profile-sha256",
+          "revalidation-evidence-sha256",
+          "ES256-signature",
+          "Ed25519-signature"
+        ]
+      },
+      "expect": {
+        "migrationOrRecordAccepted": false
+      },
+      "reason": "Run once per failure. Candidate metadata cannot weaken the trusted Level 3 profile; stronger threshold and hybrid requirements still apply."
+    },
+    {
+      "id": "T22-role-substitution",
+      "given": {
+        "samePublicKeyPresentInMultipleRegistries": true,
+        "agentPurposeSignatureOfferedAsOracleOrMigration": true
+      },
+      "expect": {
+        "signatureAcceptedForWrongRole": false
+      },
+      "reason": "Distinct protected purposes and independent role bindings remain mandatory even if public-key bytes coincide."
+    },
+    {
+      "id": "T23-concurrent-migration-activation",
+      "given": {
+        "twoProcessesRaceToMigrateSameLegacyLineage": true,
+        "bothCheckpointSignaturesValid": true
+      },
+      "expect": {
+        "maximumAcceptedSuccessors": 1
+      },
+      "reason": "The reviewed implementation must atomically couple lineage reservation, activation evidence, and final-head selection with recoverable durable state."
+    },
+    {
+      "id": "T24-membership-changes-during-migration",
+      "given": {
+        "migrationAlsoChangesOracleMembership": true,
+        "oldAndNewConfigurationTransitionEvidenceValid": false
+      },
+      "expect": {
+        "migrationActivated": false
+      },
+      "reason": "A migration checkpoint does not waive F01 incumbent and successor agreement requirements."
+    },
+    {
+      "id": "T25-archive-preservation",
+      "given": {
+        "legacyRecordRetrievedForReview": true,
+        "originalBytesAvailable": true
+      },
+      "expect": {
+        "originalBytesRewritten": false,
+        "legacySignatureClaimUpgraded": false
+      },
+      "reason": "Retain the archive and its coverage limitations; v3 acceptance must not mutate historical evidence."
+    },
+    {
+      "id": "T26-no-implicit-migration",
+      "given": {
+        "knownLegacyAgentPresentsFreshV3Genesis": true,
+        "migrationCheckpoint": null,
+        "ordinaryFreshEnrollmentHasNotBeenIndependentlyAuthorized": true
+      },
+      "expect": {
+        "legacyStandingInherited": false
+      },
+      "reason": "A null migration reference cannot evade the legacy-lineage registry or turn imported standing into fresh enrollment."
+    },
+    {
+      "id": "T27-helper-composition",
+      "given": {
+        "onlyHashComparisonOrCheckpointHelperRun": true,
+        "completeRecordSignatureVerificationRun": false
+      },
+      "expect": {
+        "fullRecordVerificationEstablished": false
+      },
+      "reason": "Run verify_record with independently trusted keys plus the applicable head/migration checks. Neither helper alone establishes complete record verification."
+    },
+    {
+      "id": "T28-invalid-evidence-after-valid-signatures",
+      "given": {
+        "classicalSignaturesPassReferenceHelper": true,
+        "requiredHybridThresholdOrGovernanceEvidenceMissing": true
+      },
+      "expect": {
+        "fullDeploymentConformanceEstablished": false
+      },
+      "reason": "The supported classical reference algorithms do not waive stronger cryptographic or operational requirements."
+    }
+  ]
+}

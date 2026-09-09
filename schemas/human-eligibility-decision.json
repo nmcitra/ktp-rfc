@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/human-eligibility-v1/human-eligibility-decision.json",
+  "title": "KTP Human Eligibility Decision Body v1 — Unreleased",
+  "description": "UNSIGNED prerequisite evaluation body, not an authorization token. The integration must authenticate and bind the complete body to the actual request and fully verified ordinary proof before use, rechecking current evidence/status and all independent A/E, Soul, grant and execution conditions. Ordinary proof refresh/lifetime remains at most ten seconds under the existing mechanism; this body does not implement it. Metadata is linkable personal information, not anonymous. Every relied-upon input record is referenced by exact version and digest; a correction changes a fresh evaluation.",
+  "type": "object",
+  "required": [
+    "decision_version",
+    "principal_id",
+    "actor_id",
+    "actor_type",
+    "authentication_digest",
+    "request_digest",
+    "profile_digest",
+    "profile_version",
+    "issuer_registry_digest",
+    "state_epoch",
+    "state_digest",
+    "requirement_results",
+    "evidence_refs",
+    "grant_refs",
+    "delegation_refs",
+    "evaluated_at",
+    "expires_at",
+    "result",
+    "reason_codes",
+    "review_route_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "decision_version": {
+      "const": "ktp-human-eligibility-decision-v1"
+    },
+    "principal_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "actor_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "actor_type": {
+      "enum": [
+        "human",
+        "agent"
+      ]
+    },
+    "authentication_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "request_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "profile_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "profile_version": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "issuer_registry_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "state_epoch": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "state_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/record_ref"
+      }
+    },
+    "grant_refs": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/record_ref"
+      }
+    },
+    "delegation_refs": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/record_ref"
+      }
+    },
+    "evaluated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "expires_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "result": {
+      "enum": [
+        "eligible",
+        "ineligible"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "current_status_restrictive",
+          "operation_unmapped",
+          "required_evidence_unavailable",
+          "authority_unavailable",
+          "delegation_unavailable"
+        ]
+      }
+    },
+    "review_route_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "requirement_results": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/requirement_result"
+      },
+      "description": "One deterministic result per requirement in the mapped operation, sorted by requirement_id. Empty only when the operation is unmapped. Candidate references are review context and never authoritative evidence. This protected personal-information payload must not automatically disclose another person's identifiers or details in a user interface."
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])"
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Digest of exact bound content. The trusted profile requires SHA-256 at Levels 1/2 and SHA-384 at Level 3; semantic validation enforces that selection."
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; booleans and floating representations are rejected semantically."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative safe integer Unix seconds; no floating representations."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "zone_id",
+        "resource_id",
+        "parameters_digest",
+        "purpose_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "purpose_id": {
+          "$ref": "#/$defs/literal"
+        }
+      },
+      "description": "Exact operation, resource, parameter and purpose binding. No wildcard, range, cross-purpose reuse or implicit compatibility is supported."
+    },
+    "record_ref": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "version",
+        "digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "version": {
+          "$ref": "#/$defs/positive_integer"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "requirement_result": {
+      "type": "object",
+      "required": [
+        "requirement_id",
+        "result",
+        "reason_codes",
+        "considered_refs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "result": {
+          "enum": [
+            "satisfied",
+            "unavailable"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "no_evidence",
+              "identity_mismatch",
+              "issuer_mismatch",
+              "scope_mismatch",
+              "criteria_mismatch",
+              "not_current",
+              "expired",
+              "not_yet_valid",
+              "invalid_time",
+              "freshness_invalid",
+              "unsatisfied",
+              "undetermined"
+            ]
+          }
+        },
+        "considered_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/record_ref"
+          },
+          "description": "Exact candidate evidence inputs considered for this requirement, including unavailable or untrusted claims. Inclusion establishes neither identity, truth, active status nor satisfaction. Authoritative selected evidence remains separately recorded in evidence_refs."
+        }
+      },
+      "description": "Specific, minimized review grounds. These references and reasons remain personal information requiring protected access and recipient-appropriate presentation."
+    }
+  }
+}

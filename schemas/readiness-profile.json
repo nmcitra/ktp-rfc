@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/readiness-v1/readiness-profile.json",
+  "title": "KTP Readiness Profile v1 — Unreleased",
+  "description": "Scoped readiness policy for the history-with-scoped-readiness-v1 standing mode. The complete RFC 8785 canonical object is digest-bound by the trusted deployment profile. Schema validity establishes declaration shape, not approval, assessor independence, assessment adequacy, freshness, or authority. Semantic validation must require unique operation_id values and integer tokens. Level 3 requires SHA-384 for all digests in this profile. See specifications/operational-readiness.md.",
+  "type": "object",
+  "required": [
+    "profile_version",
+    "profile_id",
+    "version",
+    "conformance_level",
+    "assessor_registry_digest",
+    "operations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "profile_version": {
+      "const": "ktp-readiness-profile-v1"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "version": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "conformance_level": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ],
+      "description": "Trusted approved profile selects the cryptographic strength. Semantic validation requires an integer token."
+    },
+    "assessor_registry_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/operation"
+      },
+      "description": "Nonempty operation allowlist. operation_id must be unique across entries even when their scopes differ; semantic validation enforces that uniqueness."
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])",
+      "description": "Exact nonempty identifier without whitespace or wildcard characters. Matching is literal; no wildcard or range compatibility is supported."
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Algorithm-prefixed lowercase digest. Every binding in a Level 3 readiness evaluation requires SHA-384; the trusted profile selects the requirement."
+    },
+    "sha384_digest": {
+      "type": "string",
+      "minLength": 103,
+      "maxLength": 103,
+      "pattern": "^sha384:[0-9a-f]{96}$"
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; semantic validation rejects booleans and floats, including integral floats."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative Unix timestamp in whole seconds, represented by a safe integer token. Trusted-time and temporal-order checks are semantic obligations."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "zone_id",
+        "resource_id",
+        "environment_digest",
+        "parameters_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "environment_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Exact operation scope. All fields must equal the authenticated request and approved profile scope; no ranges, wildcards, or implicit compatibility mappings apply."
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "operation_id",
+        "scope",
+        "assessment_spec_digest",
+        "max_age_seconds",
+        "required_checks",
+        "assessor_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "assessment_spec_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "max_age_seconds": {
+          "$ref": "#/$defs/positive_integer"
+        },
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        },
+        "assessor_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        }
+      },
+      "description": "A predeclared operation and exact scope with required checks and independent assessor identities. Approval and independence are verified outside this schema. max_age_seconds is a declared operational limit, not a universal or empirically established safety interval."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "conformance_level": {
+            "const": 3
+          }
+        },
+        "required": [
+          "conformance_level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "assessor_registry_digest": {
+            "$ref": "#/$defs/sha384_digest"
+          },
+          "operations": {
+            "items": {
+              "properties": {
+                "assessment_spec_digest": {
+                  "$ref": "#/$defs/sha384_digest"
+                },
+                "scope": {
+                  "properties": {
+                    "environment_digest": {
+                      "$ref": "#/$defs/sha384_digest"
+                    },
+                    "parameters_digest": {
+                      "$ref": "#/$defs/sha384_digest"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

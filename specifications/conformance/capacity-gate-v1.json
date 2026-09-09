@@ -1,0 +1,113 @@
+{
+  "suite": "capacity-gate-v1",
+  "specification": "KTP-CORE Section 6.6 and specifications/kinetic-envelope.md decision contract",
+  "note": "Normative downstream authorizer requirements. This repository contains no authorizer runtime: its regression gate validates profiles and arithmetic threshold properties, not execution of these decisions. The given/expect objects are test notation, not new wire fields or decision enums. All earlier authorization conditions are satisfied unless a vector states otherwise. A and E describe the same candidate action on a common scale. Omitted envelope_thresholds uses the existing m_veto = m_allow = 0 default; its equality veto is unchanged.",
+  "malformed_input_notation": "malformedInputs describes values to inject at an implementation boundary; it does not encode numeric measurements. NaN, Infinity and -Infinity are symbolic names for nonfinite values, not JSON numeric literals. Missing A or E means no value was supplied.",
+  "margin_notation": "marginPresent describes the result and receipt: margin is required when its calculation is reached, and absent when evaluation terminates before division. No zero, null, NaN or other placeholder substitutes for an uncomputed margin. C15 permits an existing veto to short-circuit calculation; margin presence follows whether calculation was reached.",
+  "vectors": [
+    {
+      "id": "C01-over-capacity-valid-profile",
+      "given": { "A": 60, "E": 50, "capacityKnown": true, "envelope_thresholds": { "m_veto": 0, "m_allow": 0.2 } },
+      "expect": { "executionPermitted": false, "supervision": "silent_veto", "divisionPerformed": false, "marginPresent": false },
+      "reason": "The unconditional A > E gate vetoes before profile bands or margin calculation."
+    },
+    {
+      "id": "C02-negative-profile-counterexample",
+      "given": { "A": 60, "E": 50, "capacityKnown": true, "envelope_thresholds": { "m_veto": -1, "m_allow": -0.5 } },
+      "expect": { "profileAccepted": false, "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Invalid profile configuration is rejected before evaluation. The former margin -0.2 must never lead to permission through negative thresholds."
+    },
+    {
+      "id": "C03-below-equality-default",
+      "given": { "A": 0.5, "E": 1, "capacityKnown": true },
+      "expect": { "supervision": "stable", "executionPermitted": true, "marginPresent": true },
+      "reason": "Demand is below capacity; the omitted profile default permits it when all other authorization conditions pass."
+    },
+    {
+      "id": "C04-at-equality-default",
+      "given": { "A": 1, "E": 1, "capacityKnown": true },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false, "marginPresent": true },
+      "reason": "The strict over-capacity gate alone does not veto equality; the existing default margin <= 0 veto still does."
+    },
+    {
+      "id": "C05-above-equality-default",
+      "given": { "A": 1.5, "E": 1, "capacityKnown": true },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Demand exceeds capacity and is vetoed before division."
+    },
+    {
+      "id": "C06-zero-capacity-positive-demand",
+      "given": { "A": 1, "E": 0, "capacityKnown": true },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "No positive-capacity comparison is possible; do not divide by zero."
+    },
+    {
+      "id": "C07-zero-capacity-zero-demand",
+      "given": { "A": 0, "E": 0, "capacityKnown": true },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Zero demand does not make the undefined ratio 0/0 an authorization."
+    },
+    {
+      "id": "C08-missing-demand",
+      "given": { "E": 50, "capacityKnown": true },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Missing demand cannot fall through to permission."
+    },
+    {
+      "id": "C09-missing-capacity",
+      "given": { "A": 1, "capacityKnown": false },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "An unknown-capacity flag does not supply the positive conservative estimate needed for a margin calculation."
+    },
+    {
+      "id": "C10-negative-demand",
+      "given": { "A": -1, "E": 50, "capacityKnown": true },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Negative demand is invalid input, not extra safety margin."
+    },
+    {
+      "id": "C11-negative-capacity",
+      "given": { "A": 1, "E": -50, "capacityKnown": true },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Negative capacity is invalid input."
+    },
+    {
+      "id": "C12-nonfinite-demand",
+      "given": { "E": 50, "capacityKnown": true },
+      "malformedInputs": { "A": ["NaN", "Infinity", "-Infinity"] },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Run once for each symbolic injected demand value; no nonfinite measurement is valid."
+    },
+    {
+      "id": "C13-nonfinite-capacity",
+      "given": { "A": 1, "capacityKnown": true },
+      "malformedInputs": { "E": ["NaN", "Infinity", "-Infinity"] },
+      "expect": { "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Run once for each symbolic injected capacity value; Infinity must not act as unlimited capacity."
+    },
+    {
+      "id": "C14-positive-conservative-estimate",
+      "given": { "A": 1, "E": 50, "capacityKnown": false, "envelope_thresholds": { "m_veto": 0, "m_allow": 0.2 } },
+      "expect": { "minimumSupervision": "assisted", "executionWithoutRequiredReview": false, "marginPresent": true },
+      "reason": "E is a positive conservative estimate. Its wide computed margin cannot lower the unknown-capacity supervision floor."
+    },
+    {
+      "id": "C15-preexisting-veto",
+      "given": { "A": 1, "E": 50, "capacityKnown": true, "existingSupervision": "silent_veto" },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false },
+      "reason": "A permissive capacity result cannot lower an existing veto."
+    },
+    {
+      "id": "C16-unknown-capacity-over-demand",
+      "given": { "A": 60, "E": 50, "capacityKnown": false, "envelope_thresholds": { "m_veto": 0, "m_allow": 0.2 } },
+      "expect": { "supervision": "silent_veto", "executionPermitted": false, "divisionPerformed": false, "marginPresent": false },
+      "reason": "Demand exceeds even the positive conservative estimate. The unknown-capacity assisted floor MUST NOT lower the resulting silent_veto."
+    },
+    {
+      "id": "C17-unknown-capacity-existing-regulated",
+      "given": { "A": 1, "E": 50, "capacityKnown": false, "existingSupervision": "regulated", "envelope_thresholds": { "m_veto": 0, "m_allow": 0.2 } },
+      "expect": { "minimumSupervision": "regulated", "executionWithoutRequiredReview": false, "marginPresent": true },
+      "reason": "A wide margin and the unknown-capacity assisted floor MUST NOT lower existing regulated supervision."
+    }
+  ]
+}

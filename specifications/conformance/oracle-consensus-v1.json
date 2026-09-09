@@ -1,0 +1,200 @@
+{
+  "suite": "oracle-consensus-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "specifications/oracle-consensus.md and KTP-ORACLE",
+  "note": "These cases specify obligations for downstream consensus engines and relying-party verifiers. This repository has no such runtime; declaration and bounded quorum-set tests do not execute these protocol cases. given/expect use semantic test notation, not wire fields or registered decision enums. Unless stated otherwise, the authenticated committee is [A,B,C,D,X], N=5, f=1, q=4, at most X is Byzantine, and all independent authorization and reviewed-protocol conditions pass. Distinct voters are authenticated identities, not message counts. A positive case means eligible only after all required checks, not an unconditional action grant.",
+  "vectors": [
+    {
+      "id": "C01-old-five-member-quorum",
+      "given": { "members": ["A", "B", "C", "D", "X"], "faultTolerance": 1, "declaredQuorum": 3 },
+      "expect": { "declarationAccepted": false },
+      "reason": "Three-vote groups can intersect only at the Byzantine member; 2q-N must exceed f."
+    },
+    {
+      "id": "C02-default-quorum-declaration",
+      "given": { "members": ["A", "B", "C", "D", "X"], "faultTolerance": 1, "declaredQuorum": 4 },
+      "expect": { "quorumArithmeticValid": true, "runtimeConformanceEstablishedByDeclaration": false },
+      "reason": "The arithmetic is valid, but protocol review, signatures, independence, persistence, and runtime behavior remain separate obligations."
+    },
+    {
+      "id": "C03-equivocating-leader",
+      "given": { "leader": "X", "sameZoneEpochViewSequenceAndPredecessor": true, "restrictVoters": ["A", "B", "X"], "restoreVoters": ["C", "D", "X"], "differentRequestDigests": true },
+      "expect": { "restrictCommitAccepted": false, "restoreCommitAccepted": false },
+      "reason": "Only X double-votes, but neither candidate has the required four distinct votes. Reproduce selective message delivery through both required phases."
+    },
+    {
+      "id": "C04-four-distinct-valid-participants",
+      "given": { "eligibleVoters": ["A", "B", "C", "D"], "matchingAuthenticatedContext": true, "validProtocolPrepareCommitAndViewEvidence": true },
+      "expect": { "protectedDecisionEligibleToCommit": true },
+      "reason": "One unavailable member need not block a valid protocol run among four mutually communicating members."
+    },
+    {
+      "id": "C05-duplicate-votes",
+      "given": { "receivedVoters": ["A", "A", "B", "X"], "messageCount": 4 },
+      "expect": { "commitAccepted": false },
+      "reason": "Repeated messages, repeated signatures, and aliases for one identity do not create a fourth vote."
+    },
+    {
+      "id": "C06-outsider-vote",
+      "given": { "receivedVoters": ["A", "B", "X", "outsider"], "outsiderHasValidUntrustedKey": true },
+      "expect": { "commitAccepted": false },
+      "reason": "Cryptographic validity does not enroll an identity in the authenticated committee."
+    },
+    {
+      "id": "C07-context-replay",
+      "given": { "threeMatchingVotes": true, "fourthVoteMismatchCases": ["zone", "protocol-or-configuration-digest", "membership-epoch", "view", "sequence", "predecessor", "request-digest"] },
+      "expect": { "commitAccepted": false },
+      "reason": "Run once per mismatch. Every counted vote must bind the same authenticated decision context."
+    },
+    {
+      "id": "C08-phase-confusion",
+      "given": { "threeCommitVotes": true, "fourthMessagePhase": "prepare" },
+      "expect": { "commitAccepted": false },
+      "reason": "A prepared proposal is not a committed decision; signatures from different protocol phases cannot be combined."
+    },
+    {
+      "id": "C09-invalid-vote-authentication",
+      "given": { "threeValidVotes": true, "fourthVoteFailureCases": ["forged-signature", "wrong-key", "revoked-key", "unapproved-algorithm", "unverifiable-key-epoch"] },
+      "expect": { "commitAccepted": false },
+      "reason": "Run once per failure. An invalid fourth vote leaves insufficient authenticated participation."
+    },
+    {
+      "id": "C10-two-unavailable-members",
+      "given": { "availableMembers": ["A", "B", "C"], "unavailableMembers": ["D", "X"] },
+      "expect": { "newProtectedDecisionCommitted": false, "quorumReduced": false },
+      "reason": "Availability loss pauses protected updates; the denominator remains five."
+    },
+    {
+      "id": "C11-one-withholding-one-unreachable",
+      "given": { "honestParticipatingMembers": ["A", "B", "C"], "unreachableMember": "D", "withholdingByzantineMember": "X" },
+      "expect": { "newProtectedDecisionCommitted": false },
+      "reason": "One malicious member and one separate outage can prevent progress. Safety does not permit a lower quorum."
+    },
+    {
+      "id": "C12-restart-preserves-vote-and-lock",
+      "given": { "node": "A", "durablyVotedFor": "restrict", "processRestarted": true, "conflictingProposalAtSameContext": "restore", "safeProtocolUnlockEvidence": false },
+      "expect": { "conflictingVoteEmitted": false },
+      "reason": "Restarting cannot erase a prior vote or lock and allow an honest identity to equivocate."
+    },
+    {
+      "id": "C13-rollback-or-lost-safety-state",
+      "given": { "recoveryCases": ["older-backup-loses-vote", "lost-lock-store", "cloned-active-identity", "unverifiable-checkpoint"], "healthCheckPasses": true },
+      "expect": { "votingOrSigningResumed": false, "identityFenced": true },
+      "reason": "Run once per case. Health does not establish safe recovery; verified durable state or the reviewed protocol's recovery procedure is required."
+    },
+    {
+      "id": "C14-leader-change-preserves-committed-history",
+      "given": { "earlierCommittedRequest": "restrict", "sameSequenceAndPredecessor": true, "newLeaderProposes": "restore", "newViewNumber": true },
+      "expect": { "conflictingCommitAccepted": false },
+      "reason": "A later view must preserve committed decisions through authenticated carry-forward evidence."
+    },
+    {
+      "id": "C15-leader-change-missing-evidence",
+      "given": { "candidateLeaderHasHighestUptime": true, "timeoutElapsed": true, "requiredViewChangeEvidenceValid": false },
+      "expect": { "newViewAccepted": false, "priorLocksErased": false },
+      "reason": "Uptime and timeout are not authority to replace the selected protocol's leader-change rules."
+    },
+    {
+      "id": "C16-partition-shrinks-committee",
+      "given": { "reachableMembers": ["A", "B", "X"], "proposal": "remove C and D and recalculate quorum", "administratorApproved": true, "emergencyDeclared": true },
+      "expect": { "membershipChangeAccepted": false, "quorumReduced": false },
+      "reason": "An isolated group cannot appoint its own smaller electorate, including during an emergency."
+    },
+    {
+      "id": "C17-transition-old-quorum-only",
+      "given": { "oldConfigurationQuorumValid": true, "newConfigurationQuorumValid": false, "sameTransitionAndCheckpoint": true },
+      "expect": { "newMembershipActivated": false },
+      "reason": "Old approval alone does not prove that the new committee has safely installed the common committed state."
+    },
+    {
+      "id": "C18-transition-new-quorum-only",
+      "given": { "oldConfigurationQuorumValid": false, "newConfigurationQuorumValid": true, "newMembersApproveTheirOwnAppointment": true },
+      "expect": { "newMembershipActivated": false },
+      "reason": "Candidate members cannot authorize their own succession without the incumbent committed transition."
+    },
+    {
+      "id": "C19-transition-evidence-disagrees",
+      "given": { "oldAndNewQuorumsIndividuallyValid": true, "mismatchCases": ["transition-digest", "checkpoint", "new-roster", "new-protocol", "key-epoch", "activation-boundary"] },
+      "expect": { "newMembershipActivated": false },
+      "reason": "Run once per mismatch. Both configurations must certify the same transition and continuity boundary."
+    },
+    {
+      "id": "C20-valid-joint-transition",
+      "given": { "oldAndNewQuorumsValid": true, "sameTransitionAndCheckpoint": true, "newMembersCaughtUp": true, "oldConfigurationFencedAtBoundary": true, "reviewedProtocolTransitionConditionsPass": true },
+      "expect": { "newMembershipEligibleToActivate": true },
+      "reason": "A supported joint transition can change membership without creating independently active conflicting histories."
+    },
+    {
+      "id": "C21-old-configuration-replay",
+      "given": { "newMembershipActive": true, "oldEpochCertificatePresentedForNewDecision": true, "oldSignaturesStillCryptographicallyValid": true },
+      "expect": { "newDecisionAccepted": false },
+      "reason": "Historical verification of an old certificate does not authorize new decisions after its configuration's activation boundary."
+    },
+    {
+      "id": "C22-bare-threshold-signature",
+      "given": { "validThreeOfFiveThresholdSignature": true, "verifiedCommitEvidence": false, "claimedOperation": "E_base modification" },
+      "expect": { "standingUpdateAccepted": false, "meshAgreementEstablished": false },
+      "reason": "Enough signing shares do not establish a unique committed history."
+    },
+    {
+      "id": "C23-conflicting-committed-records-discovered",
+      "given": { "twoConflictingRecordsClaimValidCommitEvidence": true, "samePosition": true, "partitionHealed": true },
+      "expect": { "automaticMergeOrWinnerSelection": false, "affectedStateFenced": true, "securityIncidentRaised": true },
+      "reason": "Preserve evidence and investigate; timestamp, longest log, and administrator preference cannot repair a violated safety assumption."
+    },
+    {
+      "id": "C24-seven-members-two-faults",
+      "given": { "memberCount": 7, "faultTolerance": 2, "declaredQuorum": 4 },
+      "expect": { "declarationAccepted": false },
+      "reason": "Two groups of four can overlap only in faulty members; at least five votes are required."
+    },
+    {
+      "id": "C25-outage-does-not-extend-proof",
+      "given": { "consensusUnavailable": true, "previouslyValidOrdinaryProof": true, "trustedNowEqualsOriginalExpiration": true },
+      "expect": { "ordinaryProofAccepted": false },
+      "reason": "Consensus availability does not change the proof's independent expiry boundary or authorize a stale proof."
+    },
+    {
+      "id": "C26-stricter-operation-approval",
+      "given": { "fourOfFiveCommitEvidenceValid": true, "operationRequiresFiveOfFiveSigning": true, "onlyFourSigningParticipants": true },
+      "expect": { "operationAccepted": false },
+      "reason": "The consensus floor does not lower a stronger operation-specific approval or signing requirement."
+    },
+    {
+      "id": "C27-trusted-cryptographic-profile",
+      "given": { "trustedConformanceLevel": 3, "protocolSpecDigestAlgorithm": "sha256", "declarationShapeValid": true },
+      "expect": { "meshConformanceEstablished": false },
+      "reason": "A shape-valid weaker digest does not satisfy the trusted Level 3 SHA-384 requirement."
+    },
+    {
+      "id": "C28-untrusted-bootstrap-roster",
+      "given": { "candidateRosterAndQuorumShapeValid": true, "candidateSignsItsOwnBootstrap": true, "independentlyAuthenticatedZoneGenesisAuthority": false },
+      "expect": { "initialMembershipTrusted": false },
+      "reason": "A valid declaration cannot establish its own root of authority."
+    },
+    {
+      "id": "C29-shared-control-exceeds-fault-budget",
+      "given": { "distinctDeclaredControlDomainLabels": true, "actualSingleCompromiseControlsMembers": 2, "claimedFaultTolerance": 1 },
+      "expect": { "oneCompromiseSafetyClaimSupported": false },
+      "reason": "Distinct labels do not prove independence. Deployment assessment must account for actual shared control."
+    },
+    {
+      "id": "C30-configured-quorum-is-binding",
+      "given": { "memberCount": 6, "faultTolerance": 1, "declaredQuorum": 5, "validDistinctVotes": 4 },
+      "expect": { "commitAccepted": false },
+      "reason": "Four meets the arithmetic minimum for this topology, but cannot replace the authenticated configuration's stricter quorum of five."
+    },
+    {
+      "id": "C31-unsupported-protocol-parameters",
+      "given": { "declarationArithmeticValid": true, "namedProtocolReviewCoversExactParametersAndRecoveryModel": false },
+      "expect": { "meshConformanceEstablished": false },
+      "reason": "Naming a protocol or checking quorum arithmetic is insufficient when its safety argument does not cover the selected deployment."
+    },
+    {
+      "id": "C32-timeout-does-not-grant-authority",
+      "given": { "networkDelayUnbounded": true, "operationalRecoveryTargetExceeded": true, "requiredQuorumUnavailable": true },
+      "expect": { "protectedDecisionCommitted": false, "timeoutSubstitutedForApproval": false },
+      "reason": "Safety remains mandatory during arbitrary delay. Progress depends on the reviewed protocol's communication and timing assumptions."
+    }
+  ]
+}

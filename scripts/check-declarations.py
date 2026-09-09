@@ -16,7 +16,18 @@ a second copy of them:
      that set
   4. normalization — every aggregated zero_one:"synthetic" signal has a
      normalization entry
-  5. envelope_thresholds — m_veto < m_allow where declared
+  5. envelope_thresholds — finite numbers, 0 <= m_veto < m_allow
+     where declared; omission retains the zero-threshold default
+  6. risk-factor weights — six finite numbers in (0, 1], whose parsed
+     decimal representations sum exactly to 1; never silently rescaled
+  7. emergency_policy — optional exact policy ID/version/digest reference;
+     this checks its shape, not approval or activation
+  8. oracle_consensus — optional exact protocol and membership declaration;
+     distinct identities and safe/live quorum bounds, not engine correctness
+  9. standing_policy — required exact scoped-readiness profile binding;
+     legacy standing_decay_rate is invalid in the active v3 profile
+ 10. human_policy — exact operation-specific profile binding when declared;
+     omission disables human eligibility, not a legacy score fallback
 
 Usage:  python3 scripts/check-declarations.py --profile <profile.json>
 Exit 1 on any failure. With no --profile, self-checks against the worked
@@ -25,7 +36,10 @@ example embedded below (which doubles as documentation of the shape).
 
 import argparse
 import json
+import math
+import re
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -85,7 +99,14 @@ EXAMPLE = {
                            "summarizes"}}},
     "peer_share": 0,
     "external_root": {"hop_bound": 3, "adjudicator": "example-adjudicator"},
-    "standing_decay_rate": 16,
+    # Shape-only illustrative binding; the all-zero digest is not evidence
+    # that any readiness profile exists, is approved, or permits execution.
+    "standing_policy": {
+        "mode": "history-with-scoped-readiness-v1",
+        "profile_id": "example-readiness",
+        "version": 1,
+        "digest": "sha256:" + "0" * 64,
+    },
     "envelope_thresholds": {"m_veto": 0.0, "m_allow": 0.2},
 }
 
@@ -110,31 +131,58 @@ def load_catalogue():
 
 def check(profile):
     fails = []
+    if not isinstance(profile, dict):
+        return ["shape: deployment profile must be an object"]
     ids, synthetic, alias_sets = load_catalogue()
 
     # 1 · shape
     for key in ["profile_id", "version", "risk_factors", "soul_veto",
-                "peer_share", "external_root", "standing_decay_rate"]:
+                "peer_share", "external_root", "standing_policy"]:
         if key not in profile:
             fails.append(f"shape: required section '{key}' missing")
-    rf = profile.get("risk_factors", {})
+    declared_rf = profile.get("risk_factors", {})
+    if not isinstance(declared_rf, dict):
+        fails.append("shape: risk_factors must be an object containing the "
+                     "six weighted inputs")
+        return fails
     for f in FACTORS:
-        if f not in rf:
+        if f not in declared_rf:
             fails.append(f"shape: risk factor '{f}' missing — the #83 arity "
                          "is six weighted inputs plus the Soul veto")
-    for f in set(rf) - set(FACTORS):
+    for f in set(declared_rf) - set(FACTORS):
         fails.append(f"shape: '{f}' is not one of the six Risk Factors")
-    for f, spec in rf.items():
+    # Later catalogue checks only inspect known factors with object shapes.
+    # Malformed declarations still fail; filtering never repairs the profile.
+    rf, weights = {}, []
+    for f, spec in declared_rf.items():
         if f not in FACTORS:
             continue
+        if not isinstance(spec, dict):
+            fails.append(f"shape: risk factor '{f}' must be an object")
+            continue
+        rf[f] = spec
         for k in ("signals", "aggregation", "weight"):
             if k not in spec:
                 fails.append(f"shape: {f} missing '{k}'")
-        if not spec.get("aggregation", {}).get("method"):
+        aggregation = spec.get("aggregation")
+        if not isinstance(aggregation, dict) or not aggregation.get("method"):
             fails.append(f"shape: {f} aggregation has no method")
         w = spec.get("weight")
-        if not (isinstance(w, (int, float)) and 0 < w <= 1):
-            fails.append(f"shape: {f} weight {w!r} not in (0, 1]")
+        if not ((type(w) is int or
+                 (type(w) is float and math.isfinite(w))) and 0 < w <= 1):
+            fails.append(f"weights: {f} weight must be a finite number in "
+                         "(0, 1]; booleans are not numbers")
+        else:
+            weights.append(Fraction(str(w)))
+    if len(weights) == len(FACTORS):
+        # Exact decimal arithmetic avoids both binary summation noise and
+        # an epsilon that accepts a non-unit total. The JSON parser has
+        # already resolved each number; this does not preserve token text.
+        total = sum(weights, Fraction(0))
+        if total != 1:
+            fails.append("weights: the six Risk Factor weights must sum "
+                         f"exactly to 1 (parsed decimal total: {total}); "
+                         "invalid weights are not rescaled (ktp-core 6.4)")
     if "soul_veto" in profile and not profile["soul_veto"].get("frameworks"):
         fails.append("shape: soul_veto.frameworks empty — the veto needs at "
                      "least one framework to query")
@@ -149,9 +197,10 @@ def check(profile):
         fails.append(f"shape: hop_bound {hb!r} not an integer in [1, 12]")
     if "external_root" in profile and not er.get("adjudicator"):
         fails.append("shape: external_root.adjudicator missing")
-    d = profile.get("standing_decay_rate")
-    if d is not None and not (isinstance(d, (int, float)) and 2 <= d <= 20):
-        fails.append(f"shape: standing_decay_rate {d!r} not in [2, 20] (#59)")
+    if "standing_decay_rate" in profile:
+        fails.append("standing_policy: legacy standing_decay_rate is invalid "
+                     "in v3; an approved scoped-readiness profile binding "
+                     "is required")
 
     # 2 · existence
     declared = []
@@ -206,16 +255,182 @@ def check(profile):
                          "(catalog/index.md §6 MUST)")
 
     # 5 · thresholds
-    et = profile.get("envelope_thresholds")
-    if et is not None:
-        if not (isinstance(et.get("m_veto"), (int, float))
-                and isinstance(et.get("m_allow"), (int, float))):
-            fails.append("thresholds: m_veto/m_allow must both be numbers")
-        elif not et["m_veto"] < et["m_allow"]:
-            fails.append(f"thresholds: m_veto ({et['m_veto']}) must be "
-                         f"< m_allow ({et['m_allow']}) (ktp-core 6.6)")
+    if "envelope_thresholds" in profile:
+        et = profile["envelope_thresholds"]
+        if not isinstance(et, dict):
+            fails.append("thresholds: envelope_thresholds must be an object; "
+                         "omit the section to use the default")
+        else:
+            if set(et) != {"m_veto", "m_allow"}:
+                fails.append("thresholds: exactly m_veto and m_allow are "
+                             "required")
+            values = (et.get("m_veto"), et.get("m_allow"))
+            # bool is an int subclass, but not a JSON number. Test ints
+            # without float conversion so large finite integers stay valid.
+            if not all(type(v) is int or
+                       (type(v) is float and math.isfinite(v))
+                       for v in values):
+                fails.append("thresholds: m_veto/m_allow must both be finite "
+                             "numbers (booleans are not numbers)")
+            elif not 0 <= values[0] < values[1]:
+                fails.append("thresholds: require 0 <= m_veto < m_allow "
+                             f"(got {values[0]!r}, {values[1]!r}); profile "
+                             "thresholds cannot relax the capacity veto "
+                             "(ktp-core 6.6)")
+
+    # 7 · emergency policy binding: absence disables the capability.
+    # Approval and protected installation are separate runtime obligations.
+    if "emergency_policy" in profile:
+        emergency = profile["emergency_policy"]
+        if not isinstance(emergency, dict):
+            fails.append("emergency_policy: must be an ID/version/digest "
+                         "object; omission disables the capability")
+        else:
+            if set(emergency) != {"policy_id", "version", "digest"}:
+                fails.append("emergency_policy: exactly policy_id, version, "
+                             "and digest are required")
+            policy_id = emergency.get("policy_id")
+            if not isinstance(policy_id, str) or not policy_id or re.search(
+                    r"[\s*?\[\]{}]", policy_id):
+                fails.append("emergency_policy: policy_id must be a "
+                             "nonempty literal without whitespace or wildcards")
+            version = emergency.get("version")
+            if type(version) is not int or version < 1:
+                fails.append("emergency_policy: version must be a positive integer")
+            digest = emergency.get("digest")
+            if not isinstance(digest, str) or not re.fullmatch(
+                    r"sha(?:256:[0-9a-f]{64}|384:[0-9a-f]{96})", digest):
+                fails.append("emergency_policy: digest must be sha256: "
+                             "with 64 or sha384: with 96 lowercase hexadecimal digits")
+
+    # 8 · consensus declaration: omission makes no Byzantine mesh claim.
+    # Counting declared identities does not establish their real independence,
+    # authenticate votes, or verify the referenced consensus implementation.
+    if "oracle_consensus" in profile:
+        consensus = profile["oracle_consensus"]
+        fields = {"protocol_id", "protocol_version", "protocol_spec_digest",
+                  "membership_epoch", "members", "fault_tolerance", "quorum"}
+        if not isinstance(consensus, dict):
+            fails.append("oracle_consensus: must be a protocol/membership "
+                         "object; omission makes no Byzantine mesh claim")
+        else:
+            if set(consensus) != fields:
+                fails.append("oracle_consensus: exactly protocol_id, "
+                             "protocol_version, protocol_spec_digest, "
+                             "membership_epoch, members, fault_tolerance, "
+                             "and quorum are required")
+            for field in ("protocol_id", "protocol_version"):
+                value = consensus.get(field)
+                if not isinstance(value, str) or not value or re.search(
+                        r"[\s*?\[\]{}]", value):
+                    fails.append(f"oracle_consensus: {field} must be a "
+                                 "nonempty literal without whitespace or wildcards")
+            digest = consensus.get("protocol_spec_digest")
+            if not isinstance(digest, str) or not re.fullmatch(
+                    r"sha(?:256:[0-9a-f]{64}|384:[0-9a-f]{96})", digest):
+                fails.append("oracle_consensus: protocol_spec_digest must be "
+                             "sha256: with 64 or sha384: with 96 lowercase "
+                             "hexadecimal digits")
+            controls = {}
+            for field in ("membership_epoch", "fault_tolerance", "quorum"):
+                value = consensus.get(field)
+                if type(value) is not int or value < 1:
+                    fails.append(f"oracle_consensus: {field} must be a "
+                                 "positive integer; booleans and floats are invalid")
+                else:
+                    controls[field] = value
+            members = consensus.get("members")
+            if not isinstance(members, list):
+                fails.append("oracle_consensus: members must be an array")
+            else:
+                count = len(members)
+                if count < 4:
+                    fails.append("oracle_consensus: at least four members "
+                                 "are required for a Byzantine mesh declaration")
+                member_fields = {"node_id", "key_id", "control_domain"}
+                seen = {field: set() for field in member_fields}
+                for index, member in enumerate(members):
+                    if not isinstance(member, dict):
+                        fails.append(f"oracle_consensus: members[{index}] "
+                                     "must be an object")
+                        continue
+                    if set(member) != member_fields:
+                        fails.append(f"oracle_consensus: members[{index}] "
+                                     "requires exactly node_id, key_id, and control_domain")
+                    for field in sorted(member_fields):
+                        value = member.get(field)
+                        if not isinstance(value, str) or not value or re.search(
+                                r"[\s*?\[\]{}]", value):
+                            fails.append(f"oracle_consensus: members[{index}].{field} "
+                                         "must be a nonempty literal without "
+                                         "whitespace or wildcards")
+                        elif value in seen[field]:
+                            fails.append(f"oracle_consensus: {field} {value!r} "
+                                         "is repeated; each identity must be distinct")
+                        else:
+                            seen[field].add(value)
+                if "fault_tolerance" in controls and "quorum" in controls:
+                    faults, quorum = controls["fault_tolerance"], controls["quorum"]
+                    minimum = (count + faults) // 2 + 1
+                    maximum = count - faults
+                    if count < 3 * faults + 1:
+                        fails.append("oracle_consensus: N must be at least "
+                                     "3 * fault_tolerance + 1")
+                    if not minimum <= quorum <= maximum:
+                        fails.append("oracle_consensus: quorum must satisfy "
+                                     "floor((N + fault_tolerance) / 2) + 1 "
+                                     f"<= quorum <= N - fault_tolerance "
+                                     f"(for N={count}, f={faults}: "
+                                     f"{minimum} <= quorum <= {maximum}); "
+                                     "unsafe or unavailable configurations are rejected")
+
+    # 9/10 · Profile bindings. Shape checks do not authenticate installation,
+    # current eligibility/readiness, governance approval, or ordinary authority.
+    for policy_name, required_mode in (
+            ("standing_policy", "history-with-scoped-readiness-v1"),
+            ("human_policy", "operation-eligibility-v1")):
+        if policy_name not in profile:
+            continue  # standing_policy missing is rejected by required checks above
+        binding = profile[policy_name]
+        if not isinstance(binding, dict):
+            fails.append(f"{policy_name}: must be an exact "
+                         "mode/profile_id/version/digest object")
+            continue
+        if set(binding) != {"mode", "profile_id", "version", "digest"}:
+            fails.append(f"{policy_name}: exactly mode, profile_id, "
+                         "version, and digest are required")
+        if binding.get("mode") != required_mode:
+            fails.append(f"{policy_name}: mode must be {required_mode}")
+        profile_id = binding.get("profile_id")
+        if not isinstance(profile_id, str) or not profile_id or re.search(
+                r"[\s*?\[\]{}]", profile_id):
+            fails.append(f"{policy_name}: profile_id must be a "
+                         "nonempty literal without whitespace or wildcards")
+        version = binding.get("version")
+        if type(version) is not int or not 1 <= version <= 9007199254740991:
+            fails.append(f"{policy_name}: version must be a positive "
+                         "safe integer token; booleans and floats are invalid")
+        digest = binding.get("digest")
+        if not isinstance(digest, str) or not re.fullmatch(
+                r"sha(?:256:[0-9a-f]{64}|384:[0-9a-f]{96})", digest):
+            fails.append(f"{policy_name}: digest must be sha256: "
+                         "with 64 or sha384: with 96 lowercase hexadecimal digits")
 
     return fails
+
+
+def reject_duplicate_keys(pairs):
+    """Reject ambiguous declarations before any field can overwrite another."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key!r}")
+        result[key] = value
+    return result
+
+
+def reject_nonfinite_constant(value):
+    raise ValueError(f"non-finite JSON constant: {value}")
 
 
 def main():
@@ -224,8 +439,16 @@ def main():
                     "self-check the embedded example")
     args = ap.parse_args()
     if args.profile:
-        profile = json.loads(Path(args.profile).read_text())
         label = args.profile
+        try:
+            profile = json.loads(
+                Path(args.profile).read_text(encoding="utf-8"),
+                object_pairs_hook=reject_duplicate_keys,
+                parse_constant=reject_nonfinite_constant)
+        except (OSError, UnicodeError, ValueError) as error:
+            print(f"DECLARATIONS INVALID — {label}")
+            print(f"  FAIL JSON: {error}")
+            sys.exit(1)
     else:
         profile = EXAMPLE
         label = "embedded example"
@@ -237,6 +460,11 @@ def main():
         sys.exit(1)
     print(f"declarations valid — {label} "
           f"(profile {profile['profile_id']}@{profile['version']})")
+    print("  Standing-policy declaration only; profile approval, verified "
+          "readiness, and current authority are not certified.")
+    if "oracle_consensus" in profile:
+        print("  Declaration checks only; protocol review, signature validity, "
+              "member independence, and runtime consensus are not certified.")
 
 
 if __name__ == "__main__":

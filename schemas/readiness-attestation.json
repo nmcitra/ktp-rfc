@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/readiness-v1/readiness-attestation.json",
+  "title": "KTP Readiness Attestation v1 — Unreleased",
+  "description": "An assessor-signed claim that the exact subject passed the predeclared checks for the exact operation and scope. Every member except signature belongs to the canonical signed payload. The attestation cannot select its own conformance level: the trusted approved profile determines cryptographic requirements, including SHA-384 for every digest at Level 3. The reference verifier must check signatures, approved assessor and registry, challenge, exact bindings, epoch, required checks, and temporal validity. A passed claim alone grants no authority. See specifications/operational-readiness.md.",
+  "type": "object",
+  "required": [
+    "attestation_version",
+    "attestation_id",
+    "subject",
+    "deployment_profile_digest",
+    "readiness_profile_digest",
+    "readiness_epoch",
+    "operation_id",
+    "scope",
+    "challenge",
+    "assessment_spec_digest",
+    "checks",
+    "assessed_at",
+    "issued_at",
+    "expires_at",
+    "assessor_id",
+    "outcome",
+    "signature"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "attestation_version": {
+      "const": "ktp-readiness-attestation-v1"
+    },
+    "attestation_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "subject": {
+      "$ref": "#/$defs/subject"
+    },
+    "deployment_profile_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "readiness_profile_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "readiness_epoch": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "operation_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "scope": {
+      "$ref": "#/$defs/scope"
+    },
+    "challenge": {
+      "$ref": "#/$defs/challenge"
+    },
+    "assessment_spec_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "assessed_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "issued_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "expires_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "assessor_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "outcome": {
+      "const": "passed"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])",
+      "description": "Exact nonempty identifier without whitespace or wildcard characters. Matching is literal; no wildcard or range compatibility is supported."
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Algorithm-prefixed lowercase digest. Every binding in a Level 3 readiness evaluation requires SHA-384; the trusted profile selects the requirement."
+    },
+    "sha384_digest": {
+      "type": "string",
+      "minLength": 103,
+      "maxLength": 103,
+      "pattern": "^sha384:[0-9a-f]{96}$"
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; semantic validation rejects booleans and floats, including integral floats."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative Unix timestamp in whole seconds, represented by a safe integer token. Trusted-time and temporal-order checks are semantic obligations."
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "agent_id",
+        "lineage_id",
+        "software_digest",
+        "model_digest",
+        "configuration_digest",
+        "toolchain_digest",
+        "permissions_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "agent_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "lineage_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "software_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "model_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "configuration_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "toolchain_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "permissions_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Exact assessed subject. Software, model, configuration, toolchain, or permission changes invalidate readiness tied to a different binding; authenticated historical lineage does not establish current readiness."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "zone_id",
+        "resource_id",
+        "environment_digest",
+        "parameters_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "environment_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Exact operation scope. All fields must equal the authenticated request and approved profile scope; no ranges, wildcards, or implicit compatibility mappings apply."
+    },
+    "challenge": {
+      "type": "object",
+      "required": [
+        "challenge_id",
+        "nonce",
+        "issued_at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "challenge_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 43,
+          "maxLength": 43,
+          "pattern": "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$",
+          "description": "Canonical unpadded base64url encoding of exactly 32 challenge bytes. Randomness, trusted issuance, one-use lifecycle, and challenge binding must be checked outside the schema."
+        },
+        "issued_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "required": [
+        "check_id",
+        "observed_at",
+        "evidence_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "evidence_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Evidence for a required check. Semantic verification requires exactly the approved checks with no duplicate check_id, authenticated independent evidence, and valid observation times."
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$(?![\\s\\S])",
+      "description": "Compact JWS with three nonempty unpadded base64url segments. The payload is the RFC 8785 canonical entire containing attestation or decision with only its signature member removed. Shape does not verify protected headers, key role, algorithm, payload binding, or signature validity; these require semantic cryptographic verification."
+    }
+  }
+}

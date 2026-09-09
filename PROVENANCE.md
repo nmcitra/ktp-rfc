@@ -41,6 +41,28 @@ developed. The requested citation concerns KTP's distinctive expression,
 terminology, equations, and architectural synthesis — not the underlying
 ideas, which no license or notice can or should try to own.
 
+## Authorship
+
+KTP is authored by Chris Perkins. That is the whole of the attribution, and
+`CITATION.cff` is its canonical form.
+
+The specifications were written with the assistance of AI systems, working
+under direction, across many sessions and several different tools and model
+versions. None of them is an author. A drafting tool does not acquire a claim
+on the work by having been used, any more than a text editor or a compiler
+does — and naming a specific model version would date the work to a vendor's
+release cycle rather than describe who is answerable for it.
+
+Answerability is the point. Every normative statement in this series is one
+person's to defend, correct, or withdraw. That is a property of authorship
+that cannot be shared with a tool, and it is why the author list has one name
+on it.
+
+A small number of commits early in this repository's history carry
+machine-generated co-author trailers naming particular model versions. They
+are an artifact of tooling defaults, they predate this statement, and they do
+not qualify the authorship recorded here.
+
 ## Why this file exists
 
 This is a transparent scholarly norm, not an additional license condition.

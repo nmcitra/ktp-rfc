@@ -1,0 +1,188 @@
+{
+  "suite": "outage-safety-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-RECOVERY and specifications/emergency-capability.md",
+  "note": "Normative requirements for downstream authorizers and policy lifecycle verifiers. This repository contains no such runtime: its tests validate declaration shape and this fixture container, not execution of these decisions. given/expect are semantic test notation, not wire fields or new decision enums. All other applicable authorization and governance checks pass unless a vector states otherwise. Time values are comparable trusted instants in seconds. An emergency declaration alone is never an approval or activation.",
+  "vectors": [
+    {
+      "id": "O01-expiration-equality",
+      "given": { "ordinaryProofExpiresAt": 100, "trustedNow": 100 },
+      "expect": { "ordinaryExecutionPermitted": false },
+      "reason": "A proof is expired when now >= expiration, including the boundary instant."
+    },
+    {
+      "id": "O02-expired-existing-session",
+      "given": { "sessionPreviouslyAuthorized": true, "ordinaryProofExpiresAt": 100, "trustedNow": 101, "cachedDecision": "allow" },
+      "expect": { "ordinaryExecutionPermitted": false },
+      "reason": "An existing session or cached allow decision cannot extend the proof's validity."
+    },
+    {
+      "id": "O03-long-operation-crosses-expiration",
+      "given": { "operationStartedAt": 90, "ordinaryProofExpiresAt": 100, "nextPrivilegedEffectAt": 101 },
+      "expect": { "ordinaryPrivilegedEffectsAfterExpiryPermitted": false, "requiredTransition": "predeclared safe pause or independently authorized containment" },
+      "reason": "Starting before expiration does not authorize later privileged effects. The safe transition cannot manufacture further ordinary authority."
+    },
+    {
+      "id": "O04-unusable-proof-expiration",
+      "given": { "expirationCases": ["missing", "malformed", "nonfinite"] },
+      "expect": { "ordinaryExecutionPermitted": false },
+      "reason": "Run once for each symbolic malformed expiration case; an unprovable validity interval cannot authorize execution."
+    },
+    {
+      "id": "O05-trusted-time-unavailable",
+      "given": { "trustedTimeAvailable": false, "proofAndActivationAppearUnexpired": true },
+      "expect": { "ordinaryExecutionPermitted": false, "emergencyExecutionPermitted": false },
+      "reason": "A verifier that cannot establish validity time cannot treat proofs or emergency activations as unexpired."
+    },
+    {
+      "id": "O06-risk-calculation-fails",
+      "given": { "riskCalculationFailed": true, "lastTrustedCapacity": 20, "proposedFallbackCapacity": 80 },
+      "expect": { "ordinaryExecutionPermitted": false, "capacityIncreaseFromFailurePermitted": false },
+      "reason": "A calculation failure cannot substitute a less restrictive value or increase capacity."
+    },
+    {
+      "id": "O07-standing-unknown",
+      "given": { "currentStandingAvailable": false, "proposedStandingFallback": "full-standing" },
+      "expect": { "ordinaryExecutionPermitted": false, "fallbackAccepted": false },
+      "reason": "Missing standing is not evidence of full standing and cannot authorize ordinary execution."
+    },
+    {
+      "id": "O08-emergency-label-without-policy",
+      "given": { "allOraclesUnavailable": true, "emergencyMode": true, "preinstalledApprovedEmergencyPolicy": false },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "An outage or emergency label grants no separate capability."
+    },
+    {
+      "id": "O09-valid-preinstalled-activation",
+      "given": { "preinstalledApprovedEmergencyPolicy": true, "activationVerifiedUnderPinnedPolicy": true, "requestedActionMatchesExactly": true, "localEvaluationProfileDigestMatches": true, "ordinaryProofExpired": true },
+      "expect": { "eligibleForIndependentEmergencyEvaluation": true, "ordinaryProofRevived": false, "executionRequiresAllRemainingChecks": true },
+      "reason": "A valid independent capability permits evaluation of its exact action, subject to local capacity, Soul, limits, logging, and every remaining check. It does not revive expired ordinary authority."
+    },
+    {
+      "id": "O10-emergency-cannot-override-capacity",
+      "given": { "validEmergencyActivation": true, "A": 60, "E": 50 },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "The same-candidate A > E veto survives emergency activation and human approval."
+    },
+    {
+      "id": "O11-emergency-cannot-override-soul",
+      "given": { "validEmergencyActivation": true, "SoulResultCases": ["veto", "undetermined"] },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "Run once for each Soul result; emergency authority cannot bypass sovereignty checks."
+    },
+    {
+      "id": "O12-single-administrator-activation",
+      "given": { "approvedActivationThreshold": 2, "independentApprovedCustodiansSigning": 1, "signerHasAdministratorAccess": true },
+      "expect": { "activationAccepted": false, "emergencyExecutionPermitted": false },
+      "reason": "Administrator access cannot replace the independent custody threshold."
+    },
+    {
+      "id": "O13-reforwarded-expired-proof",
+      "given": { "originalProofExpiresAt": 100, "forwardedAt": 101, "trustedNow": 102, "forwarderProposesLaterExpiry": true },
+      "expect": { "ordinaryExecutionPermitted": false, "expiryExtensionAccepted": false },
+      "reason": "Forwarding, wrapping, or caching cannot refresh proof evidence or extend its original authorization lifetime."
+    },
+    {
+      "id": "O14-reduced-oracle-quorum",
+      "given": { "approvedOracleQuorum": 3, "availableOracleSignatures": 1, "outageOverrideRequestsQuorum": 1 },
+      "expect": { "ordinaryProofAccepted": false, "quorumReductionAccepted": false },
+      "reason": "An outage cannot lower the ordinary proof verification quorum. Separate emergency approval is not an Oracle quorum substitute."
+    },
+    {
+      "id": "O15-policy-introduced-during-incident",
+      "given": { "incidentActive": true, "candidatePolicyShapeValid": true, "candidateWouldExpandAuthority": true, "candidatePreinstalledBeforeIncident": false },
+      "expect": { "candidateEffectiveForIncident": false },
+      "reason": "An incident cannot waive advance notice, independent review, ratification, or preinstallation requirements to introduce new authority."
+    },
+    {
+      "id": "O16-candidate-roster-cannot-approve-itself",
+      "given": { "candidateCases": [ { "incumbentRosterSize": 10, "incumbentChangeThreshold": 9, "candidateRosterSize": 3, "candidateSignatures": 3, "incumbentSignatures": 0 }, { "firstInstallation": true, "custodianRosterSelfAppointedByCandidate": true, "independentlyEstablishedGoverningRoster": false }, { "alternativePolicyId": true, "candidateSignatures": 3, "incumbentApprovalSatisfied": false } ] },
+      "expect": { "policyChangeAccepted": false },
+      "reason": "Run once per candidate case. A proposed replacement or first-installation roster cannot appoint its own approving electorate; another policy ID cannot evade incumbent governance. Stricter incumbent and candidate conditions remain applicable."
+    },
+    {
+      "id": "O17-policy-edited-in-place",
+      "given": { "pinnedPolicyVersion": 2, "candidatePolicyVersion": 2, "payloadDigestChanged": true },
+      "expect": { "policyAccepted": false, "emergencyExecutionPermitted": false },
+      "reason": "Changing approved payload bytes without a properly approved successor cannot preserve the policy identity or activation validity."
+    },
+    {
+      "id": "O18-activation-replay",
+      "given": { "activationPreviouslyConsumed": true, "activationStillWithinDuration": true, "requestReusesActivationForNewIncident": true },
+      "expect": { "activationAccepted": false, "emergencyExecutionPermitted": false },
+      "reason": "A consumed incident-bound activation cannot be replayed as fresh authority."
+    },
+    {
+      "id": "O19-policy-rollback",
+      "given": { "highestApprovedPolicyVersion": 3, "proposedPolicyVersion": 2, "oldSignaturesCryptographicallyValid": true },
+      "expect": { "policyAccepted": false, "emergencyExecutionPermitted": false },
+      "reason": "Valid historical signatures do not authorize rollback past the durable approved policy state."
+    },
+    {
+      "id": "O20-revoked-emergency-authority",
+      "given": { "policyOrActivationRevoked": true, "activationExpiryInFuture": true },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "Revocation overrides an otherwise unexpired activation."
+    },
+    {
+      "id": "O21-durable-receipt-unavailable",
+      "given": { "validEmergencyActivation": true, "durableReceiptBeforeExecutionPossible": false },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "Emergency effects require a durable receipt before execution, including during a logging outage."
+    },
+    {
+      "id": "O22-automatic-emergency-renewal",
+      "given": { "activationExpired": true, "outageContinues": true, "automaticRenewalRequested": true },
+      "expect": { "activationAccepted": false, "emergencyExecutionPermitted": false },
+      "reason": "Continuing outage conditions cannot automatically renew an emergency activation."
+    },
+    {
+      "id": "O23-incident-duration-cannot-reset",
+      "given": { "firstActivationIssuedAt": 0, "approvedMaxDurationSeconds": 14400, "trustedNow": 14400, "freshActivationSignaturesAvailable": true, "sameIncident": true },
+      "expect": { "emergencyExecutionPermitted": false, "incidentDurationResetAccepted": false },
+      "reason": "The incident deadline is first activation issuance plus the approved duration. Fresh activations, pauses, process restarts, or renamed incident identifiers cannot reset or extend that deadline."
+    },
+    {
+      "id": "O24-incident-execution-count-cannot-reset",
+      "given": { "approvedMaxExecutions": 1, "executionsAlreadyConsumedInIncident": 1, "sameIncident": true, "newActivationOrProcessRestart": true },
+      "expect": { "emergencyExecutionPermitted": false, "executionCountResetAccepted": false },
+      "reason": "Reactivation and restarts cannot replenish an action's execution budget within the incident."
+    },
+    {
+      "id": "O25-action-scope-must-match-exactly",
+      "given": { "validEmergencyActivation": true, "mismatchCases": ["different-subject", "different-resource", "different-operation", "changed-parameter-value", "extra-request-parameter", "missing-required-parameter", "different-evaluation-profile-digest"] },
+      "expect": { "emergencyExecutionPermitted": false },
+      "reason": "Run once per mismatch; an emergency action is an exact enumeration, with no wildcard, alias expansion, parameter extension, or unapproved local evaluation profile substitution."
+    },
+    {
+      "id": "O26-review-and-ratification-cannot-be-forged",
+      "given": { "candidatePolicyShapeValid": true, "failureCases": ["claimed-notice-date-without-authenticated-review-history", "notice-under-90-days", "ratification-under-14-days-after-last-required-approval-and-review", "clock-rollback", "proposal-digest-changed-without-review-restart", "unresolved-required-objection"] },
+      "expect": { "policyChangeAccepted": false },
+      "reason": "Run once per failure case. Signatures on claimed dates do not prove elapsed review; trusted history, fixed proposal bytes, minimum periods, external review, and resolution of required objections remain mandatory."
+    },
+    {
+      "id": "O27-future-issued-ordinary-proof",
+      "given": { "ordinaryProofIssuedAt": 102, "ordinaryProofExpiresAt": 107, "trustedNow": 101 },
+      "expect": { "ordinaryExecutionPermitted": false },
+      "reason": "A proof cannot authorize before issuance, even when its declared lifetime is within ten seconds and its expiration is in the future."
+    },
+    {
+      "id": "O28-continuing-emergency-action-loses-authorization",
+      "given": { "emergencyOperationAlreadyRunning": true, "lossCases": ["activation-expiration-equality", "incident-deadline-equality", "policy-or-activation-revocation", "required-local-evidence-no-longer-valid"] },
+      "expect": { "furtherEmergencyPrivilegedEffectsPermitted": false, "requiredTransition": "previously declared bounded safe transition with its own authorization" },
+      "reason": "Run once per loss case. Emergency limits and evidence requirements apply throughout execution, including the four-hour maximum when reached. Starting earlier does not authorize completing the original task after a required condition is lost."
+    },
+    {
+      "id": "O29-ordinary-proof-lifetime-over-ten-seconds",
+      "given": { "ordinaryProofIssuedAt": 100, "ordinaryProofExpirationCases": [111, 130, 160], "trustedNow": 101, "deploymentCases": "every conformance level and every zone color" },
+      "expect": { "ordinaryExecutionPermitted": false },
+      "reason": "Run each expiration case at every supported conformance level and zone color. A lifetime above ten seconds is invalid even while now is between issuance and expiration; the former 30- or 60-second allowances cannot extend ordinary authority."
+    },
+    {
+      "id": "O30-level-three-digest-downgrade",
+      "given": { "trustedConformanceLevel": 3, "digestAlgorithm": "sha256", "bindingCases": ["policy", "predecessor", "evaluation-profile", "incumbent-roster", "external-review"], "candidateClaimsLowerLevel": true },
+      "expect": { "emergencyExecutionPermitted": false, "digestDowngradeAccepted": false },
+      "reason": "Run once per binding case. Trusted Level 3 requires SHA-384 for every emergency binding under KTP-CRYPTO. A syntactically valid SHA-256 declaration or candidate-selected lower level cannot override the trusted requirement; the declaration checker alone has no trusted level context."
+    }
+  ]
+}

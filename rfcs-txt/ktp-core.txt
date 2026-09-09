@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Perkins
 Internet-Draft                                                   NMCITRA
-Intended status: Experimental                             13 August 2026
-Expires: 14 February 2027
+Intended status: Experimental                           7 September 2026
+Expires: 11 March 2027
 
 
            Kinetic Trust Protocol (KTP) - Core Specification
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 February 2027.
+   This Internet-Draft will expire on 11 March 2027.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Perkins                 Expires 14 February 2027                [Page 1]
+Perkins                   Expires 11 March 2027                 [Page 1]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    extracted from this document must include Revised BSD License text as
@@ -66,7 +66,7 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
      1.1.  The Problem with Static Authorization . . . . . . . . . .   4
-     1.2.  The Environment-Based Solution  . . . . . . . . . . . . .   4
+     1.2.  The Environment-Based Solution  . . . . . . . . . . . . .   5
      1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .   7
@@ -75,11 +75,11 @@ Table of Contents
    4.  The Zeroth Law  . . . . . . . . . . . . . . . . . . . . . . .  10
      4.1.  Definition  . . . . . . . . . . . . . . . . . . . . . . .  10
      4.2.  Enforcement . . . . . . . . . . . . . . . . . . . . . . .  11
-   5.  Trust Score Calculation . . . . . . . . . . . . . . . . . . .  11
+   5.  Trust Score Calculation . . . . . . . . . . . . . . . . . . .  12
      5.1.  Base Trust (E_base) . . . . . . . . . . . . . . . . . . .  12
-       5.1.1.  The External Root . . . . . . . . . . . . . . . . . .  12
-       5.1.2.  Peer Signals  . . . . . . . . . . . . . . . . . . . .  14
-       5.1.3.  Ceilings  . . . . . . . . . . . . . . . . . . . . . .  15
+       5.1.1.  The External Root . . . . . . . . . . . . . . . . . .  13
+       5.1.2.  Peer Signals  . . . . . . . . . . . . . . . . . . . .  15
+       5.1.3.  Ceilings  . . . . . . . . . . . . . . . . . . . . . .  16
        5.1.4.  Base Trust Calculation  . . . . . . . . . . . . . . .  16
      5.2.  Risk Factor (R) . . . . . . . . . . . . . . . . . . . . .  18
        5.2.1.  Risk Domains  . . . . . . . . . . . . . . . . . . . .  19
@@ -103,82 +103,83 @@ Table of Contents
      6.4.  Normalization . . . . . . . . . . . . . . . . . . . . . .  31
      6.5.  Domain Weights  . . . . . . . . . . . . . . . . . . . . .  32
      6.6.  Risk Factor Modularity  . . . . . . . . . . . . . . . . .  33
-     6.7.  Aggregation Algorithm . . . . . . . . . . . . . . . . . .  34
-     6.8.  Undefined Inputs  . . . . . . . . . . . . . . . . . . . .  36
-   7.  Trust Proof Token . . . . . . . . . . . . . . . . . . . . . .  37
+     6.7.  Aggregation Algorithm . . . . . . . . . . . . . . . . . .  35
+     6.8.  Undefined Inputs  . . . . . . . . . . . . . . . . . . . .  38
+   7.  Trust Proof Token . . . . . . . . . . . . . . . . . . . . . .  38
 
 
 
-Perkins                 Expires 14 February 2027                [Page 2]
+Perkins                   Expires 11 March 2027                 [Page 2]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
-     7.1.  Token Format  . . . . . . . . . . . . . . . . . . . . . .  37
-     7.2.  Claims  . . . . . . . . . . . . . . . . . . . . . . . . .  37
-     7.3.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  40
-     7.4.  Lifetime  . . . . . . . . . . . . . . . . . . . . . . . .  41
-   8.  Silent Veto Mechanism . . . . . . . . . . . . . . . . . . . .  41
-     8.1.  Action Risk Classification  . . . . . . . . . . . . . . .  41
-     8.2.  Veto Trigger  . . . . . . . . . . . . . . . . . . . . . .  42
-     8.3.  Veto Response . . . . . . . . . . . . . . . . . . . . . .  42
-   9.  Trust Oracle  . . . . . . . . . . . . . . . . . . . . . . . .  43
-     9.1.  Responsibilities  . . . . . . . . . . . . . . . . . . . .  43
-     9.2.  Distribution  . . . . . . . . . . . . . . . . . . . . . .  43
-     9.3.  Consensus . . . . . . . . . . . . . . . . . . . . . . . .  43
-   10. Limits of This Specification  . . . . . . . . . . . . . . . .  44
+     7.1.  Token Format  . . . . . . . . . . . . . . . . . . . . . .  39
+     7.2.  Claims  . . . . . . . . . . . . . . . . . . . . . . . . .  39
+     7.3.  Signature . . . . . . . . . . . . . . . . . . . . . . . .  42
+     7.4.  Operational Readiness for the Requested Action  . . . . .  43
+     7.5.  Lifetime  . . . . . . . . . . . . . . . . . . . . . . . .  45
+   8.  Silent Veto Mechanism . . . . . . . . . . . . . . . . . . . .  45
+     8.1.  Action Risk Classification  . . . . . . . . . . . . . . .  46
+     8.2.  Veto Trigger  . . . . . . . . . . . . . . . . . . . . . .  46
+     8.3.  Veto Response . . . . . . . . . . . . . . . . . . . . . .  47
+   9.  Trust Oracle  . . . . . . . . . . . . . . . . . . . . . . . .  47
+     9.1.  Responsibilities  . . . . . . . . . . . . . . . . . . . .  48
+     9.2.  Distribution  . . . . . . . . . . . . . . . . . . . . . .  48
+     9.3.  Consensus . . . . . . . . . . . . . . . . . . . . . . . .  48
+   10. Limits of This Specification  . . . . . . . . . . . . . . . .  49
      10.1.  L1.  Pre-execution episode classification is
-             undecidable . . . . . . . . . . . . . . . . . . . . . .  44
-     10.2.  L2.  No self-certification . . . . . . . . . . . . . . .  44
-     10.3.  L3.  Level-independence is conditional . . . . . . . . .  45
+             undecidable . . . . . . . . . . . . . . . . . . . . . .  49
+     10.2.  L2.  No self-certification . . . . . . . . . . . . . . .  50
+     10.3.  L3.  Level-independence is conditional . . . . . . . . .  50
      10.4.  L4.  The judgment term is exposed to metric gaming
-             (open)  . . . . . . . . . . . . . . . . . . . . . . . .  45
+             (open)  . . . . . . . . . . . . . . . . . . . . . . . .  51
      10.5.  L5.  The terminal generation ceiling never binds
-             arithmetically  . . . . . . . . . . . . . . . . . . . .  46
+             arithmetically  . . . . . . . . . . . . . . . . . . . .  51
      10.6.  L6.  Episode overlap has no declared precedence mechanism
-             (staged)  . . . . . . . . . . . . . . . . . . . . . . .  46
+             (staged)  . . . . . . . . . . . . . . . . . . . . . . .  51
      10.7.  L7.  Some catalogued quantities are named, not
-             measured  . . . . . . . . . . . . . . . . . . . . . . .  46
+             measured  . . . . . . . . . . . . . . . . . . . . . . .  52
      10.8.  L8.  A value that encodes a classification is not an
-             observation . . . . . . . . . . . . . . . . . . . . . .  47
-     10.9.  L9.  Declared non-coverage . . . . . . . . . . . . . . .  48
-     10.10. L10.  E carries no cardinal consequence units  . . . . .  49
+             observation . . . . . . . . . . . . . . . . . . . . . .  53
+     10.9.  L9.  Declared non-coverage . . . . . . . . . . . . . . .  54
+     10.10. L10.  E carries no cardinal consequence units  . . . . .  55
      10.11. L11.  There are two SHOULD rails, and only one of them is
-             this specification's  . . . . . . . . . . . . . . . . .  49
-     10.12. L12.  The privacy marker has no stated rule  . . . . . .  50
-     10.13. L13.  The resilience evidence curve is uncalibrated  . .  51
+             this specification's  . . . . . . . . . . . . . . . . .  55
+     10.12. L12.  The privacy marker has no stated rule  . . . . . .  56
+     10.13. L13.  The resilience evidence curve is uncalibrated  . .  57
      10.14. L14.  One Risk Factor is externally supplied, and the
-             specification says so . . . . . . . . . . . . . . . . .  52
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  52
-     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  52
-     11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  53
-     11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  53
-     11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  53
-     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  53
-     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  53
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  54
-     12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  54
-     12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  54
-     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  54
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  54
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  54
+             specification says so . . . . . . . . . . . . . . . . .  58
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  58
+     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  58
+     11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  59
+     11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  59
+     11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  59
+     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  59
+     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  59
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  60
+     12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  60
+     12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  60
+     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  60
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  60
 
 
 
-Perkins                 Expires 14 February 2027                [Page 3]
+Perkins                   Expires 11 March 2027                 [Page 3]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  55
-   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  55
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  55
-     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  56
-     A.3.  The risk_factors object and the per-tier caps . . . . . .  56
-     A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  57
-   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  57
-   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  58
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  59
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  60
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  61
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  61
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  61
+     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  62
+     A.3.  The risk_factors object and the per-tier caps . . . . . .  62
+     A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  63
+   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  63
+   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  64
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  65
 
 1.  Introduction
 
@@ -213,18 +214,23 @@ Internet-Draft                  KTP-CORE                     August 2026
    even 0.1% of those actions are destructive in context, the damage
    compounds exponentially before any human can respond.
 
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 4]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
 1.2.  The Environment-Based Solution
 
    KTP addresses these flaws by treating authorization as an
    environmental problem rather than a policy problem.  The key insight
    is:
-
-
-
-Perkins                 Expires 14 February 2027                [Page 4]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
       An agent's autonomy must never exceed the environment's stability.
 
@@ -233,7 +239,9 @@ Internet-Draft                  KTP-CORE                     August 2026
       A <= E
 
    Where A is the intrinsic risk of the requested action and E is the
-   current Trust Score of the environment-agent relationship.
+   current capacity established for the operation and environment; for
+   software agents this is the Effective Trust Score of the environment-
+   agent relationship.
 
    Instead of asking "Does this agent have permission?", KTP asks "Can
    this environment safely support this action right now?"
@@ -241,6 +249,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    The environment becomes the final authority.  Just as friction vetoes
    a sprinter's attempt to run on ice, environmental constraints veto an
    agent's attempt to act beyond the system's current capacity.
+
+   Software-agent standing, Proof of Resilience, lineage, and tiers in
+   this document MUST NOT be converted into a general score or rank for
+   people.  Human participation follows [KTP-HUMAN] and specifications/
+   human-eligibility.md: eligibility is specific to an operation, and
+   current operational capacity is a separate requirement.  Every actual
+   executing actor remains subject to Soul, the unconditional capacity
+   veto, applicable grants, and all tighter constraints.
 
 1.3.  Requirements Language
 
@@ -258,13 +274,21 @@ Internet-Draft                  KTP-CORE                     August 2026
    risk of a requested action.  Higher values indicate more dangerous
    actions (e.g., "read public data" = 10, "delete database" = 85).
 
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 5]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Adaptive Dormancy: The progressive reduction of agent capabilities as
    environmental conditions degrade.  Agents "hibernate" rather than
    fail.
 
-   Base Trust (E_base): A numeric value (0-100) representing an agent's
-   intrinsic capability, derived from its Proof of Resilience and
-   lineage.
+   Base Trust (E_base): A numeric value (0-100) representing a software
+   agent's intrinsic capability, derived from its Proof of Resilience
+   and lineage.  It is not a human score.
 
    Blue Zone: A network segment where KTP is enforced.  Agents within
    Blue Zones operate under environment-derived constraints.
@@ -273,22 +297,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    Signals (the measurement catalogue) and the Risk Factors (six
    weighted inputs plus the Soul veto).  See Section 6.
 
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 5]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Data Sovereignty: The principle that data is subject to the laws,
    customs, and governance structures of the nation or community from
    which it originates or to which it pertains.
 
-   Effective Trust Score (E_trust): The final Trust Score after
-   environmental deflation, calculated as E_base * (1 - R).  This is the
-   value used to evaluate A <= E.
+   Effective Trust Score (E_trust): The software agent's final Trust
+   Score after environmental deflation, calculated as E_base * (1 - R).
+   It supplies E for that agent's capacity check.  Human operational E
+   is established separately under the reviewed adapter.
 
    Kinetic Permission: Authorization that depends on real-time
    environmental state rather than static credentials.
@@ -313,6 +329,15 @@ Internet-Draft                  KTP-CORE                     August 2026
    Silent Veto: The automatic denial of an action when A > E_trust,
    without requiring human intervention.
 
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 6]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Soul (Sovereignty Veto): The seventh named measurement, representing
    ethical, legal, and spiritual constraints of data or location.
    Unlike the six weighted inputs, Soul acts as a binary veto rather
@@ -328,15 +353,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Trajectory Chain: A cryptographically linked chain of agent
    transactions, where each link includes agent signature, environment
    attestation, and previous state hash.  See [KTP-IDENTITY].
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 6]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    Trust Leash: The metaphorical constraint on agent autonomy that
    tightens (shorter leash) as environmental risk increases.
@@ -373,25 +389,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 7]
+Perkins                   Expires 11 March 2027                 [Page 7]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    +------------------------------------------------------------------+
@@ -432,23 +432,26 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    Trust Oracle Mesh: A distributed set of Trust Oracles that
    collectively calculate Trust Scores and sign Trust Proofs.  Threshold
-   signatures (e.g., 3-of-5) prevent single points of failure.
+   signatures (e.g., 3-of-5) distribute signing authority.  Agreement on
+   protected state requires the separate consensus contract in
+   specifications/oracle-consensus.md; a signing threshold does not
+   establish a unique history.
 
    Context Signal Sensors: A sensor array that measures environmental
    reality across the catalogue's seven domains and feeds data to the
    Trust Oracles.
 
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 8]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Policy Enforcement Points: Components that intercept agent requests,
    present Trust Proofs to the PDP, and enforce authorization decisions.
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 8]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    Agent Population: The agents operating within the KTP domain, at
    various stages of their evolutionary lineage.
@@ -475,8 +478,10 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    5.  PDP evaluates A <= E_trust for the requested action
 
-   6.  If A <= E_trust: Action is ALLOWED If A > E_trust: Silent Veto
-       triggers, action is DENIED
+   6.  If A > E_trust: Silent Veto triggers, action is DENIED.
+       Otherwise, the request continues through Section 6.6 and the
+       remaining authorization checks; satisfying the capacity
+       inequality alone does not permit an action.
 
    7.  Decision and full context are logged to Flight Recorder
 
@@ -496,14 +501,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 9]
+Perkins                   Expires 11 March 2027                 [Page 9]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    +--------+        +--------+        +--------+        +--------+
@@ -551,16 +551,30 @@ Internet-Draft                  KTP-CORE                     August 2026
       the action's potential impact and is assigned by the system
       administrator or derived from action classification rules.
 
-      E (Environment): The current Effective Trust Score (E_trust),
-      also expressed as a value from 0 to 100. This value is calculated
-      in real-time based on agent history and environmental conditions.
 
 
 
-Perkins                 Expires 14 February 2027               [Page 10]
+
+
+
+Perkins                   Expires 11 March 2027                [Page 10]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
+
+     E (Environment): The current capacity established for the actual
+     actor, operation, and environment, on the same declared scale as A.
+     For software agents this is Effective Trust Score (E_trust),
+     calculated from agent history and environmental conditions.
+
+   For a human actor, an independently approved operational-capacity
+   evaluation MUST establish comparable A and E for the actual request.
+   Eligibility, a professional credential, a role, or a person's
+   approval MUST NOT be substituted for E.  The evaluation MUST bind its
+   evidence, measurement profile, scope, and freshness; unresolved or
+   incomparable capacity MUST deny the affected action.  No personal
+   E_base, tier, generation, or resilience accumulator is required or
+   permitted as a substitute.
 
    The inequality MUST be evaluated for every authorization request.  It
    is not a policy that can be overridden by human intervention or
@@ -579,8 +593,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    Enforcement of the Zeroth Law is cryptographic, not administrative.
 
-   The Trust Proof token contains: - The current E_trust value - The
-   Trust Oracle's signature over E_trust - The timestamp of calculation
+   For software agents, the Trust Proof token contains: - The current
+   E_trust value - The Trust Oracle's signature over E_trust - The
+   timestamp of calculation
 
    The PEP: - Verifies the Trust Oracle's signature - Checks that the
    Trust Proof has not expired - Looks up the Action Risk (A) for the
@@ -590,13 +605,26 @@ Internet-Draft                  KTP-CORE                     August 2026
    If the Trust Proof has expired, a new Trust Proof MUST be obtained.
    If A > E_trust, the action MUST be denied (Silent Veto).
 
-   There is no "emergency override" mechanism.  The only way to permit a
-   high-risk action is to either:
+   A human deployment MUST provide the reviewed authorization adapter
+   and authenticated operation/capacity binding specified below.  The
+   same signature, current-evidence, ordinary-proof lifetime,
+   sovereignty, and capacity requirements apply; human eligibility is
+   not a replacement proof or a bypass.
 
-   1.  Reduce the action's risk classification (A) 2.  Increase the
-       agent's base trust (E_base) through Proof of Resilience
-       accumulation 3.  Wait for environmental conditions to improve (R
-       decreases)
+
+
+Perkins                   Expires 11 March 2027                [Page 11]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   There is no "emergency override" mechanism.  A different, genuinely
+   lower-demand action, a corrected factual assessment, or changed
+   capacity or environmental conditions requires a fresh evaluation.
+   Relabeling the same action, changing a score by fiat, or receiving
+   human approval MUST NOT relax a veto.  Software-agent standing may
+   grow through the established evidence process; that process does not
+   create personal trust points for a human.
 
    This design is intentional.  In an emergency, the natural human
    instinct is to override safety controls.  This instinct is often
@@ -606,17 +634,12 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 5.  Trust Score Calculation
 
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 11]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
+   The E_base composition, historical standing, behavioral signals, and
+   tier calculations in this section apply to software agents.  They
+   MUST NOT be applied to human principals, including human sponsors and
+   reviewers.  Human operation eligibility and separately evidenced
+   capacity use the installed human policy and reviewed adapter
+   described below.
 
 5.1.  Base Trust (E_base)
 
@@ -644,6 +667,13 @@ Internet-Draft                  KTP-CORE                     August 2026
 
                                  Table 1
 
+
+
+Perkins                   Expires 11 March 2027                [Page 12]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    *  An agent with 10,000 transactions during crises has higher E_base
       than one with 100,000 transactions in calm conditions.  Survival
       under adversity matters more than volume.
@@ -653,6 +683,22 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    *  Peer signals, where a deployment implements them, occupy a
       distinct declared term.  See _Peer Signals_ below.
+
+   Historical Proof of Resilience MUST NOT lose points merely because
+   time passes or the agent is inactive.  An invalid historical claim
+   MAY be withdrawn through an authenticated, appended correction under
+   the existing adjudication and consensus rules; elapsed time alone is
+   not such evidence.  This rule does not renew an expiring External
+   Root instrument or erase other applicable ceilings and revocations.
+
+   Historical standing is not evidence that today's code, model,
+   configuration, tools, permissions, and proposed operation remain
+   within an assessed capability.  Active deployments MUST additionally
+   enforce the operation-scoped readiness prerequisite in
+   specifications/operational-readiness.md.  Readiness is neither
+   another global score nor a new E_base component.  It adds no standing
+   credit and cannot override Soul, capacity, an earlier veto, or any
+   stronger authorization constraint.
 
 5.1.1.  The External Root
 
@@ -666,14 +712,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    a physical-presence attestation, a legal entity, or a named human.  A
    cycle of agents attesting for one another does not satisfy this
    requirement.  The attestation MUST declare the chain's terminator and
-
-
-
-Perkins                 Expires 14 February 2027               [Page 12]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    the chain's length, and the length MUST NOT exceed the deployment's
    declared hop bound, which MUST NOT exceed 12.  An attestation whose
    terminator or chain length is undeclared, or whose chain exceeds the
@@ -681,6 +719,16 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    The instrument occupying this term changes with lineage stage.  The
    share does not.
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 13]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
        +==================+========================+===============+
        | Stage            | Instrument             | The attestor  |
@@ -722,20 +770,21 @@ Internet-Draft                  KTP-CORE                     August 2026
    as zero.  A declared exposure found not to exist, or found to be
    transferable, is misattestation.
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 13]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    An agent MAY hold concurrent attestations from distinct attestors.
    Where it does, this term is computed from the strongest single
    instrument.  An anchor MUST NOT be a combination of attestors:
    instrument scores are never summed or otherwise aggregated across
    attestors.  Concurrency is redundancy — a second attestation is a
    hedge against the withdrawal of the first, not an addition to it.
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 14]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
    Attestations carry a validity period and MUST be renewed or replaced
    on expiry.  An attestor withdrawing an attestation MUST state whether
@@ -774,18 +823,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    distinct term.  They MUST NOT be folded into Proof of Resilience or
    the External Root.
 
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 14]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    The deployment MUST declare the peer share it applies, within the
    range given in Section 5.4.5 (Peer Validation), in the Trust Proof.
    The remaining share is distributed across the base terms in their
@@ -796,6 +833,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    Peer signals MUST be independent of the base terms.  A signal that
    duplicates information already captured by Proof of Resilience or the
    External Root is not admissible as a peer signal.
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 15]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
    Where a deployment does not implement peer validation, the peer share
    is declared as zero and the base terms carry their published
@@ -830,18 +875,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Every ceiling applicable to an evaluation MUST be declared in the
    Trust Proof (the applicable_ceilings claim).
 
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 15]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Each ceiling states an independent reason to withhold trust.  Reasons
    to withhold do not average.  A ceiling that does not bind an agent —
    the terminal generation ceiling of 100, which no composition of
@@ -860,42 +893,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 16]
+Perkins                   Expires 11 March 2027                [Page 16]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Let w_p be the declared peer share in points, 0 where peer
@@ -949,9 +949,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 17]
+Perkins                   Expires 11 March 2027                [Page 17]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
 5.2.  Risk Factor (R)
@@ -969,6 +969,10 @@ Internet-Draft                  KTP-CORE                     August 2026
    Where: w_i = Domain-specific weight for dimension i s_i = Normalized
    sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must
    sum to 1)
+
+   The weight declaration MUST pass Section 6.4's validation before this
+   calculation.  An invalid declaration MUST NOT be used to compute an
+   authorizing score.
 
    R is always in the range [0, 1]: - R = 0: Perfect conditions, no
    environmental stress - R = 0.5: Moderate stress, significant
@@ -997,18 +1001,18 @@ Internet-Draft                  KTP-CORE                     August 2026
    Unobservability is therefore checked at three layers, and a
    deployment MUST apply the rule at each:
 
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 18]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    1.  The FEED, per [KTP-SENSORS] Section 6.1 and 6.2 - a source that
        has failed or whose observation has passed its staleness
        threshold.
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 18]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    2.  The SIGNAL - a Context Signal whose observation is unavailable,
        which includes a rate whose set of eligible events is empty.  An
@@ -1055,16 +1059,16 @@ Internet-Draft                  KTP-CORE                     August 2026
       R = (w_node × R_node) + (w_neighborhood × R_neighborhood) +
           (w_global × R_global)
 
+
+
+Perkins                   Expires 11 March 2027                [Page 19]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    This three-level structure prevents a single node spike from causing
    tier oscillation while ensuring that genuine widespread degradation
    is detected and acted upon.
-
-
-
-Perkins                 Expires 14 February 2027               [Page 19]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    See [KTP-SENSORS] Section 2.3 for detailed specification of Risk
    Domains including anti-oscillation mechanics and configuration.
@@ -1110,17 +1114,17 @@ Internet-Draft                  KTP-CORE                     August 2026
 
       dE/dt = (E_trust_t - E_trust_(t-1)) / delta_t
 
+
+
+
+Perkins                   Expires 11 March 2027                [Page 20]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Where delta_t is the time interval between measurements.
 
    Trust Velocity provides critical predictive information:
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 20]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    *  dE/dt > 0: Conditions improving, capabilities expanding - dE/dt =
       0: Stable conditions - dE/dt < 0: Conditions degrading,
@@ -1167,16 +1171,15 @@ Internet-Draft                  KTP-CORE                     August 2026
    (act well when observed, poorly when not) - Gradient hacking (if ML-
    based, manipulate training)
 
+
+
+Perkins                   Expires 11 March 2027                [Page 21]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    The fundamental challenge: Any observable signal used to calculate
    trust can potentially be faked.  The question is cost.
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 21]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
 5.5.2.  Multi-Dimensional Scoring
 
@@ -1204,6 +1207,9 @@ Internet-Draft                  KTP-CORE                     August 2026
    (±10%) - Unannounced sensor emphasis shifts - Periodic recalibration
    of dimension weights - Random deep audits of trajectory
 
+   Every weight variation remains subject to Section 6.4's validity and
+   unit-sum requirements.
+
    NOT permitted: - Arbitrary score manipulation - Retroactive weight
    changes - Unpredictability that violates deterministic verification
 
@@ -1219,20 +1225,19 @@ Internet-Draft                  KTP-CORE                     August 2026
    Proof of Resilience already requires crisis-time attestations.  This
    section strengthens that requirement:
 
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 22]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    *  Agents with no adversity exposure are capped at E_base = 60 -
       E_base > 60 requires attestations under R > 0.5 - E_base > 80
       requires attestations under R > 0.7 - E_base > 90 requires
       attestations under CRISIS conditions
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 22]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    This cannot be gamed by self-inflicted crises because: - Attestations
    require Oracle signature - Oracle only signs if crisis is zone-wide
@@ -1278,17 +1283,17 @@ Internet-Draft                  KTP-CORE                     August 2026
    GOODHART-006: Federated zones SHOULD share anonymized behavioral
    statistics to detect cross-zone gaming.
 
+
+
+Perkins                   Expires 11 March 2027                [Page 23]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Shared statistics: - Distribution of E_base scores (not individual
    scores) - Behavioral cluster signatures (not individual trajectories)
 
    *  Anomaly rates by agent category - Attestation patterns
-
-
-
-Perkins                 Expires 14 February 2027               [Page 23]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    Detection: If an agent's behavior in Zone A differs significantly
    from its behavior in Zone B, both zones are alerted.  Context may
@@ -1333,18 +1338,18 @@ Internet-Draft                  KTP-CORE                     August 2026
    These measures make gaming expensive and detectable.  They do not
    make it impossible.  The honest assessment:
 
+
+
+
+Perkins                   Expires 11 March 2027                [Page 24]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    WHAT WE CAN DO: - Make single-dimension gaming ineffective - Make
    sustained gaming expensive - Detect statistical anomalies - Create
    audit trails for investigation - Raise the cost of attack above the
    benefit
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 24]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    WHAT WE CANNOT DO: - Distinguish perfect mimicry from genuine
    trustworthiness - Prevent nation-state-level sustained deception -
@@ -1389,18 +1394,19 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    1.  trust_trend
 
+
+
+
+Perkins                   Expires 11 March 2027                [Page 25]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
       Analogy (informative): Momentum (P) — Kinetic Energy
       (KE = 1/2 mv^2)
 
       Measures the speed and direction of data flow - how fast the
       system is moving.
-
-
-
-Perkins                 Expires 14 February 2027               [Page 25]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
       Sensors:
       - Transaction rates per second
@@ -1445,18 +1451,18 @@ Internet-Draft                  KTP-CORE                     August 2026
       Measures the criticality of the current moment relative to an
       event horizon - where in a temporal cycle the system is.
 
+
+
+Perkins                   Expires 11 March 2027                [Page 26]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
       Sensors:
       - Event schedules (e.g., "5 minutes to Kickoff")
       - Maintenance windows (scheduled downtime)
       - Business hours (peak vs. off-peak)
       - Mission criticality timers
-
-
-
-Perkins                 Expires 14 February 2027               [Page 26]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
       Interpretation:
       - Low moment_criticality: Low-criticality period (maintenance
@@ -1500,19 +1506,18 @@ Internet-Draft                  KTP-CORE                     August 2026
     device has low. High-resistance nodes require higher Trust Scores to
     modify - they resist change.
 
+
+
+
+Perkins                   Expires 11 March 2027                [Page 27]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    1.  attestation_coverage
 
       Analogy (informative): Observer (O) — Frame of Reference /
       Observer Effect
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 27]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
       Measures who is watching - the stakes based on the population
       present and their sensitivity.
@@ -1560,14 +1565,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 28]
+Perkins                   Expires 11 March 2027                [Page 28]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
       Impact: This acts as a Boolean Veto or a hard limit. It
@@ -1621,9 +1621,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 29]
+Perkins                   Expires 11 March 2027                [Page 29]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
       For Indigenous data, the OCAP principles (Ownership, Control,
@@ -1677,9 +1677,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 30]
+Perkins                   Expires 11 March 2027                [Page 30]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Note that e_trust and e_required are provided for transparency, but
@@ -1733,9 +1733,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 31]
+Perkins                   Expires 11 March 2027                [Page 31]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    +------------+------------+------------+------------+
@@ -1756,8 +1756,19 @@ Internet-Draft                  KTP-CORE                     August 2026
 6.5.  Domain Weights
 
    Different deployment domains weight the six weighted inputs
-   differently.  The weights MUST sum to 1.0.  Soul is not weighted - it
-   operates as an independent constraint.
+   differently.  Each of the six factor weights MUST be a finite number
+   greater than zero and at most one, and the weights MUST sum to 1.0.
+   Boolean and non-numeric values are invalid.  Soul is not weighted -
+   it operates as an independent constraint.
+
+   The complete weight declaration MUST be validated before computing R
+   and after every reconfiguration.  An invalid declaration MUST be
+   rejected; an implementation MUST NOT silently rescale the weights or
+   fill a missing weight with a default.  The deployment-profile
+   declaration checker evaluates the sum exactly over the decimal
+   representations of parsed numeric values, as described in
+   specifications/deployment-profile.md.  Per-feed aggregation weights
+   are separate from these six factor weights.
 
    Example domain profiles:
 
@@ -1773,6 +1784,16 @@ Internet-Draft                  KTP-CORE                     August 2026
    adversarial_pressure=0.25, moment_criticality=0.15,
    update_resistance=0.20, attestation_coverage=0.15
 
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 32]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25,
    adversarial_pressure=0.30, moment_criticality=0.10,
    update_resistance=0.25, attestation_coverage=0.05
@@ -1786,13 +1807,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Implementations MUST allow configuration of domain weights.
    Implementations SHOULD provide pre-defined profiles for common
    domains.
-
-
-
-Perkins                 Expires 14 February 2027               [Page 32]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
 6.6.  Risk Factor Modularity
 
@@ -1823,6 +1837,19 @@ Internet-Draft                  KTP-CORE                     August 2026
       - New feeds can be added to existing inputs
       - Feed sources can be local or federated
 
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 33]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
       Example: The Soul input might aggregate:
       - TK Labels API (enabled)
       - OCAP registry (enabled)
@@ -1831,24 +1858,6 @@ Internet-Draft                  KTP-CORE                     August 2026
       - Custom cultural heritage API (enabled)
 
    Feed Configuration Example:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 33]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
       {
         "dimension": "soul",
@@ -1884,9 +1893,30 @@ Internet-Draft                  KTP-CORE                     August 2026
    For the six weighted inputs, typical aggregation is
    "weighted_average" of enabled feeds.
 
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 34]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
 6.7.  Aggregation Algorithm
 
-   The complete authorization algorithm is:
+   The software-agent aggregation algorithm is below.  For human
+   execution, the reviewed adapter supplies separately evidenced
+   operational E on the same declared scale as A; it MUST NOT run the
+   E_base composition or manufacture its inputs.  Soul remains the first
+   substantive authorization gate, and the input, zero-capacity, A > E,
+   margin, and tighten-only checks below apply to either actor type.
+   Principal authentication and request binding precede evaluation; no
+   principal type bypasses a veto.  This aggregation stage does not
+   replace grants or the operation-specific prerequisites below.
 
    Step 1: Soul Veto Check (MUST be first)
 
@@ -1897,15 +1927,6 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    Step 2: Risk Factor Calculation
 
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 34]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
       R = (w_M * M) + (w_P * P) + (w_H * H) +
           (w_T * T) + (w_I * I) + (w_O * O)
 
@@ -1913,10 +1934,53 @@ Internet-Draft                  KTP-CORE                     August 2026
 
       E_trust = E_base * (1 - R)
 
-   Step 4: Zeroth Law Check and Decision Result
+   Step 4: Input Validation, Capacity Veto, and Decision Result
+
+   Before this stage, undefined inputs MUST be resolved restrictively
+   under Section 6.7.  A declared conservative estimate of capacity
+   remains subject to the capacityKnown = false supervision floor in
+   [KINETIC-ENVELOPE].  If no usable numeric A or E_trust is available,
+   the action MUST be vetoed; an implementation MUST NOT substitute a
+   permissive value or manufacture a margin.  Undefined inputs MUST be
+   recorded as required by Section 6.7.
+
+   The following checks MUST precede division and profile threshold
+   evaluation.  A and E_trust MUST be finite, non-negative numbers on
+   the same declared scale and describe the same candidate action.
+   Boolean values, non-numeric values, NaN, and infinities are invalid.
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 35]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+      IF A or E_trust is not a finite, non-negative number THEN
+        RETURN supervision = silent_veto
+               with reason TRUST_INSUFFICIENT
+      END IF
+
+      IF E_trust = 0 OR A > E_trust THEN
+        RETURN supervision = silent_veto
+               with reason TRUST_INSUFFICIENT
+      END IF
+
+   The capacity veto is independent of profile thresholds.  A profile, a
+   supervision change, or human approval MUST NOT permit this candidate
+   action after that veto.  A revised action MAY be proposed, but its
+   actual parameters and corresponding capacity MUST be evaluated again.
+   Existing sovereignty vetoes, capability grants, and tighter
+   restrictions remain binding.
 
       margin = 1 - (A / E_trust)
-        (margin <= 0 when A >= E_trust, or when E_trust = 0)
+        (E_trust > 0 and A <= E_trust at this point)
 
       IF margin <= M_veto THEN
         RETURN supervision = silent_veto
@@ -1930,11 +1994,36 @@ Internet-Draft                  KTP-CORE                     August 2026
    The result of every evaluation is a supervision level and a tighten-
    only constraint set (tightenedConstraints), as specified in
    [KINETIC-ENVELOPE].  Supervision is a floor: a consumer MAY raise it
-   and MUST NOT lower a level already set.  tightenedConstraints never
-   widens the granted envelope.  A deployment MUST declare its profile
-   thresholds M_veto < M_allow; a deployment that declares none
-   evaluates with M_veto = M_allow = 0, which reproduces the binary v1
-   behavior (veto at or below zero margin, stable above it).
+   and MUST NOT lower a level already set. tightenedConstraints never
+   widens the granted envelope.  The result and evidence record MUST
+   include margin when calculation was reached and MUST omit it when an
+   earlier check stopped the evaluation; an omitted margin MUST NOT be
+   interpreted as zero.
+
+   Declared profile thresholds MUST be finite numbers satisfying 0 <=
+   M_veto < M_allow.  An invalid declaration MUST be rejected before
+   use; it MUST NOT be treated as an omitted declaration.  Thresholds
+   have no upper bound: a profile MAY require a margin that prevents
+   stable operation.  A deployment that declares no thresholds retains
+   M_veto = M_allow = 0 and the existing zero-margin veto.  An
+   explicitly declared equal pair is invalid.
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 36]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   At A = E_trust > 0 the independent capacity veto does not fire, but
+   margin is zero and the current default and valid declared thresholds
+   veto it.  This preserves the existing margin contract; it does not
+   introduce permission at equality.  Passing the capacity check is a
+   prerequisite for the remaining checks, never an authorization by
+   itself.
 
    The four decision verbs are derived readings of this result, by
    precedence, and are not a four-valued enumeration:
@@ -1955,14 +2044,13 @@ Internet-Draft                  KTP-CORE                     August 2026
    ensures that sovereignty is respected before operational calculations
    begin.
 
-
-
-Perkins                 Expires 14 February 2027               [Page 35]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
-   The aggregation MUST be performed at the Trust Oracle.
+   Aggregation for ordinary Trust Scores and Trust Proof issuance MUST
+   be performed at the Trust Oracle.  The separately authorized
+   emergency evaluation in specifications/emergency-capability.md MAY
+   use its preapproved independent local evaluator when the ordinary
+   Oracle is unavailable.  That evaluator remains bound by the same
+   input, sovereignty, capacity, and supervision constraints and MUST
+   NOT issue replacement ordinary Trust Proofs.
 
    Sensor values SHOULD be refreshed at intervals appropriate to their
    rate of change:
@@ -1978,6 +2066,13 @@ Internet-Draft                  KTP-CORE                     August 2026
    | attestation_coverage | 30 seconds          |
    | Soul       | On-demand (per action) |
    +------------+------------------------+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 37]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
    Soul is evaluated on-demand because sovereignty constraints may be
    action-specific (e.g., "read" may be permitted while "modify" is
@@ -2007,17 +2102,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    shape - its outcomes are veto and no veto - so an undefined
    sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
 
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 36]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Silence and absence do not separate.  A channel that returns nothing
    and a channel that was never reachable are indistinguishable to the
    decision, and an adversary who can produce one can produce the other.
@@ -2028,6 +2112,38 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    The Trust Proof is a signed token that travels with each request,
    carrying the current Trust Score and environmental context.
+
+   The standing-bearing claims and examples in this section describe
+   software agents.  They do not define a human proof format.  Accepting
+   human requests or human delegations requires an installed deployment
+   human_policy binding with mode operation-eligibility-v1, profile_id,
+   version, and digest, plus a reviewed authorization adapter under
+   specifications/human-eligibility.md.  Without that adapter and
+   policy, the integration MUST reject the affected request; it MUST NOT
+   fabricate human E_base, tier, lineage, generation, model, or v3
+   software-trajectory state to satisfy an existing schema.
+
+
+
+Perkins                   Expires 11 March 2027                [Page 38]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   The human eligibility decision schema defines an UNSIGNED
+   prerequisite body, not a JWT, signature format, or authorization
+   token.  The adapter MUST authenticate and bind the complete body to
+   the exact actual request, the fully verified ordinary proof,
+   authenticated principal and executing actor, installed human and
+   deployment profiles, and current evidence epoch/status.  It MUST
+   define and test the proof format, trusted issuer/key and role
+   binding, audience/session/request binding, replay controls, and
+   current operational-capacity evidence before accepting humans.  A
+   generic JWT, a caller-supplied actor type, or a body whose result
+   says eligible MUST NOT satisfy those obligations.  All ordinary
+   proofs retain the existing maximum ten-second lifetime and stronger
+   Crypto requirements; this specification supplies no compatibility
+   fallback around them.
 
 7.1.  Token Format
 
@@ -2061,18 +2177,20 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    Standard claims:
 
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 39]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
       iss (Issuer): The Trust Oracle identifier (URI)
       sub (Subject): The agent identifier (URI)
       iat (Issued At): Unix timestamp of Trust Proof generation
       exp (Expiration): Unix timestamp of Trust Proof expiration
       jti (JWT ID): Unique identifier for this Trust Proof
-
-
-
-Perkins                 Expires 14 February 2027               [Page 37]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    KTP claims (in "ktp" object):
 
@@ -2119,15 +2237,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 38]
+Perkins                   Expires 11 March 2027                [Page 40]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
       {
@@ -2181,9 +2293,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 39]
+Perkins                   Expires 11 March 2027                [Page 41]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
       {
@@ -2230,26 +2342,148 @@ Internet-Draft                  KTP-CORE                     August 2026
    For distributed Trust Oracle deployments, the signature MAY be a
    threshold signature requiring k-of-n Oracles to sign.
 
+   Issuers and honest threshold signers in an Oracle mesh MUST derive
+   the proof's standing, including E_base and its trajectory basis, from
+   verified committed state under specifications/oracle-consensus.md.
+   Single-node proof issuance MAY remain available where the
+
+
+
+Perkins                   Expires 11 March 2027                [Page 42]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   deployment's signing requirements permit it, but MUST NOT turn an
+   uncommitted local proposal into authoritative standing.  Signature
+   validity or signing-threshold metadata alone does not prove consensus
+   or freshness of that standing.  The selected protocol MUST define how
+   issuers establish applicable committed state, and consumers relying
+   on mesh agreement MUST verify its required evidence and binding to
+   the proof's result.  Proof lifetime, current environmental
+   evaluation, and all authorization constraints remain binding.
+
    Implementations MUST verify: 1.  The signature is valid for the
    payload 2.  The signing key is a known, trusted Oracle key 3.  The
    signing key has not been revoked
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 40]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    Signature verification failure MUST result in action denial.
 
-7.4.  Lifetime
+7.4.  Operational Readiness for the Requested Action
+
+   The PEP MUST authenticate both the requesting principal and the actor
+   actually executing the operation.  Dispatch MUST use independently
+   authenticated principal type and execution context, not a request
+   label.  A human actor requires current operation-specific eligibility
+   and separately evidenced capacity under the installed human policy
+   and reviewed adapter.  Evidence correction, grant revocation, profile
+   replacement, or epoch change MUST invalidate superseded dependent
+   decisions; stale proofs, restored state, or a legacy human score MUST
+   NOT recover authority.
+
+   A human delegator or supervisor does not turn a software executor
+   into a human actor.  The PEP MUST verify the human's current
+   eligibility for the exact delegation or supervisory operation and
+   every applicable restriction along the delegation chain, in addition
+   to the software executor's own grants, capacity, and readiness.
+   Neither co-signing nor delegated permission transfers personal
+   standing or assessment evidence.  Missing authenticated actor binding
+   or required human policy MUST deny the affected operation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 43]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   For a software executor, an ordinary Trust Proof alone MUST NOT
+   establish operational readiness.  Before execution, the PEP MUST
+   verify the separate signed readiness decision required by
+   specifications/operational-readiness.md against the complete ordinary
+   proof, the actual operation and resolved scope, the live subject's
+   code/model/configuration/toolchain/permissions, the installed
+   deployment and readiness profiles, and current readiness epoch and
+   revocation state.  The decision MUST bind current assessment evidence
+   issued under independently approved criteria by a competent,
+   accountable assessor.  The requesting subject MUST NOT select its own
+   trusted criteria, assessor, configuration expectations, or accepted
+   policy floor.  The following readiness lifecycle requirements apply
+   to that software executor, including when a human requests or
+   approves its action.
+
+   The readiness attestation and decision have evidence-based validity
+   limits.  Heartbeats, process uptime, re-signing, a fresh ordinary
+   proof, or an unchanged historic score MUST NOT renew an assessment.
+   A relevant subject, permission, scope, tool, or policy change
+   invalidates the old match and requires the assessment specified by
+   the installed profile.  Missing, expired, revoked, mismatched, or
+   unverifiable readiness evidence MUST prevent execution of the
+   affected operation.  Readiness for another operation is not a
+   substitute.
+
+   The required checks and fresh challenge MUST be bound before
+   assessment; validity MUST be no later than the oldest required
+   observation plus the installed maximum age.  The complete signed
+   attestation digest MUST be registered as active in the authenticated
+   current readiness epoch.  A new signature, newer cheap check, or
+   copied digest string does not establish fresh evidence or actual
+   executing state.  Registration, revocation, and the accepted
+   standing-policy/profile/format floor MUST persist across restart and
+   recovery, with shared-state transitions governed by specifications/
+   oracle-consensus.md.
+
+   An ordinary proof MUST NOT expire after the readiness supporting its
+   dependent authority.  The readiness decision MUST expire no later
+   than the ordinary proof, readiness evidence, or applicable issuer/
+   assessor key validity, and known invalidation may end use sooner.
+   These limits never extend the ordinary ten-second maximum.  Existing
+   agents retain admissible historical evidence at migration but have no
+   current readiness for dependent scopes until assessed and activated;
+   an old profile is not a fallback.
+
+   Readiness is checked as an additional prerequisite; it never turns a
+   failed earlier check into permission.  Assessment and remediation
+   require a separately authorized safe route whose scope does not
+
+
+
+Perkins                   Expires 11 March 2027                [Page 44]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   depend on assuming the capability being assessed.  Retain the
+   ordinary ten-second proof limit and all continuing-action checks.
+   The readiness decision remains a separate sidecar, avoiding any
+   signature/hash cycle with the already complete ordinary proof;
+   trajectory records retain it under the existing signed
+   action.details.readiness field without changing their top-level
+   format.
+
+7.5.  Lifetime
 
    Trust Proofs are intentionally short-lived to ensure they reflect
    current environmental conditions.
 
-   The "exp" claim MUST NOT exceed 10 seconds from "iat".
+   The claims MUST establish 0 < exp - iat <= 10 seconds.  A verifier
+   MUST establish iat <= current_time < exp; at current_time = exp the
+   proof is expired.  If a timestamp or current time is invalid or
+   unverifiable, the proof MUST NOT authorize an action.  Clock rollback
+   MUST NOT restore or prolong expired authority.
 
    Implementations SHOULD use shorter lifetimes (1-5 seconds) in high-
    volatility environments.
@@ -2257,14 +2491,36 @@ Internet-Draft                  KTP-CORE                     August 2026
    Trust Proofs MUST NOT be cached beyond their expiration.
 
    If an action takes longer than the Trust Proof lifetime, the agent
-   MUST obtain a new Trust Proof before continuing.  This may result in
-   mid-action denial if conditions have degraded.
+   MUST obtain a new Trust Proof before continuing.  Otherwise it MUST
+   cease protected execution through its previously declared bounded
+   safe transition; this is not permission to finish arbitrary work.
+   This may result in mid-action denial if conditions have degraded.
+
+   The ten-second maximum applies to every zone and conformance level.
+   An existing session, cached proof, queued refresh, surrounding token,
+   or emergency declaration MUST NOT extend ordinary authorization.
+   Separately authorized safety or recovery actions follow
+   specifications/emergency-capability.md.  That capability is disabled
+   unless an approved policy is pinned; it does not replace an expired
+   proof or override a sovereignty, capacity, or prior veto.  Changes to
+   emergency authority are governed by the companion's protected
+   amendment process, including during recovery.
 
 8.  Silent Veto Mechanism
 
    The Silent Veto is the automatic denial of an action when A >
    E_trust.  It is "silent" because it requires no human intervention -
    the environment itself enforces the constraint.
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 45]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
 8.1.  Action Risk Classification
 
@@ -2291,13 +2547,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Implementations MUST allow configuration of A values.
    Implementations SHOULD log any changes to A values.
 
-
-
-Perkins                 Expires 14 February 2027               [Page 41]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
 8.2.  Veto Trigger
 
    The veto evaluation is performed at the PEP:
@@ -2305,14 +2554,35 @@ Internet-Draft                  KTP-CORE                     August 2026
       IF A > E_trust THEN
         trigger Silent Veto
       ELSE
-        permit action
+        continue through Section 6.6 and the remaining checks
       END IF
 
-   The evaluation MUST occur for every action request.  The evaluation
-   MUST use the E_trust from a valid, unexpired Trust Proof.
+   The evaluation MUST occur for every action request.  For software
+   actors it MUST use E_trust from a valid, unexpired Trust Proof; for
+   human actors it MUST use the current operational E authenticated by
+   the reviewed adapter and bound to the exact request and ordinary
+   proof.  The input and zero-capacity checks in Section 6.6 MUST
+   precede arithmetic; this abbreviated capacity check does not replace
+   them.  Profile evaluation MUST NOT lower a silent_veto result or
+   treat A <= E as sufficient permission.
 
-   The veto is triggered automatically.  There is no: - Appeal process -
-   Emergency override - Manager approval flow - Grace period
+   The veto is triggered automatically.  A correctly evaluated veto MUST
+   NOT be overridden by an appeal, emergency declaration, manager
+   approval, or grace period.  This does not prohibit meaningful
+   explanation, independent review, or correction under [KTP-HUMAN],
+
+
+
+Perkins                   Expires 11 March 2027                [Page 46]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
+   [KTP-PRIVACY], and specifications/human-eligibility.md.  A correction
+   changes the authoritative evidence and requires a fresh evaluation
+   with all safety checks; it does not retroactively authorize the
+   denied action.  Superseded evidence and dependent authority MUST NOT
+   be revived through caching, replay, or restoration.
 
    This is by design.  The veto represents a physical constraint, not a
    policy decision.  Overriding it would be like overriding gravity.
@@ -2345,15 +2615,6 @@ Internet-Draft                  KTP-CORE                     August 2026
         "retry_after": null
       }
 
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 42]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    The "retry_after" field MAY contain an estimated time (in seconds)
    until conditions might permit the action, based on Trust Velocity
    projections.  If conditions are degrading (dE/dt < 0), this field
@@ -2363,6 +2624,15 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    The Trust Oracle is the authoritative source of Trust Scores and
    Trust Proofs within a KTP domain.
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 47]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
 9.1.  Responsibilities
 
@@ -2390,25 +2660,37 @@ Internet-Draft                  KTP-CORE                     August 2026
    2.  Active-Active with Consensus: Multiple Oracles that must agree on
        Trust Scores.  More resilient but higher latency.
 
-   3.  Threshold Signatures: Multiple Oracles that each contribute
-       partial signatures; k-of-n required for valid Trust Proof.
-       Recommended for high-security deployments.
+   Threshold signing is an independent signing configuration that can
+   accompany either distribution model: multiple Oracles contribute
+   partial signatures, with k-of-n required for a valid Trust Proof.  It
+   does not replace state consensus.
 
    Implementations MUST support at least Active-Passive distribution.
    Implementations SHOULD support threshold signatures.
 
 9.3.  Consensus
 
-   When multiple Oracles are active, they MUST agree on:
+   Oracle meshes MUST use the reviewed, named and versioned consensus
+   protocol required by specifications/oracle-consensus.md for protected
+   authoritative state, including E_base changes, trajectory
+   commitments, genesis, and zone or Oracle membership configuration.
+   For N authenticated members and a declared bound f on Byzantine
+   members, the Byzantine profile requires f >= 1, N >= 3f + 1, and
+   homogeneous decision quorums satisfying floor((N + f) / 2) + 1 <= q
+   <= N - f; the default is N = 5, f = 1, q = 4.  Distinct authenticated
+   votes, membership epochs, durable voting and locks, safe view
+   changes, and safe membership transitions are required.  Single-Oracle
+   and active-passive operation alone provide no Byzantine consensus
+   guarantee.
 
 
 
-
-
-Perkins                 Expires 14 February 2027               [Page 43]
+Perkins                   Expires 11 March 2027                [Page 48]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
+
+   When multiple Oracles are active, they MUST agree on:
 
    1.  Current sensor values (within tolerance) 2.  Agent E_base values
        (must match exactly) 3.  Calculated R and E_trust (within
@@ -2422,6 +2704,19 @@ Internet-Draft                  KTP-CORE                     August 2026
    1.  Log the disagreement with full context 2.  Use the more
        conservative (lower) E_trust value 3.  Alert operators to
        investigate
+
+   This conservative environmental calculation MUST NOT reconcile
+   conflicting committed histories or authorize a protected-state update
+   without the required commit evidence.  Without a decision quorum, the
+   mesh MUST pause new protected-state commitments; unreachable nodes
+   MUST NOT be removed locally to lower the quorum.  Four responsive,
+   mutually communicating members can support progress in the default
+   five-member deployment under the selected protocol's liveness
+   assumptions.  Fewer than four cannot commit new protected state,
+   including when one Byzantine member withholds participation and one
+   honest member is unavailable.  No bounded completion time is promised
+   during an arbitrary partition.  Existing proofs remain subject to
+   their validity rules; an outage does not extend their lifetime.
 
    Oracle disagreement MAY indicate: - Sensor failure or manipulation -
    Network partition between Oracles - Attack on Oracle infrastructure
@@ -2442,6 +2737,15 @@ Internet-Draft                  KTP-CORE                     August 2026
    program halts), and Rice's theorem generalizes the obstruction to
    every non-trivial semantic property.
 
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 49]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    Consequently, a conformant implementation *MAY* validate finite,
    completed events against a signed, policy-indexed adjudication token
    at runtime, and *MUST NOT* claim advance classification of the
@@ -2457,14 +2761,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    Root *MUST* terminate, through a finite and declared chain, at a root
    outside the agent-trust graph.  A cycle of agents attesting for one
    another does not satisfy this requirement.
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 44]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    This is a structural necessity, not a policy preference.  A gate
    grounded in itself has no base case; grounding in raw traces is
@@ -2498,6 +2794,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    a description level whose refinement into its governed-world model
    has not been demonstrated.
 
+
+
+
+Perkins                   Expires 11 March 2027                [Page 50]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    The result holds within computation.  No cross-substrate claim is
    made or implied.
 
@@ -2512,15 +2816,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    adversarial discipline on the J estimate.
 
    v2 records this as an *open limitation*. No repair is claimed.
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 45]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
 
    Adjacent but distinct: J also fails to survive actor substitution
    unless the actor-binding law is stated and enforced.  That failure
@@ -2552,6 +2847,17 @@ Internet-Draft                  KTP-CORE                     August 2026
    precedence, and whether any explicit artifact may relax the
    restrictive composition.
 
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 51]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
 10.7.  L7.  Some catalogued quantities are named, not measured
 
    This specification does not claim that a populated signal is a
@@ -2570,14 +2876,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    instrument the agent holds.  A classifier can emit 0.83; that does
    not mean the phenomenon named by the identifier is identifiable or
    has been measured.  In the second class the defect is timing rather
-
-
-
-Perkins                 Expires 14 February 2027               [Page 46]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    than identifiability: a quantity measurable only after the authorized
    action is either stale or empty at the commit point, and an empty
    signal is not a low reading.
@@ -2606,6 +2904,16 @@ Internet-Draft                  KTP-CORE                     August 2026
    validation, and the availability offset becomes a required envelope
    field.
 
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 52]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
 10.8.  L8.  A value that encodes a classification is not an observation
 
    This specification does not claim that a signal whose value depends
@@ -2627,13 +2935,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    contested.  The contested rows are precisely the ones whose unit
    column reads 0-1.
 
-
-
-Perkins                 Expires 14 February 2027               [Page 47]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    A conformant implementation *MUST* declare, in its deployment
    profile, the label set each such signal populates, and a signal with
    no declared label set *MUST NOT* be used in a Risk Factor
@@ -2653,6 +2954,21 @@ Internet-Draft                  KTP-CORE                     August 2026
    declared-unit obligation are settled as one obligation or two, and
    the published taxonomies carrying fixed baselines are either re-
    derived from a declared authority or withdrawn.
+
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 53]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
 10.9.  L9.  Declared non-coverage
 
@@ -2683,13 +2999,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    commanded-versus-actual motion, force, braking, interlock, or
    emergency-stop state.
 
-
-
-Perkins                 Expires 14 February 2027               [Page 48]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    A conformant implementation *MUST NOT* infer the absence of these
    risks from completeness of coverage.  Where a deployment's governed
    actions can touch restricted content, an unverified counterparty, or
@@ -2704,6 +3013,18 @@ Internet-Draft                  KTP-CORE                     August 2026
    label, or both), counterparty identity assurance is sited, and the
    substrate domain either carries actuation state or states its
    exclusion as scope.
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 54]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
 10.10.  L10.  E carries no cardinal consequence units
 
@@ -2738,14 +3059,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    to happen* — a prudence judgment computed from the same measured
    environment as the CAN rail.  It is amoral.  The graduated
    enforcement outcomes (throttle, downgrade, defer), hysteresis, the
-
-
-
-Perkins                 Expires 14 February 2027               [Page 49]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    risk floor under suspicious conditions, deautomation as A approaches
    E, and the taxation trade are all this rail, and two honest
    deployments with identical sensors and identical declared parameters
@@ -2753,6 +3066,21 @@ Internet-Draft                  KTP-CORE                     August 2026
    rail stays amoral only while its parameters are declared — the
    specification ships the mechanism, the deployment declares the
    appetite, and an undeclared prudence constant is a smuggled norm.
+
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 55]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
 
    The second is normative — *ought this happen* — and it is external to
    this specification by derivation, not by editorial convenience: a
@@ -2794,14 +3122,6 @@ Internet-Draft                  KTP-CORE                     August 2026
    and neither is any economic signal, though all three are aggregate
    human behavior.  The two candidate rules — individually identifiable,
    and human-derived — mark materially different sets, and the current
-
-
-
-Perkins                 Expires 14 February 2027               [Page 50]
-
-Internet-Draft                  KTP-CORE                     August 2026
-
-
    marking reads as a partial application of the broader one.  Whether
    the marker propagates to a derivative computed over marked telemetry
    is also unstated, and the adopted derivation rule creates such
@@ -2810,6 +3130,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    A conformant implementation *MUST NOT* rely on the marker's absence
    as evidence that a signal falls outside a consent obligation, and
    *MUST NOT* treat its presence as authorization to collect.  A
+
+
+
+Perkins                   Expires 11 March 2027                [Page 56]
+
+Internet-Draft                  KTP-CORE                  September 2026
+
+
    deployment handling human-derived telemetry *MUST* determine its
    obligations from the applicable legal regime and, where a community
    sets the bar for its own data, from that community's instrument.
@@ -2833,13 +3161,14 @@ Internet-Draft                  KTP-CORE                     August 2026
    The consequence is arithmetic and it is checkable in an afternoon,
    which is why it is stated here rather than found later.  This
    specification's own worked example of an agent that has been tested
-   under fire lands in the lowest tier under every permitted decay
-   setting.  The upper thresholds require sustained crisis-grade
-   attestation rates that no deployment described anywhere in the corpus
-   produces.  The ceiling written into the resilience term sits so far
-   above the top tier's own requirement that it has never bound a
-   computation in any published version, under either reading of the
-   type error that was ruled out separately.
+   under fire lands in the lowest tier before any additional readiness
+   restriction.  The upper thresholds require much more attested
+   evidence, but no published empirical regime calibrates that amount to
+   operational capability or a plausible time to attainment.  The
+   ceiling written into the resilience term sits so far above the top
+   tier's own requirement that it has never bound a computation in any
+   published version, under either reading of the type error that was
+   ruled out separately.
 
    The curve prices capability in accumulated evidence, and prices it
    steeply.  That is the design.  What it has never done is publish the
@@ -2847,15 +3176,22 @@ Internet-Draft                  KTP-CORE                     August 2026
 
    A conformant implementation *MUST NOT* present tier attainability as
    a property of the protocol independent of a declared evidence regime.
-   A deployment claiming a tier *MUST* declare the decay rate and the
-   attestation regime the claim rests on, and *MUST NOT* cite the
-   resilience ceiling as a bound on anything.
+   A deployment claiming a tier *MUST* declare its history-with-scoped-
+   readiness policy and the attestation regime the claim rests on, and
+   *MUST NOT* cite the resilience ceiling as a bound on anything.
+   Retaining historical PoR without inactivity subtraction removes an
+   unsupported decay rule; it does not calibrate the logarithmic curve,
+   establish fair access to attestable adversity, or prove tier
+   attainability.  Passing a readiness assessment establishes only the
+   assessed operation under its current scope and evidence, not those
+   broader claims.
 
 
 
-Perkins                 Expires 14 February 2027               [Page 51]
+
+Perkins                   Expires 11 March 2027                [Page 57]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Converts to spec text when either a scale constant is fitted to the
@@ -2909,9 +3245,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 52]
+Perkins                   Expires 11 March 2027                [Page 58]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Mitigations: - Distribute across multiple failure domains - Use
@@ -2965,9 +3301,9 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 53]
+Perkins                   Expires 11 March 2027                [Page 59]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Mitigations: - Encrypt Trust Proofs in transit - Implement access
@@ -3021,14 +3357,21 @@ Internet-Draft                  KTP-CORE                     August 2026
 
 
 
-Perkins                 Expires 14 February 2027               [Page 54]
+Perkins                   Expires 11 March 2027                [Page 60]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    [KTP-IDENTITY]
               Perkins, C., "Kinetic Trust Protocol - Vector Identity",
               n.d..
+
+   [KTP-HUMAN]
+              Perkins, C., "Kinetic Trust Protocol - Human Integration",
+              n.d..
+
+   [KTP-PRIVACY]
+              Perkins, C., "Kinetic Trust Protocol - Privacy", n.d..
 
    [KINETIC-ENVELOPE]
               Perkins, C., "The Kinetic Envelope - A Kinematics-Aware
@@ -3070,16 +3413,9 @@ A.1.  The lineage stage names
 
 
 
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 55]
+Perkins                   Expires 11 March 2027                [Page 61]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
                        +============+=============+
@@ -3133,9 +3469,9 @@ A.3.  The risk_factors object and the per-tier caps
 
 
 
-Perkins                 Expires 14 February 2027               [Page 56]
+Perkins                   Expires 11 March 2027                [Page 62]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
 A.4.  The Trust Tier thresholds
@@ -3189,9 +3525,9 @@ Appendix B.  Example Calculations
 
 
 
-Perkins                 Expires 14 February 2027               [Page 57]
+Perkins                   Expires 11 March 2027                [Page 63]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 *
@@ -3245,9 +3581,9 @@ Appendix C.  JSON Schemas
 
 
 
-Perkins                 Expires 14 February 2027               [Page 58]
+Perkins                   Expires 11 March 2027                [Page 64]
 
-Internet-Draft                  KTP-CORE                     August 2026
+Internet-Draft                  KTP-CORE                  September 2026
 
 
    The published file carries the v2 claims (the declared peer share,
@@ -3301,4 +3637,4 @@ Author's Address
 
 
 
-Perkins                 Expires 14 February 2027               [Page 59]
+Perkins                   Expires 11 March 2027                [Page 65]

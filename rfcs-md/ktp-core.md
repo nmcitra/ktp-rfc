@@ -35,11 +35,13 @@ This is expressed mathematically as the Zeroth Law:
    A <= E
 ~~~
 
-Where A is the intrinsic risk of the requested action and E is the current Trust Score of the environment-agent relationship.
+Where A is the intrinsic risk of the requested action and E is the current capacity established for the operation and environment; for software agents this is the Effective Trust Score of the environment-agent relationship.
 
 Instead of asking "Does this agent have permission?", KTP asks "Can this environment safely support this action right now?"
 
 The environment becomes the final authority. Just as friction vetoes a sprinter's attempt to run on ice, environmental constraints veto an agent's attempt to act beyond the system's current capacity.
+
+Software-agent standing, Proof of Resilience, lineage, and tiers in this document MUST NOT be converted into a general score or rank for people. Human participation follows [KTP-HUMAN] and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
 
 ## Requirements Language
 
@@ -53,7 +55,7 @@ Action Risk (A): A numeric value (0-100) representing the intrinsic risk of a re
 
 Adaptive Dormancy: The progressive reduction of agent capabilities as environmental conditions degrade. Agents "hibernate" rather than fail.
 
-Base Trust (E_base): A numeric value (0-100) representing an agent's intrinsic capability, derived from its Proof of Resilience and lineage.
+Base Trust (E_base): A numeric value (0-100) representing a software agent's intrinsic capability, derived from its Proof of Resilience and lineage. It is not a human score.
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
@@ -61,7 +63,7 @@ Context Tensor: Retired name for what is now split into Context Signals (the mea
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
-Effective Trust Score (E_trust): The final Trust Score after environmental deflation, calculated as E_base * (1 - R). This is the value used to evaluate A <= E.
+Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
@@ -145,7 +147,7 @@ A KTP deployment consists of the following components:
 
 Figure 1: KTP Architecture
 
-Trust Oracle Mesh: A distributed set of Trust Oracles that collectively calculate Trust Scores and sign Trust Proofs. Threshold signatures (e.g., 3-of-5) prevent single points of failure.
+Trust Oracle Mesh: A distributed set of Trust Oracles that collectively calculate Trust Scores and sign Trust Proofs. Threshold signatures (e.g., 3-of-5) distribute signing authority. Agreement on protected state requires the separate consensus contract in specifications/oracle-consensus.md; a signing threshold does not establish a unique history.
 
 Context Signal Sensors: A sensor array that measures environmental reality across the catalogue's seven domains and feeds data to the Trust Oracles.
 
@@ -169,7 +171,7 @@ The basic authorization flow is:
 
 1. PDP evaluates A <= E_trust for the requested action
 
-1. If A <= E_trust: Action is ALLOWED If A > E_trust: Silent Veto triggers, action is DENIED
+1. If A > E_trust: Silent Veto triggers, action is DENIED. Otherwise, the request continues through Section 6.6 and the remaining authorization checks; satisfying the capacity inequality alone does not permit an action.
 
 1. Decision and full context are logged to Flight Recorder
 
@@ -227,10 +229,13 @@ Where:
 ~~~
 
 ~~~
-   E (Environment): The current Effective Trust Score (E_trust),
-   also expressed as a value from 0 to 100. This value is calculated
-   in real-time based on agent history and environmental conditions.
+   E (Environment): The current capacity established for the actual
+   actor, operation, and environment, on the same declared scale as A.
+   For software agents this is Effective Trust Score (E_trust),
+   calculated from agent history and environmental conditions.
 ~~~
+
+For a human actor, an independently approved operational-capacity evaluation MUST establish comparable A and E for the actual request. Eligibility, a professional credential, a role, or a person's approval MUST NOT be substituted for E. The evaluation MUST bind its evidence, measurement profile, scope, and freshness; unresolved or incomparable capacity MUST deny the affected action. No personal E_base, tier, generation, or resilience accumulator is required or permitted as a substitute.
 
 The inequality MUST be evaluated for every authorization request. It is not a policy that can be overridden by human intervention or emergency procedures. It is a physical constraint, analogous to the constraint that prevents a person from running faster than their muscles allow.
 
@@ -240,19 +245,21 @@ The naming "Zeroth Law" is intentional. Just as thermodynamics' Zeroth Law (ther
 
 Enforcement of the Zeroth Law is cryptographic, not administrative.
 
-The Trust Proof token contains: - The current E_trust value - The Trust Oracle's signature over E_trust - The timestamp of calculation
+For software agents, the Trust Proof token contains: - The current E_trust value - The Trust Oracle's signature over E_trust - The timestamp of calculation
 
 The PEP: - Verifies the Trust Oracle's signature - Checks that the Trust Proof has not expired - Looks up the Action Risk (A) for the requested operation - Evaluates A <= E_trust
 
 If the Trust Proof signature is invalid, the action MUST be denied. If the Trust Proof has expired, a new Trust Proof MUST be obtained. If A > E_trust, the action MUST be denied (Silent Veto).
 
-There is no "emergency override" mechanism. The only way to permit a high-risk action is to either:
+A human deployment MUST provide the reviewed authorization adapter and authenticated operation/capacity binding specified below. The same signature, current-evidence, ordinary-proof lifetime, sovereignty, and capacity requirements apply; human eligibility is not a replacement proof or a bypass.
 
-1. Reduce the action's risk classification (A) 2. Increase the agent's base trust (E_base) through Proof of Resilience accumulation 3. Wait for environmental conditions to improve (R decreases)
+There is no "emergency override" mechanism. A different, genuinely lower-demand action, a corrected factual assessment, or changed capacity or environmental conditions requires a fresh evaluation. Relabeling the same action, changing a score by fiat, or receiving human approval MUST NOT relax a veto. Software-agent standing may grow through the established evidence process; that process does not create personal trust points for a human.
 
 This design is intentional. In an emergency, the natural human instinct is to override safety controls. This instinct is often catastrophically wrong. By removing the override capability, KTP forces systems to operate within their actual capacity, even when humans wish they could exceed it.
 
 # Trust Score Calculation
+
+The E_base composition, historical standing, behavioral signals, and tier calculations in this section apply to software agents. They MUST NOT be applied to human principals, including human sponsors and reviewers. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below.
 
 ## Base Trust (E_base)
 
@@ -269,6 +276,10 @@ E_base is a hundred-point allocation. The shares MUST sum to 100, and each term 
 - An agent with 10,000 transactions during crises has higher E_base than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
 - Lineage generation does not contribute to E_base. It bounds it. See *Ceilings* below.
 - Peer signals, where a deployment implements them, occupy a distinct declared term. See *Peer Signals* below.
+
+Historical Proof of Resilience MUST NOT lose points merely because time passes or the agent is inactive. An invalid historical claim MAY be withdrawn through an authenticated, appended correction under the existing adjudication and consensus rules; elapsed time alone is not such evidence. This rule does not renew an expiring External Root instrument or erase other applicable ceilings and revocations.
+
+Historical standing is not evidence that today's code, model, configuration, tools, permissions, and proposed operation remain within an assessed capability. Active deployments MUST additionally enforce the operation-scoped readiness prerequisite in specifications/operational-readiness.md. Readiness is neither another global score nor a new E_base component. It adds no standing credit and cannot override Soul, capacity, an earlier veto, or any stronger authorization constraint.
 
 ### The External Root
 
@@ -388,6 +399,8 @@ The calculation:
 ~~~
 
 Where: w_i = Domain-specific weight for dimension i s_i = Normalized sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must sum to 1)
+
+The weight declaration MUST pass Section 6.4's validation before this calculation. An invalid declaration MUST NOT be used to compute an authorizing score.
 
 R is always in the range [0, 1]: - R = 0: Perfect conditions, no environmental stress - R = 0.5: Moderate stress, significant capability reduction - R = 1: Total crisis, all capabilities suspended
 
@@ -519,6 +532,8 @@ Implementation: - If PoR_score is high but behavioral entropy is low → flag - 
 GOODHART-002: Trust Score calculation SHOULD include unpredictable elements that cannot be anticipated by the agent.
 
 Permitted unpredictability: - Random weight variations within bounds (±10%) - Unannounced sensor emphasis shifts - Periodic recalibration of dimension weights - Random deep audits of trajectory
+
+Every weight variation remains subject to Section 6.4's validity and unit-sum requirements.
 
 NOT permitted: - Arbitrary score manipulation - Retroactive weight changes - Unpredictability that violates deterministic verification
 
@@ -994,7 +1009,9 @@ Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress) Note: Soul 
 
 ## Domain Weights
 
-Different deployment domains weight the six weighted inputs differently. The weights MUST sum to 1.0. Soul is not weighted - it operates as an independent constraint.
+Different deployment domains weight the six weighted inputs differently. Each of the six factor weights MUST be a finite number greater than zero and at most one, and the weights MUST sum to 1.0. Boolean and non-numeric values are invalid. Soul is not weighted - it operates as an independent constraint.
+
+The complete weight declaration MUST be validated before computing R and after every reconfiguration. An invalid declaration MUST be rejected; an implementation MUST NOT silently rescale the weights or fill a missing weight with a default. The deployment-profile declaration checker evaluates the sum exactly over the decimal representations of parsed numeric values, as described in specifications/deployment-profile.md. Per-feed aggregation weights are separate from these six factor weights.
 
 Example domain profiles:
 
@@ -1094,7 +1111,7 @@ For the six weighted inputs, typical aggregation is "weighted_average" of enable
 
 ## Aggregation Algorithm
 
-The complete authorization algorithm is:
+The software-agent aggregation algorithm is below. For human execution, the reviewed adapter supplies separately evidenced operational E on the same declared scale as A; it MUST NOT run the E_base composition or manufacture its inputs. Soul remains the first substantive authorization gate, and the input, zero-capacity, A > E, margin, and tighten-only checks below apply to either actor type. Principal authentication and request binding precede evaluation; no principal type bypasses a veto. This aggregation stage does not replace grants or the operation-specific prerequisites below.
 
 Step 1: Soul Veto Check (MUST be first)
 
@@ -1118,11 +1135,29 @@ Step 3: Trust Score Deflation
    E_trust = E_base * (1 - R)
 ~~~
 
-Step 4: Zeroth Law Check and Decision Result
+Step 4: Input Validation, Capacity Veto, and Decision Result
+
+Before this stage, undefined inputs MUST be resolved restrictively under Section 6.7. A declared conservative estimate of capacity remains subject to the capacityKnown = false supervision floor in [KINETIC-ENVELOPE]. If no usable numeric A or E_trust is available, the action MUST be vetoed; an implementation MUST NOT substitute a permissive value or manufacture a margin. Undefined inputs MUST be recorded as required by Section 6.7.
+
+The following checks MUST precede division and profile threshold evaluation. A and E_trust MUST be finite, non-negative numbers on the same declared scale and describe the same candidate action. Boolean values, non-numeric values, NaN, and infinities are invalid.
+
+~~~
+   IF A or E_trust is not a finite, non-negative number THEN
+     RETURN supervision = silent_veto
+            with reason TRUST_INSUFFICIENT
+   END IF
+
+   IF E_trust = 0 OR A > E_trust THEN
+     RETURN supervision = silent_veto
+            with reason TRUST_INSUFFICIENT
+   END IF
+~~~
+
+The capacity veto is independent of profile thresholds. A profile, a supervision change, or human approval MUST NOT permit this candidate action after that veto. A revised action MAY be proposed, but its actual parameters and corresponding capacity MUST be evaluated again. Existing sovereignty vetoes, capability grants, and tighter restrictions remain binding.
 
 ~~~
    margin = 1 - (A / E_trust)
-     (margin <= 0 when A >= E_trust, or when E_trust = 0)
+     (E_trust > 0 and A <= E_trust at this point)
 ~~~
 
 ~~~
@@ -1136,7 +1171,11 @@ Step 4: Zeroth Law Check and Decision Result
    END IF
 ~~~
 
-The result of every evaluation is a supervision level and a tighten-only constraint set (tightenedConstraints), as specified in [KINETIC-ENVELOPE].  Supervision is a floor: a consumer MAY raise it and MUST NOT lower a level already set.  tightenedConstraints never widens the granted envelope.  A deployment MUST declare its profile thresholds M_veto < M_allow; a deployment that declares none evaluates with M_veto = M_allow = 0, which reproduces the binary v1 behavior (veto at or below zero margin, stable above it).
+The result of every evaluation is a supervision level and a tighten-only constraint set (tightenedConstraints), as specified in [KINETIC-ENVELOPE]. Supervision is a floor: a consumer MAY raise it and MUST NOT lower a level already set. tightenedConstraints never widens the granted envelope. The result and evidence record MUST include margin when calculation was reached and MUST omit it when an earlier check stopped the evaluation; an omitted margin MUST NOT be interpreted as zero.
+
+Declared profile thresholds MUST be finite numbers satisfying 0 <= M_veto < M_allow. An invalid declaration MUST be rejected before use; it MUST NOT be treated as an omitted declaration. Thresholds have no upper bound: a profile MAY require a margin that prevents stable operation. A deployment that declares no thresholds retains M_veto = M_allow = 0 and the existing zero-margin veto. An explicitly declared equal pair is invalid.
+
+At A = E_trust > 0 the independent capacity veto does not fire, but margin is zero and the current default and valid declared thresholds veto it. This preserves the existing margin contract; it does not introduce permission at equality. Passing the capacity check is a prerequisite for the remaining checks, never an authorization by itself.
 
 The four decision verbs are derived readings of this result, by precedence, and are not a four-valued enumeration:
 
@@ -1152,7 +1191,7 @@ Every decision reads as exactly one verb.  A specification, schema, or record in
 
 The Soul veto is evaluated first because sovereignty constraints are immutable - no amount of trust can override them. This ordering ensures that sovereignty is respected before operational calculations begin.
 
-The aggregation MUST be performed at the Trust Oracle.
+Aggregation for ordinary Trust Scores and Trust Proof issuance MUST be performed at the Trust Oracle. The separately authorized emergency evaluation in specifications/emergency-capability.md MAY use its preapproved independent local evaluator when the ordinary Oracle is unavailable. That evaluator remains bound by the same input, sovereignty, capacity, and supervision constraints and MUST NOT issue replacement ordinary Trust Proofs.
 
 Sensor values SHOULD be refreshed at intervals appropriate to their rate of change:
 
@@ -1185,6 +1224,10 @@ Silence and absence do not separate. A channel that returns nothing and a channe
 # Trust Proof Token
 
 The Trust Proof is a signed token that travels with each request, carrying the current Trust Score and environmental context.
+
+The standing-bearing claims and examples in this section describe software agents. They do not define a human proof format. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
+
+The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the proof format, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
 
 ## Token Format
 
@@ -1340,21 +1383,41 @@ The Trust Proof MUST be signed by the Trust Oracle using the algorithm specified
 
 For distributed Trust Oracle deployments, the signature MAY be a threshold signature requiring k-of-n Oracles to sign.
 
+Issuers and honest threshold signers in an Oracle mesh MUST derive the proof's standing, including E_base and its trajectory basis, from verified committed state under specifications/oracle-consensus.md. Single-node proof issuance MAY remain available where the deployment's signing requirements permit it, but MUST NOT turn an uncommitted local proposal into authoritative standing. Signature validity or signing-threshold metadata alone does not prove consensus or freshness of that standing. The selected protocol MUST define how issuers establish applicable committed state, and consumers relying on mesh agreement MUST verify its required evidence and binding to the proof's result. Proof lifetime, current environmental evaluation, and all authorization constraints remain binding.
+
 Implementations MUST verify: 1. The signature is valid for the payload 2. The signing key is a known, trusted Oracle key 3. The signing key has not been revoked
 
 Signature verification failure MUST result in action denial.
+
+## Operational Readiness for the Requested Action
+
+The PEP MUST authenticate both the requesting principal and the actor actually executing the operation. Dispatch MUST use independently authenticated principal type and execution context, not a request label. A human actor requires current operation-specific eligibility and separately evidenced capacity under the installed human policy and reviewed adapter. Evidence correction, grant revocation, profile replacement, or epoch change MUST invalidate superseded dependent decisions; stale proofs, restored state, or a legacy human score MUST NOT recover authority.
+
+A human delegator or supervisor does not turn a software executor into a human actor. The PEP MUST verify the human's current eligibility for the exact delegation or supervisory operation and every applicable restriction along the delegation chain, in addition to the software executor's own grants, capacity, and readiness. Neither co-signing nor delegated permission transfers personal standing or assessment evidence. Missing authenticated actor binding or required human policy MUST deny the affected operation.
+
+For a software executor, an ordinary Trust Proof alone MUST NOT establish operational readiness. Before execution, the PEP MUST verify the separate signed readiness decision required by specifications/operational-readiness.md against the complete ordinary proof, the actual operation and resolved scope, the live subject's code/model/configuration/toolchain/permissions, the installed deployment and readiness profiles, and current readiness epoch and revocation state. The decision MUST bind current assessment evidence issued under independently approved criteria by a competent, accountable assessor. The requesting subject MUST NOT select its own trusted criteria, assessor, configuration expectations, or accepted policy floor. The following readiness lifecycle requirements apply to that software executor, including when a human requests or approves its action.
+
+The readiness attestation and decision have evidence-based validity limits. Heartbeats, process uptime, re-signing, a fresh ordinary proof, or an unchanged historic score MUST NOT renew an assessment. A relevant subject, permission, scope, tool, or policy change invalidates the old match and requires the assessment specified by the installed profile. Missing, expired, revoked, mismatched, or unverifiable readiness evidence MUST prevent execution of the affected operation. Readiness for another operation is not a substitute.
+
+The required checks and fresh challenge MUST be bound before assessment; validity MUST be no later than the oldest required observation plus the installed maximum age. The complete signed attestation digest MUST be registered as active in the authenticated current readiness epoch. A new signature, newer cheap check, or copied digest string does not establish fresh evidence or actual executing state. Registration, revocation, and the accepted standing-policy/profile/format floor MUST persist across restart and recovery, with shared-state transitions governed by specifications/oracle-consensus.md.
+
+An ordinary proof MUST NOT expire after the readiness supporting its dependent authority. The readiness decision MUST expire no later than the ordinary proof, readiness evidence, or applicable issuer/assessor key validity, and known invalidation may end use sooner. These limits never extend the ordinary ten-second maximum. Existing agents retain admissible historical evidence at migration but have no current readiness for dependent scopes until assessed and activated; an old profile is not a fallback.
+
+Readiness is checked as an additional prerequisite; it never turns a failed earlier check into permission. Assessment and remediation require a separately authorized safe route whose scope does not depend on assuming the capability being assessed. Retain the ordinary ten-second proof limit and all continuing-action checks. The readiness decision remains a separate sidecar, avoiding any signature/hash cycle with the already complete ordinary proof; trajectory records retain it under the existing signed action.details.readiness field without changing their top-level format.
 
 ## Lifetime
 
 Trust Proofs are intentionally short-lived to ensure they reflect current environmental conditions.
 
-The "exp" claim MUST NOT exceed 10 seconds from "iat".
+The claims MUST establish 0 < exp - iat <= 10 seconds. A verifier MUST establish iat <= current_time < exp; at current_time = exp the proof is expired. If a timestamp or current time is invalid or unverifiable, the proof MUST NOT authorize an action. Clock rollback MUST NOT restore or prolong expired authority.
 
 Implementations SHOULD use shorter lifetimes (1-5 seconds) in high- volatility environments.
 
 Trust Proofs MUST NOT be cached beyond their expiration.
 
-If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a new Trust Proof before continuing. This may result in mid-action denial if conditions have degraded.
+If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a new Trust Proof before continuing. Otherwise it MUST cease protected execution through its previously declared bounded safe transition; this is not permission to finish arbitrary work. This may result in mid-action denial if conditions have degraded.
+
+The ten-second maximum applies to every zone and conformance level. An existing session, cached proof, queued refresh, surrounding token, or emergency declaration MUST NOT extend ordinary authorization. Separately authorized safety or recovery actions follow specifications/emergency-capability.md. That capability is disabled unless an approved policy is pinned; it does not replace an expired proof or override a sovereignty, capacity, or prior veto. Changes to emergency authority are governed by the companion's protected amendment process, including during recovery.
 
 # Silent Veto Mechanism
 
@@ -1392,13 +1455,13 @@ The veto evaluation is performed at the PEP:
    IF A > E_trust THEN
      trigger Silent Veto
    ELSE
-     permit action
+     continue through Section 6.6 and the remaining checks
    END IF
 ~~~
 
-The evaluation MUST occur for every action request. The evaluation MUST use the E_trust from a valid, unexpired Trust Proof.
+The evaluation MUST occur for every action request. For software actors it MUST use E_trust from a valid, unexpired Trust Proof; for human actors it MUST use the current operational E authenticated by the reviewed adapter and bound to the exact request and ordinary proof. The input and zero-capacity checks in Section 6.6 MUST precede arithmetic; this abbreviated capacity check does not replace them. Profile evaluation MUST NOT lower a silent_veto result or treat A <= E as sufficient permission.
 
-The veto is triggered automatically. There is no: - Appeal process - Emergency override - Manager approval flow - Grace period
+The veto is triggered automatically. A correctly evaluated veto MUST NOT be overridden by an appeal, emergency declaration, manager approval, or grace period. This does not prohibit meaningful explanation, independent review, or correction under [KTP-HUMAN], [KTP-PRIVACY], and specifications/human-eligibility.md. A correction changes the authoritative evidence and requires a fresh evaluation with all safety checks; it does not retroactively authorize the denied action. Superseded evidence and dependent authority MUST NOT be revived through caching, replay, or restoration.
 
 This is by design. The veto represents a physical constraint, not a policy decision. Overriding it would be like overriding gravity.
 
@@ -1453,11 +1516,13 @@ Distribution models:
 
 1. Active-Active with Consensus: Multiple Oracles that must agree on Trust Scores. More resilient but higher latency.
 
-1. Threshold Signatures: Multiple Oracles that each contribute partial signatures; k-of-n required for valid Trust Proof. Recommended for high-security deployments.
+Threshold signing is an independent signing configuration that can accompany either distribution model: multiple Oracles contribute partial signatures, with k-of-n required for a valid Trust Proof. It does not replace state consensus.
 
 Implementations MUST support at least Active-Passive distribution. Implementations SHOULD support threshold signatures.
 
 ## Consensus
+
+Oracle meshes MUST use the reviewed, named and versioned consensus protocol required by specifications/oracle-consensus.md for protected authoritative state, including E_base changes, trajectory commitments, genesis, and zone or Oracle membership configuration. For N authenticated members and a declared bound f on Byzantine members, the Byzantine profile requires f >= 1, N >= 3f + 1, and homogeneous decision quorums satisfying floor((N + f) / 2) + 1 <= q <= N - f; the default is N = 5, f = 1, q = 4. Distinct authenticated votes, membership epochs, durable voting and locks, safe view changes, and safe membership transitions are required. Single-Oracle and active-passive operation alone provide no Byzantine consensus guarantee.
 
 When multiple Oracles are active, they MUST agree on:
 
@@ -1468,6 +1533,8 @@ Tolerance for sensor values: 5% relative difference Tolerance for E_trust: 2 poi
 If Oracles disagree beyond tolerance, they MUST:
 
 1. Log the disagreement with full context 2. Use the more conservative (lower) E_trust value 3. Alert operators to investigate
+
+This conservative environmental calculation MUST NOT reconcile conflicting committed histories or authorize a protected-state update without the required commit evidence. Without a decision quorum, the mesh MUST pause new protected-state commitments; unreachable nodes MUST NOT be removed locally to lower the quorum. Four responsive, mutually communicating members can support progress in the default five-member deployment under the selected protocol's liveness assumptions. Fewer than four cannot commit new protected state, including when one Byzantine member withholds participation and one honest member is unavailable. No bounded completion time is promised during an arbitrary partition. Existing proofs remain subject to their validity rules; an outage does not extend their lifetime.
 
 Oracle disagreement MAY indicate: - Sensor failure or manipulation - Network partition between Oracles - Attack on Oracle infrastructure
 
@@ -1783,9 +1850,9 @@ what contribution is stated nowhere in the corpus.
 The consequence is arithmetic and it is checkable in an afternoon, which is why
 it is stated here rather than found later. This specification's own worked
 example of an agent that has been tested under fire lands in the lowest tier
-under every permitted decay setting. The upper thresholds require sustained
-crisis-grade attestation rates that no deployment described anywhere in the
-corpus produces. The ceiling written into the resilience term sits so far above
+before any additional readiness restriction. The upper thresholds require much
+more attested evidence, but no published empirical regime calibrates that amount
+to operational capability or a plausible time to attainment. The ceiling written into the resilience term sits so far above
 the top tier's own requirement that it has never bound a computation in any
 published version, under either reading of the type error that was ruled out
 separately.
@@ -1795,9 +1862,13 @@ is the design. What it has never done is publish the price.
 
 A conformant implementation **MUST NOT** present tier attainability as a
 property of the protocol independent of a declared evidence regime. A deployment
-claiming a tier **MUST** declare the decay rate and the attestation regime the
-claim rests on, and **MUST NOT** cite the resilience ceiling as a bound on
-anything.
+claiming a tier **MUST** declare its history-with-scoped-readiness policy and the
+attestation regime the claim rests on, and **MUST NOT** cite the resilience
+ceiling as a bound on anything. Retaining historical PoR without inactivity
+subtraction removes an unsupported decay rule; it does not calibrate the
+logarithmic curve, establish fair access to attestable adversity, or prove tier
+attainability. Passing a readiness assessment establishes only the assessed
+operation under its current scope and evidence, not those broader claims.
 
 Converts to spec text when either a scale constant is fitted to the tier table,
 or the tier table is reduced to the tiers a declared regime can enter, with the

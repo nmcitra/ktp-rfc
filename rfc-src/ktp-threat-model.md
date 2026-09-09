@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Threat Model Specification"
 abbrev: "KTP-THREAT-MODEL"
-date: 2026-08-13
+date: 2026-09-07
 category: exp
 ipr: trust200902
 
@@ -399,21 +399,21 @@ References: KTP-CRYPTO, KTP-TRANSPORT
 
 ### TM-T-002: Trajectory Chain Tampering
 
-Description: Modify agent's historical trajectory
+Description: Modify agent trajectory state or substitute a different final envelope or head.
 
-Attack Vector: 1. Gain access to trajectory storage 2. Modify historical transaction records 3. Recalculate chain hashes
+Attack Vector: 1. Gain access to trajectory storage or a presented suffix 2. Modify fields outside a selective signature preimage, or substitute an unanchored envelope 3. Recalculate local hashes and present the altered tail as authoritative.
 
-Preconditions: - Write access to trajectory storage AND - Ability to forge Oracle attestations
+Preconditions: Access to stored or presented records and a verifier that accepts incomplete signature bindings or candidate-supplied head evidence. Under the former selective formulas, changing current_state.e_base or tier in an unanchored tail did not necessarily require forging either formula signature. An independently authenticated commitment binding the complete record already detects that mutation; this is a specification threat scenario, not a claim of an observed runtime exploit.
 
 Impact: HIGH - Inflate E_base through fake history - Hide evidence of past misbehavior - Manipulate Proof of Resilience
 
-Likelihood: LOW - Each record requires Oracle co-signature - Hash chain detects modification
+Likelihood: Depends on the deployed record format, complete signature verification, trusted head selection, and durable cutover. A valid selective signature or recomputed local hash alone is insufficient evidence of integrity.
 
-Mitigations: - Cryptographic chaining (KTP-IDENTITY §4.1) - Oracle co-signatures on transactions (KTP-IDENTITY §4.3) - External anchoring (Level 3) - Integrity verification (KTP-AUDIT)
+Mitigations: Complete RFC 8785 body and attestation bindings with separate agent/Oracle compact-JWS roles under specifications/trajectory-signatures.md; trusted algorithm/key/profile selection; hash the completed signed envelope; independently anchor its exact hash and chain position before authority; preserve original legacy bytes and require a signed, revalidated, single-use migration checkpoint. Oracle meshes additionally require the reviewed intent commitment and final-head agreement in specifications/oracle-consensus.md.
 
-Residual Risk: LOW - Attack detectable through chain verification - Would require sustained Oracle compromise
+Residual Risk: Deployment-dependent. Complete signature checks detect field mutation; the final-head anchor detects replacement or truncation relative to trusted history. They do not establish truthful observations, secure key custody, correct state revalidation, or durable recovery by themselves. Different valid ECDSA envelopes for one intent require unique final-head selection, and a migration checkpoint cannot retroactively authenticate legacy fields omitted from old signatures.
 
-References: KTP-IDENTITY, KTP-AUDIT
+References: KTP-IDENTITY, KTP-CRYPTO, KTP-AUDIT, specifications/trajectory-signatures.md
 
 ### TM-T-003: Flight Recorder Tampering
 
@@ -487,9 +487,9 @@ Preconditions: - Inadequate proof archival OR - Ability to forge timestamps
 
 Impact: MEDIUM - Undermine trust in Oracle - Complicate dispute resolution - Create legal uncertainty
 
-Likelihood: VERY LOW - Threshold signatures prove Oracle consensus - Flight Recorder archives all proofs
+Likelihood: Depends on key protection and evidence retention. Threshold signatures establish signing participation under their cryptographic assumptions; they do not prove Oracle consensus. Flight Recorder archives support attribution when their integrity can be verified.
 
-Mitigations: - Threshold signatures (multiple Oracles must agree) - Flight Recorder archives (KTP-AUDIT) - External timestamping - Proof includes Oracle key ID
+Mitigations: - Threshold signatures (multiple signers participate) - Verified consensus evidence bound to the signed result where mesh agreement is claimed - Flight Recorder archives (KTP-AUDIT) - External timestamping - Proof includes Oracle key ID
 
 Residual Risk: VERY LOW - Cryptographic proof of Oracle involvement
 
@@ -529,7 +529,7 @@ Impact: LOW-MEDIUM - Privacy violation - Enable targeted attacks on low-trust ag
 
 Likelihood: MEDIUM - Trust Proofs travel over network - Scores visible to authorized parties
 
-Mitigations: - TLS encryption for all transport (KTP-TRANSPORT §5) - API authentication and authorization - Score visibility controls (KTP-HUMAN §3.4) - Minimum necessary disclosure principle
+Mitigations: - TLS encryption for all transport (KTP-TRANSPORT §5) - API authentication and authorization - Purpose-limited decision/evidence access (KTP-HUMAN; specifications/privacy-evidence.md) - Minimum necessary disclosure principle
 
 Residual Risk: MEDIUM - Scores necessarily visible to some parties - Inference from behavior difficult to prevent
 
@@ -717,7 +717,7 @@ Impact: HIGH - Undermine security model - Create backdoors - Compromise integrit
 
 Likelihood: MEDIUM - Administrators exist - Traditional systems allow admin override
 
-Mitigations: - Governance Recursion (KTP-HUMAN §5.4) - Administrators have Trust Scores - Admin actions logged to Flight Recorder - No override mechanism exists - Multi-person admin (Level 3)
+Mitigations: - Governance Recursion (KTP-HUMAN §5.4) - Human administrators require current operation-specific eligibility and independently established capacity - Admin actions logged to Flight Recorder - No override mechanism exists - Multi-person admin (Level 3)
 
 Residual Risk: MEDIUM - KTP explicitly addresses this - But determined malicious admin has options
 
@@ -751,7 +751,11 @@ The Trust Oracle is the highest-value target.
 
 TM-TO-001: Oracle Key Extraction Threat: Extract signing key shares from Oracle Attack: HSM side-channel, memory dump, insider theft Impact: CRITICAL - forge Trust Proofs Mitigation: HSM (Level 2+), threshold crypto, ceremony Risk: LOW (Level 2+), MEDIUM (Level 1)
 
-TM-TO-002: Oracle Consensus Manipulation Threat: Manipulate threshold signing consensus Attack: Compromise k-of-n Oracles, Byzantine behavior Impact: HIGH - issue fraudulent proofs Mitigation: Geographic distribution, threshold selection Risk: LOW
+TM-TO-002: Oracle Consensus Manipulation Threat: Establish conflicting authoritative Oracle state or sign a result without valid commitment. Attack: One faulty leader equivocates between honest groups, replays old-view or old-epoch evidence, exploits lost durable locks after restart, or induces unsafe membership changes. Impact: HIGH - divergent E_base/trajectory histories and proofs derived from conflicting standing. Mitigation: The reviewed, named and versioned protocol required by specifications/oracle-consensus.md, authenticated membership epochs, intersecting decision quorums, durable voting/locks, safe view changes and membership transitions, and commit-evidence verification before signing. Risk: Deployment-dependent; no LOW rating is justified by geographic distribution or signing-threshold selection alone.
+
+For N = 5 and f = 1, the three-voter sets {A, B, X} and {C, D, X} overlap only at malicious X. X can vote for conflicting values at the same sequence/predecessor while each honest member votes once. The default protected-state decision quorum is therefore q = 4, with floor((N + f) / 2) + 1 <= q <= N - f required for other supported homogeneous quorums. Raising the count alone does not repair crash recovery, view changes, or reconfiguration. A valid 3-of-5 signing threshold can remain cryptographic policy only when honest signers require verified underlying commit evidence; it is not a decision certificate by itself.
+
+Residual risk depends on implementation evidence, the declared fault bound, independent failure domains, durable-storage integrity, and the selected protocol's network assumptions. Four responsive, mutually communicating members permit progress in the default profile under those assumptions; a silent malicious member plus an unavailable honest member leaves three and MUST pause new protected-state commitments. Basic single-Oracle operation has no Byzantine agreement guarantee.
 
 TM-TO-003: Oracle Configuration Attack Threat: Modify Oracle security parameters Attack: Admin compromise, config injection Impact: HIGH - weaken security zone-wide Mitigation: Config signing, audit, admin Trust Scores Risk: MEDIUM
 
@@ -765,7 +769,7 @@ Summary:
 | Threat    | Impact   | Likelihood | Risk   | Mitigation       |
 +-----------+----------+------------+--------+------------------+
 | TM-TO-001 | CRITICAL | LOW        | MEDIUM | HSM, threshold   |
-| TM-TO-002 | HIGH     | LOW        | LOW    | Distribution     |
+| TM-TO-002 | HIGH     | DEPENDS    | VARIES | Reviewed BFT     |
 | TM-TO-003 | HIGH     | MEDIUM     | MEDIUM | Signing, audit   |
 | TM-TO-004 | HIGH     | LOW        | LOW    | Validation       |
 | TM-TO-005 | MEDIUM   | MEDIUM     | MEDIUM | Multiple sources |
@@ -868,7 +872,7 @@ Summary:
 
 Goal: Perform action A where A > E_trust
 
-OR ├── \[1] Increase E_trust │   OR │   ├── \[1.1] Manipulate E_base │ │   OR │   │   ├── \[1.1.1] Falsify trajectory history │   │   │   AND │   │   │   ├── Compromise Oracle co-signature │   │   │   └── Modify trajectory storage │   │   │   Difficulty: HIGH │   │   │ │   │   ├── \[1.1.2] Generate fake Proof of Resilience │   │   │   AND │   │   │ ├── Create artificial stress conditions │   │   │   └── Get Oracle attestation under false pretense │   │   │   Difficulty: MEDIUM │   │ │ │   │   └── \[1.1.3] Steal high-E_base agent identity │   │ AND │   │       ├── Obtain agent private key │   │       └── Evade trajectory anomaly detection │   │       Difficulty: MEDIUM │   │ │ └── \[1.2] Manipulate Risk Factor │       OR │       ├── \[1.2.1] Compromise sensors to report low risk │       │   Difficulty: MEDIUM (need multiple sensors) │       │ │       └── \[1.2.2] Poison baseline over time │           Difficulty: MEDIUM-HIGH (needs patience) │ ├── \[2] Decrease A (action risk) │   OR │   ├── \[2.1] Modify risk classification │   │   AND │   │   ├── Gain config access │   │   └── Change action risk score │   │   Difficulty: MEDIUM (detectable) │ │ │   └── \[2.2] Misrepresent action │       AND │       ├── Call different API than intended action │       └── Achieve same effect │ Difficulty: LOW-MEDIUM (depends on API design) │ ├── \[3] Bypass PEP │ OR │   ├── \[3.1] Route around PEP │   │   Difficulty: MEDIUM (network dependent) │   │ │   ├── \[3.2] Compromise PEP │   │   Difficulty: MEDIUM-HIGH │   │ │   └── \[3.3] Exploit PEP vulnerability │ Difficulty: MEDIUM (if vulnerability exists) │ └── \[4] Forge Trust Proof (See Attack Tree 7.2) Difficulty: HIGH
+OR ├── \[1] Increase E_trust │   OR │   ├── \[1.1] Manipulate E_base │ │   OR │   │   ├── \[1.1.1] Falsify trajectory history │   │   │   AND │   │   │   ├── Defeat complete signature binding or trusted head verification │   │   │   └── Modify trajectory storage │   │   │   Difficulty: HIGH │   │   │ │   │   ├── \[1.1.2] Generate fake Proof of Resilience │   │   │   AND │   │   │ ├── Create artificial stress conditions │   │   │   └── Get Oracle attestation under false pretense │   │   │   Difficulty: MEDIUM │   │ │ │   │   └── \[1.1.3] Steal high-E_base agent identity │   │ AND │   │       ├── Obtain agent private key │   │       └── Evade trajectory anomaly detection │   │       Difficulty: MEDIUM │   │ │ └── \[1.2] Manipulate Risk Factor │       OR │       ├── \[1.2.1] Compromise sensors to report low risk │       │   Difficulty: MEDIUM (need multiple sensors) │       │ │       └── \[1.2.2] Poison baseline over time │           Difficulty: MEDIUM-HIGH (needs patience) │ ├── \[2] Decrease A (action risk) │   OR │   ├── \[2.1] Modify risk classification │   │   AND │   │   ├── Gain config access │   │   └── Change action risk score │   │   Difficulty: MEDIUM (detectable) │ │ │   └── \[2.2] Misrepresent action │       AND │       ├── Call different API than intended action │       └── Achieve same effect │ Difficulty: LOW-MEDIUM (depends on API design) │ ├── \[3] Bypass PEP │ OR │   ├── \[3.1] Route around PEP │   │   Difficulty: MEDIUM (network dependent) │   │ │   ├── \[3.2] Compromise PEP │   │   Difficulty: MEDIUM-HIGH │   │ │   └── \[3.3] Exploit PEP vulnerability │ Difficulty: MEDIUM (if vulnerability exists) │ └── \[4] Forge Trust Proof (See Attack Tree 7.2) Difficulty: HIGH
 
 Minimum Difficulty Path: \[2.2] or \[3.1] Mitigation Focus: API design, network segmentation
 
@@ -987,7 +991,7 @@ Based on threat analysis, implementations MUST meet these security requirements:
 
 SR-001: Cryptographic Signatures All Trust Proofs MUST be cryptographically signed per KTP-CRYPTO. Rationale: Prevents forgery (TM-T-001)
 
-SR-002: Threshold Signing Level 2+ MUST use threshold signatures for Trust Proofs. Rationale: Prevents single-point compromise (TM-S-002)
+SR-002: Threshold Signing Level 2+ MUST use threshold signatures for Trust Proofs. Rationale: Distributes signing authority against key compromise (TM-S-002). A signing threshold is not evidence of Byzantine consensus; mesh issuers and honest signers MUST verify the applicable committed standing under specifications/oracle-consensus.md.
 
 SR-003: Transport Security All communication MUST use TLS 1.3. Rationale: Prevents interception (TM-I-*)
 
@@ -1007,13 +1011,15 @@ SR-010: No Override Mechanism Implementations MUST NOT include override for Zero
 
 SR-011: Administrator Trust Scores Administrators MUST have Trust Scores and be subject to A ≤ E. Rationale: Limits insider abuse (TM-E-003)
 
-SR-012: Short Proof Lifetime Trust Proofs MUST expire within 60 seconds. Rationale: Limits replay window (TM-S-001)
+SR-012: Short Proof Lifetime Ordinary Trust Proofs MUST satisfy 0 < exp - iat <= 10 seconds and iat <= current_time < exp. At current_time = exp the proof is expired; invalid or unverifiable time MUST fail closed. Existing sessions, caching, clock-skew allowances, and Oracle outages MUST NOT extend validity. Rationale: Limits replay and stale-authority windows (TM-S-001).
 
 SR-013: Rate Limiting All endpoints MUST implement rate limiting. Rationale: Limits DoS impact (TM-D-*)
 
 SR-014: Fail-Safe Mode Loss of Oracle MUST result in fail-safe (deny uncertain). Rationale: Security not degraded by availability attack
 
 SR-015: Soul Immutability Soul constraints MUST NOT be modifiable through normal config. Rationale: Prevents sovereignty bypass (TM-E-004)
+
+SR-016: Oracle Consensus Any Oracle mesh agreement claim MUST satisfy specifications/oracle-consensus.md with reviewed protocol/version, declared membership and fault budget, safe decision quorums, durable votes/locks, safe view changes and membership transitions, and implementation evidence required by KTP-CONFORMANCE. Rationale: Prevents a signing-threshold or majority assumption from being substituted for authoritative state agreement (TM-TO-002).
 
 # Assumptions and Dependencies
 
@@ -1070,7 +1076,7 @@ Tampering Threats:
 | ID       | Name                    | Risk   | Reference |
 +----------+-------------------------+--------+-----------+
 | TM-T-001 | Trust Proof Tampering   | V.LOW  | §5.2.1    |
-| TM-T-002 | Trajectory Tampering    | LOW    | §5.2.2    |
+| TM-T-002 | Trajectory Tampering    | VARIES | §5.2.2    |
 | TM-T-003 | Flight Recorder Tamper  | MEDIUM | §5.2.3    |
 | TM-T-004 | Configuration Tampering | MEDIUM | §5.2.4    |
 +----------+-------------------------+--------+-----------+
@@ -1150,7 +1156,7 @@ Mapping of mitigations to KTP specifications:
 | Trust tiers              | KTP-ENFORCE    | §5      |
 | No override mechanism    | KTP-ENFORCE    | §7      |
 | Governance recursion     | KTP-HUMAN      | §5.4    |
-| Admin Trust Scores       | KTP-HUMAN      | §3      |
+| Human operation eligibility | KTP-HUMAN | Human Identity and Eligibility |
 | Federation Trust Factor  | KTP-FEDERATION | §5      |
 | Zone discovery signing   | KTP-FEDERATION | §4      |
 +--------------------------+----------------+---------+

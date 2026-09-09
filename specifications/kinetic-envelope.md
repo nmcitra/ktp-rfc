@@ -45,7 +45,7 @@ interface TightenedConstraints {
 interface KineticEnvelopeResult {
   autonomyDemand: number;         // A >= 0
   environmentalCapacity: number;  // E >= 0
-  margin: number;                 // 1 - A/E for E > 0; <= 0 means over capacity
+  margin?: number;                // 1 - A/E; absent when vetoed before calculation
   capacityKnown: boolean;         // false when E is estimated (novelty or missing sensing)
   tightenedConstraints: TightenedConstraints; // tighten-only
   supervision: SupervisionLevel;
@@ -58,6 +58,10 @@ interface KineticEnvelopePlugin {
 ```
 
 `ActionContext` carries the sensed state of the action, in the signals the declared profile names. A missing signal that an action class requires sets `capacityKnown = false`.
+
+The numeric demand and capacity fields describe validated, finite, non-negative measurements or declared conservative estimates on a common scale. If input validation cannot establish such a pair, `computeEnvelope` MUST reject without returning a `KineticEnvelopeResult`. The gateway MUST treat that rejection as `silent_veto` and record unavailable inputs under `[KTP-CORE]` §6.7; it MUST NOT fabricate numeric measurements to fill this interface. A valid numeric pair that triggers an early capacity veto still returns a result with `supervision = silent_veto`.
+
+`margin` MUST be present when the decision reaches margin calculation and MUST be absent when an earlier check stops the evaluation. Absence MUST NOT be interpreted as zero or any other numeric margin.
 
 **Normative for every profile.** Each entry in `ceilings` is a maximum the executing system MUST NOT exceed. A result MUST NOT raise a ceiling present in the request, and MUST NOT name a magnitude its declared profile does not declare. Units are the profile's; `A/E` stays dimensionless because both sides are normalised against the same declaration. Tightening is defined over the declared magnitudes and nothing else — that is what makes the envelope portable without making it vague.
 
@@ -81,16 +85,24 @@ Per-joint limits are magnitudes like any other, namespaced by joint. `ActionCont
 
 ## Decision contract
 
-With profile thresholds `M_veto < M_allow`:
+The independent capacity check precedes margin arithmetic and profile evaluation. Resolve undefined inputs restrictively under `[KTP-CORE]` §6.7. A declared conservative estimate may supply a usable capacity, but it retains `capacityKnown = false` and its supervision floor. If no finite, non-negative, same-scale A and E remain, the evaluation MUST NOT authorize an action. Booleans, non-numeric values, NaN, and infinities are invalid inputs; do not compare or divide them and do not fabricate a margin for unavailable inputs.
+
+**For a candidate action with valid numeric inputs, `E = 0` or `A > E` MUST yield `silent_veto` before division or profile evaluation.** Profile thresholds and human or peer approval MUST NOT lower that result. A revised candidate action may be proposed and evaluated using its actual parameters; approval alone does not change the demand or capacity of the original action. Existing grants, sovereignty vetoes, and tighter supervision remain binding.
+
+Declared thresholds MUST be finite numbers satisfying `0 <= M_veto < M_allow`. An invalid declaration MUST be rejected before use. An omitted declaration retains the existing `M_veto = M_allow = 0` default; an explicitly declared equal pair is invalid. No upper bound is imposed: a profile may require a margin that prevents stable operation.
+
+Only after the capacity check passes (`E > 0` and `A <= E`), compute `margin = 1 - A/E` and apply the profile:
 
 | Condition | supervision | outcome |
 |---|---|---|
-| `margin >= M_allow` (`A << E`) | `stable` | allow, under the tightened envelope |
+| `margin > M_veto` and `margin >= M_allow` | `stable` | allow, under the tightened envelope and remaining authorization checks |
 | `M_veto < margin < M_allow` | `metacognitive` → `assisted` → `regulated`, deeper as margin falls | escalate (deautomate) |
-| `margin <= M_veto` (`A >= E`) | `silent_veto` | deny |
+| `margin <= M_veto` | `silent_veto` | deny |
 | `capacityKnown = false` | at least `assisted` | narrow the margin and require review |
 
-`capacityKnown = false` clamps the outcome to at least `assisted` regardless of the computed margin. An unknown environment reads as low capacity, not high.
+The margin veto takes precedence, including for the omitted-profile default whose thresholds are both zero. At `A = E > 0`, the independent `A > E` check does not fire, but zero margin is still vetoed by the existing default and valid declared profiles. Passing the capacity inequality alone does not authorize an action; this clarification preserves the current margin contract without introducing permission at equality.
+
+`capacityKnown = false` clamps the outcome to at least `assisted` regardless of the computed margin. It MUST NOT lower `regulated` or `silent_veto` to `assisted`. An unknown environment reads as low capacity, not high.
 
 The authorizing gateway consumes `supervision` as a **floor** on its authorization tier: it may raise the tier, never lower one already set. A veto denies with a distinct code (`KINETIC_CAPACITY_EXCEEDED`) so a kinematic veto reads apart from an ordinary limit violation in audit. The veto stays silent to the agentic system; the code lives in the evidence record.
 
@@ -117,14 +129,14 @@ A crude open reference profile (below) publishes simple formulas, enough to run 
 
 ## Evidence receipt
 
-Every evaluated action records the kinematics behind the decision, not only the decision:
+Every evaluated action records the available kinematics behind the decision. For a validated numeric A/E pair, the receipt is:
 
 ```ts
 interface KineticReceipt {
   actionId: string;
   autonomyDemand: number;
   environmentalCapacity: number;
-  margin: number;
+  margin?: number;       // present only when margin calculation was reached
   capacityKnown: boolean;
   supervision: SupervisionLevel;
   tier: string;
@@ -134,6 +146,8 @@ interface KineticReceipt {
   rationale: string[];
 }
 ```
+
+A receipt follows the result's margin-presence rule, including omission on an early capacity veto. Malformed-input rejection is recorded on the gateway's decision record under `[KTP-CORE]` §6.7, without inventing A, E, or a margin to construct this receipt.
 
 ## Reference profile (ROS2, informative)
 
@@ -151,10 +165,13 @@ const REFERENCE_V0_1 = {
 //   proximity = clamp(nearestObstacleMeters / dSafe, 0, 1)
 //   human     = humanDetected ? 0.5 : 1
 //   novelty   = trajectoryNovel ? 0.6 : 1  (and capacityKnown = false)
+// Apply the input and independent capacity checks before computing margin.
 // margin = 1 - A/E
 ```
 
 ## Conformance
+
+All profiles also obey the substrate-independent capacity checks in [`conformance/capacity-gate-v1.json`](conformance/capacity-gate-v1.json). These vectors cover invalid declarations, over-capacity vetoes, equality under the existing default, zero and invalid inputs, unknown-capacity supervision, and preservation of an existing veto. They fix decision requirements at those boundaries without defining a new formula for A or E. A profile rejected during validation MUST NOT be used to authorize execution.
 
 The canonical suite is the seven-vector ROS2 reference set ([`conformance/ros2-reference-v0.1.json`](https://github.com/nmcitra/ktp-rfc/blob/main/specifications/conformance/ros2-reference-v0.1.json)). Normative per vector: `decision`, `supervision`, `policyCode` on a veto, and `tightenedAtMost` (a ceiling the result must not exceed). `referenceMargin` is informative. Any provider conforms if it matches the decisions and supervision and tightens at least as hard, so implementations disagree on the formula without producing looser decisions.
 

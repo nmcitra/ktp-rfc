@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/emergency-policy.json",
+  "title": "KTP Emergency Policy Declaration",
+  "description": "The emergency capability declaration defined by specifications/emergency-capability.md. This schema constrains configuration shape. scripts/check-emergency-policy.py also checks finite JSON values, roster uniqueness, threshold counts, and predecessor semantics. Neither schema nor checker verifies signatures, independent custody, approval, activation, trusted time, revocation, or runtime enforcement. A declaration alone grants no authority.",
+  "type": "object",
+  "required": ["policy_id", "version", "zone_id", "predecessor_digest", "custodians", "change_control", "activation", "actions", "logging"],
+  "additionalProperties": false,
+  "properties": {
+    "policy_id": { "$ref": "#/$defs/literal" },
+    "version": { "type": "integer", "minimum": 1 },
+    "zone_id": { "$ref": "#/$defs/literal" },
+    "predecessor_digest": {
+      "oneOf": [{ "$ref": "#/$defs/digest" }, { "type": "null" }],
+      "description": "Null only for version 1. Later versions bind the immediately preceding approved policy payload; the checker validates syntax, not chain history."
+    },
+    "custodians": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["principal_id", "key_id", "control_domain"],
+        "additionalProperties": false,
+        "properties": {
+          "principal_id": { "$ref": "#/$defs/literal" },
+          "key_id": { "$ref": "#/$defs/literal" },
+          "control_domain": { "$ref": "#/$defs/literal" }
+        }
+      },
+      "description": "At least three custodians with separately unique principal_id, key_id, and control_domain values. Independence is asserted metadata, not established by distinct strings. Runtime changes are approved against the pinned incumbent roster, never a candidate roster alone."
+    },
+    "change_control": {
+      "type": "object",
+      "required": ["approval_threshold", "notice_days", "ratification_days", "external_review_required"],
+      "additionalProperties": false,
+      "properties": {
+        "approval_threshold": { "type": "integer", "minimum": 3 },
+        "notice_days": { "type": "integer", "minimum": 90 },
+        "ratification_days": { "type": "integer", "minimum": 14 },
+        "external_review_required": { "const": true }
+      },
+      "description": "approval_threshold must also be at least ceil(0.9 * custodian_count) and no greater than that full count. These floors cannot be waived during an incident. The checker does not establish that a change has met them."
+    },
+    "activation": {
+      "type": "object",
+      "required": ["threshold", "max_duration_seconds", "automatic_renewal"],
+      "additionalProperties": false,
+      "properties": {
+        "threshold": { "type": "integer", "minimum": 2 },
+        "max_duration_seconds": { "type": "integer", "minimum": 1, "maximum": 14400 },
+        "automatic_renewal": { "const": false }
+      },
+      "description": "threshold cannot exceed the full approved custodian count. Activation still requires runtime verification under the preinstalled approved policy; this declaration is not an activation token."
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["action_id", "subject", "resource", "operation", "parameters", "max_executions", "evaluation_profile_digest"],
+        "additionalProperties": false,
+        "properties": {
+          "action_id": { "$ref": "#/$defs/literal" },
+          "subject": { "$ref": "#/$defs/literal" },
+          "resource": { "$ref": "#/$defs/literal" },
+          "operation": { "$ref": "#/$defs/literal" },
+          "parameters": {
+            "type": "object",
+            "propertyNames": { "$ref": "#/$defs/literal" },
+            "additionalProperties": { "type": ["string", "number", "boolean", "null"] },
+            "description": "An exact parameter map: all declared names and scalar values must match, and extra request parameters are denied. Numbers must be finite; arrays and nested objects are not permitted. Strings are literal values, never executable patterns or templates."
+          },
+          "max_executions": { "type": "integer", "minimum": 1 },
+          "evaluation_profile_digest": {
+            "$ref": "#/$defs/digest",
+            "description": "Binds the independent local evaluation profile for demand, capacity, Soul, and other applicable checks; emergency activation cannot override their vetoes."
+          }
+        }
+      },
+      "description": "One or more fully enumerated actions with unique action_id values. Wildcards, globs, and templated identities or resource/operation patterns are not accepted."
+    },
+    "logging": {
+      "type": "object",
+      "required": ["durable_before_execution"],
+      "additionalProperties": false,
+      "properties": { "durable_before_execution": { "const": true } }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "version": { "const": 1 } }, "required": ["version"] },
+      "then": { "properties": { "predecessor_digest": { "type": "null" } } },
+      "else": { "properties": { "predecessor_digest": { "$ref": "#/$defs/digest" } } }
+    }
+  ],
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!.*[\\s*?\\[\\]{}])[\\s\\S]+$",
+      "description": "A nonempty literal identifier with no whitespace or wildcard/glob/template delimiters (* ? [ ] { }). Its interpretation must not expand patterns, aliases, or templates."
+    },
+    "digest": {
+      "description": "Digest syntax only. Trusted Level 3 deployments require SHA-384 for every emergency binding under KTP-CRYPTO; this declaration schema has no trusted conformance-level context and cannot establish that requirement or permit a downgrade.",
+      "oneOf": [
+        { "type": "string", "minLength": 71, "maxLength": 71, "pattern": "^sha256:[0-9a-f]{64}$" },
+        { "type": "string", "minLength": 103, "maxLength": 103, "pattern": "^sha384:[0-9a-f]{96}$" }
+      ]
+    }
+  }
+}

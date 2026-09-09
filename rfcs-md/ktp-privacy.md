@@ -1,7 +1,7 @@
 # Kinetic Trust Protocol (KTP) - Privacy Specification
 
 
-This document specifies privacy requirements, protections, and data subject rights for the Kinetic Trust Protocol (KTP). It operationalizes global privacy frameworks including GDPR, CCPA, ICCPR Article 17, and other international privacy instruments.
+This document specifies privacy requirements, protections, and mechanisms for exercising data subject rights in the Kinetic Trust Protocol (KTP). Its human eligibility and evidence lifecycle requirements are defined by `specifications/human-eligibility.md` and `specifications/privacy-evidence.md`. References to privacy instruments identify matters for deployment review; protocol conformance does not establish legal compliance.
 
 Privacy is not a feature. It is a fundamental human right. KTP is designed with privacy as a core architectural principle, not a compliance checkbox.
 
@@ -32,19 +32,19 @@ KTP treats privacy not as a regulatory burden but as a design constraint of equa
 
 KTP faces a fundamental tension:
 
-SECURITY REQUIRES VISIBILITY - Trust Scores require behavioral observation - Context Signals require environmental monitoring - Flight Recorder requires comprehensive logging - Proof of Resilience requires historical data
+SECURITY REQUIRES EVIDENCE - Software-agent standing uses admitted history - Human eligibility requires evidence for a specified operation - Context Signals require environmental monitoring - Flight Recorder requires sufficient, minimized decision evidence
 
 PRIVACY REQUIRES INVISIBILITY - Individuals should not be tracked - Behavior should not create dossiers - Actions should not be permanently recorded - Inferences should not be drawn without consent
 
-KTP resolves this paradox through:
+KTP addresses this tension through:
 
 1. AGGREGATE OVER INDIVIDUAL Sensors measure environment, not individuals. Statistics over populations, not profiles.
 
-1. EPHEMERAL OVER PERMANENT Trust Proofs expire in seconds. Behavioral data has retention limits. Right to erasure is real, not theoretical.
+1. EPHEMERAL OVER PERMANENT Trust Proofs expire in seconds. Personal evidence has declared retention and erasure requirements. Completion claims require an accounted-for evidence lifecycle.
 
 1. LOCAL OVER CENTRAL Trust calculation can be distributed. Data need not leave local zone. Federation transmits proofs, not raw data.
 
-1. AGENT OVER HUMAN KTP primarily tracks agents (software), not humans. Human data requires explicit consent. Human operators have privacy rights.
+1. AGENT OVER HUMAN KTP evaluates software agents. Human participation uses eligibility for a specified operation, not a general score of a person. Processing human data requires declared purpose and authority, including valid consent where that is the applicable basis.
 
 ## Privacy Hierarchy
 
@@ -78,7 +78,7 @@ Privacy is violated when any parameter violates the norms of the operative conte
 
 KTP operates across multiple contexts, each with distinct norms:
 
-SECURITY CONTEXT - Norms: Information flows to protect systems - Appropriate: Trust Scores, threat indicators, audit trails - Inappropriate: Content inspection, behavioral profiling
+SECURITY CONTEXT - Norms: Information flows to protect systems - Appropriate: Software-agent standing, operation-specific human eligibility, necessary threat indicators and minimized audit evidence - Inappropriate: Undeclared content access, human behavioral profiling, reuse for employment ranking
 
 EMPLOYMENT CONTEXT - Norms: Information flows for legitimate work purposes - Appropriate: Role-based access, audit for compliance - Inappropriate: Performance surveillance, personal monitoring
 
@@ -96,7 +96,7 @@ For each KTP data flow, we analyze:
 
 TRUST SCORE CALCULATION - Sender: Agent (via trajectory) - Recipient: Trust Oracle - Subject: Agent (and indirectly, operator) - Information: Behavioral metadata - Transmission: Contractual, for security - Assessment: Appropriate IF limited to security context, violates integrity IF used for employment/social purposes
 
-FLIGHT RECORDER LOGGING - Sender: All components - Recipient: Audit system - Subject: Agents, operators, resources - Information: Decision records - Transmission: Legal/compliance requirement - Assessment: Appropriate for audit context, requires access controls to prevent context collapse
+FLIGHT RECORDER LOGGING - Sender: Authorized components - Recipient: Declared audit recipients - Subject: Agents, operators, resources - Information: Minimized decision records and protected evidence references - Transmission: Declared purpose and authority, not an assumed universal legal obligation - Assessment: Requires necessity, access and retention controls to prevent context collapse
 
 FEDERATION DATA SHARING - Sender: Origin zone - Recipient: Partner zone - Subject: Agents operating cross-zone - Information: Trust Proofs (not trajectories) - Transmission: Bilateral agreement - Assessment: Appropriate IF minimized to proofs, violates integrity IF raw data shared
 
@@ -111,6 +111,12 @@ CI-003: Context Collapse Prevention - Technical controls prevent data from cross
 CI-004: Transmission Principle Enforcement - Each flow specifies transmission principle - System enforces stated principle - Violations logged and alerted
 
 CI-005: Context-Aware Consent - Consent tied to specific contexts - New context requires new consent - Context change disclosed to subject
+
+CI-006: Human eligibility MUST follow `specifications/human-eligibility.md`. Each evaluation MUST bind the person or authorized subject reference, requested operation and scope, applicable policy, evidence and accountable decision authority. A deployment MUST NOT turn this result into a general human trust score, behavioral profile, personality, emotion or loyalty inference, or security-derived HR ranking. Tenure, seniority or an aggregate reputation MUST NOT substitute for evidence required for the operation.
+
+CI-007: Each human-data flow MUST declare its purpose, source, processing authority, permitted recipients and retention schedule before processing. An installed, authorized declaration governs the flow; a request's asserted purpose or the availability of data is insufficient authority. Missing or incompatible declarations MUST prevent the dependent processing. Review and rights-request access MUST remain available independently of operational eligibility.
+
+CI-008: Local content analysis is a separate, explicitly authorized processing function under KTP-INFORMATION. The ban on sensor content collection remains in force. An information-analysis label MUST NOT grant general access to communications, personal dossiers or unrelated resources. Local analysis and aggregate export require separately declared recipients and purpose; aggregation alone does not authorize a transfer or establish anonymity.
 
 ### Contextual Integrity Assessment
 
@@ -134,13 +140,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 KTP components MUST collect only data necessary for their function:
 
-TRUST ORACLE - Collects: Agent ID, action requests, timestamps - Does NOT collect: User identity, IP addresses, device info - Retention: Transient (proof generation only)
+TRUST ORACLE - Processes: Necessary subject references, scoped requests and verified evidence - Avoids: Raw personal content and unnecessary identifying attributes - Retention: Transient inputs where possible; necessary committed state and evidence references under the declared schedule
 
 SENSORS - Collect: Environmental readings (CPU, memory, network) - Do NOT collect: Request content, user behavior, PII - Retention: Aggregated immediately, raw data ephemeral
 
-FLIGHT RECORDER - Collects: Decisions, context, proofs (for audit) - Does NOT collect: Request payloads, user data - Retention: Per policy (default 7 years for compliance)
+FLIGHT RECORDER - Collects: Minimized signed decision metadata and protected evidence references - Does NOT embed: Raw request content or unnecessary personal data - Retention: Declared by purpose and jurisdiction; no universal seven-year default
 
-PEP - Collects: Authorization decisions (for caching) - Does NOT collect: Request/response content - Retention: Cache lifetime only
+PEP - Processes: The actual operation, resolved target and parameters needed to enforce a decision - Does NOT retain: Request/response content merely because it enforces access - Retention: Cache and required decision evidence under the declared schedule
 
 ### Adequacy Principle
 
@@ -152,9 +158,9 @@ Example: To calculate Trust Score, we need: - Agent identity: YES (required) - A
 
 SENSOR-001: Sensors MUST NOT capture content of communications SENSOR-002: Sensors MUST aggregate readings before transmission SENSOR-003: Sensors SHOULD operate on statistical summaries
 
-ORACLE-001: Oracles MUST NOT log request payloads ORACLE-002: Oracles MUST NOT retain data beyond proof lifetime ORACLE-003: Oracles SHOULD process without persistent storage
+ORACLE-001: Oracles MUST NOT log raw request payloads in ordinary proof or audit records ORACLE-002: Transient personal inputs MUST expire under the declared processing schedule ORACLE-003: Required durable consensus, revocation and eligibility state MUST use minimized records and protected evidence under `specifications/privacy-evidence.md`; proof expiry does not erase that state
 
-AUDIT-001: Flight Recorder MUST NOT capture user content AUDIT-002: Flight Recorder SHOULD capture only decision metadata AUDIT-003: Flight Recorder MUST support configurable redaction
+AUDIT-001: Flight Recorder signed envelopes MUST NOT embed raw user content AUDIT-002: Flight Recorder MUST minimize decision metadata and reference separately protected evidence AUDIT-003: Minimization MUST occur before signing; corrections and lifecycle events MUST be appended without redacting or rewriting the exact signed bytes
 
 ## Purpose Limitation
 
@@ -162,7 +168,7 @@ AUDIT-001: Flight Recorder MUST NOT capture user content AUDIT-002: Flight Recor
 
 ### Defined Purposes
 
-KTP defines these lawful processing purposes:
+KTP defines these purpose categories. A category does not itself supply processing authority or a legal basis:
 
 PURPOSE-TRUST: Trust Score calculation - Data: Agent ID, action metadata, trajectory summary - Users: Trust Oracle, PEP
 
@@ -172,6 +178,8 @@ PURPOSE-SECURITY: Security incident response - Data: Extended context during inc
 
 PURPOSE-IMPROVEMENT: System improvement - Data: Anonymized/aggregated statistics only - Users: System administrators, developers
 
+PURPOSE-ELIGIBILITY: Eligibility for a specified human operation - Data: Necessary scoped qualifications, current eligibility facts and reviewable evidence - Users: Authorized evaluators and enforcement components
+
 ### Purpose Creep Prevention
 
 Data collected for PURPOSE-TRUST: - SHALL NOT be used for employee monitoring - SHALL NOT be used for performance evaluation - SHALL NOT be used for marketing - SHALL NOT be used for law enforcement (without legal process) - SHALL NOT be shared with third parties (without consent)
@@ -180,37 +188,25 @@ New purposes require: - Privacy Impact Assessment - Data subject notification - 
 
 ### Implementation Requirements
 
-PURPOSE-001: All data MUST be tagged with collection purpose PURPOSE-002: Access controls MUST enforce purpose limitation PURPOSE-003: Audit logs MUST record purpose of each access PURPOSE-004: Purpose changes MUST trigger review
+PURPOSE-001: All data MUST bind collection purpose, source, authority, recipients and retention declaration PURPOSE-002: Access controls MUST enforce purpose and recipient limits PURPOSE-003: Audit logs MUST record the authorized purpose of each access PURPOSE-004: Purpose changes MUST obtain the required governing approval before processing; an analyst or reviewer cannot approve their own new purpose
 
 ## Storage Limitation
 
 "Don't keep what you don't need."
 
-### Retention Limits
+### Declared Retention Schedule
 
-~~~
-+-------------------------+-------------------+--------------------+
-| Data Type               | Default Retention | Maximum Retention  |
-+-------------------------+-------------------+--------------------+
-| Trust Proofs            | 60 seconds        | 5 minutes (cached) |
-| Context Signal readings | 24 hours          | 7 days             |
-| Trajectory summaries    | 1 year            | 7 years            |
-| Flight Recorder (ops)   | 90 days           | 1 year             |
-| Flight Recorder (audit) | 7 years           | 10 years           |
-| Identity proofing       | Duration of agent | Duration + 1 year  |
-| Sensor raw readings     | 1 hour            | 24 hours           |
-+-------------------------+-------------------+--------------------+
-~~~
+Each deployment MUST declare retention and erasure schedules by data category, purpose and applicable jurisdiction, with the authorizing authority, accountable custodian, deletion deadline and review point. The schedule MUST cover raw inputs, derived results, signed envelopes, identity mappings, encrypted evidence, keys, replicas, caches, exports and backups. There is no protocol-wide default duration for these categories and no default permission to retain them forever.
+
+Ordinary Trust Proof validity remains at most ten seconds, with `iat <= now < exp` and `0 < exp - iat <= 10`, as specified by KTP-ORACLE. A retained audit copy is expired evidence, not reusable authority. Retention of that copy requires its own declared purpose and schedule.
 
 ### Retention Justification
 
-Longer retention requires documented justification: - Legal requirement (cite specific law) - Contractual requirement (cite specific contract) - Business necessity (demonstrate necessity)
-
-All justifications subject to periodic review (annual minimum).
+Every retained category requires a documented, necessary purpose. A hold or exception MUST identify the specific retained material, authority, permitted access, bounded deletion deadline and scheduled review date, and responsible reviewer. A legal hold MUST identify its legal authority. Labels such as "audit", "business necessity" or "security" alone MUST NOT create indefinite retention. Expired holds MUST be resolved under the declared schedule rather than silently renewed.
 
 ### Deletion Requirements
 
-DELETION-001: Data MUST be deleted when retention expires DELETION-002: Deletion MUST be cryptographic where possible DELETION-003: Deletion MUST include backups within 30 days DELETION-004: Deletion MUST be logged (metadata only)
+DELETION-001: Data MUST be erased when its authorized retention expires unless a specific current hold applies DELETION-002: The evidence lifecycle in `specifications/privacy-evidence.md` MUST govern physical deletion and cryptographic erasure DELETION-003: All copies, recoverable keys and backups MUST be accounted for under the declared completion schedule DELETION-004: Minimized lifecycle evidence MUST record completion, pending copies and residual holds accurately
 
 ## Transparency
 
@@ -224,7 +220,7 @@ NOTICE-001: Clear explanation of what data is collected NOTICE-002: Clear explan
 
 ### Transparency for Agents
 
-For AI agents (non-human): - Agent owners/operators receive notice - Agents cannot consent (owners must consent) - Agent behavior is visible to owners
+For software agents, owners/operators receive the applicable notice and exercise their authorized roles. Registration or an owner's consent MUST NOT be treated as consent from every person whose data the agent encounters.
 
 For human operators: - Full privacy notice required - Consent required where applicable - All rights apply (see Section 4)
 
@@ -287,7 +283,7 @@ INDIRECTLY IDENTIFYING - Agent identifiers (if agent is operated by single perso
 
 Data is pseudonymous if identifier is replaced by pseudonym, but re- identification remains possible.
 
-In KTP: - Agent IDs are pseudonyms for human operators - Re- identification possible via sponsorship chain - Pseudonymous data is still personal data - But may have reduced compliance burden
+In KTP: - Some agent identifiers can be linked to human operators - Re-identification may be possible through sponsorship, activity or other records - Pseudonymization reduces some exposure but does not establish anonymity or a reduced legal obligation
 
 ### Anonymous Data
 
@@ -295,7 +291,7 @@ Truly anonymous data is not personal data and not subject to privacy regulation.
 
 For data to be anonymous: - Cannot identify individual - Cannot be combined with other data to identify - Irreversibly anonymized
 
-KTP approaches to anonymization: - Aggregate statistics (min 50 agents per bucket) - Differential privacy (see Section 7.3) - K-anonymity with k≥10
+Aggregation, suppression and differential privacy can reduce disclosure risk. A bucket size or a pseudonym alone MUST NOT be treated as proof of anonymity. Export approval MUST consider small groups, repeated queries, linkability and available auxiliary information.
 
 ## Sensitive Personal Data
 
@@ -329,7 +325,7 @@ ACTION METADATA - What actions were requested - When actions occurred
 
 - Resource targets - SENSITIVE: May reveal work patterns
 
-RISK FACTOR CONTRIBUTIONS - Individual sensor readings - Aggregated to zone level - NOT SENSITIVE: Environmental, not behavioral
+RISK FACTOR CONTRIBUTIONS - Environmental readings aggregated to zone level - May still reveal personal information through small groups, timing or linkage; require minimization and disclosure review
 
 ### Behavioral Data Protections
 
@@ -341,9 +337,11 @@ Derived data is created through inference from other data.
 
 ### Types in KTP
 
-TRUST SCORES - Derived from trajectory, context, lineage - Summarizes behavior in single number - May be considered personal data
+SOFTWARE-AGENT STANDING - Derived from admitted evidence under the applicable agent policy - May relate indirectly to a human operator and require personal-data protection - MUST NOT become a general score of that person
 
-RISK ASSESSMENTS - Derived from sensor readings - Zone-level, not individual - Generally not personal data
+HUMAN ELIGIBILITY - A scoped decision under `specifications/human-eligibility.md`, with specific evidence and a review route - Not a general score or prediction of the person
+
+RISK ASSESSMENTS - Derived from authorized environmental readings - Intended to describe the environment - May remain identifying through linkage and MUST NOT be used for covert personal inference
 
 PREDICTIONS - If system predicts agent behavior - Based on historical patterns - PROHIBITED for human behavior prediction
 
@@ -353,7 +351,7 @@ Data subjects have rights over derived data: - Right to know inferences are made
 
 # Data Subject Rights
 
-Data subjects have rights over their personal data. KTP implementations MUST provide mechanisms to exercise these rights.
+KTP implementations MUST provide access, correction, objection, restriction, review and erasure mechanisms for affected people. Their response and completion schedules MUST be declared for the deployment's jurisdiction and purpose; the summaries below do not establish a universal legal deadline. Access to these mechanisms MUST NOT depend on the person's current operation eligibility, standing, sponsor approval or ability to obtain a production Trust Proof. Identity verification for disclosure MUST use a separately authorized route and protect other subjects' data.
 
 ## Right of Access
 
@@ -365,13 +363,13 @@ Data subjects may request: - Whether their data is processed - What data is proc
 
 ### Implementation
 
-ACCESS-001: Subject Access Request (SAR) endpoint REQUIRED ACCESS-002: Response within 30 days (GDPR) or 45 days (CCPA) ACCESS-003: No fee for first request per year ACCESS-004: Machine- readable format available ACCESS-005: Identity verification before disclosure
+ACCESS-001: Subject Access Request (SAR) endpoint REQUIRED ACCESS-002: Response within the declared applicable schedule ACCESS-003: Accessible rights-request route independent of operational eligibility ACCESS-004: Machine-readable format available ACCESS-005: Proportionate identity verification before disclosure
 
 ### KTP Access Endpoint
 
 GET /v1/privacy/subject-access/{subject_id}
 
-Response includes: { "subject_id": "...", "request_date": "...", "data_categories": [ { "category": "agent_identity", "data": { ... }, "purposes": ["trust_calculation"], "retention": "duration_of_agent", "source": "registration" }, { "category": "trajectory_summary", "data": { ... }, "purposes": ["trust_calculation", "audit"], "retention": "1_year", "source": "behavioral" } ], "automated_decisions": [ { "type": "trust_score_calculation", "logic": "See KTP-CORE specification", "significance": "Determines access permissions" } ], "recipients": ["trust_oracle", "pep", "flight_recorder"], "your_rights": { ... } }
+The response MUST identify the requested subject data, sources, purposes, processing authorities, recipients, applicable retention and hold schedules, decision reasons and review routes. Human eligibility responses MUST identify the particular operation, policy and evidence used, without substituting a human trust-score summary. Protected access to supporting evidence MUST preserve the rights of other subjects. Unavailable evidence and the resulting verification limits MUST be disclosed.
 
 ## Right to Rectification
 
@@ -383,13 +381,11 @@ Data subjects may request correction of: - Inaccurate data - Incomplete data
 
 ### Implementation
 
-RECTIFY-001: Rectification request endpoint REQUIRED RECTIFY-002: Response within 30 days RECTIFY-003: Notify recipients of corrections RECTIFY-004: Log rectification (but not original erroneous data)
+RECTIFY-001: Rectification request endpoint REQUIRED RECTIFY-002: Response within the declared applicable schedule RECTIFY-003: Propagate corrections to affected recipients and track acknowledgments RECTIFY-004: Append an authenticated, minimized correction linked to the affected decision and evidence without copying unnecessary personal data
 
 ### Limitations in KTP
 
-Some KTP data cannot be rectified: - Cryptographically signed records (integrity protected) - Trajectory chain entries (chain would break)
-
-For immutable data: - Append correction record instead - Original marked as corrected - Correction included in access requests
+Exact signed records and trajectory entries MUST NOT be changed in place. Their conclusions can be corrected: append an authenticated correction that identifies the prior record, corrected facts or associations, responsible authority and reasons. The correction MUST be applied to future evaluations and included in authorized access responses. A corrected-view index MUST NOT be represented as a modification of the original signature or hash.
 
 ### KTP Rectification Endpoint
 
@@ -409,33 +405,41 @@ Data subjects may request erasure when: - Data no longer necessary for purpose -
 
 ### Implementation
 
-ERASE-001: Erasure request endpoint REQUIRED ERASE-002: Response within 30 days ERASE-003: Erasure MUST include all copies ERASE-004: Erasure MUST include backups (within 30 days) ERASE-005: Notify recipients of erasure ERASE-006: Log erasure request (not erased data)
+ERASE-001: Erasure request endpoint REQUIRED ERASE-002: Response and completion governed by the declared applicable schedule ERASE-003: Scope MUST account for all copies and recoverable keys ERASE-004: Backups, replicas, caches and exports MUST be tracked through completion or a specific residual hold ERASE-005: Federated recipients MUST acknowledge their disposition; notification alone is insufficient ERASE-006: Minimized lifecycle evidence MUST record requests, dispositions and unresolved limits
 
 ### Exceptions
 
 Erasure may be refused when data is needed for: - Legal claims defense - Legal obligation compliance - Public health reasons - Archiving in public interest - Exercise of free expression
 
-Refusal must be documented with specific justification.
+Every refusal or residual hold MUST document the exact retained material, purpose, authorizing authority, authorized access, bounded deletion deadline and scheduled review date, and a route to challenge the hold. If a legal obligation is asserted, its legal authority MUST be identified. These examples do not automatically authorize retention and do not create a default permanent exception.
 
 ### KTP Erasure Mechanics
 
-Erasing an agent:
+The versioned storage envelope in `specifications/privacy-evidence.md` and `schemas/privacy-evidence-envelope.json` governs protected evidence. It preserves exact signed inner bytes in separately encrypted evidence and signs a minimized outer envelope. It does not change the v3 trajectory format. New personal evidence MUST be minimized before signing and partitioned by subject and purpose where independent erasure is required. A storage migration MUST preserve the original signed bytes; it MUST NOT silently redact a Flight Recorder or trajectory record.
 
-1. VERIFY identity and authority 2. MARK agent as "erasure_pending" 3. DELETE agent registry entry 4. DELETE trajectory chain (or cryptographically shred) 5. DELETE Trust Score state 6. REDACT Flight Recorder entries (keep structure, remove PII) 7. NOTIFY federated zones 8. CONFIRM erasure to subject
+Erasure processing MUST:
 
-Flight Recorder special handling: - Decision records are audit- critical - Redact personal identifiers - Retain anonymized decision metadata - "Agent [REDACTED] performed action [type] at [time]"
+1. Verify the request through the independently accessible rights route and identify the authorized scope.
+2. Inventory affected evidence, derived copies, keys and key wrappers, replicas, caches, exports, backups and federated recipients. Identify shared-subject records and lawful residual holds before claiming completion.
+3. Stop unauthorized processing, erase the scoped material and all recoverable copies or decryption paths under the declared schedule, and append minimized lifecycle evidence. A notification, queued job or deletion of one key wrapper is not completion.
+4. Obtain recipient acknowledgments and record actual remaining copies, access restrictions, hold authorities and review deadlines. A pending or unknown recipient remains unresolved.
+5. Issue the accurate disposition using `schemas/privacy-erasure-receipt.json`, stating any retained material and limits on reconstruction or signature verification.
+
+Shared-subject evidence MUST NOT be labeled independently erasable merely because each subject has a separate key wrapper: any surviving wrapper for the same plaintext can preserve the erased subject's information. Implementations MUST use separable minimized evidence or explicitly account for the shared material, authority and unresolved retention. Redacted access views MAY be produced separately, but MUST NOT be presented as the original signed evidence or a completed erasure of it.
+
+Erasure MUST NOT reset identity, remove effective revocation or create clean-slate eligibility. Any minimized anti-replay, revocation or succession state retained for this purpose requires its own necessary purpose, authority, access limits and bounded retention deadline and scheduled hold review. It MUST NOT become an indefinite personal dossier.
 
 ### Cryptographic Erasure
 
-For encrypted data: - Delete encryption key - Data becomes cryptographically inaccessible - Equivalent to deletion for GDPR purposes
+Cryptographic erasure is a claim about the removal of all recoverable decryption paths for specified ciphertext. Its validity depends on actual key custody, all key copies and wrappers, recovery material, plaintext caches, exports and backups. A signed receipt or reference validator can check declared inventory and evidence consistency; it cannot demonstrate that an external custodian destroyed a key or an undisclosed copy does not exist. No cryptographic-erasure result by itself establishes legal compliance.
 
-KTP supports key-per-agent encryption: - Each agent's data encrypted with unique key - Erasure = delete key - Immediate, complete, verifiable
+Legacy plaintext records do not become erasable simply by placing a later encrypted wrapper around a copy. Their original plaintext copies and exports MUST be separately inventoried and disposed of, or reported as retained under specific authority. If original signed inner evidence is erased, only the retained outer envelope's integrity may remain verifiable; full event reconstruction and verification of the original inner signatures can become unavailable. Audit interfaces MUST state that limit and MUST NOT present ciphertext commitments as proof of the deleted facts.
 
 ### KTP Erasure Endpoint
 
 DELETE /v1/privacy/erasure/{subject_id}
 
-Response: { "subject_id": "...", "erasure_status": "complete", "erased_categories": [ "agent_identity", "trajectory_chain", "trust_score_state" ], "redacted_categories": [ "flight_recorder_entries" ], "federated_zones_notified": ["zone:beta", "zone:gamma"], "completion_timestamp": "..." }
+The response MUST follow the erasure receipt contract in `specifications/privacy-evidence.md`. It MUST distinguish the requested scope, completed disposition, outstanding copies or acknowledgments and authorized residual retention. "Notified", "scheduled", "key deletion requested" and "complete" MUST NOT be treated as interchangeable outcomes.
 
 ## Right to Restriction
 
@@ -447,7 +451,7 @@ Data subjects may request restriction when: - Accuracy contested (pending verifi
 
 ### Implementation
 
-During restriction: - Data is stored but not processed - Only storage is lawful - Subject notified before lifting restriction
+During restriction, dependent processing MUST stop except for the specifically authorized storage, review or other restricted purpose. The subject MUST be notified before the restriction is lifted under the applicable procedure. Restriction does not itself establish which processing is lawful.
 
 RESTRICT-001: Restriction request endpoint REQUIRED RESTRICT-002: Technical measures to prevent processing RESTRICT-003: Flag data as restricted RESTRICT-004: Notify before unrestricting
 
@@ -471,7 +475,7 @@ PORTABLE-001: Export endpoint REQUIRED PORTABLE-002: Structured format (JSON, CS
 
 Portable data export: { "format": "ktp-export-v1", "export_date": "...", "subject_id": "...", "agent_data": { "identity": { ... }, "public_key": "...", "lineage": { ... }, "metadata": { ... } }, "trajectory_summary": { "transaction_count": 1547832, "resilience_score": 12500, "oldest_record": "..." }, "current_trust": { "e_base": 87, "tier": "operator" } }
 
-Note: Full trajectory chain may be large. Summary provided by default; full chain available on request.
+This software-agent export example MUST NOT be used to create a human trust-score export. Human exports contain scoped eligibility decisions and their available evidence, reasons and review history. A full chain or inner evidence can be supplied only when retained and authorized for disclosure; erasure can make full reconstruction unavailable.
 
 ## Right to Object
 
@@ -487,9 +491,7 @@ OBJECT-001: Objection endpoint REQUIRED OBJECT-002: Stop processing unless compe
 
 ### Objection in KTP
 
-Objection to Trust Score calculation: - If agent is human-operated, objection may be valid - Controller must demonstrate compelling legitimate interest - If no compelling interest, agent cannot be processed - Agent effectively cannot participate in zone
-
-This creates tension: trust calculation requires data. Resolution: provide alternative (manual approval process) at subject's choice, with documented limitations.
+A human can object to the use, accuracy, source, association or authorized purpose of evidence used for an operation. The deployment MUST provide an independently accessible review route and identify any separately authorized alternative evidence or assessment process. It MUST NOT condition the objection on accepting a general human score. An alternative process can establish corrected eligibility; it cannot grant the protected operation without its current prerequisites or bypass a safety veto.
 
 ## Rights Related to Automated Decision-Making
 
@@ -505,11 +507,7 @@ Rights include: - Right not to be subject to such decisions - Right to human int
 
 ### KTP and Automated Decisions
 
-KTP Trust Score calculation is automated.
-
-Is it "solely automated"? - Trust Proof issuance: Fully automated - But: Soul constraints add human judgment - But: Tier boundaries set by humans - Analysis: Not "solely" automated in most cases
-
-Does it produce "legal effects or similarly significant effects"? - Access denial: Potentially significant - Tier demotion: Significant for operator role - Hibernation: Very significant - Analysis: Yes, can be significant
+Software-agent standing and human operation-eligibility decisions can be automated and can materially affect a person. Human authorship of Soul constraints, thresholds or other rules is not individual human intervention in a particular decision. Implementations MUST describe what was automated and what an actual reviewer considered and decided; this specification does not determine the legal classification or compliance of a deployment's decisions.
 
 ### Implementation
 
@@ -517,11 +515,13 @@ AUTOMATED-001: Document which decisions are automated AUTOMATED-002: Provide exp
 
 ### Human Review Process
 
-When subject requests human review of Trust Score:
+Review MUST follow `specifications/human-eligibility.md` and remain available to an ineligible, revoked or disputed subject through a separately authorized route. The reviewer MUST be competent for the matter, independent of the challenged decision or conflict, accountable for the outcome and empowered to obtain the relevant evidence and require authorized corrections. A reviewer who can only acknowledge a complaint does not satisfy this requirement.
 
-1. Automated processing paused 2. Human reviewer examines: - Input data (trajectory, context) - Calculation logic - Output (Trust Score, tier) - Subject's concerns 3. Reviewer may: - Confirm automated decision - Adjust manually (with documentation) - Escalate for further review 4. Subject notified of outcome
+The reviewer MUST examine the particular operation, evidence source, facts, identity association, scope, policy version and subject's grounds. The reviewer MAY confirm a supported result or require a specific authenticated correction and fresh evaluation. The reviewer MUST NOT manually boost standing, change a human score, waive a current safety condition or confer the protected operation by approving the complaint. The recorded outcome MUST identify reasons, corrective authority, affected evidence and the resulting evaluation or escalation.
 
-Response time: 7 days for routine, 24 hours if urgent.
+A challenge to the legitimacy, discriminatory effect or authority of a rule MUST reach the governing authority empowered to review or amend that rule, with an independent escalation route. It MUST NOT be rejected merely because the calculation implemented the rule correctly. Pending review does not bypass a current safety veto. Any resulting policy amendment MUST use the applicable protected approval and version-transition process; review access itself does not depend on completing that amendment.
+
+The deployment MUST publish response, escalation and urgent-review schedules appropriate to its jurisdiction and purpose, including accountable owners and notice of delay. No universal response duration is specified here.
 
 # Lawful Basis and Consent
 
@@ -533,15 +533,11 @@ Personal data processing requires lawful basis.
 
 (a) CONSENT: Subject has given consent (b) CONTRACT: Necessary for contract performance (c) LEGAL OBLIGATION: Required by law (d) VITAL INTERESTS: Protect someone's life (e) PUBLIC TASK: Official authority or public interest (f) LEGITIMATE INTERESTS: Controller's interests, balanced
 
-### KTP Lawful Basis Analysis
+### Deployment Processing Authority
 
-AGENT REGISTRATION - Primary basis: CONTRACT (participation agreement) - Alternative: CONSENT - Note: Agent agrees to processing by registering
+The deployment MUST identify the applicable authority for each declared flow: registration, software-agent evaluation, human operation eligibility, identity verification, local content analysis, audit, review and retention. KTP does not assign a universal legal basis to any of these functions. Pseudonymity does not establish minimal impact, a security purpose does not automatically establish a legitimate interest, and an audit label does not establish a legal obligation.
 
-TRUST SCORE CALCULATION - Primary basis: LEGITIMATE INTERESTS - Legitimate interest: Zone security - Balancing: Minimal privacy impact (pseudonymous) - Alternative: CONTRACT (if in participation agreement)
-
-FLIGHT RECORDER LOGGING - Primary basis: LEGAL OBLIGATION (audit requirements) - Alternative: LEGITIMATE INTERESTS (security) - Note: Proportionality required
-
-IDENTITY PROOFING (HUMAN SPONSORS) - Primary basis: CONSENT (explicit) - Alternative: LEGAL OBLIGATION (if regulated industry) - Special categories: Biometric requires explicit consent
+Consent, where relied on, MUST be specific to the actual purpose and recipients and valid under the applicable deployment requirements. Registration, a software agent's action, employment status or acceptance of a general participation agreement MUST NOT be treated as blanket consent to unrelated processing. Missing or disputed authority requires the appropriate governing review before the dependent processing can proceed.
 
 ### Legitimate Interest Assessment
 
@@ -606,7 +602,7 @@ Children deserve enhanced protection.
 
 ### KTP Child Protection
 
-CHILD-001: Age verification before human registration CHILD-002: Parental consent for children under threshold CHILD-003: No behavioral profiling of children CHILD-004: Enhanced data minimization for children CHILD-005: No retention beyond session for children CHILD-006: Easy parental access and deletion rights
+CHILD-001: Proportionate age assurance where required by the declared deployment rules CHILD-002: Appropriate authorized consent and representation under applicable requirements CHILD-003: No behavioral profiling of children CHILD-004: Enhanced data minimization for children CHILD-005: Explicit purpose-specific retention schedule and hold review for children's data CHILD-006: Accessible rights and review routes with appropriate representation and disclosure protections
 
 # Anti-Surveillance Architecture
 
@@ -628,15 +624,13 @@ KTP must not repeat these mistakes.
 
 SURVEILLANCE-001: No central database of all agent activity - Trajectory data stays in origin zone - Federation transmits proofs, not raw data - No cross-zone behavioral aggregation
 
-SURVEILLANCE-002: No persistent identifiers across contexts - Agents can have multiple identities - Linkability not required for function
+SURVEILLANCE-002: Minimize identifiers across contexts - Use scoped subject references where possible - Protect any necessary linkage under a declared authority - Privacy boundaries MUST NOT permit identity renaming or erasure to bypass revocation or succession controls
 
-- Correlation by design prevented where possible
-
-SURVEILLANCE-003: No behavioral prediction of humans - Trust Scores predict agent behavior, not human behavior - Human operators not profiled - No "social credit" functionality
+SURVEILLANCE-003: No behavioral prediction or general scoring of humans - Human eligibility applies to specified operations and evidence - No personality, emotion or loyalty dossiers - No "social credit" functionality or security-derived employment ranking
 
 SURVEILLANCE-004: No real-time location tracking - Context Signals measure resources, not location - IP addresses not retained - Physical location not inferred
 
-SURVEILLANCE-005: No content inspection - Sensors measure metadata only - Request/response content not examined - End-to-end encryption preserved
+SURVEILLANCE-005: No sensor content inspection - Sensors measure authorized environmental metadata and export permitted aggregates - Local content analysis requires its own purpose, source access, authority, recipients and retention declaration under KTP-INFORMATION - Neither an incident nor a content-analysis label grants blanket access or covert human profiling
 
 ### Design Patterns to Avoid
 
@@ -660,13 +654,13 @@ CREEP-001: Purpose tagging mandatory and enforced - Every data field tagged with
 
 CREEP-002: Architectural separation - Trust calculation separate from enforcement - Audit separate from operations - No single system has all data
 
-CREEP-003: Deliberate capability limitation - Some things KTP cannot do by design - Cannot correlate across zones without federation - Cannot identify humans from agent behavior - Cannot reconstruct content from metadata
+CREEP-003: Enforced flow limits - Restrict cross-context correlation and bulk extraction - Treat metadata as potentially identifying - Assess linkage and reconstruction risks before export - Do not claim that pseudonyms or aggregation make inference impossible
 
-CREEP-004: Change control for new purposes - New purposes require: * Privacy Impact Assessment * Public notice period (30 days) * Technical Committee approval * Implementation review
+CREEP-004: Change control for new purposes - New purposes require impact assessment, notice under the declared applicable schedule, approval by the competent governing authority and implementation review before processing - Specification changes also require the applicable specification governance process
 
 ### Prohibited Uses
 
-The following uses are PROHIBITED and implementations MUST NOT support them:
+The following uses are PROHIBITED and implementations MUST NOT support them. The human eligibility contract additionally prohibits covert personality, emotion or loyalty assessment and reuse of security evidence to rank people for HR decisions; consent to ordinary system access does not authorize those uses:
 
 PROHIBITED-001: Social credit scoring of individuals PROHIBITED-002: Political opinion or affiliation tracking PROHIBITED-003: Religious belief or practice tracking PROHIBITED-004: Health status inference (without consent) PROHIBITED-005: Relationship or social graph mapping PROHIBITED-006: Real-time population surveillance PROHIBITED-007: Predictive policing input PROHIBITED-008: Immigration enforcement without due process PROHIBITED-009: Employment discrimination input PROHIBITED-010: Insurance underwriting without disclosure
 
@@ -754,7 +748,7 @@ ANON-001: Anonymization function provided ANON-002: Anonymized exports for resea
 
 ## Differential Privacy
 
-Differential privacy provides mathematical guarantee that individual contribution cannot be detected.
+Differential privacy can bound disclosure attributable to an individual's contribution under a specified mechanism, adjacency definition and composition budget. It does not guarantee that no individual fact can be inferred or authorize an otherwise prohibited export.
 
 ### Application in KTP
 
@@ -770,7 +764,7 @@ DIFFERENTIAL-001: ε (epsilon) ≤ 1.0 for default DIFFERENTIAL-002: Privacy bud
 
 ### Encryption
 
-Encryption protects confidentiality: - At rest: AES-256-GCM - In transit: TLS 1.3 - Key per agent: Enables cryptographic erasure
+Encryption protects confidentiality: - At rest: AES-256-GCM under the evidence-envelope contract - In transit: TLS 1.3 - Evidence keys and subject partitions: Governed by `specifications/privacy-evidence.md`; a key-per-agent arrangement alone does not establish complete erasure
 
 ### Zero-Knowledge Proofs
 
@@ -900,7 +894,7 @@ Healthcare has unique privacy requirements.
 
 ### Healthcare KTP Requirements
 
-HEALTH-001: Health data not in Trust Score calculation - Trust Score based on behavior, not health - No inference of health status from behavior
+HEALTH-001: No human trust score or health inference from behavior - Operation-specific healthcare eligibility uses only evidence expressly authorized for that purpose - The resulting facts MUST NOT flow into general standing, employment ranking or unrelated decisions
 
 HEALTH-002: BAA required for covered entities - Business Associate Agreement for HIPAA - Data Processing Agreement for GDPR
 
@@ -920,13 +914,13 @@ Employment creates power imbalance affecting consent validity.
 
 ### Regulatory Framework
 
-- GDPR: Consent may not be valid due to imbalance - CCPA: Employee data exemption (ending) - Labor laws: Various protections
+Applicable employment and privacy requirements, including the effect of power imbalance on consent, MUST be assessed for the deployment. This document does not assign a legal basis merely because the person is an employee.
 
 ### Employment KTP Requirements
 
-EMPLOY-001: Legitimate interest, not consent - Don't rely on employee consent - Use legitimate interest with balancing - Document necessity
+EMPLOY-001: Declare and substantiate the authority, necessity, purpose and recipients for each employee-data flow - Do not presume that either consent or legitimate interest automatically authorizes it
 
-EMPLOY-002: No Trust Score in HR decisions - Trust Score not for hiring - Trust Score not for firing - Trust Score not for promotion - Trust Score for system access only
+EMPLOY-002: No general human trust score - Human system access uses scoped eligibility - Security data and eligibility outcomes MUST NOT be repurposed for hiring, firing, promotion or employee ranking
 
 EMPLOY-003: Works council consultation (where applicable) - EU: Worker representation rights - Consultation before deployment - Ongoing monitoring governance
 
@@ -940,9 +934,9 @@ EMPLOY-004: Employee transparency - Clear notice of monitoring - Access to own d
 
 ### Financial KTP Requirements
 
-FINANCE-001: Segregation from financial data - KTP does not access transaction content - Trust Score from metadata only - No financial decision impact
+FINANCE-001: Segregation from financial data - Authorization sensors do not inspect transaction content - Any separate local analysis requires expressly authorized source access and purpose - Human operation eligibility MUST NOT become a credit, financial-worth or general reliability score
 
-FINANCE-002: Audit requirements - Financial audit needs met - Flight Recorder adequate for compliance - Retention per regulatory requirements
+FINANCE-002: Audit evidence and retention MUST meet the declared deployment requirements - Flight Recorder conformance alone does not establish financial audit adequacy or legal compliance - Erasure and unavailable evidence MUST be reflected in reconstruction claims
 
 FINANCE-003: Customer notice - Privacy notice includes KTP processing
 
@@ -1091,6 +1085,8 @@ Those building KTP systems involving Indigenous data must:
 1. RETURN DATA - Communities receive copies - Results shared first with communities - Interpretation involves communities
 
 # Regulatory Alignment
+
+The following mappings and jurisdictional examples are reference points for deployment review, not a current or exhaustive statement of law. The responsible deployment authority MUST establish the applicable rules, lawful processing basis, response deadlines, retention schedules and transfer conditions. Implementing a referenced KTP section does not establish compliance, and a signed lifecycle receipt does not establish that an external erasure obligation has been fulfilled.
 
 ## GDPR (European Union)
 
@@ -1311,9 +1307,9 @@ Without security: - Data cannot be protected - Access controls meaningless - Enc
 
 ## Security Does Not Require Privacy Violation
 
-Security can be achieved without: - Mass surveillance - Behavioral profiling - Content inspection - Permanent retention
+The protocol prohibits mass surveillance and human behavioral profiling, requires separate authority for local content analysis, and constrains retention to declared purposes and reviewed holds. Implementations must demonstrate these controls in their actual data flows. This document does not prove that a deployment is private, legally compliant or incapable of misuse.
 
-KTP proves this.
+The normative companions `specifications/human-eligibility.md` and `specifications/privacy-evidence.md` define the shared human decision and evidence lifecycle contracts. Their schemas are `schemas/human-eligibility-profile.json`, `schemas/human-eligibility-decision.json`, `schemas/privacy-evidence-envelope.json` and `schemas/privacy-erasure-receipt.json`. Schema and reference-helper validation do not establish evaluator independence, correct real-world facts, actual deletion, undisclosed-copy absence or legal compliance.
 
 ## Privacy Enhancing Technologies
 
@@ -1383,6 +1379,8 @@ Invest in PETs: - Differential privacy - Zero-knowledge proofs - Secure multi-pa
 
 # Privacy Rights Matrix
 
+This high-level reference matrix is not an exhaustive or current determination of a person's legal rights. Deployments MUST establish the applicable requirements independently and provide the protocol's review and rights mechanisms even where their availability is not captured by a cell below.
+
 ~~~
 +------------------+------+------+------+------+------+---------+
 | Right            | GDPR | CCPA | LGPD | APPI | PIPA | PDPA-SG |
@@ -1400,24 +1398,11 @@ Invest in PETs: - Differential privacy - Zero-knowledge proofs - Secure multi-pa
 
 # Data Retention Schedule
 
-~~~
-+------------------------+----------+----------+----------------+
-| Data Category          | Default  | Maximum  | Legal Basis    |
-+------------------------+----------+----------+----------------+
-| Trust Proofs           | 60 sec   | 5 min    | Function       |
-| Trust Scores (current) | Current  | Current  | Function       |
-| Trust Scores (history) | 90 days  | 1 year   | Audit          |
-| Context Signals        | 24 hours | 7 days   | Function       |
-| Trajectory (active)    | Lifetime | Lifetime | Trust calc     |
-| Trajectory (archived)  | 1 year   | 7 years  | Audit          |
-| Flight Recorder        | 7 years  | 10 years | Legal/Audit    |
-| Agent identity         | Lifetime | Life+1yr | Function       |
-| Sponsorship records    | 7 years  | 10 years | Accountability |
-| Consent records        | 7 years  | 10 years | Proof          |
-| Access request logs    | 3 years  | 7 years  | Compliance     |
-| Breach records         | 7 years  | Indef    | Compliance     |
-+------------------------+----------+----------+----------------+
-~~~
+This appendix is a deployment checklist, not a default-duration table. The schedule MUST cover proof audit copies, current and historic software-agent evidence, human eligibility evidence and decisions, context readings, trajectories, Flight Recorder records, identity and sponsorship mappings, consent and review records, rights requests and breach records. Human entries MUST NOT be collected into a general score or behavioral profile.
+
+For each category, declare the purpose, source, processing and retention authority, recipients, custodian, storage and key locations, required deletion deadline and review schedule. Include derived records, caches, replicas, backups, exports and shared-subject dependencies. Any retained exception MUST identify the exact material, authorized access, authority and bounded review; no row may default to indefinite retention merely because it supports security or audit.
+
+Ordinary proof validity remains at most ten seconds. Expired proofs retained as audit evidence never regain authority, and a valid proof's lifetime does not establish a retention period for its underlying personal evidence. Use the lifecycle and receipt contracts in `specifications/privacy-evidence.md` to report actual disposition and unresolved limits.
 
 # PIA Template
 

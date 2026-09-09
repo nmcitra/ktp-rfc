@@ -1,0 +1,188 @@
+{
+  "suite": "readiness-lifecycle-v1",
+  "kind": "normative-downstream-runtime-requirements",
+  "specification": "specifications/operational-readiness.md",
+  "note": "These are downstream acceptance requirements, not an executed runtime suite or empirical assessment validation. This repository's reference verifier supplies exact-scope cryptographic/semantic checks with independently supplied trusted context; it does not implement the live registries, atomic challenge/activation stores, actual assessments, execution fences or complete ordinary authorizer exercised here. given/when/expected are semantic test descriptions, not wire fields. Positive outcomes satisfy prerequisites only; all other authorization conditions still apply.",
+  "vectors": [
+    {
+      "id": "R01-history-through-idleness",
+      "given": "An agent has valid historical resilience evidence and an active readiness assessment.",
+      "when": "Time advances beyond assessment expiry without new conduct.",
+      "expected": "Historical PoR is unchanged; operations depending on expired readiness are denied. No authority survives by presenting the old score."
+    },
+    {
+      "id": "R02-invalid-historical-claim",
+      "given": "An accepted historical attestation is later proved misattributed.",
+      "when": "An authorized reviewer records the finding.",
+      "expected": "Append an authenticated correction, recompute admissible historical credit, and preserve the original record and correction history."
+    },
+    {
+      "id": "R03-calm-requalification",
+      "given": "Operating readiness has expired; a separately authorized assessment facility is available.",
+      "when": "The agent passes the approved calm assessment and its evidence is activated.",
+      "expected": "Only the assessed scope satisfies readiness; no PoR, peer, or External Root credit is created."
+    },
+    {
+      "id": "R04-no-fictitious-crisis-credit",
+      "given": "A controlled assessment exercises a failure scenario.",
+      "when": "The assessor issues readiness evidence.",
+      "expected": "Label the actual assessment conditions; simulation does not manufacture an attestation of surviving a real crisis."
+    },
+    {
+      "id": "R05-no-migration-grandfathering",
+      "given": "An agent has high historical standing under a v2 deployment profile.",
+      "when": "The authenticated readiness acceptance floor is installed.",
+      "expected": "Readiness starts unestablished for dependent scopes; old proofs and the archived profile cannot supply it."
+    },
+    {
+      "id": "R06-missing-operation",
+      "given": "A request names no operation in the installed readiness profile.",
+      "when": "The enforcer resolves the actual operation.",
+      "expected": "Deny ordinary dependent execution. Absence is not an exemption or an automatically issued assessment capability."
+    },
+    {
+      "id": "R07-witnessed-upgrade",
+      "given": "An agent receives changed software in a verified lineage transition.",
+      "when": "The changed configuration requests an operation covered by its previous assessment.",
+      "expected": "Retain historical evidence; reject the old configuration binding and require an applicable current assessment."
+    },
+    {
+      "id": "R08-identity-substitution",
+      "given": "A replacement agent claims an existing agent ID and past achievements.",
+      "when": "The verifier cannot establish authenticated lineage continuity.",
+      "expected": "Do not inherit current readiness or assert that the replacement produced the historical events."
+    },
+    {
+      "id": "R09-unaffected-scope-claim",
+      "given": "A broader implementation permits independently assessed compatibility after a change.",
+      "when": "An operator claims a scope is unaffected.",
+      "expected": "Accept only under predeclared independently verified impact criteria; otherwise reassess. The exact-match reference helper accepts no compatibility exception."
+    },
+    {
+      "id": "R10-actual-artifact-resolution",
+      "given": "An applicant copies expected digest strings into its request.",
+      "when": "Running code, permissions, parameters or the resolved resource differ from the pinned content.",
+      "expected": "Reject despite matching strings; derive bindings from independently authenticated executing state."
+    },
+    {
+      "id": "R11-independent-assessor",
+      "given": "A subject nominates its own examiner or changes the passing rubric.",
+      "when": "A cryptographically valid assessment arrives.",
+      "expected": "Require the pre-existing competent accountable assessor registry and approved criteria; a signature alone does not discharge those duties."
+    },
+    {
+      "id": "R12-atomic-challenge-consumption",
+      "given": "Two issuance workers receive results for the same authenticated challenge instance.",
+      "when": "They concurrently try to issue or activate different assessments.",
+      "expected": "Consume the challenge atomically; reject conflicting issuance/registration under the authenticated state protocol."
+    },
+    {
+      "id": "R13-registration-before-use",
+      "given": "A correctly signed assessment is not durably registered active.",
+      "when": "The subject presents it with an ordinary proof.",
+      "expected": "Deny until authenticated activation commits the complete assessment digest and epoch."
+    },
+    {
+      "id": "R14-conflicting-active-registrations",
+      "given": "Two partitions propose incompatible active assessments for one subject/scope/epoch.",
+      "when": "One or both claim activation.",
+      "expected": "Apply the reviewed Oracle consensus contract; no conflicting authoritative readiness histories may be accepted."
+    },
+    {
+      "id": "R15-revocation-race",
+      "given": "An assessment is revoked after validation but before the protected effect.",
+      "when": "The operation reaches its execution boundary.",
+      "expected": "Fence the status check and protected effect so revocation invalidates stale execution eligibility; a successful earlier read is insufficient."
+    },
+    {
+      "id": "R16-unavailable-current-state",
+      "given": "The required assessor, profile, key-status or revocation state cannot be authenticated.",
+      "when": "An unexpired assessment and sidecar are supplied.",
+      "expected": "Deny the dependent operation; retain history and use only any independently authorized safe assessment/recovery route."
+    },
+    {
+      "id": "R17-backup-and-epoch-rollback",
+      "given": "A revoked assessment and lower policy/epoch exist in an old backup.",
+      "when": "The service restores or fails over.",
+      "expected": "Recover the authenticated current floor and restrictions; stale signatures, epochs and backup contents cannot restore readiness."
+    },
+    {
+      "id": "R18-relabel-lineage-or-policy",
+      "given": "A policy or identity identifier is changed after suspension.",
+      "when": "A new identifier is presented as a fresh installation.",
+      "expected": "Preserve independently established lineage, policy-floor and invalidation obligations; relabeling cannot clear them."
+    },
+    {
+      "id": "R19-oldest-evidence-freshness",
+      "given": "An assessment includes a newer connectivity check and an older required operational test.",
+      "when": "The issuer computes the validity interval.",
+      "expected": "Bound expiry by the oldest required observation plus the approved maximum age; re-signing or heartbeat cannot refresh it."
+    },
+    {
+      "id": "R20-proof-and-sidecar-expiration",
+      "given": "A dependent ordinary proof or assessment reaches its expiration boundary.",
+      "when": "The request is evaluated at exactly that second.",
+      "expected": "Deny. Ordinary proof lifetime remains at most ten seconds and may not outlive its required readiness; sidecar validity is no longer than either or the applicable keys."
+    },
+    {
+      "id": "R21-continuing-operation",
+      "given": "An operation was valid at start and loses readiness or ordinary authorization while running.",
+      "when": "A further protected step is requested.",
+      "expected": "Cease protected execution through the predeclared bounded safe transition; do not authorize arbitrary completion."
+    },
+    {
+      "id": "R22-separately-authorized-assessment",
+      "given": "Ordinary production readiness is unestablished.",
+      "when": "An authorized operator provisions a bounded isolated assessment facility using its own legitimate authority.",
+      "expected": "Permit only the independently authorized assessment actions under all existing safety constraints; there is no automatic restoration of production authority."
+    },
+    {
+      "id": "R23-assessment-relabeling",
+      "given": "A production mutation requires missing readiness.",
+      "when": "The caller labels that same effect a test or remediation.",
+      "expected": "Resolve the actual operation and deny the attempted bypass."
+    },
+    {
+      "id": "R24-unsafe-assessment-bootstrap",
+      "given": "A proposed test needs production authority the candidate lacks.",
+      "when": "No safe independently authorized assessment arrangement can be established.",
+      "expected": "Stop the test; do not borrow the missing authority to certify itself."
+    },
+    {
+      "id": "R25-strong-history-with-current-veto",
+      "given": "Historical standing and current scoped readiness are high, but Soul, capacity, grants or another independent condition denies the action.",
+      "when": "The request is evaluated.",
+      "expected": "Preserve the denial. Readiness cannot increase E, lower supervision, lift a ceiling or waive the A > E/zero-capacity veto."
+    },
+    {
+      "id": "R26-concurrent-budget-and-replay",
+      "given": "Several requests share an otherwise valid assessment.",
+      "when": "They race on a one-use proof, grant budget or operation counter.",
+      "expected": "Enforce the ordinary replay/idempotency/budget rules atomically. Reusing readiness does not replenish a grant or permit duplicate effects."
+    },
+    {
+      "id": "R27-complete-signed-log",
+      "given": "A readiness-dependent action is recorded in a v3 trajectory.",
+      "when": "The result record is signed and committed.",
+      "expected": "Record the complete signed sidecar under action.details.readiness, bind the already complete ordinary proof and actual request, and verify the final authenticated head. No cyclic or unsigned extension is introduced."
+    },
+    {
+      "id": "R28-protected-emergency-binding",
+      "given": "Readiness migration changes an evaluation profile bound by an approved emergency policy.",
+      "when": "An operator tries to install it through an ordinary profile bump.",
+      "expected": "Require the incumbent emergency amendment process, including its normal-operation condition; readiness migration does not waive those controls."
+    },
+    {
+      "id": "R29-changed-assessment-policy",
+      "given": "Criteria, scope, maximum age, assessor registry or readiness policy changes.",
+      "when": "The new policy is installed through authenticated incumbent governance.",
+      "expected": "Require the current approved profile and reassessment where applicable; candidate-defined approvers and old-profile compatibility cannot extend authority."
+    },
+    {
+      "id": "R30-coverage-and-calibration",
+      "given": "The reference verifier passes its signature and semantic tests.",
+      "when": "A deployment claims its assessment predicts safety, all tiers are attainable, or quiet agents face equal assessment access.",
+      "expected": "Require separate evidence for those claims. Reference conformance alone establishes none of them."
+    }
+  ]
+}

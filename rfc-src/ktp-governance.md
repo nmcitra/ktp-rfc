@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Governance Specification"
 abbrev: "KTP-GOVERNANCE"
-date: 2026-08-13
+date: 2026-09-06
 category: exp
 ipr: trust200902
 
@@ -628,6 +628,8 @@ Federation governance handles:
 ## Changing the Governance
 
 Governance itself must be governable -- but changes to governance are high-risk operations requiring high trust.
+
+Emergency-capability policy has the stricter amendment process in specifications/emergency-capability.md: at least 90% of the established full governing custodian body, 90 days of review, 14 further days of ratification, and independent external review. Those minimums govern initial installation, successors, roster and key changes, protected verifier configuration, and amendment-rule changes. A candidate cannot appoint its own approvers, and an outage cannot waive or shorten the process. Immediate authenticated suspension or revocation removes authority; restoration requires a new approved version in normal operation. Stricter charter requirements and the full constitutional amendment procedure remain binding.
 
 ## Amendment Process
 

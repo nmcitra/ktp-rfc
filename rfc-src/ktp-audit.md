@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Flight Recorder Specification"
 abbrev: "KTP-AUDIT"
-date: 2026-08-13
+date: 2026-09-07
 category: exp
 ipr: trust200902
 
@@ -133,6 +133,8 @@ previous_hash: SHA-256 hash of the immediately preceding record. Creates tamper-
 
 sequence_number: Monotonically increasing sequence number. Gaps indicate potential tampering or data loss.
 
+These are Flight Recorder chain fields. They are not the v3 trajectory record_hash contract in specifications/trajectory-signatures.md, which hashes the canonical completed trajectory envelope excluding only its own record_hash. Implementations MUST keep the two record types and their hash preimages distinct.
+
 ## Environmental Snapshot
 
 The environmental snapshot captures the complete Risk Factor input state at decision time:
@@ -174,6 +176,16 @@ The environmental snapshot captures the complete Risk Factor input state at deci
 sensor_health carries the normalization-profile identifier, \<profile_id>@\<version> per the deployment profile specification: the record self-flags which declared normalization and alias choices its values were computed under, so a value computed under one profile is never replayed against another (the unit-mismatch class the measurement-envelope ruling named).
 
 This snapshot enables forensic reconstruction: given the exact environmental conditions, we can replay the decision logic and verify that the correct outcome was reached.
+
+The legacy trust_oracle.quorum value in this example describes the cryptographic signing threshold. It MUST NOT be interpreted as a consensus decision quorum or proof of agreement. For decisions relying on Oracle mesh state, the Flight Recorder MUST retain the applicable commit evidence, or an integrity-protected reference resolving to retained evidence, and its binding to the resulting standing or operation under specifications/oracle-consensus.md. The record MUST identify the installed configuration and membership epoch, protocol/version, view, phase or purpose, sequence/checkpoint position, predecessor/state, and operation or control-payload digest required by that protocol. Canonical encodings and evidence formats are defined by the selected protocol. Evidence needed for reconstruction MUST remain available for the decision record's retention period; an unresolved reference is not evidence of consensus.
+
+For a v3 trajectory transition, the retained evidence MUST distinguish the committed typed intent before Oracle signing from the independently anchored final record_hash afterward. The latter binds record_version, the exact completed signature envelope, commit_intent, agent, zone, chain, sequence, and predecessor and is required before authoritative append. Audit reconstruction MUST NOT replace the final-head evidence with a newly recomputed hash, an intent certificate, or another valid signature envelope. Migration evidence MUST retain the original legacy archive bytes or integrity-protected retained archive, its authenticated head, approved checkpoint and revalidated-state evidence, new-genesis binding, final-genesis anchor, and durable single-use succession/format-floor transition. Recording a candidate's assertion in the Flight Recorder does not independently authenticate it.
+
+For operation-scoped readiness, retain the complete signed decision and assessment evidence, approved criteria and assessor/issuer authority, actual request and subject-state bindings, installed deployment/readiness profiles, readiness epoch, validity times, and relevant revocation or change evidence required by specifications/operational-readiness.md. A signed v3 trajectory carries the complete decision sidecar in its existing action.details.readiness object; it binds an already complete ordinary proof and introduces no top-level trajectory field or cyclic hash.
+
+If no readiness decision was issued or required evidence was unavailable, log that absence and the denial reason; do not fabricate a passed assessment or a signed sidecar. An invalid candidate may be retained as rejected evidence with that status, never as proof of current readiness.
+
+Records MUST distinguish historical PoR evidence from current readiness, successful assessment from a grant of permission, and authenticated correction of an invalid historical claim from mere inactivity. A heartbeat, renewed signature, or fresh ordinary proof MUST NOT be logged as fresh assessment evidence unless an actual assessment meeting the installed criteria occurred. A denied operation, expired readiness, or reassessment requirement MUST NOT silently subtract historical PoR. Review and recovery must be able to reconstruct which operation and exact subject configuration were assessed; an unresolvable evidence reference cannot establish readiness.
 
 ## Agent Context
 
@@ -225,7 +237,6 @@ The decision outcome records what happened and why:
    "decision": {
      "supervision": "silent_veto",
      "reason": "TRUST_INSUFFICIENT",
-     "margin": -1.02,
      "tightened_constraints": {},
      "evaluation": {
        "soul_check": "pass",
@@ -254,7 +265,7 @@ supervision: the returned supervision level (stable, metacognitive, assisted, re
 
 tightened_constraints: the tighten-only constraint set on the result; present on every decision
 
-margin: the Zeroth Law margin the supervision was derived from
+margin: the Zeroth Law margin the supervision was derived from; MUST be present when margin calculation was reached and MUST be omitted when an earlier check stopped the evaluation, per \[KTP-CORE] Section 6.6. The example above vetoes A > E_trust before division and therefore has no margin. An omitted margin MUST NOT be interpreted as zero.
 
 reason: KTP error code when supervision is silent_veto
 
@@ -473,22 +484,13 @@ Schema:
 
 ## Append-Only Storage
 
-The Flight Recorder MUST use append-only storage:
+The Flight Recorder MUST preserve the exact bytes and integrity of signed records while they are retained. Records MUST NOT be silently edited, re-signed as if original, or deleted outside the approved retention and erasure process.
 
-1. Records can only be added, never modified or deleted
+Personal evidence MUST follow specifications/privacy-evidence.md. New deployments handling such evidence MUST use the versioned minimal signed envelope and separately encrypted payload, or a separately reviewed equivalent with the same declared protections and verification limits. The normative reference format is schemas/privacy-evidence-envelope.json. Existing trajectory-v3 signatures and hashes remain unchanged inside protected evidence; the new outer storage signature is not a replacement for them.
 
-1. Storage system must enforce append-only at infrastructure level
+Corrections and dispositions are new authenticated events. They MUST change the active evidence state and invalidate affected decisions without rewriting the old signed bytes. Erasure includes all applicable copies, keys, backups, derivatives and recipients; a notice alone is insufficient. Deletion MAY occur under an approved subject request or purpose-specific retention policy, with explicit scope, authority, and retained exceptions. Archiving MUST NOT restart retention or create a default permanent copy.
 
-1. Deletions are only permitted via retention policy expiration
-
-1. Even expired records should be archived before deletion
-
-Implementation options:
-
-- Append-only databases (e.g., Datomic, XTDB)
-- Immutable storage services (e.g., AWS S3 Object Lock)
-- Blockchain or distributed ledger (for highest assurance)
-- Write-once media (for air-gapped compliance)
+Infrastructure append-only controls SHOULD protect retained records against unauthorized mutation while permitting the declared lawful disposition process. Storage locks, replication and public anchors MUST be selected consistently with those obligations. Putting personal plaintext into an irretractable public ledger is not an erasure mechanism.
 
 ## Cryptographic Chaining
 
@@ -608,27 +610,11 @@ Use cases:
 
 ## Retention Policies
 
-Recommended minimum retention periods:
+Each record purpose MUST have an authenticated, versioned policy declaring required evidence, permitted access and recipients, retention trigger, bounded deletion deadline, erasure handling, and responsible authority. Justified holds MUST state scope, authority, end date and review date. Operational, audit, correction and anti-rollback records may have different schedules; none is automatically exempt because it is metadata.
 
-~~~
-+---------------------------+------------+------------------------+
-| Record Type               | Minimum    | Notes                  |
-+---------------------------+------------+------------------------+
-| Authorization Decision    | 1 year     | Standard audit         |
-| Trust Score Change        | 1 year     | Standard audit         |
-| Tier Transition           | 2 years    | Behavioral analysis    |
-| Soul Veto                 | 7 years    | Legal/cultural         |
-| Attestation               | 7 years    | Proof of Resilience    |
-| System Event              | 90 days    | Operational            |
-+---------------------------+------------+------------------------+
-~~~
+Storage-tier ages above are illustrative service choices, not required retention. The applicable policy MUST govern primary, warm, cold, backup, derivative and federated copies. Restore MUST apply current correction and erasure dispositions before data is made available. Conformance level does not impose a universal period for retaining personal evidence.
 
-Retention policies MUST be:
-
-- Documented and versioned
-- Approved by legal/compliance
-- Enforced automatically
-- Auditable (who changed policy, when)
+Full forensic reconstruction requires retained, decryptable, independently verifiable evidence. After authorized erasure, a verifier MUST distinguish outer-envelope integrity, verified original evidence, and unavailable content or chain segments. A retained disposition can explain a gap, not prove the missing contents. Evidence that is unavailable MUST NOT count as satisfying a current requirement to verify it.
 
 # Query Interface
 
@@ -777,7 +763,7 @@ Query by potential impact:
 
 ## Forensic Reconstruction
 
-The Flight Recorder MUST support forensic reconstruction: the ability to recreate the exact conditions that led to a decision.
+The Flight Recorder MUST support forensic reconstruction for the declared period during which the required evidence is retained and available. It MUST report the verification limits of corrected or erased evidence under specifications/privacy-evidence.md and MUST NOT imply full reconstruction after required content or keys are unavailable.
 
 Reconstruction query:
 
@@ -890,7 +876,7 @@ If action was allowed and caused harm:
 
 ## SIEM Integration
 
-Flight Recorder records SHOULD be exportable to SIEM systems:
+Flight Recorder records SHOULD support minimized, purpose-authorized SIEM exports. Every export is a separately inventoried copy with declared recipient access, retention, correction, and erasure obligations. The examples below describe software-agent fields and MUST NOT be filled with invented human scores:
 
 Export format (CEF):
 
@@ -942,7 +928,7 @@ HIPAA format:
 
 ## Machine Learning Pipeline
 
-Flight Recorder data can feed ML models for:
+The following software-agent calibration examples require the approved data policy to authorize each source, purpose, recipient and retention schedule. Human eligibility evidence MUST NOT feed generalized behavior, performance, personality, emotion or loyalty scoring. Merely labeling an export anonymized is insufficient. Subject to those limits, permitted data may support:
 
 1. Anomaly detection: Learn normal patterns, alert on deviation
 
@@ -989,7 +975,7 @@ Mitigations:
 - Encrypt records in transit
 - Implement role-based access to queries
 - Audit all query access
-- Redact sensitive fields for lower-privilege queries
+- Generate purpose-authorized redacted views for lower-privilege queries; never alter the original signed bytes or imply that the original signature covers the view
 
 ## Record Integrity
 
@@ -1009,6 +995,6 @@ The Flight Recorder is critical infrastructure.
 Mitigations:
 
 - Multi-region replication
-- Async write path (don't block authorization on logging)
+- Asynchronous replication only where permitted by the operation's audit requirements; required durable audit evidence MUST be established before an action depends on it
 - Queue-based architecture for resilience
 - Regular backup and recovery testing

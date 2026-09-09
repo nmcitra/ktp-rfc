@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/transaction-record.json",
+  "title": "KTP Transaction Record",
+  "description": "One record in a Trajectory Chain: the unit the trajectory is built from, signed by the agent and attested by the Trust Oracle. Promoted from KTP-IDENTITY Appendix B.1; this file is canonical and the appendix references it.",
+  "type": "object",
+  "required": [
+    "record_id",
+    "chain_id",
+    "sequence",
+    "timestamp",
+    "current_state",
+    "action",
+    "friction",
+    "velocity",
+    "agent_signature",
+    "oracle_attestation",
+    "record_hash"
+  ],
+  "properties": {
+    "record_id": { "type": "string" },
+    "chain_id": { "type": "string" },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "previous_hash": { "type": ["string", "null"] },
+    "previous_state": {
+      "oneOf": [{ "$ref": "#/$defs/agentState" }, { "type": "null" }]
+    },
+    "current_state": { "$ref": "#/$defs/agentState" },
+    "action": { "$ref": "#/$defs/action" },
+    "friction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Environmental friction at the time of the action"
+    },
+    "velocity": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Agent transaction rate at the time of the action. This is the record's own rate field; it is not the trust_trend Risk Factor."
+    },
+    "agent_signature": { "type": "string" },
+    "oracle_attestation": { "$ref": "#/$defs/oracleAttestation" },
+    "record_hash": { "type": "string" }
+  },
+  "$defs": {
+    "agentState": {
+      "type": "object",
+      "required": ["e_base", "e_trust", "location", "tier", "lineage", "generation"],
+      "properties": {
+        "e_base": { "type": "number", "minimum": 0, "maximum": 100 },
+        "e_trust": { "type": "number", "minimum": 0, "maximum": 100 },
+        "location": { "type": "string" },
+        "tier": {
+          "type": "string",
+          "enum": ["hibernation", "observer", "analyst", "operator", "admin"]
+        },
+        "lineage": {
+          "type": "string",
+          "enum": ["sponsored", "independent", "guarantor"],
+          "description": "Lineage stage, derived from generation"
+        },
+        "generation": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["action_type", "action_risk", "result"],
+      "properties": {
+        "action_type": { "type": "string" },
+        "action_risk": { "type": "number", "minimum": 0, "maximum": 100 },
+        "target": { "type": ["string", "null"] },
+        "result": { "type": "string", "enum": ["success", "denied"] },
+        "details": { "type": "object" }
+      }
+    },
+    "oracleAttestation": {
+      "type": "object",
+      "required": ["oracle_id", "attestation_time", "risk_factors", "oracle_signature"],
+      "properties": {
+        "oracle_id": { "type": "string" },
+        "attestation_time": { "type": "string", "format": "date-time" },
+        "risk_factors": {
+          "$ref": "risk-factors.json",
+          "description": "Environmental state at attestation time: the six weighted Risk Factor inputs. Replaces the drifted inline schema this file was promoted from, whose key set matched neither the published seven nor the ruled six-plus-veto."
+        },
+        "oracle_signature": { "type": "string" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "record_id": "tr-001-genesis",
+      "chain_id": "chain-aria-7f8a9b2c",
+      "sequence": 0,
+      "timestamp": "2025-01-15T10:00:00Z",
+      "previous_hash": null,
+      "previous_state": null,
+      "current_state": {
+        "e_base": 4.35,
+        "e_trust": 3.92,
+        "location": "zone-alpha",
+        "tier": "hibernation",
+        "lineage": "sponsored",
+        "generation": 0
+      },
+      "action": {
+        "action_type": "GENESIS",
+        "action_risk": 0,
+        "target": null,
+        "result": "success",
+        "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" }
+      },
+      "friction": 0.1,
+      "velocity": 0,
+      "agent_signature": "MEUCIQDr...",
+      "oracle_attestation": {
+        "oracle_id": "oracle-alpha-1",
+        "attestation_time": "2025-01-15T10:00:01Z",
+        "risk_factors": {
+          "adversarial_pressure": 0.05,
+          "attestation_coverage": 0.05,
+          "evidence_density": 0.1,
+          "moment_criticality": 0.2,
+          "trust_trend": 0.15,
+          "update_resistance": 0.1
+        },
+        "oracle_signature": "MEQCIG..."
+      },
+      "record_hash": "sha256:abc123..."
+    }
+  ]
+}

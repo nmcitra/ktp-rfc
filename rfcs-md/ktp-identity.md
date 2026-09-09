@@ -11,6 +11,8 @@ Traditional identity systems treat identity as a static property - an entity eit
 
 Vector Identity addresses this by treating identity as a trajectory rather than a position - a continuous line of movement through state space rather than a single point of authentication.
 
+Trajectory-based standing, Proof of Resilience, sponsorship accounting, and lineage in this document apply to software agents. They MUST NOT become human behavioral dossiers, personal scores, or prerequisites for a person's access to explanation, correction, or review. Human identity assurance and operation-specific eligibility follow [KTP-HUMAN] and specifications/human-eligibility.md; an actual software executor retains its own identity, capacity, and readiness requirements.
+
 ## The Passport Fallacy
 
 Current systems commit the "Passport Fallacy": they assume that possession of a credential (passport, API key, certificate) proves identity. This assumption is false because:
@@ -36,12 +38,12 @@ Key insight: A trajectory cannot be stolen because it includes not just current 
 
 An attacker can steal a credential (a point), but they cannot steal a trajectory (a line) because the line includes historical relationships that the attacker cannot retroactively forge.
 
-This is analogous to the difference between:
+For software operations, the comparison is between:
 
-- Static: "This person has a valid driver's license"
-- Kinetic: "This person has been driving continuously for the last 10,000 miles, with traffic cameras and toll booths attesting to their route"
+- A credential presented without evidence of the expected executing artifact or current state
+- An authenticated software identity bound to the expected artifact, verified committed history, and current operation-specific readiness
 
-The second model is vastly more resistant to impersonation because the attacker would need to not only steal the license but also fabricate a coherent 10,000-mile trajectory with consistent attestations from independent third parties.
+These are distinct verification requirements. Historical records alone do not authenticate the current executor or prove its readiness; the live bindings and checks in the trajectory and readiness companions remain necessary. This comparison does not prescribe tracking a human's travel, activity, or tenure.
 
 ## Requirements Language
 
@@ -143,7 +145,7 @@ The Trust Oracle MAY reduce an agent's E_base if sustained turbulent flow is det
 
 # Trajectory Chains
 
-The Trajectory Chain is the core data structure of Vector Identity. It is a cryptographically linked sequence of transaction records that forms an unforgeable history of agent behavior.
+The Trajectory Chain is the core data structure of Vector Identity. It is a cryptographically linked sequence of transaction records whose integrity depends on complete signature bindings, verified continuity, and an independently authenticated final head. The normative v3 signing, hashing, anchoring, and migration contract is specifications/trajectory-signatures.md.
 
 ## Chain Structure
 
@@ -191,7 +193,7 @@ The chain is append-only. Records MUST NOT be modified or deleted once added.
 
 ## Transaction Records
 
-Each Transaction Record contains:
+Each active Transaction Record MUST satisfy the v3 schema at schemas/transaction-record.json and declare record_version = "ktp-trajectory-v3". Its fields include:
 
 ~~~
 +--------------------+----------+-----------------------------------+
@@ -201,17 +203,19 @@ Each Transaction Record contains:
 | chain_id           | string   | Agent's chain identifier          |
 | sequence           | integer  | Position in chain (0 = genesis)   |
 | timestamp          | datetime | When transaction occurred         |
-| previous_hash      | string   | SHA-256 of previous record        |
+| previous_hash      | string   | Final hash of previous record     |
 | previous_state     | object   | Agent state before transaction    |
 | current_state      | object   | Agent state after transaction     |
 | action             | object   | What action was performed         |
 | friction           | number   | Environmental R at time of action |
 | velocity           | number   | Agent's transaction rate          |
-| agent_signature    | string   | Agent's signature over record     |
+| agent_signature    | string   | Agent-role compact JWS            |
 | oracle_attestation | object   | Trust Oracle's attestation        |
-| record_hash        | string   | SHA-256 of this record            |
+| record_hash        | string   | Hash of final signed envelope     |
 +--------------------+----------+-----------------------------------+
 ~~~
+
+The v3 record additionally requires record_version, agent_id, zone_id, conformance_level, evaluation_profile_digest, and migration_checkpoint. The migration_checkpoint is null for an ordinary record; an authorized legacy-to-v3 genesis carries the approved checkpoint digest. The schema fixes the permitted fields and requires all body fields; action.details remains extensible JSON whose complete contents are signed. Implementations MUST reject unknown structural fields, missing required fields, duplicate JSON member names, invalid Unicode, and data outside the canonicalization and numeric limits in specifications/trajectory-signatures.md. A candidate's version, level, profile digest, or key identifier MUST NOT choose a less restrictive verification policy.
 
 The previous_state and current_state objects contain:
 
@@ -257,27 +261,42 @@ The oracle_attestation object contains:
 
 ## Co-Signature Requirements
 
-Every Transaction Record MUST be co-signed by both the agent and the Trust Oracle. This dual-signature requirement prevents:
+Every active Transaction Record MUST carry both role-bound compact JWS signatures defined by specifications/trajectory-signatures.md. The signatures authenticate the complete record body and the Oracle's attestation without circular preimages. They do not alone prove that an action was permitted, that its stated outcome occurred, or that this envelope is the selected chain head; the Oracle MUST validate those claims and the required anchor evidence separately.
 
-1. Agent fabrication: An agent cannot create records without Oracle attestation, so cannot invent history.
+Define B as the entire top-level record excluding only agent_signature, oracle_attestation, and record_hash. B therefore includes both complete states, the entire action including details, identity and zone, chain and sequence, timestamp and predecessor, friction and velocity, record version, conformance level, evaluation profile digest, and migration checkpoint. Define O as the complete oracle_attestation object excluding only oracle_signature; it includes oracle_id, attestation_time, and all risk_factors.
 
-1. Oracle fabrication: An Oracle cannot create records without agent participation, so cannot frame agents.
+The canonical payloads are:
 
-1. Replay attacks: Both signatures are over the complete record including timestamp and previous hash, so old records cannot be replayed as new ones.
+~~~
+agent_payload  = JCS(B)
+oracle_payload = JCS({
+  "record_body": B,
+  "agent_signature": exact_agent_compact_JWS,
+  "attestation": O
+})
+~~~
 
-Signature generation:
+JCS means RFC 8785 canonical JSON encoded as UTF-8. The agent compact JWS MUST embed exactly agent_payload and protect exactly alg, kid, and typ, with typ = "ktp-trajectory-agent-v3". The Oracle compact JWS MUST embed exactly oracle_payload and protect exactly alg, kid, and typ, with typ = "ktp-trajectory-oracle-v3". Each protected header MUST also use JCS bytes. Verification MUST check the standard JWS signing input, the exact payload bytes, and the protected role, algorithm, and key against independently trusted configuration. Replacing the agent JWS with another envelope, even for the same body, changes the Oracle payload and requires a new Oracle signature. Detached payloads, unsigned algorithm declarations, and candidate-selected legacy fallback MUST NOT substitute for this contract.
 
-1. Agent computes action and signs: agent_signature = Sign(agent_private_key, Hash(record_id \|\| action \|\| previous_hash \|\| timestamp))
+Issuance proceeds as follows:
 
-1. Agent submits to Trust Oracle with signature
+1. Validate the trusted format/profile, v3 structure, agent identity, and continuity; construct B and obtain the agent JWS over JCS(B).
+2. Verify that exact agent JWS, the proposed action and state transition, and the environmental evaluation; construct O and oracle_payload.
+3. In a consensus deployment, obtain the required commit evidence for the typed trajectory-intent digest of oracle_payload before Oracle signing. This intent excludes the Oracle signature and final record_hash, avoiding a circular dependency.
+4. Produce and verify the Oracle JWS; calculate the final record_hash over JCS of the completed record excluding only record_hash. Use SHA-256 at Levels 1 and 2 or SHA-384 at Level 3, as selected by trusted configuration, and encode the lowercase hexadecimal digest with its sha256: or sha384: prefix.
+5. Establish the independently authenticated final-head anchor required by the companion. In a mesh, reviewed agreement under specifications/oracle-consensus.md MUST bind record_version, the exact final record_hash, commit_intent, agent, zone, chain, sequence, and predecessor before the record is exposed or appended as authoritative standing. Persist that selection before acknowledging authority.
 
-1. Oracle validates agent signature, action, and environmental conditions
+The final hash includes both exact JWS strings and the complete Oracle attestation. A commit to an intent is not a commit to this final envelope: independently valid ECDSA signatures can produce different envelope hashes for one intent. Only the uniquely anchored final hash may become the authoritative successor. Neither a recomputed unanchored hash nor a valid pair of signatures selects the head. Single-Oracle deployments still require the companion's independently trusted durable head selection and MUST NOT claim Byzantine agreement.
 
-1. Oracle adds attestation and signs: oracle_signature = Sign(oracle_private_key, Hash(record_id \|\| action \|\| previous_hash \|\| timestamp \|\| agent_signature \|\| risk_factors))
+If either signature, continuity, evaluation, intent evidence, or final-head anchor is invalid or unavailable, the Oracle MUST NOT expose the candidate as authoritative. Existing Silent Veto and other authorization constraints remain binding.
 
-1. Complete record is appended to chain
+### Legacy History and Version Cutover
 
-If the agent's signature is invalid, the Oracle MUST reject. If the Oracle refuses to attest (e.g., due to Silent Veto), the transaction fails and no record is added.
+The former selective preimages omitted, among other fields, current_state, previous_state, chain_id, sequence, friction, velocity, and the Oracle identity and attestation time. Signature validity under those formulas does not authenticate those omitted claims. Changing an unanchored tail's state and recomputing its hash may leave the old formula signatures valid; an independently trusted commitment to the complete final record can detect the change. This describes the old specification's binding limitation, not evidence of a deployed exploit.
+
+Legacy v2 records and their original bytes MUST remain historical evidence under schemas/transaction-record-legacy-v2.json. Implementations MUST NOT rewrite, silently reserialize, or automatically re-sign them as v3 history. An independently signed migration checkpoint from the already trusted authority MUST bind the legacy head and archive, independently revalidated carried state, and the authorized target chain, genesis, and evaluation profile before the new genesis is signed. It cannot retroactively authenticate facts omitted from legacy signatures.
+
+The authorized new genesis body carries the checkpoint digest. Its final signed-envelope hash is anchored afterward; the checkpoint MUST NOT depend on that final hash. Cutover MUST durably enforce the v3 format floor and single-use lineage succession, including after restart, restore, or failover. A legacy archive verifier or a candidate-supplied version MUST NOT reopen legacy authority or create a second successor chain. Membership changes during migration additionally require the joint-transition evidence in specifications/oracle-consensus.md.
 
 ## Continuity Enforcement
 
@@ -322,7 +341,9 @@ Any party with access to a Trajectory Chain can verify its integrity by checking
 
 1. Chain integrity: For each record N (N > 0): -  previous_hash(N) == record_hash(N-1) -  sequence(N) == sequence(N-1) + 1 -  timestamp(N) > timestamp(N-1) -  previous_state(N) == current_state(N-1)
 
-1. Signature validity: For each record: -  agent_signature validates against agent's public key -  oracle_signature validates against Oracle's public key
+1. Signature and hash validity: For each active record, validate the v3 schema, RFC 8785 payload bytes, role-bound agent and Oracle JWS, and final completed-envelope hash under specifications/trajectory-signatures.md. Obtain allowed versions, algorithms, keys, and profile from trusted configuration rather than the candidate.
+
+1. Head and cutover validity: Verify the independently authenticated final-head anchor and its record_version, exact record_hash, commit_intent, identity, zone, chain, sequence, and predecessor binding. Verify any migration checkpoint and the durable single-use succession and format floor. A candidate-supplied head or a self-consistent unanchored suffix is insufficient.
 
 1. Continuity: For each adjacent pair of records: -  Velocity is within bounds -  Location transitions are physically possible
 
@@ -336,9 +357,13 @@ Verification can be performed:
 
 Trust Oracles SHOULD perform full verification periodically. PEPs MAY perform windowed verification for real-time decisions.
 
+Sampled or windowed checks MUST NOT bypass verification of the candidate's complete v3 signature bindings, final hash, independently authenticated head, or migration/format floor. A window MUST start from an independently trusted checkpoint with verified continuity; sampling alone does not establish authority for an unanchored tail.
+
 # Proof of Resilience
 
 Proof of Resilience is a ledger of attestations demonstrating an agent's successful operation under stress. It is the primary input to E_base calculation.
+
+Historical PoR MUST NOT be automatically reduced for elapsed time or inactivity. The evaluated ledger may change when authenticated evidence establishes that a claim was invalid, but the correction MUST be appended with its authority and provenance; the original signed history MUST NOT be silently rewritten. Expiry or revocation of a current external instrument remains governed by that instrument's existing rules.
 
 ## Attestation Structure
 
@@ -416,6 +441,8 @@ This score is then converted to E_base contribution:
 
 PoR_contribution = min(70, 10 * log10(1 + Resilience_Score))
 
+Resilience_Score sums the applicable valid historical attestations; there is no automatic time multiplier or points-per-year subtraction in the active history-with-scoped-readiness policy. A deployment MUST NOT infer an inactivity recurrence from the older standing_decay_rate declaration. That declaration belongs to the archived v2 deployment profile and is rejected by the active v3 profile.
+
 The logarithmic scaling ensures:
 
 - Early attestations have significant impact
@@ -423,6 +450,14 @@ The logarithmic scaling ensures:
 - Maximum PoR contribution is capped at 70
 
 This prevents "grinding" - an agent cannot achieve maximum E_base simply by volume of transactions; it must survive genuine stress.
+
+## Historical Evidence and Current Readiness
+
+Historical success does not establish present fitness for a changed operation or system. Active deployments MUST apply specifications/operational-readiness.md as an additional operation-scoped prerequisite, using independently approved criteria and a competent accountable assessor. The readiness evidence MUST match the exact subject and its code/model/configuration/toolchain/permissions, operation and resolved scope, installed profiles, and current revocation epoch. It supplies no E_base contribution, standing credit, or permission to bypass an existing veto.
+
+An evidence-based readiness expiry limits the current assessment, not the historical record. Heartbeats, ordinary work volume, a new signature, or an ordinary proof refresh MUST NOT renew assessment evidence. Relevant system or permission changes invalidate the old scope. An assessment route MUST be separately authorized and safe without presuming the unverified capability.
+
+When readiness evidence is recorded in a v3 trajectory, the complete signed decision sidecar belongs in the existing action.details.readiness object and therefore participates in both trajectory signatures under specifications/trajectory-signatures.md. It binds an already complete ordinary proof and the actual request; neither that proof nor the sidecar may depend on the trajectory's later final hash. No additional top-level trajectory field or record-version change is introduced.
 
 ## Quality vs. Quantity
 
@@ -620,7 +655,9 @@ An attacker cannot spawn its way out by waiting. Sponsoring capacity is bounded 
 
 # Identity Proofing Requirements
 
-Before an entity can become a sponsor or hold significant trust within KTP, their identity must be verified to an appropriate assurance level. This section aligns with NIST Special Publication 800-63 Digital Identity Guidelines.
+Before an entity can perform an operation requiring identity assurance, its identity must be verified at the level required by the installed operation policy. Identity proofing establishes an identity assertion, not a person's trustworthiness, operational capacity, permission, or software-agent readiness. This section references NIST Special Publication 800-63 Digital Identity Guidelines; a deployment MUST declare the applicable reviewed version and its proofing requirements.
+
+Humans use the operation-specific eligibility contract in [KTP-HUMAN] and specifications/human-eligibility.md. Accepting a human principal or a human delegation requires the installed human_policy binding and reviewed authorization adapter described in [KTP-CORE]. Principal type, identity, authentication/session context, and the actual executor MUST be established independently of candidate assertions. Humans MUST NOT be assigned software E_base, Trust Tier, generation, lineage maturity, model, or v3 software-trajectory state to make existing agent schemas accept them.
 
 ## Identity Assurance Levels
 
@@ -631,7 +668,7 @@ IAL1 - Self-Asserted:
 - No identity proofing required
 - Email or username self-registration
 - Suitable for: Low-risk automated agents
-- KTP capability: Cannot sponsor, max E_base = 40
+- Identity assurance alone confers no operation grant. Where this level is used for software-agent standing, the existing no-sponsorship restriction and E_base ceiling of 40 remain applicable; they are not human scores.
 
 IAL2 - Remote or In-Person Proofing:
 
@@ -639,7 +676,7 @@ IAL2 - Remote or In-Person Proofing:
 - Remote: Government ID + biometric verification
 - In-person: Physical document inspection
 - Suitable for: Standard human users, service owners
-- KTP capability: Can sponsor Sponsored agents, max E_base = 80
+- Identity assurance alone confers no operation grant. For software-agent standing, the existing E_base ceiling of 80 remains; any sponsorship permission is restricted to Sponsored agents and requires separate current authorization. Human sponsorship eligibility follows the installed operation policy without a personal E_base.
 
 IAL3 - In-Person Proofing with Biometric:
 
@@ -647,11 +684,13 @@ IAL3 - In-Person Proofing with Biometric:
 - Trained operator verifies identity
 - Biometric captured and verified against document
 - Suitable for: High-trust roles, infrastructure sponsors
-- KTP capability: Can sponsor any lineage, max E_base = 95
+- Identity assurance alone confers no operation grant. For software-agent standing, the existing E_base ceiling of 95 remains; eligibility to sponsor a lineage still requires a separate current grant. Human eligibility is operation-specific and has no personal E_base ceiling.
 
 ## Sponsor Identity Requirements
 
 Sponsors MUST be identity-proofed to at least IAL2 before being permitted to sponsor other agents. This requirement ensures accountability for the agents they introduce to the system.
+
+The table below constrains software-agent sponsorship bonds denominated in E_base; it does not create a human score or personal staking balance. A human's proofing assertion may establish identity for an accountable party under the External Root rules, but it MUST NOT create collateral, an operational grant, or standing by itself. Any human sponsorship action requires current operation eligibility, separate capacity and grant checks, and the applicable existing sponsorship/accountability requirements. No human credential may be converted into an invented E_base balance to fund a bond.
 
 ~~~
 +-------------+-----------------------+-------------------+
@@ -684,30 +723,25 @@ The proofing process MUST be performed by an authorized Identity Service Provide
 
 ## Identity Binding
 
-After proofing, the verified identity is bound to the KTP agent identity:
+After proofing, a minimized assertion binds the verified principal to its authorized identity provider. The following human assertion is illustrative identity evidence, not a Trust Proof, human eligibility decision, sponsorship grant, or v3 trajectory record:
 
 ~~~
    {
-     "agent_id": "human:org:alice.smith",
+     "principal_id": "human:org:subject-7f3a",
+     "principal_type": "human",
      "identity_proofing": {
        "ial": 2,
        "proofed_at": "2025-11-25T10:00:00Z",
        "proofing_provider": "isp:acme-verify",
-       "evidence_types": ["government_id", "biometric"],
-       "verification_method": "remote_biometric",
        "assertion_reference": "ref:abc123xyz",
        "expiration": "2028-11-25T10:00:00Z"
-     },
-     "ktp_capabilities": {
-       "can_sponsor": true,
-       "sponsor_lineages": ["sponsored"],
-       "max_stake": 20,
-       "max_e_base": 80
      }
    }
 ~~~
 
-Identity proofing MUST be renewed before expiration. Failure to renew downgrades the agent's IAL and corresponding capabilities.
+An assertion MUST be authenticated against its independently trusted issuer, subject binding, validity, and current correction/revocation status. A field naming an assurance level or declaring principal_type does not establish it. When required proofing expires or is withdrawn, dependent operations MUST stop until their requirements are satisfied; the system MUST NOT substitute a stale assertion or reinterpret this as a person's demotion. Correction of misattributed or invalid identity evidence MUST propagate to dependent eligibility, grants, and decisions under [KTP-PRIVACY].
+
+The unsigned human eligibility decision body MUST be authenticated and bound by the reviewed adapter to the exact request, fully verified ordinary proof, current evidence epoch/status, and installed human/deployment profiles. It MUST NOT replace the ordinary proof or be accepted as a generic JWT. Ordinary proof validity remains at most ten seconds; assertion validity does not extend that limit. This identity example supplies no human wire-proof adapter or authorization implementation.
 
 ## Automated Agent Identity
 
@@ -716,8 +750,10 @@ Automated agents (non-human) have different proofing requirements:
 Service Agents (IAL-equivalent):
 
 - Must be sponsored by IAL2+ human
-- Sponsor's proofing extends to sponsored agents
+- Sponsor proofing establishes the accountable sponsor's identity; it does not authenticate the software executor or transfer the sponsor's operational eligibility or readiness
 - Agent is accountable through sponsor chain
+
+Every executing software agent requires its own authenticated artifact/configuration binding, applicable grants and ceilings, current operational capacity, and readiness under specifications/operational-readiness.md. A human request, supervisor signature, or sponsor assertion MUST NOT select a human-only evaluation path for that executor. Delegation is bounded by the restrictive intersection of current delegable authority and the agent's own authority; it supplies no readiness or E_base bonus.
 
 Infrastructure Agents (IAL2-equivalent):
 
@@ -734,6 +770,8 @@ Federated Agents (varies):
 ## Proofing for High-Trust Actions
 
 Certain actions require real-time identity re-verification:
+
+The following assurance prerequisites do not themselves authorize an action. References to tier promotion concern software agents only; a human authorizing such a change needs a grant and current eligibility for that exact administrative operation, not a personal tier. The installed human operation policy determines which independently verified qualifications and session checks are relevant, subject to purpose and minimization requirements.
 
 ~~~
 +----------------------------+-------------------+------------------+
@@ -766,11 +804,11 @@ Identity proofing collects sensitive personal information. KTP implementations M
 - Separate identity proofing data from operational logs
 - Never expose raw identity evidence in Trust Proofs
 
-Trust Proofs include proofing assertions (IAL level, provider, date) but NEVER include the underlying identity evidence.
+Where a reviewed proof format carries identity assurance, it MUST bind only the assertions required for the operation and NEVER include the underlying identity evidence. Human identity and eligibility references remain personal information subject to purpose limits, access, correction, and erasure rules; opaque identifiers are not a claim of anonymity.
 
 # Lineage Evolution
 
-Lineage tracks the maturation of an agent from dependent newcomer to autonomous veteran. It consists of three phases.
+Lineage tracks the maturation of a software agent from dependent newcomer to autonomous veteran. It consists of three phases. These phases, generation counters, and standing calculations MUST NOT be applied to human principals; neither tenure nor seniority is a replacement generation counter.
 
 ## Phase 1: Sponsored
 
@@ -950,7 +988,7 @@ Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-34
 
 ## Trajectory Chain Attacks
 
-Attack: Forging historical transactions Mitigation: Every transaction requires Oracle co-signature; attacker cannot forge Oracle signatures without compromising Oracle
+Attack: Forging or substituting historical transactions Mitigation: Verify the complete v3 agent and Oracle JWS payloads, final signed-envelope hash, independently authenticated head, and durable cutover under specifications/trajectory-signatures.md. A selective co-signature or recomputed unanchored hash alone does not authenticate the history.
 
 Attack: Stealing trajectory chain Mitigation: Chain includes agent signature; attacker cannot sign new transactions without agent's private key
 
@@ -1045,11 +1083,11 @@ slot.  v2.0.0 renames the object to `risk_factors` and keys it by name, so
 
 A.1.  Genesis Transaction
 
-{ "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c", "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash": null, "previous_state": null, "current_state": { "e_base": 4.35, "e_trust": 3.92, "location": "zone-alpha", "tier": "observer", "lineage": "sponsored", "generation": 0 }, "action": { "action_type": "GENESIS", "action_risk": 0, "target": null, "result": "success", "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" } }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...", "oracle_attestation": { "oracle_id": "oracle-alpha-1", "attestation_time": "2025-01-15T10:00:01Z", "risk_factors": { "evidence_density": 0.1, "trust_trend": 0.15, "adversarial_pressure": 0.05, "moment_criticality": 0.2, "update_resistance": 0.1, "attestation_coverage": 0.05 }, "oracle_signature": "MEQCIG..." }, "record_hash": "sha256:abc123..." }
+Use the complete signed v3 fixtures in specifications/conformance/trajectory-signatures-v3.json with the reference verifier scripts/trajectory_signatures.py. A genesis has sequence = 0, previous_hash = null, previous_state = null, and action.action_type = "GENESIS". An ordinary genesis has migration_checkpoint = null. An authorized legacy migration instead carries its independently verified checkpoint digest and requires the separate final-genesis anchor. The complete required body, both compact JWS values, and final hash MUST be checked; abbreviated signatures or hashes are not valid records.
 
 A.2.  Normal Transaction Record
 
-{ "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c", "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z", "previous_hash": "sha256:def456...", "previous_state": { "e_base": 52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "current_state": { "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier": "analyst", "lineage": "independent", "generation": 3 }, "action": { "action_type": "READ", "action_risk": 30, "target": "/api/data/customer-metrics", "result": "success", "details": { "records_accessed": 150, "data_classification": "internal" } }, "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...", "oracle_attestation": { "oracle_id": "oracle-alpha-2", "attestation_time": "2025-06-20T14:32:16Z", "risk_factors": { "evidence_density": 0.2, "trust_trend": 0.3, "adversarial_pressure": 0.1, "moment_criticality": 0.15, "update_resistance": 0.2, "attestation_coverage": 0.1 }, "oracle_signature": "MEQCIH..." }, "record_hash": "sha256:789abc..." }
+A successor fixture uses the verified predecessor's final record_hash and complete current_state as its previous_hash and previous_state, increments sequence exactly once, and keeps migration_checkpoint null. The cryptographic fixtures include canonical payloads, real signature verification, and tamper cases. Required downstream head, migration, and recovery cases are in specifications/conformance/trajectory-lifecycle-v3.json. Passing the reference checks does not establish an installed consensus runtime or authorize the fixture's illustrative standing.
 
 # JSON Schemas
 
@@ -1057,11 +1095,13 @@ B.1.  Transaction Record Schema
 
 The canonical schema is the published file, not this appendix.
 
-Location: https://kinetic-trust-protocol.net/specs/schemas/v2/transaction-record.json
+Active v3 location: https://kinetic-trust-protocol.net/specs/schemas/v3/transaction-record.json
 
-SHA-256 of the canonical file at the time this document was produced: d0649fd4d7c77eb85243b37f115b48adf145cbcfd4d8b43cff912d8014fc0f12
+SHA-256 of schemas/transaction-record.json at the time this document was produced: 5b08465469959fcae277503d1ba21744b2dff27b43d1f6a7769beca150ef3767
 
-The file was promoted from this appendix with its content reconciled against the v2 rulings (tier and lineage enums, the six named Risk Factor inputs in place of a drifted letter-keyed object).  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.
+The active schema fixes the v3 record shape; specifications/trajectory-signatures.md defines canonical bytes, signature verification, final hashing, independent head anchoring, and migration. The schema alone does not perform those semantic or runtime checks.
+
+Historical v2 schema: schemas/transaction-record-legacy-v2.json. Its original 4,706 bytes and $id https://kinetic-trust-protocol.net/specs/schemas/v2/transaction-record.json are preserved. SHA-256: d0649fd4d7c77eb85243b37f115b48adf145cbcfd4d8b43cff912d8014fc0f12. This archival schema is not an alternate active-v3 acceptance path and MUST NOT enable automatic history conversion or post-cutover downgrade.
 
 B.2.  Sponsorship Bond Schema
 

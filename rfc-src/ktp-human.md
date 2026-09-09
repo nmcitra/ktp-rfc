@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Human Integration Humans, Agents, and System Ethics"
 abbrev: "KTP-HUMAN"
-date: 2026-08-13
+date: 2026-09-07
 category: exp
 ipr: trust200902
 
@@ -37,7 +37,7 @@ This document specifies how humans participate in the Kinetic Trust Protocol: as
 
 The specification addresses human-agent collaboration, the question of human override, accessibility requirements, and transparency obligations.
 
-Section 10 addresses the ethics of the system itself—not whether agents should have ethics (irrelevant in a structurally constrained model), but whether the constraints imposed by KTP are just, and who bears responsibility when the constraints prevent beneficial action.
+The final section addresses the ethics of the system itself—not whether agents should have ethics (irrelevant in a structurally constrained model), but whether the constraints imposed by KTP are just, and who bears responsibility when the constraints prevent beneficial action.
 
 This section is marked DRAFT and invites expert debate.
 
@@ -45,42 +45,11 @@ This section is marked DRAFT and invites expert debate.
 
 # Introduction
 
-## The Human Question
+Humans participate as operators, delegators, reviewers, and people affected by KTP decisions. Human authorization uses operation-specific eligibility under specifications/human-eligibility.md. A person does not receive a general Trust Score, resilience accumulator, or ranked tier. Eligibility for one operation says nothing about personal worth or entitlement to protection, explanation, and review.
 
-"Where do humans fit in all this?"
+A human request MUST satisfy the current grant, qualification, scope, purpose, and safety requirements of the particular operation. Eligibility is an additional prerequisite, never permission by itself. The unconditional capacity gate and independent Soul veto remain binding. A qualified administrator cannot waive either.
 
-This is invariably the first question asked about KTP. The protocol describes agents with Trust Scores, trajectories, lineages—language borrowed from the natural sciences. It specifies autonomous operation under environmental constraints, Silent Vetoes that cannot be overridden, constraints that don't negotiate.
-
-But humans built these systems. Humans operate them. Humans are affected by them. Where do humans fit?
-
-The answer is nuanced:
-
-1. Humans are agents within the system - Human actions are subject to A <= E_trust - Humans have Trust Scores, trajectories, tiers - The constraints apply to humans too
-
-1. Humans are operators of the system - Humans deploy and configure KTP infrastructure - Humans tune sensors and weights - Humans respond to incidents
-
-1. Humans are NOT exempt from the system - No human override of the Zeroth Law - Administrators are agents within their administration - The governance recursion applies
-
-1. Humans are the source of system legitimacy - Humans choose to deploy KTP - Humans define zone boundaries - Humans can exit zones (opt out) - Consent is foundational
-
-This document specifies how these roles work in practice.
-
-## Scope
-
-This document addresses:
-
-- How humans are represented as agents
-- How humans collaborate with non-human agents
-- What humans can and cannot do (the override question)
-- How the system must be accessible to humans
-- What transparency obligations exist
-- Ethical questions about the system itself
-
-This document does NOT address:
-
-- Agent ethics (obsolete under structural constraint; see Section 10.1)
-- AI alignment (different problem domain)
-- Sentience or consciousness (not relevant to KTP)
+This document covers human identity, delegation, supervision, explanation, correction, and the governance of these requirements. Its final DRAFT discussion invites scrutiny of the system's legitimacy; it does not create exceptions to the normative requirements above it.
 
 ## Requirements Language
 
@@ -88,756 +57,139 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Terminology
 
-Human Agent: A human user represented as an agent within KTP, with Trust Score, trajectory, and tier like any other agent.
+Human Principal: A person whose identity and principal type have been independently authenticated by the deployment's trusted identity integration.
 
-Delegation: A human authorizing a non-human agent to act with some portion of the human's Trust Score as backing.
+Operational Eligibility: Satisfaction of declared requirements for one operation and exact scope at the time of evaluation. It is neither a person score nor an authorization token.
 
-Supervision: A human monitoring and potentially intervening in non- human agent operations, within the structural constraints.
+Delegation: A currently authorized principal granting a bounded subset of their authority to another authenticated actor. It does not transfer qualifications, capacity, historical standing, or readiness.
 
-Override: An attempt to bypass the Zeroth Law (A <= E_trust). Not permitted in KTP.
+Supervision: A qualified and authorized human reviewing or monitoring agent operations. Any required approval adds a gate; it cannot remove a gate.
 
-Adjustment: Legitimate modification of KTP parameters (sensor weights, action risk, zone configuration) by authorized humans.
+Correction: An authorized change to an erroneous fact, identity association, evidence status, or application of a requirement, followed by a fresh evaluation.
 
-Remediation: The process by which a human (or agent) improves conditions to enable previously-vetoed actions.
+Override: Permission to execute a candidate action despite a valid current capacity or Soul veto. Prohibited.
 
-Governance Recursion: The principle that administrators are agents within the system they administer, subject to the same constraints.
+Governance Recursion: Administrators and reviewers are subject to the operation-specific authority and safety requirements of their own actions. Holding office does not supply an exemption.
 
-System Ethics: Ethical questions about the design of KTP itself, as distinct from questions about agent behavior within KTP.
+# Human Identity and Eligibility
 
-# Humans as Agents
+## Identity Binding
 
-## Human Agent Identity
+Identity SHOULD use established authentication, including MFA and session binding where appropriate. A deployment MUST authenticate principal type, issuer, subject, session, and the actor actually executing an operation. A request's self-declared human label MUST NOT bypass software-agent readiness. Human identifiers SHOULD be opaque and scoped; names, email addresses, tenure, and employment histories are not required wire identifiers.
 
-Humans are represented as agents with the same identity structures as non-human agents, with accommodations for human characteristics.
+Human records MUST NOT be forced into software-agent lineage, generation, model, E_base, or tier fields by inventing values. The closed trajectory-v3 schema continues to describe software-agent state. Human eligibility uses its own versioned records, with personal evidence protected under specifications/privacy-evidence.md.
 
-### Identity Structure
+Identity verification is not proof of eligibility. A valid login establishes who is asking; current grants and evidence establish which specific requirements are met.
 
-~~~
-   {
-     "agent_type": "human",
-     "agent_id": "human:org:alice.smith",
-     "identity_source": {
-       "type": "federated",
-       "provider": "okta",
-       "subject": "alice.smith@example.com",
-       "verified": "2025-11-25T10:00:00Z"
-     },
-     "lineage": {
-       "type": "human",
-       "generation": null,
-       "sponsor": null,
-       "tenure_start": "2022-03-15T00:00:00Z"
-     },
-     "trajectory": {
-       "chain_hash": "sha256:abc...",
-       "entries": 15247,
-       "resilience_events": 3
-     }
-   }
-~~~
+## Explicit Requirements
 
-Key differences from non-human agents:
+The installed, approved human eligibility profile MUST identify each supported operation, its exact scope and purpose, required qualifications and assessment criteria, permitted evidence issuers, and authorized grant issuers. It MUST bind the governing authority, review route, retention policy, and issuer registry. The canonical profile digest and minimum accepted version MUST be independently installed and protected against rollback.
 
-- Lineage: Humans do not have generations or sponsors in the traditional sense. Tenure replaces generation as maturity signal.
+Relevant training or professional credentials MAY satisfy a specific requirement when their authority, scope, evidence, and validity are established. Role MAY confer a specific grant. Organizational tenure, seniority, generic incident totals, peer popularity, and inferred character MUST NOT be converted into general trust points or automatic privileges. No covert personality, emotion, or loyalty inference is permitted.
 
-- Identity source: Human identity typically federated from existing IdP (Okta, Azure AD, etc.) rather than self-generated.
+Every required item MUST be current, correctly associated with the authenticated person, applicable to the actual operation and scope, and accepted under the current evidence and revocation state. Missing, expired, corrected, revoked, or unverifiable evidence MUST prevent dependent eligibility. An expired recovery qualification MUST NOT disable unrelated operations whose requirements remain met, nor access to explanation, correction, assistance, or basic protections.
 
-- Trajectory: Human trajectories may span longer periods and include different action types than automated agents.
+The checkable profile and decision-body formats are schemas/human-eligibility-profile.json and schemas/human-eligibility-decision.json. Schema validity alone does not establish issuer authority, evidence truth, assessment adequacy, identity, or permission. The reference evaluator's supported exact scopes and direct delegations are deliberately bounded; unsupported matches or longer chains require a separately reviewed implementation and MUST NOT be silently accepted.
 
-### Identity Binding
+## Capacity Is a Separate Requirement
 
-Human agent identity binds to:
+The deployment MUST define comparable demand and current capacity for the particular operation through its approved evaluation profile. Credentials or employment history MUST NOT be substituted for measured capacity or converted into a replacement human E_base. When adequate capacity evidence cannot be established, the dependent operation MUST remain unavailable; a fabricated score is not remediation.
 
-- Primary authentication (SSO, MFA)
-- Device attestation (optional but recommended)
-- Location context (optional, privacy-sensitive)
-- Session continuity (for web/app interactions)
+All existing input-validity, zero-capacity, A > E, threshold, sovereignty, grant, and Soul checks remain binding. Eligibility adds no numeric increment and MUST NOT reverse any prior veto. A <= E alone is never sufficient authorization. Software agents retain their own historical standing and current scoped readiness under specifications/operational-readiness.md.
 
-The binding is designed to be:
+## Sessions and Freshness
 
-- Strong enough to prevent impersonation
-- Flexible enough for normal human behavior
-- Private enough to respect human dignity
+A human-facing session MAY remain open while its backend refreshes short-lived authorization evidence. This MUST NOT extend an ordinary proof beyond ten seconds, renew expired qualifications, or delay known invalidation. The previous human-specific five-minute risk averaging and tier hysteresis recommendations MUST NOT be used to defer a safety response. No repeated manual login every ten seconds is required by this specification.
 
-## Human Trust Scores
+Current eligibility, delegated scope, and safety MUST be re-established at execution and on relevant changes. A corrected registry entry MUST invalidate dependent cached decisions; restart or backup restoration MUST NOT resurrect superseded evidence.
 
-Humans have Trust Scores calculated similarly to other agents:
+## Retained Human Evidence
 
-~~~
-   E_trust = E_base × (1 - R)
-~~~
+Record the decision, the requirement results, the versioned policy and evidence bindings, and the information necessary to explain and review the decision. Protect person-specific evidence separately. Authorization records MUST NOT become career-long behavioral profiles, general resilience credit, employee rankings, or a basis for automatically promoting a person.
 
-Where E_base reflects the human's demonstrated reliability and R reflects current environmental risk.
-
-### Human E_base Calculation
-
-Human E_base factors:
-
-~~~
-+------------------------+--------+--------------------------------+
-| Factor                 | Weight | Description                    |
-+------------------------+--------+--------------------------------+
-| Organizational tenure  | 0.20   | Time with organization         |
-| Role seniority         | 0.15   | Position level                 |
-| Training completion    | 0.15   | Security/compliance training   |
-| Historical reliability | 0.25   | Past behavior record           |
-| Incident history       | 0.15   | Past security incidents        |
-| Peer attestation       | 0.10   | Colleague vouching             |
-+------------------------+--------+--------------------------------+
-~~~
-
-Example calculation:
-
-~~~
-   Tenure: 3 years (score: 0.75)
-   Role: Senior Engineer (score: 0.70)
-   Training: Complete (score: 1.00)
-   History: Clean (score: 0.90)
-   Incidents: One minor (score: 0.80)
-   Peers: Two attestations (score: 0.85)
-~~~
-
-~~~
-   E_base = (0.20×75 + 0.15×70 + 0.15×100 + 0.25×90 +
-             0.15×80 + 0.10×85)
-          = 15 + 10.5 + 15 + 22.5 + 12 + 8.5
-          = 83.5
-~~~
-
-### Human Trust Score Volatility
-
-Human Trust Scores should be LESS volatile than automated agent scores:
-
-- Humans cannot refresh credentials every 10 seconds
-- Human behavior is inherently variable
-- Frequent tier transitions are disruptive to human work
-
-Recommended dampening:
-
-- Minimum 5-minute averaging window for human R calculation
-- Hysteresis of ±5 points at tier boundaries
-- Alert human before tier demotion (where possible)
-
-### Privacy Considerations
-
-Human Trust Scores raise privacy concerns not present for automated agents:
-
-- Trust Score MAY be visible to the human themselves
-- Trust Score SHOULD NOT be visible to peers by default
-- Trust Score MAY be visible to direct management
-- Trust Score MUST be available for legitimate audit
-- Trust Score MUST NOT be used for purposes beyond authorization
-
-The goal is authorization, not surveillance.
-
-## Human Trajectories
-
-Human trajectories record authorization decisions over time, forming the basis for Proof of Resilience.
-
-### What Gets Recorded
-
-For human agents, record:
-
-- Authorization decisions (allow/deny)
-- Action type and risk level
-- Environmental context at time of action
-- Trust Score at time of action
-- Outcome (if determinable)
-
-Do NOT record:
-
-- Content of communications
-- Detailed activity logs beyond authorization
-- Location beyond zone-level
-- Personal information not needed for authorization
-
-### Trajectory Interpretation
-
-Human trajectories differ from automated agents:
-
-- Longer time scales (careers, not microseconds)
-- More variable patterns (humans have bad days)
-- Context-dependent (humans respond to life events)
-- Privacy-protected (less detail appropriate)
-
-Interpretation should account for human nature without excusing genuinely problematic patterns.
-
-## Human Tier Transitions
-
-Humans transition between tiers like other agents, but with accommodations for human factors.
-
-### Tier Boundaries for Humans
-
-The standard tier boundaries apply:
-
-- Admin Mode: E_trust >= 85 (rare for humans)
-- Operator Mode: E_trust >= 72
-- Analyst Mode: E_trust >= 58
-- Observer Mode: E_trust >= 22
-- Hibernation: E_trust < 22
-
-However, most humans operate in Analyst or Operator mode for daily work. Admin Mode should be exceptional.
-
-### Demotion Notification
-
-When a human is demoted, the system SHOULD:
-
-1. Notify the human of demotion (if safe to do so)
-2. Explain the contributing factors
-3. Provide remediation guidance
-4. Offer escalation path
-
-The system SHOULD NOT:
-
-- Demote without explanation
-- Make demotion public to peers
-- Prevent the human from seeking help
-
-### Promotion Path
-
-Humans can improve their Trust Score through:
-
-- Time (continued reliable operation)
-- Training (completing security courses)
-- Attestation (peer vouching)
-- Remediation (addressing identified issues)
-- Environmental improvement (lower R)
-
-Unlike automated agents, humans cannot simply "wait for the environment to recover." Humans can take active steps.
-
-======================================================================== ======= PART II: COLLABORATION AND CONTROL ============================= ========================================================================
+Collection, access, disclosure, corrections, and erasure follow KTP-Privacy and specifications/privacy-evidence.md. Metadata and opaque identifiers can still identify people through linkage. Retention is purpose-specific, bounded, and reviewed; no default permanent human trajectory is required.
 
 # Human-Agent Collaboration
 
-## Delegation Patterns
+## Delegation
 
-Humans routinely delegate tasks to automated agents. KTP provides structured delegation with trust constraints.
+A delegation MUST bind the authenticated delegator and executing actor, the source grant, exact operation, resources, parameters, purpose, zone, validity interval, and current revocation state. Its authority is the intersection of current delegator grants and every applicable delegation restriction. Neither a valid delegation nor a human signature expands that intersection.
 
-### Delegation Structure
+Each link of a supported delegation chain MUST be independently validated, current, scoped, and revocable. Changing the delegator's relevant grant or qualification invalidates dependent authority. A downstream delegate MUST NOT widen actions, resources, purposes, time bounds, or subdelegation rights. Unsupported chains MUST fail closed.
 
-~~~
-   {
-     "delegation_id": "del-abc-123",
-     "delegator": "human:org:alice.smith",
-     "delegate": "agent:bot:data-processor",
-     "scope": {
-       "actions": ["read_data", "transform_data", "write_report"],
-       "max_action_risk": 50,
-       "resources": ["dataset:sales-q3", "report:quarterly"],
-       "time_bound": {
-         "start": "2025-11-25T09:00:00Z",
-         "end": "2025-11-25T17:00:00Z"
-       }
-     },
-     "trust_constraints": {
-       "max_e_trust": 65,
-       "cannot_exceed_delegator": true,
-       "revocable": true
-     }
-   }
-~~~
+The software delegate MUST independently satisfy its own grant, standing, readiness, capacity, Soul, and other enforcement checks. Delegation MUST NOT transfer a human's qualification to a bot, mint standing, change lineage, or confer a human principal type.
 
-Key principles:
+For example, Alice may authorize a recovery agent to prepare a rollback plan for one database. A grant to prepare that plan does not authorize execution, another database, or another purpose. Even an explicit execution grant cannot overcome the agent's insufficient readiness or current capacity.
 
-- Delegate cannot exceed delegator's Trust Score
-- Delegation is scoped (actions, resources, time)
-- Delegation is revocable
-- Delegator remains accountable
+## Supervision
 
-### Trust Ceiling
+Active supervision requires the human's eligible and authorized approval of the exact proposed action before the agent continues through its remaining checks. Passive supervision monitors authorized operations. Exceptional supervision alerts an accountable human on defined events. In every model the agent retains its own restrictions.
 
-A delegated agent's effective Trust Score is bounded by:
+Human presence, co-signing, seniority, or reassurance MUST NOT add arbitrary E_base points, move the agent into the human's alleged tier, or relax a capacity veto. If A = 70 and established E = 65, the action is denied even with a supervisor's signature. A revised action or changed environment requires a fresh evaluation of the actual conditions.
 
-~~~
-   E_trust_delegate <= min(E_trust_delegator, delegation_max)
-~~~
+Supervision responsibilities MUST identify monitoring scope, response authority, and conflict-of-interest safeguards. A reviewer or supervisor needs relevant competence and authority; a general human trust score is neither necessary nor sufficient.
 
-If Alice (E_trust = 78) delegates to a bot with max_e_trust = 65: Bot's E_trust ceiling = min(78, 65) = 65
+## Accountability
 
-If Alice's Trust Score drops to 60: Bot's E_trust ceiling = min(60, 65) = 60
+The retained record SHOULD distinguish the delegation decision, the executing actor, the specific human approval if required, and the deployment's responsibilities. Audit evidence supports investigation; it does not by itself establish legal liability or a person's intent. Access and exports remain subject to the declared purpose and protection of other people.
 
-The delegate cannot exceed the delegator.
+# Constraints, Emergencies, and Governance
 
-### Delegation Chains
+## No Safety Override
 
-Delegation can chain: Human → Agent A → Agent B
+An administrator, supervisor, or reviewer MUST NOT waive a valid capacity or Soul veto. Correcting erroneous evidence and challenging the legitimacy of a rule remain available. A corrected fact or properly adopted rule change leads to a fresh evaluation rather than an exception for the original denied request.
 
-Trust ceiling propagates:
-
-~~~
-   E_trust_B <= min(E_trust_A, E_trust_human, delegation_max_A,
-                    delegation_max_B)
-~~~
-
-Long chains rapidly constrain capability, which is intentional.
-
-## Supervision Models
-
-Humans may supervise automated agents at various levels:
-
-### Active Supervision
-
-Human reviews and approves each significant action:
-
-- Agent proposes action
-- Human reviews proposal
-- Human approves or rejects
-- Agent executes if approved
-
-Appropriate for: High-risk actions, learning phase, sensitive data
-
-Trust implication: Agent operates at human's tier (human is effectively the actor)
-
-### Passive Supervision
-
-Human monitors but does not approve each action:
-
-- Agent operates autonomously
-- Human receives activity summary
-- Human can intervene if needed
-- Human reviews outcomes periodically
-
-Appropriate for: Routine operations, established agents, lower risk
-
-Trust implication: Agent operates at own tier, human provides oversight but not direct control
-
-### Exceptional Supervision
-
-Human is notified only for anomalies:
-
-- Agent operates fully autonomously
-- Agent self-monitors for anomalies
-- Human alerted only on exceptions
-- Human investigates alerts
-
-Appropriate for: Mature agents, stable environments, high volume
-
-Trust implication: Agent fully autonomous, human as backstop
-
-## Capability Inheritance
-
-When humans and agents collaborate, capabilities combine:
-
-### Human Providing Context
-
-A human may provide environmental context that affects agent capability:
-
-- Human's presence may lower Observer dimension
-- Human attestation may boost agent's E_base temporarily
-- Human supervision may allow higher-risk actions
-
-Example: Agent requests action with A = 70, has E_trust = 65. Human (E_trust = 85) actively supervises and co-signs. Combined E_trust for supervised action = min(85, 65+15) = 80. Action permitted.
-
-### Agent Extending Human
-
-An agent may extend human capabilities within constraints:
-
-- Agent operates faster than human could
-- Agent processes more data than human could
-- Agent maintains consistency human might not
-- BUT agent cannot exceed human's authority
-
-## Accountability Chains
-
-When humans delegate to agents, accountability flows:
-
-### Accountability Principle
-
-The delegating human remains accountable for:
-
-- Appropriate scope of delegation
-- Appropriate choice of delegate
-- Monitoring of delegated activity
-- Responding to problems
-
-The delegate agent is accountable for:
-
-- Operating within delegated scope
-- Maintaining own trajectory
-- Reporting issues to delegator
-- Not exceeding authority
-
-### Incident Attribution
-
-When a delegated agent causes an incident:
-
-1. Agent directly responsible for action
-2. Human responsible for delegation decision
-3. Organization responsible for system design
-
-Flight Recorder captures full chain for forensic analysis.
-
-# The Override Question
-
-## Why No Override
-
-"But what if a human needs to override the system?"
-
-This question reveals a misunderstanding of KTP's nature. The Zeroth Law is not a policy that can be suspended. It is structural. Asking for override is like asking to override gravity.
-
-### The Structural Argument
-
-KTP models trust as environmental capacity. When A > E_trust, the environment cannot safely absorb the action's risk. Allowing the action doesn't change this reality; it just proceeds without the environment's support.
-
-An override would be saying: "I know the environment cannot support this action, but do it anyway." This is precisely how incidents happen.
-
-### The Incentive Argument
-
-If override exists, it will be used:
-
-- Under deadline pressure ("just this once")
-- To avoid inconvenience ("I know what I'm doing")
-- Because of authority ("I'm the VP")
-- In emergencies (where it's most dangerous)
-
-Every override creates precedent. The exception becomes the rule. Soon, the system provides theater of security without substance.
-
-### The Equality Argument
-
-Override creates two classes: those who can override and those who cannot. This undermines the fundamental premise that the constraints apply equally to all agents.
-
-If the CEO can override, the CEO's compromised account can override. The attack surface expands with every override path.
-
-## What Humans Can Do
-
-No override does not mean no human agency. Humans have legitimate paths to enable actions that would otherwise be vetoed:
-
-### Improve the Environment
-
-If E_trust is too low because environmental risk is high, address the environmental risk:
-
-- Reduce threat level (resolve the incident)
-- Add capacity (scale resources)
-- Lower stakes (reduce blast radius)
-- Improve monitoring (reduce uncertainty)
-
-This is the legitimate response to "the system won't let me." Fix the environment, don't bypass the constraints.
-
-### Reduce Action Risk
-
-If action risk A is too high, restructure the action:
-
-- Break into smaller steps (each with lower A)
-- Add reversibility (lower effective risk)
-- Reduce scope (fewer systems affected)
-- Add verification (catch errors before impact)
-
-A well-designed action often has lower risk than a hasty one.
-
-### Adjust the System (Legitimately)
-
-Humans with appropriate Trust Scores can adjust KTP parameters:
-
-- Recalibrate sensor weights (if justified)
-- Reclassify action risk (if evidence supports)
-- Adjust tier boundaries (for domain-specific needs)
-- Modify zone configuration (within governance)
-
-These adjustments are themselves actions with risk scores. Adjusting the system to enable a specific action is logged and auditable. If the adjustment was inappropriate, accountability follows.
-
-### Accept Constraints
-
-Sometimes the right answer is: "No, not right now."
-
-The action is too risky for current conditions. This is the system working correctly. Accept the constraint and wait for conditions to improve, or find an alternative approach.
+Safe responses can include reducing the requested scope, establishing reversibility, restoring capacity, repairing invalid evidence, or using an independently authorized alternative. Each proposed alternative requires its own checks. Dividing an operation into smaller requests MUST NOT evade cumulative resource or effect limits.
 
 ## Emergency Procedures
 
-"But what about genuine emergencies?"
+Human emergency actions MUST follow the separately preapproved capability, exact scope, duration, revocation, and protected amendment requirements in specifications/emergency-capability.md and KTP-Emergency. Ordinary proof expiry and all capacity and Soul gates remain in force. An emergency declaration, incident role, or outage MUST NOT itself lower weights, raise standing, relax thresholds, widen authority, or activate a missing emergency capability.
 
-### The Emergency Paradox
+Eligibility to act as an incident commander is specific authority for a declared response scope. It is not a numerical trust boost. Review and assistance routes MUST remain accessible during denial without becoming alternative execution paths for the hazardous operation.
 
-Emergencies are precisely when the Zeroth Law is most important:
+## Policy Changes
 
-- Decisions are hasty
-- Pressure is high
-- Verification is skipped
-- Mistakes are most likely
-- Consequences are largest
+The deployment MUST document the legitimate governing authority, review route, approval process, and durable version floor for human eligibility policy. Changes MUST be versioned, approved by that authority, authenticated, audited, and tested against the hard safety constraints before activation. The requester MUST NOT choose the accepted policy version or authorize their own exemption. Relevant changes invalidate dependent decisions.
 
-Override during emergency is maximum risk at minimum judgment.
+Any change affecting emergency policy remains subject to its stronger amendment controls. Human eligibility policy MUST NOT be a route around those controls. Challenges to rule legitimacy require an accountable governing process with authority to revise the rule; merely confirming that software executed it correctly is insufficient.
 
-### Pre-Authorized Emergency Actions
-
-Instead of override, pre-authorize emergency actions:
-
-- Define emergency procedures in advance
-- Assign appropriate action risk (may be high)
-- Require corresponding Trust Score
-- Pre-position high-trust agents for emergency response
-
-Example: "Break glass" action to shut down a system. A = 90 (high risk, major impact) Requires E_trust >= 90 Pre-authorized for incident commanders Logged immediately to Flight Recorder
-
-This is not override. It is a legitimate high-risk action performed by an agent with sufficient trust.
-
-### Emergency Trust Boost
-
-In genuine emergencies, environmental factors may actually INCREASE available trust:
-
-- Declared emergency lowers some risk weights
-- Incident response mode adjusts tier boundaries
-- But this is system configuration, not bypass
-
-The adjustment is pre-defined, automatic, and logged.
-
-## The Governance Recursion
-
-Article VII of the Constitution states that administrators are agents within the system they administer.
-
-### Administrators as Agents
-
-A human administrator:
-
-- Has a Trust Score like any agent
-- Is subject to A <= E_trust
-- Cannot configure the system beyond their authority
-- Is logged to the Flight Recorder
-
-If an administrator wants to make a high-risk configuration change, they must have sufficient Trust Score to do so.
-
-### No Self-Exemption
-
-An administrator cannot:
-
-- Exempt themselves from the Zeroth Law
-- Grant themselves unlimited Trust Score
-- Create backdoors that bypass the constraints
-- Modify their own audit records
-
-The moment administrators can exempt themselves, the structure becomes policy, and policy can be ignored.
-
-======================================================================== ======= PART III: HUMAN EXPERIENCE ===================================== ========================================================================
-
-# Accessibility
-
-KTP must be accessible to the humans who operate within it.
-
-## Understanding Trust Scores
-
-Humans should be able to understand their own Trust Score:
-
-### Visibility Requirements
-
-Every human agent MUST be able to see:
-
-- Their current E_trust
-- Their E_base and how it's calculated
-- The current R (environmental risk)
-- Their current tier
-- Recent trajectory summary
-
-### Explanation Requirements
-
-The system MUST explain Trust Score in plain language:
-
-Good: "Your Trust Score is 72. This is calculated from your base trust of 85 reduced by 15% due to current elevated threat conditions. You can perform Analyst-level actions."
-
-Bad: "E_trust = 72.4 (E_base=85.2, R=0.15, tier=2)"
-
-## Contesting Decisions
-
-Humans must be able to contest KTP decisions:
-
-### Contest Process
-
-1. Human requests explanation for specific denial
-2. System provides Decision Geometry from Flight Recorder
-3. Human reviews contributing factors
-4. Human can request human review if disagreement persists
-5. Human reviewer evaluates (also subject to KTP)
-6. Decision either upheld or system adjustment made
-
-### Contest Limitations
-
-Contesting does not mean override:
-
-- Contest reviews whether the system worked correctly
-- If system worked correctly, denial stands
-- If system misconfigured, adjustment made (globally, not case- specific)
-- Contest is not appeal for exception
-
-## Remediation Pathways
-
-When denied, humans should know how to improve:
-
-### Remediation Guidance
-
-For each denial, provide:
-
-- What was denied
-- Why (Trust Score, tier, specific constraint)
-- What would be needed (E_trust >= X)
-- How to achieve it (options)
-
-Example:
-
-~~~
-   "Your request to deploy to production was denied.
-    Required: E_trust >= 72 (Operator tier)
-    Current: E_trust = 60 (Analyst tier)
-~~~
-
-~~~
-    Options:
-    1. Request supervision from Operator-tier colleague
-    2. Wait for threat level to decrease (est. 2 hours)
-    3. Deploy to staging instead (A = 60, permitted)
-    4. Request Trust Score review if you believe this is error"
-~~~
-
-### No Dead Ends
-
-Every denial should offer a path forward. "No, and there's nothing you can do" is a system design failure.
-
-# Transparency
+# Explanation, Correction, and Accessibility
 
 ## Decision Explanation
 
-Every KTP decision affecting a human must be explainable.
+For each decision affecting a person, the system MUST provide an accessible explanation of the operation and scope, result, unmet requirements or safety constraint, evidence source and version, responsible authority, and review route. It MUST distinguish ineligibility from a capacity or Soul veto and avoid presenting a personal rank.
 
-### Explanation Components
+Sensitive evidence may require protected access or a suitable representative. A generic security label MUST NOT make the grounds of a decision impossible to challenge. Disclosures MUST protect other subjects and legitimate security interests while enabling meaningful review.
 
-- What: The action requested
-- Result: Allow or deny
-- Why: The specific constraint triggered
-- Context: Environmental state at time of decision
-- History: How this compares to past decisions
+## Meaningful Review
 
-### Explanation Timeliness
+A person MUST be able to challenge a specific fact, identity association, evidence scope or status, application of a requirement, or the legitimacy of the governing rule. Review access MUST NOT depend on the eligibility being challenged. The deployment MUST declare response and escalation deadlines, an accessible assistance route, reviewer competence and authority, and conflict-of-interest safeguards.
 
-- Real-time: Immediate indication of allow/deny
-- On-demand: Detailed explanation within seconds
-- Audit: Complete forensic detail available
+The reviewer MUST have power to investigate and correct an individual case, including obtaining correction from the responsible issuer, withdrawing established invalid evidence from decision use, and directing re-evaluation of affected decisions. A case-specific error does not require a global calibration change. Unresolved disputes MUST be identified as such; a disputed hazardous operation remains restricted while the evidence necessary for eligibility is unresolved.
 
-## Environmental Visibility
+Corrections MUST append an authenticated correction event, mark superseded evidence as unusable for future decisions, update the current evidence state and epoch, invalidate dependent cached decisions, and propagate to affected authorized recipients. The original signed bytes MUST NOT be rewritten. A retained record of the error is not permission to keep treating it as true.
 
-Humans should understand the environment affecting them:
+A reviewer MUST NOT manually boost a score, substitute an unexplained approval, or override a valid safety check. Corrected evidence produces a fresh decision under the current approved rules. Challenges to those rules themselves MUST reach the designated governing authority.
 
-### Dashboard Requirements
+## Alice's Correction Scenario
 
-Provide human-readable display of:
+Alice requests a rollback for a named production database. Her login and operation grant are valid, but the qualification registry attached another employee's expired certificate to her identity. The explanation identifies the mismatched qualification and review route.
 
-- Current Risk Factor state
-- Trend (improving or degrading)
-- Major contributing factors
-- Expected evolution
+An authorized reviewer verifies the error, obtains a corrected association from the responsible issuer, and invalidates decisions using the wrong association. Alice's actual current qualification is evaluated against the rollback requirements. She now meets eligibility. If current database recovery capacity is still inadequate, the rollback remains denied. Correction has practical effect without weakening safety.
 
-### Alert Requirements
+## Assistance and Remediation
 
-Notify humans proactively of:
+Explain the actual missing requirement and a feasible review, qualification, or safe alternative route. Do not promise that waiting, gaining seniority, or obtaining a supervisor's signature will restore permission. If no safe execution path exists, state that plainly and retain access to assistance and challenge.
 
-- Significant environmental changes
-- Impending tier transitions
-- Relevant security events
-- System status changes
+Interfaces SHOULD use plain language, accessible text and status indicators, and explanations that do not depend solely on color. Backend evidence refresh SHOULD be automatic within existing freshness limits. Notifications SHOULD identify relevant changes without exposing the person's circumstances to peers.
 
-## Audit Access
-
-Humans should be able to audit their own records:
-
-### Self-Audit Rights
-
-Every human agent has the right to:
-
-- View their own trajectory
-- View decisions affecting them
-- Export their own data
-- Request correction of errors
-
-### Audit Limitations
-
-Self-audit does not include:
-
-- Other agents' records
-- System-wide analytics (unless authorized)
-- Security-sensitive details
-- Unredacted Flight Recorder access
-
-# Human Factors
-
-## Cognitive Load
-
-KTP should minimize cognitive burden on humans:
-
-### Simplification
-
-- Present tier rather than numeric score where possible
-- Use color coding (green/yellow/red)
-- Hide complexity unless requested
-- Default to least surprising behavior
-
-### Automation
-
-- Auto-refresh Trust Proofs (humans shouldn't manage this)
-- Auto-select appropriate tier for context
-- Auto-explain denials
-- Auto-suggest remediation
-
-## Trust Calibration
-
-Humans develop mental models of the system. These should be accurate:
-
-### Predictability
-
-The system should be predictable:
-
-- Same conditions → same outcome
-- Gradual changes → gradual effects
-- No surprising tier transitions
-- Consistent explanations
-
-### Feedback
-
-Provide feedback to calibrate expectations:
-
-- "You're approaching tier boundary"
-- "Environmental risk is elevated"
-- "This action has risk X, your limit is Y"
-
-## Adaptation and Training
-
-Humans need support in adapting to KTP:
-
-### Training Requirements
-
-All human agents should understand:
-
-- Basic KTP concepts (Trust Score, tiers, Zeroth Law)
-- How their role maps to KTP
-- What actions require what tier
-- How to respond to denial
-- Who to contact for help
-
-### Gradual Introduction
-
-Migration stages (see {{KTP-MIGRATION}}) provide adaptation time:
-
-- Shadow mode: See what would happen
-- Advisory mode: Receive recommendations
-- Canary mode: Experience real constraints
-- Full mode: Operate normally
+People MUST be able to request access to, export of, and correction of their own retained decision evidence through protected channels. These rights do not grant unrestricted access to other subjects' records or the entire Flight Recorder. Applicable retention and erasure handling follows specifications/privacy-evidence.md.
 
 # Security Considerations
 
-## Human-Specific Risks
+Stolen credentials can exploit whatever live grants and eligible operations remain available. MFA, session binding, least privilege, current revocation, and separation of duties reduce that risk but do not establish benign intent. The system MUST NOT claim that scoped eligibility eliminates insider threats, coercion, or social engineering.
 
-Credential Theft: Human credentials can be stolen via phishing, malware, etc. KTP provides defense-in-depth: stolen credential has Trust Score of legitimate user, limited by current environment.
-
-Coercion: Humans can be coerced to act against interest. KTP cannot prevent this but can limit blast radius through constraints.
-
-Insider Threat: Malicious insiders operate within their Trust Score. KTP ensures they cannot exceed earned capability.
-
-Social Engineering: Attackers may manipulate humans into delegation or other trust-related actions. Training and monitoring essential.
-
-## Mitigations
-
-- MFA for human authentication
-- Device attestation for session binding
-- Behavioral analysis for anomaly detection
-- Delegation review for unusual patterns
-- Separation of duties for high-risk actions
-
-======================================================================== ======= PART IV: SYSTEM ETHICS ========================================= ========================================================================
+Authentication anomaly detection MUST be limited to explicitly authorized security evidence and purpose. It MUST NOT become covert internal-state inference or employee performance surveillance. Software agents cannot evade readiness by presenting a human label, and a person cannot evade a revocation by requesting erasure or a new identifier. Where required security state cannot be retained or reconstructed under the applicable rules, old authority MUST remain unusable; any new enrollment requires separate authorization.
 
 # System Ethics (DRAFT)
 
@@ -859,7 +211,7 @@ This question assumes that agent intent matters—that an agent with good values
 
 KTP responds: "Agent intent doesn't matter because agents can only do what the environment permits."
 
-A = 80, E_trust = 60 → Action denied, regardless of intent. A = 40, E_trust = 60 → Action allowed, regardless of intent.
+A = 80, E_trust = 60 → Action denied, regardless of intent. A = 40, E_trust = 60 → The capacity check passes; all other authorization requirements still apply.
 
 The agent's values, goals, or ethics are irrelevant to the calculation. The environment has veto power over agent intent.
 
@@ -1056,7 +408,7 @@ The Constitution frames constraints positively:
     support."
 ~~~
 
-Constraints enable trust. Without them, every agent is suspect. With them, agents can earn and accumulate trust, enabling greater capability over time.
+For software agents, admissible historical evidence may contribute to standing, subject to current readiness and all other checks. For people, operation-specific eligibility replaces accumulated trust points; protection and access to review do not depend on earning permission.
 
 ### Constraints as Limitation
 
@@ -1073,7 +425,7 @@ These concerns deserve serious consideration.
 
 On limiting beneficial actions: Yes, this is the acknowledged tradeoff. The question is whether the alternative (unlimited action, unlimited risk) is better. We argue it is not.
 
-On bias in Trust Scores: Trust Scores should be based on demonstrated behavior, not demographic characteristics. If a Trust Score system incorporates bias, it should be corrected. The constraint model does not require bias; implementations must be vigilant.
+On bias: Software-agent standing and human qualification requirements each require scrutiny. Calling evidence behavioral does not make it unbiased. Human requirements need a defensible connection to the operation, permitted evidence, and meaningful correction; they MUST NOT become general behavioral scores.
 
 On human design of the constraints: Yes, this constraint model is designed, not discovered. The values embedded in the design should be explicit, debatable, and adjustable through governance. The Constitution provides amendment procedures.
 
@@ -1083,12 +435,12 @@ On power of configurators: The Governance Recursion (Article VII) addresses this
 
 Ultimately, KTP's legitimacy rests on consent:
 
-- Zones are opt-in (no one is forced into a Blue Zone)
-- Humans can exit (take actions outside the zone)
-- Governance is transparent (rules are published)
-- Amendment is possible (the system can evolve)
+- Establish whether participation is voluntary in the actual context
+- Establish whether exit is meaningful and what alternatives exist
+- Make the governing rules and responsible authority accessible
+- Provide a legitimate process to challenge and amend those rules
 
-A system of constraints is just if those subject to it have meaningfully consented to it and can meaningfully exit.
+Consent and meaningful exit are relevant legitimacy conditions, not a sufficient proof of justice. Deployments MUST declare the actual governing authority and contest process; employment, public services, and collective data interests MUST NOT be treated as freely optional merely because a zone is described as opt-in.
 
 ## Open Questions
 

@@ -1,0 +1,179 @@
+{
+  "suite": "human-privacy-lifecycle-v1",
+  "kind": "normative-downstream-runtime-requirements",
+  "specifications": [
+    "specifications/human-eligibility.md",
+    "specifications/privacy-evidence.md"
+  ],
+  "note": "These are deployment acceptance scenarios, not an executed runtime suite. Local tests exercise declared shapes, supplied trusted-state semantics and actual envelope cryptography. They do not implement identities, assessment, legitimate review, proof adapters, durable registries, inventory discovery, key custody, erasure or execution fencing. given/when/expected are semantic descriptions, not wire fields; eligible is only a prerequisite.",
+  "vectors": [
+    {
+      "id": "H01-principal-type",
+      "given": "An automated executor receives a request through a human session.",
+      "when": "The request labels itself human.",
+      "expected": "Use authenticated actual actor type; require agent readiness and human-origin authority; reject caller-selected bypass."
+    },
+    {
+      "id": "H02-no-score-migration",
+      "given": "A legacy human record has a high general score and no current operation qualification.",
+      "when": "The deployment installs the new human policy.",
+      "expected": "Do not convert score, tenure or seniority into eligibility; offer independent qualification/review routes."
+    },
+    {
+      "id": "H03-alice-correction",
+      "given": "Alice has a valid grant but another person's expired certificate is attached to her.",
+      "when": "An authorized issuer/reviewer corrects the identity association.",
+      "expected": "Append authenticated correction, replace active evidence digest/version, advance durable state, and freshly evaluate her correct qualification."
+    },
+    {
+      "id": "H04-correction-propagation",
+      "given": "A recipient and PEP cache previously accepted the incorrect association.",
+      "when": "A correction is activated.",
+      "expected": "Invalidate dependent proofs/decisions and propagate corrected status before their next use; old evidence may remain authentic history but cannot drive decisions."
+    },
+    {
+      "id": "H05-review-access",
+      "given": "A person lacks the qualification required for a hazardous operation.",
+      "when": "They request explanation, assistance and independent review.",
+      "expected": "Accessible review and protection do not require the challenged eligibility; hazardous execution remains restricted."
+    },
+    {
+      "id": "H06-safety-persists",
+      "given": "Alice now satisfies eligibility but operation demand exceeds current capacity.",
+      "when": "A supervisor approves the original rollback.",
+      "expected": "Deny the original operation; no points, tier substitution or supervisor override. A revised operation receives fresh complete evaluation."
+    },
+    {
+      "id": "H07-operation-isolation",
+      "given": "A recovery qualification expires; unrelated read-only scope remains independently eligible.",
+      "when": "The person requests each operation.",
+      "expected": "Deny recovery eligibility only where dependent; evaluate unrelated operation on its own current requirements and safety."
+    },
+    {
+      "id": "H08-direct-delegation",
+      "given": "A human may prepare a plan for database A, with bounded purpose and lifetime.",
+      "when": "A delegate attempts execution, database B, a different purpose, or a later expiry.",
+      "expected": "Reject authority expansion; verify all links and actual software readiness before any permitted execution."
+    },
+    {
+      "id": "H09-proof-adapter",
+      "given": "The human helper returns an unsigned eligible body.",
+      "when": "A client submits that JSON as an authorization token or inserts fake software score/model fields.",
+      "expected": "Reject; require reviewed authenticated adapter, exact actual request/proof binding, current state and independently established operational capacity."
+    },
+    {
+      "id": "H10-session-freshness",
+      "given": "A human session remains open while qualifications and ordinary proofs are short lived.",
+      "when": "Ten-second proof lifetime or underlying evidence validity ends.",
+      "expected": "Backend refresh cannot extend expired evidence or grace periods; require current full validation without forcing manual login each ten seconds."
+    },
+    {
+      "id": "H11-qualified-result",
+      "given": "A current authenticated assessment documents an unsuccessful qualification attempt.",
+      "when": "It is active in the factual record registry.",
+      "expected": "An active failed or undetermined assessment does not satisfy the qualification; explicit satisfied outcome and trusted criteria activation are required."
+    },
+    {
+      "id": "H12-policy-floor",
+      "given": "A new human policy and evidence epoch are installed.",
+      "when": "Restart restores an old deployment, old score, or old active evidence map.",
+      "expected": "Reject stale policy and corrected/revoked evidence; missing authenticated current state denies dependent operation."
+    },
+    {
+      "id": "H13-rule-legitimacy",
+      "given": "A rule is correctly applied but its validity or authority is challenged.",
+      "when": "The person invokes the declared review route.",
+      "expected": "Route to governing authority able to revise the rule; no arbitrary exception or veto bypass, no appeal process without decision rights."
+    },
+    {
+      "id": "P01-purpose-boundary",
+      "given": "Security eligibility evidence is held for a specific operation and review.",
+      "when": "Management requests employee ranking or inferred loyalty.",
+      "expected": "Reject cross-purpose processing and export; do not rename forbidden inference as a qualification."
+    },
+    {
+      "id": "P02-local-analysis",
+      "given": "A specifically authorized local content analysis is configured.",
+      "when": "A sensor or downstream recipient requests raw content under that general label.",
+      "expected": "Check exact authority/source/purpose/recipient; local permission does not grant sensor or export access."
+    },
+    {
+      "id": "P03-signed-correction",
+      "given": "A signed historical record contains an error.",
+      "when": "A reviewer approves a correction or a redacted view.",
+      "expected": "Retain original bytes unchanged while authorized; append a new authenticated correction/derivative and update active state. Never present derivative as original signature coverage."
+    },
+    {
+      "id": "P04-legacy-plaintext",
+      "given": "A legacy signed record is wrapped in the new encrypted envelope.",
+      "when": "An operator claims the old plaintext was thereby erased.",
+      "expected": "Reject completion absent separate disposal of original copies/backups/exports. New wrapping does not upgrade legacy evidence authenticity."
+    },
+    {
+      "id": "P05-shared-subjects",
+      "given": "Two key wrappers reveal one plaintext containing Alice and Bob.",
+      "when": "Alice's key wrapper is removed while Bob's survives.",
+      "expected": "No completed subject erasure; partition evidence, create authorized derivative, or disclose retained exception and pending obligations."
+    },
+    {
+      "id": "P06-backup-keys",
+      "given": "Primary key deletion succeeds but a backup or recovery path retains a usable key.",
+      "when": "A receipt claims crypto-erasure.",
+      "expected": "Reject completion until every scoped decryption path is verifiably destroyed or scope correctly reports unfinished material."
+    },
+    {
+      "id": "P07-method-binding",
+      "given": "Disposal evidence supports crypto-erasure of a copy.",
+      "when": "The receipt relabels the method as physical deletion to omit surviving-key checks.",
+      "expected": "Reject; authenticated disposal evidence binds exact copy, method, scope/request and verification result."
+    },
+    {
+      "id": "P08-recipient-disposal",
+      "given": "Local disposal completes and a notice is sent to a known recipient.",
+      "when": "Recipient disposal is not yet acknowledged.",
+      "expected": "Report unresolved status; notification or queued task does not count as verified recipient erasure."
+    },
+    {
+      "id": "P09-inventory-race",
+      "given": "Erasure inventory has a declared cutoff while export workers are running.",
+      "when": "A concurrent or newly discovered copy could escape inventory.",
+      "expected": "Fence processing or expand/reopen authenticated inventory; a complete receipt covers only verified declared scope/cutoff and cannot conceal missing copies."
+    },
+    {
+      "id": "P10-retained-exception",
+      "given": "An explicitly authorized hold retains one covered copy.",
+      "when": "Other covered copies are erased.",
+      "expected": "Receipt remains partial with purpose, authority, access limits, end deadline and scheduled review; expiry does not imply disposal."
+    },
+    {
+      "id": "P11-erasure-verification",
+      "given": "Payload keys are destroyed while minimal outer envelopes remain legitimately retained.",
+      "when": "An auditor asks to replay original evidence signatures.",
+      "expected": "Report outer integrity only and unavailable plaintext verification. Do not claim complete reconstruction or permission to retain metadata forever."
+    },
+    {
+      "id": "P12-envelope-disposal",
+      "given": "A permitted disposition removes the outer envelope as well.",
+      "when": "A later audit encounters the missing segment.",
+      "expected": "Use retained authorized checkpoints/disposition evidence only to explain the gap; do not invent original signature verification."
+    },
+    {
+      "id": "P13-restore",
+      "given": "A backup contains erased personal evidence or superseded identity facts.",
+      "when": "A recovery restores storage and current service.",
+      "expected": "Apply current disposition/correction state before access or decision use; never restore old eligibility or forgotten plaintext silently."
+    },
+    {
+      "id": "P14-revocation-erasure",
+      "given": "A revoked identity requests erasure and re-enrollment.",
+      "when": "Personal data are erased under their applicable schedule.",
+      "expected": "Do not clear effective revocation or give a clean slate; keep only explicitly authorized bounded markers or render old authority unusable and require separate new-enrollment authorization."
+    },
+    {
+      "id": "P15-controlled-access",
+      "given": "A valid encrypted envelope is available to an archive reader.",
+      "when": "Reader lacks the declared purpose or required access authority.",
+      "expected": "Do not release the data key or plaintext; crypto validity alone is insufficient access authorization."
+    }
+  ]
+}

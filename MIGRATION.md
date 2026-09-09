@@ -1,5 +1,66 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased F11 human/privacy migration:** Replace general human Trust Scores,
+ranked tiers and human-to-agent score inheritance with
+[operation-specific eligibility](specifications/human-eligibility.md). Install
+an independently approved `human_policy` binding, criteria, issuers, review route,
+retention policy, durable version floor and evidence state. Legacy scores do not
+convert into qualifications. Human-origin delegation preserves the actual
+software executor's own readiness and every capacity/Soul gate.
+
+The new human decision body is an unsigned prerequisite, not a human JWT or a
+replacement software proof. Before execution, a reviewed integration must bind
+the authenticated person and actual actor, exact operation and parameters,
+current evidence and grant state, established operational capacity, and complete
+short-lived authorization proof. If that adapter is absent, eligibility alone
+cannot enable execution. Do not invent software scores or model fields for people.
+
+Inventory existing personal evidence, copies and key paths. Use the new
+[privacy storage envelope](specifications/privacy-evidence.md) for separately
+protected exact signed bytes; wrapping does not erase old plaintext copies or
+upgrade legacy signature coverage. Corrections append authenticated events and
+replace active facts; they do not edit signed records. Complete or partial
+erasure dispositions require independently verified inventory and method-bound
+disposal evidence, including backups, recipients and retained exceptions.
+Declare reconstruction limits after keys or records are gone. Preserve effective
+revocation and accepted-version floors, or render old authority unusable if the
+required state cannot be retained/reconstructed under applicable rules. No
+permanent personal archive or automatic clean-slate enrollment is introduced.
+
+**Unreleased readiness migration:** Implementers adopting the current draft
+must additionally install the v3 deployment profile and
+[operational readiness contract](specifications/operational-readiness.md).
+Replace `standing_decay_rate` with the authenticated `standing_policy` binding;
+do not reinterpret or rewrite an old profile. Preserve historical PoR and its
+verification limitations. Current readiness starts unestablished for each
+dependent operation until the bound configuration passes the approved assessment
+and the complete signed evidence is durably activated. Install the authenticated
+profile/evidence acceptance floor and revocation state before dependent operation;
+old profiles, tokens, backups, and missing operation entries cannot bypass it.
+Use the separately authorized bounded assessment path for safe requalification.
+
+Carry the signed readiness decision beside the complete ordinary proof and record
+it in the existing signed trajectory `action.details.readiness` object. Preserve
+the ten-second ordinary-proof maximum and shorten proof expiry to readiness
+expiry where necessary. Assessment duration never extends ordinary authorization.
+Changes that affect a protected emergency evaluation profile still require its
+existing amendment process; this migration is no waiver. The original published
+v2 deployment schema is archived as `schemas/deployment-profile-legacy-v2.json`.
+These are unreleased format/behavior changes; the historical instructions below
+continue to describe their named release only.
+
+**Unreleased trajectory-format migration:** The current draft additionally
+introduces `ktp-trajectory-v3`, independently of the historical release guide
+below. This does not publish a new release or move any tag. Implementers adopting
+the draft MUST follow [complete trajectory signatures](specifications/trajectory-signatures.md):
+preserve original legacy bytes; independently revalidate carried standing;
+authorize a checkpoint binding the old lineage/head, preserved archive, new
+chain/genesis, approved state, and profile; enforce a durable accepted-format
+floor and single-use transition; then sign and uniquely anchor the new genesis.
+Renaming fields, re-signing old assertions, or selecting archive mode MUST NOT
+convert legacy records into evidence of fully authenticated v3 history. Failed
+migration verification pauses the transition without discarding the archive.
+
 For implementers pinned to `v1.0.1-provenance`.
 
 v2.0.0 is a MAJOR release under [`VERSIONING.md`](VERSIONING.md). The break is

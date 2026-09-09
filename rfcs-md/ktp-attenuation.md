@@ -499,17 +499,24 @@ To meet performance requirements:
    4.  Gravity curves SHOULD be precomputed as lookup tables
 ~~~
 
+These optimizations MUST NOT extend the declared freshness of an observation, the validity of standing or its supporting attestations, or an ordinary Trust Proof's expiration. A cached R MUST be invalidated when a supporting input becomes undefined, even if no numerical change has been received. A cached E_base remains subject to every recalculation trigger and the maximum cache lifetime in KTP-Core Section 5.1.
+
 ## Failure Modes
 
 If the enforcement pipeline fails:
 
 ~~~
-   -  Risk calculation error:  Assume R = 0.5 (moderate risk)
+   -  Undefined risk input: Resolve under KTP-Core Sections 5.2 and 6.7
+   -  Risk calculation error: Do not issue an authorizing result; block action and alert operator
    -  Evaluation error:  Block action, alert operator
    -  Constraint application failure:  Block action, alert operator
 ~~~
 
 The system MUST fail closed—uncertainty results in constraint, not permission. This is the general rule of KTP-Core, Section 6.7: an undefined input resolves toward the more restrictive outcome available at that decision point, and the undefined state is recorded on the decision record.
+
+An unobserved Risk Factor term MUST use the conservative substitute 1.0 required by KTP-Core Section 5.2 and MUST be recorded as undefined, not as a measurement. Implementations MUST NOT carry raw undefined values into arithmetic or replace a failed risk calculation with a moderate-risk constant. If the complete calculation fails or cannot produce a valid current score, no authorizing result may be issued. Successful restrictive substitution for an individual unknown term remains subject to the normal capacity and supervision checks.
+
+Latency injection, queuing, and time dilation MUST NOT prolong ordinary authorization. Every ordinary Trust Proof MUST satisfy 0 < exp - iat <= 10 seconds and iat <= current_time < exp, and MUST be revalidated at execution. Future-issued or expired proofs and invalid or unverifiable timestamps or current time MUST fail closed under KTP-Core. An ongoing action that cannot refresh its proof MUST cease ordinary operation through its declared bounded safe transition. Any separately authorized emergency action follows `specifications/emergency-capability.md`, with no extension of the expired proof or permission widening during the outage.
 
 # Gravity Profiles
 

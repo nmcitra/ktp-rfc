@@ -1,0 +1,454 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/human-eligibility-v1/human-eligibility-profile.json",
+  "title": "KTP Human Eligibility Profile v1 — Unreleased",
+  "description": "Operation-specific prerequisites and authority bindings for human participation, not a score of a person. Governance, review and retention routes are explicit. The profile must be independently approved and authenticated. Shape cannot establish fairness, evidence quality, issuer competence, legal compliance or authorization. See specifications/human-eligibility.md.",
+  "type": "object",
+  "required": [
+    "profile_version",
+    "profile_id",
+    "version",
+    "conformance_level",
+    "issuer_registry_digest",
+    "governance_authority_id",
+    "review_route_id",
+    "retention_policy_id",
+    "operations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "profile_version": {
+      "const": "ktp-human-eligibility-profile-v1"
+    },
+    "profile_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "version": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "conformance_level": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "issuer_registry_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "governance_authority_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "review_route_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "retention_policy_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])"
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Digest of exact bound content. The trusted profile requires SHA-256 at Levels 1/2 and SHA-384 at Level 3; semantic validation enforces that selection."
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; booleans and floating representations are rejected semantically."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative safe integer Unix seconds; no floating representations."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "zone_id",
+        "resource_id",
+        "parameters_digest",
+        "purpose_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "purpose_id": {
+          "$ref": "#/$defs/literal"
+        }
+      },
+      "description": "Exact operation, resource, parameter and purpose binding. No wildcard, range, cross-purpose reuse or implicit compatibility is supported."
+    },
+    "requirement": {
+      "type": "object",
+      "required": [
+        "requirement_id",
+        "assessment_spec_digest",
+        "issuer_ids",
+        "max_age_seconds"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "requirement_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "assessment_spec_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "issuer_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        },
+        "max_age_seconds": {
+          "$ref": "#/$defs/positive_integer"
+        }
+      },
+      "description": "An operation-specific criterion defined by its independently approved specification. The specification must identify evidence and acceptance criteria; no person score or social ranking is inferred."
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "operation_id",
+        "scope",
+        "requirements",
+        "grant_issuer_ids",
+        "allow_delegation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "requirements": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/requirement"
+          }
+        },
+        "grant_issuer_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        },
+        "allow_delegation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "version",
+        "principal_id",
+        "requirement_id",
+        "operation_id",
+        "scope",
+        "assessment_spec_digest",
+        "issuer_id",
+        "observed_at",
+        "issued_at",
+        "expires_at",
+        "status",
+        "outcome",
+        "content_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "version": {
+          "$ref": "#/$defs/positive_integer"
+        },
+        "principal_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "requirement_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "assessment_spec_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "issuer_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "issued_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "revoked",
+            "suspended",
+            "corrected",
+            "expired"
+          ]
+        },
+        "content_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "outcome": {
+          "enum": [
+            "satisfied",
+            "unsatisfied",
+            "undetermined"
+          ],
+          "description": "Current authenticated criterion outcome. Active registration preserves a record; only satisfied establishes this prerequisite."
+        }
+      },
+      "description": "Independently authenticated criterion evidence. The exact canonical record must be active in trusted state; candidate labels and digest strings alone establish nothing. Corrections require a new active version/digest."
+    },
+    "grant": {
+      "type": "object",
+      "required": [
+        "grant_id",
+        "version",
+        "principal_id",
+        "operation_id",
+        "scope",
+        "issuer_id",
+        "valid_from",
+        "expires_at",
+        "status",
+        "delegation_allowed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "grant_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "version": {
+          "$ref": "#/$defs/positive_integer"
+        },
+        "principal_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "issuer_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "valid_from": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "revoked",
+            "suspended",
+            "corrected",
+            "expired"
+          ]
+        },
+        "delegation_allowed": {
+          "type": "boolean"
+        }
+      },
+      "description": "Independent authority for this exact operation and scope. Eligibility cannot create this grant."
+    },
+    "delegation": {
+      "type": "object",
+      "required": [
+        "delegation_id",
+        "version",
+        "principal_id",
+        "delegate_id",
+        "operation_id",
+        "scope",
+        "source_grant_digest",
+        "valid_from",
+        "expires_at",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "delegation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "version": {
+          "$ref": "#/$defs/positive_integer"
+        },
+        "principal_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "delegate_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "source_grant_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "valid_from": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "revoked",
+            "suspended",
+            "corrected",
+            "expired"
+          ]
+        }
+      },
+      "description": "Direct human-to-authenticated-agent delegation only. The source grant and approved profile must permit delegation. Operation/scope remain exact and validity cannot exceed the source grant; longer chains are unsupported."
+    },
+    "request": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "actor_id",
+        "operation_id",
+        "scope",
+        "profile_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "actor_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "profile_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Actual independently resolved invocation. Human principal and actor type are established by trusted integration, never by request fields."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "conformance_level": {
+            "const": 3
+          }
+        },
+        "required": [
+          "conformance_level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "issuer_registry_digest": {
+            "type": "string",
+            "minLength": 103,
+            "maxLength": 103,
+            "pattern": "^sha384:[0-9a-f]{96}$"
+          },
+          "operations": {
+            "items": {
+              "properties": {
+                "scope": {
+                  "properties": {
+                    "parameters_digest": {
+                      "type": "string",
+                      "minLength": 103,
+                      "maxLength": 103,
+                      "pattern": "^sha384:[0-9a-f]{96}$"
+                    }
+                  }
+                },
+                "requirements": {
+                  "items": {
+                    "properties": {
+                      "assessment_spec_digest": {
+                        "type": "string",
+                        "minLength": 103,
+                        "maxLength": 103,
+                        "pattern": "^sha384:[0-9a-f]{96}$"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

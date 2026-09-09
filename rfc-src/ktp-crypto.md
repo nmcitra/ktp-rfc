@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Cryptographic Specification"
 abbrev: "KTP-CRYPTO"
-date: 2026-08-13
+date: 2026-09-07
 category: exp
 ipr: trust200902
 
@@ -329,7 +329,7 @@ Protocol outline:
 
 1. KEY GENERATION (one-time ceremony) -  Generate master signing key k -  Create n shares using Shamir (k,n)-threshold scheme -  Distribute shares to n Oracles -  Destroy master key (never reconstructed)
 
-1. SIGNATURE GENERATION (per Trust Proof) -  k Oracles receive signing request -  Each Oracle generates partial signature using share -  Coordinator combines k partial signatures -  Result is valid ECDSA signature
+1. SIGNATURE GENERATION (per Trust Proof) -  k Oracles receive signing request -  Each Oracle verifies the applicable committed-state evidence and request under specifications/oracle-consensus.md -  Each Oracle generates partial signature using share -  Coordinator combines k partial signatures -  Result is valid ECDSA signature
 
 Security properties:
 
@@ -362,7 +362,11 @@ FROST is RECOMMENDED for new Level 2+ deployments.
 +---------+---------------+-------------------+-------------+
 ~~~
 
-The threshold k SHOULD be greater than n/2 to prevent split-brain scenarios during network partitions.
+These are cryptographic signing thresholds, not consensus decision quorums. A threshold signature proves signing participation under the key's security assumptions; it does not by itself establish one committed history. In particular, k > n/2 does not prevent Byzantine split brain: with five members, two sets of three signers can overlap only at one malicious member that signs both conflicting decisions.
+
+Oracle meshes MUST protect authoritative state through the reviewed, named and versioned consensus protocol required by specifications/oracle-consensus.md. For a membership of N distinct members tolerating at most f Byzantine members, the Byzantine profile requires f >= 1, N >= 3f + 1, and a homogeneous decision quorum q satisfying floor((N + f) / 2) + 1 <= q <= N - f. The default is N = 5, f = 1, q = 4. This requirement includes authenticated membership epochs, durable voting and locks, safe view changes, and safe membership transitions; quorum arithmetic alone is not a consensus protocol.
+
+A 3-of-5 or 2-of-3 signing configuration MAY remain in use where permitted by the conformance level, provided honest signers verify the required underlying commit evidence before signing protected state or a proof derived from it. Its signing threshold MUST NOT be advertised as the Byzantine decision quorum. The signing configuration, consensus membership and fault budget, and any stricter operation-specific approval threshold MUST be declared separately. A single-Oracle deployment has no Byzantine consensus guarantee.
 
 ## Algorithm Negotiation
 
@@ -470,6 +474,8 @@ BLAKE3 is a high-performance hash function suitable for bulk data hashing.
 
 BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3 performance is insufficient. It MUST NOT be used for contexts requiring NIST-approved algorithms.
 
+This optional bulk-hashing use does not change the v3 trajectory record_hash algorithm or its canonical preimage. The trajectory contract below requires SHA-256 at Levels 1 and 2 and SHA-384 at Level 3.
+
 ## Hash Function Selection
 
 ~~~
@@ -483,6 +489,22 @@ BLAKE3 is OPTIONAL for performance-critical hashing where SHA-2/SHA-3 performanc
 | Agent ID generation   | SHA-256 | SHA-256  | SHA-256  |
 +-----------------------+---------+----------+----------+
 ~~~
+
+The trajectory row above applies to the completed v3 signed envelope defined in specifications/trajectory-signatures.md, excluding only its own record_hash field. The chosen level and algorithm MUST come from trusted configuration; a candidate record MUST NOT select its own verification strength. Flight Recorder chain hashes are a different record type and retain their separate algorithm and preimage rules.
+
+## Trajectory Signature and Hash Binding
+
+Active trajectory records MUST declare record_version = "ktp-trajectory-v3" and follow specifications/trajectory-signatures.md. Define B as the entire top-level record except agent_signature, oracle_attestation, and record_hash, and O as the entire oracle_attestation except oracle_signature. No other state, identity, action details, evaluation-profile, or migration fields may be omitted from these projections.
+
+The agent compact JWS embeds RFC 8785 JCS(B) as its payload and protects exactly alg, kid, and typ = "ktp-trajectory-agent-v3". The Oracle compact JWS embeds JCS({"record_body": B, "agent_signature": exact_agent_compact_JWS, "attestation": O}) and protects exactly alg, kid, and typ = "ktp-trajectory-oracle-v3". The JWS signing input includes the protected header and encoded payload under RFC 7515; it is not a concatenation of selected JSON fields or an untyped digest. Verifiers MUST reconstruct and compare the exact canonical payload bytes, validate role separation, and resolve allowed algorithms and keys from independently trusted configuration.
+
+The final record_hash is the lowercase prefixed SHA-256 digest at Levels 1/2, or SHA-384 digest at Level 3, of JCS(completed_record excluding only record_hash). It includes both exact JWS strings and all attestation metadata. Canonicalization MUST reject duplicate object names, invalid Unicode, and out-of-profile numbers as required by the companion; ordinary lexical key sorting is not an RFC 8785 implementation.
+
+In a mesh, the typed digest of the canonical Oracle payload is committed before Oracle signing. The final completed-envelope hash is independently committed as the unique selected head afterward, with its record_version, commit_intent, agent, zone, chain, sequence, and predecessor. These are distinct stages: a certificate over the intent does not bind a later signature envelope, and no signature may require a certificate whose digest recursively depends on that signature. Different valid ECDSA envelopes for one intent MUST NOT establish competing authoritative successors.
+
+The reference helper's supported classical signatures and Level 3 SHA-384 checks do not implement every cryptographic profile. Required threshold participation, hybrid signatures, key protection, and other stronger deployment requirements remain binding; successful helper verification MUST NOT be presented as full Level 3 conformance.
+
+Legacy v2 verification is archival only after the trusted cutover. Migration requires an independently authenticated checkpoint and revalidated carried state, a new v3 genesis referring to that checkpoint, and separate anchoring of the final genesis hash. Original legacy bytes MUST be preserved. Restart, key rotation, candidate-supplied versions, or fallback verification MUST NOT reset the durable format floor or single-use lineage succession.
 
 # Key Derivation
 
@@ -975,6 +997,22 @@ Signature:
 
 - For single-Oracle: Standard JWS signature
 - For threshold: Aggregated threshold signature
+
+## Readiness Attestation and Decision Formats
+
+Readiness artifacts MUST follow specifications/operational-readiness.md and the unreleased readiness-v1 schemas: schemas/readiness-profile.json, schemas/readiness-attestation.json, and schemas/readiness-decision.json. The complete attestation or decision object excluding exactly signature is its JCS payload. The compact JWS protected header contains exactly alg, kid, and typ, also encoded as JCS; typ is respectively "ktp-readiness-attestation-v1" or "ktp-readiness-decision-v1". Every other field and nested value participates in the signature.
+
+Apply the strict UTF-8, canonical JSON/base64url, signature encoding, integer-token, timestamp, low-s, and trusted key/algorithm requirements of specifications/trajectory-signatures.md. The independently trusted registry MUST authorize the signing key for the exact assessor or decision-issuer role, subject, and scope; an artifact cannot supply its own trust anchor. Key validity must cover issuance through expiry, and known revocation takes precedence. Supported classical signatures do not establish required threshold participation, hybrid signing, key custody, or full Level 3 conformance.
+
+Digest boundaries are distinct and MUST NOT be substituted: the readiness profile uses JCS of its complete object; attestation and decision digests use JCS of the complete signed object including signature; the ordinary proof digest uses the complete ASCII compact JWS, including its header, payload, and signature; the deployment profile digest uses its exact installed bytes. The request digest uses JCS of exactly {request_id, subject, operation_id, scope, deployment_profile_digest, readiness_profile_digest}, constructed from the authenticated invocation and live resolved state. SHA-256 applies at Levels 1/2 and SHA-384 at Level 3 as selected by trusted configuration.
+
+The sidecar binds an already complete ordinary proof, the actual request, the complete active assessment, both installed profiles, readiness_epoch, evaluated_at, expires_at, and issuer_id. It MUST NOT depend on a future trajectory signature or final record hash. Storing the complete sidecar in the existing signed trajectory action.details.readiness object preserves this ordering. A valid signature alone does not establish that the assessment occurred, its evidence remains current, or its digest is registered as active.
+
+## Privacy Evidence Storage Signatures
+
+The separate ktp-privacy-evidence-v1 storage format MUST follow specifications/privacy-evidence.md and schemas/privacy-evidence-envelope.json. AES-256-GCM encrypts exact evidence bytes with the complete contextual header as JCS associated data; each envelope uses a fresh data key and nonce. The compact JWS signs all fields except signature and record_hash with typ = "ktp-privacy-evidence-v1". The final hash includes that signature and excludes only record_hash. Role, issuer, zone, level and independently anchored archive state MUST be verified. This role MUST NOT substitute for a trajectory, readiness or authorization signature.
+
+Erasure MUST NOT edit signed plaintext or claim that a new envelope authenticates previously unsigned fields. A retained outer signature may remain verifiable after its payload key is destroyed; that result MUST be reported as outer integrity only. Actual key custody, all recovery paths and copies, recipient disposal, retention and erasure are additional obligations. The classical reference algorithms do not establish stronger threshold or hybrid conformance.
 
 ## Agent Credential Format
 

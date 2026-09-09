@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/human-eligibility-v1/privacy-erasure-receipt.json",
+  "title": "KTP Privacy Erasure Receipt Body v1 — Unreleased",
+  "description": "UNSIGNED bounded erasure-accounting body. Complete means all copies in an independently authenticated complete inventory through scope_cutoff have verified erasure and required downstream acknowledgements. Partial includes retained exceptions and incomplete inventories; pending means no verified erasure yet. The helper authenticates neither inventory discovery nor disposal evidence and performs no deletion. The integration must supply independently authenticated inventory and per-copy/key/recipient evidence and authenticate the resulting receipt. Retained purpose/access/deadline exceptions remain visible. Receipt metadata is not anonymous; no receipt clears revocation or other safety state. See specifications/privacy-evidence.md.",
+  "type": "object",
+  "required": [
+    "receipt_version",
+    "receipt_id",
+    "purpose_id",
+    "request_digest",
+    "subject_scope_digest",
+    "inventory_digest",
+    "inventory_version",
+    "scope_cutoff",
+    "evaluated_at",
+    "inventory_complete",
+    "copies",
+    "keys",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "receipt_version": {
+      "const": "ktp-privacy-erasure-receipt-v1"
+    },
+    "receipt_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "purpose_id": {
+      "const": "privacy-erasure"
+    },
+    "request_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "subject_scope_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "inventory_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "inventory_version": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "scope_cutoff": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "evaluated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "inventory_complete": {
+      "type": "boolean"
+    },
+    "copies": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/copy"
+      }
+    },
+    "keys": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/key"
+      }
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "partial",
+        "complete"
+      ]
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])"
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Digest of exact bound content. The trusted profile requires SHA-256 at Levels 1/2 and SHA-384 at Level 3; semantic validation enforces that selection."
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; booleans and floating representations are rejected semantically."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative safe integer Unix seconds; no floating representations."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "zone_id",
+        "resource_id",
+        "parameters_digest",
+        "purpose_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "resource_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "parameters_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "purpose_id": {
+          "$ref": "#/$defs/literal"
+        }
+      },
+      "description": "Exact operation, resource, parameter and purpose binding. No wildcard, range, cross-purpose reuse or implicit compatibility is supported."
+    },
+    "retention": {
+      "type": "object",
+      "required": [
+        "exception_id",
+        "purpose_id",
+        "access_policy_digest",
+        "delete_by",
+        "authorization_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "exception_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "purpose_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "access_policy_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "delete_by": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "authorization_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "description": "Explicit retained exception and responsible authorization. Metadata and access remain purpose-limited. An overdue deadline does not make the copy erased; retention keeps the receipt partial and grants no permission to retain."
+    },
+    "copy": {
+      "type": "object",
+      "required": [
+        "copy_id",
+        "kind",
+        "recipient_id",
+        "key_ids",
+        "disposition",
+        "verification_digest",
+        "acknowledgement_digest",
+        "retention"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "copy_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "kind": {
+          "enum": [
+            "primary",
+            "replica",
+            "backup",
+            "downstream"
+          ]
+        },
+        "recipient_id": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/literal"
+            }
+          ]
+        },
+        "key_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        },
+        "disposition": {
+          "enum": [
+            "pending",
+            "deleted",
+            "crypto_erased",
+            "retained"
+          ]
+        },
+        "verification_digest": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/digest"
+            }
+          ]
+        },
+        "acknowledgement_digest": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/digest"
+            }
+          ]
+        },
+        "retention": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/retention"
+            }
+          ]
+        }
+      },
+      "description": "Each inventoried copy, including backups, replicas and recipients, remains represented. A declared disposal without independently verified evidence cannot count as erasure."
+    },
+    "key": {
+      "type": "object",
+      "required": [
+        "key_id",
+        "shared",
+        "disposition",
+        "destruction_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key_id": {
+          "$ref": "#/$defs/literal"
+        },
+        "shared": {
+          "type": "boolean"
+        },
+        "disposition": {
+          "enum": [
+            "active",
+            "destroyed"
+          ]
+        },
+        "destruction_digest": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/digest"
+            }
+          ]
+        }
+      },
+      "description": "All relevant decryption keys. Destroying a name or rotating a shared key is not subject-specific erasure; the narrow reference rejects shared-key shortcuts."
+    }
+  }
+}

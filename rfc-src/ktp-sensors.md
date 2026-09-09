@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-08-13
+date: 2026-09-06
 category: exp
 ipr: trust200902
 
@@ -840,7 +840,7 @@ Recommended Implementation:
 
 Different deployment domains weight the six weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
 
-Weights MUST sum to 1.0 across the six named inputs.
+Weights MUST sum to 1.0 across the six named inputs and satisfy \[KTP-CORE] Section 6.4's finite, positive-weight requirements. Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
 
 5.1. Pre-defined Profiles
 

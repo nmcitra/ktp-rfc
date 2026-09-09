@@ -17,6 +17,8 @@ Digital Gravity is designed to constrain agents during normal operation.  But wh
 
 This specification addresses these scenarios with structured emergency response—protocols that maintain safety while enabling recovery.
 
+The authorization boundary for every procedure below is specifications/emergency-capability.md. Ordinary Trust Proofs expire normally, including during an outage. An emergency level, human approval, cached read, or heartbeat does not grant permission. Any separately authorized emergency action MUST match a preinstalled approved policy and retain the sovereignty, capacity, supervision, audit, and revocation checks defined by that companion.
+
 # Design Principles
 
 Emergency response embodies these principles:
@@ -153,7 +155,7 @@ Trigger conditions:
 
 Required response:
 
-- Human authorization required for operations
+- Human authorization required in addition to the applicable ordinary or separately declared emergency authorization
 - Emergency governance activated
 - External notification (federation, regulators)
 - Consider zone isolation
@@ -161,8 +163,8 @@ Required response:
 Agent impact:
 
 - All agents restricted to Observer mode
-- Only read operations permitted
-- Trust Proofs frozen (no new issuance)
+- Read operations remain subject to valid ordinary authorization or an explicitly matched separate emergency capability
+- Trust Proof issuance stops; existing proofs retain their original expiration
 - Prepare for potential evacuation
 
 ## Level 5: Catastrophic
@@ -314,13 +316,15 @@ When degrading, preserve in order:
     -  Audit logging
 ~~~
 
-1. Integrity (preserve if possible)
+1. Integrity (authorization checks remain mandatory)
 
 ~~~
     -  Trajectory chain consistency
     -  Trust Proof validity
     -  Consensus integrity
 ~~~
+
+Proof signature, original expiration, and the established signing quorum MUST NOT be relaxed to preserve availability. A cached read is still an action requiring authorization.
 
 1. Availability (degrade first)
 
@@ -531,23 +535,23 @@ Detection:  Heartbeat timeout (5 seconds)
 
 Response:
 
-1. Remove failed node from active set
+1. Remove failed node from request routing without changing authenticated membership, quorum, or the fault budget
 2. Redistribute load to remaining nodes
 3. Alert operations
 4. Begin node recovery
 
-Recovery:  Node rejoins after health check
+Recovery: Node rejoins only after its health check and the authenticated state, membership, and durable voting/lock recovery checks in `specifications/oracle-consensus.md`. An unavailable node is not automatically removed from the voting committee.
 
 ## Quorum Degradation
 
 When nodes fail but quorum remains:
 
-Detection:  Active nodes < recommended, >= minimum
+Detection: Fewer members are available, but the established consensus quorum and signing requirements remain achievable. In the default five-member mesh this requires four distinct eligible consensus participants.
 
 Response:
 
 1. Alert: quorum degraded
-2. Reduce consensus requirements if allowed
+2. Retain the established consensus and signing requirements; do not reduce them during failure
 3. Prioritize critical operations
 4. Accelerate node recovery
 
@@ -555,7 +559,7 @@ Recovery:  Nodes rejoin, full quorum restored
 
 ## Quorum Loss
 
-When quorum is lost (active nodes < minimum):
+When the established quorum cannot be obtained (including unavailable or withholding members):
 
 Detection:  Cannot achieve consensus
 
@@ -563,20 +567,20 @@ Response:
 
 1. Emergency Level 4 declared
 2. All write operations halted
-3. Read operations from cache where possible
+3. Read operations from cache only while ordinarily authorized or explicitly permitted by a separately verified emergency capability
 4. Human escalation required
 
 Recovery:
 
 - Option A: Restore nodes to regain quorum
-- Option B: Emergency quorum with reduced nodes
+- Option B: Evaluate already approved emergency capability through its independent verification path, without issuing ordinary proofs
 - Option C: Zone collapse if unrecoverable
 
 ## Emergency Quorum
 
-If normal quorum cannot be restored:
+If normal quorum cannot be restored, an administrator MUST NOT create a reduced emergency quorum to issue ordinary Trust Proofs or amend emergency policy. The earlier single-administrator, two-node recipe is withdrawn.
 
-{ "emergency_quorum": { "authorization": "Human administrator (IAL3)", "justification": "Normal quorum unrecoverable", "temporary_quorum": { "minimum_nodes": 2, "required_for": "essential_operations_only", "duration_max_hours": 24 }, "restrictions": [ "No new agent genesis", "No E_base modifications", "No zone configuration changes", "Read operations prioritized" ], "recovery_requirement": "Full quorum must be restored within 24 hours" } }
+The separate capability in specifications/emergency-capability.md MAY be activated only under its preinstalled policy. Its multiple-custodian signatures authorize the exact emergency activation; they are not a substitute Oracle quorum. If its independent checks cannot be completed, the action is denied.
 
 # Recovery Procedures
 
@@ -713,7 +717,7 @@ Post-incident analysis is REQUIRED for:
 
 ## Post-Incident Report
 
-{ "incident_report": { "incident_id": "INC-2025-12-03-001", "zone_id": "zone-blue-prod-01", "severity": "Level 3 - Critical", "duration_minutes": 47, "summary": "Oracle node failure led to temporary quorum degradation", "timeline": [ { "timestamp": "2025-12-03T14:00:00Z", "event": "Oracle node 3 unresponsive" }, { "timestamp": "2025-12-03T14:00:05Z", "event": "Node removed from active set" } ], "root_cause": { "primary": "Hardware failure in Oracle node 3", "contributing": [ "Delayed hardware replacement", "Insufficient geographic distribution" ] }, "impact": { "agents_affected": 127, "operations_delayed": 4721, "trust_impact": "minimal" }, "response_evaluation": { "effective": [ "Automatic failover functioned correctly", "Agent communication timely" ], "needs_improvement": [ "Recovery time exceeded target", "Alert routing delayed" ] }, "action_items": [ { "action": "Add sixth Oracle node", "owner": "infrastructure_team", "deadline": "2025-12-15" }, { "action": "Improve alert routing", "owner": "operations_team", "deadline": "2025-12-10" } ], "report_author": "admin:bob.jones", "report_date": "2025-12-04" } }
+{ "incident_report": { "incident_id": "INC-2025-12-03-001", "zone_id": "zone-blue-prod-01", "severity": "Level 3 - Critical", "duration_minutes": 47, "summary": "Oracle node failure led to temporary quorum degradation", "timeline": [ { "timestamp": "2025-12-03T14:00:00Z", "event": "Oracle node 3 unresponsive" }, { "timestamp": "2025-12-03T14:00:05Z", "event": "Node removed from routing; authenticated committee and quorum retained" } ], "root_cause": { "primary": "Hardware failure in Oracle node 3", "contributing": [ "Delayed hardware replacement", "Insufficient geographic distribution" ] }, "impact": { "agents_affected": 127, "operations_delayed": 4721, "trust_impact": "minimal" }, "response_evaluation": { "effective": [ "Automatic failover functioned correctly", "Agent communication timely" ], "needs_improvement": [ "Recovery time exceeded target", "Alert routing delayed" ] }, "action_items": [ { "action": "Review a sixth Oracle member and, if supported, install through the authenticated joint transition", "owner": "infrastructure_team", "deadline": "2025-12-15" }, { "action": "Improve alert routing", "owner": "operations_team", "deadline": "2025-12-10" } ], "report_author": "admin:bob.jones", "report_date": "2025-12-04" } }
 
 # Communication During Emergencies
 
@@ -798,7 +802,9 @@ Attackers may exploit emergencies:
 
 ## Emergency Credential Management
 
-{ "emergency_credentials": { "type": "break_glass", "holders": [ "admin:alice.smith", "admin:bob.jones", "admin:carol.williams" ], "activation_requires": "2_of_3", "valid_duration_hours": 4, "audit_level": "maximum", "automatic_revocation": true } }
+Emergency credentials MUST follow specifications/emergency-capability.md. Activation requires at least two independent custodians from an established roster of at least three, lasts no more than four hours, and cannot automatically renew. Scope and budgets are fixed by the approved policy; repeated activation cannot reset them during the same incident.
+
+Changing or installing that policy requires at least 90% approval from the established full governing custodian body, 90 days of review, 14 further days of ratification, and independent external review. The same controls protect changes to custodians, keys, verifier configuration, and the amendment rules. No outage waiver exists. Authenticated suspension or revocation is immediate; restoration requires a new approved version through the protected process in normal operation.
 
 # IANA Considerations
 

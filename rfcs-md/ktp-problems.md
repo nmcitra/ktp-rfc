@@ -406,33 +406,15 @@ Part 1 is MITIGATED. Part 2 is EXTERNAL (ethics/policy).
 
 A. PRE-DECLARED EMERGENCY CONTEXTS
 
-Known emergency scenarios can be pre-registered with adjusted sensor weights and thresholds:
+Known emergency scenarios can identify an already approved, versioned evaluation profile. Activation MUST NOT edit weights, thresholds, or permissions. The profile's complete evaluation configuration is bound by digest and remains subject to the valid weight, capacity, sovereignty, and proof-expiration requirements of KTP-Core.
 
 ~~~
-   emergency_profile "mass_casualty" {
-     activation: [
-       manual_declaration,
-       integration_with_hospital_incident_system,
-       detection_of_triage_protocol_activation
-     ]
+   Incident signal -> request activation of an installed approved policy
+   Custodian approvals -> verify the exact policy digest and bounded scope
+   Each action -> independently verify evidence and all authorization checks
 ~~~
 
-~~~
-     adjustments: {
-       heat_threshold: +0.3,      // Expect more chaos
-       velocity_tolerance: +0.5,  // Expect rapid changes
-       mass_weight: 0.5,          // Reduce CPU/memory sensitivity
-       inertia_weight: 0.3,       // Reduce pattern deviation penalty
-     }
-~~~
-
-~~~
-     time_limit: 24h              // Auto-expire to prevent abuse
-     audit: enhanced              // More logging during emergency
-   }
-~~~
-
-When emergency context is active, the system expects chaos and adjusts its baseline accordingly.
+For separately authorized emergency capability, specifications/emergency-capability.md supplies the protected amendment and activation process. Incident-system signals can request activation but cannot grant it. A policy cannot be rewritten during the incident, and activation cannot reset budgets or prolong an ordinary Trust Proof. The former direct-adjustment recipe and 24-hour emergency example are withdrawn.
 
 B. EXTERNAL CORRELATION SIGNALS
 
@@ -1586,75 +1568,25 @@ These conflict. Something must give.
 
 RESOLUTION:
 
-1. Different Treatment for Different Data
+The approved F11 contract separates minimal signed storage envelopes from separately encrypted personal evidence under specifications/privacy-evidence.md. Exact original signed bytes remain unchanged while retained. Corrections and erasure dispositions are new authenticated events; modifying a signed field or inserting a redaction marker into the old record does not preserve its original signature.
 
-~~~
-   TRAJECTORY DATA (for Trust Score):
-   - CAN be erased
-   - Cryptographic erasure (delete key)
-   - Trust Score becomes unavailable
-   - Agent effectively exits system
-~~~
+Erasure must account for primary copies, replicas, backups, keys, shared-subject records, derivatives and recipients. Destroying one key cannot establish completion while another usable key or plaintext copy remains. A recipient notice is not an acknowledgement of verified disposal. Any retained exception needs a declared purpose, access limits, authority, deletion deadline and scheduled review.
 
-~~~
-   FLIGHT RECORDER (for audit):
-   - CANNOT be fully erased (audit integrity)
-   - CAN be redacted (personal identifiers removed)
-   - Structure preserved, PII removed
-   - "Agent [REDACTED] performed action at [time]"
-~~~
+When a payload key is destroyed, an available outer envelope may retain verifiable integrity, but the original evidence and its signatures may no longer be reconstructable. If the envelope is also removed, verification gaps must be reported. Metadata can remain identifiable; no claim of complete anonymity or universal legal compliance follows from hashing or encryption.
 
-1. Redaction as Compromise
-
-~~~
-   Before erasure:
-   "Agent agent:guarantor:7gen:optimized:alice:a1b2c3d4
-    performed data_write to database:orders at 2025-11-25T10:00:00Z
-    Trust Score: 74, Tier: operator"
-~~~
-
-~~~
-   After erasure:
-   "Agent [ERASED-REF-12345]
-    performed data_write to database:orders at 2025-11-25T10:00:00Z
-    Trust Score: [ERASED], Tier: [ERASED]
-    Erasure date: 2025-12-01T00:00:00Z
-    Erasure authority: Subject request per GDPR Art. 17"
-~~~
-
-1. Legal Basis Exceptions
-
-~~~
-   Erasure can be refused when:
-   - Legal claims defense
-   - Legal obligation compliance
-   - Public health
-   - Archiving in public interest
-~~~
-
-~~~
-   Flight Recorder retention often falls under legal obligation.
-~~~
-
-IMPLEMENTATION:
-
-1. Key-per-agent encryption enables cryptographic erasure
-2. Redaction algorithms preserve audit structure
-3. Chain integrity maintained via redaction markers
-4. Erasure itself is logged (without erased content)
+Erasure MUST NOT clear revocation, correction or accepted-format floors. If necessary safety state cannot be retained or reconstructed, old authority remains unusable; separate enrollment authorization is required.
 
 OPEN QUESTIONS:
 
-- Is redaction sufficient for GDPR compliance?
-- How long can audit exception justify retention?
-- What if audit data itself becomes target of attack?
-- Cross-border: Which law applies?
+- Which evidence and minimal security markers can legitimately remain for each deployment purpose, and for how long?
+- How are shared records, uncontrolled copies, and concurrent exports included in a defensible disposition?
+- What verification claims remain supportable after required evidence is erased?
 
-EXPERTISE NEEDED: GDPR specialists, data protection officers, audit professionals, cryptographers
+EXPERTISE NEEDED: Data protection, affected communities, audit practitioners, security engineers and cryptographers.
 
-HONEST ASSESSMENT: This is a bounded problem, not a solved one. Our redaction approach preserves audit utility while removing PII. Some regulators may require full erasure; others may accept redaction. Legal advice required for each jurisdiction.
+HONEST ASSESSMENT: The repository defines formats, semantic checks and real envelope cryptography, not a deployed key-management or erasure service. Inventory completeness, actual disposal, legitimate exceptions and review remain deployment obligations. The protocol does not resolve differing jurisdictional duties by declaring records audit-critical.
 
-Reference: KTP-PRIVACY §4.3, KTP-AUDIT
+Reference: specifications/privacy-evidence.md, KTP-PRIVACY, KTP-AUDIT
 
 ## Cross-Border Privacy Problem
 

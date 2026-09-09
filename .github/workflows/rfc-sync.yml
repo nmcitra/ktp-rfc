@@ -10,6 +10,8 @@ on:
       - "specifications/**"
       - "catalog/**"
       - "docs/**"
+      - "scripts/**"
+      - ".github/workflows/rfc-sync.yml"
   workflow_dispatch:
 
 permissions:
@@ -34,5 +36,23 @@ jobs:
         run: python3 scripts/check-repo-hygiene.py
       - name: Declarations
         run: python3 scripts/check-declarations.py
+      - name: Install conformance test dependencies
+        run: python3 -m pip install jsonschema==4.26.0 cryptography==50.0.1 rfc8785==0.1.4
+      - name: Capacity threshold regressions
+        run: python3 scripts/test-envelope-thresholds.py
+      - name: Risk Factor weight regressions
+        run: python3 scripts/test-risk-factor-weights.py
+      - name: Emergency policy regressions
+        run: python3 scripts/test-emergency-policy.py
+      - name: Oracle consensus regressions
+        run: python3 scripts/test-oracle-consensus.py
+      - name: Trajectory signature regressions
+        run: python3 scripts/test-trajectory-signatures.py
+      - name: Operational readiness regressions
+        run: python3 scripts/test-readiness.py
+      - name: Human eligibility and erasure accounting regressions
+        run: python3 scripts/test-human-eligibility.py
+      - name: Encrypted privacy evidence regressions
+        run: python3 scripts/test-privacy-evidence.py
       - name: Catalogue tables
         run: python3 scripts/gen-catalog-tables.py --check

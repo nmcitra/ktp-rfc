@@ -187,29 +187,15 @@ When ceremony is not possible (failure, emergency):
 
 ## What Is Preserved
 
-When an agent ends, the following is preserved:
-
-Data: Trajectory chain Retention: 7+ years Access: Authorized parties
-
-Data: Trust history Retention: 7+ years Access: Authorized parties
-
-Data: Relationship records Retention: 7+ years Access: Involved parties
-
-Data: Behavioral summary Retention: Permanent Access: Research (anonymized)
-
-Data: Ceremony records Retention: Permanent Access: Public
-
-Data: Failure forensics Retention: 7+ years Access: Authorized + researchers
+Retirement does not authorize unlimited preservation, public disclosure, or new use of personal records. Trajectory evidence, trust history, relationship records, summaries, ceremonies and forensics MUST follow specifications/privacy-evidence.md. Each retained item and copy needs a specific purpose, governing authority, access limits, bounded retention and erasure handling. Software-agent retirement MUST NOT create permanent human behavioral profiles from sponsor or relationship data.
 
 ## Trajectory Archive
 
-{ "trajectory_archive": { "archive_id": "ARCH-2025-12-31-abc123", "agent_id": "agent:independent:3gen:acme:abc123", "archived_at": "2025-12-31T00:00:01Z", "archive_type": "graceful_retirement", "contents": { "genesis_record": true, "trajectory_chain": { "transactions": 47213, "span_start": "2025-01-15T00:00:00Z", "span_end": "2025-12-31T00:00:00Z", "integrity_verified": true }, "trust_history": true, "relationships": { "count": 127, "types": ["sponsor", "zone", "peer_agent", "human"] }, "behavioral_summary": true, "certificates": ["proving_ground", "zone_operations"], "ceremony_records": ["genesis", "renewal_x12", "ending"] }, "access_policy": { "sponsor_access": "full", "zone_access": "full", "federation_access": "summary", "research_access": "anonymized", "public_access": "existence_only" }, "retention": { "full_retention_years": 7, "summary_retention": "permanent" }, "storage": { "primary": "zone-archive:zone-blue-prod-01", "backup": "federation-archive:global", "integrity_check_frequency": "monthly" } } }
+An archive MUST inventory the retained exact original evidence, its authenticated heads and verification state, approved data-policy version, primary and backup locations, recipients, correction status and required dispositions. Archive creation MUST NOT reset retention or upgrade legacy assertions into trusted current evidence. Human and shared-subject evidence needs the new protected storage envelope or a separately reviewed equivalent; old plaintext copies require separate disposition.
 
 ## Archive Access
 
-Accessing a trajectory archive:
-
-{ "archive_access_request": { "requester": "sponsor:bob.jones", "archive_id": "ARCH-2025-12-31-abc123", "purpose": "successor_training", "scope_requested": "behavioral_summary", "authorization": { "authorized": true, "authorization_source": "successor_relationship", "access_granted": "behavioral_summary", "access_duration": "30 days", "logging": "all_access_logged" } } }
+Every archive access or successor transfer MUST verify the current requester, actual purpose, precise scope, governing authority and recipient restrictions. Sponsor, zone membership, successor relationship or research status alone does not grant unrestricted access. Access and exports MUST propagate corrections and erasure obligations. Redacted or aggregated derivatives are new inventoried copies and are not automatically anonymous. Original signed content MUST NOT be rewritten to produce them.
 
 # Knowledge Transfer
 
@@ -224,6 +210,8 @@ Type: Archive Transfer Description: Preserved for reference Recipient: Archive
 Type: Research Transfer Description: Anonymized learnings Recipient: Research community
 
 ## Successor Transfer
+
+The illustrative transfer below is conditional on the purpose and authority checks above. A relationship or archive reference MUST NOT automatically transfer personal evidence, access rights, standing, or current readiness.
 
 { "knowledge_transfer": { "transfer_id": "KT-2025-12-30-001", "source_agent": "agent:independent:3gen:acme:abc123", "target_agent": "agent:independent:4gen:acme:def456", "transfer_type": "successor", "transfer_scope": { "capabilities": { "transferred": false, "note": "Capabilities come from model, not transfer" }, "operational_knowledge": { "transferred": true, "scope": "task_patterns, preferences, context" }, "relationship_context": { "transferred": true, "scope": "relationship_history, preferences" }, "trajectory_reference": { "transferred": true, "scope": "read_access_to_archive" } }, "transfer_process": { "preparation": "2025-12-20 to 2025-12-29", "transfer_window": "2025-12-30T00:00:00Z", "verification": "2025-12-30 to 2025-12-31", "completion": "2025-12-31T00:00:00Z" }, "attestation": { "transfer_complete": true, "source_attestation": "sig:source_agent:...", "target_attestation": "sig:target_agent:...", "sponsor_attestation": "sig:sponsor:..." } } }
 

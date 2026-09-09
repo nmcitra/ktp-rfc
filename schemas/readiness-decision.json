@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/readiness-v1/readiness-decision.json",
+  "title": "KTP Readiness Decision v1 — Unreleased",
+  "description": "Signed readiness sidecar binding the actual canonical request, complete ASCII compact-JWS ordinary Trust Proof, full canonical signed readiness attestation, approved profiles, epoch, and validity window. Every member except signature belongs to the canonical signed payload. The trusted profile selects cryptographic strength; Level 3 requires SHA-384 for every digest. Schema validity does not establish ordinary authorization, current readiness, signature validity, authenticated current state, or safe execution. If logged, this entire object is embedded at action.details.readiness in a signed v3 trajectory record; it adds no trajectory top-level field. See specifications/operational-readiness.md.",
+  "type": "object",
+  "required": [
+    "decision_version",
+    "request_digest",
+    "proof_digest",
+    "attestation_digest",
+    "readiness_profile_digest",
+    "deployment_profile_digest",
+    "readiness_epoch",
+    "evaluated_at",
+    "expires_at",
+    "issuer_id",
+    "signature"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "decision_version": {
+      "const": "ktp-readiness-decision-v1"
+    },
+    "request_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "proof_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "attestation_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "readiness_profile_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "deployment_profile_digest": {
+      "$ref": "#/$defs/digest"
+    },
+    "readiness_epoch": {
+      "$ref": "#/$defs/positive_integer"
+    },
+    "evaluated_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "expires_at": {
+      "$ref": "#/$defs/timestamp"
+    },
+    "issuer_id": {
+      "$ref": "#/$defs/literal"
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])",
+      "description": "Exact nonempty identifier without whitespace or wildcard characters. Matching is literal; no wildcard or range compatibility is supported."
+    },
+    "digest": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 71,
+          "maxLength": 71,
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "string",
+          "minLength": 103,
+          "maxLength": 103,
+          "pattern": "^sha384:[0-9a-f]{96}$"
+        }
+      ],
+      "description": "Algorithm-prefixed lowercase digest. Every binding in a Level 3 readiness evaluation requires SHA-384; the trusted profile selects the requirement."
+    },
+    "sha384_digest": {
+      "type": "string",
+      "minLength": 103,
+      "maxLength": 103,
+      "pattern": "^sha384:[0-9a-f]{96}$"
+    },
+    "positive_integer": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "description": "Positive safe integer token; semantic validation rejects booleans and floats, including integral floats."
+    },
+    "timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative Unix timestamp in whole seconds, represented by a safe integer token. Trusted-time and temporal-order checks are semantic obligations."
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$(?![\\s\\S])",
+      "description": "Compact JWS with three nonempty unpadded base64url segments. The payload is the RFC 8785 canonical entire containing attestation or decision with only its signature member removed. Shape does not verify protected headers, key role, algorithm, payload binding, or signature validity; these require semantic cryptographic verification."
+    }
+  }
+}

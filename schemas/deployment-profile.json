@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/deployment-profile.json",
-  "title": "KTP Deployment Profile",
-  "description": "The declaration surface for a KTP deployment (specifications/deployment-profile.md, built under nmcitra/ktp-rfc#108). One object carrying every deployment-level declaration the series requires. This schema constrains shape; identifier-level validity (signal IDs exist, alias-set membership, synthetic-signal normalization coverage) is validated against catalog/ by scripts/check-declarations.py — the catalogue stays the single source of those lists.",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/deployment-profile.json",
+  "title": "KTP Deployment Profile — Unreleased v3",
+  "description": "The unreleased v3 declaration surface for a KTP deployment (specifications/deployment-profile.md). This version replaces inactivity-based standing decay with a required binding to a scoped readiness profile while preserving historical resilience. The published v2 schema is archived separately as deployment-profile-legacy-v2.json. This schema constrains shape; identifier-level validity (signal IDs exist, alias-set membership, synthetic-signal normalization coverage) is validated against catalog/ by scripts/check-declarations.py — the catalogue stays the single source of those lists. The checker also enforces weight and threshold finiteness, the six Risk Factor weights' unit sum, envelope-threshold ordering, standing-policy binding shape, and Oracle membership uniqueness and quorum bounds; schema validation alone is insufficient for those semantic checks or current authorization.",
   "type": "object",
   "required": [
     "profile_id",
@@ -11,7 +11,7 @@
     "soul_veto",
     "peer_share",
     "external_root",
-    "standing_decay_rate"
+    "standing_policy"
   ],
   "additionalProperties": false,
   "properties": {
@@ -28,7 +28,7 @@
     },
     "risk_factors": {
       "type": "object",
-      "description": "The D2 bridge: each Risk Factor is a named aggregation over a declared subset of Context Signals. The required array is the #83 arity: six weighted inputs. The Soul veto is not a term and is declared in soul_veto.",
+      "description": "The D2 bridge: each Risk Factor is a named aggregation over a declared subset of Context Signals. The required array is the #83 arity: six weighted inputs. Their finite, positive weights must sum to 1; check-declarations.py checks the sum exactly over the decimal representations of parsed numbers, without tolerance or rescaling. The Soul veto is not a term and is declared in soul_veto.",
       "required": [
         "evidence_density",
         "trust_trend",
@@ -156,24 +156,144 @@
         }
       }
     },
-    "standing_decay_rate": {
-      "type": "number",
-      "minimum": 2,
-      "maximum": 20,
-      "description": "Standing decay in PoR points lost per year of inactivity (#59). RECOMMENDED 16. Lambda derives as 10^(-D/3650); mechanism in [KTP-IDENTITY] 5.3."
+    "standing_policy": {
+      "type": "object",
+      "description": "Required exact binding to an independently approved readiness profile. Historical resilience is retained; current authority additionally requires fresh verified readiness for the requested operation and exact subject/scope. This declaration alone neither approves the profile nor grants authority. Changes use the protected profile-change process described in specifications/operational-readiness.md. The digest binds the RFC 8785 canonical readiness-profile payload; Level 3 requires SHA-384 as selected by the trusted cryptographic profile. The legacy standing_decay_rate field is invalid in v3.",
+      "required": ["mode", "profile_id", "version", "digest"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "const": "history-with-scoped-readiness-v1" },
+        "profile_id": { "$ref": "#/$defs/oracle_literal" },
+        "version": {
+          "type": "integer", "minimum": 1, "maximum": 9007199254740991,
+          "description": "Positive safe integer token. The declaration checker rejects booleans and parsed floats, including integral floats."
+        },
+        "digest": {
+          "oneOf": [
+            { "type": "string", "minLength": 71, "maxLength": 71, "pattern": "^sha256:[0-9a-f]{64}$" },
+            { "type": "string", "minLength": 103, "maxLength": 103, "pattern": "^sha384:[0-9a-f]{96}$" }
+          ]
+        }
+      }
+    },
+    "human_policy": {
+      "type": "object",
+      "description": "Required before accepting human actions or human-origin delegation. Omission disables human eligibility and MUST NOT enable legacy human scoring. Binds the complete JCS human profile and a durable version floor; declaration shape is not governance approval or authority. See specifications/human-eligibility.md.",
+      "required": [
+        "mode",
+        "profile_id",
+        "version",
+        "digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "operation-eligibility-v1"
+        },
+        "profile_id": {
+          "$ref": "#/$defs/oracle_literal"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991,
+          "description": "Positive safe integer token. The declaration checker rejects booleans and parsed floats, including integral floats."
+        },
+        "digest": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 71,
+              "maxLength": 71,
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "string",
+              "minLength": 103,
+              "maxLength": 103,
+              "pattern": "^sha384:[0-9a-f]{96}$"
+            }
+          ]
+        }
+      }
+    },
+    "emergency_policy": {
+      "type": "object",
+      "description": "Optional binding to a separately approved emergency policy. Omission disables this capability; a reference alone does not prove approval or activate it. Policy changes and changes to this binding require specifications/emergency-capability.md's protected process. The digest covers the exact UTF-8 policy payload bytes.",
+      "required": ["policy_id", "version", "digest"],
+      "additionalProperties": false,
+      "properties": {
+        "policy_id": { "type": "string", "minLength": 1, "pattern": "^(?!.*[\\s*?\\[\\]{}])[\\s\\S]+$" },
+        "version": { "type": "integer", "minimum": 1 },
+        "digest": {
+          "oneOf": [
+            { "type": "string", "minLength": 71, "maxLength": 71, "pattern": "^sha256:[0-9a-f]{64}$" },
+            { "type": "string", "minLength": 103, "maxLength": 103, "pattern": "^sha384:[0-9a-f]{96}$" }
+          ],
+          "description": "Level 3 deployments require SHA-384. The trusted deployment's cryptographic profile determines the algorithm requirement; declaration shape alone cannot establish it."
+        }
+      }
+    },
+    "oracle_consensus": {
+      "type": "object",
+      "description": "Optional declaration for a Byzantine Oracle mesh. Omission makes no Byzantine mesh claim. The checker requires distinct declared node, key, and control-domain identities and N >= 3f + 1, floor((N + f) / 2) + 1 <= quorum <= N - f. Shape and arithmetic do not prove signature validity, actual independence, protocol review, or correct runtime consensus. The complete protocol specification is pinned by exact payload digest.",
+      "required": ["protocol_id", "protocol_version", "protocol_spec_digest", "membership_epoch", "members", "fault_tolerance", "quorum"],
+      "additionalProperties": false,
+      "properties": {
+        "protocol_id": { "$ref": "#/$defs/oracle_literal" },
+        "protocol_version": { "$ref": "#/$defs/oracle_literal" },
+        "protocol_spec_digest": {
+          "oneOf": [
+            { "type": "string", "minLength": 71, "maxLength": 71, "pattern": "^sha256:[0-9a-f]{64}$" },
+            { "type": "string", "minLength": 103, "maxLength": 103, "pattern": "^sha384:[0-9a-f]{96}$" }
+          ],
+          "description": "Digest of the exact protocol-specification bytes. The trusted deployment's cryptographic profile determines the required algorithm; Level 3 requires SHA-384. This field does not attest review of those bytes."
+        },
+        "membership_epoch": {
+          "type": "integer", "minimum": 1,
+          "description": "Authenticated membership epoch; positive integer tokens only. The checker rejects booleans and parsed floats, including integral floats. Declaration validity does not authorize an epoch change."
+        },
+        "members": {
+          "type": "array", "minItems": 4, "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "required": ["node_id", "key_id", "control_domain"],
+            "additionalProperties": false,
+            "properties": {
+              "node_id": { "$ref": "#/$defs/oracle_literal" },
+              "key_id": { "$ref": "#/$defs/oracle_literal" },
+              "control_domain": { "$ref": "#/$defs/oracle_literal" }
+            }
+          },
+          "description": "Exact member roster. Each node_id, key_id, and control_domain must be independently unique across the roster, enforced by check-declarations.py. Distinct labels do not prove real administrative or key-custody independence."
+        },
+        "fault_tolerance": {
+          "type": "integer", "minimum": 1,
+          "description": "Declared maximum Byzantine members f. The checker rejects booleans and parsed floats; requires N >= 3f + 1."
+        },
+        "quorum": {
+          "type": "integer", "minimum": 1,
+          "description": "Minimum distinct eligible voting members for protected decisions, not a count of messages or merely signature shares. The checker rejects booleans and parsed floats and enforces floor((N + f) / 2) + 1 <= quorum <= N - f. A protocol may impose stricter constraints."
+        }
+      }
     },
     "envelope_thresholds": {
       "type": "object",
-      "description": "Supervision thresholds for the decision contract (ktp-core 6.6, per #82). Optional: a deployment that declares none evaluates with m_veto = m_allow = 0, the binary v1 behavior. m_veto < m_allow is checked by check-declarations.py (not expressible in JSON Schema).",
+      "description": "Supervision thresholds for the decision contract (ktp-core 6.6). Declared thresholds must be finite numbers satisfying 0 <= m_veto < m_allow. The cross-field ordering and finite-number checks are enforced by check-declarations.py. Omission retains the existing m_veto = m_allow = 0 default, including its equality veto; an explicitly declared equal pair is invalid. Profile thresholds never relax the independent A > E or zero-capacity veto.",
       "required": ["m_veto", "m_allow"],
       "additionalProperties": false,
       "properties": {
-        "m_veto": { "type": "number" },
-        "m_allow": { "type": "number" }
+        "m_veto": { "type": "number", "minimum": 0 },
+        "m_allow": { "type": "number", "exclusiveMinimum": 0 }
       }
     }
   },
   "$defs": {
+    "oracle_literal": {
+      "type": "string", "minLength": 1,
+      "pattern": "^(?!.*[\\s*?\\[\\]{}])[\\s\\S]+$",
+      "description": "Exact nonempty identifier without whitespace or wildcard characters."
+    },
     "signal_id": {
       "type": "string",
       "pattern": "^(world|information|time|soul|relational|body|meta)\\.[a-z0-9_]+\\.[a-z0-9_]+$",
@@ -211,7 +331,7 @@
           "type": "number",
           "exclusiveMinimum": 0,
           "maximum": 1,
-          "description": "The factor's weight w_i in R = sum(w_i * s_i)."
+          "description": "The factor's finite weight w_i in R = sum(w_i * s_i), strictly greater than 0 and at most 1. The six factor weights must sum to 1, checked by scripts/check-declarations.py; an invalid declaration is rejected, never silently rescaled. This does not constrain per-feed aggregation weights."
         }
       }
     }

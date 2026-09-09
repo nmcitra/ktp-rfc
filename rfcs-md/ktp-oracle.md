@@ -27,7 +27,7 @@ Without a functioning Trust Oracle, KTP cannot operate.  The Oracle is both crit
 
 The Trust Oracle embodies these principles:
 
-1. Availability: The Oracle MUST be available for zone operation. Downtime means agents cannot act.
+1. Availability: Oracle availability is an operational objective. Loss of the required quorum MUST pause consensus-dependent changes; availability targets MUST NOT weaken agreement or extend ordinary proof validity.
 
 1. Integrity: Oracle decisions MUST be consistent and correct. Corrupted Oracles corrupt the entire trust system.
 
@@ -35,7 +35,7 @@ The Trust Oracle embodies these principles:
 
 1. Transparency: Oracle operations MUST be auditable.  Trust requires visibility.
 
-1. Resilience: Single Oracle failure MUST NOT disable the zone. Redundancy is required.
+1. Resilience: A mesh MUST declare its fault budget and provide redundancy under the selected consensus protocol's assumptions. Operations with stronger approval requirements MAY pause after a single failure.
 
 1. Performance: Oracle latency MUST NOT bottleneck agent operations.  Speed matters.
 
@@ -53,9 +53,9 @@ Oracle Mesh: A network of connected Oracle nodes providing redundancy and consen
 
 Oracle Node: A single instance of Trust Oracle software and associated cryptographic identity.
 
-Quorum: The minimum number of Oracle nodes required for valid decisions.
+Quorum: The required number of distinct, independently controlled members of the authenticated configuration contributing valid protocol evidence to an agreement certificate. A key-signing threshold alone is not a consensus quorum.
 
-Split Brain: A failure mode where Oracle nodes disagree and cannot reach consensus.
+Split Brain: A failure mode where different groups accept conflicting records as the same committed position in the shared history.
 
 Threshold Signature: A cryptographic signature requiring M-of-N participants to produce.
 
@@ -251,13 +251,17 @@ The Trust Proof Issuer creates signed Trust Proofs:
 
 Trust Proofs MUST:
 
-- Have short expiration (default: 10 seconds)
+- Have a positive lifetime of at most 10 seconds: 0 < exp - iat <= 10 seconds, using the equivalent issued_at and expires_at fields in this illustrative representation
 
 - Be signed by Oracle key
 
 - Include current trust state
 
 - Be verifiable by any party with Oracle public key
+
+In a mesh, the issuer MUST derive protected standing and configuration from verified committed state under the applicable freshness rules. Public-key verification establishes the proof signature; a consumer requiring Byzantine agreement MUST additionally verify the state commitment and its result binding as specified below.
+
+Historic PoR MUST NOT be reduced merely because time passes or the agent is inactive. Invalid claims are handled by authenticated appended corrections. Standing alone does not establish the present readiness of a particular code/model/configuration/toolchain/permission set for an operation; specifications/operational-readiness.md supplies the separate mandatory prerequisite.
 
 ### Trajectory Co-Signer
 
@@ -268,15 +272,19 @@ Input: transaction_record (agent-signed)
 Process:
 
 ~~~
-   1.  Verify agent signature
+   1.  Validate trusted v3 format/profile and complete canonical agent JWS
    2.  Verify action was permitted
    3.  Verify state transitions are valid
    4.  Capture Risk Factor snapshot
-   5.  Add Oracle attestation
-   6.  Sign complete record
+   5.  Construct complete attestation and canonical Oracle-role payload
+   6.  Obtain and verify commit evidence for its typed trajectory-intent digest
+   7.  Sign the Oracle-role payload; compute the final signed-envelope hash
+   8.  Anchor that exact final hash as the unique authoritative successor
 ~~~
 
 Output: transaction_record (co-signed)
+
+The complete record-body and attestation bindings, RFC 8785 canonical bytes, compact JWS roles, and version cutover are defined by specifications/trajectory-signatures.md. The pre-signing intent excludes the Oracle signature and final record_hash. After Oracle signing, a separate authenticated final-head anchor MUST bind record_version, the exact completed-envelope hash, commit_intent, agent, zone, chain, sequence, and predecessor under specifications/oracle-consensus.md before authoritative append or use. An intent certificate alone cannot choose between different valid signature envelopes for one intent. Failed or unavailable final anchoring leaves the envelope non-authoritative.
 
 The Co-Signer MUST:
 
@@ -285,6 +293,12 @@ The Co-Signer MUST:
 - Include the Risk Factor snapshot at time of transaction
 
 - Refuse to sign invalid records
+
+- Refuse to sign a shared-state trajectory intent without its required commit evidence and operation approvals; refuse authoritative append until the exact final envelope is independently anchored
+
+- Verify the operation's readiness evidence and complete decision sidecar before attesting that the action was permitted; record the sidecar in the existing signed action.details.readiness field without changing the trajectory's top-level format
+
+- Reject candidate-selected versions, keys, algorithms, profile digests, or legacy fallbacks that do not match independently trusted configuration and the durable format floor
 
 - Log all signing operations
 
@@ -322,95 +336,85 @@ Production deployments MUST use multiple Oracle nodes in a mesh:
 
 - Requirement: Network latency (inter-node) Minimum: <100ms Recommended: <50ms
 
-- Requirement: Quorum for operations Minimum: (N/2)+1 Recommended: (2N/3)+1
+- Requirement: Consensus declaration Minimum: Named and versioned reviewed Byzantine fault tolerant protocol, pinned specification digest, authenticated membership epoch, roster, fault budget f, and quorum q under `specifications/oracle-consensus.md`
+
+- Requirement: Consensus quorum Minimum: floor((N+f)/2)+1, with N >= 3f+1 and q <= N-f Recommended baseline: N=5, f=1, q=4
+
+The `oracle_consensus` deployment-profile declaration is REQUIRED for a mesh agreement claim. N is the number of authenticated voting members in the installed roster, not the number currently reachable. A missing declaration permits no Byzantine agreement claim. Geographic and latency targets do not establish independent control or satisfy the consensus contract.
 
 ## Node Roles
 
-All nodes are peers, but roles may be assigned:
+All voting nodes maintain the protocol state needed to validate decisions. Roles within one authenticated view are:
 
 - Role: Primary Responsibility: Receives requests, initiates consensus
 
 - Role: Secondary Responsibility: Participates in consensus, can become primary
 
-- Role: Witness Responsibility: Participates in consensus, does not serve requests
+- Role: Witness Responsibility: Does not serve client requests but validates proposals and durably maintains the same voting, locking, and recovery evidence as other voting members
 
-Primary selection uses leader election:
+Primary selection and replacement MUST follow the pinned consensus protocol:
 
-- Highest-uptime node becomes primary
+- Exactly one primary is designated for a given zone, membership epoch, and view
 
-- Automatic failover on primary failure
+- A timeout MAY initiate a view change; it does not authorize a new primary to discard prior decisions or locks
 
-- No single primary required (multi-primary possible)
+- Nodes MUST verify the new-view evidence and safe proposal selection before voting in the new view; uptime ranking and independently selected concurrent primaries are not permitted
 
 # Consensus Mechanisms
 
 ## Consensus Requirements
 
-Oracle consensus must achieve:
+Oracle consensus MUST provide the following properties under its declared and verified assumptions:
 
-1. Agreement: All honest nodes reach same decision
+1. Agreement: Honest nodes MUST NOT commit different requests at the same position in the zone's shared history, including across view changes, restart, and membership transitions.
 
-1. Validity: Decision reflects actual trust state
+1. Validity: Each committed transition MUST pass the same deterministic validation against the authenticated predecessor and bound inputs. Agreement does not establish the truth of an untrusted sensor reading.
 
-1. Termination: Decision is reached in bounded time
+1. Progress: The selected protocol MUST state its communication, scheduling, storage, and fault assumptions for progress. No fixed completion deadline is guaranteed during arbitrary message delay, partition, or quorum loss. Timeouts MUST NOT convert an incomplete decision into a committed one.
 
-1. Fault tolerance: Tolerates f < N/3 Byzantine failures
+1. Fault tolerance: N and f MUST be integers, f MUST be at least one, and N MUST satisfy N >= 3f+1. A Byzantine mesh declaration therefore requires at least four voting members and the complete integration contract; redundant nodes and quorum arithmetic alone do not establish it. A deployment making no Byzantine agreement claim may omit the declaration.
 
 ## Consensus Protocol
 
-The Oracle Mesh uses a simplified PBFT-style consensus:
+An Oracle Mesh MUST integrate a named, versioned, reviewed Byzantine fault tolerant state-machine replication protocol according to `specifications/oracle-consensus.md`. The pinned protocol specification MUST cover the exact N, f, q, phase thresholds, wire authentication, leader replacement, durable recovery, and membership-transition model in use. This document does not define a replacement consensus algorithm, and a label such as "PBFT-style" is insufficient.
 
-Phase 1: PRE-PREPARE
+The minimum homogeneous agreement quorum is q_min = floor((N+f)/2)+1. The declared integer q MUST satisfy q_min <= q <= N-f. Consequently, two quorum sets intersect in more than f members. For five members tolerating one Byzantine member, q_min is four: three-of-five is insufficient for an agreement certificate. A protocol's stronger thresholds and an operation's stronger approval requirements remain binding.
 
-~~~
-   Primary receives request
-   Primary assigns sequence number
-   Primary broadcasts <PRE-PREPARE, seq, request> to all nodes
-~~~
+Every voting message MUST authenticate its purpose, zone, complete configuration identity and epoch, view, phase, sequence or checkpoint position, predecessor/state binding, and request or control-message digest. Verifiers MUST reject duplicate members, untrusted keys, mismatched bindings, and replay across configurations or phases. A node MUST durably persist safety-critical voting and lock state before emitting its vote, and persist commit evidence before exposing the committed result.
 
-Phase 2: PREPARE
-
-~~~
-   Nodes verify request
-   Nodes broadcast <PREPARE, seq, digest> to all nodes
-   Node enters PREPARED state when 2f+1 PREPARE messages received
-~~~
-
-Phase 3: COMMIT
-
-~~~
-   Nodes broadcast <COMMIT, seq, digest> to all nodes
-   Node enters COMMITTED state when 2f+1 COMMIT messages received
-   Node executes request and responds to client
-~~~
+Only the selected protocol's validated commit evidence establishes a shared decision. A proposal, a prepare certificate, a collection of ordinary signatures, or an uptime-based failover MUST NOT substitute for it. Restart, view change, state transfer, and membership change MUST preserve committed history and every safety-relevant lock as specified by the normative companion.
 
 ## Consensus Scope
 
-Not all operations require full consensus:
+The following operations have different agreement requirements:
 
-- Operation: Zeroth Law evaluation Consensus Required: No (single node sufficient)
+- Operation: Zeroth Law evaluation Consensus Required: No new shared-state decision; single-node evaluation uses validated current inputs and cannot modify committed standing
 
-- Operation: Trust Proof issuance Consensus Required: No (single node sufficient)
+- Operation: Trust Proof issuance Consensus Required: No new shared-state decision when deriving a proof from verified committed state under the required freshness rules; a single issuer's signature alone conveys no Byzantine agreement guarantee
 
-- Operation: Trajectory co-signing Consensus Required: Yes (quorum required)
+- Operation: Trajectory co-signing Consensus Required: Yes (valid commit evidence with at least q members for the typed intent before Oracle signing, followed by commitment of the exact final signed-envelope head before authoritative append, per specifications/trajectory-signatures.md)
 
-- Operation: E_base modification Consensus Required: Yes (quorum required)
+- Operation: E_base modification Consensus Required: Yes (valid commit evidence with at least q members)
 
-- Operation: Agent Genesis Consensus Required: Yes (quorum required)
+- Operation: Agent Genesis Consensus Required: Yes (valid commit evidence with at least q members)
 
-- Operation: Zone configuration change Consensus Required: Yes (supermajority required)
+- Operation: Zone configuration change Consensus Required: Yes (valid commit evidence with at least q members and every stronger existing approval rule; voting membership changes also require authenticated joint transition evidence)
+
+Consumers relying on mesh agreement MUST verify the commit evidence and its binding to the protected result, directly or through an independently trusted verifier implementing the pinned protocol. A valid ordinary proof signature does not by itself prove this property. During quorum loss, no new consensus-dependent state change is permitted. Single-node derivation MUST NOT invent a new committed head, ignore required state freshness, or extend the ordinary ten-second proof lifetime.
 
 ## Split Brain Prevention
 
-Split brain occurs when network partition creates multiple sub-quorums.  Prevention:
+Partition safety depends on agreement evidence and preserved state:
 
-1. Quorum requirement: Operations require (N/2)+1 nodes
+1. Quorum requirement: Count the installed full voting roster and require at least q valid, distinct members for each agreement certificate, plus any stricter protocol or operation rule.
 
-1. Fencing: Partitioned nodes fence themselves
+1. Fencing: A partition without the necessary evidence MUST pause protected commits and signing. Detection of the partition is not a prerequisite for enforcing the certificate rule.
 
-1. Witness nodes: Odd number of nodes prevents even splits
+1. Durable history: Honest nodes MUST retain the protocol's locks and committed predecessor across view changes, process restart, and state transfer. An odd node count alone provides no Byzantine split-brain protection.
 
-1. Merge protocol: Reconciliation when partition heals
+1. Membership continuity: Outage, suspicion, isolation, or key revocation MUST NOT shrink the denominator. A new configuration requires verified old- and new-configuration quorum evidence bound to the same authorized transition and checkpoint.
+
+On healing, nodes MUST recover the authenticated committed history and unresolved safety evidence before resuming votes. They MUST NOT merge conflicting committed histories or select one by arrival time. Conflicting purported commit evidence requires containment and investigation; it is not an ordinary reconciliation path.
 
 # Threshold Signatures
 
@@ -423,7 +427,7 @@ Critical Oracle operations use threshold signatures—requiring M of N Oracle no
    Threshold signature: M of N key shares → 1 signature
 ~~~
 
-Example (3-of-5):
+Cryptographic key-threshold example (3-of-5; not a consensus certificate):
 
 ~~~
    Node 1 holds share 1
@@ -445,11 +449,15 @@ The Oracle uses Shamir's Secret Sharing with threshold ECDSA:
 
 - Parameter: N Description: Total number of nodes Default: 5
 
-- Parameter: M Description: Threshold for signing Default: 3
+- Parameter: M Description: Cryptographic key-signing threshold Example: 3; consensus agreement separately requires q=4 for the five-node, one-fault baseline
 
 - Parameter: Curve Description: Elliptic curve Default: secp256k1
 
 - Parameter: Hash Description: Hash algorithm Default: SHA-256
+
+The key-sharing threshold protects a signing key; it does not determine agreement. Signers MUST first verify the required committed decision and all operation approvals. Consumers requiring consensus MUST verify that evidence and its binding to the result; a bare three-of-five signature MUST NOT replace a four-of-five commit certificate. A threshold scheme that hides its participant set MUST provide independently verifiable protocol evidence of the required distinct-member participation. Stricter cryptographic profiles in KTP-Crypto still apply.
+
+For v3 trajectory records, the committed decision before Oracle signing is the typed intent defined by specifications/trajectory-signatures.md. The exact final signed-envelope hash is committed separately afterward. Signature generation MUST NOT depend on a commitment to a final hash that itself includes that signature, and an intent certificate MUST NOT be treated as the final-head anchor.
 
 ## Key Ceremony
 
@@ -469,13 +477,15 @@ Threshold keys are generated in a key ceremony:
 
 ## Operations Requiring Threshold Signature
 
-- Operation: E_base modification Threshold: 3-of-5
+- Operation: E_base modification Agreement: At least 4-of-5 in the baseline configuration; cryptographic signing threshold: At least 3-of-5 after commit
 
-- Operation: Zone configuration change Threshold: 4-of-5
+- Operation: Zone configuration change Agreement and approval floor: 4-of-5; membership changes additionally require the joint transition contract
 
-- Operation: Oracle key rotation Threshold: 4-of-5
+- Operation: Oracle key rotation Agreement and approval floor: 4-of-5; changes to voting keys additionally require the joint transition contract
 
-- Operation: Zone dissolution Threshold: 5-of-5
+- Operation: Zone dissolution Agreement and approval floor: 5-of-5
+
+These operation counts describe the five-member baseline. Other configurations MUST preserve every applicable supermajority or unanimity requirement and satisfy the selected consensus protocol; the generic quorum MUST NOT relax a stronger operation rule.
 
 # Trust Proof Lifecycle
 
@@ -490,15 +500,18 @@ Trust Proofs are issued on demand:
 ~~~
    Oracle:
      1.  Verify agent identity
-     2.  Calculate current E_trust
-     3.  Determine tier and constraints
-     4.  Create Trust Proof
-     5.  Sign with Oracle key
+     2.  For mesh state, verify its committed head and required freshness
+     3.  Calculate current E_trust
+     4.  Determine tier and constraints
+     5.  Create Trust Proof bound to the verified state
+     6.  Sign with Oracle key
 ~~~
 
 ~~~
    Oracle → Agent: TrustProof
 ~~~
+
+Before the actual operation can execute, the agent or PEP MUST obtain and verify the current readiness decision for that request under specifications/operational-readiness.md. The readiness issuer verifies the independently approved criteria, accountable assessor, current evidence, exact live subject and operation scope, installed profiles, and durable readiness epoch. It signs a separate decision sidecar bound to the already complete ordinary proof and actual request. Creating a Trust Proof does not by itself create or renew readiness, and the sidecar does not add standing or authorization after a prior veto.
 
 ## Validation
 
@@ -506,21 +519,21 @@ Any party can validate a Trust Proof:
 
 ~~~
    Validator:
-     1.  Check proof not expired
+     1.  Require 0 < exp - iat <= 10 seconds and iat <= current_time < exp
      2.  Verify Oracle signature against known public key
      3.  Verify agent_id matches expected agent
      4.  Check constraints are appropriate for action
 ~~~
 
+Execution additionally requires the matched readiness sidecar and current underlying assessment. The validator MUST verify the proof, request, subject state, complete attestation, profiles, current epoch, and validity bindings defined by the readiness companion. Candidate-supplied profile versions or readiness assertions MUST NOT replace trusted installation, evidence, or revocation checks. A fresh proof or re-signed decision cannot extend the assessment's evidence-based expiry.
+
 ## Refresh
 
-Trust Proofs expire quickly and must be refreshed:
+Trust Proofs expire quickly and MUST be refreshed before their authority can continue. Every zone and deployment profile MUST enforce 0 < exp - iat <= 10 seconds; zone color does not permit a longer lifetime. For a 10-second proof, refreshing every 5 seconds is RECOMMENDED. A shorter declared lifetime requires a refresh schedule that completes before expiration.
 
-- Zone Type: Blue Default Expiration: 10 seconds Refresh Recommendation: Every 5 seconds
+Validators MUST reject an ordinary proof when current_time < iat or current_time >= exp, including at the exact expiration boundary. Invalid or unverifiable timestamps or current time MUST fail closed under KTP-Core. Existing sessions, cached responses, queued refreshes, low-risk actions, and Oracle outages MUST NOT extend proof validity. Clock rollback MUST NOT restore or prolong expired authority; if current validity cannot be established, the proof MUST NOT authorize an action.
 
-- Zone Type: Cyan Default Expiration: 30 seconds Refresh Recommendation: Every 15 seconds
-
-- Zone Type: Green Default Expiration: 60 seconds Refresh Recommendation: Every 30 seconds
+Continuing ordinary actions require fresh valid proofs or a previously declared bounded safe transition that ceases ordinary operation. Emergency capability is evaluated separately under `specifications/emergency-capability.md`; neither emergency mode nor Oracle unavailability allows expired ordinary proofs, reduced signing quorums, or changes that widen emergency authority.
 
 ## Revocation
 
@@ -606,11 +619,11 @@ Oracle operations are logged to Flight Recorder:
 
 Detected misbehavior triggers consequences:
 
-- Misbehavior: Consensus equivocation Detection: Protocol detection Consequence: Removal from mesh
+- Misbehavior: Consensus equivocation Detection: Authenticated conflicting evidence Consequence: Immediate containment; voting-roster removal requires the authenticated membership-transition process
 
-- Misbehavior: Availability failure Detection: Heartbeat timeout Consequence: Temporary removal
+- Misbehavior: Availability failure Detection: Heartbeat timeout Consequence: Suspect or isolate the node; retain it in the installed quorum denominator until an authorized transition commits
 
-- Misbehavior: Byzantine behavior Detection: BFT detection Consequence: Permanent removal
+- Misbehavior: Byzantine behavior Detection: Verified protocol violation Consequence: Containment and authorized removal; detection of all Byzantine behavior is not assumed
 
 # Federation
 
@@ -672,6 +685,8 @@ Trust is discounted across federation:
 - Operation: Cross-zone agent migration Federation Requirement: Federation active
 
 # Performance Requirements
+
+The following figures are operational targets under the deployment's declared healthy conditions. They are not unconditional termination guarantees. Missing a latency, availability, or recovery target MUST NOT lower a quorum, bypass a view change, discard durable safety state, or permit an expired proof.
 
 ## Latency Targets
 
@@ -770,15 +785,11 @@ Oracle mesh communication MUST be secured:
 
 ## Byzantine Fault Tolerance
 
-The mesh tolerates Byzantine (malicious) nodes:
+The mesh MAY claim tolerance of at most its declared f Byzantine voting members only after satisfying the complete consensus integration contract and validating the selected implementation. The claim assumes authenticated independent membership, uncompromised cryptography, protected durable state for honest members, and the selected protocol's other assumptions. The baseline is five members, one Byzantine member, and a four-member agreement quorum.
 
-- Up to f < N/3 Byzantine nodes tolerated
+Safety MUST hold despite arbitrary message delay and partition within that fault model. Progress depends on the pinned protocol's communication and scheduling assumptions and enough participating members. For the baseline, one Byzantine member withholding votes plus one unreachable honest member prevents a quorum. Protected updates then pause; ordinary proof validity and the separate emergency-capability controls remain unchanged.
 
-- Byzantine behavior detected by protocol
-
-- Detected Byzantine nodes removed
-
-- Mesh continues with remaining honest nodes
+Detected faults MAY trigger immediate isolation, but the installed roster and thresholds remain in force until an authorized membership transition commits. The protocol MUST NOT promise detection of every malicious member or continued operation whenever any number of "honest nodes" remain.
 
 ## Oracle Compromise Response
 
@@ -786,9 +797,11 @@ If Oracle compromise is detected:
 
 1. Isolate compromised node
 
-1. Revoke node's key share
+1. Revoke compromised key use through the authorized security process; stop counting it without reducing the installed roster denominator
 
 1. Issue key rotation if threshold compromised
+
+1. Change voting keys or membership only through the authenticated joint transition process; if the required evidence is unavailable, pause protected changes
 
 1. Audit all recent decisions
 
@@ -832,7 +845,7 @@ Recommended Hardware:
 
 # Consensus Protocol Details
 
-Detailed specification of the consensus protocol.
+The normative integration requirements are in `specifications/oracle-consensus.md`. The mandatory downstream adversarial cases are in `specifications/conformance/oracle-consensus-v1.json`. Declaration validation and quorum arithmetic tests do not implement or prove a consensus runtime; deployment conformance additionally requires verification of the selected protocol, implementation, signatures, state persistence, view changes, and membership transitions.
 
 # Threshold Signature Implementation
 

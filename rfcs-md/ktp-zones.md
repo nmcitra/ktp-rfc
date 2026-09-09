@@ -177,7 +177,7 @@ Requirements:
 6. Soul veto optional
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder recommended
-9. Trust Proof refresh within 30 seconds
+9. Trust Proof refresh before expiration for continuing ordinary actions; maximum lifetime 10 seconds
 
 Use cases:
 
@@ -448,6 +448,8 @@ Response format:
    }
 ~~~
 
+In the preceding discovery example, trust_oracle.quorum is legacy signing-threshold metadata: 3-of-5 describes signing participation, not the protected-state decision quorum. A zone claiming Oracle mesh agreement MUST publish and authenticate the deployment declaration and installed consensus configuration required by specifications/oracle-consensus.md. The default consensus membership is N = 5 with f = 1 and q = 4. Discovery metadata or a valid threshold signature alone MUST NOT be accepted as evidence of a unique committed history; consumers relying on that history MUST verify the required commit evidence and its binding to the result under the selected protocol. The protocol defines canonical evidence formats and membership transitions.
+
 ## HTTP Header Discovery
 
 Zones SHOULD include KTP headers in HTTP responses:
@@ -517,7 +519,7 @@ When an agent presents a Trust Proof at zone ingress:
 
 1. Verify signature against known Trust Oracles -  Own zone's Oracle -  Federated zones' Oracles
 
-1. Check expiration -  Trust Proof must not be expired -  Tolerance: 5 seconds clock skew
+1. Check validity -  Require 0 < exp - iat <= 10 seconds and iat <= current_time < exp -  At current_time = exp the proof is expired -  Invalid or unverifiable time MUST fail closed; clock-skew tolerance MUST NOT extend ordinary authority
 
 1. Verify Soul constraint -  If S = 1, deny entry -  Log Soul veto attempt
 

@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Perkins
 Internet-Draft                                                   NMCITRA
-Intended status: Experimental                             13 August 2026
-Expires: 14 February 2027
+Intended status: Experimental                           7 September 2026
+Expires: 11 March 2027
 
 
       Kinetic Trust Protocol (KTP) - Vector Identity Specification
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 February 2027.
+   This Internet-Draft will expire on 11 March 2027.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Perkins                 Expires 14 February 2027                [Page 1]
+Perkins                   Expires 11 March 2027                 [Page 1]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
    extracted from this document must include Revised BSD License text as
@@ -67,70 +67,72 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  The Passport Fallacy  . . . . . . . . . . . . . . . . . .   3
      1.2.  Identity as Trajectory  . . . . . . . . . . . . . . . . .   4
-     1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   4
+     1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Vector Identity Model . . . . . . . . . . . . . . . . . . . .   6
      3.1.  Identity as Verb  . . . . . . . . . . . . . . . . . . . .   6
-     3.2.  Position and Momentum . . . . . . . . . . . . . . . . . .   6
+     3.2.  Position and Momentum . . . . . . . . . . . . . . . . . .   7
      3.3.  Laminar vs. Turbulent Flow  . . . . . . . . . . . . . . .   7
    4.  Trajectory Chains . . . . . . . . . . . . . . . . . . . . . .   8
      4.1.  Chain Structure . . . . . . . . . . . . . . . . . . . . .   8
      4.2.  Transaction Records . . . . . . . . . . . . . . . . . . .   9
-     4.3.  Co-Signature Requirements . . . . . . . . . . . . . . . .  10
-     4.4.  Continuity Enforcement  . . . . . . . . . . . . . . . . .  11
-     4.5.  Chain Verification  . . . . . . . . . . . . . . . . . . .  12
-   5.  Proof of Resilience . . . . . . . . . . . . . . . . . . . . .  13
-     5.1.  Attestation Structure . . . . . . . . . . . . . . . . . .  13
-     5.2.  Friction Categories . . . . . . . . . . . . . . . . . . .  13
-     5.3.  Resilience Score Calculation  . . . . . . . . . . . . . .  14
-     5.4.  Quality vs. Quantity  . . . . . . . . . . . . . . . . . .  15
-   6.  Sponsorship Bonds . . . . . . . . . . . . . . . . . . . . . .  15
-     6.1.  The Genesis Problem . . . . . . . . . . . . . . . . . . .  16
-     6.2.  Bond Structure  . . . . . . . . . . . . . . . . . . . . .  16
-     6.3.  Stake Mechanics . . . . . . . . . . . . . . . . . . . . .  17
-     6.4.  Penalty and Release . . . . . . . . . . . . . . . . . . .  18
-     6.5.  Anti-Botnet Properties  . . . . . . . . . . . . . . . . .  20
-   7.  Identity Proofing Requirements  . . . . . . . . . . . . . . .  21
-     7.1.  Identity Assurance Levels . . . . . . . . . . . . . . . .  21
-     7.2.  Sponsor Identity Requirements . . . . . . . . . . . . . .  22
-     7.3.  Identity Proofing Process . . . . . . . . . . . . . . . .  22
-     7.4.  Identity Binding  . . . . . . . . . . . . . . . . . . . .  23
-     7.5.  Automated Agent Identity  . . . . . . . . . . . . . . . .  23
-     7.6.  Proofing for High-Trust Actions . . . . . . . . . . . . .  24
-     7.7.  Privacy Considerations  . . . . . . . . . . . . . . . . .  24
-   8.  Lineage Evolution . . . . . . . . . . . . . . . . . . . . . .  25
-     8.1.  Phase 1: Sponsored  . . . . . . . . . . . . . . . . . . .  25
-     8.2.  Phase 2: Independent  . . . . . . . . . . . . . . . . . .  26
-     8.3.  Phase 3: Guarantor  . . . . . . . . . . . . . . . . . . .  27
-     8.4.  Generation Numbering  . . . . . . . . . . . . . . . . . .  27
-     8.5.  Lineage Inheritance . . . . . . . . . . . . . . . . . . .  29
-   9.  Agent Identifier Format . . . . . . . . . . . . . . . . . . .  30
-     9.1.  URI Structure . . . . . . . . . . . . . . . . . . . . . .  30
+     4.3.  Co-Signature Requirements . . . . . . . . . . . . . . . .  11
+       4.3.1.  Legacy History and Version Cutover  . . . . . . . . .  13
+     4.4.  Continuity Enforcement  . . . . . . . . . . . . . . . . .  13
+     4.5.  Chain Verification  . . . . . . . . . . . . . . . . . . .  15
+   5.  Proof of Resilience . . . . . . . . . . . . . . . . . . . . .  16
+     5.1.  Attestation Structure . . . . . . . . . . . . . . . . . .  16
+     5.2.  Friction Categories . . . . . . . . . . . . . . . . . . .  17
+     5.3.  Resilience Score Calculation  . . . . . . . . . . . . . .  17
+     5.4.  Historical Evidence and Current Readiness . . . . . . . .  18
+     5.5.  Quality vs. Quantity  . . . . . . . . . . . . . . . . . .  19
+   6.  Sponsorship Bonds . . . . . . . . . . . . . . . . . . . . . .  19
+     6.1.  The Genesis Problem . . . . . . . . . . . . . . . . . . .  19
+     6.2.  Bond Structure  . . . . . . . . . . . . . . . . . . . . .  20
+     6.3.  Stake Mechanics . . . . . . . . . . . . . . . . . . . . .  20
+     6.4.  Penalty and Release . . . . . . . . . . . . . . . . . . .  21
+     6.5.  Anti-Botnet Properties  . . . . . . . . . . . . . . . . .  23
+   7.  Identity Proofing Requirements  . . . . . . . . . . . . . . .  25
+     7.1.  Identity Assurance Levels . . . . . . . . . . . . . . . .  25
+     7.2.  Sponsor Identity Requirements . . . . . . . . . . . . . .  26
+     7.3.  Identity Proofing Process . . . . . . . . . . . . . . . .  27
+     7.4.  Identity Binding  . . . . . . . . . . . . . . . . . . . .  27
+     7.5.  Automated Agent Identity  . . . . . . . . . . . . . . . .  28
+     7.6.  Proofing for High-Trust Actions . . . . . . . . . . . . .  29
+     7.7.  Privacy Considerations  . . . . . . . . . . . . . . . . .  30
+   8.  Lineage Evolution . . . . . . . . . . . . . . . . . . . . . .  30
+     8.1.  Phase 1: Sponsored  . . . . . . . . . . . . . . . . . . .  30
+     8.2.  Phase 2: Independent  . . . . . . . . . . . . . . . . . .  31
+     8.3.  Phase 3: Guarantor  . . . . . . . . . . . . . . . . . . .  32
+     8.4.  Generation Numbering  . . . . . . . . . . . . . . . . . .  33
+     8.5.  Lineage Inheritance . . . . . . . . . . . . . . . . . . .  35
 
 
 
-Perkins                 Expires 14 February 2027                [Page 2]
+Perkins                   Expires 11 March 2027                 [Page 2]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
-     9.2.  Lineage Encoding  . . . . . . . . . . . . . . . . . . . .  30
-     9.3.  Examples  . . . . . . . . . . . . . . . . . . . . . . . .  30
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  31
-     10.1.  Trajectory Chain Attacks . . . . . . . . . . . . . . . .  31
-     10.2.  Sponsorship Attacks  . . . . . . . . . . . . . . . . . .  31
-     10.3.  Lineage Gaming . . . . . . . . . . . . . . . . . . . . .  31
-     10.4.  Privacy Considerations . . . . . . . . . . . . . . . . .  32
-   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  32
-     11.1.  URI Scheme Registration  . . . . . . . . . . . . . . . .  32
-   12. Normative References  . . . . . . . . . . . . . . . . . . . .  32
-   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  32
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  32
-     A.2.  Lineage phase derives from generation . . . . . . . . . .  33
-     A.3.  A key the letter scheme never defined . . . . . . . . . .  34
-   Appendix B.  Trajectory Chain Examples  . . . . . . . . . . . . .  34
-   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  35
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  36
+   9.  Agent Identifier Format . . . . . . . . . . . . . . . . . . .  35
+     9.1.  URI Structure . . . . . . . . . . . . . . . . . . . . . .  35
+     9.2.  Lineage Encoding  . . . . . . . . . . . . . . . . . . . .  36
+     9.3.  Examples  . . . . . . . . . . . . . . . . . . . . . . . .  36
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  36
+     10.1.  Trajectory Chain Attacks . . . . . . . . . . . . . . . .  36
+     10.2.  Sponsorship Attacks  . . . . . . . . . . . . . . . . . .  37
+     10.3.  Lineage Gaming . . . . . . . . . . . . . . . . . . . . .  37
+     10.4.  Privacy Considerations . . . . . . . . . . . . . . . . .  37
+   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  37
+     11.1.  URI Scheme Registration  . . . . . . . . . . . . . . . .  38
+   12. Normative References  . . . . . . . . . . . . . . . . . . . .  38
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  38
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  38
+     A.2.  Lineage phase derives from generation . . . . . . . . . .  39
+     A.3.  A key the letter scheme never defined . . . . . . . . . .  40
+   Appendix B.  Trajectory Chain Examples  . . . . . . . . . . . . .  40
+   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  40
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  41
 
 1.  Introduction
 
@@ -144,11 +146,29 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    rather than a position - a continuous line of movement through state
    space rather than a single point of authentication.
 
+   Trajectory-based standing, Proof of Resilience, sponsorship
+   accounting, and lineage in this document apply to software agents.
+   They MUST NOT become human behavioral dossiers, personal scores, or
+   prerequisites for a person's access to explanation, correction, or
+   review.  Human identity assurance and operation-specific eligibility
+   follow [KTP-HUMAN] and specifications/human-eligibility.md; an actual
+   software executor retains its own identity, capacity, and readiness
+   requirements.
+
 1.1.  The Passport Fallacy
 
    Current systems commit the "Passport Fallacy": they assume that
    possession of a credential (passport, API key, certificate) proves
    identity.  This assumption is false because:
+
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 3]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    1.  Credentials can be stolen: An attacker who obtains an API key can
        present it just as effectively as the legitimate holder.
@@ -160,15 +180,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    3.  Credentials are static: Once issued, a credential's "identity"
        never changes, even if the presenting entity's behavior becomes
        anomalous or malicious.
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 3]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    In the age of autonomous agents operating at machine speed, these
    flaws become catastrophic.  An attacker who compromises one API key
@@ -196,18 +207,30 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    trajectory (a line) because the line includes historical
    relationships that the attacker cannot retroactively forge.
 
-   This is analogous to the difference between:
+   For software operations, the comparison is between:
 
-   *  Static: "This person has a valid driver's license"
+   *  A credential presented without evidence of the expected executing
+      artifact or current state
 
-   *  Kinetic: "This person has been driving continuously for the last
-      10,000 miles, with traffic cameras and toll booths attesting to
-      their route"
+   *  An authenticated software identity bound to the expected artifact,
+      verified committed history, and current operation-specific
+      readiness
 
-   The second model is vastly more resistant to impersonation because
-   the attacker would need to not only steal the license but also
-   fabricate a coherent 10,000-mile trajectory with consistent
-   attestations from independent third parties.
+
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 4]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+   These are distinct verification requirements.  Historical records
+   alone do not authenticate the current executor or prove its
+   readiness; the live bindings and checks in the trajectory and
+   readiness companions remain necessary.  This comparison does not
+   prescribe tracking a human's travel, activity, or tenure.
 
 1.3.  Requirements Language
 
@@ -216,15 +239,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    "OPTIONAL" in this document are to be interpreted as described in BCP
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 4]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
 2.  Terminology
 
@@ -261,6 +275,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Chain, created when the agent is spawned.  Requires a Sponsorship
    Bond.
 
+
+
+Perkins                   Expires 11 March 2027                 [Page 5]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    Laminar Flow: Smooth, consistent agent behavior with predictable
    velocity and trajectory.  Indicates legitimate operation.
 
@@ -271,16 +292,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Proof of Resilience: A ledger of attestations demonstrating an
    agent's successful transactions, weighted by the friction
    encountered.  Forms the primary input to E_base calculation.
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 5]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    Sponsorship Bond: A cryptographic commitment where a high-mass entity
    stakes a portion of its trust on behalf of a new agent.  The sponsor
@@ -318,6 +329,15 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    | Noun             | Verb                   |
    +------------------+------------------------+
 
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 6]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    In the Vector Model, an entity's identity IS its trajectory.  An
    agent that has been operating legitimately for 10,000 transactions
    has a fundamentally different identity than an agent that appeared
@@ -330,13 +350,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Position (current state): Where the agent is right now - its current
    Trust Score, active permissions, and environmental context.  This is
    roughly equivalent to what a static credential provides.
-
-
-
-Perkins                 Expires 14 February 2027                [Page 6]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    Momentum (historical trajectory): Where the agent has been - its
    complete transaction history, attested by Trust Oracles, forming a
@@ -374,6 +387,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Erratic velocity (sudden bursts or stops)
 
+
+
+Perkins                   Expires 11 March 2027                 [Page 7]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    *  Chaotic trajectory (unrelated actions, no logical sequence)
 
    *  Abnormal friction response (ignores environmental stress)
@@ -387,24 +407,48 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    The Trust Oracle MAY reduce an agent's E_base if sustained turbulent
    flow is detected, even if individual transactions succeed.
 
-
-
-Perkins                 Expires 14 February 2027                [Page 7]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
 4.  Trajectory Chains
 
    The Trajectory Chain is the core data structure of Vector Identity.
-   It is a cryptographically linked sequence of transaction records that
-   forms an unforgeable history of agent behavior.
+   It is a cryptographically linked sequence of transaction records
+   whose integrity depends on complete signature bindings, verified
+   continuity, and an independently authenticated final head.  The
+   normative v3 signing, hashing, anchoring, and migration contract is
+   specifications/trajectory-signatures.md.
 
 4.1.  Chain Structure
 
    A Trajectory Chain consists of a Genesis Transaction followed by zero
    or more Transaction Records, each linked to its predecessor by
    cryptographic hash.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 8]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    +-------------------+
    | Genesis           |
@@ -442,20 +486,25 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Figure 1: Trajectory Chain Structure
 
-
-
-
-Perkins                 Expires 14 February 2027                [Page 8]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    The chain is append-only.  Records MUST NOT be modified or deleted
    once added.
 
 4.2.  Transaction Records
 
-   Each Transaction Record contains:
+   Each active Transaction Record MUST satisfy the v3 schema at schemas/
+   transaction-record.json and declare record_version = "ktp-trajectory-
+   v3".  Its fields include:
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                 [Page 9]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    +--------------------+----------+-----------------------------------+
    | Field              | Type     | Description                       |
@@ -464,16 +513,29 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    | chain_id           | string   | Agent's chain identifier          |
    | sequence           | integer  | Position in chain (0 = genesis)   |
    | timestamp          | datetime | When transaction occurred         |
-   | previous_hash      | string   | SHA-256 of previous record        |
+   | previous_hash      | string   | Final hash of previous record     |
    | previous_state     | object   | Agent state before transaction    |
    | current_state      | object   | Agent state after transaction     |
    | action             | object   | What action was performed         |
    | friction           | number   | Environmental R at time of action |
    | velocity           | number   | Agent's transaction rate          |
-   | agent_signature    | string   | Agent's signature over record     |
+   | agent_signature    | string   | Agent-role compact JWS            |
    | oracle_attestation | object   | Trust Oracle's attestation        |
-   | record_hash        | string   | SHA-256 of this record            |
+   | record_hash        | string   | Hash of final signed envelope     |
    +--------------------+----------+-----------------------------------+
+
+   The v3 record additionally requires record_version, agent_id,
+   zone_id, conformance_level, evaluation_profile_digest, and
+   migration_checkpoint.  The migration_checkpoint is null for an
+   ordinary record; an authorized legacy-to-v3 genesis carries the
+   approved checkpoint digest.  The schema fixes the permitted fields
+   and requires all body fields; action.details remains extensible JSON
+   whose complete contents are signed.  Implementations MUST reject
+   unknown structural fields, missing required fields, duplicate JSON
+   member names, invalid Unicode, and data outside the canonicalization
+   and numeric limits in specifications/trajectory-signatures.md.  A
+   candidate's version, level, profile digest, or key identifier MUST
+   NOT choose a less restrictive verification policy.
 
    The previous_state and current_state objects contain:
 
@@ -495,15 +557,9 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
 
 
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027                [Page 9]
+Perkins                   Expires 11 March 2027                [Page 10]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
    +-------------+--------+--------------------------+
@@ -529,54 +585,150 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
 4.3.  Co-Signature Requirements
 
-   Every Transaction Record MUST be co-signed by both the agent and the
-   Trust Oracle.  This dual-signature requirement prevents:
+   Every active Transaction Record MUST carry both role-bound compact
+   JWS signatures defined by specifications/trajectory-signatures.md.
+   The signatures authenticate the complete record body and the Oracle's
+   attestation without circular preimages.  They do not alone prove that
+   an action was permitted, that its stated outcome occurred, or that
+   this envelope is the selected chain head; the Oracle MUST validate
+   those claims and the required anchor evidence separately.
 
-   1.  Agent fabrication: An agent cannot create records without Oracle
-       attestation, so cannot invent history.
+   Define B as the entire top-level record excluding only
+   agent_signature, oracle_attestation, and record_hash.  B therefore
+   includes both complete states, the entire action including details,
+   identity and zone, chain and sequence, timestamp and predecessor,
+   friction and velocity, record version, conformance level, evaluation
+   profile digest, and migration checkpoint.  Define O as the complete
+   oracle_attestation object excluding only oracle_signature; it
+   includes oracle_id, attestation_time, and all risk_factors.
 
-   2.  Oracle fabrication: An Oracle cannot create records without agent
-       participation, so cannot frame agents.
+   The canonical payloads are:
 
-   3.  Replay attacks: Both signatures are over the complete record
-       including timestamp and previous hash, so old records cannot be
-       replayed as new ones.
-
-   Signature generation:
-
-   1.  Agent computes action and signs: agent_signature =
-       Sign(agent_private_key, Hash(record_id || action ||
-       previous_hash || timestamp))
-
-   2.  Agent submits to Trust Oracle with signature
-
-   3.  Oracle validates agent signature, action, and environmental
-       conditions
+   agent_payload  = JCS(B)
+   oracle_payload = JCS({
+     "record_body": B,
+     "agent_signature": exact_agent_compact_JWS,
+     "attestation": O
+   })
 
 
 
-
-
-Perkins                 Expires 14 February 2027               [Page 10]
+Perkins                   Expires 11 March 2027                [Page 11]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
-   4.  Oracle adds attestation and signs: oracle_signature =
-       Sign(oracle_private_key, Hash(record_id || action ||
-       previous_hash || timestamp || agent_signature || risk_factors))
+   JCS means RFC 8785 canonical JSON encoded as UTF-8.  The agent
+   compact JWS MUST embed exactly agent_payload and protect exactly alg,
+   kid, and typ, with typ = "ktp-trajectory-agent-v3".  The Oracle
+   compact JWS MUST embed exactly oracle_payload and protect exactly
+   alg, kid, and typ, with typ = "ktp-trajectory-oracle-v3".  Each
+   protected header MUST also use JCS bytes.  Verification MUST check
+   the standard JWS signing input, the exact payload bytes, and the
+   protected role, algorithm, and key against independently trusted
+   configuration.  Replacing the agent JWS with another envelope, even
+   for the same body, changes the Oracle payload and requires a new
+   Oracle signature.  Detached payloads, unsigned algorithm
+   declarations, and candidate-selected legacy fallback MUST NOT
+   substitute for this contract.
 
-   5.  Complete record is appended to chain
+   Issuance proceeds as follows:
 
-   If the agent's signature is invalid, the Oracle MUST reject.  If the
-   Oracle refuses to attest (e.g., due to Silent Veto), the transaction
-   fails and no record is added.
+   1.  Validate the trusted format/profile, v3 structure, agent
+       identity, and continuity; construct B and obtain the agent JWS
+       over JCS(B).
+
+   2.  Verify that exact agent JWS, the proposed action and state
+       transition, and the environmental evaluation; construct O and
+       oracle_payload.
+
+   3.  In a consensus deployment, obtain the required commit evidence
+       for the typed trajectory-intent digest of oracle_payload before
+       Oracle signing.  This intent excludes the Oracle signature and
+       final record_hash, avoiding a circular dependency.
+
+   4.  Produce and verify the Oracle JWS; calculate the final
+       record_hash over JCS of the completed record excluding only
+       record_hash.  Use SHA-256 at Levels 1 and 2 or SHA-384 at Level
+       3, as selected by trusted configuration, and encode the lowercase
+       hexadecimal digest with its sha256: or sha384: prefix.
+
+   5.  Establish the independently authenticated final-head anchor
+       required by the companion.  In a mesh, reviewed agreement under
+       specifications/oracle-consensus.md MUST bind record_version, the
+       exact final record_hash, commit_intent, agent, zone, chain,
+       sequence, and predecessor before the record is exposed or
+       appended as authoritative standing.  Persist that selection
+       before acknowledging authority.
+
+   The final hash includes both exact JWS strings and the complete
+   Oracle attestation.  A commit to an intent is not a commit to this
+   final envelope: independently valid ECDSA signatures can produce
+   different envelope hashes for one intent.  Only the uniquely anchored
+   final hash may become the authoritative successor.  Neither a
+
+
+
+Perkins                   Expires 11 March 2027                [Page 12]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+   recomputed unanchored hash nor a valid pair of signatures selects the
+   head.  Single-Oracle deployments still require the companion's
+   independently trusted durable head selection and MUST NOT claim
+   Byzantine agreement.
+
+   If either signature, continuity, evaluation, intent evidence, or
+   final-head anchor is invalid or unavailable, the Oracle MUST NOT
+   expose the candidate as authoritative.  Existing Silent Veto and
+   other authorization constraints remain binding.
+
+4.3.1.  Legacy History and Version Cutover
+
+   The former selective preimages omitted, among other fields,
+   current_state, previous_state, chain_id, sequence, friction,
+   velocity, and the Oracle identity and attestation time.  Signature
+   validity under those formulas does not authenticate those omitted
+   claims.  Changing an unanchored tail's state and recomputing its hash
+   may leave the old formula signatures valid; an independently trusted
+   commitment to the complete final record can detect the change.  This
+   describes the old specification's binding limitation, not evidence of
+   a deployed exploit.
+
+   Legacy v2 records and their original bytes MUST remain historical
+   evidence under schemas/transaction-record-legacy-v2.json.
+   Implementations MUST NOT rewrite, silently reserialize, or
+   automatically re-sign them as v3 history.  An independently signed
+   migration checkpoint from the already trusted authority MUST bind the
+   legacy head and archive, independently revalidated carried state, and
+   the authorized target chain, genesis, and evaluation profile before
+   the new genesis is signed.  It cannot retroactively authenticate
+   facts omitted from legacy signatures.
+
+   The authorized new genesis body carries the checkpoint digest.  Its
+   final signed-envelope hash is anchored afterward; the checkpoint MUST
+   NOT depend on that final hash.  Cutover MUST durably enforce the v3
+   format floor and single-use lineage succession, including after
+   restart, restore, or failover.  A legacy archive verifier or a
+   candidate-supplied version MUST NOT reopen legacy authority or create
+   a second successor chain.  Membership changes during migration
+   additionally require the joint-transition evidence in specifications/
+   oracle-consensus.md.
 
 4.4.  Continuity Enforcement
 
    Trajectory Chains enforce physical continuity.  An agent cannot
    "teleport" - appear at one location at time T and a distant location
    at time T+1 without traversing the intervening space.
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 13]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    Continuity rules:
 
@@ -610,14 +762,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Continuity violations:
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 11]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    If a record fails any continuity check, the Trust Oracle MUST:
 
    1.  Reject the transaction
@@ -632,6 +776,16 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    (attacker does not have previous records) or Oracle compromise
    (attacker attempting to forge records).
 
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 14]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
 4.5.  Chain Verification
 
    Any party with access to a Trajectory Chain can verify its integrity
@@ -645,11 +799,21 @@ Internet-Draft                KTP-IDENTITY                   August 2026
        timestamp(N) > timestamp(N-1) - previous_state(N) ==
        current_state(N-1)
 
-   3.  Signature validity: For each record: - agent_signature validates
-       against agent's public key - oracle_signature validates against
-       Oracle's public key
+   3.  Signature and hash validity: For each active record, validate the
+       v3 schema, RFC 8785 payload bytes, role-bound agent and Oracle
+       JWS, and final completed-envelope hash under specifications/
+       trajectory-signatures.md.  Obtain allowed versions, algorithms,
+       keys, and profile from trusted configuration rather than the
+       candidate.
 
-   4.  Continuity: For each adjacent pair of records: - Velocity is
+   4.  Head and cutover validity: Verify the independently authenticated
+       final-head anchor and its record_version, exact record_hash,
+       commit_intent, identity, zone, chain, sequence, and predecessor
+       binding.  Verify any migration checkpoint and the durable single-
+       use succession and format floor.  A candidate-supplied head or a
+       self-consistent unanchored suffix is insufficient.
+
+   5.  Continuity: For each adjacent pair of records: - Velocity is
        within bounds - Location transitions are physically possible
 
    Verification can be performed:
@@ -665,13 +829,17 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Trust Oracles SHOULD perform full verification periodically.  PEPs
    MAY perform windowed verification for real-time decisions.
 
+   Sampled or windowed checks MUST NOT bypass verification of the
+   candidate's complete v3 signature bindings, final hash, independently
+   authenticated head, or migration/format floor.  A window MUST start
+   from an independently trusted checkpoint with verified continuity;
+   sampling alone does not establish authority for an unanchored tail.
 
 
 
-
-Perkins                 Expires 14 February 2027               [Page 12]
+Perkins                   Expires 11 March 2027                [Page 15]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
 5.  Proof of Resilience
@@ -679,6 +847,14 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Proof of Resilience is a ledger of attestations demonstrating an
    agent's successful operation under stress.  It is the primary input
    to E_base calculation.
+
+   Historical PoR MUST NOT be automatically reduced for elapsed time or
+   inactivity.  The evaluated ledger may change when authenticated
+   evidence establishes that a claim was invalid, but the correction
+   MUST be appended with its authority and provenance; the original
+   signed history MUST NOT be silently rewritten.  Expiry or revocation
+   of a current external instrument remains governed by that
+   instrument's existing rules.
 
 5.1.  Attestation Structure
 
@@ -712,23 +888,20 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    conditions.  This ensures that Proof of Resilience reflects actual
    stress-tested behavior, not mere volume.
 
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 16]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
 5.2.  Friction Categories
 
    Friction is categorized to enable meaningful comparison across
    different types of environmental stress:
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 13]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    +----------+-----------+-----------------------------------+
    | Category | R Range   | Description                       |
@@ -772,26 +945,72 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    PoR_contribution = min(70, 10 * log10(1 + Resilience_Score))
 
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 17]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+   Resilience_Score sums the applicable valid historical attestations;
+   there is no automatic time multiplier or points-per-year subtraction
+   in the active history-with-scoped-readiness policy.  A deployment
+   MUST NOT infer an inactivity recurrence from the older
+   standing_decay_rate declaration.  That declaration belongs to the
+   archived v2 deployment profile and is rejected by the active v3
+   profile.
+
    The logarithmic scaling ensures:
 
    *  Early attestations have significant impact
 
    *  Later attestations have diminishing returns
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 14]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    *  Maximum PoR contribution is capped at 70
 
    This prevents "grinding" - an agent cannot achieve maximum E_base
    simply by volume of transactions; it must survive genuine stress.
 
-5.4.  Quality vs. Quantity
+5.4.  Historical Evidence and Current Readiness
+
+   Historical success does not establish present fitness for a changed
+   operation or system.  Active deployments MUST apply specifications/
+   operational-readiness.md as an additional operation-scoped
+   prerequisite, using independently approved criteria and a competent
+   accountable assessor.  The readiness evidence MUST match the exact
+   subject and its code/model/configuration/toolchain/permissions,
+   operation and resolved scope, installed profiles, and current
+   revocation epoch.  It supplies no E_base contribution, standing
+   credit, or permission to bypass an existing veto.
+
+   An evidence-based readiness expiry limits the current assessment, not
+   the historical record.  Heartbeats, ordinary work volume, a new
+   signature, or an ordinary proof refresh MUST NOT renew assessment
+   evidence.  Relevant system or permission changes invalidate the old
+   scope.  An assessment route MUST be separately authorized and safe
+   without presuming the unverified capability.
+
+   When readiness evidence is recorded in a v3 trajectory, the complete
+   signed decision sidecar belongs in the existing
+   action.details.readiness object and therefore participates in both
+   trajectory signatures under specifications/trajectory-signatures.md.
+   It binds an already complete ordinary proof and the actual request;
+   neither that proof nor the sidecar may depend on the trajectory's
+   later final hash.  No additional top-level trajectory field or
+   record-version change is introduced.
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 18]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+5.5.  Quality vs. Quantity
 
    Proof of Resilience explicitly values quality over quantity:
 
@@ -834,19 +1053,18 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    zero history begin operating in a system that requires history to
    earn trust?
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 15]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
 6.1.  The Genesis Problem
 
    The Zeroth Law (A <= E) creates a catch-22 for new agents:
 
    *  To earn E_base, an agent must complete transactions
+
+
+
+Perkins                   Expires 11 March 2027                [Page 19]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    *  To complete transactions, an agent needs E_trust > A
 
@@ -887,17 +1105,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    stake_amount = sponsor_E_base * (stake_percentage / 100)
 
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 16]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
 6.3.  Stake Mechanics
 
    When a Sponsorship Bond is created:
@@ -905,6 +1112,15 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    1.  Sponsor's effective stake is reduced: sponsor_available_E_base =
        sponsor_E_base - sum(effective_stake_contribution) over every
        bond and residual the sponsor holds
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 20]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    2.  The bond's collateral half is fixed: collateral = stake_amount *
        0.5.  This is bond accounting, and it is what penalties under
@@ -944,16 +1160,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    cost.  An agent's sponsoring capacity is therefore bounded by its
    E_base at all times, not merely by the bonds it currently holds.
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 17]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
 6.4.  Penalty and Release
 
    Penalty conditions:
@@ -962,6 +1168,15 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    system or violates policy), the sponsor is penalized:
 
    penalty = violation_severity * stake_amount * penalty_rate
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 21]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    The penalty is deducted from the sponsor's E_base, potentially
    dropping them to a lower Trust Tier.
@@ -1002,14 +1217,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    what it vouched for.  The sponsor retains a permanent, depth-decaying
    share of responsibility for the agent it sponsored:
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 18]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    ancestral_liability = 0.1^depth * stake_amount
 
    where depth is lineage distance and a direct sponsor is at depth 1.
@@ -1018,6 +1225,14 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    ancestor's credit downward forever carries its liability with it.
    Penalties under this section are assessed against the residual on the
    same terms as against an active bond, scaled to the residual amount.
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 22]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    The residual has no expiry.  The duration field of Section 6.2 binds
    staked capital only; a bond's declared duration MUST NOT be read as
@@ -1053,19 +1268,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Succession:
 
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 19]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    When a sponsor is decommissioned or otherwise ceases to hold an
    identity, its Ancestral Liabilities transfer to its own sponsor at
    the next depth, together with the reserves behind them.  A
@@ -1080,6 +1282,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    attacker spawns thousands of malicious agents.
 
    Attack scenario without bonds:
+
+
+
+Perkins                   Expires 11 March 2027                [Page 23]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    *  Attacker obtains one API key
 
@@ -1113,15 +1322,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    This creates natural rate-limiting based on accumulated trust rather
    than administrative quotas.
 
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 20]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    The Ancestral Liability of Section 6.4 makes the bound cumulative as
    well as concurrent.  The reserve behind a residual is never released,
    so successful sponsorships consume sponsoring capacity permanently:
@@ -1136,16 +1336,40 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    *  After 100 matured descendants the attacker's available E_base is
       exhausted, however well each behaved
 
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 24]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    An attacker cannot spawn its way out by waiting.  Sponsoring capacity
    is bounded at every moment by E_base, which is earned through Proof
    of Resilience and cannot be manufactured by producing more agents.
 
 7.  Identity Proofing Requirements
 
-   Before an entity can become a sponsor or hold significant trust
-   within KTP, their identity must be verified to an appropriate
-   assurance level.  This section aligns with NIST Special Publication
-   800-63 Digital Identity Guidelines.
+   Before an entity can perform an operation requiring identity
+   assurance, its identity must be verified at the level required by the
+   installed operation policy.  Identity proofing establishes an
+   identity assertion, not a person's trustworthiness, operational
+   capacity, permission, or software-agent readiness.  This section
+   references NIST Special Publication 800-63 Digital Identity
+   Guidelines; a deployment MUST declare the applicable reviewed version
+   and its proofing requirements.
+
+   Humans use the operation-specific eligibility contract in [KTP-HUMAN]
+   and specifications/human-eligibility.md.  Accepting a human principal
+   or a human delegation requires the installed human_policy binding and
+   reviewed authorization adapter described in [KTP-CORE].  Principal
+   type, identity, authentication/session context, and the actual
+   executor MUST be established independently of candidate assertions.
+   Humans MUST NOT be assigned software E_base, Trust Tier, generation,
+   lineage maturity, model, or v3 software-trajectory state to make
+   existing agent schemas accept them.
 
 7.1.  Identity Assurance Levels
 
@@ -1160,7 +1384,10 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Suitable for: Low-risk automated agents
 
-   *  KTP capability: Cannot sponsor, max E_base = 40
+   *  Identity assurance alone confers no operation grant.  Where this
+      level is used for software-agent standing, the existing no-
+      sponsorship restriction and E_base ceiling of 40 remain
+      applicable; they are not human scores.
 
    IAL2 - Remote or In-Person Proofing:
 
@@ -1168,19 +1395,23 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Remote: Government ID + biometric verification
 
-   *  In-person: Physical document inspection
 
 
-
-
-Perkins                 Expires 14 February 2027               [Page 21]
+Perkins                   Expires 11 March 2027                [Page 25]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   *  In-person: Physical document inspection
 
    *  Suitable for: Standard human users, service owners
 
-   *  KTP capability: Can sponsor Sponsored agents, max E_base = 80
+   *  Identity assurance alone confers no operation grant.  For
+      software-agent standing, the existing E_base ceiling of 80
+      remains; any sponsorship permission is restricted to Sponsored
+      agents and requires separate current authorization.  Human
+      sponsorship eligibility follows the installed operation policy
+      without a personal E_base.
 
    IAL3 - In-Person Proofing with Biometric:
 
@@ -1192,13 +1423,40 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Suitable for: High-trust roles, infrastructure sponsors
 
-   *  KTP capability: Can sponsor any lineage, max E_base = 95
+   *  Identity assurance alone confers no operation grant.  For
+      software-agent standing, the existing E_base ceiling of 95
+      remains; eligibility to sponsor a lineage still requires a
+      separate current grant.  Human eligibility is operation-specific
+      and has no personal E_base ceiling.
 
 7.2.  Sponsor Identity Requirements
 
    Sponsors MUST be identity-proofed to at least IAL2 before being
    permitted to sponsor other agents.  This requirement ensures
    accountability for the agents they introduce to the system.
+
+   The table below constrains software-agent sponsorship bonds
+   denominated in E_base; it does not create a human score or personal
+   staking balance.  A human's proofing assertion may establish identity
+   for an accountable party under the External Root rules, but it MUST
+   NOT create collateral, an operational grant, or standing by itself.
+   Any human sponsorship action requires current operation eligibility,
+   separate capacity and grant checks, and the applicable existing
+   sponsorship/accountability requirements.  No human credential may be
+   converted into an invented E_base balance to fund a bond.
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 26]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    +-------------+-----------------------+-------------------+
    | Sponsor IAL | Can Sponsor           | Max Staked E_base |
@@ -1226,14 +1484,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    the evidence (knowledge-based verification, biometric matching, in-
    person)
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 22]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    The proofing process MUST be performed by an authorized Identity
    Service Provider (ISP) that:
 
@@ -1247,30 +1497,53 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
 7.4.  Identity Binding
 
-   After proofing, the verified identity is bound to the KTP agent
-   identity:
+   After proofing, a minimized assertion binds the verified principal to
+   its authorized identity provider.  The following human assertion is
+   illustrative identity evidence, not a Trust Proof, human eligibility
+   decision, sponsorship grant, or v3 trajectory record:
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 27]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
       {
-        "agent_id": "human:org:alice.smith",
+        "principal_id": "human:org:subject-7f3a",
+        "principal_type": "human",
         "identity_proofing": {
           "ial": 2,
           "proofed_at": "2025-11-25T10:00:00Z",
           "proofing_provider": "isp:acme-verify",
-          "evidence_types": ["government_id", "biometric"],
-          "verification_method": "remote_biometric",
           "assertion_reference": "ref:abc123xyz",
           "expiration": "2028-11-25T10:00:00Z"
-        },
-        "ktp_capabilities": {
-          "can_sponsor": true,
-          "sponsor_lineages": ["sponsored"],
-          "max_stake": 20,
-          "max_e_base": 80
         }
       }
 
-   Identity proofing MUST be renewed before expiration.  Failure to
-   renew downgrades the agent's IAL and corresponding capabilities.
+   An assertion MUST be authenticated against its independently trusted
+   issuer, subject binding, validity, and current correction/revocation
+   status.  A field naming an assurance level or declaring
+   principal_type does not establish it.  When required proofing expires
+   or is withdrawn, dependent operations MUST stop until their
+   requirements are satisfied; the system MUST NOT substitute a stale
+   assertion or reinterpret this as a person's demotion.  Correction of
+   misattributed or invalid identity evidence MUST propagate to
+   dependent eligibility, grants, and decisions under [KTP-PRIVACY].
+
+   The unsigned human eligibility decision body MUST be authenticated
+   and bound by the reviewed adapter to the exact request, fully
+   verified ordinary proof, current evidence epoch/status, and installed
+   human/deployment profiles.  It MUST NOT replace the ordinary proof or
+   be accepted as a generic JWT.  Ordinary proof validity remains at
+   most ten seconds; assertion validity does not extend that limit.
+   This identity example supplies no human wire-proof adapter or
+   authorization implementation.
 
 7.5.  Automated Agent Identity
 
@@ -1280,17 +1553,28 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Must be sponsored by IAL2+ human
 
-   *  Sponsor's proofing extends to sponsored agents
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 23]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
+   *  Sponsor proofing establishes the accountable sponsor's identity;
+      it does not authenticate the software executor or transfer the
+      sponsor's operational eligibility or readiness
 
    *  Agent is accountable through sponsor chain
+
+   Every executing software agent requires its own authenticated
+   artifact/configuration binding, applicable grants and ceilings,
+   current operational capacity, and readiness under specifications/
+
+
+
+Perkins                   Expires 11 March 2027                [Page 28]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+   operational-readiness.md.  A human request, supervisor signature, or
+   sponsor assertion MUST NOT select a human-only evaluation path for
+   that executor.  Delegation is bounded by the restrictive intersection
+   of current delegable authority and the agent's own authority; it
+   supplies no readiness or E_base bonus.
 
    Infrastructure Agents (IAL2-equivalent):
 
@@ -1312,6 +1596,14 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Certain actions require real-time identity re-verification:
 
+   The following assurance prerequisites do not themselves authorize an
+   action.  References to tier promotion concern software agents only; a
+   human authorizing such a change needs a grant and current eligibility
+   for that exact administrative operation, not a personal tier.  The
+   installed human operation policy determines which independently
+   verified qualifications and session checks are relevant, subject to
+   purpose and minimization requirements.
+
    +----------------------------+-------------------+------------------+
    | Action                     | Minimum IAL       | Re-verification  |
    +----------------------------+-------------------+------------------+
@@ -1327,6 +1619,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  None: Initial proofing sufficient
 
+
+
+Perkins                   Expires 11 March 2027                [Page 29]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    *  30-day validity: Proofing must be within last 30 days
 
    *  Session: Biometric or MFA required for this session
@@ -1337,14 +1636,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Identity proofing collects sensitive personal information.  KTP
    implementations MUST:
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 24]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    *  Minimize data collection (collect only what's needed for IAL)
 
@@ -1358,13 +1649,20 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    *  Never expose raw identity evidence in Trust Proofs
 
-   Trust Proofs include proofing assertions (IAL level, provider, date)
-   but NEVER include the underlying identity evidence.
+   Where a reviewed proof format carries identity assurance, it MUST
+   bind only the assertions required for the operation and NEVER include
+   the underlying identity evidence.  Human identity and eligibility
+   references remain personal information subject to purpose limits,
+   access, correction, and erasure rules; opaque identifiers are not a
+   claim of anonymity.
 
 8.  Lineage Evolution
 
-   Lineage tracks the maturation of an agent from dependent newcomer to
-   autonomous veteran.  It consists of three phases.
+   Lineage tracks the maturation of a software agent from dependent
+   newcomer to autonomous veteran.  It consists of three phases.  These
+   phases, generation counters, and standing calculations MUST NOT be
+   applied to human principals; neither tenure nor seniority is a
+   replacement generation counter.
 
 8.1.  Phase 1: Sponsored
 
@@ -1374,6 +1672,15 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Characteristics:
 
    *  Identity: Appears as "Agent/Sponsor" (e.g., "Aria/Acme-Deploy")
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 30]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    *  Generation: 0 through 2.  Phase derives from generation
       (Section 8.4); it is not a separate gate
@@ -1394,13 +1701,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Identifier format:
    agent:sponsored:<sponsor_id>:<agent_name>:<unique_id>
-
-
-
-Perkins                 Expires 14 February 2027               [Page 25]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    Example: agent:sponsored:acme-deploy:aria:7f8a9b2c
 
@@ -1431,6 +1731,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    contribution decreases proportionally, down to a floor it does not
    fall below:
 
+
+
+Perkins                   Expires 11 March 2027                [Page 31]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    effective_stake_contribution = max(0.1^depth * stake_amount,
    stake_amount * (1 - (intrinsic_E_base / 80)))
 
@@ -1448,15 +1755,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    floor the expression is negative above intrinsic_E_base 80, which
    would credit a sponsor for a descendant's standing rather than charge
    it.
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 26]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    Identifier format:
    agent:independent:<generation>gen:<lineage>:<unique_id>
@@ -1485,6 +1783,17 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    *  Sponsor: Bond closed, staked capital recovered above the Ancestral
       Liability floor; the residual persists (Section 6.4)
 
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 32]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
    *  Can sponsor Sponsored agents.  This is the phase's defining
       capability and it is a liability rather than a benefit: sponsoring
       reduces the sponsor's available E_base for as long as the bond and
@@ -1506,14 +1815,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    Generation tracks evolutionary depth within a lineage:
 
-
-
-
-Perkins                 Expires 14 February 2027               [Page 27]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    Generation is the sole advancement rule, and lineage phase derives
    from it:
 
@@ -1532,6 +1833,22 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
    1.  Time.  A minimum elapsed period per step, weighted toward the two
        regime changes:
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 33]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    +--------------------+-----------------+--------------------------+
    | Step               | Minimum elapsed | Why this step costs more |
@@ -1563,13 +1880,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
        the evidence curve, and a default nobody can derive is not
        checkable.]_
 
-
-
-Perkins                 Expires 14 February 2027               [Page 28]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    2.  Survival.  No CRITICAL violations in the current generation.
 
    Generation caps E_base:
@@ -1586,6 +1896,15 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    | 6          | 85         | Independent   |
    | 7+         | 100        | Guarantor     |
    +------------+------------+---------------+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 34]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
 8.5.  Lineage Inheritance
 
@@ -1616,16 +1935,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    advantages, but the agent must still prove itself through its own
    Proof of Resilience.
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 29]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    Ancestral Authority does not travel alone.  The same 0.1^depth decay
    governs the Ancestral Liability of Section 6.4, running in the
    opposite direction: an ancestor's credit reaches its descendants
@@ -1644,6 +1953,14 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Components:
 
    *  Scheme: Always "agent"
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 35]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    *  Lineage: One of "sponsored", "independent", "guarantor"
 
@@ -1672,16 +1989,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    Seventh-generation autonomous agent:
    agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
 
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 30]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
    Full Trust Proof "sub" claim: "sub":
    "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-
    f01234567890"
@@ -1690,13 +1997,26 @@ Internet-Draft                KTP-IDENTITY                   August 2026
 
 10.1.  Trajectory Chain Attacks
 
-   Attack: Forging historical transactions Mitigation: Every transaction
-   requires Oracle co-signature; attacker cannot forge Oracle signatures
-   without compromising Oracle
+   Attack: Forging or substituting historical transactions Mitigation:
+   Verify the complete v3 agent and Oracle JWS payloads, final signed-
+   envelope hash, independently authenticated head, and durable cutover
+   under specifications/trajectory-signatures.md.  A selective co-
+   signature or recomputed unanchored hash alone does not authenticate
+   the history.
 
    Attack: Stealing trajectory chain Mitigation: Chain includes agent
    signature; attacker cannot sign new transactions without agent's
    private key
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 36]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
    Attack: Replaying old transactions Mitigation: Each transaction
    includes previous hash; replayed transaction would have wrong
@@ -1727,17 +2047,6 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    require Oracle signatures during actual elevated friction; cannot be
    manufactured
 
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 31]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
 10.4.  Privacy Considerations
 
    Trajectory Chains contain detailed behavioral history.
@@ -1753,6 +2062,17 @@ Internet-Draft                KTP-IDENTITY                   August 2026
       trajectory details
 
 11.  IANA Considerations
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 37]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
 
 11.1.  URI Scheme Registration
 
@@ -1774,6 +2094,13 @@ Internet-Draft                KTP-IDENTITY                   August 2026
    [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core
               Specification", June 2017.
 
+   [KTP-HUMAN]
+              Perkins, C., "Kinetic Trust Protocol - Human Integration",
+              n.d..
+
+   [KTP-PRIVACY]
+              Perkins, C., "Kinetic Trust Protocol - Privacy", n.d..
+
 Appendix A.  Changes from v1
 
    This appendix records what a v1 implementation must change to conform
@@ -1789,9 +2116,18 @@ A.1.  The lineage stage names
 
 
 
-Perkins                 Expires 14 February 2027               [Page 32]
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 11 March 2027                [Page 38]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
                        +============+=============+
@@ -1845,9 +2181,9 @@ A.2.  Lineage phase derives from generation
 
 
 
-Perkins                 Expires 14 February 2027               [Page 33]
+Perkins                   Expires 11 March 2027                [Page 39]
 
-Internet-Draft                KTP-IDENTITY                   August 2026
+Internet-Draft                KTP-IDENTITY                September 2026
 
 
 A.3.  A key the letter scheme never defined
@@ -1865,64 +2201,28 @@ Appendix B.  Trajectory Chain Examples
 
    A.1.  Genesis Transaction
 
-   { "record_id": "tr-001-genesis", "chain_id": "chain-aria-7f8a9b2c",
-   "sequence": 0, "timestamp": "2025-01-15T10:00:00Z", "previous_hash":
-   null, "previous_state": null, "current_state": { "e_base": 4.35,
-   "e_trust": 3.92, "location": "zone-alpha", "tier": "observer",
-   "lineage": "sponsored", "generation": 0 }, "action": { "action_type":
-   "GENESIS", "action_risk": 0, "target": null, "result": "success",
-   "details": { "sponsor": "acme-deploy", "bond_id": "bond-acme-001" }
-   }, "friction": 0.1, "velocity": 0, "agent_signature": "MEUCIQDr...",
-   "oracle_attestation": { "oracle_id": "oracle-alpha-1",
-   "attestation_time": "2025-01-15T10:00:01Z", "risk_factors": {
-   "evidence_density": 0.1, "trust_trend": 0.15, "adversarial_pressure":
-   0.05, "moment_criticality": 0.2, "update_resistance": 0.1,
-   "attestation_coverage": 0.05 }, "oracle_signature": "MEQCIG..." },
-   "record_hash": "sha256:abc123..." }
+   Use the complete signed v3 fixtures in specifications/conformance/
+   trajectory-signatures-v3.json with the reference verifier scripts/
+   trajectory_signatures.py.  A genesis has sequence = 0, previous_hash
+   = null, previous_state = null, and action.action_type = "GENESIS".
+   An ordinary genesis has migration_checkpoint = null.  An authorized
+   legacy migration instead carries its independently verified
+   checkpoint digest and requires the separate final-genesis anchor.
+   The complete required body, both compact JWS values, and final hash
+   MUST be checked; abbreviated signatures or hashes are not valid
+   records.
 
    A.2.  Normal Transaction Record
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 34]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
-
-   { "record_id": "tr-1547", "chain_id": "chain-aria-7f8a9b2c",
-   "sequence": 1547, "timestamp": "2025-06-20T14:32:15Z",
-   "previous_hash": "sha256:def456...", "previous_state": { "e_base":
-   52.3, "e_trust": 41.8, "location": "zone-alpha", "tier": "analyst",
-   "lineage": "independent", "generation": 3 }, "current_state": {
-   "e_base": 52.4, "e_trust": 41.9, "location": "zone-alpha", "tier":
-   "analyst", "lineage": "independent", "generation": 3 }, "action": {
-   "action_type": "READ", "action_risk": 30, "target": "/api/data/
-   customer-metrics", "result": "success", "details": {
-   "records_accessed": 150, "data_classification": "internal" } },
-   "friction": 0.2, "velocity": 12.5, "agent_signature": "MEUCIQDs...",
-   "oracle_attestation": { "oracle_id": "oracle-alpha-2",
-   "attestation_time": "2025-06-20T14:32:16Z", "risk_factors": {
-   "evidence_density": 0.2, "trust_trend": 0.3, "adversarial_pressure":
-   0.1, "moment_criticality": 0.15, "update_resistance": 0.2,
-   "attestation_coverage": 0.1 }, "oracle_signature": "MEQCIH..." },
-   "record_hash": "sha256:789abc..." }
+   A successor fixture uses the verified predecessor's final record_hash
+   and complete current_state as its previous_hash and previous_state,
+   increments sequence exactly once, and keeps migration_checkpoint
+   null.  The cryptographic fixtures include canonical payloads, real
+   signature verification, and tamper cases.  Required downstream head,
+   migration, and recovery cases are in specifications/conformance/
+   trajectory-lifecycle-v3.json.  Passing the reference checks does not
+   establish an installed consensus runtime or authorize the fixture's
+   illustrative standing.
 
 Appendix C.  JSON Schemas
 
@@ -1930,21 +2230,36 @@ Appendix C.  JSON Schemas
 
    The canonical schema is the published file, not this appendix.
 
-   Location: https://kinetic-trust-protocol.net/specs/schemas/v2/
-   transaction-record.json
+   Active v3 location: https://kinetic-trust-
+   protocol.net/specs/schemas/v3/transaction-record.json
 
-   SHA-256 of the canonical file at the time this document was produced:
-   d0649fd4d7c77eb85243b37f115b48adf145cbcfd4d8b43cff912d8014fc0f12
 
-   The file was promoted from this appendix with its content reconciled
-   against the v2 rulings (tier and lineage enums, the six named Risk
-   Factor inputs in place of a drifted letter-keyed object).  This
-   appendix previously carried a hand-copied inline schema; hand copies
-   of a schema drift, and this document's did — the copy disagreed with
-   the published file in four ways while nobody could validate either.
-   A reference plus a hash cannot drift silently: a mismatch is
-   detectable, an edit to the file changes the hash, and the appendix
-   stops being a second authority.
+
+
+
+Perkins                   Expires 11 March 2027                [Page 40]
+
+Internet-Draft                KTP-IDENTITY                September 2026
+
+
+   SHA-256 of schemas/transaction-record.json at the time this document
+   was produced:
+   5b08465469959fcae277503d1ba21744b2dff27b43d1f6a7769beca150ef3767
+
+   The active schema fixes the v3 record shape; specifications/
+   trajectory-signatures.md defines canonical bytes, signature
+   verification, final hashing, independent head anchoring, and
+   migration.  The schema alone does not perform those semantic or
+   runtime checks.
+
+   Historical v2 schema: schemas/transaction-record-legacy-v2.json.  Its
+   original 4,706 bytes and $id https://kinetic-trust-
+   protocol.net/specs/schemas/v2/transaction-record.json are preserved.
+   SHA-256:
+   d0649fd4d7c77eb85243b37f115b48adf145cbcfd4d8b43cff912d8014fc0f12.
+   This archival schema is not an alternate active-v3 acceptance path
+   and MUST NOT enable automatic history conversion or post-cutover
+   downgrade.
 
    B.2.  Sponsorship Bond Schema
 
@@ -1952,15 +2267,6 @@ Appendix C.  JSON Schemas
 
    Location: https://kinetic-trust-protocol.net/specs/schemas/v2/
    sponsorship-bond.json
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 35]
-
-Internet-Draft                KTP-IDENTITY                   August 2026
-
 
    SHA-256 of the canonical file at the time this document was produced:
    2718d44a473370caaf9d278f6514bd1e5ba111f3e00ff6bff2a72739c6a5025e
@@ -1987,30 +2293,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                 Expires 14 February 2027               [Page 36]
+Perkins                   Expires 11 March 2027                [Page 41]

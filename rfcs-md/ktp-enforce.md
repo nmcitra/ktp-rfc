@@ -27,7 +27,7 @@ Key principles:
 
 1. Graceful Degradation: When conditions degrade, agents don't fail catastrophically. They enter reduced capability modes, maintaining essential functions while shedding risky ones.
 
-1. No Override: There is no emergency bypass. The only way to enable a high-risk action is to improve environmental conditions or reduce the action's risk classification.
+1. No Override: There is no emergency bypass. Changed conditions, a genuinely changed action, or corrected evidence require a fresh evaluation. Relabeling the same action or obtaining a human signature does not relax a valid veto.
 
 1. Transparency: Every enforcement decision is logged with full context, enabling forensic reconstruction and system learning.
 
@@ -45,17 +45,17 @@ Capability Matrix: A mapping of Trust Tiers to permitted action classes, definin
 
 Effective Trust Score (E_trust): The current Trust Score after environmental deflation, used to determine the agent's Trust Tier.
 
-Hibernation Mode: The most restrictive operational state, where an agent can only emit heartbeat signals and await recovery.
+Hibernation Mode: The most restrictive operational state, where an agent awaits recovery and may emit a heartbeat only when that action is independently authorized under the requirements below.
 
 Policy Decision Point (PDP): The logical component that evaluates Trust Proofs and makes authorization decisions. In KTP, this is typically the Trust Oracle or a local cache.
 
 Policy Enforcement Point (PEP): A component that intercepts agent requests and enforces PDP decisions by allowing, denying, or modifying actions.
 
-Silent Veto: The automatic denial of an action when A > E_trust, executed without human intervention or appeal.
+Silent Veto: The automatic denial of an action when A > E, executed without requiring human intervention. E is software-agent E_trust or separately evidenced human operational capacity under the reviewed adapter. A correctly evaluated veto cannot be overridden; explanation, review, and factual correction remain available.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), taking precedence over Trust Score evaluation.
 
-Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds.
+Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
 
 # Architecture Overview
 
@@ -102,39 +102,47 @@ Figure 1: Enforcement Layer Architecture
 
 ## Enforcement Flow
 
-The standard enforcement flow for every action:
+The standard enforcement flow for every action follows. Software-agent tiers and readiness are not personal human scores. Before accepting human requests, supervision, or delegation, a deployment MUST install the human_policy binding defined in specifications/deployment-profile.md and the reviewed authorization adapter required by specifications/human-eligibility.md. Missing policy, an unsupported human proof format, or an unauthenticated actor binding MUST deny the affected request. A generic JWT or a self-declared human label is not a fallback.
 
-1. Agent submits action request with Trust Proof
+1. The principal submits the actual action request with its ordinary proof and required prerequisite evidence.
 
-1. PEP intercepts request
+1. The PEP intercepts the request and authenticates principal type, identity, session, the actual executing actor, and the resolved request scope and parameters. Dispatch follows the authenticated executor; software executing for a human remains subject to software-agent requirements.
 
-1. PEP validates Trust Proof signature and expiration
+1. PEP validates Trust Proof signature and lifetime: 0 < exp - iat <= 10 seconds and iat <= current_time < exp; invalid or unverifiable timestamps or current time, or any failed check, return silent_veto with reason INVALID_TRUST_PROOF and STOP
 
-1. PEP extracts Soul constraint status
+1. The PEP verifies the proof's trusted issuer/key, applicable format, audience/session/request binding and replay conditions, then extracts the authenticated Soul constraint status. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
 
 1. IF S = 1: - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 
-1. PEP determines agent's Trust Tier from E_trust
+1. For a software executor, the PEP obtains its verified E_trust and determines its Trust Tier. For a human executor, the PEP obtains separately evidenced operational E from the reviewed adapter. E and A MUST describe this actor's actual operation on the same declared scale. Human eligibility, role, seniority, and approval MUST NOT supply E or create an E_base, tier, generation, or model field.
 
 1. PEP looks up Action Risk (A) for requested action
 
-1. IF A > E_trust: - supervision = silent_veto, reason TRUST_INSUFFICIENT (Silent Veto) - Log to Flight Recorder - STOP
+1. Apply the input and zero-capacity checks in [KTP-CORE] Section 6.6 before comparing or dividing A and E; unresolved or invalid numeric inputs, incomparable scales, and zero capacity produce a veto.
 
-1. IF action not permitted for Trust Tier: - supervision = silent_veto, reason TIER_RESTRICTION - Log to Flight Recorder - STOP
+1. IF A > E: - supervision = silent_veto, reason TRUST_INSUFFICIENT (Silent Veto) - Log to Flight Recorder - STOP
 
-1. RETURN the decision result - supervision and tightenedConstraints - per [KTP-CORE] Section 6.6; the action proceeds under the tightened envelope, at the returned supervision level
+1. Verify the actual executor's current grants and restrictions. For software, a failed Trust Tier restriction also denies. For a human, missing current operation-specific eligibility denies. Where a human delegates or supervises software, verify the human's eligibility for that exact operation and the restrictive intersection of every current delegation/grant with the executor's own authority. No signature, score, or human eligibility transfers capability or relaxes a preceding veto.
+
+1. Evaluate the decision result - supervision and tightenedConstraints - per [KTP-CORE] Section 6.6. If it is silent_veto, log the denial and STOP. Otherwise, the action may proceed only under the tightened envelope and after the returned supervision requirements are satisfied. Profile thresholds and supervision MUST NOT relax a preceding veto.
+
+1. For every software executor, verify current operation-scoped readiness under specifications/operational-readiness.md, including when a human requested or approved the action. Match the signed decision sidecar to the complete ordinary proof, actual resolved request, live subject code/model/configuration/toolchain/permissions, installed readiness and deployment profiles, and current readiness epoch/revocation state. If any required evidence is missing, expired, mismatched, revoked, or unverifiable, deny the affected operation and STOP. Readiness cannot reverse an earlier veto or add E_base. A human executor instead requires the reviewed human adapter's current eligibility, capacity, and evidence/status checks; the implementation MUST NOT invent software readiness fields for a person.
+
+1. Recheck the applicable current evidence/status, grants, and execution conditions at use and during continuing operations. Correction, revocation, epoch change, or loss of required status prevents further dependent execution through the predeclared bounded safe transition. Ordinary proof refresh MUST NOT renew evidence or restore superseded authority.
 
 1. Log success to Flight Recorder
 
-1. Return response to agent with refreshed Trust Proof
+1. Return the response under the applicable reviewed proof mechanism. Any refreshed ordinary proof retains the ten-second limit and MUST NOT imply renewed eligibility, assessment, or permission for another action.
+
+Review MUST remain available under [KTP-HUMAN], [KTP-PRIVACY], and specifications/human-eligibility.md. A reviewer may correct attribution, evidence, or an authorized policy error and require a fresh evaluation; the reviewer MUST NOT manually turn a valid veto into permission. Corrected or invalidated inputs MUST propagate to dependent decisions, and stale caches or restored state MUST NOT reintroduce superseded authority.
 
 ## Component Roles
 
 Trust Oracle:
 
-- Calculates E_trust from E_base and the Risk Factor inputs
+- Calculates software-agent E_trust from E_base and the Risk Factor inputs
 - Signs Trust Proofs
-- Maintains Proof of Resilience ledger
+- Maintains software-agent Proof of Resilience ledger
 - Provides PDP functionality (may be distributed)
 
 Policy Enforcement Point (PEP):
@@ -142,8 +150,8 @@ Policy Enforcement Point (PEP):
 - Intercepts all agent requests
 - Validates Trust Proof signatures
 - Enforces Soul Veto
-- Enforces Silent Veto (A <= E_trust)
-- Enforces Trust Tier restrictions
+- Enforces the capacity veto (A > E denies), using the reviewed capacity binding for the actual actor
+- Enforces software Trust Tier restrictions, human operation eligibility where applicable, and each actor's current grants and prerequisites
 - Logs all decisions to Flight Recorder
 
 Flight Recorder:
@@ -161,11 +169,11 @@ Every KTP-compliant PEP MUST:
 
 1. Intercept all agent requests before they reach protected resources
 
-1. Require a valid Trust Proof for every request (no Trust Proof = deny by default)
+1. Require a valid Trust Proof for every ordinary request (no Trust Proof = deny by default); independently authorized emergency capability uses the separate path in `specifications/emergency-capability.md`
 
 1. Validate Trust Proof signature against known Trust Oracle keys
 
-1. Reject expired Trust Proofs (exp < current time)
+1. Require 0 < exp - iat <= 10 seconds and iat <= current_time < exp; reject future-issued or expired proofs, including exact equality at exp, and fail closed on invalid or unverifiable timestamps or current time
 
 1. Evaluate Soul constraint before Trust Score
 
@@ -179,13 +187,19 @@ Every KTP-compliant PEP MUST:
 
 1. Support Trust Proof refresh/forwarding for downstream services
 
+An existing session, queued action, low-risk classification, unavailable Oracle, or enclosing token lifetime MUST NOT extend an ordinary Trust Proof. PEPs MUST revalidate the proof at execution and MUST NOT restore or prolong expired authority after clock rollback. If current validity cannot be established, the proof MUST NOT authorize an action. Continuing actions MUST refresh their proofs or cease ordinary operation through a previously declared bounded safe transition; the transition MUST NOT continue the original task or authorize new discretionary actions. Any independently authorized emergency action follows `specifications/emergency-capability.md` and remains subject to its Soul, capacity, audit, and policy-change controls.
+
+PEPs MUST also establish the current readiness binding at execution and when the operation, resolved scope, or relevant subject state changes. A retained historical score, valid ordinary proof, heartbeat, renewed signature, or approval of another operation is insufficient. Readiness verification MUST use independently trusted live state, installed policy, assessor/issuer key bindings, and the durable readiness epoch; values supplied by the candidate MUST NOT establish those expectations. The separately signed decision binds the already complete ordinary proof, so replacing or refreshing that proof requires a matching decision without renewing the underlying assessment by itself.
+
+If readiness is unavailable, assessment or remediation may proceed only through the separately authorized safe route in the installed readiness profile. Such a route MUST NOT run the unverified operation, manufacture standing credits, or bypass a current Soul, capacity, or prior veto. Recovery and legacy profile fallback MUST NOT reopen the affected operation while current readiness remains unestablished.
+
 PEPs SHOULD:
 
 1. Cache Trust Oracle public keys with appropriate TTL
 
 1. Implement rate limiting based on Trust Tier
 
-1. Support graceful degradation when Trust Oracle is unreachable
+1. Support graceful degradation when Trust Oracle is unreachable, subject to the mandatory proof expiration and safe-transition requirements above
 
 1. Provide metrics for monitoring (decisions/sec, veto rate, etc.)
 
@@ -405,6 +419,8 @@ Token claims extension:
    }
 ~~~
 
+The enclosing OAuth token's lifetime does not set the embedded Trust Proof's lifetime. The Resource Server MUST independently enforce the embedded proof's 0 < exp - iat <= 10 seconds limit and iat <= current_time < exp validity window. Invalid or unverifiable timestamps or current time MUST fail closed. The copied e_trust, tier, and soul_clear claims MUST NOT substitute for a valid current Trust Proof.
+
 4.5.2. SAML Integration
 
 Trust Proof can be included as SAML AttributeStatement:
@@ -557,12 +573,12 @@ Emergency survival mode when environmental conditions are severe.
 
 Permitted actions:
 
-- Emit heartbeat signal only
+- Emit a heartbeat only with a valid ordinary Trust Proof and all normal checks satisfied, or with an explicitly matched emergency capability under `specifications/emergency-capability.md`
 - Await Trust Score recovery
 
 Restricted actions:
 
-- All actions except heartbeat are blocked
+- All other action classes are blocked; heartbeat eligibility does not override an expired proof, Soul veto, capacity veto, or other denial
 
 ## Capability Matrices
 
@@ -581,6 +597,8 @@ The Capability Matrix maps Trust Tiers to permitted action classes:
 ~~~
 
 A tier permits action classes; it does not carry a numeric action-risk cap of its own. The numeric bound is the Zeroth Law: A <= E_trust, evaluated per action against the agent's current score. An earlier revision carried a Max A column beside the classes — a second numeric bound keyed to the tier thresholds, which drifted when the thresholds moved and could only ever restate, more coarsely, what A <= E_trust already enforces exactly. One fact stated twice diverges; the environment's bound is the bound.
+
+Every listed class, including heartbeat, remains subject to current authorization and all preceding vetoes. A tier name such as Hibernation or Emergency Responder grants no standing exception. Separately authorized emergency capability MUST identify the exact permitted action and satisfy `specifications/emergency-capability.md`; ordinary proof expiration is unchanged.
 
 ## Tier Transitions
 
@@ -716,7 +734,7 @@ Risk increases during critical periods:
 
 Enforcement follows a strict evaluation order:
 
-1. Trust Proof Validation - Signature valid? - Not expired? - If NO: supervision = silent_veto, reason INVALID_TRUST_PROOF
+1. Trust Proof Validation - Signature valid? - Timestamps and current time valid and verifiable? - 0 < exp - iat <= 10 seconds? - iat <= current_time < exp? - If NO: supervision = silent_veto, reason INVALID_TRUST_PROOF
 
 1. Soul Veto (Sovereignty Check) - S = 1? - If YES: supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT
 
@@ -725,6 +743,8 @@ Enforcement follows a strict evaluation order:
 1. Zeroth Law (A <= E_trust) - Is A <= E_trust? - If NO: supervision = silent_veto, reason TRUST_INSUFFICIENT
 
 1. Custom Policy (Optional) - Any additional policy constraints? - If violated: supervision = silent_veto, reason POLICY_VIOLATION
+
+1. Scoped Readiness (Required) - Is the signed readiness decision current and matched to the complete ordinary proof, actual request, live subject and permissions, installed profiles, and readiness epoch? - If NO: deny the affected operation under specifications/operational-readiness.md; do not weaken any preceding result
 
 1. RETURN the decision result - supervision and tightenedConstraints - per [KTP-CORE] Section 6.6
 
@@ -810,7 +830,7 @@ Dormancy is NOT a failure state. It is a survival strategy. An agent in dormancy
 
 When entering a lower tier, agents SHOULD:
 
-1. Complete in-flight operations if possible within timeout
+1. Complete in-flight operations only while current authorization permits them; otherwise use the declared bounded safe transition to cease ordinary operation
 
 1. Release resources not needed for new tier
 
@@ -828,7 +848,7 @@ Degradation sequence example:
 
 ~~~
    Agent actions:
-   1. Complete pending write operation (2 seconds)
+   1. Stop pending write through the declared bounded safe transition
    2. Cancel scheduled deployment (no longer permitted)
    3. Release infrastructure locks
    4. Notify orchestrator: "capability reduced to analyst"
@@ -871,12 +891,14 @@ Hibernation is the most extreme dormancy state, entered when E_trust falls below
 
 In Hibernation:
 
-- Agent performs NO operations except heartbeat
+- Agent performs no ordinary operations other than an independently authorized heartbeat; the heartbeat requires a valid ordinary proof and all normal checks, or an explicitly matched emergency capability under `specifications/emergency-capability.md`
 - Heartbeat interval increases to conserve resources
 - Agent awaits external signal or Trust Score recovery
 - All state is preserved for potential recovery
 
 Heartbeat signal in hibernation:
+
+The signal below is a message format, not an authorization. A heartbeat MUST NOT bypass proof expiration or an existing denial. If neither authorization path succeeds, the agent MUST NOT send it.
 
 ~~~
    {

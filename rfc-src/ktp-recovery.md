@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Recovery Specification"
 abbrev: "KTP-RECOVERY"
-date: 2026-08-13
+date: 2026-09-06
 category: exp
 ipr: trust200902
 
@@ -55,6 +55,10 @@ PRINCIPLE 4: SECURITY DURING RECOVERY Recovery mode is an attractive attack wind
 
 PRINCIPLE 5: KNOWN-GOOD STATE Recovery should restore to a known-good state, not just "last state." Compromised state should not be restored.
 
+Consensus recovery MUST additionally preserve previously cast votes, locks, committed history, and authenticated membership under `specifications/oracle-consensus.md`. The backup recovery-point objectives below do not permit loss or rollback of that safety state followed by renewed voting. An older known-good snapshot requires verified recovery evidence; if safety cannot be established, the affected identity remains fenced.
+
+Recovery timing does not set authorization lifetime. Every ordinary Trust Proof MUST satisfy 0 < exp - iat <= 10 seconds and iat <= current_time < exp. Future-issued proofs and proofs at or beyond expiration MUST be rejected. Invalid or unverifiable timestamps or current time MUST fail closed under KTP-Core. An outage, existing session, queued request, low-risk classification, key grace period, or recovery objective MUST NOT extend that lifetime. Clock rollback MUST NOT restore or prolong an expired permission; if current validity cannot be established, the proof MUST NOT authorize an action.
+
 Recovery Time Objectives (RTO):
 
 ~~~
@@ -97,33 +101,29 @@ Definition: Single Oracle node becomes unavailable while remaining nodes continu
 
 ### Impact Assessment
 
-Impact depends on threshold configuration:
+Impact depends separately on the consensus quorum and the signing threshold. The normative contract is `specifications/oracle-consensus.md`:
 
-- 5-of-7 threshold: 2 nodes can fail, still operational
-- 3-of-5 threshold: 2 nodes can fail, still operational
-- 2-of-3 threshold: 1 node can fail, still operational
+- The default five-member mesh, tolerating one Byzantine member, requires four distinct members for protected state decisions. One unavailable member leaves enough participants; two unavailable or withholding members pause those decisions.
+- A seven-member mesh tolerating two Byzantine members requires at least five participants for protected decisions, under a protocol reviewed for those parameters.
+- Three shares of a five-share signing key can still produce a signature when two holders are unavailable. This does not establish a safe consensus decision or authorize a standing update. A two-of-three signing arrangement likewise supplies no one-Byzantine-member consensus guarantee.
 
-Single node failure with adequate threshold:
-
-- No Trust Proof issuance interruption
-- Slight latency increase (fewer signing participants)
-- Reduced fault tolerance margin
+Progress also requires mutually communicating participants and the selected protocol's leader-change and timing conditions. Health checks and possession of enough key shares alone do not establish availability. Single-node proof issuance, where permitted by KTP-ORACLE, still requires verified committed standing and every ordinary validity check; it cannot create a new mesh decision.
 
 ### Automatic Response
 
 1. DETECT: Monitoring detects node failure
-2. ISOLATE: Remove node from signing rotation
+2. ISOLATE: Stop routing work to the unavailable node; retain the authenticated membership, fault budget, and quorum denominator
 3. ALERT: Notify operations team
-4. CONTINUE: Remaining nodes continue operation
+4. CONTINUE: Remaining nodes proceed only where the established consensus and signing requirements can both be met
 5. REDISTRIBUTE: Rebalance load across healthy nodes
 
 ### Manual Recovery
 
 1. DIAGNOSE: Determine failure cause -  Hardware failure -> Replace hardware -  Software crash -> Analyze, restart or redeploy -  Network issue -> Resolve network problem -  Compromise suspected -> Initiate incident response
 
-1. RESTORE: Return node to operation -  Restart service if software issue -  Redeploy to new hardware if hardware issue -  Re-sync state from healthy nodes
+1. RESTORE: Return node to operation -  Restart service if software issue -  Redeploy to new hardware if hardware issue -  Restore durable voting and lock state, then verify committed checkpoint and membership evidence under `specifications/oracle-consensus.md`. A backup or a healthy peer's assertion alone is insufficient. If prior voting state cannot be recovered safely, fence the identity until the selected protocol's reviewed recovery procedure makes rejoining safe.
 
-1. VERIFY: Confirm proper operation -  Health check passes -  Participates in threshold signing -  State matches other nodes
+1. VERIFY: Confirm proper operation -  Health check passes -  Authenticated membership and key epochs match -  Prior locks cannot be forgotten or rolled back -  Committed state and transition evidence verify before voting or signing resumes
 
 1. REINTEGRATE: Add back to rotation -  Gradually increase traffic -  Monitor for issues -  Restore full participation
 
@@ -134,7 +134,7 @@ Oracle node has threshold key share. If node is compromised:
 - DO NOT restore node with same key share
 - Initiate key rotation procedure (KTP-CRYPTO Section 8.4)
 - Generate new key shares for all nodes
-- Old key enters grace period, then expires
+- Revoked or compromised keys MUST NOT gain authority through a grace period. Key replacement and any membership transition require the authenticated, committed transition controls in `specifications/oracle-consensus.md` and the applicable KTP-CRYPTO rules.
 
 If node failure is NOT compromise:
 
@@ -144,7 +144,7 @@ If node failure is NOT compromise:
 
 ## Oracle Mesh Partition
 
-Definition: Oracle mesh splits into disconnected groups, neither having quorum.
+Definition: Oracle mesh communication separates or delays groups so that they cannot all exchange consensus messages. A compromised member may still communicate selectively with both sides. A group may proceed only with the established quorum and valid protocol evidence; reachable membership MUST NOT replace authenticated membership.
 
 ### Detection
 
@@ -154,22 +154,23 @@ Definition: Oracle mesh splits into disconnected groups, neither having quorum.
 
 ### Impact
 
-CRITICAL: Trust Proof issuance stops zone-wide
+CRITICAL: Protected state changes pause wherever a valid consensus quorum cannot be obtained.
 
-- No new Trust Proofs can be issued
+- No new consensus-dependent standing, trajectory, genesis, or configuration decision may be inferred from a minority or a signing threshold alone
+- Proof issuance stops wherever its own signing, committed-state verification, or other validity requirements cannot be met; consensus loss is not permission to issue from an uncommitted fork
 - Existing proofs continue until expiration
-- PEPs enter degraded mode (cache or fail-closed)
+- PEPs enforce each proof's original expiration while entering degraded mode
 - Operations requiring new proofs fail
 
 ### Degradation Behavior
 
-During partition, PEPs should:
+During a partition, PEPs MUST apply the following rules regardless of outage duration:
 
-1. CACHE MODE (short partition, <5 minutes) -  Continue honoring cached Trust Proofs -  Allow actions within cached proof validity -  Queue proof refresh requests
+1. UNEXPIRED PROOF - A cached proof MAY be evaluated only while its original lifetime and all other authorization conditions remain valid. Queuing a refresh request grants no extension.
 
-1. CONSERVATIVE MODE (medium partition, 5-30 minutes) -  Honor cached proofs for existing sessions -  Deny new sessions requiring fresh proofs -  Allow only low-risk actions
+1. EXPIRED OR UNVERIFIABLE PROOF - Deny new ordinary actions, including actions in existing sessions and actions classified as low risk. Continuing actions MUST obtain a fresh valid proof or cease ordinary operation through a previously declared, bounded safe transition. Such a transition MUST NOT continue the original task or introduce new discretionary actions; independently authorized emergency actions use the separate path below.
 
-1. FAIL-CLOSED MODE (long partition, >30 minutes) -  Deny all actions requiring Trust Proofs -  Allow only pre-authorized emergency actions -  Alert administrators
+1. SEPARATE EMERGENCY CAPABILITY - Evaluate an explicitly matched, independently authorized emergency capability only under `specifications/emergency-capability.md`. If it is absent or unverifiable, deny. Neither a partition nor emergency mode permits a lower signing quorum, a stale ordinary proof, or a widened policy. Alert administrators.
 
 ### Resolution
 
@@ -177,7 +178,7 @@ During partition, PEPs should:
 
 1. RESOLVE network issue -  Work with network team -  Activate backup network paths -  Engage ISP if external
 
-1. RECONCILE state after healing -  Nodes compare state -  Resolve any conflicts (rare, but possible) -  Resume threshold signing
+1. VERIFY state after healing -  Authenticate membership and committed checkpoints, recover missing records, and preserve the selected protocol's locks and view-change evidence. Uncommitted proposals may be abandoned only by that protocol's safe rules. Two conflicting committed records for the same position constitute a safety incident: preserve evidence, fence the affected state, and investigate. Operators MUST NOT select a winner by timestamp, longest local log, or administrator preference and resume signing.
 
 ### Prevention
 
@@ -204,18 +205,20 @@ CRITICAL: Zone is effectively offline for new trust decisions
 
 - No new Trust Proofs
 - Existing proofs expire within seconds
-- All enforced actions eventually blocked
-- Zone enters emergency mode
+- Ordinary permissions cease at each proof's original expiration
+- The zone MAY evaluate a separately authorized emergency capability
 
 ### Emergency Mode Operation
 
-When total Oracle loss detected:
+When total Oracle loss is detected, ordinary Trust Proof expiration remains mandatory. Entering emergency mode grants no authority.
 
-1. PEPs switch to EMERGENCY MODE -  Pre-configured emergency policy takes effect -  Only explicitly allowed actions permitted -  All other actions denied
+1. An emergency action MUST be independently authorized by a capability established before the incident and MUST match its named action, subject, resource, activation conditions, limits, and validity under `specifications/emergency-capability.md`. The PEP MUST verify that capability independently of the unavailable ordinary Oracle path. Absent or unverifiable authorization means denial.
 
-1. Emergency policy should define: -  Life-safety actions always allowed -  Critical infrastructure maintenance allowed -  All other actions denied -  Aggressive alerting
+1. Life-safety and infrastructure maintenance labels are not exceptions. Emergency actions remain subject to applicable Soul constraints, the capacity veto, and the companion's audit requirements. Loss of the evidence needed to establish those conditions MUST NOT resolve toward permission.
 
-1. Human intervention REQUIRED -  Automated recovery cannot restore from total loss -  Key ceremony may be required -  Business continuity procedures activated
+1. During the outage, operators MUST NOT create or widen emergency authority, extend its validity, relax approval requirements, or reduce signing quorums. Restriction and revocation follow the companion's controls. A human invocation or incident declaration cannot override these boundaries.
+
+1. Alert the incident team and activate the declared recovery procedures. Key restoration, when necessary, requires the applicable key ceremony; restoration of infrastructure alone does not establish permission to resume ordinary actions.
 
 ### Recovery from Total Loss
 
@@ -304,7 +307,7 @@ MEDIUM: Context Signal updates degraded
 
 1. SENSOR BUFFERING -  Sensors buffer readings locally -  Typical buffer: 5 minutes
 
-1. STALE DATA MARKING -  Oracle marks Risk Factor inputs as stale -  Stale inputs may increase Risk Factor -  Or use conservative defaults
+1. STALE DATA MARKING - Oracle MUST mark stale inputs and resolve inputs beyond their declared freshness under \[KTP-CORE] Sections 5.2 and 6.7. An unobserved Risk Factor term uses the conservative substitute 1.0; it MUST NOT be reused as a current measurement or defaulted toward permission. If no valid risk calculation is possible, no authorizing result may be issued.
 
 1. FAILOVER -  Sensors switch to backup aggregator (if configured)
 
@@ -330,7 +333,7 @@ MEDIUM: Cross-zone trust affected
 
 ### Degradation Behavior
 
-1. CACHED FOREIGN PROOFS -  Honor cached foreign proofs until expiration -  No new foreign proofs accepted
+1. CACHED FOREIGN PROOFS - Evaluate cached foreign proofs only within their original validity, including 0 < exp - iat <= 10 seconds and iat <= current_time < exp. Invalid or unverifiable timestamps or current time mean denial. Existing sessions and outages provide no extension. No new foreign proofs are accepted through the failed gateway.
 
 1. LOCAL OPERATION -  Zone operates independently -  Local agents unaffected -  Cross-zone agents cannot operate
 
@@ -638,14 +641,21 @@ Impact: Agents lose accumulated trust. Significant operational disruption. Use b
 
 ### Trust Score Reconstruction
 
-Trust Scores can be recalculated if:
+Recovery MUST use the current Core calculation:
 
-- E_base known (from trajectory or backup)
-- Context Signals available (from sensors)
+~~~
+E_trust = E_base * (1 - R)
+~~~
 
-E_trust = E_base x Context_modifier x Risk_factor
+Before issuing an authorizing result, the Oracle MUST authenticate the recovered standing and establish that it remains current. Restoration MUST preserve the original expiry, withdrawal and revocation state of external attestations, all applicable ceilings, and the validity of supporting evidence. A backup timestamp or recovery event MUST NOT renew any of them.
 
-If E_base unknown, must use default for lineage type.
+Recovery MUST retain valid historical PoR without subtracting points solely for elapsed time or inactivity. It MUST preserve authenticated corrections to invalid claims. That retained history does not establish operational readiness: before an affected operation resumes, establish the current assessment and matched decision under specifications/operational-readiness.md for the exact recovered code/model/configuration/toolchain/permissions and actual operation.
+
+The installed standing policy, independently approved readiness criteria, authorized assessor and issuer bindings, readiness epoch, evidence revocations, and policy/version floor MUST survive restart and restore. A stale backup, archived v2 profile, old epoch, retained signature, or heartbeat MUST NOT roll back those controls or renew expired evidence. If their authenticated current state cannot be established, keep the affected operation unavailable. Assessment or remediation requires its separately authorized safe route and does not override any current safety veto or earn standing credits.
+
+R MUST be calculated from currently valid observations and the declared valid weights, with undefined terms handled under \[KTP-CORE] Sections 5.2 and 6.7. A missing observation uses the specified restrictive handling; a failed calculation MUST NOT be replaced with a fabricated score. If E_base is unknown or its current validity cannot be established, the Oracle MUST NOT invent standing from a lineage default. Fresh enrollment or re-attestation may establish new standing through its normal authorization procedure.
+
+If the required inputs cannot yield a valid current E_trust, recovery MUST NOT issue an authorizing result. A separately authorized emergency capability, if present, is evaluated under `specifications/emergency-capability.md`; it does not reconstruct or extend ordinary trust.
 
 ### Trajectory Reconstruction
 
@@ -653,10 +663,16 @@ Trajectory chains are cryptographically linked. If chain is broken:
 
 1. Recover as much chain as possible from backup
 2. Mark gap in chain
-3. Continue new records after gap
+3. Resume new authoritative records only after recovering an authenticated head and continuity, or completing the separately authorized migration procedure below
 4. Agent's E_base calculation notes gap
 
 Gaps in trajectory reduce trust (unverifiable history).
+
+For consensus-protected trajectory records, marking a gap MUST NOT authorize inventing a predecessor, reusing a committed position, or discarding a committed successor. Reconstruction MUST establish the authenticated committed head and continuity evidence required by `specifications/oracle-consensus.md` before new co-signing. If that evidence is unavailable, the affected history remains fenced; a lower trust score alone does not repair consensus safety.
+
+For v3 records, recovery MUST apply specifications/trajectory-signatures.md: reconstruct and verify both complete canonical JWS payloads, the final signed-envelope hash, and the independently authenticated final-head selection. A stored record_hash, an intent certificate, a valid signature pair, or an internally consistent suffix alone does not establish the current authoritative head. Recovery MUST preserve the selected final hash even where another valid ECDSA envelope exists for the same committed intent. The restored trusted version/algorithm/profile floor, key state, and head evidence MUST be authenticated independently of the candidate records.
+
+Legacy v2 records MUST be restored as their original archival bytes, not reserialized or automatically promoted into active v3 records. An authorized transition to a new v3 chain requires an independently signed migration checkpoint binding the legacy head/archive, independently revalidated carried state, and the approved target chain/genesis/profile. The new genesis includes the checkpoint digest before it is signed; its final envelope is anchored separately afterward. The checkpoint MUST NOT depend on that final genesis hash. Recovery MUST retain the durable v3 format floor and the single-use lineage succession, so an old backup cannot reactivate v2 authority, reuse a checkpoint, or start a second successor. Membership changes additionally require the joint-transition evidence in specifications/oracle-consensus.md. Without this evidence, keep the affected lineage fenced.
 
 ## Trajectory Recovery
 
@@ -673,6 +689,8 @@ POINT-IN-TIME RESTORE
 - Restore trajectory to specific point
 - Useful if recent data corrupted
 - Records after restore point lost
+
+Point-in-time restoration is not permission to forget later consensus decisions. Before renewed voting or signing, recover and verify the committed suffix and relevant locks, or complete the selected protocol's reviewed recovery procedure. The earlier snapshot alone cannot authorize a new branch of the same history.
 
 DIFFERENTIAL RESTORE
 
@@ -724,9 +742,9 @@ LEVEL 4: OFFLINE
 
 ### Oracle Failover
 
-- Automatic within threshold (node failure)
-- Automatic leader election if needed
-- No manual intervention for k-of-n failures
+- Automatic only while the established quorum and protocol conditions permit progress
+- Leader replacement follows the reviewed view-change procedure and carries prior decision evidence
+- A timeout, restart, or removal from routing does not reduce membership or reset locks
 
 ### Flight Recorder Failover
 
@@ -852,6 +870,8 @@ Mitigations:
 
 # Recovery Runbooks
 
+The commands below are illustrative operational steps, not authority to bypass `specifications/oracle-consensus.md`. Restoring configuration, importing shares, joining a mesh, or clearing degradation MUST verify authenticated membership epochs, durable vote/lock recovery, and committed state. Replacing an identity or changing membership requires the committed transition with the old and new quorums; a partition cannot authorize its own smaller committee.
+
 A.1.  Runbook: Single Oracle Node Recovery
 
 TRIGGER: Oracle node health check fails for 5 minutes
@@ -860,7 +880,7 @@ STEPS:
 
 1. Verify failure (not monitoring false positive) $ ktp-cli oracle status --node oracle-1
 
-1. Check if quorum maintained $ ktp-cli oracle mesh-status Expected: "Mesh operational, X of Y nodes healthy"
+1. Check if quorum maintained $ ktp-cli oracle mesh-status Expected: authenticated membership epoch, established quorum, and distinct eligible participants; the default requires four of the original five members, not a majority of healthy nodes
 
 1. Attempt restart $ systemctl restart ktp-oracle Wait 60 seconds, check status
 
@@ -894,7 +914,7 @@ STEPS:
 
 1. When partition heals, verify mesh reforms $ ktp-cli oracle mesh-status Expected: "Mesh operational"
 
-1. Check for state conflicts $ ktp-cli oracle state-consistency-check
+1. Check for state conflicts $ ktp-cli oracle state-consistency-check Conflicting committed records require fencing and incident investigation; do not proceed to normal operation
 
 1. Resume normal operations $ ktp-cli zone set-degradation-level 0
 

@@ -29,7 +29,7 @@
     },
     "exp": {
       "type": "integer",
-      "description": "Expiration time (Unix timestamp, max 10 seconds from iat)"
+      "description": "Expiration time (Unix timestamp). Verifiers must enforce 0 < exp - iat <= 10 seconds and iat <= current_time < exp, including existing sessions and outages. JSON Schema does not establish these cross-field or current-time conditions."
     },
     "jti": {
       "type": "string",
@@ -121,7 +121,7 @@
         "oracle_quorum": {
           "type": "string",
           "pattern": "^[0-9]+-of-[0-9]+$",
-          "description": "Threshold signature quorum (e.g., '3-of-5')"
+          "description": "Cryptographic signing threshold (e.g., '3-of-5'), not the Oracle consensus decision quorum or evidence of a unique committed history. Mesh issuers and honest signers must verify the applicable committed standing under specifications/oracle-consensus.md. JSON Schema does not verify signatures, membership epochs, commit evidence, or runtime consensus."
         },
         "peer_share": {
           "type": "number",

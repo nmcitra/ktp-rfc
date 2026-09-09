@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Transport Specification"
 abbrev: "KTP-TRANSPORT"
-date: 2026-08-13
+date: 2026-09-06
 category: exp
 ipr: trust200902
 
@@ -474,11 +474,15 @@ GET /v1/health
 
 Response (200 OK): { "status": "healthy", "oracle_id": "oracle- alpha-1", "zone_id": "zone:alpha", "mesh_status": { "connected_oracles": 5, "threshold_met": true }, "timestamp": "2025-11-25T12:00:00Z" }
 
+The legacy threshold_met field reports signing-threshold availability only. Connected-node counts and a healthy status MUST NOT authorize protected-state commitments or substitute for authenticated consensus evidence. A mesh MUST establish the installed membership, decision quorum, and required protocol evidence under specifications/oracle-consensus.md. In the default N = 5, f = 1 deployment, q = 4 distinct members are required for protected-state decisions; three available signers do not satisfy that decision quorum.
+
 ### Get Oracle Status
 
 GET /v1/status
 
 Response (200 OK): { "oracle_id": "oracle-alpha-1", "zone_id": "zone:alpha", "version": "1.0.0", "uptime_seconds": 864000, "statistics": { "proofs_issued_24h": 15000000, "agents_registered": 5432, "current_rps": 250 }, "key_info": { "current_key_id": "oracle- zone-alpha-2025-001", "key_expires_at": "2027-01-01T00:00:00Z", "threshold": "3-of-5" } }
+
+The key_info.threshold field and threshold values embedded in algorithm identifiers describe cryptographic signing configuration. Implementations claiming mesh agreement MUST separately make the authenticated consensus declaration and installed configuration available as required by specifications/oracle-consensus.md. Proof issuers and honest signers MUST verify applicable committed standing; consumers relying on mesh agreement MUST verify the required evidence and binding to the returned result under the selected protocol. A status response or threshold signature alone does not establish that binding. Protocol-native evidence or a protected envelope MUST bind the zone, installed configuration digest and epoch, view, phase/purpose, sequence/checkpoint position, predecessor/state, and operation or control-payload digest; the named protocol version defines the canonical encoding and evidence format.
 
 ### Get Public Keys
 
@@ -809,7 +813,9 @@ Exchange Trust Proof from foreign zone.
 
 Request: { "foreign_proof_jws": "eyJhbGciOiJFZERTQSI...", "requesting_zone": "zone:beta", "purpose": "cross_zone_access", "requested_action": { "type": "data_read", "target": "database:shared-catalog" } }
 
-Response (200 OK): { "accepted": true, "local_evaluation": { "foreign_e_trust": 80, "trust_factor": 0.85, "local_equivalent_e_trust": 68, "local_tier": "analyst" }, "local_proof_jws": "eyJhbGciOiJFZERTQSI...", "valid_for_seconds": 30 }
+Response (200 OK): { "accepted": true, "local_evaluation": { "foreign_e_trust": 80, "trust_factor": 0.85, "local_equivalent_e_trust": 68, "local_tier": "analyst" }, "local_proof_jws": "eyJhbGciOiJFZERTQSI...", "valid_for_seconds": 10 }
+
+The issued local ordinary proof MUST satisfy the KTP-Core ten-second maximum and iat <= current_time < exp; valid_for_seconds MUST NOT override the signed claims. At current_time = exp it is expired. Federation outages, caches, and invalid or unverifiable time MUST NOT extend ordinary authority.
 
 ## Federation Heartbeat
 

@@ -30,6 +30,236 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+
+### Operation-specific human eligibility and privacy evidence
+
+**Forced by F11 and the approved Option 1 contract (2026-09-07):** the human
+specification assigned general scores from tenure, seniority and peer opinion;
+review could confirm arithmetic without correcting an individual error; privacy
+promised erasure by redacting signed records or deleting one key. These rules
+conflicted with purpose limits, meaningful contestability and signed history.
+
+- Human authorization now requires explicit operation qualifications and grants,
+  with independently authenticated actual-executor type. Human supervision and
+  delegation transfer no score or readiness and cannot waive capacity or Soul.
+  Human sessions retain normal usability while ordinary proofs remain bounded
+  to ten seconds. Software-agent readiness remains mandatory for the executor.
+- The active unreleased deployment schema adds `human_policy`; absence disables
+  human acceptance rather than enabling old scores. The profile pins purpose,
+  criteria, permitted issuers, governance, review and retention declarations.
+  Versioned, explicitly satisfied evidence must be active in trusted state.
+- Individual corrections change active evidence and invalidate dependent
+  decisions. Review must have real correction powers and remain accessible
+  during denial. Governing rules themselves remain contestable through their
+  legitimate authority, without discretionary safety overrides.
+- New privacy-v1 encrypted storage wraps exact evidence bytes with AES-256-GCM
+  and signs the complete contextual envelope. Old trajectory formats/signatures
+  remain unchanged. A redacted derivative is not the original signed record.
+- Erasure accounting binds the exact inventory, disposal method and independent
+  evidence, includes backups/keys/recipients/shared records, and exposes retained
+  exceptions. It never clears revocation. After key destruction, outer integrity
+  may remain verifiable while original evidence reconstruction is unavailable.
+- Universal personal-data retention periods, permanent retirement archives,
+  automatic legal-compliance claims, and security-to-human-ranking reuse are
+  replaced with bounded, purpose-specific obligations. Original plaintext copies
+  require explicit disposition; new encryption alone does not erase them.
+
+Four new closed schemas, two companions, real envelope cryptography and focused
+eligibility/receipt tests are CI-gated. Decision and receipt bodies are explicitly
+unsigned; the helpers do not authenticate the trusted context, issue human
+proofs, provide a reviewed authorization adapter, implement review, or perform
+production inventory discovery/key management/erasure. Twenty-eight downstream
+runtime scenarios state those remaining obligations separately.
+
+Canonical contracts: [human eligibility](specifications/human-eligibility.md)
+and [privacy evidence](specifications/privacy-evidence.md). This implements the
+approved alignment with permission/protection separation, no override, meaningful
+contestability and contextual information flows; it does not edit the graph or
+claim empirical or legal validation.
+
+### Historical resilience and current operational readiness
+
+**Forced by F08 and the approved readiness design:** the profile required
+inactivity decay that the historical PoR formula did not implement. The
+replacement preserves admissible historical achievements and adds independently
+assessed, operation-scoped readiness as a mandatory prerequisite. Readiness is
+neither a new score nor a source of standing; every existing grant, capacity,
+sovereignty, ceiling and supervision restriction remains binding.
+
+- Deployment v3 requires `standing_policy` with the exact readiness profile ID,
+  version and canonical digest. It rejects `standing_decay_rate`. The published
+  original v2 schema is preserved byte-for-byte for historical interpretation;
+  no older profile may bypass an installed readiness acceptance floor.
+- Three closed readiness-v1 schemas define profiles, signed assessments and
+  signed decision sidecars. The latter bind a complete ordinary proof and exact
+  actual request to the active assessment and authenticated epoch. Existing
+  trajectory `action.details` carries the complete sidecar under both signatures;
+  the closed trajectory envelope is unchanged.
+- Freshness runs from the oldest required observed check. Re-signing, heartbeat,
+  replay and restart cannot refresh evidence. Relevant configuration changes,
+  expiry and known invalidation stop dependent operation. Ordinary proofs retain
+  their ten-second maximum and must not outlive required readiness.
+- A predeclared, independently authorized assessment path permits safe
+  requalification without awarding crisis credit or restoring old permissions
+  automatically. Existing agents start with readiness unestablished for covered
+  scopes. Policy migration cannot weaken emergency-policy amendment controls.
+- `scripts/readiness.py` verifies supported real signatures and exact-scope
+  semantics. Its regression suite is a CI gate. Downstream lifecycle cases state
+  the remaining registry, assessment, atomic issuance, durable revocation and
+  execution requirements; the reference helper does not implement those systems.
+
+This refines graph claim CL332's anti-dormant-privilege objective through current
+readiness. It retains C1121's witnessed upgrade continuity and avoids adding the
+decay penalty identified by CL784. The existing adversity-dependent evidence
+curve, tier attainability and assessment accessibility remain uncalibrated; this
+change does not claim to resolve them.
+
+Canonical contract: [`operational-readiness.md`](specifications/operational-readiness.md).
+
+### Complete trajectory signatures and legacy transition
+
+**Finding:** F02 of the external v2.1.0 review (2026-09-06). Identity claimed
+that dual signatures covered a complete transaction record, but its formulas
+omitted chain identity, sequence, previous/current state, and other fields.
+Changing those fields did not change the published signature inputs.
+
+- The explicit `ktp-trajectory-v3` format signs the complete record body
+  using JCS and role-bound compact JWS. The Oracle also covers the exact
+  agent signature and all its attestation metadata. The completed record
+  hash covers both signature envelopes and excludes only itself.
+- The active schema uses the v3 namespace and rejects unknown fields and
+  invalid chain-start shapes. The original v2 schema remains byte-for-byte
+  intact as `transaction-record-legacy-v2.json` for archive interpretation.
+  There is no automatic conversion or fallback to partial signatures.
+- Commitment to the proposed signing payload and the later selection of
+  the exact final record hash are distinct, nonrecursive steps. Both bind
+  the authenticated chain context; competing signature envelopes cannot
+  silently change an accepted head.
+- Legacy standing can carry forward only through independent revalidation
+  and an authorized checkpoint binding the preserved archive/head, approved
+  state, target profile, and new genesis. Durable cutover and single-use
+  lineage transition controls prevent restart or alternate checkpoint IDs
+  from restoring legacy authority or creating competing successors.
+- A reference verifier and real signature regression fixtures cover field
+  tampering, canonicalization, keys/roles/profiles, and supplied checkpoint
+  bindings. Separate lifecycle vectors require downstream consensus,
+  durable head/cutover storage, and migration activation tests. The helper
+  is not an authorizer and does not certify governance or a live Oracle.
+
+### Oracle agreement under Byzantine faults
+
+**Finding:** F01 of the external v2.1.0 review (2026-09-06). The five-node
+mesh's `2f + 1` rule allowed three-vote decisions while claiming tolerance
+of one Byzantine node. Two groups could share only that faulty node and
+commit conflicting records. A majority of signing shares does not establish
+a single agreed history.
+
+- The mesh now requires an authenticated roster, explicit fault budget, and
+  integer decision quorum satisfying `2q - N > f` and `q <= N - f`, with
+  `N >= 3f + 1`. The five-member default requires four votes. Protected
+  changes pause when the established quorum is unavailable; timeout and
+  emergency mode cannot reduce it.
+- A normative consensus companion replaces the unsupported simplified
+  PBFT sketch with an integration contract for a named, versioned, reviewed
+  protocol. It requires authenticated vote context, durable voting/lock
+  state, safe view changes, verified committed heads, and authenticated
+  membership transitions requiring both old and new quorums. Key-share
+  thresholds remain distinct, and stronger operation approvals remain.
+- Recovery no longer treats healthy-node counts, restarting a member, or
+  choosing between conflicting committed records as safe recovery. A
+  conflicting committed history is a security incident that fences the
+  affected state. Consensus safety does not promise bounded progress during
+  an arbitrary partition.
+- The deployment-profile schema and checker reject unsafe declarations.
+  Regression tests reproduce the old quorum counterexample and verify the
+  new intersection bounds. Downstream vectors specify runtime obligations;
+  declaration and mathematical tests do not certify a consensus engine,
+  signature verification, independent custody, or durable enforcement.
+
+### Failure handling and emergency authority
+
+**Finding:** F05 of the external v2.1.0 review (2026-09-06). Recovery
+allowed cached authority for existing sessions during a 5–30 minute
+partition despite the ten-second proof limit. A failed risk calculation
+could substitute `R = 0.5` and increase capacity; reconstruction used a
+conflicting formula. Emergency recipes also allowed permission and reduced
+quorums without a complete independent authorization boundary.
+
+- Ordinary proofs now consistently require a positive lifetime of at most
+  ten seconds and denial at exact expiration, across every zone and
+  conformance level. Sessions, queues, heartbeats, enclosing tokens, and
+  outage duration provide no extension. Continuing work must refresh or
+  cease through its declared bounded safe transition.
+- Failed risk calculations cannot issue authorizing results. Recovery uses
+  `E_base * (1 - R)` with authenticated current standing, valid weights,
+  original evidence validity, and restrictive handling of unknown inputs.
+- The new emergency-capability companion makes the default disabled and
+  fixes separate, exact permissions with independent evaluation, bounded
+  activation, cumulative budgets, durable audit, and revocation. Emergency
+  mode cannot override sovereignty, capacity, or an existing veto.
+- Policy changes require at least 90% of the established full governing
+  custodian body, 90 days of review, 14 further days of ratification, and
+  external review. Those controls also protect roster, verifier, and rule
+  changes. Outages provide no waiver. Activation requires at least two
+  independent custodians and lasts at most four hours; suspension/revocation
+  can be immediate and restoration uses the protected amendment process.
+- A policy schema, declaration checker, deployment-profile binding,
+  regression tests, and downstream outage vectors accompany the contract.
+  They do not verify signatures, governance independence, protected storage,
+  or runtime enforcement. The single-administrator reduced-quorum recipe
+  and the direct emergency weight-adjustment example are withdrawn.
+
+### Risk-factor weights
+
+**Finding:** F04 of the external v2.1.0 review (2026-09-06). Both the schema
+and declaration checker accepted six weights of `0.01`, giving `R = 0.06`
+at maximum stress and retaining `E_trust = 84.6` from `E_base = 90`. They
+also accepted six weights of `1`, giving `R = 6` and a negative score.
+
+- The declaration checker now requires the six existing factor weights to
+  be finite numbers in `(0, 1]` with an exact unit total over their parsed
+  decimal representations. The existing positive-weight bounds remain.
+  Invalid totals, booleans, nonfinite values, and malformed weight
+  declarations are rejected without modifying or rescaling the profile.
+- Schema descriptions, Core, Sensors, Conformance, and the deployment-profile
+  contract identify the sum check and require validation after reconfiguration.
+  Per-feed weights and the independent Soul veto remain separate.
+- Regression tests exercise the actual checker, schema, and command-line
+  validator, published profiles, and the risk calculation's arithmetic
+  invariants. These are validation and arithmetic checks, not a runtime audit.
+
+### Capacity veto and thresholds
+
+**Finding:** F03 of the external v2.1.0 review (2026-09-06). The profile
+schema and declaration checker accepted `m_veto = -1`, `m_allow = -0.5`;
+at A = 60 and E = 50 the margin is -0.2 and the threshold table selected
+stable/allow despite the mandatory capacity veto.
+
+- Core, Enforce, Conformance, and the Kinetic Envelope now require usable
+  finite inputs and an independent `E = 0 or A > E` veto before division
+  or profile evaluation. A profile or a change in supervision cannot relax
+  that veto. A revised action requires a new evaluation.
+- Declared thresholds are finite numbers satisfying
+  `0 <= m_veto < m_allow`. The schema enforces lower bounds; the checker
+  rejects invalid shapes, booleans, nonfinite values, and invalid ordering.
+  No upper bound is added. Omission retains the existing zero-threshold
+  default and its equality veto; explicit null and equal pairs are invalid.
+- The earlier basic flow's immediate ALLOW for `A <= E` is replaced with
+  continuation through the margin and remaining authorization checks.
+  Permission at equality remains a separate policy question; this change
+  preserves the current margin behavior.
+- Results and evidence receipts omit `margin` when an earlier check stops
+  evaluation. The Audit example follows that rule. Malformed inputs reject
+  before constructing a numeric envelope result; the gateway records the
+  denial and unavailable inputs without fabricating measurements.
+- Threshold regression tests and substrate-independent capacity boundary
+  vectors accompany the repair. They do not constitute a runtime audit.
+
+This change tightens the accepted profile contract and adds conformance
+requirements, so it requires a MAJOR release under `VERSIONING.md`. It remains
+unreleased; published tags are unchanged.
+
 ## 2.1.0
 
 **Tag:** `v2.1.0` · **Date:** 2026-09-03 · **Previous:** 2.0.0 (`v2.0.0`, 2026-08-14)

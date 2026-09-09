@@ -171,7 +171,7 @@ points into [`rfcs-md/`](rfcs-md/), the generated render.
 
 | Specification | What it covers |
 |---|---|
-| [KTP-Human](rfcs-md/ktp-human.md) | Humans as agents, collaboration patterns, system ethics |
+| [KTP-Human](rfcs-md/ktp-human.md) | Operation-specific human eligibility, correction, delegation, system ethics |
 | [KTP-Relational](rfcs-md/ktp-relational.md) | Relational dynamics, repair, ceremony |
 | [KTP-Governance](rfcs-md/ktp-governance.md) | Stewardship council, amendment process, anti-capture provisions |
 
@@ -209,12 +209,20 @@ the release narrative.
 
 ## Schemas
 
-Seven JSON Schemas in [`schemas/`](schemas/), published under
-`https://kinetic-trust-protocol.net/specs/schemas/v2/`, which is the `$id` of
-each file:
+Seventeen JSON Schemas in [`schemas/`](schemas/). Each file's `$id` identifies its
+versioned canonical namespace. The unreleased transaction-record and deployment
+formats use `/specs/schemas/v3/`; readiness objects use `/specs/schemas/readiness-v1/`.
+Human eligibility and erasure accounting use `/specs/schemas/human-eligibility-v1/`;
+encrypted evidence storage uses `/specs/schemas/privacy-v1/`.
+The original v2 transaction and deployment schemas are preserved separately for
+archive interpretation. No published release or tag is changed by this draft.
 
 `trust-proof` · `risk-factors` · `soul-constraint` · `sensor-config` ·
-`sponsorship-bond` · `transaction-record` · `deployment-profile`
+`sponsorship-bond` · `transaction-record` · `transaction-record-legacy-v2` ·
+`deployment-profile` · `deployment-profile-legacy-v2` · `emergency-policy` ·
+`readiness-profile` · `readiness-attestation` · `readiness-decision` ·
+`human-eligibility-profile` · `human-eligibility-decision` ·
+`privacy-evidence-envelope` · `privacy-erasure-receipt`
 
 ## Repository map
 
@@ -224,8 +232,8 @@ each file:
 | [`rfc-src/`](rfc-src/) | kramdown-rfc source for all 27; authored here, and the only place a specification is edited |
 | [`rfcs-txt/`](rfcs-txt/) | The five Internet-Draft-formatted specifications. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
 | [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
-| [`schemas/`](schemas/) | The seven JSON Schemas. A wire artifact, so it sits at the root rather than inside site content |
-| [`specifications/`](specifications/) | The two normative documents that are not RFCs — the Kinetic Envelope and the deployment profile — and in `conformance/`, the reference vectors they are conformed against |
+| [`schemas/`](schemas/) | The seventeen JSON Schemas, including archived v2 transaction and deployment schemas. Wire artifacts sit at the root rather than inside site content |
+| [`specifications/`](specifications/) | Normative companions: the Kinetic Envelope, deployment profile, emergency capability/change controls, Oracle consensus, complete trajectory signatures, operational readiness, human eligibility, and privacy evidence; `conformance/` holds their reference vectors |
 | [`docs/`](docs/) | Documentation-site content, and nothing else |
 | [`scripts/`](scripts/) | The gates — vocabulary, summary/source parity, repo hygiene, declarations, and the generate-and-diff check for the I-D-formatted set |
 | [`CHANGELOG.md`](CHANGELOG.md) | Every normative change and what forced it |

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Information Environment Specification"
 abbrev: "KTP-INFORMATION"
-date: 2026-08-13
+date: 2026-09-07
 category: exp
 ipr: trust200902
 
@@ -17,7 +17,7 @@ normative:
 
 --- abstract
 
-This document specifies the Signal Environment layer of the Kinetic Trust Protocol (KTP). The Information domain measures the epistemic health of the information environment—noise levels, truth conditions, manipulation indicators, and collective sensemaking capacity. This specification operationalizes these measurements into actionable risk factors that affect Digital Gravity, enabling agents to operate more cautiously in polluted information environments.
+This document specifies the Signal Environment layer of the Kinetic Trust Protocol (KTP). The Information domain evaluates evidence about noise, source quality and manipulation in an authorized information environment. These environmental measurements can constrain software-agent operations. They do not authorize general scoring or behavioral profiling of humans, and content analysis requires explicit processing authority under KTP-PRIVACY.
 
 --- middle
 
@@ -50,6 +50,16 @@ Signal environment management embodies these principles:
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).
 
+# Processing and Human Boundaries
+
+KTP-SENSORS environmental sensors MUST NOT capture communication content. Content analysis described here is a separate local processing function. Before enabling it, the deployment MUST declare and approve the particular purpose, authorized sources and access, processing authority, permitted recipients, retention and erasure schedule, accountable evaluator and review route. Authority MUST be verified against the installed configuration; the presence of a source, a public URL, a request's purpose label or an incident declaration does not itself grant access or authorize reuse.
+
+Local processing MUST remain within that declared purpose and source scope. It MAY export only the aggregate measurements authorized for the intended recipients. Export approval MUST account for small groups, repeated queries, linkage and available auxiliary information; a pseudonym, minimum bucket size or aggregate label alone does not establish anonymity. Raw content, individual histories and identifying evidence MUST NOT flow into the sensor network, general risk-factor feed or federated reports under the authority of this specification. Authorized review evidence uses the protected evidence path rather than an unbounded content-export exception.
+
+The groups and metrics below describe environmental or corpus-level evidence. They MUST NOT be implemented as covert personality, emotion or loyalty inference, individual behavioral tracking, or a general reliability score for a person. Labels such as "Emotional Weather", "Tribal Dynamics", "Collective Trauma" and "Sacred/Meaning" do not authorize psychological diagnosis, belief dossiers or political-affiliation tracking. Security measurements MUST NOT be repurposed to rank people for HR decisions. A human's permitted operation follows `specifications/human-eligibility.md`, with specific evidence and review rights, not an environmental score assigned to that person.
+
+The evaluator MUST document the evidence, uncertainty, scope and limitations of each inference. Lack of measurement authority MUST NOT be concealed by fabricating a favorable measurement or widening access. The applicable policy must handle unavailable evidence without bypassing current safety requirements. This document does not establish empirical validity of an information-quality measure or legal authority to collect it.
+
 # Information Domain Overview
 
 ## The 336 Signals
@@ -68,7 +78,7 @@ The Information domain comprises 17 major groups:
 | Synthetic Content      | 22         | AI-generated content         |
 |                        |            | detection                    |
 | Truth Conditions       | 28         | Verifiability and accuracy   |
-| Emotional Weather      | 24         | Collective emotional state   |
+| Emotional Weather      | 24         | Aggregate content signals    |
 | Tribal Dynamics        | 18         | Group identity effects       |
 | Platform Dynamics      | 16         | Platform-specific patterns   |
 | Information Operations | 24         | Active manipulation          |
@@ -157,8 +167,8 @@ epistemic_health = weighted_aggregate( truth_conditions × 0.25, source_ecosyste
 +----------------------+------------------------+--------------------+
 | Vector               | Indicators             | Detection Method   |
 +----------------------+------------------------+--------------------+
-| Astroturfing         | Artificial grassroots  | Account age,       |
-|                      |                        | activity patterns  |
+| Astroturfing         | Artificial grassroots  | Authorized         |
+|                      |                        | aggregate patterns |
 | Disinformation       | False narratives at    | Content analysis,  |
 | Campaigns            | scale                  | fact-checking      |
 | Deepfakes            | Synthetic media        | Detection          |
@@ -174,6 +184,8 @@ epistemic_health = weighted_aggregate( truth_conditions × 0.25, source_ecosyste
 ~~~
 
 ## Detection Metrics
+
+Detection metrics MUST be derived only from the approved local processing scope. Where evidence relates to identifiable people, it MUST remain protected under the declared purpose and access controls; the output MUST NOT create individual behavioral histories. A coordination or manipulation allegation requires reviewable evidence and MUST NOT be treated as a judgment of a person's general trustworthiness.
 
 { "info_ops_detection": { "coordinated_activity": { "detected": true, "confidence": 0.85, "scope": "moderate", "sources_affected": 47 }, "synthetic_content": { "prevalence": 0.12, "detection_confidence": 0.78, "types": \["text", "image"] }, "narrative_manipulation": { "detected": true, "narratives_affected": 3, "manipulation_type": "framing" }, "overall_threat_level": "elevated" } }
 
@@ -205,6 +217,8 @@ Level 4: QUARANTINE
 - Agents to read-only
 - Await human intervention
 
+These responses constrain affected software operations and information streams. Human verification MUST use the independently authorized review route; it MUST NOT manually raise standing or override a current safety veto. A reviewer may require correction of specific facts, attribution, scope or policy application and then a fresh evaluation. A challenge to a rule's legitimacy or governing authority MUST reach the authority empowered to review that rule, even when its calculation was mechanically correct.
+
 # Source Quality Assessment
 
 ## Source Categories
@@ -224,6 +238,8 @@ Level 4: QUARANTINE
 ~~~
 
 ## Source Scoring
+
+Source assessments apply to the declared source, corpus, purpose and evidence period. They MUST NOT be transferred into a human eligibility profile as a general personal reliability score, nor used to infer an author's personality, emotion, loyalty or employment value. A source-category baseline or composite score is not proof that an individual claim is true or false. Affected parties MUST have a route to challenge inaccurate attribution or evidence; an authenticated correction MUST be applied to subsequent assessments.
 
 { "source_assessment": { "source_id": "source:reuters.com", "category": "quality_journalism", "scores": { "accuracy_history": 0.94, "correction_transparency": 0.91, "methodology_clarity": 0.85, "editorial_independence": 0.88, "expertise_depth": 0.82 }, "composite_score": 0.88, "trust_level": "high", "verification_required": "standard" } }
 
@@ -346,7 +362,7 @@ Phase 4: NORMAL OPERATIONS
 
 ## Agent Recovery
 
-Individual agent recovery after operating in polluted environment:
+Software-agent recovery after operating in a polluted environment is illustrated below. A "belief_state_audit" or "output_quality_review" refers only to expressly authorized examination of that software and its evidence. It MUST NOT be used to inspect a human's beliefs, emotions or loyalty. Historical evidence and operation-scoped readiness remain governed by `specifications/operational-readiness.md`; an information-environment recovery does not waive another current prerequisite.
 
 { "agent_recovery": { "agent_id": "agent:independent:3gen:acme:abc123", "polluted_operation_duration": "72 hours", "recovery_protocol": { "verification_period": "24 hours", "actions_during_verification": "read_only", "verification_checks": \[ "trajectory_consistency_check", "belief_state_audit", "output_quality_review" ], "recovery_criteria": \[ "no_polluted_content_propagated", "accuracy_maintained", "no_manipulation_indicators" ] }, "recovery_status": "in_progress" } }
 
@@ -354,7 +370,7 @@ Individual agent recovery after operating in polluted environment:
 
 ## Continuous Monitoring
 
-Signal environment monitored continuously:
+An authorized information environment may be monitored at the declared frequencies below. Continuous monitoring MUST NOT enlarge the approved source scope, retain raw content indefinitely, or turn aggregate measurements into individual surveillance.
 
 ~~~
 +------------------------+-----------+--------------------------+
@@ -381,7 +397,7 @@ Signal environment monitored continuously:
 
 ## Reporting
 
-Regular signal environment reports:
+Regular signal environment reports contain only the approved minimized aggregates for their declared recipients. The report example below does not authorize raw evidence export or claim that an aggregate is necessarily anonymous:
 
 { "signal_report": { "report_id": "SIG-2025-12-03-001", "zone_id": "zone-blue-prod-01", "period": "2025-12-03T00:00:00Z to 2025-12-03T23:59:59Z", "summary": { "epistemic_health_avg": 0.72, "epistemic_health_min": 0.58, "epistemic_health_max": 0.81, "alerts_triggered": 2, "info_ops_detected": 1 }, "incidents": \[ { "time": "2025-12-03T14:30:00Z", "type": "coordinated_activity", "severity": "medium", "duration": "2 hours", "response": "monitoring_increased" } ], "recommendations": \[ "Continue enhanced monitoring", "Review source quality for topic X" ] } }
 
@@ -398,12 +414,13 @@ Signal metrics must resist gaming:
 
 ## Privacy
 
-Signal monitoring must respect privacy:
+Signal monitoring MUST follow KTP-PRIVACY and the companions `specifications/human-eligibility.md` and `specifications/privacy-evidence.md`. The human eligibility profile and decision schemas are `schemas/human-eligibility-profile.json` and `schemas/human-eligibility-decision.json`. Human review access MUST remain available independently of operational eligibility or the availability of a production Trust Proof.
 
-- Aggregate metrics only
-- No individual tracking
-- Content analysis, not person analysis
-- Clear data retention limits
+Decision logs MUST minimize content before signing and reference separately encrypted evidence under `schemas/privacy-evidence-envelope.json`. Exact signed evidence MUST NOT be redacted in place. An authenticated appended correction can change the admitted facts, attribution or conclusions used in subsequent evaluations without changing the old signed bytes. A reviewer MUST be competent, independent of the challenged decision or conflict, and empowered to require an authorized correction or obtain governing review. Review does not confer operation authority, a manual score increase or a safety exception.
+
+The deployment MUST declare retention and erasure schedules by purpose and jurisdiction, including all keys, copies, backups, exports, shared-subject evidence and federated recipients. No universal retention duration or indefinite audit exception is created here. Disposition MUST follow `schemas/privacy-erasure-receipt.json`; notification alone does not establish completion. Residual material requires an explicit purpose, access limits, authority, bounded deletion deadline and scheduled hold-review date. Erasure MUST NOT reset identity or restore revoked eligibility.
+
+Legacy plaintext evidence requires its own copy inventory and disposition. Following erasure of encrypted inner evidence, the retained outer envelope may support only outer integrity checks; full reconstruction and verification of the original inner signatures may become unavailable. Reports and review interfaces MUST state that limit. Schema or reference-helper validation does not prove actual erasure, evaluator competence, empirical accuracy or legal compliance.
 
 # IANA Considerations
 

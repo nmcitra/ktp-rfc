@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Enforcement Layer Specification"
 abbrev: "KTP-ENFORCE"
 docname: draft-perkins-ktp-enforce-00
-date: 2026-09-07
+date: 2026-09-09
 category: exp
 ipr: trust200902
 
@@ -108,7 +108,7 @@ Silent Veto: The automatic denial of an action when A > E, executed without requ
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), taking precedence over Trust Score evaluation.
 
-Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
+Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
 
 # Architecture Overview
 

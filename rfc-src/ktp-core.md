@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-09-07
+date: 2026-09-09
 category: exp
 ipr: trust200902
 
@@ -152,7 +152,7 @@ Trust Proof: A signed token (extending JWT) that carries the current Trust Score
 
 Trust Score: See "Effective Trust Score (E_trust)".
 
-Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds.
+Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds.
 
 Trust Velocity (dE/dt): The rate of change of the Trust Score over time. Rapid negative velocity indicates deteriorating conditions.
 

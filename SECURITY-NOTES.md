@@ -137,7 +137,7 @@ is not a schema anyone has run.
 **Affects:** v2.0.0 (`v2.0.0`)
 **Component:** `rfcs-txt/ktp-enforce.txt` and `rfcs-md/ktp-enforce.md`, §9.1 "Hibernation Mode"; source `rfc-src/ktp-enforce.md`
 **Found:** 2026-09-03, reported by Mike Storm · **Corrected in:** v2.1.0
-**Tracking:** the v2.1.0 release; the reporter's public filing is pending and will be linked here when it lands
+**Tracking:** the v2.1.0 release. Reported privately by the implementer; no public filing was opened
 
 ### What is wrong
 
@@ -175,3 +175,38 @@ two-column v1→v2 migration table and is correct as written.
 ### How it is corrected
 
 v2.1.0 changes the sentence to "below 22". No other change to the set.
+
+---
+
+## SN-004 — the Trust Tier glossary enumerates four tiers where the tier table and the wire enum carry five
+
+**Affects:** v2.0.0 (`v2.0.0`), v2.1.0 (`v2.1.0`)
+**Component:** `ktp-core` and `ktp-enforce`, Terminology — the "Trust Tier" entry
+**Found:** 2026-09-09, reported by Mike Storm · **Corrected in:** the next release
+
+### What is wrong
+
+Both glossaries define a Trust Tier as a capability level "(Admin Mode, Operator
+Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds." The tier
+table in the same documents lists five tiers, the fifth being Hibernation at
+`E_trust < 22`, and the transaction record's `tier` enum carries `hibernation`
+as a member.
+
+### Why it matters
+
+Low, and stated as such. A glossary entry is definitional; both normative
+surfaces an implementation reads — the tier table and the wire enum — are
+correct. The cost falls on a reader building a mental model from the terminology
+section, who concludes the ladder has four rungs and then meets a fifth on the
+wire. Hibernation is the tier a recovering agent occupies, which makes it an
+unhelpful one to omit from the definition.
+
+### What to do on v2.0.0 / v2.1.0
+
+Read the tier table, not the glossary, for the tier set. There are five tiers;
+Hibernation is `E_trust < 22`.
+
+### How it is corrected
+
+Both glossary entries name Hibernation. Editorial, so it rides the next release
+rather than taking a patch tag of its own.

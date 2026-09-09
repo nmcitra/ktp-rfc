@@ -55,7 +55,7 @@ Silent Veto: The automatic denial of an action when A > E, executed without requ
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), taking precedence over Trust Score evaluation.
 
-Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
+Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
 
 # Architecture Overview
 

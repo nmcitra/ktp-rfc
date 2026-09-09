@@ -95,7 +95,7 @@ Trust Proof: A signed token (extending JWT) that carries the current Trust Score
 
 Trust Score: See "Effective Trust Score (E_trust)".
 
-Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode) determined by E_trust thresholds.
+Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds.
 
 Trust Velocity (dE/dt): The rate of change of the Trust Score over time. Rapid negative velocity indicates deteriorating conditions.
 

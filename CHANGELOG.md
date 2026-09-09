@@ -260,6 +260,27 @@ This change tightens the accepted profile contract and adds conformance
 requirements, so it requires a MAJOR release under `VERSIONING.md`. It remains
 unreleased; published tags are unchanged.
 
+### Trust Tier glossary: five tiers, not four
+
+**Reported by Mike Storm**, from a shipping v2.0.0 Risk Factor producer, in the
+same sweep that produced the 2.1.0 erratum.
+
+- The **Trust Tier** entry in the `ktp-core` and `ktp-enforce` terminology
+  sections enumerated four tiers — Admin, Operator, Analyst, Observer — where
+  the tier table in the same documents and the transaction record's `tier` enum
+  carry five. Hibernation is now named in both definitions.
+
+Editorial: a glossary entry is definitional, and both surfaces an implementation
+actually reads were already correct, so no requirement changes and no
+implementation moves. It rides this release rather than taking a patch tag of
+its own, per [`VERSIONING.md`](VERSIONING.md). Recorded as SN-004 for readers
+pinned to 2.0.0 or 2.1.0.
+
+A second item from the same sweep — `ktp-conformance`'s Level 1 minimum-dimension
+list naming the retired v1 factor names — was verified against the current set
+and is already corrected. It needs no change and is noted here so the sweep's
+result is complete.
+
 ## 2.1.0
 
 **Tag:** `v2.1.0` · **Date:** 2026-09-03 · **Previous:** 2.0.0 (`v2.0.0`, 2026-08-14)

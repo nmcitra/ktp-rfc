@@ -200,3 +200,16 @@ stated gate before anyone relies on it.
 Decision: pending. Placement question under review: a profile in
 `specifications/`, following D-003, rather than a new RFC.
 Provenance: proposed by Mike Storm; built first as KIL.
+
+### D-010 · The consolidation block: which release carries it (open)
+Published 2026-09-09 · proposed MAJOR · floor 2026-10-23 · review-by 2026-12-06
+Source: PR #122; CHANGELOG § Unreleased
+A: under review; all thirteen gates pass on the branch. B: proposed as yes:
+human scoring gives way to operation-specific grants, the trajectory format
+moves to v3 and rejects unknown fields, and the active deployment profile
+rejects the v2 `standing_decay_rate` declaration. A v2.1.0 implementation does
+not survive unchanged. C: yes; the block was forced by an external
+implementation review of v2.1.0 (findings F01–F12).
+Decision: pending. Under review: whether this block is the first part of the
+next MAJOR or a release of its own. VERSIONING resolves ambiguity upward.
+Provenance: findings from an external review; text edited by the maintainer.

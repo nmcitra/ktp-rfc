@@ -1,17 +1,11 @@
 name: Spec gates
 
 on:
+  # Runs on every pull request. `gates` is a required status check on main,
+  # and a required check that never reports blocks the merge forever, so the
+  # earlier path filter (which skipped PRs touching only governance files)
+  # had to go. The whole sequence takes about twenty seconds.
   pull_request:
-    paths:
-      - "rfcs-md/**"
-      - "rfcs-txt/**"
-      - "rfc-src/**"
-      - "schemas/**"
-      - "specifications/**"
-      - "catalog/**"
-      - "docs/**"
-      - "scripts/**"
-      - ".github/workflows/rfc-sync.yml"
   workflow_dispatch:
 
 permissions:

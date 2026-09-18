@@ -93,7 +93,7 @@ ALLOWED = [
 
     ("governance", r"^(LICENSE|NOTICE|CITATION\.cff|\.zenodo\.json)$",
      "licensing, attribution, and the DOI record"),
-    ("governance", r"^(CONTRIBUTING|CODE_OF_CONDUCT|PROVENANCE|VERSIONING|README)\.md$",
+    ("governance", r"^(CONTRIBUTING|CODE_OF_CONDUCT|PROVENANCE|VERSIONING|DECISIONS|README)\.md$",
      "how the set is contributed to, versioned, and cited"),
     ("governance", r"^SECURITY-NOTES\.md$",
      "defects found in a published tag, readable before the release that "

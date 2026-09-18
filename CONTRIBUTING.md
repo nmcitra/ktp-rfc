@@ -81,7 +81,7 @@ than decisions, and `.gitignore` covers them so the question does not come up.
 
 ## Specification Governance
 
-Changes to the core protocol specifications (particularly KTP-CORE, KTP-IDENTITY, KTP-CRYPTO) require careful consideration and may involve broader community discussion. Please see [KTP-GOVERNANCE](rfcs-md/ktp-governance.txt) for details on the specification amendment process.
+Changes to the specifications are made on a clock, through three questions, and recorded in [`DECISIONS.md`](DECISIONS.md). That file states the floor for each class of change, the labels that start the clock, and where every decision landed. [KTP-GOVERNANCE](rfcs-md/ktp-governance.md) describes governance *inside* the protocol, for zones and federations; it does not govern this repository.
 
 ## Code of Conduct
 

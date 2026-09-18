@@ -1,0 +1,57 @@
+name: Decision Clock
+
+# DECISIONS.md §4: a proposal that passes its review window still marked
+# decision-needed returns to discussion by mechanism, not by hand. This job
+# runs daily, reads the clock from the issue's own label history, and relabels
+# when the window has closed. It never approves anything and never touches
+# an issue without a class label.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  clock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close lapsed review windows
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          now=$(date -u +%s)
+          gh issue list -R "$REPO" --state open --label decision-needed --limit 200 \
+            --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"' |
+          while IFS=$'\t' read -r num labels; do
+            # Floor in days by class (DECISIONS.md §2); review window is twice the floor.
+            case ",$labels," in
+              *,class:clarification,*) floor=7 ;;
+              *,class:minor,*)         floor=21 ;;
+              *,class:major,*)         floor=44 ;;
+              *,class:vocabulary,*)    floor=44 ;;
+              *,class:emergency,*)     floor=7 ;;
+              *) echo "#$num: no class label, clock not started"; continue ;;
+            esac
+            window=$(( floor * 2 ))
+            # Clock start: the later of the two labels, decision-needed and class:*,
+            # from the issue's own timeline.
+            # --paginate applies the filter per page, so take the max across pages too.
+            start=$(gh api --paginate "repos/$REPO/issues/$num/timeline" \
+              --jq '.[] | select(.event=="labeled" and (.label.name=="decision-needed" or (.label.name|startswith("class:")))) | .created_at' \
+              | sort | tail -1)
+            if [ -z "$start" ]; then echo "#$num: no label event found, skipping"; continue; fi
+            start_s=$(date -u -d "$start" +%s)
+            elapsed=$(( (now - start_s) / 86400 ))
+            if [ "$elapsed" -le "$window" ]; then
+              echo "#$num: day $elapsed of $window (floor $floor), open"
+              continue
+            fi
+            gh issue edit "$num" -R "$REPO" --remove-label decision-needed --add-label discussion
+            gh issue comment "$num" -R "$REPO" --body "$(printf 'Review window closed. The clock started %s (class floor %d days, window %d days) and no decision was recorded, so this returns to discussion per DECISIONS.md §4. Re-apply `decision-needed` to restart the clock.' "${start%%T*}" "$floor" "$window")"
+            echo "#$num: window lapsed at day $elapsed, returned to discussion"
+          done

@@ -1,54 +1,65 @@
 # Contributing to KTP-RFC
 
-We welcome contributions to the Kinetic Trust Protocol specifications! Thank you for your interest in improving this project.
+We welcome contributions to the Kinetic Trust Protocol specifications. Thank you for your interest in improving this project.
 
-## How to Contribute
+## The rules of the set
 
-The KTP-RFC project accepts contributions in several forms:
+Read these before you write anything. They are the difference between a contribution that lands and one that stalls.
 
-**Reporting Issues**: If you find a bug, typo, inconsistency, or technical error in the specifications, please [open an issue](https://github.com/nmcitra/ktp-rfc/issues). Be as specific as possible about the location and nature of the problem.
+1. **Text, not code.** This repository holds normative text, schemas, and conformance vectors. Implementations live in their own repositories; a specification here cites a pinned release of one. Don't add code, generated readers, transcripts, or evidence bundles. The hygiene check will refuse them.
 
-**Suggesting Enhancements**: For new ideas, changes to the specification, or additional RFCs, please open an issue for discussion before creating a pull request. This allows the community to provide feedback and ensures your effort aligns with the project's direction.
+2. **Issue first, on a clock.** Every change starts as an issue with a class. A maintainer applies `decision-needed` and a `class:*` label, and the clock in [`DECISIONS.md`](DECISIONS.md) starts. Nothing is approved before its floor. Open the PR after the issue, not instead of it.
 
-**Pull Requests**: All changes must be submitted via pull request and reviewed before merging. This ensures quality and consistency across the specification documents.
+3. **Pin to tags.** Reference KTP by tag, never by `main`. State which release you profiled or built against, and whether your change is compatible with it. [`VERSIONING.md`](VERSIONING.md) says how.
 
-**Discussions**: For broader questions, philosophical debates, or implementation discussions, please use the [Discussions](https://github.com/nmcitra/ktp-rfc/discussions) tab.
+4. **Interfaces and vectors are fixed; formulas are implementation-defined.** A specification in this set fixes the interface, the decision contract, and the conformance vectors. It does not publish the computation behind A or E. A conformant provider is one that reproduces the published decisions. Don't add a formula to normative text; add the vectors that any formula would have to satisfy.
 
-## Pull Request Process
+5. **KTP names its terms.** Don't rename a protocol term to match your implementation's vocabulary. `scripts/check-vocabulary.py` is the authority on retired terms; the ones people most often reach for:
+   - "Context Tensor" is retired. The catalogue is **Context Signals**; the scoring layer is the **Risk Factors**.
+   - "God Mode" is retired. The top tier is **Admin Mode**.
+   - The single-letter risk keys are retired. The JSON key is the name: `evidence_density`, `trust_trend`, `adversarial_pressure`, `moment_criticality`, `update_resistance`, `attestation_coverage`, and the `soul` veto, which is never a weighted key.
+   - Physics words (mass, heat, momentum) survive only on lines marked *Analogy (informative)*.
+   - "Internet" and "Web" are proper nouns.
 
-1. **Fork the repository** and create a new branch from `main` for your changes.
+6. **State the evidence limit.** Every claim says whether it is modeled, observed, or validated. Declaration checks, schema checks, and vector runs are prerequisites; they are never runtime certification, and a proposal must not present them as one.
 
-2. **Make your changes** in the appropriate files:
-   - RFC documents are in the `rfcs/` directory
-   - Documentation site content is in the `docs/` directory
-   - JSON schemas are in the `schemas/` directory
+7. **Provenance is recorded, not transferred.** Say who proposed it, who edited the text, who built it first, and whose implementation is the reference. The first implementer is recorded permanently. The specification stays governed by [`DECISIONS.md`](DECISIONS.md).
 
-3. **Update documentation** if your changes affect:
-   - The main README.md
-   - The documentation site navigation (mkdocs.yml)
-   - Any cross-references between RFCs
+8. **Cite, don't restate.** If the set already says it, link the section. Spend your words on what the set doesn't say.
 
-4. **Test your changes** by building the documentation site locally:
+## How to contribute
+
+**Report a defect.** A typo, inconsistency, or technical error in the specifications: [open an issue](https://github.com/nmcitra/ktp-rfc/issues) with the bug template. Be specific about the location.
+
+**Propose a change.** A new specification, profile, or change to existing text: open an issue with the specification-proposal template. It asks for the class, the three questions, and the evidence limit, because that is what the decision record needs.
+
+**Offer a reference implementation.** Something that runs against a specification here: open an issue with the reference-implementation template. It asks for a pinned release and the vectors you ran.
+
+**Discuss.** Broader questions and implementation talk go in [Discussions](https://github.com/nmcitra/ktp-rfc/discussions).
+
+## Pull request process
+
+1. **Fork the repository** and branch from `main`.
+
+2. **Edit the source, not the output.**
+   - Internet-Draft-formatted specifications are authored in `rfc-src/`. `rfcs-md/` and `rfcs-txt/` are generated from it; `scripts/check-parity.py` fails if they drift.
+   - Normative companions are in `specifications/`; their reference vectors in `specifications/conformance/`.
+   - Schemas are in `schemas/`; the Context Signals catalogue in `catalog/`.
+   - Site content is in `docs/`.
+
+3. **Run the checks before you push.**
    ```bash
-   mkdocs serve
+   scripts/check-all.sh
    ```
-   Then visit http://localhost:8000 to preview your changes.
+   That is the same sequence CI runs. Green locally, then open the PR.
 
-5. **Follow the RFC format**: If you're creating or modifying RFC documents, maintain consistency with the existing structure and style. Each RFC should include:
-   - Abstract
-   - Status of This Memo
-   - Table of Contents
-   - Numbered sections
-   - References (if applicable)
+4. **One PR per decision.** The PR names its issue and its entry in [`DECISIONS.md`](DECISIONS.md). A PR that carries two decisions gets split.
 
-6. **Submit your pull request** with a clear description of:
-   - What problem you're solving or what you're adding
-   - Why this change is necessary or beneficial
-   - Any related issues or discussions
+5. **Fill in the PR template.** It lists the gates. Every box is a real question.
 
-7. **Respond to feedback**: A maintainer will review your PR and may request changes. Please be responsive to feedback and willing to iterate.
+6. **Respond to review.** A maintainer will review and may request changes.
 
-8. **Merge approval**: Your PR will be merged once it has been approved by at least one maintainer and all CI checks pass.
+7. **Merge.** Requires one maintainer approval, green checks, and an elapsed clock for the class.
 
 ## What belongs in this repository
 
@@ -66,9 +77,9 @@ today:
 
 | category | what it covers |
 |---|---|
-| **normative** | `rfcs/`, `rfcs-txt/`, and the root-level companions (`glossary.md`, `constitution.txt`) |
+| **normative** | `rfc-src/`, `rfcs-md/`, `rfcs-txt/`, `specifications/`, `catalog/`, `schemas/`, and the root-level companions (`glossary.md`, `constitution.txt`) |
 | **site** | `docs/`, `mkdocs.yml`, and the theme assets the build needs |
-| **governance** | licence, attribution, versioning, the DOI record |
+| **governance** | licence, attribution, versioning, decisions, the DOI record |
 | **tooling** | `scripts/`, `.github/`, `.gitignore` |
 
 If your change adds a file that does not fit one of these, that is a decision to

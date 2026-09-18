@@ -128,7 +128,7 @@ NEVER = [
     (r"(^|/)\.DS_Store$", "macOS directory metadata"),
     (r"(^|/)__pycache__/", "Python bytecode"),
     (r"\.py[cod]$", "Python bytecode"),
-    (r"^(venv|env|ENV)/", "a virtualenv belongs to a machine, not to a repo"),
+    (r"^(\.?venv|env|ENV)/", "a virtualenv belongs to a machine, not to a repo"),
     (r"^site/", "mkdocs build output — regenerated, never authored"),
     (r"(^|/)node_modules/", "dependency tree"),
     (r"\.(log|tmp)$", "transient output"),

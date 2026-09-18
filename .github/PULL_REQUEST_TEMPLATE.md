@@ -1,58 +1,34 @@
 # Pull Request
 
-## Description
+## Decision this PR carries
 
-Please provide a clear and concise description of your changes.
+Issue: #
+DECISIONS.md entry: D-
+Class: clarification / MINOR / MAJOR / vocabulary / editorial
 
-## Type of Change
+One PR per decision. If this carries two, split it.
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-- [ ] RFC addition or modification
+## What changes
 
-## Related Issues
+-
+-
 
-Closes #(issue number)
+## Gates
 
-## Changes Made
+Every box is a real question. See DECISIONS.md §2–§4 and CONTRIBUTING.md "The rules of the set".
 
-Please describe the changes you've made:
+- [ ] `scripts/check-all.sh` is green locally
+- [ ] Source edited, not output (`rfc-src/`, not `rfcs-md/` or `rfcs-txt/`)
+- [ ] Written against a tag, and the compatibility statement is in the linked issue
+- [ ] No formula in normative text; interfaces, contracts, and vectors only
+- [ ] Any new vectors are in `specifications/conformance/` and deterministic
+- [ ] Evidence limits stated; no vector or schema check presented as runtime certification
+- [ ] No new file kind without a hygiene-allowlist category and reason
+- [ ] The clock floor for this class has elapsed, or this is editorial
 
-- 
-- 
-- 
+## Provenance
 
-## Affected Documents
+Proposed by / text edited by / built first by (where applicable):
 
-Which files or RFCs are affected by this change?
+## Notes for the reviewer
 
-- [ ] README.md
-- [ ] Constitution
-- [ ] Glossary
-- [ ] KTP-CORE
-- [ ] KTP-IDENTITY
-- [ ] KTP-CRYPTO
-- [ ] Other (please specify): 
-
-## Testing
-
-How have you tested your changes?
-
-- [ ] Built the documentation site locally (`mkdocs serve`)
-- [ ] Verified all internal links work
-- [ ] Checked for typos and formatting issues
-- [ ] Reviewed changes in the rendered documentation
-
-## Checklist
-
-- [ ] My changes follow the style and conventions of this project
-- [ ] I have updated the documentation accordingly
-- [ ] I have read the [CONTRIBUTING.md](../CONTRIBUTING.md) guidelines
-- [ ] My changes generate no new warnings or errors
-- [ ] I have checked that all cross-references are correct
-
-## Additional Notes
-
-Add any additional context or notes for reviewers here.

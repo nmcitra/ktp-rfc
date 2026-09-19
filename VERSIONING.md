@@ -72,6 +72,10 @@ against. If a later release changes the material you relied on, your reference
 still resolves to the text you actually used, and you upgrade deliberately
 rather than by surprise.
 
+Between releases, `main` may carry material that no tag yet contains. If you
+build against it, pin the exact `main` commit and say so. A commit is a fixed
+point; `main` is not.
+
 ## Current version
 
 The latest release is authoritative. `CITATION.cff` names it; the repository

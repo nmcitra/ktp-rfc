@@ -25,8 +25,11 @@ jobs:
         run: |
           set -euo pipefail
           now=$(date -u +%s)
-          gh issue list -R "$REPO" --state open --label decision-needed --limit 200 \
-            --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"' |
+          # Issues and pull requests both carry decisions; scan both.
+          { gh issue list -R "$REPO" --state open --label decision-needed --limit 200 \
+              --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"';
+            gh pr list -R "$REPO" --state open --label decision-needed --limit 200 \
+              --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"'; } |
           while IFS=$'\t' read -r num labels; do
             # Floor in days by class (DECISIONS.md §2); review window is twice the floor.
             case ",$labels," in

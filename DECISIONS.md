@@ -170,3 +170,10 @@ Provenance: proposed by Mike Storm; built first as KIL.
 Published 2026-09-09 · class pending
 Source: PR #122; CHANGELOG § Unreleased
 Decision: pending.
+
+### D-011 · Supplier-neutral illustrative examples
+2026-09-20 · Editorial · no clock
+Source: issue #132; PR #133
+Decision: Named companies in a hypothetical hardware-lock-in critique and in
+the OUI tooltip are replaced with supplier-independent wording; the affected
+RFC views are regenerated from source. Proposed by Mike Storm.

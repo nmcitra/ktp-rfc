@@ -924,7 +924,7 @@ No system can be "mathematically unhackable." KTP makes Oracle compromise expens
 
 ## The Critique
 
-"Whoever defines the ETP (Entropy Transfer Protocol) controls the economy. If Cisco or NVIDIA adopts this, they lock us into their hardware. We are trading 'Software Freedom' for 'Hardware Tyranny.' You're creating the next x86 lock-in."
+"Whoever defines the ETP (Entropy Transfer Protocol) controls the economy. If a hardware vendor adopts this, it locks us into its hardware. We are trading 'Software Freedom' for 'Hardware Tyranny.' You're creating the next x86 lock-in."
 
 ## The Challenge
 

@@ -33,6 +33,7 @@ step "Oracle consensus regressions";     "$PY" scripts/test-oracle-consensus.py
 step "Trajectory signature regressions"; "$PY" scripts/test-trajectory-signatures.py
 step "Operational readiness regressions"; "$PY" scripts/test-readiness.py
 step "Human eligibility regressions";    "$PY" scripts/test-human-eligibility.py
+step "Software-substrate execution regressions"; "$PY" scripts/test-software-substrate-execution.py
 step "Privacy evidence regressions";     "$PY" scripts/test-privacy-evidence.py
 step "Catalogue tables";                 python3 scripts/gen-catalog-tables.py --check
 

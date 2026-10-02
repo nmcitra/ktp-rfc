@@ -177,3 +177,9 @@ Source: issue #132; PR #133
 Decision: Named companies in a hypothetical hardware-lock-in critique and in
 the OUI tooltip are replaced with supplier-independent wording; the affected
 RFC views are regenerated from source. Proposed by Mike Storm.
+
+### D-012 · Consequential-action execution and evidence (open)
+Published 2026-09-18 · MINOR · floor 2026-10-09 · review-by 2026-10-30
+Source: issue #129
+Decision: pending.
+Provenance: proposed by Mike Storm; KAG as the reference implementation.

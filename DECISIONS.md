@@ -57,8 +57,10 @@ Labels on this repository speak to contributors. The clock reads them.
 | `accepted` | Decided yes. A PR is welcome or in progress |
 | `declined` | Decided no. The reason is in the thread and in this file |
 
-The clock starts on the later of the two labels, `decision-needed` and
-`class:*`. When a proposal passes its review window still marked
+The clock starts when the proposal is published (§1). The workflow reads
+the later of the two labels, `decision-needed` and `class:*`, as its record
+of that day — apply both on the day of publication, or the mechanism will
+close the window late. When a proposal passes its review window still marked
 `decision-needed`, a workflow removes that label, applies `discussion`, and
 says so in the thread. That is the window closing by mechanism, not by hand.
 Re-applying `decision-needed` restarts the clock. The workflow is
@@ -149,7 +151,7 @@ Provenance: finding reported by Mike Storm from a shipping v2.0.0 Risk Factor
 producer; text edited by the maintainer.
 
 ### D-007 · Hibernation is the fifth tier, named
-2026-09-09 · Clarification · clock not run
+2026-09-09 · Editorial
 Source: PR #123; SN-004
 Decision: The Trust Tier glossary names Hibernation as the fifth tier rather
 than leaving it implied by the threshold table.
@@ -167,8 +169,9 @@ Decision: pending.
 Provenance: proposed by Mike Storm; built first as KIL.
 
 ### D-010 · The consolidation block (open)
-Published 2026-09-09 · class pending
+Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06
 Source: PR #122; CHANGELOG § Unreleased
+Text landed on `main` via PR #123 (2026-09-09), ahead of the floor.
 Decision: pending.
 
 ### D-011 · Supplier-neutral illustrative examples

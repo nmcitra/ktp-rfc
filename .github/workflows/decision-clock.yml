@@ -42,8 +42,9 @@ jobs:
               *) echo "#$num: no class label, clock not started"; continue ;;
             esac
             window=$(( floor * 2 ))
-            # Clock start: the later of the two labels, decision-needed and class:*,
-            # from the issue's own timeline.
+            # Clock start is publication (DECISIONS.md §1). The later of the two
+            # labels, decision-needed and class:*, is this mechanism's record of
+            # that day — late labels close the window late, never early.
             # --paginate applies the filter per page, so take the max across pages too.
             start=$(gh api --paginate "repos/$REPO/issues/$num/timeline" \
               --jq '.[] | select(.event=="labeled" and (.label.name=="decision-needed" or (.label.name|startswith("class:")))) | .created_at' \

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-09-06
+date: 2026-10-04
 category: exp
 ipr: trust200902
 
@@ -168,7 +168,7 @@ Both feeds above declare a stale_threshold_ms of four to five times their refres
 
 A critical challenge in environmental sensing is oscillation: rapid fluctuation in the Risk Factor caused by local noise, leading to unstable Trust Scores and excessive tier transitions.
 
-Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 70). If a single sensor on a single node experiences a momentary spike—a brief CPU surge, a transient network blip—the agent could rapidly transition Operator → Analyst → Operator → Analyst, disrupting operations and creating audit noise.
+Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If a single sensor on a single node experiences a momentary spike—a brief CPU surge, a transient network blip—the agent could rapidly transition Operator → Analyst → Operator → Analyst, disrupting operations and creating audit noise.
 
 To prevent this, KTP implements three-level Risk Domains:
 

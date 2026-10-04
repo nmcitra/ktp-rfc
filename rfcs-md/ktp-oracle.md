@@ -235,7 +235,7 @@ The Trust Proof Issuer creates signed Trust Proofs:
        "e_base": 55,
        "e_trust": 44,
        "r_current": 0.2,
-       "tier": "analyst",
+       "tier": "observer",
        "lineage": "independent",
        "generation": 3
      },

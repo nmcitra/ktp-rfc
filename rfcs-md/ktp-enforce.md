@@ -413,7 +413,7 @@ Token claims extension:
      "ktp": {
        "trust_proof": "eyJhbGciOiJFUzI1NiIs...",
        "e_trust": 72,
-       "tier": "analyst",
+       "tier": "operator",
        "soul_clear": true
      }
    }
@@ -435,7 +435,7 @@ Trust Proof can be included as SAML AttributeStatement:
        <saml:AttributeValue>72</saml:AttributeValue>
      </saml:Attribute>
      <saml:Attribute Name="ktp:tier">
-       <saml:AttributeValue>analyst</saml:AttributeValue>
+       <saml:AttributeValue>operator</saml:AttributeValue>
      </saml:Attribute>
    </saml:AttributeStatement>
 ~~~
@@ -779,7 +779,7 @@ Response body format:
        "action": "DELETE /api/users/12345",
        "action_risk": 85,
        "e_trust": 72,
-       "tier": "analyst",
+       "tier": "operator",
        "de_dt": -1.5,
        "soul_clear": true
      },
@@ -843,7 +843,7 @@ When entering a lower tier, agents SHOULD:
 Degradation sequence example:
 
 ~~~
-   E_trust drops from 88 to 68 (Operator -> Analyst)
+   E_trust drops from 80 to 68 (Operator -> Analyst)
 ~~~
 
 ~~~
@@ -871,7 +871,7 @@ When E_trust recovers above a tier threshold:
 Recovery SHOULD be gradual to avoid oscillation:
 
 ~~~
-   E_trust recovers from 68 to 88 (Analyst -> Operator)
+   E_trust recovers from 68 to 80 (Analyst -> Operator)
 ~~~
 
 ~~~
@@ -905,7 +905,7 @@ The signal below is a message format, not an authorization. A heartbeat MUST NOT
      "type": "heartbeat",
      "agent_id": "agent:7gen:optimized:a1b2c3d4",
      "state": "hibernating",
-     "e_trust": 35,
+     "e_trust": 15,
      "hibernation_duration_seconds": 3600,
      "awaiting": "trust_recovery",
      "timestamp": "2025-11-25T12:00:00Z"

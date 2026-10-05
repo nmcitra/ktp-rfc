@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Capability Attenuation Specification"
 abbrev: "KTP-ATTENUATION"
-date: 2026-09-06
+date: 2026-10-04
 category: exp
 ipr: trust200902
 
@@ -530,7 +530,7 @@ If the enforcement pipeline fails:
    -  Constraint application failure:  Block action, alert operator
 ~~~
 
-The system MUST fail closed—uncertainty results in constraint, not permission. This is the general rule of KTP-Core, Section 6.7: an undefined input resolves toward the more restrictive outcome available at that decision point, and the undefined state is recorded on the decision record.
+The system MUST fail closed—uncertainty results in constraint, not permission. This is the general rule of KTP-Core, Section 6.8 (Undefined Inputs): an undefined input resolves toward the more restrictive outcome available at that decision point, and the undefined state is recorded on the decision record.
 
 An unobserved Risk Factor term MUST use the conservative substitute 1.0 required by KTP-Core Section 5.2 and MUST be recorded as undefined, not as a measurement. Implementations MUST NOT carry raw undefined values into arithmetic or replace a failed risk calculation with a moderate-risk constant. If the complete calculation fails or cannot produce a valid current score, no authorizing result may be issued. Successful restrictive substitution for an individual unknown term remains subject to the normal capacity and supervision checks.
 

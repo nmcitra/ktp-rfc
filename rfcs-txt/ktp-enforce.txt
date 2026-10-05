@@ -376,9 +376,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    7.   PEP looks up Action Risk (A) for requested action
 
    8.   Apply the input and zero-capacity checks in [KTP-CORE]
-        Section 6.6 before comparing or dividing A and E; unresolved or
-        invalid numeric inputs, incomparable scales, and zero capacity
-        produce a veto.
+        Section 6.7 (Aggregation Algorithm) before comparing or dividing
+        A and E; unresolved or invalid numeric inputs, incomparable
+        scales, and zero capacity produce a veto.
 
    9.   IF A > E: - supervision = silent_veto, reason TRUST_INSUFFICIENT
         (Silent Veto) - Log to Flight Recorder - STOP
@@ -401,11 +401,12 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
         eligibility transfers capability or relaxes a preceding veto.
 
    11.  Evaluate the decision result - supervision and
-        tightenedConstraints - per [KTP-CORE] Section 6.6.  If it is
-        silent_veto, log the denial and STOP.  Otherwise, the action may
-        proceed only under the tightened envelope and after the returned
-        supervision requirements are satisfied.  Profile thresholds and
-        supervision MUST NOT relax a preceding veto.
+        tightenedConstraints - per [KTP-CORE] Section 6.7 (Aggregation
+        Algorithm).  If it is silent_veto, log the denial and STOP.
+        Otherwise, the action may proceed only under the tightened
+        envelope and after the returned supervision requirements are
+        satisfied.  Profile thresholds and supervision MUST NOT relax a
+        preceding veto.
 
    12.  For every software executor, verify current operation-scoped
         readiness under specifications/operational-readiness.md,
@@ -435,7 +436,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
         mechanism.  Any refreshed ordinary proof retains the ten-second
         limit and MUST NOT imply renewed eligibility, assessment, or
         permission for another action.
-
 
 
 
@@ -1319,7 +1319,7 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
        preceding result
 
    7.  RETURN the decision result - supervision and tightenedConstraints
-       - per [KTP-CORE] Section 6.6
+       - per [KTP-CORE] Section 6.7 (Aggregation Algorithm)
 
    This order ensures that sovereignty constraints are always evaluated
    first, followed by environment-derived constraints, followed by tier

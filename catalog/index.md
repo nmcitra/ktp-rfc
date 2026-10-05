@@ -216,7 +216,7 @@ the clause existed for **A** alone and the exposure it covers is mostly outside
   obligation is the defect #79 was opened to end.
 
   **This is the measurement-side half of the undefined-W rule** (round 4; #47
-  scope row 4; the class rule is now `ktp-core` §6.7, per #110/#105). The other
+  scope row 4; the class rule is now `ktp-core` §6.8 (Undefined Inputs), per #110/#105). The other
   two layers are already normative: `ktp-sensors` §6.2 governs the **feed**, and
   `ktp-core` §5.2 governs the **Risk Factor term** (both landed under #80).
   This clause governs the **signal**, which is the layer neither of those

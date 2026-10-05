@@ -27,7 +27,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Recovery Principles
 
-PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point ([KTP-CORE] Section 6.7). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.
+PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point, per [KTP-CORE] Section 6.8 (Undefined Inputs). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.
 
 PRINCIPLE 2: NO SINGLE POINT OF FAILURE Every critical component should have redundancy. Threshold cryptography for Oracles. Multiple Flight Recorders. Distributed sensors.
 

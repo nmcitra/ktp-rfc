@@ -42,7 +42,7 @@ Read these before you write anything. They are the difference between a contribu
 1. **Fork the repository** and branch from `main`.
 
 2. **Edit the source, not the output.**
-   - Internet-Draft-formatted specifications are authored in `rfc-src/`. `rfcs-md/` and `rfcs-txt/` are generated from it; `scripts/check-parity.py` fails if they drift.
+   - Internet-Draft-formatted specifications are authored in `rfc-src/`. `rfcs-md/` and `rfcs-txt/` are generated from it; `scripts/check-parity.py` fails if `rfcs-md/` drifts, and `scripts/gen-rfc-txt.sh --check` (local; needs kramdown-rfc and xml2rfc) fails if `rfcs-txt/` does. Cite another document's section by number and heading — `[KTP-CORE] Section 6.7 (Aggregation Algorithm)` — so `scripts/check-section-refs.py` can hold the number to the heading.
    - Normative companions are in `specifications/`; their reference vectors in `specifications/conformance/`.
    - Schemas are in `schemas/`; the Context Signals catalogue in `catalog/`.
    - Site content is in `docs/`.

@@ -747,7 +747,7 @@ Soul evaluation follows a strict sequence:
 
 A query is UNDETERMINED when no answer arrived: the registry was unreachable, returned an error, timed out, or returned nothing. These cases do not separate. A channel that returns nothing and a channel that was never reachable are indistinguishable to this decision, and an adversary who can produce one can produce the other, so an implementation MUST NOT branch on the difference. Only a framework that answers - including an answer of "no applicable constraint" - has returned a clearance. No cached or prior clearance substitutes for a current answer: Soul is queried on demand and has no staleness threshold (Section 6.1).
 
-An unanswered sovereignty query is an undefined input under [KTP-CORE] Section 6.7: it MUST NOT resolve toward permission, and the veto is the only more restrictive outcome this decision point offers. The undetermined state MUST be recorded on the decision record, so a veto raised for silence reads apart from a veto returned by a framework in audit.
+An unanswered sovereignty query is an undefined input under [KTP-CORE] Section 6.8 (Undefined Inputs): it MUST NOT resolve toward permission, and the veto is the only more restrictive outcome this decision point offers. The undetermined state MUST be recorded on the decision record, so a veto raised for silence reads apart from a veto returned by a framework in audit.
 
 1. If S = 1: -  Immediately return SOVEREIGNTY_CONSTRAINT error -  Do NOT proceed to A <= E_trust evaluation -  Log veto with full constraint details
 
@@ -801,7 +801,7 @@ Recommended Implementation:
 
 Different deployment domains weight the six weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
 
-Weights MUST sum to 1.0 across the six named inputs and satisfy [KTP-CORE] Section 6.4's finite, positive-weight requirements. Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
+Weights MUST sum to 1.0 across the six named inputs and satisfy the finite, positive-weight requirements of [KTP-CORE] Section 6.5 (Domain Weights). Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
 
 5.1. Pre-defined Profiles
 

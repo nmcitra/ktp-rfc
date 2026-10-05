@@ -339,7 +339,7 @@ Request: { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "validity_seco
 
 Response (200 OK): { "proof": { "proof_id": "proof-uuid-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "zone_id": "zone:alpha", "e_base": 87, "e_trust": 74, "risk_factor": 0.15, "tier": "operator", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "issued_at": "2025-11-25T12:00:00Z", "expires_at": "2025-11-25T12:00:10Z", "signature": "base64...", "key_id": "oracle-zone-alpha-2025-001" }, "jws": "eyJhbGciOiJFZERTQSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QiLCJra WQiOiJvcmFjbGUtem9uZS1hbHBoYS0yMDI1LTAwMSJ9..." }
 
-Response (403 Forbidden): { "error": { "code": "AGENT_HIBERNATING", "message": "Agent is in hibernation mode", "details": { "e_trust": 35, "required_tier": "observer" } } }
+Response (403 Forbidden): { "error": { "code": "AGENT_HIBERNATING", "message": "Agent is in hibernation mode", "details": { "e_trust": 15, "required_tier": "observer" } } }
 
 ### Validate Trust Proof
 
@@ -379,7 +379,7 @@ Register a new agent with the Trust Oracle.
 
 Request: { "agent_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c", "public_key": "base64...", "algorithm": "eddsa-ed25519", "sponsor_id": "agent:guarantor:5gen:acme-deploy:1234abcd", "lineage": { "type": "sponsored", "generation": 0 }, "metadata": { "name": "Aria", "purpose": "Data processing agent", "owner": "team- data-eng" } }
 
-Response (201 Created): { "agent_id": "agent:sponsored:acme- deploy:aria:7f8a9b2c", "initial_e_base": 15, "initial_tier": "observer", "sponsorship_bond": { "bond_id": "bond-uuid-12345", "sponsor_stake": 8.7, "expires_at": "2026-11-25T00:00:00Z" }, "credential": { ... agent credential ... } }
+Response (201 Created): { "agent_id": "agent:sponsored:acme- deploy:aria:7f8a9b2c", "initial_e_base": 25, "initial_tier": "observer", "sponsorship_bond": { "bond_id": "bond-uuid-12345", "sponsor_stake": 8.7, "expires_at": "2026-11-25T00:00:00Z" }, "credential": { ... agent credential ... } }
 
 ### Get Agent
 
@@ -585,7 +585,7 @@ Server confirms: { "type": "subscribe_ack", "id": "sub-001", "payload": { "subsc
 
 Server pushes when Trust Score changes:
 
-{ "type": "trust_update", "id": "update-12345", "timestamp": "2025-11-25T12:00:05Z", "payload": { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "previous_e_trust": 74, "current_e_trust": 71, "previous_tier": "operator", "current_tier": "operator", "tier_changed": false, "trigger": "context_degradation" } }
+{ "type": "trust_update", "id": "update-12345", "timestamp": "2025-11-25T12:00:05Z", "payload": { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "previous_e_trust": 74, "current_e_trust": 73, "previous_tier": "operator", "current_tier": "operator", "tier_changed": false, "trigger": "context_degradation" } }
 
 ## Server-Sent Events
 

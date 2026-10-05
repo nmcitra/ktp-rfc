@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Trust Oracle Specification"
 abbrev: "KTP-ORACLE"
-date: 2026-09-06
+date: 2026-10-04
 category: exp
 ipr: trust200902
 
@@ -253,7 +253,7 @@ The Trust Proof Issuer creates signed Trust Proofs:
        "e_base": 55,
        "e_trust": 44,
        "r_current": 0.2,
-       "tier": "analyst",
+       "tier": "observer",
        "lineage": "independent",
        "generation": 3
      },

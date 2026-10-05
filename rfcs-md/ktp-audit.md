@@ -350,8 +350,8 @@ Schema:
        }
      },
      "impact": {
-       "tier_before": "operator",
-       "tier_after": "analyst",
+       "tier_before": "admin",
+       "tier_after": "operator",
        "capabilities_lost": [
          "write:production",
          "execute:deployments",
@@ -376,7 +376,7 @@ Schema:
        "to_tier": "analyst",
        "direction": "demotion",
        "e_trust_at_transition": 68,
-       "threshold_crossed": 70
+       "threshold_crossed": 72
      },
      "duration_in_previous_tier_seconds": 14832,
      "actions_in_previous_tier": 4721,

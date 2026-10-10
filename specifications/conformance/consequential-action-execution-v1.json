@@ -1,0 +1,455 @@
+{
+  "profile": "consequential-action-execution-v1",
+  "note": "Proposal, unreleased. Fixed modeled contract vectors. Expected fields are obligations for a declaring implementation; this repository runner checks fixture integrity and schema shape, not target execution or semantic implementation conformance.",
+  "vectors": [
+    {
+      "id": "E01",
+      "case": "allow",
+      "request": {
+        "authorizationCurrent": true,
+        "bindingsCurrent": true,
+        "reservation": "accepted",
+        "dispatchObserved": true
+      },
+      "expect": {
+        "releaseAllowed": true,
+        "evidenceState": "dispatched",
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E02",
+      "case": "expired_queue",
+      "request": {
+        "proofExpiredAtQueueExit": true,
+        "nonDispatchAuthenticated": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "withheld"
+      }
+    },
+    {
+      "id": "E03",
+      "case": "scope_change",
+      "request": {
+        "parametersMatch": false,
+        "nonDispatchAuthenticated": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "withheld"
+      }
+    },
+    {
+      "id": "E04",
+      "case": "destination_change",
+      "request": {
+        "destinationMatch": false,
+        "nonDispatchAuthenticated": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "withheld"
+      }
+    },
+    {
+      "id": "E05",
+      "case": "target_version_change",
+      "request": {
+        "targetVersionMatch": false,
+        "conditionalCommitSupported": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E06",
+      "case": "same_id_replay",
+      "request": {
+        "sameIdentity": true,
+        "sameFingerprint": true,
+        "priorDispatch": true
+      },
+      "expect": {
+        "additionalInvocationAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E07",
+      "case": "same_id_changed_body",
+      "request": {
+        "sameIdentity": true,
+        "sameFingerprint": false
+      },
+      "expect": {
+        "additionalInvocationAllowed": false,
+        "identityCollision": true
+      }
+    },
+    {
+      "id": "E08",
+      "case": "shared_budget",
+      "request": {
+        "scopeLimit": 10,
+        "firstReservation": 6,
+        "secondRequestIdentity": "different",
+        "secondRequested": 6,
+        "atomicAuthority": true
+      },
+      "expect": {
+        "secondReleaseAllowed": false,
+        "remainingCapacityUnits": 4
+      }
+    },
+    {
+      "id": "E09",
+      "case": "budget_state_unavailable",
+      "request": {
+        "budgetStateAvailable": false,
+        "nonDispatchAuthenticated": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "withheld"
+      }
+    },
+    {
+      "id": "E10",
+      "case": "recorder_failure",
+      "request": {
+        "requiredRecorderAvailable": false,
+        "nonDispatchAuthenticated": false
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E11",
+      "case": "crash_before_dispatch",
+      "request": {
+        "durableReservation": true,
+        "dispatchIntent": true,
+        "nonDispatchAuthenticated": false
+      },
+      "expect": {
+        "evidenceState": "unknown",
+        "retryAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E12",
+      "case": "crash_after_dispatch",
+      "request": {
+        "dispatchAuthenticated": true,
+        "targetOutcomeAvailable": false
+      },
+      "expect": {
+        "evidenceState": "dispatched",
+        "retryAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E13",
+      "case": "lost_reply",
+      "request": {
+        "responseLost": true,
+        "targetEffectAuthenticated": true
+      },
+      "expect": {
+        "evidenceState": "effect_confirmed",
+        "retryAllowed": false
+      }
+    },
+    {
+      "id": "E14",
+      "case": "unknown_effect",
+      "request": {
+        "conflictingEvidence": true
+      },
+      "expect": {
+        "evidenceState": "unknown",
+        "retryAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E15",
+      "case": "restart",
+      "request": {
+        "restorationCurrent": false,
+        "reservationPreviouslyUncertain": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "retryAllowed": false,
+        "reservationRetained": true,
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E16",
+      "case": "denial_only",
+      "request": {
+        "decisionDenied": true,
+        "nonDispatchAuthenticated": false
+      },
+      "expect": {
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E17",
+      "case": "authenticated_non_dispatch",
+      "request": {
+        "decisionDenied": true,
+        "nonDispatchAuthenticated": true,
+        "coverageComplete": true,
+        "intervalBound": true
+      },
+      "expect": {
+        "evidenceState": "withheld"
+      }
+    },
+    {
+      "id": "E18",
+      "case": "http_status_only",
+      "request": {
+        "httpStatus": 200,
+        "targetEffectAuthenticated": false,
+        "dispatchAuthenticated": false
+      },
+      "expect": {
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E19",
+      "case": "fresh_proof_uncertain_effect",
+      "request": {
+        "proofRefreshed": true,
+        "priorEffectUncertain": true
+      },
+      "expect": {
+        "retryAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E20",
+      "case": "continuing_authority_loss",
+      "request": {
+        "checkpointAuthorizationCurrent": false,
+        "safeTransitionDeclared": true
+      },
+      "expect": {
+        "continueOriginalAllowed": false,
+        "safeTransitionRequired": true
+      }
+    }
+  ],
+  "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature, authenticated observation, authorization, non-dispatch coverage, or actual target effect. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged.",
+  "schemaFixture": {
+    "artifact_type": "ktp-consequential-action-evidence-v1",
+    "request_id": "test-request-001",
+    "operation_fingerprint_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "consumption_decision_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "reservation_reference": "test-reservation-001",
+    "reservation_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "evidence_state": "withheld",
+    "observation": {
+      "source_id": "test-observation-source",
+      "protected_path_coverage": "test-protected-path",
+      "interval_start": 100,
+      "interval_end": 101,
+      "provenance_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "target_marker": {
+      "kind": "non_dispatch",
+      "value": "test-non-dispatch-marker"
+    },
+    "recorder_evidence_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "signature": "YQ.Yg.Yw"
+  },
+  "schemaVectors": [
+    {
+      "id": "J01-shape",
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J02-missing-evidence-state",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "evidence_state"
+        ],
+        "operation": "remove",
+        "value": null
+      }
+    },
+    {
+      "id": "J03-invalid-evidence-state",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "evidence_state"
+        ],
+        "operation": "set",
+        "value": "denied"
+      }
+    },
+    {
+      "id": "J04-missing-observation-source",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "observation",
+          "source_id"
+        ],
+        "operation": "remove",
+        "value": null
+      }
+    },
+    {
+      "id": "J05-extra-root",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J06-http-status-marker",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "target_marker"
+        ],
+        "operation": "set",
+        "value": "http-status:200"
+      }
+    },
+    {
+      "id": "J07-malformed-signature",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "signature"
+        ],
+        "operation": "set",
+        "value": "not-a-jws"
+      }
+    },
+    {
+      "id": "J08-withheld-shape",
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J09-dispatched-shape",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "dispatched"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "J10-effect-confirmed-shape",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "effect_confirmed"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "effect"
+        }
+      ]
+    },
+    {
+      "id": "J11-unknown-shape",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "unknown"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "dispatch"
+        }
+      ]
+    }
+  ],
+  "mutationValidationVectors": [
+    {
+      "id": "M01-unsupported-operation",
+      "mutation": {
+        "path": [
+          "evidence_state"
+        ],
+        "operation": "replace",
+        "value": "unknown"
+      }
+    }
+  ]
+}

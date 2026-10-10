@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/consequential-action-evidence-v1/consequential-action-evidence.json",
+  "title": "KTP Consequential Action Evidence v1 — Proposal, unreleased",
+  "description": "Proposal-only, unreleased correlation record for one consequential-action request, its consumed signed consumption decision, a reservation, and recorded observation. It is never an authorization or proof of a target effect. Every member except signature belongs to the canonical signed payload. Semantic checks for signature and authentication, duplicate-key and canonical-input control, interval ordering, freshness, authorization, non-dispatch coverage, and actual target effect are outside JSON Schema.",
+  "type": "object",
+  "required": [
+    "artifact_type",
+    "request_id",
+    "operation_fingerprint_digest",
+    "consumption_decision_digest",
+    "reservation_reference",
+    "reservation_digest",
+    "evidence_state",
+    "observation",
+    "target_marker",
+    "recorder_evidence_digest",
+    "signature"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evidence_state": {
+            "const": "withheld"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_marker": {
+            "properties": {
+              "kind": {
+                "const": "non_dispatch"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_state": {
+            "const": "dispatched"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_marker": {
+            "properties": {
+              "kind": {
+                "const": "dispatch"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_state": {
+            "const": "effect_confirmed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_marker": {
+            "properties": {
+              "kind": {
+                "const": "effect"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_state": {
+            "const": "unknown"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_marker": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "non_dispatch",
+                  "dispatch"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "artifact_type": {
+      "const": "ktp-consequential-action-evidence-v1"
+    },
+    "request_id": {
+      "$ref": "#/$defs/literal",
+      "description": "Durable identity for one request; replay and duplicate handling are semantic obligations."
+    },
+    "operation_fingerprint_digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Digest of the canonical operation fingerprint, not a target-effect proof."
+    },
+    "consumption_decision_digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Digest of the consumed signed consumption decision; this record does not recreate or authorize that decision."
+    },
+    "reservation_reference": {
+      "$ref": "#/$defs/literal",
+      "description": "Literal correlation reference for the reservation."
+    },
+    "reservation_digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Digest of the reservation record."
+    },
+    "evidence_state": {
+      "enum": [
+        "withheld",
+        "dispatched",
+        "effect_confirmed",
+        "unknown"
+      ]
+    },
+    "observation": {
+      "$ref": "#/$defs/observation"
+    },
+    "target_marker": {
+      "$ref": "#/$defs/target_marker"
+    },
+    "recorder_evidence_digest": {
+      "$ref": "#/$defs/digest",
+      "description": "Digest of the recorder evidence associated with this correlation record."
+    },
+    "signature": {
+      "$ref": "#/$defs/signature"
+    }
+  },
+  "$defs": {
+    "literal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])",
+      "description": "Exact nonempty identifier without whitespace or wildcard characters. Matching is literal; no wildcard or range compatibility is supported."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^(sha256:[0-9a-f]{64}|sha384:[0-9a-f]{96})$(?![\\s\\S])",
+      "description": "Algorithm-prefixed lowercase digest. Digest calculation, canonical input handling, and collision resistance are semantic obligations."
+    },
+    "safe_integer": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Nonnegative safe integer token. Interval ordering is a semantic obligation."
+    },
+    "observation": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "protected_path_coverage",
+        "interval_start",
+        "interval_end",
+        "provenance_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/literal",
+          "description": "Claimed authenticated observation-source identifier; authentication is a semantic obligation."
+        },
+        "protected_path_coverage": {
+          "$ref": "#/$defs/literal",
+          "description": "Literal declaration of the protected observation path and coverage. Coverage sufficiency is a semantic obligation."
+        },
+        "interval_start": {
+          "$ref": "#/$defs/safe_integer"
+        },
+        "interval_end": {
+          "$ref": "#/$defs/safe_integer"
+        },
+        "provenance_digest": {
+          "$ref": "#/$defs/digest",
+          "description": "Digest binding the observation provenance."
+        }
+      }
+    },
+    "target_marker": {
+      "type": "object",
+      "required": [
+        "kind",
+        "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "non_dispatch",
+            "dispatch",
+            "effect"
+          ],
+          "description": "Marker semantics: non_dispatch is not-dispatch evidence, dispatch is a delivery indication, and effect is an effect-observation claim subject to semantic verification."
+        },
+        "value": {
+          "$ref": "#/$defs/literal",
+          "description": "Literal target-specific correlation marker. It is not an HTTP status, response code, or generic transport result."
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$(?![\\s\\S])",
+      "description": "Compact JWS with three nonempty unpadded base64url segments. Shape does not verify protected headers, key role, payload binding, or signature validity."
+    }
+  }
+}

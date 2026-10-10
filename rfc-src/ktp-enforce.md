@@ -171,13 +171,13 @@ The standard enforcement flow for every action follows. Software-agent tiers and
 
 1. PEP looks up Action Risk (A) for requested action
 
-1. Apply the input and zero-capacity checks in {{KTP-CORE}} Section 6.6 before comparing or dividing A and E; unresolved or invalid numeric inputs, incomparable scales, and zero capacity produce a veto.
+1. Apply the input and zero-capacity checks in {{KTP-CORE}} Section 6.7 (Aggregation Algorithm) before comparing or dividing A and E; unresolved or invalid numeric inputs, incomparable scales, and zero capacity produce a veto.
 
 1. IF A > E: - supervision = silent_veto, reason TRUST_INSUFFICIENT (Silent Veto) - Log to Flight Recorder - STOP
 
 1. Verify the actual executor's current grants and restrictions. For software, a failed Trust Tier restriction also denies. For a human, missing current operation-specific eligibility denies. Where a human delegates or supervises software, verify the human's eligibility for that exact operation and the restrictive intersection of every current delegation/grant with the executor's own authority. No signature, score, or human eligibility transfers capability or relaxes a preceding veto.
 
-1. Evaluate the decision result - supervision and tightenedConstraints - per {{KTP-CORE}} Section 6.6. If it is silent_veto, log the denial and STOP. Otherwise, the action may proceed only under the tightened envelope and after the returned supervision requirements are satisfied. Profile thresholds and supervision MUST NOT relax a preceding veto.
+1. Evaluate the decision result - supervision and tightenedConstraints - per {{KTP-CORE}} Section 6.7 (Aggregation Algorithm). If it is silent_veto, log the denial and STOP. Otherwise, the action may proceed only under the tightened envelope and after the returned supervision requirements are satisfied. Profile thresholds and supervision MUST NOT relax a preceding veto.
 
 1. For every software executor, verify current operation-scoped readiness under specifications/operational-readiness.md, including when a human requested or approved the action. Match the signed decision sidecar to the complete ordinary proof, actual resolved request, live subject code/model/configuration/toolchain/permissions, installed readiness and deployment profiles, and current readiness epoch/revocation state. If any required evidence is missing, expired, mismatched, revoked, or unverifiable, deny the affected operation and STOP. Readiness cannot reverse an earlier veto or add E_base. A human executor instead requires the reviewed human adapter's current eligibility, capacity, and evidence/status checks; the implementation MUST NOT invent software readiness fields for a person.
 
@@ -799,7 +799,7 @@ Enforcement follows a strict evaluation order:
 
 1. Scoped Readiness (Required) - Is the signed readiness decision current and matched to the complete ordinary proof, actual request, live subject and permissions, installed profiles, and readiness epoch? - If NO: deny the affected operation under specifications/operational-readiness.md; do not weaken any preceding result
 
-1. RETURN the decision result - supervision and tightenedConstraints - per {{KTP-CORE}} Section 6.6
+1. RETURN the decision result - supervision and tightenedConstraints - per {{KTP-CORE}} Section 6.7 (Aggregation Algorithm)
 
 This order ensures that sovereignty constraints are always evaluated first, followed by environment-derived constraints, followed by tier restrictions, followed by any custom policies.
 

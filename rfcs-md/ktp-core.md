@@ -171,7 +171,7 @@ The basic authorization flow is:
 
 1. PDP evaluates A <= E_trust for the requested action
 
-1. If A > E_trust: Silent Veto triggers, action is DENIED. Otherwise, the request continues through Section 6.6 and the remaining authorization checks; satisfying the capacity inequality alone does not permit an action.
+1. If A > E_trust: Silent Veto triggers, action is DENIED. Otherwise, the request continues through Section 6.7 (Aggregation Algorithm) and the remaining authorization checks; satisfying the capacity inequality alone does not permit an action.
 
 1. Decision and full context are logged to Flight Recorder
 
@@ -314,7 +314,7 @@ The Trust Proof MUST carry the instrument's status — current, or non-renewable
 
 Where a deployment implements peer validation, peer signals occupy a distinct term. They MUST NOT be folded into Proof of Resilience or the External Root.
 
-The deployment MUST declare the peer share it applies, within the range given in Section 5.4.5 (Peer Validation), in the Trust Proof. The remaining share is distributed across the base terms in their published proportions. A relying party MUST evaluate E_base against the declared share and MUST NOT compare magnitudes across deployments that declare different shares.
+The deployment MUST declare the peer share it applies, within the range given in Section 5.5.5 (Peer Validation), in the Trust Proof. The remaining share is distributed across the base terms in their published proportions. A relying party MUST evaluate E_base against the declared share and MUST NOT compare magnitudes across deployments that declare different shares.
 
 Peer signals MUST be independent of the base terms. A signal that duplicates information already captured by Proof of Resilience or the External Root is not admissible as a peer signal.
 
@@ -400,13 +400,13 @@ The calculation:
 
 Where: w_i = Domain-specific weight for dimension i s_i = Normalized sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must sum to 1)
 
-The weight declaration MUST pass Section 6.4's validation before this calculation. An invalid declaration MUST NOT be used to compute an authorizing score.
+The weight declaration MUST pass the validation of Section 6.5 (Domain Weights) before this calculation. An invalid declaration MUST NOT be used to compute an authorizing score.
 
 R is always in the range [0, 1]: - R = 0: Perfect conditions, no environmental stress - R = 0.5: Moderate stress, significant capability reduction - R = 1: Total crisis, all capabilities suspended
 
 Every term s_i is a STRESS term in [0, 1]. 1 is maximum stress and 0 is its absence, for every weighted Risk Factor, whatever that factor is named. A Risk Factor whose name reads as a desirable quantity is still a stress term; the name describes what is measured, never the direction in which it is bad.
 
-It follows that the conservative substitute for a term the deployment cannot currently observe is 1.0, and that a deployment MUST NOT substitute 0 for an unobserved term. Zero is a measurement of perfect conditions, not a statement that conditions are unknown. Section 6.7 states this rule for the class of undefined inputs; this section is its application to Risk Factor terms.
+It follows that the conservative substitute for a term the deployment cannot currently observe is 1.0, and that a deployment MUST NOT substitute 0 for an unobserved term. Zero is a measurement of perfect conditions, not a statement that conditions are unknown. Section 6.8 (Undefined Inputs) states this rule for the class of undefined inputs; this section is its application to Risk Factor terms.
 
 Each Risk Factor is a named aggregation over a declared subset of Context Signals. A signal reporting unknown MUST NOT contribute to that aggregation as though it had observed zero risk, and a Risk Factor whose declared subset cannot be populated is unobservable and takes 1.0.
 
@@ -533,7 +533,7 @@ GOODHART-002: Trust Score calculation SHOULD include unpredictable elements that
 
 Permitted unpredictability: - Random weight variations within bounds (±10%) - Unannounced sensor emphasis shifts - Periodic recalibration of dimension weights - Random deep audits of trajectory
 
-Every weight variation remains subject to Section 6.4's validity and unit-sum requirements.
+Every weight variation remains subject to the validity and unit-sum requirements of Section 6.5 (Domain Weights).
 
 NOT permitted: - Arbitrary score manipulation - Retroactive weight changes - Unpredictability that violates deterministic verification
 
@@ -1137,7 +1137,7 @@ Step 3: Trust Score Deflation
 
 Step 4: Input Validation, Capacity Veto, and Decision Result
 
-Before this stage, undefined inputs MUST be resolved restrictively under Section 6.7. A declared conservative estimate of capacity remains subject to the capacityKnown = false supervision floor in [KINETIC-ENVELOPE]. If no usable numeric A or E_trust is available, the action MUST be vetoed; an implementation MUST NOT substitute a permissive value or manufacture a margin. Undefined inputs MUST be recorded as required by Section 6.7.
+Before this stage, undefined inputs MUST be resolved restrictively under Section 6.8 (Undefined Inputs). A declared conservative estimate of capacity remains subject to the capacityKnown = false supervision floor in [KINETIC-ENVELOPE]. If no usable numeric A or E_trust is available, the action MUST be vetoed; an implementation MUST NOT substitute a permissive value or manufacture a margin. Undefined inputs MUST be recorded as required by Section 6.7.
 
 The following checks MUST precede division and profile threshold evaluation. A and E_trust MUST be finite, non-negative numbers on the same declared scale and describe the same candidate action. Boolean values, non-numeric values, NaN, and infinities are invalid.
 
@@ -1217,7 +1217,7 @@ Implementations MAY cache aggregated R values for up to 100ms to reduce computat
 
 An input that is absent, unanswered, stale beyond its declared refresh, or otherwise undefined MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point, and the undefined state MUST be recorded on the decision record. Substituting a measured value for an undefined one - including zero - is prohibited (Section 5.2).
 
-"Toward permission" is the operative phrase. Failing closed does not mean denying on every unknown. Where a decision point offers a graded outcome - the supervision ladder of Section 6.6 - an undefined input clamps the result to a more supervised level, per [KINETIC-ENVELOPE]: an unknown environment reads as low capacity, not high. Denial is the terminal case, reached only where no more restrictive outcome short of denial exists at that decision point. The Soul veto (Section 6.2) is a decision point with exactly that shape - its outcomes are veto and no veto - so an undefined sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
+"Toward permission" is the operative phrase. Failing closed does not mean denying on every unknown. Where a decision point offers a graded outcome - the supervision ladder of Section 6.7 (Aggregation Algorithm) - an undefined input clamps the result to a more supervised level, per [KINETIC-ENVELOPE]: an unknown environment reads as low capacity, not high. Denial is the terminal case, reached only where no more restrictive outcome short of denial exists at that decision point. The Soul veto (Section 6.2) is a decision point with exactly that shape - its outcomes are veto and no veto - so an undefined sovereignty input resolves to the veto ([KTP-SENSORS] Section 4.3).
 
 Silence and absence do not separate. A channel that returns nothing and a channel that was never reachable are indistinguishable to the decision, and an adversary who can produce one can produce the other. An implementation MUST NOT resolve an unanswered input differently from an absent one.
 
@@ -1455,11 +1455,11 @@ The veto evaluation is performed at the PEP:
    IF A > E_trust THEN
      trigger Silent Veto
    ELSE
-     continue through Section 6.6 and the remaining checks
+     continue through Section 6.7 (Aggregation Algorithm) and the remaining checks
    END IF
 ~~~
 
-The evaluation MUST occur for every action request. For software actors it MUST use E_trust from a valid, unexpired Trust Proof; for human actors it MUST use the current operational E authenticated by the reviewed adapter and bound to the exact request and ordinary proof. The input and zero-capacity checks in Section 6.6 MUST precede arithmetic; this abbreviated capacity check does not replace them. Profile evaluation MUST NOT lower a silent_veto result or treat A <= E as sufficient permission.
+The evaluation MUST occur for every action request. For software actors it MUST use E_trust from a valid, unexpired Trust Proof; for human actors it MUST use the current operational E authenticated by the reviewed adapter and bound to the exact request and ordinary proof. The input and zero-capacity checks in Section 6.7 (Aggregation Algorithm) MUST precede arithmetic; this abbreviated capacity check does not replace them. Profile evaluation MUST NOT lower a silent_veto result or treat A <= E as sufficient permission.
 
 The veto is triggered automatically. A correctly evaluated veto MUST NOT be overridden by an appeal, emergency declaration, manager approval, or grace period. This does not prohibit meaningful explanation, independent review, or correction under [KTP-HUMAN], [KTP-PRIVACY], and specifications/human-eligibility.md. A correction changes the authoritative evidence and requires a fresh evaluation with all safety checks; it does not retroactively authorize the denied action. Superseded evidence and dependent authority MUST NOT be revived through caching, replay, or restoration.
 

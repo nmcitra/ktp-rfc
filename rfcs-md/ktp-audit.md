@@ -243,11 +243,11 @@ The decision outcome records what happened and why:
 
 Key fields:
 
-supervision: the returned supervision level (stable, metacognitive, assisted, regulated, or silent_veto), per [KTP-CORE] Section 6.6
+supervision: the returned supervision level (stable, metacognitive, assisted, regulated, or silent_veto), per [KTP-CORE] Section 6.7 (Aggregation Algorithm)
 
 tightened_constraints: the tighten-only constraint set on the result; present on every decision
 
-margin: the Zeroth Law margin the supervision was derived from; MUST be present when margin calculation was reached and MUST be omitted when an earlier check stopped the evaluation, per [KTP-CORE] Section 6.6. The example above vetoes A > E_trust before division and therefore has no margin. An omitted margin MUST NOT be interpreted as zero.
+margin: the Zeroth Law margin the supervision was derived from; MUST be present when margin calculation was reached and MUST be omitted when an earlier check stopped the evaluation, per [KTP-CORE] Section 6.7 (Aggregation Algorithm). The example above vetoes A > E_trust before division and therefore has no margin. An omitted margin MUST NOT be interpreted as zero.
 
 reason: KTP error code when supervision is silent_veto
 
@@ -255,7 +255,7 @@ evaluation: Step-by-step evaluation trace
 
 gap: Difference between A and E_trust (how far from threshold)
 
-The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from supervision and tightened_constraints per [KTP-CORE] Section 6.6 and is not stored; the record carries the result the verb is read from.
+The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from supervision and tightened_constraints per [KTP-CORE] Section 6.7 (Aggregation Algorithm) and is not stored; the record carries the result the verb is read from.
 
 ## Counterfactual Analysis
 

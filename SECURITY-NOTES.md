@@ -210,3 +210,58 @@ Hibernation is `E_trust < 22`.
 
 Both glossary entries name Hibernation. Editorial, so it rides the next release
 rather than taking a patch tag of its own.
+
+---
+
+## SN-005 — thirty-two citations into `ktp-core` §6 land one section off
+
+**Affects:** v2.0.0 (`v2.0.0`), v2.1.0 (`v2.1.0`)
+**Component:** `ktp-audit`, `ktp-attenuation`, `ktp-conformance`, `ktp-core`,
+`ktp-enforce`, `ktp-recovery`, `ktp-sensors`; `specifications/deployment-profile.md`,
+`specifications/kinetic-envelope.md`, `specifications/conformance/capacity-gate-v1.json`;
+`catalog/index.md`
+**Found:** 2026-10-03, by the corpus audit · **Corrected in:** the next release
+
+### What is wrong
+
+v2.0.0 inserted `ktp-core` §6.3, "The Carriage Interface for Normative
+Content". Every later subsection of §6 moved down one: Normalization is §6.4,
+Domain Weights §6.5, Risk Factor Modularity §6.6, Aggregation Algorithm §6.7,
+Undefined Inputs §6.8. Section numbers are assigned by the toolchain, so no
+citation changed in source and nothing flagged it. Thirty-two citations across
+eleven files still name the pre-insert number: "Section 6.4" where the sentence
+is about weight validation (§6.5), "Section 6.6" where it is about the
+supervision ladder, margin and thresholds (§6.7), "Section 6.7" where it is
+about failing closed on an undefined input (§6.8). Sixteen other "Section 6.4"
+citations in `ktp-identity` and its bond schema mean ktp-identity's own §6.4,
+Penalty and Release, and are correct. One citation outside §6 has the same
+defect: `ktp-core` cites "Section 5.4.5 (Peer Validation)" for a heading that is
+§5.5.5.
+
+### Why it matters
+
+Low for an implementer who reads the cited sentence, since each one already
+states its requirement and the citation only says where the detail lives. The
+exposure is in three fail-closed rules — `ktp-sensors` §4.3 on an unanswered
+sovereignty query, `ktp-recovery` Principle 1, `ktp-attenuation` on
+uncertainty — which send the reader to the Aggregation Algorithm for the rule
+on undefined inputs. A reader who follows the pointer finds the margin
+arithmetic and not the rule that an undefined input resolves toward the more
+restrictive outcome, and may conclude the set leaves that case to the
+algorithm's defaults. It does not; the rule is §6.8.
+
+### What to do on v2.0.0 / v2.1.0
+
+Read citations into `ktp-core` §6.4–§6.7 as one section further on: weight
+validation and the unit-sum rule are §6.5 (Domain Weights); the supervision
+ladder, margin, decision verb and `M_veto < M_allow` are §6.7 (Aggregation
+Algorithm); fail-closed and the treatment of absent, unanswered or stale inputs
+are §6.8 (Undefined Inputs). Citations to §6.1 and §6.2 are unaffected.
+
+### How it is corrected
+
+Each citation is re-aimed and now carries the heading it means —
+`Section 6.7 (Aggregation Algorithm)` — and `scripts/check-section-refs.py`
+holds the number to the heading in CI, so a future section insert fails the
+build instead of surviving two tags. Editorial; rides `main`.
+

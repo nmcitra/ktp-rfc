@@ -16,7 +16,7 @@ A declaration does not fix a value the specification left open by accident — i
 | the sponsorship chain's terminator and hop bound, declared or the term is zero | `ktp-core` §5.1 (per #47/#51) |
 | a bare-`0-1` synthetic score's normalization function, declared or it MUST NOT aggregate | `catalog/index.md` §6 |
 | which ID of an alias set the deployment populates | `catalog/index.md` §7 |
-| the undefined state, recorded on the decision record | `ktp-core` §6.7 (per #110/#105) |
+| the undefined state, recorded on the decision record | `ktp-core` §6.8 (Undefined Inputs), per #110/#105 |
 
 ## The profile object
 
@@ -50,7 +50,7 @@ The shape is fixed by #83: **six weighted inputs to R, plus the Soul veto, which
 - `aggregation` — the named aggregation over them (method plus its parameters);
 - `weight` — the factor's weight in `R = sum(w_i * s_i)`.
 
-The six factor weights MUST be finite numbers in `(0, 1]` and MUST sum to 1 (`ktp-core` §6.4). This retains the schema's existing positive-weight requirement. Booleans and non-numeric values are invalid. Validate the complete set before computing `R`, including after reconfiguration; an invalid profile MUST be rejected and MUST NOT be silently rescaled or completed with default weights. Soul remains outside the sum. Per-feed aggregation weights are a separate declaration and are not subject to this six-factor sum check.
+The six factor weights MUST be finite numbers in `(0, 1]` and MUST sum to 1, per `ktp-core` §6.5 (Domain Weights). This retains the schema's existing positive-weight requirement. Booleans and non-numeric values are invalid. Validate the complete set before computing `R`, including after reconfiguration; an invalid profile MUST be rejected and MUST NOT be silently rescaled or completed with default weights. Soul remains outside the sum. Per-feed aggregation weights are a separate declaration and are not subject to this six-factor sum check.
 
 The declaration checker sums the decimal representations of the parsed numeric values exactly, without a tolerance. This avoids binary addition noise without accepting a non-unit decimal total. The check uses the numbers produced by the JSON parser; it does not preserve the original numeric token's precision. For rounded repeating fractions, declare the rounding remainder explicitly: five weights of `0.16666666666666666` and one of `0.1666666666666667` sum to 1; six copies of the former do not. The checker validates these choices without modifying them.
 
@@ -116,7 +116,7 @@ Historical v2 instruction: the published `standing_decay_rate` named a range of 
 
 ## Envelope thresholds
 
-Declared thresholds MUST be finite JSON numbers satisfying `0 <= m_veto < m_allow` (`ktp-core` §6.6). Both fields are required when the section is present; booleans, non-numeric values, nonfinite values, missing fields, and additional fields are invalid. The schema enforces the per-field lower bounds and shape; `check-declarations.py` also checks finiteness and cross-field ordering. There is no upper bound: a conservative profile may prevent stable operation by requiring an unattainable margin.
+Declared thresholds MUST be finite JSON numbers satisfying `0 <= m_veto < m_allow`, per `ktp-core` §6.7 (Aggregation Algorithm). Both fields are required when the section is present; booleans, non-numeric values, nonfinite values, missing fields, and additional fields are invalid. The schema enforces the per-field lower bounds and shape; `check-declarations.py` also checks finiteness and cross-field ordering. There is no upper bound: a conservative profile may prevent stable operation by requiring an unattainable margin.
 
 Omitting the section retains the existing `M_veto = M_allow = 0` default, including its veto at zero margin. An explicit null or equal pair is invalid and MUST NOT select that default. These requirements preserve the existing equality behavior.
 
@@ -152,7 +152,7 @@ Every member MUST verify the authenticated configuration and evidence before cou
 
 ## The decision record's undefined-inputs field
 
-`ktp-core` §6.7 requires that *the undefined state MUST be recorded on the decision record*, and #105 requires the recorded state to distinguish a silence-veto from a framework-veto in audit. Until now the obligation had no named field. This document defines it:
+`ktp-core` §6.8 (Undefined Inputs) requires that *the undefined state MUST be recorded on the decision record*, and #105 requires the recorded state to distinguish a silence-veto from a framework-veto in audit. Until now the obligation had no named field. This document defines it:
 
 ```json
 "undefined_inputs": [
@@ -164,7 +164,7 @@ Every member MUST verify the authenticated configuration and evidence before cou
 
 - `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, or a sovereignty framework identifier;
 - `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
-- `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.7 enumerates.
+- `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
 The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) rides the #71/#83 schema gate; this definition is that gate's cargo.
 

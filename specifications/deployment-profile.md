@@ -26,7 +26,8 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 
 | section | declares | required |
 |---|---|---|
-| `risk_factors` | which Context Signals feed each of the six Risk Factors, by what aggregation, at what weight | yes |
+| `risk_factors` | which Context Signals feed each of the five Risk Factors, by what aggregation, at what weight | yes |
+| `demand_inputs` | each externally supplied demand input (such as `moment_criticality`): its supplying party, unit convention, and source, per `[KTP-CORE]` L14 | yes, per demand input used |
 | `soul_veto` | the sovereignty frameworks queried before aggregation | yes |
 | `feeds` | which signals each configured feed populates | yes, where feeds are configured |
 | `aliases` | which member of each populated alias set this deployment populates | yes, per populated set |
@@ -42,17 +43,17 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 
 ## Risk Factors — the bridge
 
-`[KTP-CORE]`'s bridge law (D2): **each Risk Factor is a named aggregation over a declared subset of Context Signals. A deployment MUST declare which signals feed which factor and by what aggregation.** The catalogue names what can be measured; the six factors are what the decision consumes; this section is the only place the two meet.
+`[KTP-CORE]`'s bridge law (D2): **each Risk Factor is a named aggregation over a declared subset of Context Signals. A deployment MUST declare which signals feed which factor and by what aggregation.** The catalogue names what can be measured; the five factors are what the decision consumes; this section is the only place the two meet.
 
-The shape is fixed by #83: **six weighted inputs to R, plus the Soul veto, which is evaluated before aggregation and is not a term in it.** The six factor keys are `evidence_density`, `trust_trend`, `adversarial_pressure`, `update_resistance`, `attestation_coverage`, `moment_criticality` — all six are required, and the schema's `required` array is exactly that list. Each factor declares:
+The shape is fixed: **five weighted inputs to R, plus the Soul veto, which is evaluated before aggregation and is not a term in it.** The five factor keys are `evidence_density`, `trust_trend`, `adversarial_pressure`, `update_resistance`, `attestation_coverage` — all five are required, and the schema's `required` array is exactly that list. Each factor declares:
 
 - `signals` — Context Signal IDs from `catalog/`, the declared subset;
 - `aggregation` — the named aggregation over them (method plus its parameters);
 - `weight` — the factor's weight in `R = sum(w_i * s_i)`.
 
-The six factor weights MUST be finite numbers in `(0, 1]` and MUST sum to 1, per `ktp-core` §6.5 (Domain Weights). This retains the schema's existing positive-weight requirement. Booleans and non-numeric values are invalid. Validate the complete set before computing `R`, including after reconfiguration; an invalid profile MUST be rejected and MUST NOT be silently rescaled or completed with default weights. Soul remains outside the sum. Per-feed aggregation weights are a separate declaration and are not subject to this six-factor sum check.
+The five factor weights MUST be finite numbers in `(0, 1]` and MUST sum to 1, per `ktp-core` §6.5 (Domain Weights). This retains the schema's existing positive-weight requirement. Booleans and non-numeric values are invalid. Validate the complete set before computing `R`, including after reconfiguration; an invalid profile MUST be rejected and MUST NOT be silently rescaled or completed with default weights. Soul remains outside the sum. Per-feed aggregation weights are a separate declaration and are not subject to this five-factor sum check.
 
-The declaration checker sums the decimal representations of the parsed numeric values exactly, without a tolerance. This avoids binary addition noise without accepting a non-unit decimal total. The check uses the numbers produced by the JSON parser; it does not preserve the original numeric token's precision. For rounded repeating fractions, declare the rounding remainder explicitly: five weights of `0.16666666666666666` and one of `0.1666666666666667` sum to 1; six copies of the former do not. The checker validates these choices without modifying them.
+The declaration checker sums the decimal representations of the parsed numeric values exactly, without a tolerance. This avoids binary addition noise without accepting a non-unit decimal total. The check uses the numbers produced by the JSON parser; it does not preserve the original numeric token's precision. For rounded repeating fractions, declare the rounding remainder explicitly: two weights of `0.3333333333333333`, one of `0.1333333333333334` and two of `0.1` sum to 1; the same set with `0.1333333333333333` in place of `0.1333333333333334` does not. The checker validates these choices without modifying them.
 
 Constraints, all quoted from their rulings:
 

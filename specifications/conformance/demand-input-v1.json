@@ -1,0 +1,226 @@
+{
+  "suite": "demand-input-v1",
+  "kind": "declaration-and-evaluation-boundary",
+  "specification": "KTP-CORE L14 (the criticality of the moment is a demand-side input) and L11 (the supplied-input rule); specifications/deployment-profile.md, demand_inputs",
+  "note": "This repository contains no authorizer runtime. These vectors fix decision requirements at two boundaries: the deployment profile's demand_inputs declaration, and the point at which a supplied value enters an evaluation. They do not define a formula for A, R or E; where A is shown after a demand input is applied, the expectation is the ordering the envelope's non-decreasing property requires, not a value. The given/expect objects are test notation, not wire fields. The declaration checker (scripts/check-declarations.py) and the deployment-profile schema both reject the invalid profiles below; the schema is the authority on shape and the checker on arithmetic. Independence of a supplier from the requester is a declared relationship; a checker can refuse the literal case and cannot verify the proxy case, which is left to review.",
+  "value_notation": "value is the supplied demand magnitude in the declared unit (0 to 1, 1 the most critical moment). observed_at and freshness_seconds are the supplier's observation time and the declared freshness window, both in seconds on one clock. bound_to is the digest of the operation the value was supplied for; request is the digest of the operation under evaluation. 'maximal' means the value is read as the most critical moment the unit admits.",
+  "vectors": [
+    {
+      "id": "DI01-declared-supplier-raises-A",
+      "given": {
+        "profile": "embedded example (demand_inputs.moment_criticality declared: supplier example-event-calendar, source deployment calendar feed)",
+        "value": 0.993,
+        "observed_at": 1000,
+        "freshness_seconds": 60,
+        "evaluated_at": 1030,
+        "bound_to": "sha256:op-7a1",
+        "request": "sha256:op-7a1",
+        "A_before": 50,
+        "R": 0.54,
+        "E_base": 95
+      },
+      "expect": {
+        "valueAccepted": true,
+        "entersR": false,
+        "R": 0.54,
+        "E_base": 95,
+        "E_trust": 43.7,
+        "A_after_at_least": 50,
+        "A_direction": "non-decreasing"
+      },
+      "reason": "A valid value from the declared supplier enters on the demand side only. It can raise A and nothing else; R, E_base and E_trust are exactly what the five weighted inputs produce without it (Core A.1)."
+    },
+    {
+      "id": "DI02-requester-as-supplier-refused",
+      "given": {
+        "profile": "embedded example with demand_inputs.moment_criticality.supplier = \"requester\""
+      },
+      "expect": {
+        "declarationValid": false,
+        "valueEnters": false,
+        "reason_code": "supplier is the requesting party"
+      },
+      "reason": "A demand input is never supplied by the requester. The declaration is invalid and no value under it enters an evaluation; the checker refuses the literal case."
+    },
+    {
+      "id": "DI02b-party-acting-for-requester-refused",
+      "given": {
+        "profile": "embedded example with demand_inputs.moment_criticality.supplier = \"ticketing-agent-sidecar\"",
+        "supplier_acts_for_requester": true
+      },
+      "expect": {
+        "declarationValid": false,
+        "valueEnters": false
+      },
+      "reason": "A party acting for the requester is the requester for this rule. The relationship is declared, not computed: a review that finds the supplier acts for the requester invalidates the declaration, and a checker cannot establish it either way."
+    },
+    {
+      "id": "DI03-missing-supplier-declaration-reads-maximal",
+      "given": {
+        "profile": "embedded example with demand_inputs omitted",
+        "value": 0.1,
+        "observed_at": 1000,
+        "freshness_seconds": 60,
+        "evaluated_at": 1030,
+        "bound_to": "sha256:op-7a1",
+        "request": "sha256:op-7a1"
+      },
+      "expect": {
+        "valueAccepted": false,
+        "readsAs": "maximal",
+        "evaluationProceeds": true,
+        "evaluationFailsClosed": true
+      },
+      "reason": "Without a declared supplier the input is undefined. It reads as the most critical moment and the evaluation proceeds on that reading; it is never read as calm and never fabricated."
+    },
+    {
+      "id": "DI04-stale-value-reads-maximal",
+      "given": {
+        "profile": "embedded example",
+        "value": 0.1,
+        "observed_at": 1000,
+        "freshness_seconds": 60,
+        "evaluated_at": 1061,
+        "bound_to": "sha256:op-7a1",
+        "request": "sha256:op-7a1"
+      },
+      "expect": {
+        "valueAccepted": false,
+        "readsAs": "maximal",
+        "evaluationProceeds": true
+      },
+      "reason": "A value observed outside the declared freshness window is stale. It reads as the most critical moment, not as the last value seen and not as calm."
+    },
+    {
+      "id": "DI05-differently-bound-value-refused",
+      "given": {
+        "profile": "embedded example",
+        "value": 0.1,
+        "observed_at": 1000,
+        "freshness_seconds": 60,
+        "evaluated_at": 1030,
+        "bound_to": "sha256:op-7a1",
+        "request": "sha256:op-9c4"
+      },
+      "expect": {
+        "valueAccepted": false,
+        "readsAs": "maximal",
+        "evaluationProceeds": true
+      },
+      "reason": "A value supplied for one operation does not transfer to another. The binding mismatch refuses the value, and the input reads as the most critical moment for the operation under evaluation."
+    },
+    {
+      "id": "DI06-signals-under-demand-input-invalid",
+      "given": {
+        "profile": "embedded example with demand_inputs.moment_criticality.signals = [\"time.window.business_hours_active\"]"
+      },
+      "expect": {
+        "declarationValid": false,
+        "reason_code": "a demand input claims a Context Signal subset"
+      },
+      "reason": "A demand input is not an aggregation over Context Signals and MUST NOT claim a subset underneath it (L14). The schema rejects the member and the checker rejects the declaration."
+    },
+    {
+      "id": "DI07-six-weighted-factors-invalid",
+      "given": {
+        "profile": "embedded example with risk_factors.moment_criticality added as a sixth weighted factor (weight 0.15)"
+      },
+      "expect": {
+        "declarationValid": false,
+        "reason_code": "moment_criticality is not one of the five Risk Factors"
+      },
+      "reason": "The v2.1.0 six-factor shape is not a valid v3 declaration. The input is declared under demand_inputs or not at all."
+    },
+    {
+      "id": "DI08-five-weights-not-summing-invalid",
+      "given": {
+        "profile": "embedded example with attestation_coverage.weight = 0.16",
+        "weights": [
+          0.29,
+          0.18,
+          0.24,
+          0.12,
+          0.16
+        ],
+        "decimal_sum": "0.99"
+      },
+      "expect": {
+        "declarationValid": false,
+        "rescaled": false,
+        "reason_code": "the five Risk Factor weights must sum exactly to 1"
+      },
+      "reason": "Weights are validated by exact decimal sum and never silently rescaled. A profile that does not sum to 1.00 is rejected, not repaired."
+    },
+    {
+      "id": "DI09-stadium-profile-renormalization",
+      "given": {
+        "profile": "Stadium Network at v2.1.0",
+        "weights_v2_1_0": {
+          "evidence_density": "0.25",
+          "trust_trend": "0.25",
+          "adversarial_pressure": "0.20",
+          "moment_criticality": "0.15",
+          "update_resistance": "0.10",
+          "attestation_coverage": "0.05"
+        },
+        "removed": "moment_criticality",
+        "remaining_sum": "0.85",
+        "proportional": {
+          "evidence_density": "0.25/0.85 = 0.2941",
+          "trust_trend": "0.25/0.85 = 0.2941",
+          "adversarial_pressure": "0.20/0.85 = 0.2353",
+          "update_resistance": "0.10/0.85 = 0.1176",
+          "attestation_coverage": "0.05/0.85 = 0.0588"
+        },
+        "rounding": "to two decimals, half up"
+      },
+      "expect": {
+        "weights": {
+          "evidence_density": "0.29",
+          "trust_trend": "0.29",
+          "adversarial_pressure": "0.24",
+          "update_resistance": "0.12",
+          "attestation_coverage": "0.06"
+        },
+        "rounded_sum": "1.00",
+        "residual": "0.00",
+        "residual_placed_on": "the largest remaining weight (none needed here)"
+      },
+      "reason": "The published rule: when a weighted input leaves R, every profile renormalizes proportionally to two decimals and the rounding residual goes to the largest remaining weight. Applied to the Stadium profile it reproduces the five weights Core publishes, and every number is re-derivable with decimal arithmetic."
+    },
+    {
+      "id": "DI10-kickoff-example-still-vetoes",
+      "given": {
+        "profile": "Stadium Network (five weights)",
+        "normalized_inputs": {
+          "evidence_density": 0.875,
+          "trust_trend": 0.92,
+          "adversarial_pressure": 0.02,
+          "update_resistance": 0.1,
+          "attestation_coverage": 0.04
+        },
+        "weights": {
+          "evidence_density": 0.29,
+          "trust_trend": 0.29,
+          "adversarial_pressure": 0.24,
+          "update_resistance": 0.12,
+          "attestation_coverage": 0.06
+        },
+        "E_base": 95,
+        "A": 50,
+        "demand_input": {
+          "value": 0.993,
+          "supplier": "declared"
+        }
+      },
+      "expect": {
+        "R": 0.54,
+        "E_trust": 43.7,
+        "A_after_at_least": 50,
+        "executionPermitted": false,
+        "supervision": "silent_veto"
+      },
+      "reason": "Core's worked example A.1 recomputed over five inputs: R = 0.540, E_trust = 43.70, and 50 > 43.70 vetoes on R alone. The kickoff demand input can only raise A, so it strengthens the veto and could never produce a permit."
+    }
+  ]
+}

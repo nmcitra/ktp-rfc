@@ -106,8 +106,9 @@ weighted inputs, named by their JSON keys:
 Plus the **Soul veto** — `soul` is not a seventh weighted input. It is
 evaluated before aggregation, and a violated sovereignty constraint forbids the
 action regardless of `E_trust`. This is where Traditional Knowledge Labels,
-OCAP® and CARE, and sacred-land constraints bind. Six weighted inputs and a
-veto, never seven weights.
+OCAP® and CARE, and sacred-land constraints bind. Five weighted inputs and a
+veto, never six weights; the criticality of the moment is a demand input, not a
+weight.
 
 ## The specifications
 
@@ -200,7 +201,7 @@ never moved — but v2 text uses these names only.
 | `divergent` | `independent` | Same |
 | `persistent` | `guarantor` | Same |
 | God Mode *(retired)* | **Admin Mode** | `TRUST_TIER_ADMIN`, OpenAPI `admin` |
-| Single-letter input symbols | The JSON key **is** the name | `risk_factors`, six named keys, `soul` as veto |
+| Single-letter input symbols | The JSON key **is** the name | `risk_factors`, five named keys, `soul` as veto, `moment_criticality` a demand input |
 
 [`MIGRATION.md`](MIGRATION.md) sorts every change into wire-format breaks,
 behavior breaks, and prose changes. [`CHANGELOG.md`](CHANGELOG.md) records what

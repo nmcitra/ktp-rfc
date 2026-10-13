@@ -213,14 +213,14 @@ Digital Trust is continuous and contextual. It updates in real time as telemetry
 
 Kinetic decisions must be tethered to the real, measured state of the environment. Context Signals make the environment measurable; the Risk Factors make it enforceable.
 
-Six weighted inputs shape risk. **Soul** is not a seventh weight — it sits outside the equation as immutable constraint.
+Five weighted inputs shape risk; the criticality of the moment is a demand input that raises A. **Soul** is not a seventh weight — it sits outside the equation as immutable constraint.
 
 === "Mandate"
     !!! info "The Mandate"
         All kinetic decisions **MUST** be tethered to a multi-dimensional analysis of the true physical and adversarial state of the environment.
 
 === "Risk Factors"
-    Digital Trust is derived from the **six weighted Risk Factor inputs and the Soul veto**:
+    Digital Trust is derived from the **five weighted Risk Factor inputs and the Soul veto**:
 
     $$R = \sum_{i=1}^{6} w_i x_i$$
 
@@ -624,7 +624,7 @@ The Soul is not a parameter in the Trust Equation. It is a constitutional bounda
         Certain constraints exist **outside the Trust Equation**. They cannot be overridden by high trust, low risk, emergency, or operational necessity. They are the **Soul** of the system.
 
 === "Soul Veto"
-    The Soul veto operates differently from the six weighted inputs:
+    The Soul veto operates differently from the five weighted inputs:
 
     - [x] Evaluated **FIRST**, before any calculation
     - [x] Returns **binary**: clear (0) or veto (1)

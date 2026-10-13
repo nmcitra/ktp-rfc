@@ -573,3 +573,24 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+## 4. Unreleased v3 changes
+
+### 4.1 `moment_criticality` leaves the Risk Factor
+
+The criticality of the moment is no longer a weighted term in `R`. It is a
+demand-side input: it raises the demand an action presents (`A`) and never
+lowers `R` or raises `E`. Section 2.10 above described the v2 state, in which
+the value was supplied by the action request; that state is replaced.
+
+| v2.1.0 | v3 |
+|---|---|
+| `moment_criticality`, a weighted Risk Factor input | `moment_criticality`, a demand input declared under `demand_inputs` |
+| six weights summing to 1.0 | five weights summing to 1.0, renormalized proportionally to two decimals with the rounding residual on the largest remaining weight |
+| supplied by the action request's context | supplied by a declared party that is not the requester |
+| `risk_factors.moment_criticality` required on the wire | absent from `risk_factors`; carried nowhere in the Trust Proof |
+
+An implementation computes `R` over five inputs, declares a supplier for the
+demand input in the deployment profile, and reads an absent, stale,
+unverifiable or differently bound value as the most critical moment.
+

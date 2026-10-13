@@ -2,13 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/risk-factors.json",
   "title": "KTP Risk Factors",
-  "description": "The six weighted Risk Factor inputs to the risk aggregate R for the Kinetic Trust Protocol. The Soul veto is evaluated before aggregation and is not a term in it (see soul-constraint.json); six-plus-veto, not seven.",
+  "description": "The five weighted Risk Factor inputs to the risk aggregate R for the Kinetic Trust Protocol. The Soul veto is evaluated before aggregation and is not a term in it (see soul-constraint.json); five-plus-veto, not six. moment_criticality is not a Risk Factor: it is a demand-side input declared under the deployment profile's demand_inputs (KTP-CORE L14).",
   "type": "object",
   "required": [
     "adversarial_pressure",
     "attestation_coverage",
     "evidence_density",
-    "moment_criticality",
     "trust_trend",
     "update_resistance"
   ],
@@ -32,12 +31,6 @@
       "maximum": 1,
       "description": "Measured adversarial stress on the environment: attack indicators, anomaly rates, active-incident signals. This measures stress, not energy transfer."
     },
-    "moment_criticality": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "description": "Criticality of the current moment or operational phase: maintenance windows, cutovers, deadline proximity, ceremonial or protected periods."
-    },
     "update_resistance": {
       "type": "number",
       "minimum": 0,
@@ -56,7 +49,6 @@
       "adversarial_pressure": 0.02,
       "attestation_coverage": 0.04,
       "evidence_density": 0.875,
-      "moment_criticality": 1.0,
       "trust_trend": 0.92,
       "update_resistance": 0.1
     },
@@ -64,7 +56,6 @@
       "adversarial_pressure": 0.05,
       "attestation_coverage": 0.1,
       "evidence_density": 0.1,
-      "moment_criticality": 0.2,
       "trust_trend": 0.15,
       "update_resistance": 0.08
     }

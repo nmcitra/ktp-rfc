@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Cryptographic Specification"
 abbrev: "KTP-CRYPTO"
-date: 2026-09-07
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -977,7 +977,6 @@ Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4"
        "evidence_density": 0.12,
        "trust_trend": 0.08,
        "adversarial_pressure": 0.22,
-       "moment_criticality": 0.05,
        "update_resistance": 0.18,
        "attestation_coverage": 0.10,
        "soul": 0

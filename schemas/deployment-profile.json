@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/deployment-profile.json",
   "title": "KTP Deployment Profile — Unreleased v3",
-  "description": "The unreleased v3 declaration surface for a KTP deployment (specifications/deployment-profile.md). This version replaces inactivity-based standing decay with a required binding to a scoped readiness profile while preserving historical resilience. The published v2 schema is archived separately as deployment-profile-legacy-v2.json. This schema constrains shape; identifier-level validity (signal IDs exist, alias-set membership, synthetic-signal normalization coverage) is validated against catalog/ by scripts/check-declarations.py — the catalogue stays the single source of those lists. The checker also enforces weight and threshold finiteness, the six Risk Factor weights' unit sum, envelope-threshold ordering, standing-policy binding shape, and Oracle membership uniqueness and quorum bounds; schema validation alone is insufficient for those semantic checks or current authorization.",
+  "description": "The unreleased v3 declaration surface for a KTP deployment (specifications/deployment-profile.md). This version replaces inactivity-based standing decay with a required binding to a scoped readiness profile while preserving historical resilience. The published v2 schema is archived separately as deployment-profile-legacy-v2.json. This schema constrains shape; identifier-level validity (signal IDs exist, alias-set membership, synthetic-signal normalization coverage) is validated against catalog/ by scripts/check-declarations.py — the catalogue stays the single source of those lists. The checker also enforces weight and threshold finiteness, the five Risk Factor weights' unit sum, envelope-threshold ordering, standing-policy binding shape, and Oracle membership uniqueness and quorum bounds; schema validation alone is insufficient for those semantic checks or current authorization.",
   "type": "object",
   "required": [
     "profile_id",
@@ -28,14 +28,13 @@
     },
     "risk_factors": {
       "type": "object",
-      "description": "The D2 bridge: each Risk Factor is a named aggregation over a declared subset of Context Signals. The required array is the #83 arity: six weighted inputs. Their finite, positive weights must sum to 1; check-declarations.py checks the sum exactly over the decimal representations of parsed numbers, without tolerance or rescaling. The Soul veto is not a term and is declared in soul_veto.",
+      "description": "The D2 bridge: each Risk Factor is a named aggregation over a declared subset of Context Signals. The required array is five weighted inputs; the criticality of the moment is a demand input declared under demand_inputs, not a Risk Factor. Their finite, positive weights must sum to 1; check-declarations.py checks the sum exactly over the decimal representations of parsed numbers, without tolerance or rescaling. The Soul veto is not a term and is declared in soul_veto.",
       "required": [
         "evidence_density",
         "trust_trend",
         "adversarial_pressure",
         "update_resistance",
-        "attestation_coverage",
-        "moment_criticality"
+        "attestation_coverage"
       ],
       "additionalProperties": false,
       "properties": {
@@ -43,8 +42,7 @@
         "trust_trend": { "$ref": "#/$defs/factor" },
         "adversarial_pressure": { "$ref": "#/$defs/factor" },
         "update_resistance": { "$ref": "#/$defs/factor" },
-        "attestation_coverage": { "$ref": "#/$defs/factor" },
-        "moment_criticality": { "$ref": "#/$defs/factor" }
+        "attestation_coverage": { "$ref": "#/$defs/factor" }
       }
     },
     "soul_veto": {
@@ -60,6 +58,14 @@
           "items": { "type": "string", "minLength": 1 },
           "description": "Identifiers of the sovereignty registries/frameworks queried."
         }
+      }
+    },
+    "demand_inputs": {
+      "type": "object",
+      "description": "Each externally supplied demand input the deployment uses: its supplying party, unit convention and source ([KTP-CORE] L14). A demand input raises the demand an action presents (A) and never enters R. An absent, stale, unverifiable or differently bound value reads as the most critical moment. Declared for each demand input the deployment uses; a deployment that uses none omits this object.",
+      "additionalProperties": false,
+      "properties": {
+        "moment_criticality": { "$ref": "#/$defs/demand_input" }
       }
     },
     "feeds": {
@@ -299,6 +305,17 @@
       "pattern": "^(world|information|time|soul|relational|body|meta)\\.[a-z0-9_]+\\.[a-z0-9_]+$",
       "description": "A Context Signal ID, domain.group.name, resolved against catalog/*.json."
     },
+    "demand_input": {
+      "type": "object",
+      "required": ["supplier", "unit", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "supplier": { "type": "string", "minLength": 1, "description": "The declared party that supplies the value. Never the requester or a party acting for the requester ([KTP-CORE] L14); ordinarily the deployment's own event calendar, maintenance schedule or mission-phase feed." },
+        "unit": { "type": "string", "minLength": 1, "description": "The unit convention in force for the value. Values are not comparable across deployments that have not declared a common convention." },
+        "range": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" }, "description": "The accepted inclusive range of the value, low then high. Optional." },
+        "source": { "type": "string", "minLength": 1, "description": "Where the value is read from: the feed, system or record in which the supplier publishes it." }
+      }
+    },
     "factor": {
       "type": "object",
       "required": ["signals", "aggregation", "weight"],
@@ -331,7 +348,7 @@
           "type": "number",
           "exclusiveMinimum": 0,
           "maximum": 1,
-          "description": "The factor's finite weight w_i in R = sum(w_i * s_i), strictly greater than 0 and at most 1. The six factor weights must sum to 1, checked by scripts/check-declarations.py; an invalid declaration is rejected, never silently rescaled. This does not constrain per-feed aggregation weights."
+          "description": "The factor's finite weight w_i in R = sum(w_i * s_i), strictly greater than 0 and at most 1. The five factor weights must sum to 1, checked by scripts/check-declarations.py; an invalid declaration is rejected, never silently rescaled. This does not constrain per-feed aggregation weights."
         }
       }
     }

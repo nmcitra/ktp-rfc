@@ -235,7 +235,7 @@ The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.j
 | `evidence_density` | Weight and density of presence in the environment |
 | `trust_trend` | Rate of change of standing, and its direction |
 | `adversarial_pressure` | Measured adversarial stress on the environment |
-| `moment_criticality` | Criticality of the current moment or operational phase |
+| `moment_criticality` | Criticality of the current moment or operational phase; a demand input that raises A, declared under `demand_inputs`, not a weighted Risk Factor |
 | `update_resistance` | How hard the trust value is to move — the depth of the evidence base behind current standing |
 | `attestation_coverage` | How much of the agent's activity is witnessed and attestable |
 

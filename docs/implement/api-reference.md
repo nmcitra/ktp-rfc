@@ -312,7 +312,6 @@ Response (200 OK):
     "adversarial_pressure": 0.05,
     "attestation_coverage": 0.18,
     "evidence_density": 0.56,
-    "moment_criticality": 0.10,
     "trust_trend": 0.23,
     "update_resistance": 0.15
   },

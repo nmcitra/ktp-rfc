@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -116,7 +116,7 @@ Base Trust (E_base): A numeric value (0-100) representing a software agent's int
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
-Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (six weighted inputs plus the Soul veto). See Section 6.
+Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
@@ -136,7 +136,7 @@ Risk Factor (R): A normalized value (0-1) representing aggregated environmental 
 
 Silent Veto: The automatic denial of an action when A > E_trust, without requiring human intervention.
 
-Soul (Sovereignty Veto): The seventh named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the six weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
+Soul (Sovereignty Veto): The sixth named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the five weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), regardless of Trust Score. Takes precedence over the standard Silent Veto evaluation.
 
@@ -445,14 +445,14 @@ E_base SHOULD be cached for performance, with a maximum cache lifetime of 60 sec
 
 ## Risk Factor (R)
 
-The Risk Factor represents aggregated environmental stress. It is calculated from the six weighted Risk Factor inputs (see Section 6) using domain-specific weights.
+The Risk Factor represents aggregated environmental stress. It is calculated from the five weighted Risk Factor inputs (see Section 6) using domain-specific weights.
 
 The calculation:
 
 ~~~
    R = sum(w_i * s_i) for i in
        {evidence_density, trust_trend, adversarial_pressure,
-        moment_criticality, update_resistance, attestation_coverage}
+        update_resistance, attestation_coverage}
 ~~~
 
 Where: w_i = Domain-specific weight for dimension i s_i = Normalized sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must sum to 1)
@@ -670,9 +670,9 @@ See \[KTP-PROBLEMS] Problem #21 for ongoing research into this challenge.
 
 # Risk Factors
 
-The Risk Factors are seven named measurements of the environment that drive the Risk Factor calculation. Six contribute weighted values to the Risk Factor (R), while the seventh (Soul) acts as an independent veto mechanism.
+The Risk Factors are six named measurements of the environment that drive the Risk Factor calculation. Five contribute weighted values to the Risk Factor (R), while the sixth (Soul) acts as an independent veto mechanism. The criticality of the moment is not among them; it is a property of the proposed act and is described after the list.
 
-## The Seven Dimensions
+## The Six Dimensions
 
 1. evidence_density
 
@@ -769,41 +769,6 @@ The Risk Factors are seven named measurements of the environment that drive the 
    structural integrity of trust degrades; sustained highs trigger the "Cool-Down"
    cycle (Freezing agents to Observer Mode).
 ~~~
-
-1. moment_criticality
-
-~~~
-   Analogy (informative): Time (T) — Temporal Mechanics / Phase
-~~~
-
-~~~
-   Measures the criticality of the current moment relative to an
-   event horizon - where in a temporal cycle the system is.
-~~~
-
-~~~
-   Sensors:
-   - Event schedules (e.g., "5 minutes to Kickoff")
-   - Maintenance windows (scheduled downtime)
-   - Business hours (peak vs. off-peak)
-   - Mission criticality timers
-~~~
-
-~~~
-   Interpretation:
-   - Low moment_criticality: Low-criticality period (maintenance
-     window, 3am)
-   - High moment_criticality: High-criticality period (production,
-     live event)
-~~~
-
-~~~
-   Impact: A failure during "Kickoff" has infinitely higher gravity
-   than a failure at 3:00 AM. Time dilates the risk tolerance -
-   the same action costs more trust near event horizons.
-~~~
-
-Provenance: moment_criticality is externally supplied. Six of the seven inputs are aggregations over declared subsets of the Context Signals catalogue; this one is supplied by the action request's context and declared as such. The asymmetry is stated here rather than papered over: no catalogue domain measures what the agent is trying to do, because a task domain would measure A while every existing domain measures E, and the other side of A <= E cannot be appended to the catalogue casually. Until such a domain exists, a deployment MUST declare the source supplying this input.
 
 1. update_resistance
 
@@ -916,9 +881,24 @@ Provenance: moment_criticality is externally supplied. Six of the seven inputs a
    See Section 6.2 for Soul Veto mechanics.
 ~~~
 
+The criticality of the moment is not among these dimensions.
+moment_criticality measures the criticality of the current moment relative to
+an event horizon: where in a temporal cycle the proposed act falls. Its sources
+are event schedules, maintenance windows, business hours, and mission
+criticality timers. A failure at kickoff has higher consequence than the same
+failure at 3:00 AM.
+
+It is not a Risk Factor and does not enter R. Every Risk Factor measures the
+environment, the E side of A <= E; criticality relative to an event horizon is a
+property of the act proposed against the environment, so it is on the A side. A
+deployment that accounts for it declares it as an autonomy-demand magnitude
+({{KINETIC-ENVELOPE}}): A is non-decreasing in it, and it enters only as
+L11 permits an externally supplied input. L14 states the
+declaration it requires.
+
 ## The Soul Veto
 
-The Soul input operates differently from the six weighted inputs. While those six contribute weighted values to the Risk Factor (R), Soul acts as an independent constraint that can veto any action regardless of Trust Score.
+The Soul input operates differently from the five weighted inputs. While those five contribute weighted values to the Risk Factor (R), Soul acts as an independent constraint that can veto any action regardless of Trust Score.
 
 The Soul evaluation is:
 
@@ -1026,11 +1006,11 @@ Normative content — authored judgments about what ought to happen, whose dispu
 
 1. A veto. The Soul constraint above: externally supplied, authority-adjudicated, carried but never authored here, and evaluated before aggregation.
 
-1. A supplied input. A declared, externally provided signal — moment_criticality is the standing instance — whose source the deployment MUST declare.
+1. A supplied input. A declared, externally provided signal whose source the deployment MUST declare.
 
 1. A gate. An adjudication token evaluated against a declared external schema.
 
-Norm content MUST NOT rewrite the aggregation. A normative judgment that scales capacity rather than gating it has crossed into the measurement layer, and the crossing is the failure this interface exists to prevent. The prudence judgments this series computes from the environment ({{KTP-ENFORCE}}'s graduated outcomes) are not normative content and do not pass through this interface: their disputes resolve by measurement.
+Norm content MUST NOT rewrite the aggregation. A normative judgment that scales capacity rather than gating it has crossed into the measurement layer, and the crossing is the failure this interface exists to prevent. The prudence judgments this series computes from the environment ({{KTP-ENFORCE}}'s graduated outcomes) are not normative content and do not pass through this interface: their disputes resolve by measurement. L11 states the direction in which each of the three shapes may act.
 
 ## Normalization
 
@@ -1055,32 +1035,33 @@ Example normalization thresholds:
 | evidence_density     | CO2 (ppm)  | 400   | 2000      |
 | trust_trend          | Link %     | 0     | 100       |
 | adversarial_pressure | WAF blocks | 0     | 10000/min |
-| moment_criticality   | Hours out  | 72    | 0         |
 | update_resistance    | Dep count  | 0     | 500       |
 | attestation_coverage | VIP count  | 0     | 50        |
 | Soul       | N/A        | Binary (0 or 1)         |
 +------------+------------+------------+------------+
 ~~~
 
-Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress) Note: Soul is not normalized - it is a binary veto (see Section 6.2)
+Note: Soul is not normalized - it is a binary veto (see Section 6.2)
 
 ## Domain Weights
 
-Different deployment domains weight the six weighted inputs differently. Each of the six factor weights MUST be a finite number greater than zero and at most one, and the weights MUST sum to 1.0. Boolean and non-numeric values are invalid. Soul is not weighted - it operates as an independent constraint.
+Different deployment domains weight the five weighted inputs differently. Each of the five factor weights MUST be a finite number greater than zero and at most one, and the weights MUST sum to 1.0. Boolean and non-numeric values are invalid. Soul is not weighted - it operates as an independent constraint.
 
-The complete weight declaration MUST be validated before computing R and after every reconfiguration. An invalid declaration MUST be rejected; an implementation MUST NOT silently rescale the weights or fill a missing weight with a default. The deployment-profile declaration checker evaluates the sum exactly over the decimal representations of parsed numeric values, as described in specifications/deployment-profile.md. Per-feed aggregation weights are separate from these six factor weights.
+The complete weight declaration MUST be validated before computing R and after every reconfiguration. An invalid declaration MUST be rejected; an implementation MUST NOT silently rescale the weights or fill a missing weight with a default. The deployment-profile declaration checker evaluates the sum exactly over the decimal representations of parsed numeric values, as described in specifications/deployment-profile.md. Per-feed aggregation weights are separate from these five factor weights.
 
 Example domain profiles:
 
-Stadium Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05
+Stadium Network: evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06
 
-Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05
+Financial Trading: evidence_density=0.06, trust_trend=0.38, adversarial_pressure=0.31, update_resistance=0.19, attestation_coverage=0.06
 
-Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15
+Healthcare: evidence_density=0.12, trust_trend=0.18, adversarial_pressure=0.28, update_resistance=0.24, attestation_coverage=0.18
 
-Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05
+Cloud Infrastructure: evidence_density=0.06, trust_trend=0.28, adversarial_pressure=0.32, update_resistance=0.28, attestation_coverage=0.06
 
-Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
+Indigenous Data Repository: evidence_density=0.11, trust_trend=0.11, adversarial_pressure=0.22, update_resistance=0.17, attestation_coverage=0.39 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
+
+When a weighted input leaves R, every published profile renormalizes proportionally to two decimals, and the rounding residual goes to the largest remaining weight. The profiles above are the v2.1.0 profiles under that rule.
 
 Implementations MUST allow configuration of domain weights. Implementations SHOULD provide pre-defined profiles for common domains.
 
@@ -1091,7 +1072,7 @@ The Risk Factor architecture is designed to be modular at two levels:
 1. Framework-Level Modularity:
 
 ~~~
-   The framework itself is extensible. The seven inputs defined in
+   The framework itself is extensible. The six inputs defined in
    this specification represent the core measurement space, but
    implementations MAY define additional inputs for domain-specific
    requirements.
@@ -1101,8 +1082,9 @@ The Risk Factor architecture is designed to be modular at two levels:
    Additional inputs MUST:
    - Be clearly documented with the quantity measured, its units,
      and its measurement procedure
-   - Specify whether they contribute to R (weighted) or act as
-     independent constraints (like Soul)
+   - Specify whether they contribute to R (weighted), act as
+     independent constraints (like Soul), or raise demand on the
+     A side (like moment_criticality, L14)
    - Define normalization rules
    - Register with the Trust Oracle
 ~~~
@@ -1164,7 +1146,7 @@ Feed Configuration Example:
 
 The "aggregation" field for Soul MUST be "any_veto" - if any enabled feed returns a veto, the Soul input vetoes.
 
-For the six weighted inputs, typical aggregation is "weighted_average" of enabled feeds.
+For the five weighted inputs, typical aggregation is "weighted_average" of enabled feeds.
 
 ## Aggregation Algorithm
 
@@ -1182,8 +1164,8 @@ Step 1: Soul Veto Check (MUST be first)
 Step 2: Risk Factor Calculation
 
 ~~~
-   R = (w_M * M) + (w_P * P) + (w_H * H) +
-       (w_T * T) + (w_I * I) + (w_O * O)
+   R = sum(w_i * s_i) over the five weighted inputs
+       (Section 5.2)
 ~~~
 
 Step 3: Trust Score Deflation
@@ -1259,7 +1241,6 @@ Sensor values SHOULD be refreshed at intervals appropriate to their rate of chan
 | evidence_density     | 30-60 seconds       |
 | trust_trend          | 1-5 seconds         |
 | adversarial_pressure | 1-5 seconds         |
-| moment_criticality   | 60 seconds          |
 | update_resistance    | 300 seconds         |
 | attestation_coverage | 30 seconds          |
 | Soul       | On-demand (per action) |
@@ -1335,11 +1316,10 @@ KTP claims (in "ktp" object):
 ~~~
 
 ~~~
-   risk_factors: Object containing the six normalized inputs
+   risk_factors: Object containing the five normalized inputs
      adversarial_pressure (0-1)
      attestation_coverage (0-1)
      evidence_density (0-1)
-     moment_criticality (0-1)
      trust_trend (0-1)
      update_resistance (0-1)
 ~~~
@@ -1379,7 +1359,6 @@ Example Trust Proof payload (no sovereignty constraint):
          "evidence_density": 0.875,
          "trust_trend": 0.920,
          "adversarial_pressure": 0.020,
-         "moment_criticality": 1.000,
          "update_resistance": 0.100,
          "attestation_coverage": 0.040
        },
@@ -1415,7 +1394,6 @@ Example Trust Proof payload (sovereignty constraint active):
          "evidence_density": 0.100,
          "trust_trend": 0.150,
          "adversarial_pressure": 0.010,
-         "moment_criticality": 0.200,
          "update_resistance": 0.050,
          "attestation_coverage": 0.020
        },
@@ -1849,7 +1827,7 @@ are supplied by the system the norms constrain has no base case, which is L2
 applied a second time. Honest parties may legitimately diverge on its answers
 at any parameter setting; its failures are capture and illegitimacy, and they
 are corrected by governance, not by measurement. Its content lives in a
-declared external schema (the co-authored normative profile); this
+declared external schema (the external normative profile); this
 specification carries only the interface.
 
 The carriage interface admits norm content in exactly three shapes: a **veto**
@@ -1863,7 +1841,7 @@ fail-closed behavior on an undefined demand term — **MUST** reference a
 declared external schema for norm content, and **MUST NOT** present
 conformance as evidence that the norms in force are adequate.
 
-Converts further when the co-authored profile lands and the two documents
+Converts further when the external normative profile lands and the two documents
 cross-reference; the prudence-rail naming paragraph is spec text now.
 
 ## L12. The privacy marker has no stated rule
@@ -1931,29 +1909,41 @@ Converts to spec text when either a scale constant is fitted to the tier table,
 or the tier table is reduced to the tiers a declared regime can enter, with the
 ceiling term made to bind or removed.
 
-## L14. One Risk Factor is externally supplied, and the specification says so
+## L14. The criticality of the moment is a demand-side input, and the specification says so
 
-This specification does not claim that all seven Risk Factors share a
-provenance. Six are named aggregations over declared subsets of Context Signals.
-`moment_criticality` is not: it is supplied by the action request. The asymmetry
-is declared at the site of use rather than left to be inferred from the
-catalogue's silence.
+This specification does not claim that the criticality of the moment is a
+measurement of the environment. Every Risk Factor is a named aggregation over a
+declared subset of Context Signals. `moment_criticality` is not a Risk Factor and
+does not enter R: it is an externally supplied input on the demand side, under
+the supplied-input rule of L11. The asymmetry is declared at the site of
+use rather than left to be inferred from the catalogue's silence.
 
 The reason it cannot be repaired by adding signals is that the quantity is on
 the other side of the relation. Every domain in the catalogue measures E;
 criticality relative to an event horizon is a property of the act proposed
 against the environment, not of the environment, and so it measures A. A
 catalogue that has only ever held one side of A <= E has nothing for this
-Risk Factor to aggregate, and that is a fact about the object, not an omission
-in the authoring.
+input to aggregate, and that is a fact about the object, not an omission in the
+authoring.
 
 A conformant implementation **MUST** declare, at the site of use, that an
-externally supplied Risk Factor input is externally supplied, together with the
+externally supplied demand input is externally supplied, together with the
 supplying party and the unit convention in force. It **MUST NOT** present the
 value as signal-derived, **MUST NOT** claim a declared Context Signal subset
 underneath it, and **MUST NOT** compare the value across deployments that have
 not declared a common convention. Absent input **MUST** fail closed on the same
-rule as any other undefined term.
+rule as any other undefined demand term: it reads as the most critical moment,
+not the least.
+
+An externally supplied input enters only on the demand or supervision side. It
+**MUST NOT** be supplied by the requester or by a party acting for it, and the
+deployment **MUST** declare its supplier. The supplier is ordinarily the
+deployment's own event calendar, maintenance schedule or mission-phase feed; the
+feeds KTP-SENSORS lists for this input remain its feeds.
+
+The declaration and evaluation boundary cases for a demand input are published
+in specifications/conformance/demand-input-v1.json. They fix decision
+requirements at those boundaries and do not define a formula for A, R or E.
 
 Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
@@ -2096,21 +2086,23 @@ Scenario: A deployment agent attempts to push a code update to the ticketing sys
 
 Sensor values: CO2: 1800 ppm Link saturation: 92% WAF blocks: 200/min Time to kickoff: 5 minutes Dependency count: 50 VIP count: 2
 
-Normalization: M = (1800 - 400) / 1600 = 0.875 P = 92 / 100 = 0.920 H = 200 / 10000 = 0.020 T = 1 - (0.083 / 72) = 0.999 ≈ 1.000 I = 50 / 500 = 0.100 O = 2 / 50 = 0.040
+Normalization: evidence_density = (1800 - 400) / 1600 = 0.875 trust_trend = 92 / 100 = 0.920 adversarial_pressure = 200 / 10000 = 0.020 update_resistance = 50 / 500 = 0.100 attestation_coverage = 2 / 50 = 0.040
 
-Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15, w_I=0.05, w_O=0.05
+Domain weights (Stadium Network profile, Section 6.4): evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06
 
-Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 * 0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 + 0.230 + 0.004 + 0.150 + 0.005 + 0.002 R = 0.654
+Risk calculation: R = (0.29 * 0.875) + (0.29 * 0.920) + (0.24 * 0.020) + (0.12 * 0.100) + (0.06 * 0.040) R = 0.254 + 0.267 + 0.005 + 0.012 + 0.002 R = 0.540
 
 Agent E_base: 95 (highly trusted deployment agent)
 
-E_trust calculation: E_trust = 95 * (1 - 0.654) = 95 * 0.346 = 32.87
+E_trust calculation: E_trust = 95 * (1 - 0.540) = 95 * 0.460 = 43.70
 
 Action requested: Deploy code (A = 50)
 
-Zeroth Law evaluation: A <= E_trust ? 50 <= 32.87 ? FALSE
+Zeroth Law evaluation: A <= E_trust ? 50 <= 43.70 ? FALSE
 
 Result: Silent Veto. Deployment denied.
+
+The five minutes to kickoff do not enter R. Where the deployment declares moment_criticality as an autonomy-demand magnitude (L14), kickoff raises A for this request, which can only strengthen the veto.
 
 A.2.  Same Agent, Calm Conditions
 
@@ -2118,17 +2110,17 @@ Same agent, but during a maintenance window:
 
 Sensor values: CO2: 450 ppm Link saturation: 12% WAF blocks: 5/min Time to event: 48 hours Dependency count: 50 VIP count: 0
 
-Normalization: M = (450 - 400) / 1600 = 0.031 P = 12 / 100 = 0.120 H = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O = 0 / 50 = 0.000
+Normalization: evidence_density = (450 - 400) / 1600 = 0.031 trust_trend = 12 / 100 = 0.120 adversarial_pressure = 5 / 10000 = 0.001 update_resistance = 50 / 500 = 0.100 attestation_coverage = 0 / 50 = 0.000
 
-Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 * 0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 + 0.030 + 0.000 + 0.050 + 0.005 + 0.000 R = 0.094
+Risk calculation: R = (0.29 * 0.031) + (0.29 * 0.120) + (0.24 * 0.001) + (0.12 * 0.100) + (0.06 * 0.000) R = 0.009 + 0.035 + 0.000 + 0.012 + 0.000 R = 0.056
 
-E_trust calculation: E_trust = 95 * (1 - 0.094) = 95 * 0.906 = 86.07
+E_trust calculation: E_trust = 95 * (1 - 0.056) = 95 * 0.944 = 89.68
 
 Action requested: Deploy code (A = 50)
 
-Zeroth Law evaluation: A <= E_trust ? 50 <= 86.07 ? TRUE
+Zeroth Law evaluation: A <= E_trust ? 50 <= 89.68 ? TRUE
 
-Result: Action permitted.
+Result: Action permitted. The maintenance window is not a reason to permit: it does not lower R, and a demand input may only raise A.
 
 # JSON Schemas
 

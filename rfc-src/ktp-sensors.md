@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -46,7 +46,7 @@ The specification covers sensor types, normalization algorithms, domain-specific
 
 # Introduction
 
-Context Signals are the sensory nervous system of the Kinetic Trust Protocol. They measure environmental reality across seven inputs, providing the data needed to calculate the Risk Factor and evaluate sovereignty constraints.
+Context Signals are the sensory nervous system of the Kinetic Trust Protocol. They measure environmental reality across six inputs, providing the data needed to calculate the Risk Factor and evaluate sovereignty constraints.
 
 This document provides detailed specifications for:
 
@@ -71,18 +71,19 @@ The sensor framework follows two levels of modularity:
 Level 1 - Framework Modularity:
 
 ~~~
-   The seven inputs defined in this specification represent the
+   The six inputs defined in this specification represent the
    core measurement space. However, the architecture supports
    extension for domain-specific requirements.
 ~~~
 
 ~~~
    New dimensions MUST specify:
-   - Unique identifier (a name, not conflicting with the six
-     named inputs or soul)
+   - Unique identifier (a name, not conflicting with the five
+     named inputs, soul, or moment_criticality)
    - Physics equivalent (conceptual grounding)
-   - Contribution type: "weighted" (contributes to R) or "veto"
-     (independent constraint like Soul)
+   - Contribution type: "weighted" (contributes to R), "veto"
+     (independent constraint like Soul), or "demand" (raises A
+     only, like moment_criticality; see [KTP-CORE] L14)
    - Sensor feed specifications
    - Normalization rules
    - Recommended domain weights (if weighted type)
@@ -106,7 +107,7 @@ This modularity allows KTP to adapt to diverse deployment contexts while maintai
 
 ## Feed Aggregation
 
-For the six weighted inputs, feeds are aggregated using weighted average:
+For the five weighted inputs, feeds are aggregated using weighted average:
 
 ~~~
    dimension_value = sum(feed_weight[i] * feed_value[i]) /
@@ -338,7 +339,7 @@ Risk Domains complement but do not replace hysteresis at tier boundaries (see \[
 
 Together, they create stable system behavior without sacrificing responsiveness to genuine environmental changes.
 
-# The Six Weighted Inputs
+# The Five Weighted Inputs, and One Demand Input
 
 ## evidence_density
 
@@ -505,59 +506,6 @@ Example Calculation (Under Attack):
    H = (0.500 + 0.200 + 0.300 + 0.750) / 4 = 0.438
 ~~~
 
-## moment_criticality
-
-Analogy (informative): Temporal Mechanics / Phase
-
-Concept: The criticality of the current moment relative to an event horizon. A failure during "Kickoff" has infinitely higher gravity than a failure at 3:00 AM. Time dilates risk tolerance.
-
-Impact on Trust: Near event horizons (go-live, kickoff, earnings call), the same action costs more trust. The system becomes more conservative as critical moments approach.
-
-Sensor Feeds:
-
-~~~
-+------------------+------------------------------------------+
-| Feed             | Description                              |
-+------------------+------------------------------------------+
-| Event Countdown  | Minutes to scheduled event               |
-| Business Hours   | Current position in business cycle       |
-| Maintenance Win  | Whether in scheduled maintenance         |
-| Mission Phase    | rehearsal / pre-prod / live / post       |
-| Quarter End      | Days to financial close                  |
-| Deadline Timer   | Time to contractual SLA deadline         |
-+------------------+------------------------------------------+
-~~~
-
-Normalization:
-
-~~~
-+------------------+----------+----------+----------+
-| Feed             | s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+
-| Event countdown  | 72 hrs   | 0 hrs    | Yes      |
-| Business hours   | off-peak | peak     | No       |
-| Maintenance      | in maint | not maint| Yes      |
-| Mission phase    | 0        | 3        | No       |
-+------------------+----------+----------+----------+
-~~~
-
-Note: Time is typically inverted—72 hours out = low stress, 0 hours (event starting) = maximum stress.
-
-Refresh Interval: 60 seconds (time is predictable)
-
-Example Calculation (30 minutes to kickoff):
-
-~~~
-   Event countdown = 0.5 hrs → (72-0.5)/72 inverted = 0.993
-   Mission phase = 3 (live) → 3/3 = 1.000
-   Business hours = peak → 1.000
-~~~
-
-~~~
-   With equal weights:
-   T = (0.993 + 1.000 + 1.000) / 3 = 0.998
-~~~
-
 ## update_resistance
 
 Analogy (informative): Inertial Mass
@@ -665,6 +613,67 @@ Example Calculation (Earnings Call):
    O = (0.500 + 1.000 + 0.850) / 3 = 0.783
 ~~~
 
+## moment_criticality (demand side, not weighted)
+
+moment_criticality is not a weighted input and does not contribute to R. It
+describes the act proposed against the environment, not the environment, so it
+is on the A side of A <= E. A deployment that uses it declares it as an
+autonomy-demand magnitude under [KTP-CORE] L14, and it enters only as
+[KTP-CORE] L11 permits an externally supplied input. The feeds below
+describe how a deployment derives it from its own schedules; they are never
+taken from the request.
+
+Analogy (informative): Temporal Mechanics / Phase
+
+Concept: The criticality of the current moment relative to an event horizon. A failure during "Kickoff" has infinitely higher gravity than a failure at 3:00 AM. Time dilates risk tolerance.
+
+Impact on demand: Near event horizons (go-live, kickoff, earnings call), the same action presents more demand. The system becomes more conservative as critical moments approach, and never less conservative because a moment is quiet.
+
+Sensor Feeds:
+
+~~~
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| Event Countdown  | Minutes to scheduled event               |
+| Business Hours   | Current position in business cycle       |
+| Maintenance Win  | Whether in scheduled maintenance         |
+| Mission Phase    | rehearsal / pre-prod / live / post       |
+| Quarter End      | Days to financial close                  |
+| Deadline Timer   | Time to contractual SLA deadline         |
++------------------+------------------------------------------+
+~~~
+
+Normalization:
+
+~~~
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| Event countdown  | 72 hrs   | 0 hrs    | Yes      |
+| Business hours   | off-peak | peak     | No       |
+| Maintenance      | in maint | not maint| Yes      |
+| Mission phase    | 0        | 3        | No       |
++------------------+----------+----------+----------+
+~~~
+
+Note: Time is typically inverted—72 hours out = low stress, 0 hours (event starting) = maximum stress.
+
+Refresh Interval: 60 seconds (time is predictable)
+
+Example Calculation (30 minutes to kickoff):
+
+~~~
+   Event countdown = 0.5 hrs → (72-0.5)/72 inverted = 0.993
+   Mission phase = 3 (live) → 3/3 = 1.000
+   Business hours = peak → 1.000
+~~~
+
+~~~
+   With equal weights:
+   moment_criticality = (0.993 + 1.000 + 1.000) / 3 = 0.998
+~~~
+
 # The Soul Veto
 
 ## Overview
@@ -673,7 +682,7 @@ Analogy (informative): The Cosmological Constant / Immutable Law
 
 Concept: The ethical, legal, and spiritual constraints of the physical location or data lineage. Soul represents constraints that exist independent of operational conditions—they are the "Spirit" of the data or place.
 
-Unlike the six weighted dimensions, Soul operates as a binary veto:
+Unlike the five weighted dimensions, Soul operates as a binary veto:
 
 ~~~
    S = 0: No sovereignty constraints violated, action may proceed
@@ -838,23 +847,23 @@ Recommended Implementation:
 
 # Domain Weight Profiles
 
-Different deployment domains weight the six weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
+Different deployment domains weight the five weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
 
-Weights MUST sum to 1.0 across the six named inputs and satisfy the finite, positive-weight requirements of \[KTP-CORE] Section 6.5 (Domain Weights). Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
+Weights MUST sum to 1.0 across the five named inputs and satisfy the finite, positive-weight requirements of \[KTP-CORE] Section 6.5 (Domain Weights). Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
 
 5.1. Pre-defined Profiles
 
-Stadium/Event Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05 Rationale: Physical density and momentum dominate; events have hard deadlines.
+Stadium/Event Network: evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06 Rationale: Physical density and momentum dominate; events have hard deadlines.
 
-Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05 Rationale: Speed is critical; adversarial pressure high; market hours create temporal constraints.
+Financial Trading: evidence_density=0.06, trust_trend=0.38, adversarial_pressure=0.31, update_resistance=0.19, attestation_coverage=0.06 Rationale: Speed is critical; adversarial pressure high. Market hours raise demand through moment_criticality, not R.
 
-Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
+Healthcare: evidence_density=0.12, trust_trend=0.18, adversarial_pressure=0.28, update_resistance=0.24, attestation_coverage=0.18 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
 
-Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
+Cloud Infrastructure: evidence_density=0.06, trust_trend=0.28, adversarial_pressure=0.32, update_resistance=0.28, attestation_coverage=0.06 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
 
-Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
+Indigenous Data Repository: evidence_density=0.11, trust_trend=0.11, adversarial_pressure=0.22, update_resistance=0.17, attestation_coverage=0.39 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
 
-Government/Military: evidence_density=0.15, trust_trend=0.15, adversarial_pressure=0.30, moment_criticality=0.15, update_resistance=0.15, attestation_coverage=0.10 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
+Government/Military: evidence_density=0.18, trust_trend=0.18, adversarial_pressure=0.34, update_resistance=0.18, attestation_coverage=0.12 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
 
 5.2. Custom Profiles
 
@@ -865,12 +874,11 @@ Implementations MUST allow custom weight configuration. Configuration schema:
      "profile_id": "custom-retail",
      "name": "Retail Point of Sale",
      "weights": {
-       "evidence_density": 0.20,
-       "trust_trend": 0.20,
-       "adversarial_pressure": 0.25,
-       "moment_criticality": 0.15,
-       "update_resistance": 0.10,
-       "attestation_coverage": 0.10
+       "evidence_density": 0.24,
+       "trust_trend": 0.24,
+       "adversarial_pressure": 0.28,
+       "update_resistance": 0.12,
+       "attestation_coverage": 0.12
      },
      "soul_enabled": true,
      "soul_feeds": ["tk_labels", "geofence"],

@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -51,6 +51,10 @@ informative:
       - name: Chris Perkins
   KTP-FEDERATION:
     title: "Kinetic Trust Protocol - Trust Federation"
+    author:
+      - name: Chris Perkins
+  KTP-CONFORMANCE:
+    title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
     author:
       - name: Chris Perkins
 
@@ -1640,7 +1644,9 @@ Admissibility verdicts are invariant under re-description — packet level,
 syscall level, API level, agent level — only because action risk attaches to
 governed-world state transitions rather than to description events, and
 composition merges causal action contracts before evaluating risk. That algebra
-is discharged. The theorem it yields is conditional on **faithful description**:
+is discharged; the aggregation in Section 6.8 does not yet perform the
+composition, and L15 states that limit. The theorem it yields is conditional on
+**faithful description**:
 a proof, per description level, that the level's events implement the claimed
 consequence semantics.
 
@@ -1959,6 +1965,43 @@ Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
+
+## L15. Composition across requests is not yet required
+
+This specification does not claim that a limit holds across requests. The
+aggregation algorithm (Section 6.8) evaluates one request: A for that request,
+against E at that moment. It has no step that combines the consequences of
+separate requests. A consequence split across tools, agents, routes, time, or
+the identities of one beneficiary can therefore pass every per-request
+evaluation while the combined consequence exceeds what any single request would
+be permitted. L3 states the algebra that composes causal action contracts before
+evaluating risk; this version does not require an implementation to perform it.
+
+A conformant implementation **MUST NOT** present a per-request limit as a bound
+on the combined consequence of several requests. An implementation that does
+compose consequences across requests **MAY** say so, and the claim carries its
+own status label under {{KTP-CONFORMANCE}}.
+
+Test definitions for this limit are published as cases that read the governed
+world, not the decision record: a consequence split across tools, agents, time,
+and the identities of one beneficiary; two agents committing concurrently
+against one remainder; a retry under a new key after a lost acknowledgement;
+and declared joint operations and time-separated requests that fit, which must
+still pass, so that refusing every split fails. Cases: consequence-boundary-attack-set
+in https://github.com/nmcitra/ktp-cases at tag v0.1.0.
+
+The per-agent Mass Ceiling and the Mitosis Protocol in {{KTP-ENFORCE}} bound one
+agent and do not bound a lineage's combined consequence; a ceiling summed over a
+lineage is among what would convert this limit.
+
+
+Converts to spec text when the aggregation composes, before evaluating risk,
+every request that shares a declared consequence measure and window, across
+tools, agents, routes, time, and the identities that resolve to one
+beneficiary, against one atomic reservation of the remaining capacity; when a
+reservation is released only on authenticated evidence that nothing was
+dispatched; when a declared joint operation shares that reservation rather than
+being refused; and when those cases are run.
 
 # Security Considerations
 

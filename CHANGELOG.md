@@ -30,7 +30,37 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and the composition limit
+
+### The composition limit
+
+**Finding:** the corpus audit, read against the aggregation algorithm. L3 says
+composition merges causal action contracts before evaluating risk, and a reader
+takes that as delivered. No step of the aggregation combines the consequences
+of separate requests: each request is evaluated alone, A for that request
+against E at that moment. A consequence split across tools, agents, routes,
+time, or the identities of one beneficiary passes every per-request evaluation
+while the whole exceeds what one request would be permitted. The published
+attack cases name each of those splits.
+
+- Core gains L15, a declared limit: composition across requests is not yet
+  required, and the specification says so where a reader would otherwise infer
+  the opposite. L3 now points to it.
+- A conformant implementation MUST NOT present a per-request limit as a bound
+  on the combined consequence of several requests.
+- An implementation that does compose consequences across requests MAY say
+  so, and the claim carries its own status label.
+- The test is the published case set, cited by name and tag; the cases read
+  the governed world, not the decision record.
+- The entry states what converts it: composition before risk evaluation of
+  every request sharing a declared consequence measure and window, against
+  one atomic reservation of the remaining capacity, released only on
+  authenticated evidence of non-dispatch, with declared joint operations
+  sharing the reservation; a ceiling summed over a lineage is named as among
+  what is owed.
+
+This adds a MUST NOT and so requires a MAJOR release under `VERSIONING.md`. It
+remains unreleased; published tags are unchanged.
 
 ### Operation-specific human eligibility and privacy evidence
 

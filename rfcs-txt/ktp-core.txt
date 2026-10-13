@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Perkins
 Internet-Draft                                                   NMCITRA
-Intended status: Experimental                             4 October 2026
-Expires: 7 April 2027
+Intended status: Experimental                            12 October 2026
+Expires: 15 April 2027
 
 
            Kinetic Trust Protocol (KTP) - Core Specification
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2027.
+   This Internet-Draft will expire on 15 April 2027.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 1]
+Perkins                   Expires 15 April 2027                 [Page 1]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 2]
+Perkins                   Expires 15 April 2027                 [Page 2]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -146,40 +146,40 @@ Internet-Draft                  KTP-CORE                    October 2026
      10.10. L10.  E carries no cardinal consequence units  . . . . .  55
      10.11. L11.  There are two SHOULD rails, and only one of them is
              this specification's  . . . . . . . . . . . . . . . . .  55
-     10.12. L12.  The privacy marker has no stated rule  . . . . . .  56
-     10.13. L13.  The resilience evidence curve is uncalibrated  . .  57
+     10.12. L12.  The privacy marker has no stated rule  . . . . . .  57
+     10.13. L13.  The resilience evidence curve is uncalibrated  . .  58
      10.14. L14.  One Risk Factor is externally supplied, and the
-             specification says so . . . . . . . . . . . . . . . . .  58
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  58
-     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  58
-     11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  59
-     11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  59
-     11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  59
-     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  59
-     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  59
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  60
-     12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  60
-     12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  60
-     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  60
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  60
+             specification says so . . . . . . . . . . . . . . . . .  59
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  60
+     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  60
+     11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  60
+     11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  60
+     11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  60
+     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  60
+     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  61
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  61
+     12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  61
+     12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  61
+     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  61
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  61
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 3]
+Perkins                   Expires 15 April 2027                 [Page 3]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
 
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  60
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  61
-   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  61
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  61
-     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  62
-     A.3.  The risk_factors object and the per-tier caps . . . . . .  62
-     A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  63
-   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  63
-   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  64
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  65
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  61
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  62
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  63
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  63
+     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  63
+     A.3.  The risk_factors object and the per-tier caps . . . . . .  64
+     A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  64
+   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  64
+   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  66
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  66
 
 1.  Introduction
 
@@ -221,7 +221,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 4]
+Perkins                   Expires 15 April 2027                 [Page 4]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 5]
+Perkins                   Expires 15 April 2027                 [Page 5]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 6]
+Perkins                   Expires 15 April 2027                 [Page 6]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 7]
+Perkins                   Expires 15 April 2027                 [Page 7]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -445,7 +445,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 8]
+Perkins                   Expires 15 April 2027                 [Page 8]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -501,7 +501,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                  [Page 9]
+Perkins                   Expires 15 April 2027                 [Page 9]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -557,7 +557,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 10]
+Perkins                   Expires 15 April 2027                [Page 10]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -613,7 +613,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 11]
+Perkins                   Expires 15 April 2027                [Page 11]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -669,7 +669,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 12]
+Perkins                   Expires 15 April 2027                [Page 12]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -725,7 +725,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 13]
+Perkins                   Expires 15 April 2027                [Page 13]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -781,7 +781,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 14]
+Perkins                   Expires 15 April 2027                [Page 14]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -837,7 +837,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 15]
+Perkins                   Expires 15 April 2027                [Page 15]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -893,7 +893,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 16]
+Perkins                   Expires 15 April 2027                [Page 16]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -949,7 +949,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 17]
+Perkins                   Expires 15 April 2027                [Page 17]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1005,7 +1005,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 18]
+Perkins                   Expires 15 April 2027                [Page 18]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1061,7 +1061,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 19]
+Perkins                   Expires 15 April 2027                [Page 19]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1117,7 +1117,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 20]
+Perkins                   Expires 15 April 2027                [Page 20]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1173,7 +1173,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 21]
+Perkins                   Expires 15 April 2027                [Page 21]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1229,7 +1229,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 22]
+Perkins                   Expires 15 April 2027                [Page 22]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1285,7 +1285,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 23]
+Perkins                   Expires 15 April 2027                [Page 23]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1341,7 +1341,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 24]
+Perkins                   Expires 15 April 2027                [Page 24]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1397,7 +1397,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 25]
+Perkins                   Expires 15 April 2027                [Page 25]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1453,7 +1453,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 26]
+Perkins                   Expires 15 April 2027                [Page 26]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1509,7 +1509,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 27]
+Perkins                   Expires 15 April 2027                [Page 27]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1565,7 +1565,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 28]
+Perkins                   Expires 15 April 2027                [Page 28]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1621,7 +1621,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 29]
+Perkins                   Expires 15 April 2027                [Page 29]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1677,7 +1677,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 30]
+Perkins                   Expires 15 April 2027                [Page 30]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1733,7 +1733,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 31]
+Perkins                   Expires 15 April 2027                [Page 31]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1789,7 +1789,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 32]
+Perkins                   Expires 15 April 2027                [Page 32]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1845,7 +1845,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 33]
+Perkins                   Expires 15 April 2027                [Page 33]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1901,7 +1901,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 34]
+Perkins                   Expires 15 April 2027                [Page 34]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -1957,7 +1957,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 35]
+Perkins                   Expires 15 April 2027                [Page 35]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2013,7 +2013,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 36]
+Perkins                   Expires 15 April 2027                [Page 36]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2069,7 +2069,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 37]
+Perkins                   Expires 15 April 2027                [Page 37]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2125,7 +2125,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 38]
+Perkins                   Expires 15 April 2027                [Page 38]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2181,7 +2181,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 39]
+Perkins                   Expires 15 April 2027                [Page 39]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2237,7 +2237,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 40]
+Perkins                   Expires 15 April 2027                [Page 40]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2293,7 +2293,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 41]
+Perkins                   Expires 15 April 2027                [Page 41]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2349,7 +2349,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 42]
+Perkins                   Expires 15 April 2027                [Page 42]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2405,7 +2405,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 43]
+Perkins                   Expires 15 April 2027                [Page 43]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2461,7 +2461,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 44]
+Perkins                   Expires 15 April 2027                [Page 44]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2517,7 +2517,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 45]
+Perkins                   Expires 15 April 2027                [Page 45]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2573,7 +2573,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 46]
+Perkins                   Expires 15 April 2027                [Page 46]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2629,7 +2629,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 47]
+Perkins                   Expires 15 April 2027                [Page 47]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2685,7 +2685,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 48]
+Perkins                   Expires 15 April 2027                [Page 48]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2741,7 +2741,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 49]
+Perkins                   Expires 15 April 2027                [Page 49]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2797,7 +2797,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 50]
+Perkins                   Expires 15 April 2027                [Page 50]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2853,7 +2853,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 51]
+Perkins                   Expires 15 April 2027                [Page 51]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2909,7 +2909,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 52]
+Perkins                   Expires 15 April 2027                [Page 52]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -2965,7 +2965,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 53]
+Perkins                   Expires 15 April 2027                [Page 53]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -3021,7 +3021,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 54]
+Perkins                   Expires 15 April 2027                [Page 54]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -3077,7 +3077,7 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 
 
-Perkins                   Expires 7 April 2027                 [Page 55]
+Perkins                   Expires 15 April 2027                [Page 55]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
@@ -3104,6 +3104,75 @@ Internet-Draft                  KTP-CORE                    October 2026
    reference a declared external schema for norm content, and *MUST NOT*
    present conformance as evidence that the norms in force are adequate.
 
+   *Direction.* Norm content restricts and never widens.  For any
+   evaluation, the result with norm content applied *MUST NOT* be more
+   permissive than the result this specification produces with none
+   applied, on any outcome this specification orders: it *MUST NOT*
+   permit what that result denies, set supervision below it, widen what
+   it leaves executable, raise the capacity it measured, or lower the
+   demand it measured.  This holds for every shape norm content takes,
+   for every source that produces it, and for any number of them applied
+   together, so that no combination of judgments widens what one alone
+   could not.
+
+   *A favorable verdict.* A favorable adjudication satisfies the gate it
+   answers and nothing else.  It is not evidence of capacity, it does
+   not stand in for any other check this specification makes, and it
+   does not lower any result those checks produce.  It answers only the
+   action, whole, and the actor it adjudicated: a verdict on part of an
+   action, on a different action, or for a different actor answers
+   nothing here, and no number of favorable verdicts adds up to a
+   verdict on an action none of them judged.
+
+
+
+
+
+
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 56]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
+   *Release.* Where the normative rail raises supervision, it *MAY*
+   later release only the increment it raised, through its declared
+   accountable process, as an act signed by the party that raised it.
+   It *MUST NOT* release supervision below the level this specification
+   derives from the environment, and it *MUST NOT* release what another
+   rail raised.  A release applies to the one action and the one actor
+   it names.  It does not pool across actions, transfer between actors,
+   or carry from one evaluation to the next.
+
+   *Importance.* A judgment that an action matters, its urgency, value,
+   priority, mission, benefit, or the harm it would avoid, is norm
+   content, whoever makes it and however it is measured.  It *MAY* be
+   the reason an action is attempted, and it *MAY* raise the demand the
+   action presents or the supervision it requires.  It *MUST NOT* be the
+   reason an environmental limit is not applied, or applied less
+   strictly, to that action or to any other.  The importance of many
+   actions together is a judgment about the many; it changes nothing
+   about the limit that applies to each.
+
+   *Binding.* An adjudication token *MUST* be bound, by digest, to the
+   action it adjudicated, the actor, the grant in force, the evidence it
+   judged, the zone and topology epoch in which it was issued, and its
+   time of issue and expiry.  Any change to any of these voids it.  A
+   void token, or one whose binding cannot be verified, is absent, and
+   the evaluation proceeds as if no norm content had been applied.
+   After any such change, execution requires a fresh evaluation under
+   this specification and a fresh adjudication; neither rail's earlier
+   result survives it.
+
+   The token's bound fields are the payload in schemas/adjudication-
+   token.json.  The boundary cases for these rules are published in
+   specifications/conformance/adjudication-token-v1.json.  They fix
+   decision requirements at those boundaries and do not define a formula
+   for A, E or supervision.
+
    Converts further when the co-authored profile lands and the two
    documents cross-reference; the prudence-rail naming paragraph is spec
    text now.
@@ -3116,6 +3185,14 @@ Internet-Draft                  KTP-CORE                    October 2026
    consistent, and does not claim the marker is sufficient as the
    attachment point for a consent architecture.  It does not authorize
    collection, and it never did.
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 57]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
 
    The inconsistency is visible on the face of the catalogue: a person-
    count in the environment domain is marked, a vehicle count is not,
@@ -3130,14 +3207,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    A conformant implementation *MUST NOT* rely on the marker's absence
    as evidence that a signal falls outside a consent obligation, and
    *MUST NOT* treat its presence as authorization to collect.  A
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 56]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
-
    deployment handling human-derived telemetry *MUST* determine its
    obligations from the applicable legal regime and, where a community
    sets the bar for its own data, from that community's instrument.
@@ -3174,6 +3243,13 @@ Internet-Draft                  KTP-CORE                    October 2026
    steeply.  That is the design.  What it has never done is publish the
    price.
 
+
+
+Perkins                   Expires 15 April 2027                [Page 58]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    A conformant implementation *MUST NOT* present tier attainability as
    a property of the protocol independent of a declared evidence regime.
    A deployment claiming a tier *MUST* declare its history-with-scoped-
@@ -3185,14 +3261,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    attainability.  Passing a readiness assessment establishes only the
    assessed operation under its current scope and evidence, not those
    broader claims.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 57]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Converts to spec text when either a scale constant is fitted to the
    tier table, or the tier table is reduced to the tiers a declared
@@ -3231,6 +3299,13 @@ Internet-Draft                  KTP-CORE                    October 2026
    as a v2.1 obligation; until it lands, the declaration is the whole of
    the treatment.
 
+
+
+Perkins                   Expires 15 April 2027                [Page 59]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 11.  Security Considerations
 
    This section addresses security considerations for KTP
@@ -3241,14 +3316,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    The Trust Oracle is the most critical component.  A compromised
    Oracle could issue fraudulent Trust Proofs, enabling unauthorized
    actions.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 58]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Mitigations: - Distribute across multiple failure domains - Use
    threshold signatures (k-of-n) - Store signing keys in HSMs - Rotate
@@ -3288,6 +3355,13 @@ Internet-Draft                  KTP-CORE                    October 2026
    Attackers may artificially increase R (e.g., by generating WAF
    blocks) to deny service to legitimate agents.
 
+
+
+Perkins                   Expires 15 April 2027                [Page 60]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    Mitigations: - Distinguish attack indicators from legitimate load -
    Implement hysteresis to prevent oscillation - Allow operators to
    adjust weights during confirmed attacks - Maintain minimum capability
@@ -3297,14 +3371,6 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    Trust Proofs contain detailed information about agent history,
    environmental conditions, and organizational operations.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 59]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Mitigations: - Encrypt Trust Proofs in transit - Implement access
    controls on Flight Recorder - Consider privacy-preserving Trust
@@ -3342,6 +3408,16 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 13.1.  Normative References
 
+
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 61]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -3354,13 +3430,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 60]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    [KTP-IDENTITY]
               Perkins, C., "Kinetic Trust Protocol - Vector Identity",
@@ -3395,6 +3464,16 @@ Internet-Draft                  KTP-CORE                    October 2026
               Perkins, C., "Kinetic Trust Protocol - Blue Zone
               Discovery", n.d..
 
+
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 62]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    [KTP-FEDERATION]
               Perkins, C., "Kinetic Trust Protocol - Trust Federation",
               n.d..
@@ -3409,14 +3488,6 @@ A.1.  The lineage stage names
 
    The three lineage stages are renamed on the wire and in prose.
    Numeric protobuf values are unchanged, so only the symbol names move.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 61]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
                        +============+=============+
                        | v1         | v2.0.0      |
@@ -3452,6 +3523,13 @@ A.2.  The E_base composition
    the sponsor weight.  See Section 5.1; an implementation computing the
    v1 formula does not conform to v2.
 
+
+
+Perkins                   Expires 15 April 2027                [Page 63]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 A.3.  The risk_factors object and the per-tier caps
 
    The v1 wire object named context_tensor is renamed risk_factors in
@@ -3459,20 +3537,6 @@ A.3.  The risk_factors object and the per-tier caps
    letters.  The per-tier numeric action cap (Max A) is deleted: a tier
    permits action classes, and the numeric bound is the Zeroth Law
    itself, A <= E_trust, evaluated per action.
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 62]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
 A.4.  The Trust Tier thresholds
 
@@ -3513,6 +3577,15 @@ Appendix B.  Example Calculations
    Scenario: A deployment agent attempts to push a code update to the
    ticketing system during a major sporting event.
 
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 64]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    Sensor values: CO2: 1800 ppm Link saturation: 92% WAF blocks: 200/min
    Time to kickoff: 5 minutes Dependency count: 50 VIP count: 2
 
@@ -3522,13 +3595,6 @@ Appendix B.  Example Calculations
 
    Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15,
    w_I=0.05, w_O=0.05
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 63]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 *
    0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 +
@@ -3567,6 +3633,15 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    Result: Action permitted.
 
+
+
+
+
+Perkins                   Expires 15 April 2027                [Page 65]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 Appendix C.  JSON Schemas
 
    B.1.  Trust Proof Schema
@@ -3578,13 +3653,6 @@ Appendix C.  JSON Schemas
 
    SHA-256 of the canonical file at the time this document was produced:
    41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 64]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    The published file carries the v2 claims (the declared peer share,
    applicable ceilings, advancement floor, and root instrument) and
@@ -3625,16 +3693,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 65]
+Perkins                   Expires 15 April 2027                [Page 66]

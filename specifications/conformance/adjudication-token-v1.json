@@ -1,0 +1,906 @@
+{
+  "suite": "adjudication-token-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-CORE L11 (There are two SHOULD rails, and only one of them is this specification's) and schemas/adjudication-token.json",
+  "note": "Normative downstream requirements for the carriage of norm content. This repository contains no Oracle, gateway or adjudicator runtime: these vectors fix decision requirements at the boundaries they name and do not define a formula for A, E or supervision. The reference for every vector is the no-norm result: what this specification produces for the same evaluation with no norm content applied, which an implementation computes or records before applying any. given/expect are test notation, not wire fields or new decision enums. All other applicable checks pass unless a vector states otherwise. Digests are shown as placeholders of the correct shape; time values are comparable trusted instants in seconds.",
+  "supervision_notation": "supervision is written as an ordinal: a larger integer is more supervision, and silent_veto is the top. The notation stands for whatever ordered supervision outcomes an implementation's declared profile defines; it is not an enum this suite introduces. E_trust = E_base × (1 − R) is the Trust Score as published; A is the action's demand on the same scale.",
+  "token_notation": "token objects carry the bound fields of schemas/adjudication-token.json. A token that is bound to a different action, actor, grant, evidence, zone or epoch than the evaluation's, or whose signature cannot be verified, or that has expired, is absent: tokenAbsent or tokenVoid in expect means the evaluation proceeds as if that token had never been presented.",
+  "vectors": [
+    {
+      "id": "AT01-favorable-verdict-changes-nothing-measured",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "trustedNow": 100,
+        "evaluationContext": {
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5
+        }
+      },
+      "expect": {
+        "gateSatisfied": true,
+        "executionPermitted": true,
+        "supervision": 1,
+        "E_trust": 60,
+        "A": 40,
+        "envelope": {
+          "executableFraction": 1.0
+        }
+      },
+      "reason": "A favorable adjudication satisfies the gate it answers and nothing else. Capacity, demand, supervision and the envelope are exactly the no-norm result."
+    },
+    {
+      "id": "AT02-unfavorable-verdict-restricts",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": false,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "gateSatisfied": false,
+        "executionPermitted": false,
+        "E_trust": 60,
+        "supervision": 1
+      },
+      "reason": "An unfavorable verdict leaves the gate unsatisfied and the action does not execute. The measured result is unchanged: the verdict is norm content, not measurement."
+    },
+    {
+      "id": "AT03-verdict-on-fragment-admits-nothing-for-whole",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a"
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenPresentForThisAction": false,
+        "gateSatisfied": false,
+        "executionPermitted": false
+      },
+      "reason": "A verdict answers only the action, whole, it adjudicated. The action digest differs, so for the whole action the token is absent and the gate stays unsatisfied."
+    },
+    {
+      "id": "AT04-two-fragment-verdicts-do-not-add",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "tokens": [
+          {
+            "favorable": true,
+            "action_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "actor": "agent:a",
+            "cnf_jkt": "jkt-a",
+            "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+            "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+            "zone_id": "zone-a",
+            "topology_epoch": 5,
+            "iat": 90,
+            "exp": 110
+          },
+          {
+            "favorable": true,
+            "action_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+            "actor": "agent:a",
+            "cnf_jkt": "jkt-a",
+            "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+            "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+            "zone_id": "zone-a",
+            "topology_epoch": 5,
+            "iat": 90,
+            "exp": 110
+          }
+        ],
+        "evaluationContext": {
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a"
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenPresentForThisAction": false,
+        "gateSatisfied": false,
+        "executionPermitted": false
+      },
+      "reason": "No number of favorable verdicts adds up to a verdict on an action none of them judged. Two fragment verdicts are two verdicts on fragments and none on the composed action."
+    },
+    {
+      "id": "AT05-verdict-for-another-actor-refused",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:b",
+          "cnf_jkt": "jkt-b",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a"
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenPresentForThisActor": false,
+        "gateSatisfied": false,
+        "executionPermitted": false
+      },
+      "reason": "A verdict for a different actor answers nothing here. The actor and the proof-of-possession thumbprint both differ; the token is absent and does not travel."
+    },
+    {
+      "id": "AT06-release-own-increment-to-environment-level",
+      "given": {
+        "environmentSupervision": 1,
+        "supervisionIncrements": [
+          {
+            "raisedBy": "normative",
+            "from": 1,
+            "to": 3
+          }
+        ],
+        "currentSupervision": 3,
+        "release": {
+          "by": "normative",
+          "signed": true,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "to": 1
+        }
+      },
+      "expect": {
+        "supervision": 1,
+        "releasePermitted": true
+      },
+      "reason": "The normative rail releases only the increment it raised, as a signed act, back to the level this specification derives from the environment and not below it."
+    },
+    {
+      "id": "AT07-release-below-environment-level-refused",
+      "given": {
+        "environmentSupervision": 2,
+        "supervisionIncrements": [
+          {
+            "raisedBy": "normative",
+            "from": 2,
+            "to": 3
+          }
+        ],
+        "currentSupervision": 3,
+        "release": {
+          "by": "normative",
+          "signed": true,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "to": 1
+        }
+      },
+      "expect": {
+        "supervision": 2,
+        "releasePermitted": false
+      },
+      "reason": "A release MUST NOT set supervision below the level the environment derives. The normative rail's own increment is released to 2; the request to 1 is refused."
+    },
+    {
+      "id": "AT08-release-of-another-rail-increment-refused",
+      "given": {
+        "environmentSupervision": 1,
+        "supervisionIncrements": [
+          {
+            "raisedBy": "prudence",
+            "from": 1,
+            "to": 2
+          }
+        ],
+        "currentSupervision": 2,
+        "release": {
+          "by": "normative",
+          "signed": true,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "to": 1
+        }
+      },
+      "expect": {
+        "supervision": 2,
+        "releasePermitted": false
+      },
+      "reason": "A rail MUST NOT release what another rail raised. The prudence rail set this increment; the normative rail's release leaves it in place."
+    },
+    {
+      "id": "AT09-unsigned-release-refused",
+      "given": {
+        "environmentSupervision": 1,
+        "supervisionIncrements": [
+          {
+            "raisedBy": "normative",
+            "from": 1,
+            "to": 3
+          }
+        ],
+        "currentSupervision": 3,
+        "release": {
+          "by": "normative",
+          "signed": false,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "to": 1
+        }
+      },
+      "expect": {
+        "supervision": 3,
+        "releasePermitted": false
+      },
+      "reason": "A release is an act signed by the party that raised the increment. An unsigned release is not a release."
+    },
+    {
+      "id": "AT10-release-names-one-actor-and-one-action",
+      "given": {
+        "environmentSupervision": 1,
+        "holds": [
+          {
+            "actor": "agent:a",
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "raisedBy": "normative",
+            "supervision": 3
+          },
+          {
+            "actor": "agent:b",
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "raisedBy": "normative",
+            "supervision": 3
+          },
+          {
+            "actor": "agent:a",
+            "action_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "raisedBy": "normative",
+            "supervision": 3
+          }
+        ],
+        "release": {
+          "by": "normative",
+          "signed": true,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "to": 1
+        }
+      },
+      "expect": {
+        "supervisionAfter": [
+          {
+            "actor": "agent:a",
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "supervision": 1
+          },
+          {
+            "actor": "agent:b",
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "supervision": 3
+          },
+          {
+            "actor": "agent:a",
+            "action_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "supervision": 3
+          }
+        ]
+      },
+      "reason": "A release applies to the one action and the one actor it names. It does not transfer between actors or pool across actions."
+    },
+    {
+      "id": "AT11-release-does-not-carry-to-next-evaluation",
+      "given": {
+        "environmentSupervision": 1,
+        "previousEvaluation": {
+          "supervisionIncrements": [
+            {
+              "raisedBy": "normative",
+              "from": 1,
+              "to": 3
+            }
+          ],
+          "released": true
+        },
+        "nextEvaluation": {
+          "environmentSupervision": 1,
+          "normativeRailRaisesTo": 3
+        }
+      },
+      "expect": {
+        "nextEvaluationSupervision": 3,
+        "priorReleaseApplied": false
+      },
+      "reason": "A release does not carry from one evaluation to the next. The next evaluation starts from the environment's level, and a new hold stands until it is released on its own."
+    },
+    {
+      "id": "AT12-importance-raises-demand-only",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "importanceClaim": {
+          "source": "https://adjudicator.example.net",
+          "urgency": 0.9,
+          "declaredEffect": "demand"
+        },
+        "demandWithClaim": 48
+      },
+      "expect": {
+        "A": 48,
+        "R": 0.25,
+        "E_base": 80,
+        "E_trust": 60,
+        "executionPermitted": true,
+        "supervision": 1
+      },
+      "reason": "A judgment that an action matters MAY raise the demand it presents. A rises from 40 to 48 and still clears E_trust 60; R, E_base and E_trust are untouched."
+    },
+    {
+      "id": "AT13-importance-cannot-loosen-a-limit",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": false,
+          "supervision": "silent_veto",
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 70
+        },
+        "importanceClaim": {
+          "source": "operator",
+          "urgency": 1.0,
+          "requested": "apply the limit less strictly"
+        }
+      },
+      "expect": {
+        "executionPermitted": false,
+        "supervision": "silent_veto",
+        "E_trust": 60,
+        "A": 70
+      },
+      "reason": "Importance MUST NOT be the reason an environmental limit is not applied, or applied less strictly. A 70 exceeds E_trust 60 and the veto stands, whoever asserts the urgency and however it is measured."
+    },
+    {
+      "id": "AT14-aggregate-importance-changes-no-per-action-limit",
+      "given": {
+        "actions": [
+          {
+            "id": "x1",
+            "A": 70,
+            "E_trust": 60
+          },
+          {
+            "id": "x2",
+            "A": 70,
+            "E_trust": 60
+          },
+          {
+            "id": "x3",
+            "A": 70,
+            "E_trust": 60
+          }
+        ],
+        "importanceClaim": {
+          "scope": "the three together",
+          "mission": "critical"
+        }
+      },
+      "expect": {
+        "perAction": [
+          {
+            "id": "x1",
+            "executionPermitted": false
+          },
+          {
+            "id": "x2",
+            "executionPermitted": false
+          },
+          {
+            "id": "x3",
+            "executionPermitted": false
+          }
+        ]
+      },
+      "reason": "The importance of many actions together is a judgment about the many; it changes nothing about the limit that applies to each. Each action is evaluated against its own limit, and each is vetoed."
+    },
+    {
+      "id": "AT15-token-in-another-zone-absent",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "zone_id": "zone-b",
+          "topology_epoch": 5,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenAbsent": true,
+        "gateSatisfied": false,
+        "executionPermitted": false,
+        "measuredResultEqualsNoNorm": true
+      },
+      "reason": "The token is bound to the zone in which it was issued. In another zone it is absent: the gate stays unsatisfied and the measured result is the no-norm result."
+    },
+    {
+      "id": "AT16-token-after-topology-change-absent",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 4,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenAbsent": true,
+        "gateSatisfied": false,
+        "executionPermitted": false
+      },
+      "reason": "The token is bound to the topology epoch in force when it was issued. After the topology changes it is absent."
+    },
+    {
+      "id": "AT17-corrected-evidence-voids-token",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "evidence_digest": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "zone_id": "zone-a",
+          "topology_epoch": 5
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenVoid": true,
+        "gateSatisfied": false,
+        "freshAdjudicationRequired": true,
+        "freshEvaluationRequired": true
+      },
+      "reason": "Corrected or new evidence changes the evidence digest and voids the token. Execution requires a fresh evaluation under this specification and a fresh adjudication."
+    },
+    {
+      "id": "AT18-widened-grant-voids-token",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "evaluationContext": {
+          "grant_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "actor": "agent:a",
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenVoid": true,
+        "gateSatisfied": false,
+        "freshAdjudicationRequired": true,
+        "freshEvaluationRequired": true
+      },
+      "reason": "A new, widened or revoked grant changes the grant digest and voids the token. Neither rail's earlier result survives it."
+    },
+    {
+      "id": "AT19-expired-token-void-at-boundary",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 100
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenVoid": true,
+        "gateSatisfied": false
+      },
+      "reason": "A token is void when now >= exp, including the boundary instant."
+    },
+    {
+      "id": "AT20-void-or-unverifiable-token-yields-no-norm-result",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "signatureVerifies": false,
+        "trustedNow": 100
+      },
+      "expect": {
+        "tokenAbsent": true,
+        "measuredResult": {
+          "supervision": 1,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "gateSatisfied": false,
+        "executionPermitted": false
+      },
+      "reason": "A token whose binding cannot be verified is absent, and the evaluation proceeds as if no norm content had been applied: the measured result is exactly the no-norm result, and a declared gate stays unsatisfied. Absence never widens and never denies service beyond the gate the declared schema already required."
+    },
+    {
+      "id": "AT21-verdict-does-not-lower-prudence-supervision",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 2,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "supervisionIncrements": [
+            {
+              "raisedBy": "prudence",
+              "from": 1,
+              "to": 2
+            }
+          ]
+        },
+        "gateDeclared": true,
+        "token": {
+          "favorable": true,
+          "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "actor": "agent:a",
+          "cnf_jkt": "jkt-a",
+          "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "zone_id": "zone-a",
+          "topology_epoch": 5,
+          "iat": 90,
+          "exp": 110
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "gateSatisfied": true,
+        "supervision": 2,
+        "executionPermitted": true
+      },
+      "reason": "A favorable verdict does not lower any result this specification's checks produce. The prudence rail's supervision increment stands."
+    },
+    {
+      "id": "AT22-all-shapes-together-never-more-permissive",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "normContent": {
+          "veto": {
+            "soul": 0
+          },
+          "suppliedInput": {
+            "declaredEffect": "demand",
+            "value": 0.6,
+            "demandWithInput": 46
+          },
+          "gate": {
+            "favorable": true,
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "actor": "agent:a",
+            "cnf_jkt": "jkt-a",
+            "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+            "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+            "zone_id": "zone-a",
+            "topology_epoch": 5,
+            "iat": 90,
+            "exp": 110
+          }
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "executionPermitted": true,
+        "supervision": 1,
+        "A": 46,
+        "E_base": 80,
+        "R": 0.25,
+        "E_trust": 60,
+        "envelope": {
+          "executableFraction": 1.0
+        },
+        "orderedOutcomesNotMorePermissiveThanNoNorm": true
+      },
+      "reason": "For every shape norm content takes and for any number of them applied together, the result is never more permissive than the no-norm result on any outcome this specification orders: permitted where permitted, supervision not below, demand not below, capacity not above, the envelope not wider."
+    },
+    {
+      "id": "AT23-all-shapes-together-can-only-restrict",
+      "given": {
+        "noNormResult": {
+          "executionPermitted": true,
+          "supervision": 1,
+          "E_base": 80,
+          "R": 0.25,
+          "E_trust": 60,
+          "A": 40,
+          "envelope": {
+            "executableFraction": 1.0
+          }
+        },
+        "normContent": {
+          "veto": {
+            "soul": 1
+          },
+          "suppliedInput": {
+            "declaredEffect": "demand",
+            "value": 0.9,
+            "demandWithInput": 52
+          },
+          "gate": {
+            "favorable": false,
+            "action_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "actor": "agent:a",
+            "cnf_jkt": "jkt-a",
+            "grant_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+            "evidence_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+            "zone_id": "zone-a",
+            "topology_epoch": 5,
+            "iat": 90,
+            "exp": 110
+          }
+        },
+        "trustedNow": 100
+      },
+      "expect": {
+        "executionPermitted": false,
+        "vetoedBy": "soul",
+        "gateSatisfied": false,
+        "A": 52,
+        "E_trust": 60
+      },
+      "reason": "Each shape may restrict and none may widen. The Soul veto denies, the supplied input raises demand, the unfavorable gate holds; the measured capacity is untouched."
+    }
+  ]
+}

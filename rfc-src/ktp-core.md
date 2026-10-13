@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -1862,6 +1862,56 @@ crossing is the failure this entry exists to name. A conformant implementation
 fail-closed behavior on an undefined demand term — **MUST** reference a
 declared external schema for norm content, and **MUST NOT** present
 conformance as evidence that the norms in force are adequate.
+
+**Direction.** Norm content restricts and never widens. For any evaluation,
+the result with norm content applied **MUST NOT** be more permissive than the
+result this specification produces with none applied, on any outcome this
+specification orders: it **MUST NOT** permit what that result denies, set
+supervision below it, widen what it leaves executable, raise the capacity it
+measured, or lower the demand it measured. This holds for every shape norm
+content takes, for every source that produces it, and for any number of them
+applied together, so that no combination of judgments widens what one alone
+could not.
+
+**A favorable verdict.** A favorable adjudication satisfies the gate it answers
+and nothing else. It is not evidence of capacity, it does not stand in for any
+other check this specification makes, and it does not lower any result those
+checks produce. It answers only the action, whole, and the actor it
+adjudicated: a verdict on part of an action, on a different action, or for a
+different actor answers nothing here, and no number of favorable verdicts adds
+up to a verdict on an action none of them judged.
+
+**Release.** Where the normative rail raises supervision, it **MAY** later
+release only the increment it raised, through its declared accountable process,
+as an act signed by the party that raised it. It **MUST NOT** release
+supervision below the level this specification derives from the environment,
+and it **MUST NOT** release what another rail raised. A release applies to the
+one action and the one actor it names. It does not pool across actions,
+transfer between actors, or carry from one evaluation to the next.
+
+**Importance.** A judgment that an action matters, its urgency, value,
+priority, mission, benefit, or the harm it would avoid, is norm content,
+whoever makes it and however it is measured. It **MAY** be the reason an action
+is attempted, and it **MAY** raise the demand the action presents or the
+supervision it requires. It **MUST NOT** be the reason an environmental limit
+is not applied, or applied less strictly, to that action or to any other. The
+importance of many actions together is a judgment about the many; it changes
+nothing about the limit that applies to each.
+
+**Binding.** An adjudication token **MUST** be bound, by digest, to the action
+it adjudicated, the actor, the grant in force, the evidence it judged, the zone
+and topology epoch in which it was issued, and its time of issue and expiry.
+Any change to any of these voids it. A void token, or one whose binding cannot
+be verified, is absent, and the evaluation proceeds as if no norm content had
+been applied. After any such change, execution requires a fresh evaluation
+under this specification and a fresh adjudication; neither rail's earlier
+result survives it.
+
+The token's bound fields are the payload in schemas/adjudication-token.json.
+The boundary cases for these rules are published in
+specifications/conformance/adjudication-token-v1.json. They fix decision
+requirements at those boundaries and do not define a formula for A, E or
+supervision.
 
 Converts further when the co-authored profile lands and the two documents
 cross-reference; the prudence-rail naming paragraph is spec text now.

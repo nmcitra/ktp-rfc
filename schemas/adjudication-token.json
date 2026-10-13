@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/adjudication-token.json",
+  "title": "KTP Adjudication Token",
+  "description": "The payload of an adjudication token: the normative rail's answer to a declared gate, bound by digest to exactly what it adjudicated. The token is carried as a JWS whose signature covers this whole payload; the signing key is identified by kid under the issuer. JSON Schema checks shape only. It does not verify the signature, the digests against the ingress session, the grant, the evidence or the topology, or that the issuer is the declared external schema's party; those are the receiving gateway's checks under KTP-CORE L11. A token that fails any of them is absent, never a denial.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "iss",
+    "favorable",
+    "action_digest",
+    "actor",
+    "cnf_jkt",
+    "grant_digest",
+    "evidence_digest",
+    "zone_id",
+    "topology_epoch",
+    "iat",
+    "exp",
+    "jti"
+  ],
+  "properties": {
+    "iss": {
+      "type": "string",
+      "format": "uri",
+      "description": "The adjudicating party: the issuer named by the declared external schema for norm content"
+    },
+    "kid": {
+      "type": "string",
+      "description": "Identifier of the issuer's signing key that covers this payload"
+    },
+    "favorable": {
+      "type": "boolean",
+      "description": "Whether the verdict satisfies the gate it answers. True satisfies that gate and nothing else; false does not. No other verdict semantics are carried"
+    },
+    "action_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Digest of the canonical action, whole, that was adjudicated. A different or decomposed action has a different digest and the token answers nothing for it"
+    },
+    "actor": {
+      "type": "string",
+      "format": "uri",
+      "description": "The subject identifier of the actor adjudicated. The token answers nothing for any other actor"
+    },
+    "cnf_jkt": {
+      "type": "string",
+      "description": "Thumbprint of the actor's proof-of-possession key, so the presenting party must hold the key the verdict was issued to"
+    },
+    "grant_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Digest of the grant in force when the verdict was issued. A new, widened or revoked grant changes it and voids the token"
+    },
+    "evidence_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Digest of the evidence the verdict judged. Corrected or new evidence changes it and voids the token"
+    },
+    "zone_id": {
+      "type": "string",
+      "description": "Identifier of the zone in which the verdict was issued. The token is absent in any other zone"
+    },
+    "topology_epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The topology epoch in force when the verdict was issued. The token is absent after the topology changes"
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issued at (Unix timestamp)"
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Expires at (Unix timestamp). The token is void when now >= exp, including the boundary instant"
+    },
+    "jti": {
+      "type": "string",
+      "description": "Unique token identifier"
+    }
+  },
+  "examples": [
+    {
+      "iss": "https://adjudicator.example.net",
+      "kid": "adj-2026-10",
+      "favorable": true,
+      "action_digest": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+      "actor": "agent:7gen:optimized:a1b2c3d4",
+      "cnf_jkt": "NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs",
+      "grant_digest": "sha256:b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2",
+      "evidence_digest": "sha256:c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3",
+      "zone_id": "zone-blue-prod-01",
+      "topology_epoch": 12,
+      "iat": 1699900000,
+      "exp": 1699900010,
+      "jti": "adj-uuid-12345"
+    }
+  ]
+}

@@ -30,7 +30,41 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and the L11 direction rule
+
+### The L11 direction rule for normative content
+
+**Finding:** L11 stated one rule for norm content, that it must not rewrite
+the aggregation, which bars one mechanism and states no direction. The set
+says tighten-only, floor-only or fresh-evaluation five times over for
+readiness, delegation, emergency approval and the envelope, and never for
+normative content; nothing said what a favorable verdict was worth, which
+supervision the normative rail could release, that importance is not capacity,
+or what an adjudication token binds.
+
+- L11 gains five paragraphs. Norm content restricts and never widens, on any
+  outcome this specification orders, against the result produced with no norm
+  content applied, for every shape, every source and any combination. A
+  favorable verdict satisfies the gate it answers and nothing else, and answers
+  only the action, whole, and the actor it adjudicated. The normative rail
+  releases only the increment it raised, as a signed act, never below the
+  environment's level and never another rail's. A judgment that an action
+  matters is norm content, may raise demand or supervision, and is never the
+  reason a limit is not applied. An adjudication token is bound by digest to
+  the action, actor, grant, evidence, zone, epoch and time it judged, voids on
+  any change, and when void is absent.
+- `schemas/adjudication-token.json` publishes the token payload: the bound
+  fields and whether the verdict is favorable, nothing else.
+- `specifications/conformance/adjudication-token-v1.json` publishes
+  twenty-three boundary cases: no widening by any shape or combination,
+  fragment and transfer refusals, release limits, importance, binding and
+  absence. They define no formula.
+- An implementation records the no-norm result for each evaluation and which
+  rail raised each increment of supervision, so that absence has a value to
+  fall back to and a release has an increment to release.
+
+Five MUST-bearing sentences enter L11, so this requires a MAJOR release under
+`VERSIONING.md`. It remains unreleased; published tags are unchanged.
 
 ### Operation-specific human eligibility and privacy evidence
 

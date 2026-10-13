@@ -27,6 +27,22 @@ revocation and accepted-version floors, or render old authority unusable if the
 required state cannot be retained/reconstructed under applicable rules. No
 permanent personal archive or automatic clean-slate enrollment is introduced.
 
+**Unreleased L11 direction-rule migration:** An implementation that carries
+norm content through the carriage interface must add three things. It records
+the no-norm result for each evaluation, what this specification produces with
+no norm content applied, so that a void or unverifiable adjudication token has a
+value to fall back to and so that no result with norm content applied can be
+more permissive than it. It verifies an adjudication token's bindings, by
+digest, to the action, actor, grant, evidence, zone, topology epoch and time it
+judged, against the current evaluation, and treats any mismatch, failed
+signature or expiry as absence, never as a denial beyond the gate the declared
+schema already required. It records which rail raised each increment of
+supervision, so that the normative rail can release only its own increment and
+never below the environment's level. A favorable verdict is a prerequisite for
+the gate it answers and is not evidence of capacity; implementations that let a
+verdict lower supervision or raise capacity stop conforming. The token payload
+is `schemas/adjudication-token.json`.
+
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and
 [operational readiness contract](specifications/operational-readiness.md).

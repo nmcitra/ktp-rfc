@@ -30,7 +30,48 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and nested zones
+
+### Nested zones
+
+**Finding:** the set had no account of one zone inside another. Hierarchical
+Federation's trust rule, under which a parent and child zone trust each other
+at factor 1.0, conflicted with the class-factor deflation that Zones applies at
+ingress once a harder zone sat inside a lighter one; an implementer could not
+do both. Proposed in #⧗.
+
+- Zones defines nested zones as rings, with enclosure, depth, Class Step,
+  Ingress Receipt, Ingress Path and Topology. Four rings, one per Enforcement
+  Class, is the RECOMMENDED profile; an ancestry path holds at most six rings.
+  Seven invariants govern a nested deployment, and Enforcement Class is
+  non-decreasing inward.
+- Sensors adds a fourth Risk Domain, the Enclosure Domain, which can raise a
+  ring's Risk Factor and never lower it below the ring's own three-level
+  value. It is disabled at depth 0, and at depth 1 or more a ring declares a
+  reach greater than 0. An informative reference form is given; the
+  requirements, not the form, are normative.
+- The Trust Proof gains an optional `ingress_path` claim, required at a ring
+  of depth 1 or more, holding bound Ingress Receipts. Zones specifies egress
+  shaping so that an outward proof does not reveal a ring's Risk Factor.
+- Federation retires the Hierarchical Federation trust rule, and with it
+  parent, child, descendant, sibling and common ancestor as terms for
+  relationships between zones. A migration map gives enclosure and ring
+  where enforcement nests, and peers with a directional factor where it does
+  not.
+- The threat model adds TM-FED-005 Depth Spoofing, TM-FED-006 Calm
+  Injection, TM-FED-007 Ring Bypass, TM-FED-008 Enclosure Heat Poisoning,
+  TM-FED-009 Topology Tampering, TM-FED-010 Enclosure Availability Denial
+  and TM-FED-011 Inner-Zone Inference, and extends TM-FED-004's mitigation.
+- The boundary cases are published as `specifications/conformance/
+  nested-zones-v1.json`: sixteen vectors covering enclosure heat (both
+  outcomes), calm, the ring's own reading, attenuation per class step,
+  depth 0, fail-closed ingress, receipt bindings, egress shaping and
+  invalid declarations and topologies.
+
+A conformant implementation that relied on hierarchical inheritance, or on a
+lighter zone inside a harder one, stops conforming, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
 
 ### Operation-specific human eligibility and privacy evidence
 

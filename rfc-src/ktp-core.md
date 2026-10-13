@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -501,6 +501,8 @@ The final Risk Factor aggregates all three levels:
 This three-level structure prevents a single node spike from causing tier oscillation while ensuring that genuine widespread degradation is detected and acted upon.
 
 See {{KTP-SENSORS}} Section 2.3 for detailed specification of Risk Domains including anti-oscillation mechanics and configuration.
+
+In a nested deployment, a ring's Risk Factor also takes a fourth input, the Enclosure Domain. It can raise R and never lower it below the value the three levels above produce. See {{KTP-ZONES}} Section 3.7 (Nested Zones).
 
 ## Effective Trust Score (E_trust)
 

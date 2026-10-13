@@ -445,6 +445,8 @@ This three-level structure prevents a single node spike from causing tier oscill
 
 See [KTP-SENSORS] Section 2.3 for detailed specification of Risk Domains including anti-oscillation mechanics and configuration.
 
+In a nested deployment, a ring's Risk Factor also takes a fourth input, the Enclosure Domain. It can raise R and never lower it below the value the three levels above produce. See [KTP-ZONES] Section 3.7 (Nested Zones).
+
 ## Effective Trust Score (E_trust)
 
 The Effective Trust Score is the value used to evaluate the Zeroth Law. It is calculated as:

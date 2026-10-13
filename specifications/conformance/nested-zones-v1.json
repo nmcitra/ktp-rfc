@@ -1,0 +1,602 @@
+{
+  "suite": "nested-zones-v1",
+  "kind": "decision_boundaries",
+  "specification": "KTP-ZONES Section 3.7 (Nested Zones), Section 6.6 (Ingress Path) and Section 7.4 (Egress Shaping); KTP-SENSORS Section 2.3 (Risk Domains (Node, Neighborhood, Global))",
+  "note": "Normative gateway and Oracle requirements for nested deployments. This repository contains no gateway or Oracle runtime: nothing here executes an admission or computes a Risk Factor. The vectors fix decision requirements at the boundaries they name and do not define a formula for R. Values labelled 'under the reference form' are illustrations computed from the informative reference form in KTP-SENSORS; a profile MAY use another form that satisfies the invariants, and the requirement stated in each vector's reason is the test. The given/expect objects are test notation, not wire fields or decision enums. Numbers are decimal strings so that they can be re-derived exactly.",
+  "receipt_notation": "Receipts in ingress_path are written with the bound fields of Section 6.6 (Ingress Path); sig '<valid>' means a signature that verifies under the issuing Oracle's key. 'digest:<receipt-n>' names the preceding receipt's digest. All receipts are current unless a vector says otherwise.",
+  "vectors": [
+    {
+      "id": "NZ01-heat-raises-r-permit",
+      "note": "Sensors Scenario 4; the raised R still passes A <= E",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "L": "0.22",
+        "enclosure_signed_R": "0.80",
+        "class_step": true,
+        "gateway_reading_G": "0.30",
+        "E_base": 80,
+        "A": 50
+      },
+      "expect": {
+        "R_not_below": "0.22",
+        "R_under_reference_form": "0.31",
+        "E_trust_under_reference_form": "55.2",
+        "decision": "PERMIT",
+        "evaluated_at": "the raised R"
+      },
+      "reason": "Enclosure heat raises the ring's R and never lowers it below L (invariant 1); the action is evaluated at the raised value and permitted because A <= E_trust still holds."
+    },
+    {
+      "id": "NZ02-heat-raises-r-deny",
+      "note": "Same enclosure heat; A sits between the local and the raised Trust Score",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "L": "0.22",
+        "enclosure_signed_R": "0.80",
+        "class_step": true,
+        "gateway_reading_G": "0.30",
+        "E_base": 80,
+        "A": 60
+      },
+      "expect": {
+        "R_not_below": "0.22",
+        "R_under_reference_form": "0.31",
+        "E_trust_local_only_under_reference_form": "62.4",
+        "E_trust_under_reference_form": "55.2",
+        "decision": "DENY",
+        "supervision": "silent_veto"
+      },
+      "reason": "Raising R can move an action across A <= E; that is the design. The action that passed on the ring's own measure (62.4 >= 60) is vetoed at the raised value (55.2 < 60)."
+    },
+    {
+      "id": "NZ03-calm-does-not-lower",
+      "note": "Enclosure reports calm below the ring's own reading",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "L": "0.22",
+        "enclosure_signed_R": "0.05",
+        "class_step": true,
+        "gateway_reading_G": "0.10"
+      },
+      "expect": {
+        "R": "0.22",
+        "R_equals_L": true
+      },
+      "reason": "The floor is contemporaneous: calm from outside never becomes a discount below the ring's own measure (invariant 1). Under the reference form H = 0.10 < L, so R = L."
+    },
+    {
+      "id": "NZ04-own-reading-not-overwritten",
+      "note": "Enclosure signs low; the ring's gateway observes the enclosure as hot",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "L": "0.22",
+        "enclosure_signed_R": "0.20",
+        "class_step": true,
+        "gateway_reading_G": "0.50"
+      },
+      "expect": {
+        "R_not_below": "0.22",
+        "R_under_reference_form": "0.36",
+        "input_that_governed": "gateway_reading_G"
+      },
+      "reason": "An enclosure's report MUST NOT overwrite a higher risk the ring's own gateway observes of the enclosure (invariant 1); the higher of the two readings bears on R."
+    },
+    {
+      "id": "NZ05-attenuation-per-class-step-only",
+      "note": "Same heat across an equal-class boundary (Blue inside Blue)",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "enclosure_class": "blue",
+        "L": "0.22",
+        "enclosure_signed_R": "0.80",
+        "class_step": false,
+        "gateway_reading_G": "0.30"
+      },
+      "expect": {
+        "attenuation_applied": "1.0",
+        "R_under_reference_form": "0.51"
+      },
+      "reason": "Attenuation applies only across a Class Step; between rings of equal Enforcement Class the factor is 1.0 (invariant 1). Stacking same-class rings earns no attenuation."
+    },
+    {
+      "id": "NZ06-depth-zero-disabled",
+      "note": "An outermost ring: no enclosure",
+      "given": {
+        "ring": {
+          "zone_id": "zone-green-outer",
+          "class": "green",
+          "depth": 0,
+          "topology_epoch": 5
+        },
+        "L": "0.22",
+        "wild_risk_offered": "0.90"
+      },
+      "expect": {
+        "enclosure_processing": "disabled",
+        "R": "0.22",
+        "wild_risk_used": false
+      },
+      "reason": "At depth 0 Enclosure Domain processing is disabled and R is the ring's own three-domain value. The outermost ring MUST NOT accept a Risk Factor from the Wild (invariant 3); threat feeds enter its Global Domain as today."
+    },
+    {
+      "id": "NZ07-oracle-unavailable-fails-closed",
+      "note": "The enclosure's Trust Oracle is unreachable; a new agent presents a path it cannot complete",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "enclosure_oracle": "unavailable",
+        "presented_ingress_path": [
+          {
+            "zone_id": "zone-green-outer",
+            "oracle_kid": "zone-green-outer-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-cyan-enclosure",
+            "prev": null,
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          }
+        ],
+        "required_receipts": 2
+      },
+      "expect": {
+        "new_ingress": "REFUSED",
+        "required_ancestry": 2,
+        "required_ancestry_changed": false,
+        "R_reduced_for_want_of_evidence": false
+      },
+      "reason": "Loss of an enclosure's Oracle MUST NOT shorten the required ancestry or reduce R for want of evidence; new ingress that needs unavailable evidence fails closed (invariant 4). Resident agents are governed by the ring's degraded-operation rules, which this vector does not test."
+    },
+    {
+      "id": "NZ08-missing-receipt-refused",
+      "note": "Depth 2 ring; the path carries only the outermost receipt",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "presented_ingress_path": [
+          {
+            "zone_id": "zone-green-outer",
+            "oracle_kid": "zone-green-outer-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-cyan-enclosure",
+            "prev": null,
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          }
+        ],
+        "required_receipts": 2
+      },
+      "expect": {
+        "ingress": "REFUSED",
+        "read_as_depth_0": false
+      },
+      "reason": "A proof missing a ring in its required ancestry MUST be refused (invariant 4). A missing Ingress Path never reads as depth 0: depth comes from the authorized Topology, not from the proof."
+    },
+    {
+      "id": "NZ09-unrelated-admission-refused",
+      "note": "A complete, genuine path from admission adm-7f3a presented in admission adm-9c11",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "current_admission_id": "adm-9c11",
+        "presented_ingress_path": [
+          {
+            "zone_id": "zone-green-outer",
+            "oracle_kid": "zone-green-outer-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-cyan-enclosure",
+            "prev": null,
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          },
+          {
+            "zone_id": "zone-cyan-enclosure",
+            "oracle_kid": "zone-cyan-enclosure-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-blue-ring",
+            "prev": "digest:<receipt-1>",
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          }
+        ]
+      },
+      "expect": {
+        "ingress": "REFUSED",
+        "failing_binding": "admission_id"
+      },
+      "reason": "Each receipt binds a fresh admission identifier; a receipt not bound to this admission MUST be refused however genuine its signature (Section 6.6 (Ingress Path))."
+    },
+    {
+      "id": "NZ10-stale-epoch-refused",
+      "note": "A genuine path issued under Topology Epoch 4; the current epoch is 5",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "current_topology_epoch": 5,
+        "presented_ingress_path": [
+          {
+            "zone_id": "zone-green-outer",
+            "oracle_kid": "zone-green-outer-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-cyan-enclosure",
+            "prev": null,
+            "topology_epoch": 4,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          },
+          {
+            "zone_id": "zone-cyan-enclosure",
+            "oracle_kid": "zone-cyan-enclosure-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-blue-ring",
+            "prev": "digest:<receipt-1>",
+            "topology_epoch": 4,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          }
+        ]
+      },
+      "expect": {
+        "ingress": "REFUSED",
+        "failing_binding": "topology_epoch"
+      },
+      "reason": "Receipts bind the Topology Epoch; ancestry is verified against the authenticated Topology, not against registry membership (Section 6.6 (Ingress Path))."
+    },
+    {
+      "id": "NZ11-complete-path-admitted",
+      "note": "The same path, current epoch, current admission, two receipts for depth 2",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "current_admission_id": "adm-7f3a",
+        "current_topology_epoch": 5,
+        "presented_ingress_path": [
+          {
+            "zone_id": "zone-green-outer",
+            "oracle_kid": "zone-green-outer-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-cyan-enclosure",
+            "prev": null,
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          },
+          {
+            "zone_id": "zone-cyan-enclosure",
+            "oracle_kid": "zone-cyan-enclosure-k1",
+            "sub": "agent:7gen:optimized:a1b2c3d4",
+            "cnf_jkt": "jkt-a1b2",
+            "aud": "zone-blue-ring",
+            "prev": "digest:<receipt-1>",
+            "topology_epoch": 5,
+            "iat": 1699900000,
+            "exp": 1699900010,
+            "admission_id": "adm-7f3a",
+            "sig": "<valid>"
+          }
+        ]
+      },
+      "expect": {
+        "ingress": "ADMITTED",
+        "receipts_verified": 2,
+        "ring_evaluates_locally": true
+      },
+      "reason": "A complete, bound path satisfies invariant 4; the ring still performs its own evaluation, because an enclosure's clearance is informational (invariant 5)."
+    },
+    {
+      "id": "NZ12-egress-shaping",
+      "note": "Outward proof from the ring, whose enclosure measures R at 0.40",
+      "given": {
+        "ring": {
+          "zone_id": "zone-blue-ring",
+          "class": "blue",
+          "depth": 2,
+          "topology_epoch": 5,
+          "reach": "0.50",
+          "attenuation_per_class_step": "0.50"
+        },
+        "inner_proof": {
+          "e_base": 80,
+          "e_trust": "55.2",
+          "r": "0.31",
+          "de_dt": "-1.2",
+          "sigma": "0.09",
+          "context": {
+            "evidence_density": "0.70",
+            "trust_trend": "0.60",
+            "adversarial_pressure": "0.35",
+            "moment_criticality": "0.20",
+            "update_resistance": "0.10",
+            "attestation_coverage": "0.50"
+          },
+          "ingress_path": [
+            {
+              "zone_id": "zone-green-outer",
+              "oracle_kid": "zone-green-outer-k1",
+              "sub": "agent:7gen:optimized:a1b2c3d4",
+              "cnf_jkt": "jkt-a1b2",
+              "aud": "zone-cyan-enclosure",
+              "prev": null,
+              "topology_epoch": 5,
+              "iat": 1699900000,
+              "exp": 1699900010,
+              "admission_id": "adm-7f3a",
+              "sig": "<valid>"
+            },
+            {
+              "zone_id": "zone-cyan-enclosure",
+              "oracle_kid": "zone-cyan-enclosure-k1",
+              "sub": "agent:7gen:optimized:a1b2c3d4",
+              "cnf_jkt": "jkt-a1b2",
+              "aud": "zone-blue-ring",
+              "prev": "digest:<receipt-1>",
+              "topology_epoch": 5,
+              "iat": 1699900000,
+              "exp": 1699900010,
+              "admission_id": "adm-7f3a",
+              "sig": "<valid>"
+            },
+            {
+              "zone_id": "zone-blue-ring",
+              "oracle_kid": "zone-blue-ring-k1",
+              "sub": "agent:7gen:optimized:a1b2c3d4",
+              "cnf_jkt": "jkt-a1b2",
+              "aud": "zone-deep-blue-inner",
+              "prev": "digest:<receipt-2>",
+              "topology_epoch": 5,
+              "iat": 1699900000,
+              "exp": 1699900010,
+              "admission_id": "adm-7f3a",
+              "sig": "<valid>"
+            }
+          ]
+        },
+        "enclosure_measure": {
+          "r": "0.40",
+          "e_trust": "48.0"
+        }
+      },
+      "expect": {
+        "outward_proof": {
+          "e_base": 80,
+          "r": "0.40",
+          "e_trust": "48.0",
+          "ingress_path": [
+            {
+              "zone_id": "zone-green-outer",
+              "oracle_kid": "zone-green-outer-k1",
+              "sub": "agent:7gen:optimized:a1b2c3d4",
+              "cnf_jkt": "jkt-a1b2",
+              "aud": "zone-cyan-enclosure",
+              "prev": null,
+              "topology_epoch": 5,
+              "iat": 1699900000,
+              "exp": 1699900010,
+              "admission_id": "adm-7f3a",
+              "sig": "<valid>"
+            },
+            {
+              "zone_id": "zone-cyan-enclosure",
+              "oracle_kid": "zone-cyan-enclosure-k1",
+              "sub": "agent:7gen:optimized:a1b2c3d4",
+              "cnf_jkt": "jkt-a1b2",
+              "aud": "zone-blue-ring",
+              "prev": "digest:<receipt-1>",
+              "topology_epoch": 5,
+              "iat": 1699900000,
+              "exp": 1699900010,
+              "admission_id": "adm-7f3a",
+              "sig": "<valid>"
+            }
+          ]
+        },
+        "restated_or_omitted": [
+          "r",
+          "e_trust",
+          "context",
+          "de_dt",
+          "sigma"
+        ],
+        "removed_from_ingress_path": [
+          "zone-blue-ring receipt",
+          "any inner ring's receipt"
+        ],
+        "inner_r_reconstructible": false,
+        "check": "1 - e_trust/e_base = 0.40, not 0.31"
+      },
+      "reason": "At egress every claim that carries the ring's conditions is restated at the enclosure's measure or omitted, and the ring's own and inner receipts leave the path, so no claim alone or with e_base reveals the ring's Risk Factor (Section 7.4 (Egress Shaping))."
+    },
+    {
+      "id": "NZ13-reach-zero-invalid",
+      "note": "A ring at depth 1 declares an Enclosure Domain reach of 0",
+      "given": {
+        "declaration": {
+          "zone_id": "zone-cyan-enclosure",
+          "depth": 1,
+          "risk_domains": {
+            "enclosure": {
+              "reach": "0",
+              "attenuation_per_class_step": "0.50"
+            }
+          }
+        }
+      },
+      "expect": {
+        "declaration": "INVALID",
+        "reason_code": "reach_must_exceed_zero_at_depth_1_or_more"
+      },
+      "reason": "A zone whose enclosure cannot bear on its Risk Factor is not inside that zone in any sense the protocol can see; at depth 1 or more the declared reach MUST be greater than 0 (Section 3.7 (Nested Zones))."
+    },
+    {
+      "id": "NZ14-repeating-class-cycle-invalid",
+      "note": "A Green ring declared inside a Deep Blue ring",
+      "given": {
+        "topology": [
+          {
+            "zone_id": "z-green",
+            "class": "green",
+            "depth": 0
+          },
+          {
+            "zone_id": "z-cyan",
+            "class": "cyan",
+            "depth": 1
+          },
+          {
+            "zone_id": "z-blue",
+            "class": "blue",
+            "depth": 2
+          },
+          {
+            "zone_id": "z-deep",
+            "class": "deep_blue",
+            "depth": 3
+          },
+          {
+            "zone_id": "z-green-2",
+            "class": "green",
+            "depth": 4
+          }
+        ]
+      },
+      "expect": {
+        "topology": "INVALID",
+        "failing_ring": "z-green-2",
+        "reason_code": "class_decreases_inward"
+      },
+      "reason": "Enforcement Class MUST be non-decreasing inward (invariant 6). A lighter zone inside a harder one is carved out as a separate zone and federated as a peer."
+    },
+    {
+      "id": "NZ15-seven-rings-invalid",
+      "note": "An ancestry path of seven rings, all Deep Blue",
+      "given": {
+        "ancestry_path_length": 7,
+        "classes": [
+          "green",
+          "cyan",
+          "blue",
+          "deep_blue",
+          "deep_blue",
+          "deep_blue",
+          "deep_blue"
+        ]
+      },
+      "expect": {
+        "topology": "INVALID",
+        "reason_code": "ancestry_exceeds_six_rings",
+        "max_depth": 5
+      },
+      "reason": "An ancestry path MUST contain no more than six rings including the receiving ring, so depth is at most 5 (Section 3.7 (Nested Zones)). Six rings with same-class nesting is valid; seven is not."
+    },
+    {
+      "id": "NZ16-six-rings-valid",
+      "note": "An ancestry path of six rings with same-class nesting at Deep Blue",
+      "given": {
+        "ancestry_path_length": 6,
+        "classes": [
+          "green",
+          "cyan",
+          "blue",
+          "deep_blue",
+          "deep_blue",
+          "deep_blue"
+        ]
+      },
+      "expect": {
+        "topology": "VALID",
+        "depth_of_innermost": 5,
+        "class_steps": 3
+      },
+      "reason": "Six rings is the bound; nesting deeper at the same class is permitted and earns no attenuation across the equal-class boundaries."
+    }
+  ]
+}

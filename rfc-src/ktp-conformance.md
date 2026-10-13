@@ -1,8 +1,8 @@
 ---
-title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
+title: "Kinetic Trust Protocol (KTP) - Conformance Requirements: Levels, Testing, and Claims"
 abbrev: "KTP-CONFORMANCE"
 docname: draft-perkins-ktp-conformance-00
-date: 2026-10-04
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -19,7 +19,7 @@ normative:
 
 --- abstract
 
-This document specifies conformance requirements for Kinetic Trust Protocol implementations. It defines three conformance levels (Basic, Standard, Full), test suite requirements, certification procedures, and interoperability verification.
+This document specifies conformance requirements for Kinetic Trust Protocol implementations. It defines three conformance levels (Basic, Standard, Full), test suite requirements, status-labelled conformance claims, and interoperability verification.
 
 The specification enables implementers to validate their KTP deployments and provides a framework for ecosystem interoperability.
 
@@ -36,7 +36,7 @@ This document establishes:
 - Conformance levels for different deployment scenarios
 - Specific requirements for each KTP component
 - Test suites for validating implementations
-- Certification procedures for claiming conformance
+- Status labels and the evidence a conformance claim carries
 - Interoperability requirements for federation
 
 Without conformance requirements, KTP implementations may be incompatible, insecure, or incomplete. This document provides the framework for a healthy implementation ecosystem.
@@ -49,7 +49,7 @@ This document covers:
 - Component-specific requirements
 - Protocol requirements
 - Test suite specifications
-- Certification procedures
+- Conformance claims and their status labels
 - Interoperability testing
 
 This document does NOT cover:
@@ -73,11 +73,11 @@ Test Case:  A specific, reproducible test with defined inputs, expected outputs,
 
 Test Suite:  A collection of test cases organized by category and conformance level.
 
-Certification:  Formal attestation that an implementation meets conformance requirements for a specified level.
+Status Label:  One of proposed, specified, tested, or independently reproduced, stating how far the published evidence for a requirement, a test ID, or a claim reaches (Section "Claim Status").
 
-Self-Certification:  Certification based on self-executed test suite with published results.
+Conformance Claim:  A statement by an implementer that a named implementation version meets a conformance level, carrying a status label and pointing at its published evidence.
 
-Third-Party Certification:  Certification based on independent testing by an authorized certification body.
+Independent Party:  A party of which none of the relationships listed in Section "Claim Status" holds, at the date of its run, toward the author of this specification or the maintainers of the implementation under test.
 
 Interoperability:  The ability of different KTP implementations to work together correctly.
 
@@ -252,7 +252,7 @@ Flight Recorder:
 - External anchoring (blockchain or equivalent)
 - Multi-region replication
 - Forensic reconstruction capability
-- Complete audit trail for certification
+- Complete audit trail for claim evidence
 
 Agents:
 
@@ -276,7 +276,7 @@ Full conformance additionally requires:
 - Penetration testing
 - Incident response procedures
 - Documented recovery procedures
-- Third-party certification
+- Independent reproduction of the Full level's specified test IDs (Section "Claim Status")
 
 ## Level Comparison
 
@@ -284,7 +284,7 @@ Full conformance additionally requires:
 +---------------------------+-------+----------+--------+
 | Requirement               | Basic | Standard | Full   |
 +---------------------------+-------+----------+--------+
-| Oracle mesh               | -     | 3+ nodes | 5+     |
+| Oracle mesh               | -     | 4+ nodes | 5+     |
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
 | Context dimensions        | 3+    | 6+       | 7      |
 | Soul veto                 | -     | Yes      | Yes    |
@@ -297,7 +297,7 @@ Full conformance additionally requires:
 | Proof lifetime (maximum)  | 10s   | 10s      | 10s    |
 | PEP latency               | -     | < 50ms   | < 15ms |
 | Decision retention        | Declared | Declared | Declared |
-| Third-party cert required | No    | No       | Yes    |
+| Independent reproduction  | No    | No       | Yes    |
 +---------------------------+-------+----------+--------+
 ~~~
 
@@ -808,6 +808,19 @@ Full Level:
 
 # Test Suite
 
+Every named test ID in this section carries a status label. An ID labelled
+`specified` cites a published case set: defined inputs, expected outputs, and
+pass criteria. An ID labelled `proposed` is named here and has no published
+cases; it cannot be run, passed, or counted toward a claim until its cases are
+published. This document states each requirement and cites its cases by ID and
+version. It does not embed the cases. Vectors, which give inputs
+and the decision a gate must produce from them, are published in
+specifications/conformance/ of this repository and cited by file and tag. Case
+sets, which give a setup, a sequence of actions, and the state of the world an
+observer reads afterwards, are published in the public case repository
+(https://github.com/nmcitra/ktp-cases) and cited by case-set directory and tag;
+its first tag is v0.1.0.
+
 ## Test Categories
 
 The KTP test suite comprises four categories:
@@ -825,28 +838,28 @@ Each category has tests for each conformance level.
 
 Basic:
 
-- TO-B-001: Risk Factor calculation accuracy
-- TO-B-002: E_trust calculation accuracy
-- TO-B-003: Trust Proof generation
-- TO-B-004: Signature validation
-- TO-B-005: Proof expiration enforcement
+- TO-B-001: Risk Factor calculation accuracy (proposed)
+- TO-B-002: E_trust calculation accuracy (proposed)
+- TO-B-003: Trust Proof generation (proposed)
+- TO-B-004: Signature validation (proposed)
+- TO-B-005: Proof expiration enforcement (specified: specifications/conformance/outage-safety-v1.json)
 
 TO-B-005 MUST cover exact expiration (current_time = exp), the ten-second maximum at every conformance level, existing sessions, cached and queued requests, and continuing actions during Oracle failure. Invalid or unverifiable time MUST NOT extend authority. Implementations supporting emergency capability MUST additionally satisfy specifications/emergency-capability.md and the downstream cases in specifications/conformance/outage-safety-v1.json. A schema-valid policy is not evidence of verified approval, activation, or protected runtime enforcement.
 
 Standard:
 
-- TO-S-001: Threshold signature generation
-- TO-S-002: Trust velocity calculation
-- TO-S-003: Proof of Resilience calculation
-- TO-S-004: Soul constraint handling
-- TO-S-005: Mesh consensus (simulated)
+- TO-S-001: Threshold signature generation (proposed)
+- TO-S-002: Trust velocity calculation (proposed)
+- TO-S-003: Proof of Resilience calculation (proposed)
+- TO-S-004: Soul constraint handling (proposed)
+- TO-S-005: Mesh consensus (simulated) (specified: specifications/conformance/oracle-consensus-v1.json)
 
 Full:
 
-- TO-F-001: Sub-second proof refresh
-- TO-F-002: Real-time consensus
-- TO-F-003: Geographic distribution handling
-- TO-F-004: Extended proof generation (celestial)
+- TO-F-001: Sub-second proof refresh (proposed)
+- TO-F-002: Real-time consensus (specified: specifications/conformance/oracle-consensus-v1.json)
+- TO-F-003: Geographic distribution handling (proposed)
+- TO-F-004: Extended proof generation (celestial) (proposed)
 
 ### Oracle Consensus Adversarial Tests and Evidence
 
@@ -860,9 +873,9 @@ Implementations claiming Oracle mesh agreement MUST exercise the applicable requ
 - Threshold signing requests without verified commit evidence, valid signatures attached to the wrong committed result, and single-node proof issuance from uncommitted standing.
 - Progress with the declared responsive honest quorum under the protocol's stated network assumptions, and safe cessation of new protected-state commitments without it; existing proof expiry and emergency boundaries remain in force.
 
-Runtime certification evidence MUST identify the protocol and immutable version, implementation/build, declaration and installed configuration, fault and network model, review artifact, test schedules, durable-storage/recovery behavior, and observed decision and signing traces sufficient to check that no two conflicting protected-state commitments occurred. It MUST include actual implementation execution for the applicable cases and justify any protocol-specific mapping of the vectors. Full conformance retains independent certification requirements.
+Runtime evidence for a `tested` claim MUST identify the protocol and immutable version, implementation/build, declaration and installed configuration, fault and network model, review artifact, test schedules, durable-storage/recovery behavior, and observed decision and signing traces sufficient to check that no two conflicting protected-state commitments occurred. It MUST include actual implementation execution for the applicable cases and justify any protocol-specific mapping of the vectors. A Full conformance claim additionally requires independent reproduction.
 
-Declaration validation, JSON Schema checks, quorum-intersection calculations, and abstract model or repository vector checks are useful prerequisites. They MUST NOT be presented as runtime certification or proof that an implementation preserves agreement across crashes, view changes, or membership changes. Merely passing TO-S-005 in a simulator does not satisfy these implementation evidence requirements.
+Declaration validation, JSON Schema checks, quorum-intersection calculations, and abstract model or repository vector checks are useful prerequisites. They MUST NOT be presented as a `tested` claim or as proof that an implementation preserves agreement across crashes, view changes, or membership changes. Merely passing TO-S-005 in a simulator does not satisfy these implementation evidence requirements.
 
 ### Trajectory Signature, Head, and Cutover Tests
 
@@ -876,7 +889,7 @@ Every implementation issuing or accepting active trajectory records MUST satisfy
 - Distinct commit-intent and final-head stages: changing the Oracle signature can produce another valid envelope for one intent; only the independently anchored final hash may be authoritative. An intent certificate alone, an unresolved evidence reference, or a candidate-chosen head MUST be insufficient.
 - Legacy archival and migration: preserve original v2 bytes; reject automatic conversion or re-signing; verify the independently signed checkpoint, legacy head/archive, revalidated carried state, authorized target genesis/profile, and the new genesis checkpoint digest before separate final-genesis anchoring. Test double succession, checkpoint reuse, stale profile/key state, restart/restore rollback, and membership changes requiring the consensus joint transition.
 
-Passing the repository schema, canonicalization, signature, and hash fixtures establishes only those exercised properties. It MUST NOT be reported as proof of an installed consensus runtime, trusted-key custody, independently verified carried state, correct governance approval, durable storage, or live head/migration enforcement. The helper's supported classical algorithms and Level 3 hash checks do not establish required hybrid signatures, threshold participation, or full Level 3 conformance. Certification additionally requires deployment execution traces showing the selected protocol's intent commitment, unique final-head selection, crash recovery, and durable single-use cutover under the Oracle consensus evidence requirements above. Legacy archive verification MUST NOT be counted as active-v3 conformance.
+Passing the repository schema, canonicalization, signature, and hash fixtures establishes only those exercised properties. It MUST NOT be reported as proof of an installed consensus runtime, trusted-key custody, independently verified carried state, correct governance approval, durable storage, or live head/migration enforcement. The helper's supported classical algorithms and Level 3 hash checks do not establish required hybrid signatures, threshold participation, or full Level 3 conformance. A `tested` claim additionally requires deployment execution traces showing the selected protocol's intent commitment, unique final-head selection, crash recovery, and durable single-use cutover under the Oracle consensus evidence requirements above. Legacy archive verification MUST NOT be counted as active-v3 conformance.
 
 ### Historical Standing and Scoped Readiness Tests
 
@@ -899,71 +912,71 @@ scripts/readiness.py and scripts/test-readiness.py exercise supported declaratio
 
 Basic:
 
-- CT-B-001: Dimension normalization
-- CT-B-002: Risk Factor aggregation
-- CT-B-003: Sensor failure handling
-- CT-B-004: Configuration loading
+- CT-B-001: Dimension normalization (proposed)
+- CT-B-002: Risk Factor aggregation (proposed)
+- CT-B-003: Sensor failure handling (proposed)
+- CT-B-004: Configuration loading (proposed)
 
 Standard:
 
-- CT-S-001: All 7 input support
-- CT-S-002: Risk domain aggregation
-- CT-S-003: Feed weighting
-- CT-S-004: Soul veto logic
-- CT-S-005: Sensor validation
+- CT-S-001: All 7 input support (proposed)
+- CT-S-002: Risk domain aggregation (proposed)
+- CT-S-003: Feed weighting (proposed)
+- CT-S-004: Soul veto logic (proposed)
+- CT-S-005: Sensor validation (proposed)
 
 Full:
 
-- CT-F-001: TK Label integration
-- CT-F-002: Sub-second refresh
-- CT-F-003: Sensor redundancy failover
+- CT-F-001: TK Label integration (proposed)
+- CT-F-002: Sub-second refresh (proposed)
+- CT-F-003: Sensor redundancy failover (proposed)
 
 ### PEP Unit Tests
 
 Basic:
 
-- PEP-B-001: Trust Proof validation
-- PEP-B-002: Zeroth Law enforcement
-- PEP-B-003: Denial response format
-- PEP-B-004: Logging completeness
+- PEP-B-001: Trust Proof validation (proposed)
+- PEP-B-002: Zeroth Law enforcement (specified: specifications/conformance/capacity-gate-v1.json)
+- PEP-B-003: Denial response format (proposed)
+- PEP-B-004: Logging completeness (proposed)
 
 Standard:
 
-- PEP-S-001: Tier enforcement
-- PEP-S-002: Soul veto enforcement
-- PEP-S-003: Action risk classification
-- PEP-S-004: Graceful degradation
-- PEP-S-005: Decision Geometry reporting
+- PEP-S-001: Tier enforcement (proposed)
+- PEP-S-002: Soul veto enforcement (proposed)
+- PEP-S-003: Action risk classification (proposed)
+- PEP-S-004: Graceful degradation (proposed)
+- PEP-S-005: Decision Geometry reporting (proposed)
 
 Full:
 
-- PEP-F-001: Latency < 15ms
-- PEP-F-002: Zero-downtime update
-- PEP-F-003: Defense in depth
+- PEP-F-001: Latency < 15ms (proposed)
+- PEP-F-002: Zero-downtime update (proposed)
+- PEP-F-003: Defense in depth (proposed)
 
 ### Flight Recorder Unit Tests
 
 Basic:
 
-- FR-B-001: Decision logging
-- FR-B-002: Retention enforcement
-- FR-B-003: Query by time range
-- FR-B-004: Query by agent
+- FR-B-001: Decision logging (proposed)
+- FR-B-002: Retention enforcement (proposed)
+- FR-B-003: Query by time range (proposed)
+- FR-B-004: Query by agent (proposed)
 
 Standard:
 
-- FR-S-001: Cryptographic chaining
-- FR-S-002: Tamper detection
-- FR-S-003: Decision Geometry completeness
-- FR-S-004: Multi-tier storage
-- FR-S-005: Compliance export
+- FR-S-001: Cryptographic chaining (proposed)
+- FR-S-002: Tamper detection (proposed)
+- FR-S-003: Decision Geometry completeness (proposed)
+- FR-S-004: Multi-tier storage (proposed)
+- FR-S-005: Compliance export (proposed)
 
 Full:
 
-- FR-F-001: External anchoring
-- FR-F-002: Multi-region replication
-- FR-F-003: Forensic reconstruction
-- FR-F-004: Chain verification performance
+- FR-F-001: External anchoring (proposed)
+- FR-F-002: Multi-region replication (proposed)
+- FR-F-003: Forensic reconstruction (proposed)
+- FR-F-004: Chain verification performance (proposed)
 
 ## Integration Tests
 
@@ -971,147 +984,154 @@ Full:
 
 Basic:
 
-- INT-B-001: Agent obtains proof and accesses resource
-- INT-B-002: Agent denied due to A > E_trust
-- INT-B-003: Environmental change affects E_trust
+- INT-B-001: Agent obtains proof and accesses resource (proposed)
+- INT-B-002: Agent denied due to A > E_trust (proposed)
+- INT-B-003: Environmental change affects E_trust (proposed)
 
 Standard:
 
-- INT-S-001: Tier transition on E_trust change
-- INT-S-002: Soul veto propagation
-- INT-S-003: Oracle mesh failover
-- INT-S-004: Federation handshake
-- INT-S-005: Complete audit trail verification
+- INT-S-001: Tier transition on E_trust change (proposed)
+- INT-S-002: Soul veto propagation (proposed)
+- INT-S-003: Oracle mesh failover (proposed)
+- INT-S-004: Federation handshake (proposed)
+- INT-S-005: Complete audit trail verification (proposed)
 
 Full:
 
-- INT-F-001: Cross-zone agent migration
-- INT-F-002: Celestial transit simulation
-- INT-F-003: Complete disaster recovery
+- INT-F-001: Cross-zone agent migration (proposed)
+- INT-F-002: Celestial transit simulation (proposed)
+- INT-F-003: Complete disaster recovery (proposed)
 
 ### Failure Mode Tests
 
 All Levels:
 
-- FAIL-001: Oracle unavailable
-- FAIL-002: Sensor failure
-- FAIL-003: PEP failure
-- FAIL-004: Flight Recorder failure
-- FAIL-005: Network partition
+- FAIL-001: Oracle unavailable (specified: specifications/conformance/outage-safety-v1.json)
+- FAIL-002: Sensor failure (proposed)
+- FAIL-003: PEP failure (proposed)
+- FAIL-004: Flight Recorder failure (proposed)
+- FAIL-005: Network partition (proposed)
 
 Standard/Full:
 
-- FAIL-S-001: Oracle mesh node failure
-- FAIL-S-002: Threshold signature node loss
-- FAIL-S-003: Federation partner unavailable
+- FAIL-S-001: Oracle mesh node failure (proposed)
+- FAIL-S-002: Threshold signature node loss (proposed)
+- FAIL-S-003: Federation partner unavailable (proposed)
 
 ## Interoperability Tests
 
 ### Trust Proof Exchange
 
-- INTEROP-001: Proof generated by Impl A, validated by Impl B
-- INTEROP-002: Threshold proof with mixed implementations
-- INTEROP-003: Proof with all optional claims
+- INTEROP-001: Proof generated by Impl A, validated by Impl B (proposed)
+- INTEROP-002: Threshold proof with mixed implementations (proposed)
+- INTEROP-003: Proof with all optional claims (proposed)
 
 ### Federation Protocol
 
-- INTEROP-010: Zone discovery across implementations
-- INTEROP-011: Cross-zone attestation
-- INTEROP-012: Trust factor negotiation
+- INTEROP-010: Zone discovery across implementations (proposed)
+- INTEROP-011: Cross-zone attestation (proposed)
+- INTEROP-012: Trust factor negotiation (proposed)
 
 ### Flight Recorder
 
-- INTEROP-020: Decision record format compatibility
-- INTEROP-021: Chain verification across implementations
-- INTEROP-022: Export format compatibility
+- INTEROP-020: Decision record format compatibility (proposed)
+- INTEROP-021: Chain verification across implementations (proposed)
+- INTEROP-022: Export format compatibility (proposed)
 
 ## Stress Tests
 
 ### Load Tests
 
-- STRESS-001: 1000 proofs/second sustained
-- STRESS-002: 10000 PEP evaluations/second
-- STRESS-003: 1000 concurrent agents
-- STRESS-004: Flight Recorder write throughput
+- STRESS-001: 1000 proofs/second sustained (proposed)
+- STRESS-002: 10000 PEP evaluations/second (proposed)
+- STRESS-003: 1000 concurrent agents (proposed)
+- STRESS-004: Flight Recorder write throughput (proposed)
 
 ### Chaos Tests
 
-- CHAOS-001: Random Oracle node failure
-- CHAOS-002: Random sensor failure
-- CHAOS-003: Network latency injection
-- CHAOS-004: Clock skew injection
+- CHAOS-001: Random Oracle node failure (proposed)
+- CHAOS-002: Random sensor failure (proposed)
+- CHAOS-003: Network latency injection (proposed)
+- CHAOS-004: Clock skew injection (proposed)
 
-# Certification Process
+# Claim Status
 
-## Self-Certification
+Conformance is claimed, not certified. This document defines no certificate,
+no certification body, and no registry act. A conformance claim states what was
+run, at which versions, and how far its published evidence reaches.
 
-Self-certification is available for Basic and Standard levels.
+## Status Labels
 
-### Self-Certification Process
+Every requirement, every named test ID, and every conformance claim carries
+exactly one status label: the highest rung whose evidence is published.
 
-1. Execute complete test suite for target level
-2. Document all test results
-3. Document any deviations with justification
-4. Publish results to public repository
-5. Submit certification claim
+| Label | Earned when | Evidence that earns it |
+|---|---|---|
+| `proposed` | The requirement is in an open proposal and not in a release; for a test ID, it is named and has no published cases | the proposal or the name |
+| `specified` | Normative text states it at a tag, and no one has run its cases; for a test ID, its case set is published | the text and the case set, at a tag |
+| `tested` | A named implementation ran the published cases and published the run, with the versions of the implementation, this document, and each case set | the case IDs, the run output, and every version involved |
+| `independently reproduced` | A second party ran the published cases against the same versions and published the same result, and that party is an Independent Party | the independent party's run and its disclosed relationships |
 
-### Self-Certification Requirements
+A label moves forward only by publication with the evidence that earns it. It
+never moves because time passed.
 
-MUST:
+A party is independent of an author or implementer only if none of these
+relationships applies at the date of the run: shared founders, shared funders,
+an advisory relationship, reciprocal review, employment, contractor status,
+code contributed, commercial dependency, or substantial prior collaboration.
+The maintainer's own runs are never independent. This is the test the Open
+Trust Commons applies to the same act, stated here in this document's own words
+so that the two do not diverge.
 
-- Pass 100% of required tests for level
-- Document test execution environment
-- Make test results publicly available
-- Maintain certification with each release
+A conformance claim **MUST** state its status label, and **MUST NOT** state a
+label higher than its published evidence supports. A repository reference
+check (schema, declaration, signature, or arithmetic fixtures) is evidence
+about the verification function it exercises; it **MUST NOT** be presented as
+`tested` for an enforcement requirement. A test ID labelled `proposed` cannot
+be passed: a claim at a level whose test IDs include `proposed` IDs **MUST**
+list them as not run and **MUST NOT** count them as passed.
 
-MAY:
+## Making a Claim
 
-- Skip optional tests (clearly documented)
-- Use custom test execution framework (if equivalent)
+1. Run every `specified` test ID for the target level against the claimed implementation version
+2. Publish the results, the execution environment, and the versions of the implementation, this document, and each case set
+3. Document every deviation with its justification, and every `proposed` test ID as not run
+4. State the claim in the format of Section "Conformance Claims"
+5. Restate the claim with each release of the implementation
 
-## Third-Party Certification
+Optional tests MAY be skipped when the claim says so. A custom test runner MAY
+be used when it executes the published cases unchanged.
 
-Third-party certification is required for Full level and available for all levels.
+## Independent Reproduction
 
-### Certification Bodies
+An independent party re-runs the published cases against the claimed versions
+and publishes its run and its disclosed affiliations. Its run supports
+`independently reproduced` only where its results match the claim. A
+reproduction is a published re-run, not an attestation: it issues no
+certificate and grants no mark.
 
-Authorized certification bodies must:
+A Full conformance claim requires independent reproduction of the Full level's
+`specified` test IDs. No party meets the independence test for this
+specification today, so a Full claim cannot be made at this version by any
+honest statement. The level is not redefined to be reachable; the text says
+nobody meets it yet.
 
-- Demonstrate KTP expertise
-- Maintain independence from implementers
-- Follow documented certification procedures
-- Publish certification criteria
-- Maintain certification records
+## Keeping a Claim Current
 
-### Third-Party Process
+A claim is restated when:
 
-1. Implementer submits for certification
-2. Certification body reviews documentation
-3. Certification body executes test suite
-4. Certification body performs security review (Full only)
-5. Certification body issues certificate or findings
-6. Certificate published to registry
+- A major version of this document is released
+- A security vulnerability in the implementation is fixed
+- The implementation's architecture changes significantly
+- The claimed level changes
+- A year has passed since a Full claim was last restated
 
-## Certification Maintenance
+A claim is withdrawn, and stays visible marked as withdrawn, when:
 
-### Recertification Triggers
-
-Recertification required when:
-
-- Major version release
-- Security vulnerability discovered and patched
-- Significant architecture change
-- Conformance level upgrade
-- Annual renewal (Full level)
-
-### Certification Revocation
-
-Certification may be revoked for:
-
-- Discovered non-compliance
-- Security incident demonstrating inadequacy
-- Failure to address reported issues
-- False certification claims
+- The implementation is found not to meet it
+- A security incident shows the claimed level inadequate for it
+- Reported issues against it go unaddressed
+- The claim is found to be false
 
 # Interoperability
 
@@ -1157,18 +1177,19 @@ Version negotiation required for federation.
 
 Conformance claims MUST follow this format:
 
-"\[Product Name] \[Version] conforms to KTP \[Level] per \[KTP-CONFORMANCE] \[Version], \[self-certified/certified by \[Certification Body]] on \[Date]."
+"\[Product Name] \[Version] claims KTP \[Level] per \[KTP-CONFORMANCE] \[Version]: \[status label], \[specified test IDs run and passed] of \[specified test IDs for the level], \[proposed test IDs not run]; evidence at \[URL]; \[Date]."
 
 Example:
 
-"AcmeTrust v2.1 conforms to KTP Standard per KTP-CONFORMANCE v0.1, self-certified on 2025-11-25."
+"AcmeTrust 2.1 claims KTP Basic per KTP-CONFORMANCE 3.0.0: tested, 3 of 3 specified test IDs passed, 22 proposed test IDs not run; evidence at https://example.com/acmetrust/2.1/conformance; 2026-12-15."
 
-## Claim Verification
+## Checking a Claim
 
-Claims can be verified by:
+A claim can be checked by:
 
-- Reviewing published test results (self-certification)
-- Checking certification registry (third-party)
+- Re-running the published cases against the claimed versions
+- Reviewing the published results and the versions they name
+- Reading an independent party's published reproduction and its disclosed affiliations
 - Executing interoperability tests
 
 # Security Considerations
@@ -1181,19 +1202,19 @@ The test suite itself must be secure:
 - Test environments must be isolated
 - Test results must be integrity-protected
 
-## Certification Security
+## Claim Evidence Security
 
-Certification process must be secure:
+Claim evidence must be secure:
 
-- Certification bodies must be vetted
-- Certificates must be tamper-evident
-- Revocation must be prompt and public
+- Published results must be integrity-protected and name every version involved
+- An independent party's affiliations must be disclosed with its run
+- A withdrawn claim must be marked withdrawn promptly and publicly, never deleted
 
 ## Implementation Security
 
 Conformance does not guarantee security:
 
-- Conformance tests verify protocol correctness
+- Conformance tests verify only the properties their published cases exercise; a `proposed` test ID verifies nothing
 - Security review is separate (required for Full)
 - Deployment security is implementer responsibility
 

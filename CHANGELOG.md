@@ -30,7 +30,44 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and conformance claims
+
+### Conformance is claimed, not certified
+
+**Finding:** the conformance document promised certification it could not
+perform. Of its 87 named test IDs, 84 had no inputs, outputs or pass criteria,
+so "pass 100% of required tests" could not be executed; no certification body
+was ever authorized, so Full could not be reached; and the set's own limit L2
+says nothing certifies itself from inside. Proposed in #163.
+
+- KTP-CONFORMANCE is retitled "Conformance Requirements: Levels, Testing, and
+  Claims". Certification, Self-Certification and Third-Party Certification
+  leave its terminology; Status Label, Conformance Claim and Independent Party
+  enter.
+- The Certification Process section becomes Claim Status: four labels
+  (proposed, specified, tested, independently reproduced), earned only by
+  published evidence; making a claim; independent reproduction; keeping a
+  claim current. A withdrawn claim is marked, never deleted.
+- Independence is the nine-relationship test, assessed at the date of the
+  run, stated in the document's own words; the maintainer's own runs are never
+  independent.
+- Full requires independent reproduction of its specified test IDs. No party
+  meets the independence test today, and the text says so.
+- Every test ID is labelled in place: five are specified (TO-B-005 and
+  FAIL-001 by outage-safety-v1, TO-S-005 and TO-F-002 by oracle-consensus-v1,
+  PEP-B-002 by capacity-gate-v1); 82 are proposed and cannot be counted
+  toward a claim.
+- The claim format carries the label and the run counts; the example's
+  numbers are true at this version.
+- The level table's Standard Oracle mesh row reads "4+ nodes", matching the
+  requirement text it had contradicted (a clarification riding this change).
+- KTP-PROBLEMS' summary of certification, CONTRIBUTING's evidence vocabulary,
+  and KTP-CRYPTO's FIPS heading (a homonym) are brought into line.
+
+A published claim in the v2.1.0 format must be restated with a label and
+counts, and what a Full claim requires changes, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
 
 ### Operation-specific human eligibility and privacy evidence
 

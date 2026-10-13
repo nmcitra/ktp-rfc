@@ -8,7 +8,7 @@ here for reading on the documentation site.
 - [Kinetic Trust Protocol (KTP) - Capability Attenuation Specification](ktp-attenuation.md)
 - [Kinetic Trust Protocol (KTP) - Flight Recorder Specification](ktp-audit.md)
 - [Kinetic Trust Protocol (KTP) - Celestial Wayfinding Trust Mechanics for Interplanetary Communication](ktp-celestial.md)
-- [Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification](ktp-conformance.md) *(Internet-Draft format)*
+- [Kinetic Trust Protocol (KTP) - Conformance Requirements: Levels, Testing, and Claims](ktp-conformance.md) *(Internet-Draft format)*
 - [Kinetic Trust Protocol (KTP) - Core Specification](ktp-core.md) *(Internet-Draft format)*
 - [Kinetic Trust Protocol (KTP) - Cryptographic Specification](ktp-crypto.md)
 - [Kinetic Trust Protocol (KTP) - Deprecation and End-of-Life Specification](ktp-deprecation.md)

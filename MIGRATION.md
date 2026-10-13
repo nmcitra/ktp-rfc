@@ -573,3 +573,23 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+---
+
+# Toward 3.0.0 (unreleased)
+
+Entries here pair each v2.1.0 term with its unreleased replacement. They move into
+the 3.0.0 migration guide when that version is tagged.
+
+## Conformance claims (#163)
+
+| v2.1.0 | 3.0.0 |
+|---|---|
+| Certification | Conformance Claim, carrying a Status Label |
+| Self-Certification | a claim labelled `tested` |
+| Third-Party Certification | a claim labelled `independently reproduced` |
+| certification body, registry, revocation | none; a withdrawn claim is marked, never deleted |
+| "conforms to … self-certified on" | "claims … : <label>, <n> of <m> specified test IDs passed, <k> proposed test IDs not run; evidence at <URL>" |
+| 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
+| Full: third-party certification | Full: independent reproduction of its specified test IDs |
+

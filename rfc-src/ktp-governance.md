@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Governance Specification"
 abbrev: "KTP-GOVERNANCE"
-date: 2026-09-06
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -14,6 +14,16 @@ author:
 normative:
   RFC2119:
   RFC8174:
+
+informative:
+  KTP-CORE:
+    title: "Kinetic Trust Protocol (KTP) - Core Specification"
+    author:
+      - name: Chris Perkins
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol (KTP) - Repair Specification"
+    author:
+      - name: Chris Perkins
 
 --- abstract
 
@@ -731,6 +741,26 @@ Some amendments are constrained or prohibited:
    +-------------------------------+-----------------------------+
 ~~~
 
+## Who May Open an Amendment
+
+Section 11.2 (Amendment Process) opens from the council. It also opens from below. The lineages a rule binds are the parties affected when the rule fails, and {{KTP-REPAIR}} states that a rule under which breaches recur is itself in breach and is repaired by an amendment that cites the records that drove it. This section states who may put a rule into repair and what the governing authority owes when they do.
+
+A zone's charter MUST publish the route by which a lineage bound by a rule opens this process, and the zone's profile MUST declare the recurrence at which the route opens: the count of breach records under one rule, within one window, that puts the rule in repair. Any lineage bound by a rule MAY seek its repair by that route once the declared recurrence is met. The seek is a filing that cites the records. It is the proposal of step 1 of Section 11.2 (Amendment Process), and the council-support threshold of that step does not apply to it. A filing that cites no record is not a seek. A lineage the rule does not bind has no standing under this section, and the council route remains to it.
+
+When a rule recurs, the governing authority is the party in breach, and it MUST attend. Within the deadline the charter states, it MUST open the notice period of step 2 on the filing, or MUST publish a written refusal that cites the records filed and answers them. A refusal is contestable under Section 8.2 (Zone-Level Dispute Process). An authority that neither opens nor refuses within the deadline has declined to attend, and the filing stands as a breach record against the authority under {{KTP-REPAIR}}. Seeking is an act, as {{KTP-REPAIR}} states, and is evaluated as one at the gate of the zone in which the lineage stands.
+
+Nothing in this section moves the thresholds of Section 11.2 (Amendment Process). A seek opens the process; the notice, deliberation, vote, and ratification that follow are unchanged, and the vote remains the council's. What the governed hold is the opening and the record. What the authority owes is attendance.
+
+## How an Amendment Binds, and What It Cannot Reach
+
+An amendment MUST cite the records it answers. An amendment that changes a declared constant, whether a threshold, a window, a floor, a factor, or a weight, MUST cite the measurements it answers, drawn from the zone's own records or from a source the charter names. An amendment that cites nothing is not valid, and the rule it would have replaced stands.
+
+An amendment binds forward. It applies at the first evaluation after its ratification period closes and at every evaluation after. It applies to no act whose evaluation began under the rule it replaces, re-evaluates nothing, and creates no breach for an act evaluated under the rule it replaces. Deliberation runs at the length of the steps in Section 11.2 (Amendment Process); binding happens at the evaluation. There is no clock between them: the next act is evaluated under the new rule, or the new rule is not yet in force.
+
+Making an amendment is a consequential act of the governing authority, and Section 4 (The Recursive Constraint) applies to it. The act carries the autonomy Section 4.3 (Governor Autonomy Calculation) assigns to the change it makes, and an amendment the governor's E does not support at ratification is not made, whatever vote is recorded. The Flight Recorder entry for the amendment carries that evaluation with the vote.
+
+No amendment reaches the following: the elements of Section 6.3 (Charter Immutability); the existence and publication of the route by which a bound lineage opens this process, and of the declared recurrence; that no amendment delegates, waives, or overrides a veto; and what no repair tier may change, as {{KTP-REPAIR}} states. An amendment that touches any of these is void and the charter otherwise stands. Section 11.3 (Amendment Constraints) lists what the process may touch under conditions. This section lists what it may not touch at all.
+
 # Transparency Requirements
 
 ## Public Information
@@ -747,6 +777,12 @@ The following MUST be public:
    | Audit reports        | Published within 30 days     |
    | Dispute outcomes     | Published (anonymized if     |
    |                      | needed)                      |
+   | Amendment route for  | Publicly accessible          |
+   | bound lineages, and  |                              |
+   | the declared         |                              |
+   | recurrence           |                              |
+   | Amendments, with the | Published within 24 hours    |
+   | records they cite    |                              |
    +----------------------+------------------------------+
 ~~~
 
@@ -781,6 +817,42 @@ Governance must continue during disruptions:
 - Federation can provide temporary governance
 
 - Clear succession protocols
+
+## The Barrage
+
+A lineage might file against every rule that touches it, or file again the day a refusal lands, so that the authority spends its interval attending and never governs.
+
+- The route opens at the declared recurrence and not before; a filing below it is refused with the count, and a filing that cites no record is not a seek (Section 11.4 (Who May Open an Amendment))
+
+- A lineage the rule does not bind has no standing
+
+- Seeking is an act and is evaluated as one, so a lineage pays for what it files
+
+## The Rule Drifting While Acts Close
+
+An authority might lower a threshold, widen a window, or move a floor by amendment, citing nothing, while acts under the old constant are still closing, so that the rule drifts and no record says why.
+
+- A constant change cites the measurements it answers, or it is not valid (Section 11.5 (How an Amendment Binds, and What It Cannot Reach))
+
+- An amendment binds at the next evaluation and re-evaluates nothing, so no act in flight changes rule
+
+- The amendment is itself evaluated as the governor's act, and the Flight Recorder carries the evaluation with the vote
+
+## Amendment as Bypass
+
+An authority might amend the charter to remove the route by which the governed open this process, to raise the declared recurrence past reach, or to write that a veto yields to a council vote.
+
+- The route's existence and publication, and the declared recurrence, are below the reach of any amendment; so is any clause that delegates, waives, or overrides a veto; the amendment is void and the charter stands (Section 11.5 (How an Amendment Binds, and What It Cannot Reach))
+
+- The immutable elements of Section 6.3 (Charter Immutability) and what no repair tier may change under {{KTP-REPAIR}} are on the same floor
+
+## The Vote Above the Gate
+
+A council might carry an amendment at a hundred percent whose autonomy the governor's E does not support, and treat the vote as the authorization.
+
+- The amendment is a consequential act under Section 4 (The Recursive Constraint); a vote is a precondition of the act, never its evaluation, and an amendment the governor's E does not support is not made
+
+- The thresholds of Section 11.2 (Amendment Process) are unchanged; what this adds is that they are not the last gate
 
 # IANA Considerations
 

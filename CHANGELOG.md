@@ -32,6 +32,43 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Who may open an amendment, and what it cannot reach
+
+**Finding:** Governance's amendment process could be opened only by the
+council. The lineages a rule binds got a notice and a comment period, and the
+section that said what an amendment may not touch stopped at four elements.
+Nothing said how an amendment binds against acts in flight, whether making one
+is itself an act under the recursive constraint, or whether a change to a
+declared constant had to answer any measurement.
+
+- Governance gains Section 11.4 (Who May Open an Amendment): a zone MUST
+  publish the route by which a lineage bound by a rule opens the amendment
+  process, and MUST declare the recurrence at which it opens. A bound lineage
+  MAY seek a rule's repair by that route once the recurrence is met; the
+  filing cites the records and is the proposal of step 1 without the
+  council-support threshold. The governing authority is the party in breach
+  and MUST attend: open the notice period or publish a contestable refusal
+  within the charter's deadline. A filing that cites no record is not a seek;
+  an unbound lineage has no standing. The council's thresholds are unchanged.
+- Governance gains Section 11.5 (How an Amendment Binds, and What It Cannot
+  Reach): an amendment MUST cite the records it answers, and a change to a
+  declared constant MUST cite the measurements; one that cites nothing is not
+  valid. An amendment binds forward at the first evaluation after
+  ratification, re-evaluates nothing, and creates no retroactive breach.
+  Making one is a consequential act of the governing authority under the
+  recursive constraint, and an amendment the governor's E does not support is
+  not made, whatever the vote. No amendment reaches the immutable elements,
+  the route's existence and publication, the declared recurrence, a veto, or
+  what no repair tier may change; one that touches them is void and the
+  charter stands.
+- Transparency gains two rows: the route and the declared recurrence are
+  publicly accessible; amendments are published with the records they cite.
+- Four threats added to Security Considerations: the barrage, the rule
+  drifting while acts close, amendment as bypass, the vote above the gate.
+- New suite `specifications/conformance/charter-amendment-v1.json`, sixteen
+  vectors, AM01 to AM16.
+
+
 ### Operation-specific human eligibility and privacy evidence
 
 **Forced by F11 and the approved Option 1 contract (2026-09-07):** the human

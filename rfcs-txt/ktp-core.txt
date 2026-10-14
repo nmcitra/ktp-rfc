@@ -150,18 +150,18 @@ Internet-Draft                  KTP-CORE                    October 2026
      10.13. L13.  The resilience evidence curve is uncalibrated  . .  57
      10.14. L14.  One Risk Factor is externally supplied, and the
              specification says so . . . . . . . . . . . . . . . . .  58
-   11. Security Considerations . . . . . . . . . . . . . . . . . . .  58
-     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  58
+     10.15. L16.  Reconciliation binds re-entry and the rule, not yet
+             the mechanism of amendment or the boundary  . . . . . .  58
+   11. Security Considerations . . . . . . . . . . . . . . . . . . .  59
+     11.1.  Trust Oracle Compromise  . . . . . . . . . . . . . . . .  59
      11.2.  Sensor Manipulation  . . . . . . . . . . . . . . . . . .  59
      11.3.  Replay Attacks . . . . . . . . . . . . . . . . . . . . .  59
      11.4.  Trajectory Forgery . . . . . . . . . . . . . . . . . . .  59
-     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  59
-     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  59
+     11.5.  Denial of Service  . . . . . . . . . . . . . . . . . . .  60
+     11.6.  Privacy Considerations . . . . . . . . . . . . . . . . .  60
    12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  60
      12.1.  JWT Claim Registration . . . . . . . . . . . . . . . . .  60
      12.2.  Media Type Registration  . . . . . . . . . . . . . . . .  60
-     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  60
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  60
 
 
 
@@ -170,15 +170,17 @@ Perkins                   Expires 7 April 2027                  [Page 3]
 Internet-Draft                  KTP-CORE                    October 2026
 
 
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  60
+     12.3.  URI Scheme Registration  . . . . . . . . . . . . . . . .  61
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  61
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  61
      13.2.  Informative References . . . . . . . . . . . . . . . . .  61
-   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  61
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  61
-     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  62
-     A.3.  The risk_factors object and the per-tier caps . . . . . .  62
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  62
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  62
+     A.2.  The E_base composition  . . . . . . . . . . . . . . . . .  63
+     A.3.  The risk_factors object and the per-tier caps . . . . . .  63
      A.4.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  63
-   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  63
-   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  64
+   Appendix B.  Example Calculations . . . . . . . . . . . . . . . .  64
+   Appendix C.  JSON Schemas . . . . . . . . . . . . . . . . . . . .  65
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  65
 
 1.  Introduction
@@ -213,8 +215,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    autonomous agent can execute thousands of API calls per second.  If
    even 0.1% of those actions are destructive in context, the damage
    compounds exponentially before any human can respond.
-
-
 
 
 
@@ -3231,6 +3231,34 @@ Internet-Draft                  KTP-CORE                    October 2026
    as a v2.1 obligation; until it lands, the declaration is the whole of
    the treatment.
 
+10.15.  L16.  Reconciliation binds re-entry and the rule, not yet the
+        mechanism of amendment or the boundary
+
+   [KTP-REPAIR] states what a reconciliation record is, what it gates,
+   and that a recurring breach pattern puts the rule itself in repair.
+   This specification does not state the mechanism by which an amendment
+   is made and ratified inside a zone, and does not state how a breach
+   carried into another zone under a Federation Agreement is reconciled
+   there.  The lineage-summed bound on sponsorship under unreconciled
+   breach that [KTP-REPAIR] specifies is the first of the lineage-summed
+   bounds this specification has named as owed; the mass ceiling summed
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 58]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
+   over a lineage is not yet among them.
+
+   A conformant implementation *MUST NOT* present per-zone
+   reconciliation as reconciliation across a federation.
+
+   Converts to spec text when the collective-choice material states the
+   amendment mechanism and Federation's agreement text states cross-zone
+   reconciliation.
+
 11.  Security Considerations
 
    This section addresses security considerations for KTP
@@ -3241,14 +3269,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    The Trust Oracle is the most critical component.  A compromised
    Oracle could issue fraudulent Trust Proofs, enabling unauthorized
    actions.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 58]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Mitigations: - Distribute across multiple failure domains - Use
    threshold signatures (k-of-n) - Store signing keys in HSMs - Rotate
@@ -3278,6 +3298,14 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    Attackers may attempt to forge agent trajectories to inflate E_base.
 
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 59]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    Mitigations: - Trajectory chains require Oracle co-signature - Each
    transaction links to previous state hash - Continuity enforcement
    prevents "teleportation" - See [KTP-IDENTITY] for detailed
@@ -3297,14 +3325,6 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    Trust Proofs contain detailed information about agent history,
    environmental conditions, and organizational operations.
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 59]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Mitigations: - Encrypt Trust Proofs in transit - Implement access
    controls on Flight Recorder - Consider privacy-preserving Trust
@@ -3332,6 +3352,16 @@ Internet-Draft                  KTP-CORE                    October 2026
    information: [TBD] Intended usage: COMMON Author/Change controller:
    IETF
 
+
+
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 60]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 12.3.  URI Scheme Registration
 
    Scheme name: ktp Status: Provisional Applications/protocols that use
@@ -3355,13 +3385,6 @@ Internet-Draft                  KTP-CORE                    October 2026
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-Perkins                   Expires 7 April 2027                 [Page 60]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
-
    [KTP-IDENTITY]
               Perkins, C., "Kinetic Trust Protocol - Vector Identity",
               n.d..
@@ -3379,9 +3402,21 @@ Internet-Draft                  KTP-CORE                    October 2026
 
 13.2.  Informative References
 
+   [KTP-REPAIR]
+              Perkins, C., "Kinetic Trust Protocol - Repair", n.d..
+
    [KTP-SENSORS]
               Perkins, C., "Kinetic Trust Protocol - Context Signal
               Sensors", n.d..
+
+
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 61]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
 
    [KTP-ENFORCE]
               Perkins, C., "Kinetic Trust Protocol - Enforcement Layer",
@@ -3410,14 +3445,6 @@ A.1.  The lineage stage names
    The three lineage stages are renamed on the wire and in prose.
    Numeric protobuf values are unchanged, so only the symbol names move.
 
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 61]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
-
                        +============+=============+
                        | v1         | v2.0.0      |
                        +============+=============+
@@ -3439,6 +3466,14 @@ Internet-Draft                  KTP-CORE                    October 2026
    narrative rather than as a maturity ladder.  Stage 3 is now named for
    what it can be held to rather than what it is freed of.
 
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 62]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 A.2.  The E_base composition
 
    v1 computed E_base as a weighted sum — Proof of Resilience at 70%, a
@@ -3459,20 +3494,6 @@ A.3.  The risk_factors object and the per-tier caps
    letters.  The per-tier numeric action cap (Max A) is deleted: a tier
    permits action classes, and the numeric bound is the Zeroth Law
    itself, A <= E_trust, evaluated per action.
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 62]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
 A.4.  The Trust Tier thresholds
 
@@ -3499,6 +3520,16 @@ A.4.  The Trust Tier thresholds
    the specification's own worked example uses.  The generation ceilings
    are unchanged; one table moved, not two.
 
+
+
+
+
+
+Perkins                   Expires 7 April 2027                 [Page 63]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    Two consequences travel with the change.  Hibernation exit moves from
    E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
    a floor of 50 becomes a thirty-three-point one over a floor of 22.
@@ -3522,13 +3553,6 @@ Appendix B.  Example Calculations
 
    Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15,
    w_I=0.05, w_O=0.05
-
-
-
-Perkins                   Expires 7 April 2027                 [Page 63]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 *
    0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 +
@@ -3555,6 +3579,13 @@ Internet-Draft                  KTP-CORE                    October 2026
    = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O
    = 0 / 50 = 0.000
 
+
+
+Perkins                   Expires 7 April 2027                 [Page 64]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 *
    0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 +
    0.030 + 0.000 + 0.050 + 0.005 + 0.000 R = 0.094
@@ -3579,13 +3610,6 @@ Appendix C.  JSON Schemas
    SHA-256 of the canonical file at the time this document was produced:
    41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
 
-
-
-Perkins                   Expires 7 April 2027                 [Page 64]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
-
    The published file carries the v2 claims (the declared peer share,
    applicable ceilings, advancement floor, and root instrument) and
    references the risk-factors schema.  This appendix previously carried
@@ -3600,30 +3624,6 @@ Author's Address
    Chris Perkins
    NMCITRA
    Email: cperkins@nmcitra.org
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

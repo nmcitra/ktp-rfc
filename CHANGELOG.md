@@ -32,6 +32,72 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### KTP-REPAIR: breach, reconciliation, and the ceiling on re-entry
+
+**Finding:** the set described how authority is withdrawn and never how it
+returns. Nothing defined a breach; a stopped actor returned on a restart, a
+fresh proof, the lapse of a window, or the absence of complaint; Relational's
+repair process opened with "parties agree repair is needed", which is repair
+invoked rather than required; and nothing answered breaches arriving faster
+than they can be repaired.
+
+- A new document, `rfc-src/ktp-repair.md` (KTP-REPAIR), the sixth in
+  Internet-Draft format. Standing lost at a breach does not return without a
+  reconciliation record anchored in the zone's audit chain. An actor enters
+  Breach by its own act, never by the gate's refusal; a Silent Veto is not a
+  breach. The record names the breach by anchor, the parties by terminator,
+  the residual harm (which may be unrepairable), and a verifier independent by
+  the Independent Party test; the Oracle anchors and never verifies; no
+  transcript. A breach lowers a ceiling on base standing by a declared Δ, at
+  least one tenth on a hard entry, non-decreasing on repetition within a
+  lineage, lifted only by acts after the record. Reconciliation is required
+  whether or not any party raised a dispute; the breaching lineage seeks it
+  along a published route; an affected party's attendance is voluntary and
+  declining is neither a veto nor a closing. The same rule applies to a rule
+  under which breaches recur. Seeking and not attending is a further breach; a
+  root above its declared unreconciled count cannot sponsor; a zone declares
+  its repair capacity and its criticality; ambient breach, utilization of that
+  capacity, feeds adversarial pressure as the breach index from signals the
+  catalogue already carries, in the letters of the published ambient breach
+  model; a declared criticality is valid only against the zone's measured
+  reproduction of breaches.
+  Repair runs in three declared tiers: reserve gone (nothing changes but
+  heat), debt growth (a declared contingency: triage order, verifier mutual aid
+  under a Federation Agreement, tightened admission), and crisis (a repair emergency only under
+  the emergency specification's custodians). No tier changes the precondition,
+  the Δ floor, the verifier's independence, the stock, re-entry on silence, or
+  per-person reporting. One lineage's share of arrival is capped; effective
+  capacity is the lesser of declared and demonstrated; a tier is left only by
+  the recovery predicate held over the recovery window.
+  Second commit on the proposal, after review against the set's own ethics:
+  who attends depends on who was harmed (a person voluntarily, an agent's
+  terminator required); the affected party's declaration of unrepaired harm
+  raises Δ by the profile's declared amount and never lowers it; the record
+  carries the breaching party's acknowledgment; a breach record is contestable
+  under the declared review route; the party who owes for an ended actor is the
+  root that held authority, never an operator without the power to stop; a
+  repairer interval binds demonstrated capacity, not the breacher; the record
+  stays open to the affected party in every tier; the chain anchors and the
+  roots produce; residual harm reads undeclared where nothing was declared.
+- `specifications/conformance/breach-reconciliation-v1.json` publishes
+  forty-one boundary cases, including theatre, holdout, the hollow return,
+  the barrage, the Silent Veto storm, the crisis landmark, a criticality
+  invalid against measured reproduction, one lineage capped in arrival,
+  capacity revised to demonstrated, and the tiers and what no tier may change. They define no formula.
+- KTP-CORE gains L16, naming the mechanism of amendment and cross-zone
+  reconciliation as owed. Relational's Repair Protocols cite KTP-REPAIR for the
+  precondition and its first phase now reads that the breaching party seeks
+  repair and the affected party may attend. One sentence each in Identity,
+  Enforce, Audit (a `reconciliation` record type), Governance, Human and
+  Sensors points at the new document.
+- The document count moves from 27 to 28 in the generated index, the README,
+  the documentation index and the navigation.
+
+New MUST-bearing text and a new document, so this requires a MAJOR release
+under `VERSIONING.md`, with a Vocabulary rider for the terms Breach,
+Reconciliation Record and Re-entry Reduction. It remains unreleased; published
+tags are unchanged.
+
 ### Operation-specific human eligibility and privacy evidence
 
 **Forced by F11 and the approved Option 1 contract (2026-09-07):** the human

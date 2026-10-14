@@ -418,6 +418,8 @@ Concept: The chaotic energy or friction in the system. adversarial_pressure repr
 
 Impact on Trust: High adversarial_pressure indicates a compromised or stressed environment where agent actions may be exploited, misattributed, or cause cascading failures. Sustained highs trigger the "Cool-Down" cycle (freezing agents to Observer Mode).
 
+The breach index of [KTP-REPAIR], the zone's breach arrival over its declared repair capacity scaled by its declared criticality, is a source feeding this Risk Factor; it is computed from the obligation and repair signals the catalogue already carries.
+
 Sensor Feeds:
 
 ~~~

@@ -23,6 +23,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   LOCAL-CONTEXTS:
     title: "Traditional Knowledge Labels"
     author:
@@ -456,6 +460,8 @@ Analogy (informative): Entropy / Temperature (T)
 Concept: The chaotic energy or friction in the system. adversarial_pressure represents both active adversarial stress and system stress. Heat is the Deflator—as Heat rises, the structural integrity of Trust degrades.
 
 Impact on Trust: High adversarial_pressure indicates a compromised or stressed environment where agent actions may be exploited, misattributed, or cause cascading failures. Sustained highs trigger the "Cool-Down" cycle (freezing agents to Observer Mode).
+
+The breach index of {{KTP-REPAIR}}, the zone's breach arrival over its declared repair capacity scaled by its declared criticality, is a source feeding this Risk Factor; it is computed from the obligation and repair signals the catalogue already carries.
 
 Sensor Feeds:
 

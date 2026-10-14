@@ -15,6 +15,12 @@ normative:
   RFC2119:
   RFC8174:
 
+informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
+
 --- abstract
 
 This document specifies the Flight Recorder system for the Kinetic Trust Protocol (KTP). The Flight Recorder provides immutable audit logging of all authorization decisions, enabling forensic analysis, compliance verification, and system learning.
@@ -123,9 +129,12 @@ record_type: Type of record. One of:
 - tier_transition
 - soul_veto
 - attestation
+- reconciliation
 - system_event
 
 timestamp: ISO 8601 timestamp with millisecond precision. MUST be in UTC.
+
+A `reconciliation` record carries the fields {{KTP-REPAIR}} specifies and is chained and anchored like every other record; it persists by its anchor.
 
 ### Chain Integrity
 

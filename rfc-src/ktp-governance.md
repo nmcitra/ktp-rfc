@@ -15,6 +15,12 @@ normative:
   RFC2119:
   RFC8174:
 
+informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
+
 --- abstract
 
 This document specifies governance structures for the Kinetic Trust Protocol (KTP).  Governance addresses fundamental questions: Who sets E_base for zones?  Who can modify the constraint model?  How are disputes resolved?  What accountability exists for zone operators?  The specification covers zone governance models, the recursive constraint (the constraints apply to governors), E-setting authority, dispute resolution, federation governance, and governance evolution.
@@ -463,6 +469,8 @@ In emergencies, E can be reduced immediately:
 { "emergency_e_reduction": { "reduction_id": "eer-2025-12-03-001", "authorized_by": "gov:alice.smith", "authorization_time": "2025-12-03T14:00:00Z", "original_e_base": 60, "reduced_e_base": 30, "reduction_percentage": 50, "reason": "mass_compromise_detected", "evidence": "INC-2025-12-03-001", "duration_hours": 4, "auto_restore_time": "2025-12-03T18:00:00Z", "review_required": true, "review_deadline": "2025-12-04T14:00:00Z" } }
 
 # Dispute Resolution
+
+Dispute resolution is invoked by a party. Repair after a breach is required whether or not any party invokes anything, and is specified in {{KTP-REPAIR}}: the zone publishes the route by which reconciliation is sought with its profile, and where no party other than the zone is affected, the holder of E-setting authority stands as the affected party.
 
 ## Dispute Categories
 

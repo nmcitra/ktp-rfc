@@ -107,12 +107,14 @@ The Va is the space between. Not empty space—sacred space. The relationship it
 
 # Repair Protocols
 
+The precondition on re-entry after a breach, the reconciliation record, and the cost of return are specified in [KTP-REPAIR]; the protocols in this section are the relational practice around that record and do not replace it. Repair is required before re-entry whether or not any party has raised a dispute; the breaching party seeks it, and the affected party's attendance is voluntary.
+
 ## Repair Process
 
 Phase 1: RECOGNITION
 
 - Harm is acknowledged
-- Parties agree repair is needed
+- The breaching party seeks repair; the affected party may attend
 - Repair context established
 
 Phase 2: UNDERSTANDING

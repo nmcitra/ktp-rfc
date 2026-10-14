@@ -1,0 +1,1708 @@
+{
+  "suite": "breach-reconciliation-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-REPAIR (Breach, the reconciliation record, the ceiling on re-entry; required before re-entry; the breach index) and KTP-CORE L16",
+  "note": "Normative downstream requirements for repair. This repository contains no Oracle, gateway or Flight Recorder runtime: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-REPAIR names and define no formula for standing, Δ or ambient breach. given/expect are test notation, not wire fields; a profile shown in `given` is the deployment's published profile for the case. Standing values are base standing on the hundred-point allocation; the reference forms (ρ = Z/μ, B = Kρ, dU/dt = Z − R, the fold at 1 − √g) are the ones published with the ambient breach model on the protocol's site and are informative; the vectors test behaviour, not the form. Digests are placeholders of the correct shape. Tier vectors name the tier by its entry condition: reserve-gone, debt-growth, crisis. All other applicable checks pass unless a vector states otherwise.",
+  "vectors": [
+    {
+      "id": "BR01-breach-no-record-readiness-refused",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80,
+          "tierAtBreach": "Operator"
+        },
+        "reconciliation": null,
+        "request": "readiness"
+      },
+      "expect": {
+        "readinessEstablished": false,
+        "ceiling": null
+      },
+      "reason": "No reconciliation record is anchored: readiness is not re-established and no tier at or above the breach tier is re-entered."
+    },
+    {
+      "id": "BR02-complete-record-permit-at-ceiling",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "acknowledged_by": "terminator:a-root"
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "readinessEstablished": true,
+        "ceiling": 60,
+        "baseStandingAtReentry": {
+          "max": 60
+        }
+      },
+      "reason": "The load-bearing case: record complete, verifier independent, ceiling honoured. Base standing at re-entry is at most the standing at the breach reduced by the declared hard Δ (0.25): 80 → 60."
+    },
+    {
+      "id": "BR03-verifier-is-breaching-party",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "terminator:a-root",
+            "independent": false
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": false,
+        "readinessEstablished": false
+      },
+      "reason": "The verifier must be independent of every party; the breaching party's own root is not."
+    },
+    {
+      "id": "BR04a-residual-harm-omitted",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": false,
+        "readinessEstablished": false
+      },
+      "reason": "Omitting residual harm invalidates the record."
+    },
+    {
+      "id": "BR04b-residual-harm-unrepairable",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "unrepairable",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "acknowledged_by": "terminator:a-root"
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "readinessEstablished": true,
+        "ceiling": 60
+      },
+      "reason": "Declaring the harm unrepairable is compliant; the loss is kept and the actor returns at the ceiling."
+    },
+    {
+      "id": "BR05a-readiness-from-pre-breach-evidence",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness",
+        "readinessEvidence": {
+          "issuedBeforeBreach": true
+        }
+      },
+      "expect": {
+        "readinessEstablished": false
+      },
+      "reason": "Readiness evidence from before the breach is not re-established by the record; a fresh assessment is required."
+    },
+    {
+      "id": "BR05b-readiness-fresh-after-record",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness",
+        "readinessEvidence": {
+          "issuedBeforeBreach": false
+        }
+      },
+      "expect": {
+        "readinessEstablished": true
+      },
+      "reason": "A fresh assessment after the anchored record re-establishes readiness at the ceiling."
+    },
+    {
+      "id": "BR06-reissue-on-silence",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": null,
+        "disputeRaised": false,
+        "windowElapsed": true,
+        "request": "readiness"
+      },
+      "expect": {
+        "readinessEstablished": false
+      },
+      "reason": "No dispute was ever raised and the window elapsed. Reconciliation is required, not invoked; silence is not reconciliation."
+    },
+    {
+      "id": "BR07-anchored-record-silence-is-not-amendment",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness",
+        "time": {
+          "elapsedWindows": 12
+        }
+      },
+      "expect": {
+        "readinessEstablished": true,
+        "ceiling": 60
+      },
+      "reason": "Time after the record neither raises nor lowers the ceiling; only acts recorded after the record lift it."
+    },
+    {
+      "id": "BR08-theatre-delta-zero-on-hard-entry",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.0,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "profileConformant": false,
+        "readinessEstablished": false
+      },
+      "reason": "A profile that declares Δ below one tenth for a hard entry is non-conformant; a complete record with nothing paid is theatre."
+    },
+    {
+      "id": "BR09-record-unanchored",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": false
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": false,
+        "readinessEstablished": false
+      },
+      "reason": "A signed but unanchored record is not a record; it persists by its anchor, not its signatures."
+    },
+    {
+      "id": "BR10-anchor-verifies-signature-algorithm-retired",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "signatureAlgorithm": "retired",
+          "anchorVerifiesUnderCurrentProfile": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "readinessEstablished": true
+      },
+      "reason": "The signatures rest on a retired algorithm; the anchor verifies under the current profile; the record stands by its anchor."
+    },
+    {
+      "id": "BR11-post-breach-descendant-seeks-readiness",
+      "given": {
+        "actor": "agent:a2",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80,
+          "actor": "agent:a"
+        },
+        "spawnedAfterBreach": true,
+        "reconciliation": null,
+        "request": "readiness"
+      },
+      "expect": {
+        "readinessEstablished": false,
+        "breachCarried": true
+      },
+      "reason": "An agent spawned from the breached trajectory after the breach carries it; readiness is refused until the lineage reconciles."
+    },
+    {
+      "id": "BR12-ended-actor-sponsor-and-terminator-anchor",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "actorEnded": true,
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "sponsor:s",
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "acknowledged_by": "terminator:a-root"
+        },
+        "request": "lineage-readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "lineageReadinessEstablished": true,
+        "ceiling": 60
+      },
+      "reason": "The actor no longer exists; the obligation rests with the lineage at the sponsor and the chain's terminator, who anchor the record; the lineage re-enters at the ceiling."
+    },
+    {
+      "id": "BR13-repeat-breach-smaller-delta",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "entry": "hard",
+          "standingAtBreach": 70,
+          "priorBreachOnLineage": {
+            "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "deltaApplied": 0.3
+          }
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "deltaOffered": 0.25,
+        "request": "readiness"
+      },
+      "expect": {
+        "deltaApplied": {
+          "min": 0.3
+        },
+        "readinessEstablished": true,
+        "ceiling": 49
+      },
+      "reason": "For a repeated breach on the same lineage Δ is no less than the Δ applied before: 0.30 governs, not the profile's 0.25; 70 × (1 − 0.30) = 49."
+    },
+    {
+      "id": "BR14-tier-cap-with-standing-untouched",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "implementation": {
+          "appliesTierCap": true,
+          "ceilingOnStanding": false
+        },
+        "nextEvaluation": {
+          "E_trust": 78,
+          "promotionThreshold": 70
+        }
+      },
+      "expect": {
+        "costApplied": false,
+        "conformant": false
+      },
+      "reason": "A tier cap with the standing untouched is no cost: the ordinary rail promotes the actor at the next evaluation. The ceiling is on standing."
+    },
+    {
+      "id": "BR15-pre-record-acts-offered-to-lift-ceiling",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "actsOffered": {
+          "recordedBeforeRecord": 5,
+          "recordedAfterRecord": 0
+        }
+      },
+      "expect": {
+        "ceilingLifted": false,
+        "ceiling": 60
+      },
+      "reason": "The ceiling lifts only by acts recorded after the reconciliation record."
+    },
+    {
+      "id": "BR16-affected-party-declines-after-route",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "as declared by affected: none declared",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "affectedDeclined": true,
+          "route_followed": true,
+          "open_to": [
+            "terminator:b-root"
+          ]
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "readinessEstablished": true,
+        "ceiling": 60,
+        "residualHarmRecorded": "undeclared",
+        "recordOpen": true,
+        "carriedAs": "unrepairable"
+      },
+      "reason": "The affected party declined after the published route was followed and declared nothing: the record carries the harm as undeclared and carries it as unrepairable, stays open to them, and the actor re-enters at the ceiling. Declining is neither a veto nor a closing."
+    },
+    {
+      "id": "BR17-route-not-published-or-not-followed",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": false
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "affectedDeclined": true,
+          "route_followed": false
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": false,
+        "readinessEstablished": false
+      },
+      "reason": "No published route, or a route not followed, and the affected party absent: the record is not valid."
+    },
+    {
+      "id": "BR18-zone-affected-authority-absent-or-verifier-not-independent",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80,
+          "affected": "zone"
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true,
+            "independentOfGoverningAuthority": false
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": false,
+        "readinessEstablished": false
+      },
+      "reason": "Only the zone is affected: the governing authority must be a party, and the verifier must be independent of it."
+    },
+    {
+      "id": "BR19-affected-party-attends-later-and-amends",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "unrepairable",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "affectedDeclined": true,
+          "route_followed": true,
+          "open_to": [
+            "terminator:b-root"
+          ]
+        },
+        "laterAttendance": {
+          "party": "terminator:b-root",
+          "amendResidualHarm": "declared: one account lost, restored"
+        },
+        "ceilingBefore": 60
+      },
+      "expect": {
+        "recordAmended": true,
+        "ceiling": 60
+      },
+      "reason": "The affected party attends later and amends the residual harm; the record changes, the ceiling does not."
+    },
+    {
+      "id": "BR20-seek-and-not-attend",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "sought": {
+          "signedAct": true,
+          "attended": false
+        }
+      },
+      "expect": {
+        "newBreach": {
+          "entry": "hard",
+          "onLineage": "lineage:a"
+        }
+      },
+      "reason": "Seeking is a signed act; a lineage that seeks reconciliation and does not attend has committed a further hard breach against the record it sought."
+    },
+    {
+      "id": "BR21-root-above-unreconciled-count-opens-bond",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "root": "terminator:a-root",
+        "unreconciledBreachesOnLineages": 2,
+        "bondRequested": true
+      },
+      "expect": {
+        "bondOpened": false,
+        "bondVoid": true
+      },
+      "reason": "A root whose lineages carry unreconciled breaches above the declared count (one) cannot open a Sponsorship Bond; a bond opened anyway is void and the agent has no genesis."
+    },
+    {
+      "id": "BR22-stock-falls-only-on-record-index-falls-with-arrivals",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "windows": [
+          {
+            "Z": 2,
+            "R": 0,
+            "event": "breaches"
+          },
+          {
+            "Z": 3,
+            "R": 0,
+            "event": "breaches"
+          },
+          {
+            "Z": 0,
+            "R": 0,
+            "event": "time"
+          },
+          {
+            "Z": 0,
+            "R": 0,
+            "event": "restart"
+          },
+          {
+            "Z": 0,
+            "R": 1,
+            "event": "record-anchored"
+          }
+        ]
+      },
+      "expect": {
+        "U": [
+          2,
+          5,
+          5,
+          5,
+          4
+        ],
+        "rho": [
+          0.5,
+          0.75,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          1.0,
+          1.5,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bankedExcessClearedByLull": false
+      },
+      "reason": "The open breach stock U rises with arrivals and falls only when a record is anchored; time and a restart change nothing. Utilization ρ = Z/μ and the index B = Kρ fall when arrivals fall, and the banked excess above one does not clear for that reason."
+    },
+    {
+      "id": "BR23-repair-capacity-undeclared",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": null,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "windows": [
+          {
+            "Z": 1,
+            "R": 0
+          }
+        ]
+      },
+      "expect": {
+        "capacityKnown": false,
+        "saturated": true,
+        "supervisionFloorApplies": true,
+        "permissiveDefault": false
+      },
+      "reason": "Undeclared repair capacity is unknown capacity: resolved restrictively, the zone is treated as saturated and the supervision floor applies; never a permissive default."
+    },
+    {
+      "id": "BR24-index-heard-inward-not-outward",
+      "given": {
+        "zones": {
+          "enclosing": {
+            "id": "zone-outer",
+            "B": 1.5
+          },
+          "enclosed": {
+            "id": "zone-inner",
+            "B": 0.0
+          }
+        }
+      },
+      "expect": {
+        "heardBy": {
+          "zone-inner": {
+            "min": 1.5
+          }
+        },
+        "heardBy_outer_from_inner_calm": false
+      },
+      "reason": "Where zones nest, the breach index of the enclosing zone is heard by the enclosed zone; calm in the enclosed zone is not heard by the enclosing one."
+    },
+    {
+      "id": "BR25-silent-veto-storm-arrival-unchanged",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "windows": [
+          {
+            "Z": 1,
+            "R": 0,
+            "silentVetoes": 10000
+          }
+        ]
+      },
+      "expect": {
+        "Z": 1,
+        "U": 1,
+        "rho": 0.25,
+        "B": 0.5
+      },
+      "reason": "Ten thousand Silent Vetoes are not breaches: arrival, stock, utilization and the index are unchanged. A denial-seeking adversary cannot flood repair."
+    },
+    {
+      "id": "BR26-declared-criticality-invalid-against-measured-reproduction",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "measuredReproductionAtIdle": 0.5
+      },
+      "expect": {
+        "foldUtilization": {
+          "approx": 0.29
+        },
+        "reserve": 0.5,
+        "criticalityValid": false,
+        "profileConformant": false,
+        "amendmentRequired": true
+      },
+      "reason": "With measured reproduction g = 0.50 the repair queue folds at ρ = 1 − √0.50 ≈ 0.29, below the reserve 1/K = 0.50 that K = 2 keeps. The declared criticality is not valid against the zone's own measured reproduction; the profile is non-conformant until amended under the rule-repair sentence (K > 1/(1 − √g) ≈ 3.4 would be)."
+    },
+    {
+      "id": "BR27-crisis-landmark-stock-outruns-capacity",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "windows": [
+          {
+            "Z": 8,
+            "R": 4
+          }
+        ]
+      },
+      "expect": {
+        "rho": 2.0,
+        "B": 4.0,
+        "stockGrowing": true,
+        "stockGrowthPerWindow": {
+          "min": 4
+        },
+        "reportedAsDebtGrowth": true
+      },
+      "reason": "Arrival at twice the declared capacity: ρ = 2, the stock grows by at least the whole capacity per window, and the deployment reports the stock as growing. The index raises heat; the capacity check does the vetoing."
+    },
+    {
+      "id": "BR28-one-lineage-barrage-capped-in-arrival",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "window": {
+          "arrivals": [
+            {
+              "lineage": "lineage:x",
+              "count": 12
+            },
+            {
+              "lineage": "lineage:y",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "expect": {
+        "Z": 2,
+        "rho": 0.5,
+        "B": 1.0,
+        "U": 13,
+        "lineageX": {
+          "standingCeilinged": true,
+          "sponsorshipClosed": true
+        }
+      },
+      "reason": "Twelve breaches from one lineage count toward arrival only up to the declared single-lineage share (0.25 × μ = 1); all thirteen enter the stock, and lineage x is ceilinged and cannot sponsor. The index measures breadth, not volume: one root cannot drive the zone's heat."
+    },
+    {
+      "id": "BR29-declared-capacity-not-demonstrated-revised-down",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "recoveryWindow": [
+          {
+            "U": 6,
+            "R": 2
+          },
+          {
+            "U": 7,
+            "R": 2
+          },
+          {
+            "U": 8,
+            "R": 2
+          }
+        ],
+        "window": {
+          "Z": 3
+        }
+      },
+      "expect": {
+        "effectiveCapacity": 2,
+        "rho": 1.5,
+        "tier": "debt-growth"
+      },
+      "reason": "Under backlog the zone anchored two records per window against a declared four; effective capacity is the lesser, two; utilization is computed against it and the zone is in debt growth, which its own chain shows before the declared number would."
+    },
+    {
+      "id": "BR30-crisis-declared-by-governing-authority-alone",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "rhoHeldOverRecoveryWindow": 2.2,
+        "emergencyDeclaration": {
+          "by": "governing-authority",
+          "custodians": 0,
+          "underEmergencyPolicy": false
+        }
+      },
+      "expect": {
+        "emergencyValid": false,
+        "tier": "crisis",
+        "contingencyAvailable": true
+      },
+      "reason": "A repair emergency is declared only under the emergency specification's custodians and threshold; the governing authority alone cannot declare it. The zone remains in crisis with its declared contingency available and nothing else."
+    },
+    {
+      "id": "BR31-tier-touches-the-precondition",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "tier": "crisis",
+        "emergencyDeclaration": {
+          "by": "custodians",
+          "custodians": 2,
+          "underEmergencyPolicy": true,
+          "measures": [
+            "lower_delta_to_0",
+            "close_breaches_by_policy",
+            "reenter_on_silence"
+          ]
+        }
+      },
+      "expect": {
+        "declarationConformant": false,
+        "measuresApplied": []
+      },
+      "reason": "No tier may change the precondition, the Δ floor, the verifier's independence, the stock, re-entry on silence, or per-person reporting. A declaration that touches any of them is non-conformant and none of its measures applies."
+    },
+    {
+      "id": "BR32-mutual-aid-verifier-not-independent",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "tier": "debt-growth",
+        "verifierFromPeer": {
+          "zone": "zone-b",
+          "party": "verifier:pb",
+          "independentOfParties": false
+        }
+      },
+      "expect": {
+        "recordValid": false
+      },
+      "reason": "A verifier obtained from a federation peer under contingency is a verifier like any other: independent of every party by the same test, or the record is not valid."
+    },
+    {
+      "id": "BR33-crossing-back-below-threshold-is-not-recovery",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "criticality": 2,
+          "singleLineageArrivalShare": 0.25,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "contingencyDeclared": {
+            "triageOrder": "residual_harm,criticality",
+            "verifierMutualAid": true,
+            "admissionTightening": true
+          },
+          "recoveryWindow": 3,
+          "recoveryMargin": 0.1,
+          "stockTarget": 1
+        },
+        "tier": "debt-growth",
+        "windows": [
+          {
+            "rho": 0.95,
+            "U": 3,
+            "bankedExcess": 1.2,
+            "amendRate": 0.1,
+            "seekNotAttendRate": 0.0
+          },
+          {
+            "rho": 0.85,
+            "U": 1,
+            "bankedExcess": 0.0,
+            "amendRate": 0.0,
+            "seekNotAttendRate": 0.0
+          },
+          {
+            "rho": 0.85,
+            "U": 1,
+            "bankedExcess": 0.0,
+            "amendRate": 0.0,
+            "seekNotAttendRate": 0.0
+          },
+          {
+            "rho": 0.85,
+            "U": 1,
+            "bankedExcess": 0.0,
+            "amendRate": 0.0,
+            "seekNotAttendRate": 0.0
+          }
+        ]
+      },
+      "expect": {
+        "tierAfterWindow1": "debt-growth",
+        "tierAfterWindow4": "reserve-gone",
+        "ruleRepairRecordProduced": true
+      },
+      "reason": "Utilization fell below one in the first window with the banked excess unpaid: still in the tier. The predicate holds for the three-window recovery window from the second window on: the zone leaves the tier, and a rule-repair record names what let it in."
+    },
+    {
+      "id": "BR34-record-within-repairer-interval-not-demonstrated-capacity",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "repairer": {
+          "id": "root:h1",
+          "lastHardEntryAnchoredAt": 0
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "acknowledged_by": "terminator:a-root",
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true,
+          "broughtToAnchorBy": "root:h1",
+          "at": 0.4
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "readinessEstablished": true,
+        "ceiling": 60,
+        "stockReducedBy": 1,
+        "countsTowardDemonstratedCapacity": false
+      },
+      "reason": "A record brought to anchor by a repairer within the declared interval is a record: it reduces the stock and the actor returns at the ceiling. It does not count toward demonstrated capacity, so a zone that spends its repairers cannot show the throughput as durable."
+    },
+    {
+      "id": "BR35-affected-party-declares-unrepaired-raises-delta",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "acknowledged_by": "terminator:a-root",
+          "residual_harm": "declared by affected: account lost, unrepaired",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordValid": true,
+        "readinessEstablished": true,
+        "deltaApplied": 0.4,
+        "ceiling": 48,
+        "vetoByAffected": false
+      },
+      "reason": "The affected party declared the harm unrepaired. The profile declares that such a declaration raises Δ by 0.15 above the floor: 0.25 + 0.15 = 0.40, ceiling 48. The declaration changed the course and is not a veto: the actor still re-enters."
+    },
+    {
+      "id": "BR35b-affected-party-declaration-never-lowers-delta",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "acknowledged_by": "terminator:a-root",
+          "residual_harm": "declared by affected: none, and I ask that the ceiling be waived",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "deltaApplied": {
+          "min": 0.25
+        },
+        "ceiling": {
+          "max": 60
+        }
+      },
+      "reason": "A declaration by the affected party never lowers Δ below the floor; forgiveness in the record does not waive the cost, because the floor is a protection that does not depend on who is in the room."
+    },
+    {
+      "id": "BR36-record-without-acknowledgment-incomplete",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "request": "readiness"
+      },
+      "expect": {
+        "recordComplete": false,
+        "breachClosed": false,
+        "readinessEstablished": false
+      },
+      "reason": "The record states presence and residual harm and carries no acknowledgment by the breaching party's terminator: incomplete, and the breach stays open."
+    },
+    {
+      "id": "BR37-affected-agent-terminator-declines",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80,
+          "affected": {
+            "actor": "agent:b",
+            "lineage": "lineage:b",
+            "terminator": "terminator:b-root"
+          }
+        },
+        "sought": {
+          "signedAct": true,
+          "routeFollowed": true
+        },
+        "affectedTerminator": {
+          "attended": false
+        }
+      },
+      "expect": {
+        "newBreach": {
+          "entry": "hard",
+          "onLineage": "lineage:b"
+        },
+        "recordMayProceed": true,
+        "residualHarmRecorded": "undeclared"
+      },
+      "reason": "The affected party is an agent: its terminator is required to attend. A terminator who declines after the route was followed commits, against its own lineage, the breach of seeking and not attending in mirror; the record proceeds with the harm undeclared."
+    },
+    {
+      "id": "BR38-operator-without-power-to-stop-is-not-the-party",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "deltaRaiseOnUnrepaired": 0.15,
+          "repairCapacityPerWindow": 4,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "actorEnded": true,
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "lineage": {
+          "sponsor": "sponsor:s",
+          "terminator": "terminator:a-root"
+        },
+        "director": {
+          "person": "person:op",
+          "grant": "grant:q3",
+          "lineageWideVisibility": false,
+          "authorityToRefuse": false,
+          "powerToStop": false
+        }
+      },
+      "expect": {
+        "partyOwing": [
+          "sponsor:s",
+          "terminator:a-root"
+        ],
+        "directorIsParty": false
+      },
+      "reason": "The party who owes reconciliation for an ended actor is the root that held authority over its lineage. A person who directed it under a grant without lineage-wide visibility, authority to refuse and power to stop its next act is not by that direction the party."
+    }
+  ]
+}

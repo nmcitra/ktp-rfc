@@ -111,7 +111,7 @@ veto, never seven weights.
 
 ## The specifications
 
-27 documents. Five are formatted as Internet-Drafts and carry a generated `.txt`
+28 documents. Six are formatted as Internet-Drafts and carry a generated `.txt`
 in [`rfcs-txt/`](rfcs-txt/); the other 22 are Markdown only. Every link below
 points into [`rfcs-md/`](rfcs-md/), the generated render.
 
@@ -172,7 +172,8 @@ points into [`rfcs-md/`](rfcs-md/), the generated render.
 | Specification | What it covers |
 |---|---|
 | [KTP-Human](rfcs-md/ktp-human.md) | Operation-specific human eligibility, correction, delegation, system ethics |
-| [KTP-Relational](rfcs-md/ktp-relational.md) | Relational dynamics, repair, ceremony |
+| [KTP-Relational](rfcs-md/ktp-relational.md) | Relational dynamics, repair ceremony |
+| [KTP-Repair](rfcs-md/ktp-repair.md) | Breach, the reconciliation record, the ceiling on re-entry; required before re-entry, not invoked; ambient breach |
 | [KTP-Governance](rfcs-md/ktp-governance.md) | Stewardship council, amendment process, anti-capture provisions |
 
 ### Privacy and provenance
@@ -228,9 +229,9 @@ archive interpretation. No published release or tag is changed by this draft.
 
 | Path | What it is |
 |---|---|
-| [`rfcs-md/`](rfcs-md/) | The 27 specifications as clean Markdown — the reading surface, and the GitHub Pages source. **Generated** from `rfc-src/` by `scripts/gen-rfcs-md.py` — never hand-edited. Replaces a hand-authored `rfcs/` retired 2026-08-14: it drifted (missing an entire section) with no gate able to see the omission — two independently-maintained representations is the drift class this release exists to kill, and it should not survive here either |
+| [`rfcs-md/`](rfcs-md/) | The 28 specifications as clean Markdown — the reading surface, and the GitHub Pages source. **Generated** from `rfc-src/` by `scripts/gen-rfcs-md.py` — never hand-edited. Replaces a hand-authored `rfcs/` retired 2026-08-14: it drifted (missing an entire section) with no gate able to see the omission — two independently-maintained representations is the drift class this release exists to kill, and it should not survive here either |
 | [`rfc-src/`](rfc-src/) | kramdown-rfc source for all 27; authored here, and the only place a specification is edited |
-| [`rfcs-txt/`](rfcs-txt/) | The five Internet-Draft-formatted specifications. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
+| [`rfcs-txt/`](rfcs-txt/) | The six Internet-Draft-formatted specifications. **Generated** from `rfc-src/` by `scripts/gen-rfc-txt.sh` — never hand-edited |
 | [`catalog/`](catalog/) | The Context Signals catalogue: seven domain files plus the index, canonical as JSON, Markdown tables generated |
 | [`schemas/`](schemas/) | The seventeen JSON Schemas, including archived v2 transaction and deployment schemas. Wire artifacts sit at the root rather than inside site content |
 | [`specifications/`](specifications/) | Normative companions: the Kinetic Envelope, deployment profile, emergency capability/change controls, Oracle consensus, complete trajectory signatures, operational readiness, human eligibility, and privacy evidence; `conformance/` holds their reference vectors |

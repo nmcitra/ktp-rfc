@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Enforcement Layer Specification"
 abbrev: "KTP-ENFORCE"
 docname: draft-perkins-ktp-enforce-00
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -104,11 +104,11 @@ Policy Decision Point (PDP): The logical component that evaluates Trust Proofs a
 
 Policy Enforcement Point (PEP): A component that intercepts agent requests and enforces PDP decisions by allowing, denying, or modifying actions.
 
-Silent Veto: The automatic denial of an action when A > E, executed without requiring human intervention. E is software-agent E_trust or separately evidenced human operational capacity under the reviewed adapter. A correctly evaluated veto cannot be overridden; explanation, review, and factual correction remain available.
+Silent Veto: The automatic denial of an action when A > E, executed without requiring human intervention, for any subject of this specification. A correctly evaluated veto cannot be overridden; explanation, review, and factual correction remain available. For a person, operation eligibility and operational capacity remain separate requirements beside standing, under the reviewed adapter.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), taking precedence over Trust Score evaluation.
 
-Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
+Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds, for any subject of this specification. Operation eligibility is a separate requirement beside the tier, not a tier.
 
 # Architecture Overview
 

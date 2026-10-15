@@ -27,6 +27,20 @@ revocation and accepted-version floors, or render old authority unusable if the
 required state cannot be retained/reconstructed under applicable rules. No
 permanent personal archive or automatic clean-slate enrollment is introduced.
 
+**Unreleased person-standing migration:** A person is a subject of KTP-Core as
+an account in a zone. Old → new: the External Root was a term in the E_base
+composition supplied by an instrument → it is the person behind the instrument,
+with an employer, a licensing body or a board as the terminator behind them;
+trajectory had three shapes, all software agents → a fourth shape, a person's
+signed acts; the human E_base was a six-term weighted sum (v2.1.0) and then no
+score at all (unreleased) → a person's E_base is composed under Core Section
+5.1 from signed acts and the terminator's standing; administrators were scored
+in the threat model and unscored in Core → scored, under Core; standing
+portability was for agents only → persons too, by the same federation factor
+and ceiling, only where an agreement exists. Eligibility (above) stays a
+separate requirement. Legacy general human scores still do not convert into
+anything.
+
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and
 [operational readiness contract](specifications/operational-readiness.md).

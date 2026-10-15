@@ -162,10 +162,12 @@ Source: this PR
 Decision: Contributor-facing labels and this file are added; `CONTRIBUTING.md`
 points here.
 
-### D-009 · An infrastructure execution profile (open)
-Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28
-Source: issue #124
-Decision: pending.
+### D-009 · An infrastructure execution profile
+Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28 · approved 2026-10-14
+Source: issue #124; PR #131
+Decision: Approved as proposed. The software-substrate execution profile enters
+`specifications/` with v3.0.0; PR #131 merges in the order the v3.0.0 release
+proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
 
 ### D-010 · The consolidation block (open)
@@ -181,8 +183,18 @@ Decision: Named companies in a hypothetical hardware-lock-in critique and in
 the OUI tooltip are replaced with supplier-independent wording; the affected
 RFC views are regenerated from source. Proposed by Mike Storm.
 
-### D-012 · Consequential-action execution and evidence (open)
-Published 2026-09-18 · MINOR · floor 2026-10-09 · review-by 2026-10-30
-Source: issue #129
-Decision: pending.
+### D-012 · Consequential-action execution and evidence
+Published 2026-09-18 · MINOR · floor 2026-10-09 · review-by 2026-10-30 · approved 2026-10-14
+Source: issue #129; PR #139
+Decision: Approved as proposed. The consequential-action execution and
+evidence specification, its schema and its vectors enter the set with v3.0.0;
+PR #139 merges in the order the v3.0.0 release proposal states.
 Provenance: proposed by Mike Storm; KAG as the reference implementation.
+
+### D-013 · Three Risk Factor formulas no longer weight the Soul veto
+Published 2026-10-05 · Clarification · clock 2026-10-05 → floor 2026-10-12 · review-by 2026-10-19 · approved 2026-10-14
+Source: issue #142; the clarification PR opened with this record
+Decision: The descriptive formulas in ktp-signals, ktp-attenuation and
+ktp-oracle that still carried a Soul term inside the weighted sum become
+cross-references to ktp-core's aggregation, with one line recording that the
+weighted form was retired at v2.0.0. No conformant implementation changes.

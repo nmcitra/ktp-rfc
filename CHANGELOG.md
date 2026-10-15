@@ -32,6 +32,30 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and conformance claims
 
+### The hand-back: no silent abandonment
+
+**Finding:** A denial that left the human party with no recipient, no contest
+path and no repair path was indistinguishable from a stricter mode. The set
+had the stop and not its destination.
+
+- `specifications/hand-back.md` enters the set (MINOR; obligations bind
+  implementations that declare the capability): a stop inside a managed
+  relation cannot be expressed without its destination; the hand-back is
+  authored at grant and resolved at stop; clearance is typed; leases by
+  consequence class; recourse is a sum; hysteresis is adjudicated;
+  reconciliation gates relational reissue by KTP-REPAIR's record; the
+  unmanaged regime is answered uniformly by standing, never by credential
+  state. New terms, each with this document as home: Hand-Back, Clearance,
+  Lease, Consequence Class, Managed and Unmanaged Identity, Delegator,
+  Recourse, Hysteresis Ledger (vocabulary change; mapping in MIGRATION.md).
+- `schemas/hand-back.json`; the optional `hand_back` section of the deployment
+  profile; sixty-eight vectors in `specifications/conformance/hand-back-v1.json`
+  in fifteen families, bound by level.
+- KTP-CONFORMANCE: the hand-back row in the level table and the claim slot.
+  KTP-ENFORCE: a declarer MAY omit the numeric denial fields toward the agent;
+  one code and body SHOULD answer an identity with no standing. KTP-TRANSPORT:
+  the same SHOULD. KTP-EMERGENCY, KTP-HUMAN and KTP-CORE gain pointers.
+
 ### A claim names its substrate profile
 
 **Finding:** A conformance claim named a level and a status label and nothing

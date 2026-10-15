@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Transport Specification"
 abbrev: "KTP-TRANSPORT"
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -873,6 +873,8 @@ Authentication errors (AUTH_*):
 | AUTH_REVOKED | 401  | Credentials revoked     |
 +--------------+------+-------------------------+
 ~~~
+
+Toward an identity that holds no standing in the zone, a responder SHOULD return one AUTH code and one body whatever the credential's state; the four codes distinguish states for a subject the zone already knows (specifications/hand-back.md).
 
 ~~~
 Authorization errors (AUTHZ_*):

@@ -34,6 +34,8 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | `label_sets` | the label set behind each categorical signal and denominator predicate | yes, per aggregated categorical signal |
 | `peer_share` | the peer-signal share of `E_base`, in points | yes (0 where not implemented) |
 | `external_root` | the hop bound and the misattestation adjudicator | yes |
+| `hand_back` | the default hand-back endpoint, per-class reissue minimum, escalation cap, window and acknowledgment ceiling, the decision-review schedule, the hysteresis ledger's owner and retention, and any hostile-facing surfaces | required by an implementation that claims the hand-back capability; absent otherwise |
+| `hand_back` | the default hand-back endpoint, per-class reissue minimum, escalation cap, window and acknowledgment ceiling, the decision-review schedule, the hysteresis ledger's owner and retention, and any hostile-facing surfaces | required by an implementation that claims the hand-back capability; absent otherwise |
 | `human_policy` | operation-specific human profile ID, version and canonical digest | required before accepting humans or human-origin delegation; omission disables that path |
 | `standing_policy` | the history-with-scoped-readiness mode and exact readiness profile ID, version, and digest | yes in the active v3 profile; `standing_decay_rate` is rejected |
 | `envelope_thresholds` | finite supervision thresholds `0 <= m_veto < m_allow` | optional; absent retains the existing zero-margin veto |
@@ -97,6 +99,14 @@ Two deployment-level declarations from `ktp-core` §5.1:
 - `adjudicator` — *the deployment MUST declare the adjudicator for findings of misattestation, including for-cause withdrawal claims. The adjudicator MUST be neither the attestor nor the subject agent.*
 
 The attestation-level declarations — terminator, chain length, exposure and its class, anchored capacity, instrument status — ride the attestation and the Trust Proof, not the profile. Their schema carriage rides the #71/#83 schema gate and is listed under *Owed to this surface* below.
+
+## Hand-back
+
+Declared only by an implementation that claims the hand-back capability (`hand-back.md`). The section holds every parameter that specification requires to be declared and states no number for: `default_endpoint`; per consequence class `reissue_min_seconds` (greater than zero for Coordination and Relational), `escalation_cap`, `window_seconds`, `ack_sla_seconds`; `decision_review` (`sampling_rate`, `triggers`, `uniform_approval_threshold`); `ledger` (`owner`, `retention_days`); `hostile_facing_surfaces`.
+
+## Hand-back
+
+Declared only by an implementation that claims the hand-back capability (`hand-back.md`). The section holds every parameter that specification requires to be declared and states no number for: `default_endpoint`; per consequence class `reissue_min_seconds` (greater than zero for Coordination and Relational), `escalation_cap`, `window_seconds`, `ack_sla_seconds`; `decision_review` (`sampling_rate`, `triggers`, `uniform_approval_threshold`); `ledger` (`owner`, `retention_days`); `hostile_facing_surfaces`.
 
 ## Historical standing and scoped readiness
 

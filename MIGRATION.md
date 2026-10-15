@@ -600,3 +600,12 @@ withdrawn; a claim on a substrate the set carries no profile for waits for that
 profile to enter the set. No wire change. Vocabulary: *Substrate Profile* is a
 new term with no predecessor; the software-substrate execution profile (#124)
 is its first instance.
+
+**Unreleased hand-back migration:** Nothing changes for an implementation that
+does not declare the hand-back. A declarer adds the `hand_back` section to its
+deployment profile, registers a hand-back template for each (subject,
+consequence class) before minting, and answers identities with no standing
+with one code and one body. Vocabulary: Hand-Back, Clearance, Lease,
+Consequence Class, Managed Identity, Unmanaged Identity, Delegator, Recourse
+and Hysteresis Ledger are new terms with no predecessors; `specifications/hand-back.md`
+is their home.

@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -116,13 +116,19 @@ Base Trust (E_base): A numeric value (0-100) representing a software agent's int
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
+Clearance: See specifications/hand-back.md.
+
 Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (six weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
 Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
 
+Hand-Back: See specifications/hand-back.md.
+
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
+
+Lease: See specifications/hand-back.md.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 

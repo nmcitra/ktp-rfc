@@ -175,10 +175,10 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
      10.1.  Test Suite Security  . . . . . . . . . . . . . . . . . .  42
      10.2.  Claim Evidence Security  . . . . . . . . . . . . . . . .  42
      10.3.  Implementation Security  . . . . . . . . . . . . . . . .  42
-     10.4.  Human Eligibility and Privacy Evidence Conformance . . .  42
+     10.4.  Human Eligibility and Privacy Evidence Conformance . . .  43
    11. Normative References  . . . . . . . . . . . . . . . . . . . .  43
    Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  43
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  43
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  44
      A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  44
      A.3.  Requirements Language . . . . . . . . . . . . . . . . . .  45
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  45
@@ -647,6 +647,7 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
    | Flight Recorder chaining  | -     | Yes      | Yes    |
    | External anchoring        | -     | -        | Yes    |
    | Federation support        | -     | Yes      | Yes    |
+   | Hand-back (declared)      | 5 fam.| 14 fam.  | 15 fam.|
    | Celestial support         | -     | -        | Yes    |
    | Proof lifetime (maximum)  | 10s   | 10s      | 10s    |
    | PEP latency               | -     | < 50ms   | < 15ms |
@@ -665,7 +666,6 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
 
    MUST:
 
-   *  Accept Risk Factor input
 
 
 
@@ -673,6 +673,8 @@ Perkins                   Expires 17 April 2027                [Page 12]
 
 Internet-Draft               KTP-CONFORMANCE                October 2026
 
+
+   *  Accept Risk Factor input
 
    *  Validate the deployed Risk Factor weights per [KTP-CORE]
       Section 6.5 (Domain Weights) before use, including after
@@ -720,8 +722,6 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
       for f = 1; the default is N = 5, f = 1, q = 4
 
    *  Implement threshold signatures (2-of-3)
-
-
 
 
 
@@ -2262,10 +2262,11 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
 
    Conformance claims MUST follow this format:
 
-   "[Product Name] [Version] claims KTP [Level] under [Substrate
-   Profile] [Version] per [KTP-CONFORMANCE] [Version]: [status label],
-   [specified test IDs run and passed] of [specified test IDs for the
-   level], [proposed test IDs not run]; evidence at [URL]; [Date]."
+   "[Product Name] [Version] claims KTP [Level][, with hand-back] under
+   [Substrate Profile] [Version] per [KTP-CONFORMANCE] [Version]:
+   [status label], [specified test IDs run and passed] of [specified
+   test IDs for the level], [proposed test IDs not run]; evidence at
+   [URL]; [Date]."
 
    Example:
 
@@ -2280,15 +2281,14 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
    under that profile.  A claim that names no substrate profile is a
    claim about no substrate and MUST NOT be made.  A claim that names a
    substrate profile this set does not carry is not a claim under this
-   specification.
+   specification.  An implementation that declares the hand-back
+   capability (specifications/hand-back.md) says so in the claim, and
+   the families that bind at its level are those that specification
+   lists.
 
 9.2.  Checking a Claim
 
    A claim can be checked by:
-
-   *  Re-running the published cases against the claimed versions
-
-   *  Reviewing the published results and the versions they name
 
 
 
@@ -2297,6 +2297,10 @@ Perkins                   Expires 17 April 2027                [Page 41]
 
 Internet-Draft               KTP-CONFORMANCE                October 2026
 
+
+   *  Re-running the published cases against the claimed versions
+
+   *  Reviewing the published results and the versions they name
 
    *  Reading an independent party's published reproduction and its
       disclosed affiliations
@@ -2338,14 +2342,10 @@ Internet-Draft               KTP-CONFORMANCE                October 2026
 
    *  Deployment security is implementer responsibility
 
-10.4.  Human Eligibility and Privacy Evidence Conformance
 
-   Deployments accepting human actions or human-origin delegation MUST
-   satisfy specifications/human-eligibility.md and install the
-   authenticated human_policy binding.  Human eligibility is separate
-   from software-agent standing and scoped readiness.  A person label
-   supplied by a request MUST NOT choose the verification path; the
-   actual executing actor remains independently authenticated.
+
+
+
 
 
 
@@ -2354,6 +2354,14 @@ Perkins                   Expires 17 April 2027                [Page 42]
 Internet-Draft               KTP-CONFORMANCE                October 2026
 
 
+10.4.  Human Eligibility and Privacy Evidence Conformance
+
+   Deployments accepting human actions or human-origin delegation MUST
+   satisfy specifications/human-eligibility.md and install the
+   authenticated human_policy binding.  Human eligibility is separate
+   from software-agent standing and scoped readiness.  A person label
+   supplied by a request MUST NOT choose the verification path; the
+   actual executing actor remains independently authenticated.
    Capacity, Soul, current grants and all ordinary-proof freshness
    requirements remain mandatory.
 
@@ -2395,20 +2403,17 @@ Appendix A.  Changes from v1
    to v2.0.0.  The break is deliberate and there is no dual-accept
    period: an implementation reads v1 or it reads v2.
 
-A.1.  The lineage stage names
-
-   The three lineage stages are renamed on the wire and in prose.
-   Numeric protobuf values are unchanged, so only the symbol names move.
-
-
-
-
 
 
 Perkins                   Expires 17 April 2027                [Page 43]
 
 Internet-Draft               KTP-CONFORMANCE                October 2026
 
+
+A.1.  The lineage stage names
+
+   The three lineage stages are renamed on the wire and in prose.
+   Numeric protobuf values are unchanged, so only the symbol names move.
 
                        +============+=============+
                        | v1         | v2.0.0      |
@@ -2449,12 +2454,7 @@ A.2.  The Trust Tier thresholds
 
                                   Table 3
 
-   The v1 set was unreachable from the v1 generation ceilings:
-   generations 0 through 2 were capped below the lowest threshold, so an
-   agent was in Hibernation by lineage rather than by environment, and
-   the top tier could not be reached in any zone at the calm conditions
-   the specification's own worked example uses.  The generation ceilings
-   are unchanged; one table moved, not two.
+
 
 
 
@@ -2465,6 +2465,13 @@ Perkins                   Expires 17 April 2027                [Page 44]
 
 Internet-Draft               KTP-CONFORMANCE                October 2026
 
+
+   The v1 set was unreachable from the v1 generation ceilings:
+   generations 0 through 2 were capped below the lowest threshold, so an
+   agent was in Hibernation by lineage rather than by environment, and
+   the top tier could not be reached in any zone at the calm conditions
+   the specification's own worked example uses.  The generation ceilings
+   are unchanged; one table moved, not two.
 
    Two consequences travel with the change.  Hibernation exit moves from
    E_trust >= 55 to E_trust >= 24, because a five-point hysteresis over
@@ -2483,13 +2490,6 @@ Author's Address
    Chris Perkins
    NMCITRA
    Email: cperkins@nmcitra.org
-
-
-
-
-
-
-
 
 
 

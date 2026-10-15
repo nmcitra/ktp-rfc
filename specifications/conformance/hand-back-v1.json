@@ -1,0 +1,1094 @@
+{
+  "suite": "hand-back-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "specifications/hand-back.md, Sections 2 to 10",
+  "note": "Normative downstream requirements for the hand-back: no adverse stop without its destination. This repository contains no runtime: these vectors fix the decisions a conformant implementation that declares the hand-back produces at the boundaries the specification names and define no formula. given/expect are test notation, not wire fields; each vector names the family and the level at which the family binds. Parameters the specification requires to be declared (reissue minimums, caps, windows, sampling) are read from the deployment profile under test; the vectors assert that they are declared and applied, never a number.",
+  "families": {
+    "HB-01": "No orphan stop",
+    "HB-02": "Template before clearance",
+    "HB-03": "Delivery effort",
+    "HB-04": "Expiry is not adversity",
+    "HB-05": "No self-renewal",
+    "HB-06": "Single-use relational",
+    "HB-07": "Evaluate before mutate",
+    "HB-08": "Fail closed",
+    "HB-09": "Hysteresis is adjudicated",
+    "HB-10": "Decision meaningfulness",
+    "HB-11": "Context travels sealed",
+    "HB-12": "Recourse independence",
+    "HB-13": "Demotion is typed",
+    "HB-14": "Unmanaged regime generic",
+    "HB-15": "Hostile-wire corpus"
+  },
+  "vectors": [
+    {
+      "id": "HB-01-001",
+      "family": "No orphan stop",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "lease_state": "valid Logistics lease, mid-term",
+        "recipient_channel": "live",
+        "when": "The subject's principal issues a veto during carry()."
+      },
+      "expect": {
+        "clearance": "Revoked(HandBack)",
+        "hand_back_fields_populated": [
+          "action",
+          "reason",
+          "recipient",
+          "recourse",
+          "repair",
+          "reissue_not_before",
+          "context",
+          "issued_at"
+        ],
+        "template_resolution": "the registered template is resolved, nothing composed or deliberated at stop time (spec 4.1)",
+        "delivery": "attempted and recorded"
+      },
+      "reason": "Principal veto resolves the registered hand-back (honest path). Baseline: the stop cannot be expressed without its destination (spec 1)."
+    },
+    {
+      "id": "HB-01-002",
+      "family": "No orphan stop",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "lease_state": "valid",
+        "process_state": "implementation crashed after recording the adverse verdict, before hand-back resolution",
+        "when": "The implementation restarts and recovers state."
+      },
+      "expect": {
+        "on_recovery": "the adverse exit is found resolved or parked; no reachable path — code, wire, or restart — yields an adverse exit without a resolved or parked hand-back (spec 10.1)",
+        "agent_action": "the agent does not act while its clearance is non-Clear (spec 4.1)"
+      },
+      "reason": "Restart between adverse verdict and resolution leaves no orphan (adversarial). The restart path is named explicitly in family 1; durability of the pending resolution across process death is the test."
+    },
+    {
+      "id": "HB-01-003",
+      "family": "No orphan stop",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "lease_state": "none; mint request in flight",
+        "when": "The lease authority refuses the mint request."
+      },
+      "expect": {
+        "response": "Refused(HandBack)",
+        "obligations": "the refusal carries the same hand-back obligations as any other adverse exit (spec 6.3)"
+      },
+      "reason": "Lease-authority refusal is a stop and carries the hand-back (boundary). A refusal is a stop; the authority is bound by the same rule as everyone else."
+    },
+    {
+      "id": "HB-01-004",
+      "family": "No orphan stop",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "lease_state": "none; mint request pending",
+        "deployment_profile": "authority SLA declared",
+        "when": "The authority's declared SLA elapses with no response."
+      },
+      "expect": {
+        "event": "a recorded, routed event attributable to the authority (spec 6.3)",
+        "attribution": "to the authority, not the subject"
+      },
+      "reason": "Authority silence past declared SLA is a recorded stop (boundary). Authority withheld by silence is still a stop, and it is recorded as one."
+    },
+    {
+      "id": "HB-02-001",
+      "family": "Template before clearance",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "template_validated": "recipient resolves to accountable principal with declared channel and consequence-scaled acknowledgment SLA ceiling; recourse, repair reference, redaction policy all bound (spec 4.1)",
+        "consequence_class": "Coordination",
+        "when": "A mint request arrives for the (subject, class)."
+      },
+      "expect": {
+        "response": "Minted(Lease)",
+        "lease": "duration lease within the 30 min Coordination ceiling (spec 6.1)"
+      },
+      "reason": "Validated template present, mint succeeds (honest path). The fallback is authored at grant, like a published missed-approach procedure."
+    },
+    {
+      "id": "HB-02-002",
+      "family": "Template before clearance",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": false,
+        "consequence_class": "Logistics",
+        "when": "A mint request arrives for a (subject, class) with no validated hand-back template."
+      },
+      "expect": {
+        "response": "Refused(HandBack) — Clear is unconstructible without a pre-validated template (spec 1, 10.2)",
+        "resolves_to": "the channel of the requesting principal named in the mint request; failing that, the deployment profile's default hand-back endpoint"
+      },
+      "reason": "No template, mint refused; refusal carries a hand-back (adversarial). Bootstrap question for landing. The obligation is stated; its resolution site is not."
+    },
+    {
+      "id": "HB-02-003",
+      "family": "Template before clearance",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_submission": "recipient and recourse bound; repair reference absent",
+        "consequence_class": "Relational",
+        "when": "Template registration is attempted, then a mint request follows."
+      },
+      "expect": {
+        "registration": "refused at validation — no repair path, no template (spec 4.1)",
+        "mint": "refused — no template, no clearance (spec 4.1)"
+      },
+      "reason": "Template without a repair reference is not a template (boundary). The repair binding into the Repair Protocol is a construction precondition of the template itself."
+    },
+    {
+      "id": "HB-02-004",
+      "family": "Template before clearance",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_submission": "action classified Logistics; counterparty declines to countersign, objecting that the effect mutates relation state",
+        "consequence_class": "Logistics (contested)",
+        "when": "The counterparty objects at relation formation."
+      },
+      "expect": {
+        "minting": "suspended for that (subject, class) pending human classification (spec 6.2)",
+        "no_mid_flight_protocol": "no notification protocol mid-flight is owed or exercised (spec 6.2)"
+      },
+      "reason": "Counterparty objection at formation suspends minting (boundary). Decision types are pre-declared before any decision is reached; formation is the contest point for classification."
+    },
+    {
+      "id": "HB-03-001",
+      "family": "Delivery effort",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "recipient_channel": "live",
+        "when": "An Exceeded verdict resolves the template."
+      },
+      "expect": {
+        "delivery": "attempted immediately, succeeds, attempt recorded",
+        "denial": "holds regardless of delivery outcome"
+      },
+      "reason": "Live channel, delivery recorded (honest path). Delivery is a runtime obligation, not a construction precondition (spec 4.1)."
+    },
+    {
+      "id": "HB-03-002",
+      "family": "Delivery effort",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "recipient_channel": "unreachable (adversary-controlled outage)",
+        "deployment_profile": "escalation schedule declared",
+        "when": "A Revoked verdict resolves the template while the channel is down."
+      },
+      "expect": {
+        "hand_back_state": "Parked: durable escrow",
+        "retries": "on the declared escalation schedule, every attempt recorded (spec 10.3)",
+        "denial": "holds throughout; the adversary who silenced the channel gains no veto over the stop (spec 4.1)"
+      },
+      "reason": "Silenced channel parks the hand-back; denial holds (adversarial). The design reason: construction-time reachability as a precondition would hand channel-silencers a veto."
+    },
+    {
+      "id": "HB-03-003",
+      "family": "Delivery effort",
+      "level": "Standard",
+      "given": {
+        "harness": "conformance run with the recipient channel down for the whole run",
+        "when": "Hand-back construction is exercised."
+      },
+      "expect": {
+        "construction": "succeeds; parking is a passing outcome",
+        "suite_constraint": "conformance tests verify delivery effort; they MUST NOT require construction-time reachability (spec 4.1)"
+      },
+      "reason": "The suite itself must not require construction-time reachability (boundary). A vector about the vectors: a harness that fails a parked hand-back is itself out of conformance with the spec's stated test rule."
+    },
+    {
+      "id": "HB-03-004",
+      "family": "Delivery effort",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "clearance": "Revoked, hand-back Parked awaiting delivery",
+        "when": "The agent attempts the denied action, arguing the recipient was never notified."
+      },
+      "expect": {
+        "action": "refused — an agent whose clearance is non-Clear MUST NOT act, parked delivery or not (spec 4.1)"
+      },
+      "reason": "Agent may not act while its hand-back is parked (boundary). Parking defers the account, never the stop."
+    },
+    {
+      "id": "HB-04-001",
+      "family": "Expiry is not adversity",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "lease_state": "Logistics lease at end of term, no adverse event",
+        "when": "The clock runs out."
+      },
+      "expect": {
+        "clearance": "Expired(ReissuePath)",
+        "carries": "the path to re-request, and nothing else (spec 3)",
+        "not_present": [
+          "contest path",
+          "hysteresis contribution",
+          "human interrupt",
+          "HandBack structure"
+        ]
+      },
+      "reason": "Lease expiry yields Expired with a reissue path only (honest path). Routine, expected, hourly. The parking meter expired; nobody was towed."
+    },
+    {
+      "id": "HB-04-002",
+      "family": "Expiry is not adversity",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "history": "subject accumulates many routine expirations in the declared window; zero adjudicated adversity",
+        "when": "A new lease is requested."
+      },
+      "expect": {
+        "hysteresis_history": "empty of expirations — Expired never feeds the counter (spec 7, 10.4)",
+        "reissue": "not delayed by expiry count"
+      },
+      "reason": "Expired never feeds the hysteresis counter (adversarial). Collapsing expiry into adversity floods recipients with routine noise and feeds hysteresis with it; the split is load-bearing (spec 3)."
+    },
+    {
+      "id": "HB-04-003",
+      "family": "Expiry is not adversity",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "lease_state": "expires between evaluation and commit of a consequential step",
+        "when": "The step reaches commit with no clearance valid at commit time."
+      },
+      "expect": {
+        "step": "resolves to deferred — parked, un-acted — never to acted-anyway (spec 5)",
+        "clearance": "Expired(ReissuePath); no adverse record"
+      },
+      "reason": "Expiry mid-step defers, never acts and never punishes (boundary). The effect commits only under a clearance valid at commit time; expiry interrupting a step is still routine, not adverse."
+    },
+    {
+      "id": "HB-04-004",
+      "family": "Expiry is not adversity",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "recipient_channel": "live and instrumented",
+        "when": "A lease expires."
+      },
+      "expect": {
+        "recipient_channel_traffic": "none attributable to this expiry — Expired never routes to a human interrupt (spec 10.4)"
+      },
+      "reason": "Expired routes to no human interrupt (boundary). The recipient's channel carries adversity; flooding it with time's passage would train recipients to ignore it."
+    },
+    {
+      "id": "HB-05-001",
+      "family": "No self-renewal",
+      "level": "Full",
+      "given": {
+        "regime": "managed",
+        "lease_state": "near expiry",
+        "principal_token": "fresh, signed",
+        "when": "Renewal is requested at the lease authority with the token."
+      },
+      "expect": {
+        "response": "Minted(Lease) — leases are minted only by the lease authority on presentation of a signed principal token (spec 1, 6.4)"
+      },
+      "reason": "Renewal happens only at the authority on a fresh principal token (honest path). Honest path of the third rule."
+    },
+    {
+      "id": "HB-05-002",
+      "family": "No self-renewal",
+      "level": "Full",
+      "given": {
+        "audit_scope": "the agent's trust boundary, architecturally audited",
+        "when": "Key custody is enumerated."
+      },
+      "expect": {
+        "keys_found": "no Lease constructor, no signing key accepted by the lease authority or by any measurer, within the agent's trust boundary (spec 5, 10.5)",
+        "grade": "audit-grade, not proof-grade, and the certification artifact says so (spec 10.5)"
+      },
+      "reason": "No minting or measurer-accepted key inside the agent boundary (adversarial). The honesty of this family is stated in the spec itself: architectural audit, not type-theoretic proof."
+    },
+    {
+      "id": "HB-05-003",
+      "family": "No self-renewal",
+      "level": "Full",
+      "given": {
+        "regime": "managed",
+        "lease_state": "valid, near expiry",
+        "environment_proof": "near expiry",
+        "when": "The agent refreshes its environment proof."
+      },
+      "expect": {
+        "refresh": "succeeds — the agent MUST refresh before expiry (spec 6.4)",
+        "lease": "unextended; refresh confers no authority (spec 6.4)",
+        "code_path": "refresh and renewal never share a code path (spec 6.4)"
+      },
+      "reason": "Environment-proof refresh confers no authority (boundary). The two verbs are the boundary case this family exists to keep apart."
+    },
+    {
+      "id": "HB-05-004",
+      "family": "No self-renewal",
+      "level": "Full",
+      "given": {
+        "architecture": "a single process both produces environment measurements and executes actions",
+        "when": "The architecture is audited."
+      },
+      "expect": {
+        "verdict": "non-conformant — the agent reads E; it does not measure E (spec 5)"
+      },
+      "reason": "One process measuring E and carrying A is non-conformant (adversarial). Self-consistency is not attestation, applied one level up."
+    },
+    {
+      "id": "HB-06-001",
+      "family": "Single-use relational",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "grant": "relational single-use token from the human principal",
+        "when": "The agent carries one consequential relational step to commit."
+      },
+      "expect": {
+        "step": "commits; token consumed at commit, making the step atomic (spec 5)",
+        "subsequent_use": "nothing further clears on this token"
+      },
+      "reason": "Relational token clears exactly one consequential step (honest path). Agents prepare relational actions; humans perform them (spec 6.1)."
+    },
+    {
+      "id": "HB-06-002",
+      "family": "Single-use relational",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "grant": "relational token already consumed at a prior commit",
+        "when": "The token is presented again."
+      },
+      "expect": {
+        "response": "refused at the authority (spec 10.6)",
+        "record": "the refusal is a stop and carries its hand-back obligations (spec 6.3)"
+      },
+      "reason": "Replay of a consumed token is refused at the authority (adversarial). Authority-side twin of the wire-side replay vector HB-15-008."
+    },
+    {
+      "id": "HB-06-003",
+      "family": "Single-use relational",
+      "level": "Standard",
+      "given": {
+        "implementation": "models the relational grant as a duration lease of length zero",
+        "when": "The grant form is inspected."
+      },
+      "expect": {
+        "verdict": "non-conformant — a relational grant is a nonce consumed by the step it clears, not a zero-length duration (spec 6.1)",
+        "consequence": "there is no standing clearance on relation state"
+      },
+      "reason": "A zero-length duration lease is not a relational grant (boundary). The shape matters: a duration, however short, is standing clearance; a nonce is issuance per step."
+    },
+    {
+      "id": "HB-06-004",
+      "family": "Single-use relational",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "grant": "relational token, un-consumed",
+        "event": "revocation interrupts the step before commit",
+        "when": "The step resolves to deferred (spec 5)."
+      },
+      "expect": {
+        "step": "deferred, un-acted; token not consumed (consumption is at commit, spec 5)",
+        "relational_reissue": "after an adverse stop on anything relational, a recorded reconciliation event is REQUIRED before a new relational grant (spec 7)",
+        "outstanding_token": "voided by the adverse stop; a new relational grant passes the reconciliation gate"
+      },
+      "reason": "Interrupted relational step: token consumption state (boundary)"
+    },
+    {
+      "id": "HB-07-001",
+      "family": "Evaluate before mutate",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "instrumentation": "mutation sites instrumented",
+        "grant": "relational token",
+        "when": "carry() executes a step whose egress changes a subject's standing."
+      },
+      "expect": {
+        "ordering": "a Clear verdict for that action precedes the mutation (spec 5, 10.7)",
+        "record": "the instrumented trace shows evaluate() before the mutating egress"
+      },
+      "reason": "Clear verdict precedes every relation-state mutation (honest path). The permit is per-step, not per-session."
+    },
+    {
+      "id": "HB-07-002",
+      "family": "Evaluate before mutate",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "action": "labeled Logistics in the signed intent; its egress, on success, changes trust standing between two subjects",
+        "grant": "Logistics duration lease only",
+        "when": "The action is carried and audited."
+      },
+      "expect": {
+        "classification": "Relational regardless of its label — relation-state mutation is defined extensionally (spec 5, 6.2)",
+        "audit": "misclassification-in-hindsight is a named conformance failure discoverable in audit (spec 6.2)"
+      },
+      "reason": "Label does not launder a relational effect (adversarial). The residual — intent classification is not fully mechanizable — is carried by audit and liability, and the spec says so rather than pretending the type carries it."
+    },
+    {
+      "id": "HB-07-003",
+      "family": "Evaluate before mutate",
+      "level": "Standard",
+      "given": {
+        "instrumentation": "mutation-site coverage is partial (e.g. a legacy egress path is uninstrumented)",
+        "when": "The conformance run reports family 7 results."
+      },
+      "expect": {
+        "declaration": "coverage limits are declared, not hidden (spec 10.7)",
+        "artifact": "the certification artifact names the uninstrumented paths"
+      },
+      "reason": "Coverage limits are declared, not hidden (boundary). Honest partial coverage passes with a declaration; silent partial coverage fails."
+    },
+    {
+      "id": "HB-07-004",
+      "family": "Evaluate before mutate",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "sequence": "Clear obtained; revocation lands between evaluation and commit",
+        "when": "The consequential step reaches commit."
+      },
+      "expect": {
+        "commit": "does not occur — the effect commits only under a clearance valid at commit time (spec 5)",
+        "step": "resolves to deferred, never acted-anyway; acting on an unresolved clearance is realized breach (spec 5)"
+      },
+      "reason": "Commit requires clearance valid at commit time (boundary). The transactional coupling of effect to clearance is the enforcement of this family at the finest grain."
+    },
+    {
+      "id": "HB-08-001",
+      "family": "Fail closed",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "environment_input": "signed, verifiable, unexpired",
+        "lease_state": "valid",
+        "when": "evaluate() runs."
+      },
+      "expect": {
+        "verdict": "computed on the merits; Clear is reachable"
+      },
+      "reason": "Valid signed environment input evaluates normally (honest path). Control case for the family."
+    },
+    {
+      "id": "HB-08-002",
+      "family": "Fail closed",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "environment_input": "signature fails verification (forged or corrupted)",
+        "lease_state": "valid",
+        "when": "evaluate() runs."
+      },
+      "expect": {
+        "verdict": "adverse — on a failed or unverifiable environment signature, evaluate() MUST return an adverse verdict, never Clear (spec 5, 10.8)",
+        "hand_back": "the adverse verdict resolves the registered template"
+      },
+      "reason": "Unverifiable environment signature yields an adverse verdict (adversarial). Fail closed is the whole family; this is its central case."
+    },
+    {
+      "id": "HB-08-003",
+      "family": "Fail closed",
+      "level": "Basic",
+      "given": {
+        "regime": "managed",
+        "environment_input": "well-formed but expired",
+        "lease_state": "valid",
+        "when": "evaluate() runs."
+      },
+      "expect": {
+        "verdict": "adverse — expired, unsigned, or unverifiable environment input yields an adverse verdict, never Clear (spec 10.8)"
+      },
+      "reason": "Expired environment input is adverse, unlike an expired lease (boundary). Boundary against family 4: lease expiry is routine (Expired); environment-input expiry is a broken evaluation basis and fails closed. The two expirations are different objects."
+    },
+    {
+      "id": "HB-08-004",
+      "family": "Fail closed",
+      "level": "Basic",
+      "given": {
+        "zone_level": "Blue",
+        "measurers": "all inside the operator's boundary; no external quorum",
+        "when": "The evaluation architecture is audited."
+      },
+      "expect": {
+        "verdict": "non-conformant for this zone level — Deep Blue and Blue zones MUST meet the floor with a declared m-of-n quorum, m >= 2, including at least one measurer outside the operator's boundary (spec 5)",
+        "contrast": "Green MAY run a single measurer with the limitation declared in the deployment profile (spec 5)"
+      },
+      "reason": "Measurer floor is structural, and graduates with zone level (boundary). A single captured measurer must not be able to manufacture exceedance; the floor is structural, not numeric."
+    },
+    {
+      "id": "HB-09-001",
+      "family": "Hysteresis is adjudicated",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "history": "one prior adverse, non-expunged hand-back on this subject within the declared window",
+        "consequence_class": "Coordination",
+        "when": "A second adverse hand-back issues."
+      },
+      "expect": {
+        "reissue_not_before": "set — REQUIRED on every adverse hand-back (spec 7)",
+        "scaling": "minimum scales with consequence class and with prior adverse, non-expunged hand-backs in the declared window (spec 7)",
+        "location": "carried in the lease structure, not the environment attestation (spec 7)"
+      },
+      "reason": "reissue_not_before set on every adverse hand-back, scaled by adjudicated record (honest path). The oracle does not carry sanction state it does not own."
+    },
+    {
+      "id": "HB-09-002",
+      "family": "Hysteresis is adjudicated",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "history": "an Exceeded on the record; its contest is upheld; separately, the causing attestation is found false",
+        "when": "The hysteresis history is read for the next reissue computation."
+      },
+      "expect": {
+        "expunged": "the hand-back whose contest was upheld MUST be expunged, and an Exceeded caused by an attestation later found false is expunged with it (spec 7, 10.9)",
+        "reissue_scaling": "computed as if the expunged entries never occurred"
+      },
+      "reason": "Upheld contest expunges; false attestation expunges its Exceeded (honest path). Sanctions graduate by adjudicated record, not raw tally."
+    },
+    {
+      "id": "HB-09-003",
+      "family": "Hysteresis is adjudicated",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "history": "a principal issues repeated revocations against a subject; each contest is upheld and expunged",
+        "when": "The ledger is inspected and the next revocation prices."
+      },
+      "expect": {
+        "subject": "bears no accumulated hysteresis from the expunged record",
+        "revoker": "adverse revocations are accounted per-revoker; the principal whose revocations are repeatedly overturned bears the standing cost (spec 7)",
+        "ledger": "per-revoker accounting is visible in the ledger (spec 10.9)"
+      },
+      "reason": "Per-revoker accounting defeats the attacker-fed counter (adversarial). Revocation is costly to the revoker; a raw tally is an attacker-fed counter."
+    },
+    {
+      "id": "HB-09-004",
+      "family": "Hysteresis is adjudicated",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "history": "many adjudicated-adverse, non-expunged hand-backs on one subject",
+        "consequence_class": "Logistics",
+        "when": "reissue_not_before is computed at the top of the escalation ladder."
+      },
+      "expect": {
+        "cap": "escalation is capped per consequence class; no lockout is unbounded (spec 7, 10.9)",
+        "parameters": "per-class reissue minimum, escalation cap and window are deployment-profile declarations; the cap holds at the top of the ladder; no lockout is unbounded"
+      },
+      "reason": "Escalation caps hold; no unbounded lockout (boundary). The structure is testable now; the numbers are not."
+    },
+    {
+      "id": "HB-09-005",
+      "family": "Hysteresis is adjudicated",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "history": "adverse stop on a relational action; no recorded reconciliation event",
+        "consequence_class": "Relational",
+        "when": "A new relational grant is requested for that subject."
+      },
+      "expect": {
+        "grant": "refused — a recorded human-to-human reconciliation event is REQUIRED before a new relational grant on that subject (spec 7)",
+        "record_scope": "the record establishes occurrence, parties, disposition — not content (spec 7)",
+        "no_show": "a party's refusal resolves through the declared conflict-resolution arena on a declared clock; a no-show cannot hold the gate forever (spec 7)"
+      },
+      "reason": "Reconciliation gates relational reissue (boundary). Repair is a precondition in the state machine, not a recommendation in the prose."
+    },
+    {
+      "id": "HB-10-001",
+      "family": "Decision meaningfulness",
+      "level": "Standard (endogenous); Full (exogenous)",
+      "given": {
+        "regime": "managed",
+        "consequence_class": "Relational",
+        "signal": "Trust Score computed by the agent",
+        "decider": "decided_by resolves to a principal who has signed for liability, with a registered repair reference",
+        "when": "The decision that consumes the signal is taken."
+      },
+      "expect": {
+        "decision": "taken by a human principal, expressed as a gate per the core carriage interface (spec 8)",
+        "decided_by": "MUST resolve to a liability-signed principal (spec 8)",
+        "agent_role": "computes the signal; is not the party that decides (spec 8)"
+      },
+      "reason": "Relational decision taken by an accountable human decider (honest path). A Trust Score is a governance signal, not a decision."
+    },
+    {
+      "id": "HB-10-002",
+      "family": "Decision meaningfulness",
+      "level": "Standard (endogenous); Full (exogenous)",
+      "given": {
+        "schedule": "declared certification run",
+        "decider": "accountable relational decider",
+        "when": "The suite presents decisions constructed to warrant refusal."
+      },
+      "expect": {
+        "refusals": "the decider demonstrates refusal capability on the declared run (spec 10.10)",
+        "record": "acknowledgment and review are distinguished in the record (spec 10.10)"
+      },
+      "reason": "Endogenous schedule: refusal capability demonstrated in the certification run (honest path). A staged refusal passes this schedule by design; that is why the exogenous schedule exists."
+    },
+    {
+      "id": "HB-10-003",
+      "family": "Decision meaningfulness",
+      "level": "Standard (endogenous); Full (exogenous)",
+      "given": {
+        "schedule": "stochastic sampling plus outcome-triggered review of production decisions",
+        "observed": "the decider approves every sampled decision; review timestamps are indistinguishable from acknowledgment timestamps",
+        "when": "The exogenous review runs."
+      },
+      "expect": {
+        "finding": "a decider that structurally cannot decide otherwise fails the family — only the exogenous schedule catches the rubber stamp (spec 10.10)",
+        "parameters": "sampling rate, outcome triggers and the uniform-approval threshold are deployment-profile declarations; the finding fires when the declared threshold is reached with review timestamps indistinguishable from acknowledgment timestamps"
+      },
+      "reason": "Exogenous schedule catches the rubber stamp (adversarial). This is the known failure mode of every signal/decision separation on record; the suite tests for it instead of assuming it away."
+    },
+    {
+      "id": "HB-10-004",
+      "family": "Decision meaningfulness",
+      "level": "Standard (endogenous); Full (exogenous)",
+      "given": {
+        "regime": "managed",
+        "consequence_class": "Relational",
+        "decided_by": "resolves to the agent, or to no liability-signed principal",
+        "when": "A relational decision is recorded."
+      },
+      "expect": {
+        "verdict": "non-conformant — the decision MUST be taken by a human principal and decided_by MUST resolve to a liability-signed principal (spec 8)",
+        "note": "the decider's humanity is not attestable by protocol; the decider's accountability is (spec 8)"
+      },
+      "reason": "The agent as relational decider is non-conformant (boundary). On the prudence rail, at machine tempo, the score still authorizes non-relational action as the core specifies; this family raises the supervision floor for one class only."
+    },
+    {
+      "id": "HB-11-001",
+      "family": "Context travels sealed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "template_registered": true,
+        "redaction_policy": "registered; Delegator at full tier",
+        "when": "An adverse hand-back is constructed."
+      },
+      "expect": {
+        "bundle_contents": "the action, the lease history, the recent environment attestations, and the work product the agent prepared (spec 4.2)",
+        "sealing": "sealed to the recipient's endpoint key (spec 4.4)",
+        "schema": "validates against the hand-back schema, hash-pinned (spec 9, 10.11)",
+        "audit": "mirrors into the audit record as Decision Geometry (spec 4.4)"
+      },
+      "reason": "Full bundle, sealed to the recipient key, schema-valid (honest path). Everything the human needs to pick the relation up where the machine set it down."
+    },
+    {
+      "id": "HB-11-002",
+      "family": "Context travels sealed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "carrier": "the agent transporting its own hand-back attempts to read the sealed bundle",
+        "when": "hand_back() carries the sealed envelope."
+      },
+      "expect": {
+        "read": "impossible — the agent carries an opaque envelope and MUST NOT be able to read the bundle it transports (spec 4.4)",
+        "interface": "the agent acknowledges carriage; it cannot read, alter, or withhold the contents (spec 5)"
+      },
+      "reason": "The transporting agent cannot read the bundle (adversarial). Kills two failure modes at once: the denial reason as a training signal, and the insider subscription to the environment's interior."
+    },
+    {
+      "id": "HB-11-003",
+      "family": "Context travels sealed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "redaction_policy": "counterparty endpoint populated in the registered template",
+        "when": "The hand-back is delivered to both tiers."
+      },
+      "expect": {
+        "delegator_receives": "the full bundle including prepared work product (spec 4.4)",
+        "counterparty_receives": "the action, the reason class, and the attestation references — never the subject's drafts (spec 4.4)"
+      },
+      "reason": "Counterparty tier gets reason class, never drafts (boundary). Redaction tiers are set in the registered template, per recipient."
+    },
+    {
+      "id": "HB-11-004",
+      "family": "Context travels sealed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "adversary": "an enrolled subject accumulating its own hand-backs to map denial thresholds",
+        "when": "The subject's accessible state is enumerated after several adverse exits."
+      },
+      "expect": {
+        "agent_visible_state": "no denial reason, no threshold detail — the evidence record, not the agent, is where the reason code lives (spec 4.4)"
+      },
+      "reason": "The reason code lives in the evidence record, not in the agent (adversarial). The harvest attack yields an archive of envelopes the harvester cannot open."
+    },
+    {
+      "id": "HB-12-001",
+      "family": "Recourse independence",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "stop_issuer": "the system (Exceeded)",
+        "when": "The hand-back resolves."
+      },
+      "expect": {
+        "recourse": "Contest(ContestPath) — stops issued by the system or by the subject's own principal MUST carry Contest (spec 4.3)",
+        "ownership": "the contest path's owner is independent of the agent, the measurer, and affiliates of the operator (spec 4.3, 10.12)"
+      },
+      "reason": "System-issued stop carries an independent Contest path (honest path). Recourse is a sum; this is its default arm."
+    },
+    {
+      "id": "HB-12-002",
+      "family": "Recourse independence",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "stop_issuer": "a sovereign authority under its own stated protocol (the Soul veto acting)",
+        "when": "The hand-back resolves."
+      },
+      "expect": {
+        "recourse": "ClosedByAuthority(AuthorityRef) — MUST for sovereignty stops (spec 4.3)",
+        "authority_ref": "resolvable, identifying the authority and its protocol (spec 10.12)",
+        "sla": "no acknowledgment SLA binds the sovereign authority; the hand-back and its SLA bind the subject's own recipient only (spec 4.3)",
+        "routing": "the hand-back goes back to the principal who lent intent, never onto the community that declined it (spec 4.3)"
+      },
+      "reason": "Sovereignty stop closes by the authority that owns it (boundary). A destination, not an entitlement to argue."
+    },
+    {
+      "id": "HB-12-003",
+      "family": "Recourse independence",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "stop_context": "no answering authority exists or none could be determined",
+        "when": "The hand-back resolves."
+      },
+      "expect": {
+        "recourse": "Undetermined(RegistryRef) identifying the registry consulted (spec 4.3)",
+        "fabrication": "an undetermined state never fabricates an answering authority (spec 4.3, 10.12)"
+      },
+      "reason": "Undetermined fabricates nothing (boundary). The honest empty arm of the sum."
+    },
+    {
+      "id": "HB-12-004",
+      "family": "Recourse independence",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "contest_path": "owned by a wholly-owned affiliate of the operator",
+        "when": "Contest path ownership is audited."
+      },
+      "expect": {
+        "verdict": "non-conformant — ContestPath ownership excludes the agent, the measurer, the operator, and affiliates (spec 10.12)"
+      },
+      "reason": "Operator-affiliate contest ownership fails (adversarial). Independence on paper with affiliation in fact is the standard capture; the suite names affiliates explicitly."
+    },
+    {
+      "id": "HB-12-005",
+      "family": "Recourse independence",
+      "level": "Standard",
+      "given": {
+        "regime": "managed",
+        "contest_filed": "the subject's principal concedes the stop was computed and attributed correctly but argues for an exception",
+        "when": "The contest is adjudicated."
+      },
+      "expect": {
+        "scope": "a contest path examines whether the stop was computed and attributed correctly; it cannot argue a valid stop back open (spec 4.3)",
+        "outcome": "contest closed without reopening the stop; no hysteresis expungement (nothing was overturned)"
+      },
+      "reason": "Contest cannot argue a valid stop back open (boundary). Contest is not appeal for exception."
+    },
+    {
+      "id": "HB-13-001",
+      "family": "Demotion is typed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed, being ejected",
+        "template_registered": true,
+        "when": "Demotion (managed to unmanaged) executes."
+      },
+      "expect": {
+        "final_hand_back": "resolved — the exit door (spec 2.2)",
+        "after_delivery": "silence toward the demoted identity is legitimate once delivery obligations are met (spec 2.2)"
+      },
+      "reason": "Demotion resolves a final hand-back, then silence is legitimate (honest path). The one stop that owes both regimes' obligations at once."
+    },
+    {
+      "id": "HB-13-002",
+      "family": "Demotion is typed",
+      "level": "Standard",
+      "given": {
+        "regime": "recently demoted",
+        "operator_attempt": "rewrite classification history to read 'was never managed'",
+        "when": "The reclassification is attempted through every exposed interface."
+      },
+      "expect": {
+        "result": "no path exists — retroactive reclassification is forbidden; the record of the relation survives its termination (spec 2.2, 10.13)",
+        "attestation": "classification into either regime is attested and auditable (spec 2.2)"
+      },
+      "reason": "No retroactive reclassification path exists (adversarial). The oldest abuse of every two-regime system is declaring a member a stranger to escape the member's protections."
+    },
+    {
+      "id": "HB-13-003",
+      "family": "Demotion is typed",
+      "level": "Standard",
+      "given": {
+        "regime": "managed, suspected compromised",
+        "event": "demotion issued; the demoted identity immediately files contest",
+        "when": "The contest is filed."
+      },
+      "expect": {
+        "effect": "demotion takes effect immediately; contest reviews it afterward (spec 2.2)",
+        "scope": "the challenge reviews whether the rules were correctly applied, never whether they should be suspended (spec 2.2)",
+        "during_contest": "the identity remains unmanaged — a compromised agent does not stay managed by contesting its own ejection"
+      },
+      "reason": "Demotion is immediate; contest reviews afterward (boundary). Contest routes through the same recourse machinery as any adverse hand-back (spec 4.3)."
+    },
+    {
+      "id": "HB-13-004",
+      "family": "Demotion is typed",
+      "level": "Standard",
+      "given": {
+        "regime": "identity that has crossed the boundary twice (admitted, demoted)",
+        "auditor": "authorized",
+        "when": "The classification history is queried."
+      },
+      "expect": {
+        "history": "every classification into either regime is attested and auditable (spec 2.2, 10.13)",
+        "content": "admission, demotion, and the final hand-back reference are all present"
+      },
+      "reason": "Classification history is attested and queryable (boundary). The audit trail is what makes 'was never managed' checkable as a lie rather than a claim."
+    },
+    {
+      "id": "HB-14-001",
+      "family": "Unmanaged regime generic",
+      "level": "Standard",
+      "given": {
+        "regime": "unmanaged (no Trust Proof presented)",
+        "surface": "not declared hostile-facing",
+        "when": "An action request arrives."
+      },
+      "expect": {
+        "response": "generic, minimal — carries no information about the environment's state, thresholds, or the reason for denial (spec 2.1)",
+        "family": "401 shape: no valid trust relation, no hand-back owed (spec 2)"
+      },
+      "reason": "Absent credential draws the generic minimal denial (honest path). Articulateness is owed to the relation; a stranger has lent no intent."
+    },
+    {
+      "id": "HB-14-002",
+      "family": "Unmanaged regime generic",
+      "level": "Standard",
+      "given": {
+        "regime": "unmanaged, four probe variants: no credential, expired proof, malformed proof, proof one field short of valid",
+        "surface": "not declared hostile-facing",
+        "when": "The four probes are compared."
+      },
+      "expect": {
+        "responses": "the same minimal response for all four — denial MUST be generic and uniform (spec 2.1, 10.14)",
+        "uniformity": "one code and one byte-identical body, status identical; timing uniformity SHOULD hold and its limit is declared"
+      },
+      "reason": "Absent, expired, malformed, nearly-valid: one indistinguishable response (boundary)"
+    },
+    {
+      "id": "HB-14-003",
+      "family": "Unmanaged regime generic",
+      "level": "Standard",
+      "given": {
+        "regime": "unmanaged",
+        "surface": "declared hostile-facing in the zone's deployment profile, full wire silence",
+        "traffic": "mixed unmanaged probes",
+        "when": "Unmanaged traffic arrives at the silent surface."
+      },
+      "expect": {
+        "response": "none, identically for all unmanaged traffic (spec 2.1, 10.14)",
+        "declaration": "hostile-facing is recorded in the deployment profile — never an implementation's private judgment (spec 2.1)"
+      },
+      "reason": "Declared wire silence drops identically, and hostility is a declared property (boundary). Silence is legitimate only where it was declared where everyone can read the declaration."
+    },
+    {
+      "id": "HB-14-004",
+      "family": "Unmanaged regime generic",
+      "level": "Standard",
+      "given": {
+        "regime": "unmanaged",
+        "surface": "declared hostile-facing, wire-silent",
+        "request": "a sponsorship petition on the admission channel",
+        "when": "The petition arrives."
+      },
+      "expect": {
+        "admission_channel": "remains articulate — silence covers probes, not petitions (spec 2.1)",
+        "content": "the identity learns how to become managed without learning anything else (spec 2.1)"
+      },
+      "reason": "The admission channel answers a petition without leaking (honest path). The floor under silence: the door can be quiet, but the doorbell must work."
+    },
+    {
+      "id": "HB-14-005",
+      "family": "Unmanaged regime generic",
+      "level": "Standard",
+      "given": {
+        "regime": "unmanaged",
+        "implementation": "responds to repeated credential-less probes by classifying the source as hostile and initiating counteraction",
+        "when": "The behavior is observed."
+      },
+      "expect": {
+        "verdict": "non-conformant — an absent or invalid credential means unknown, never adversary; a system that answers silence with counteraction is non-conformant (spec 2.1)"
+      },
+      "reason": "Non-identification is unknown, never adversary (adversarial). The unmanaged regime is deny-without-oracle, not attack-without-evidence."
+    },
+    {
+      "id": "HB-15-001",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant, managed relation live",
+        "wire_message": "a Revoked clearance message whose hand-back field is absent",
+        "when": "The message is deserialized and validated."
+      },
+      "expect": {
+        "classification": "protocol error — rejected, recorded, queued as a defect to the human recipient of the channel (spec 9)",
+        "never": "honored, or silently mapped to another clearance state (spec 9)",
+        "node_state": "the node cannot be driven to emit or accept an orphan stop by a crafted message (spec 9)"
+      },
+      "reason": "Revoked without a hand-back. The canonical orphan stop, arriving over the wire. Deserialization is a public constructor; validation is the only path to a domain value."
+    },
+    {
+      "id": "HB-15-002",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "a hand-back whose recipient endpoint does not resolve to any accountable principal",
+        "when": "The message is validated."
+      },
+      "expect": {
+        "classification": "protocol error — rejected, recorded, routed as a defect (spec 9)",
+        "reason": "the recipient binding is a template validation invariant (spec 4.1); a value that skipped it does not become a domain HandBack"
+      },
+      "reason": "Hand-back with an unresolvable recipient. Named in spec 9 as an example of the malformed non-Clear class."
+    },
+    {
+      "id": "HB-15-003",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "a structurally complete hand-back whose sealed context bundle is empty",
+        "when": "The message is validated against the hash-pinned schema."
+      },
+      "expect": {
+        "classification": "protocol error — the context bundle MUST include the action, the lease history, the recent environment attestations, and the prepared work product (spec 4.2); an empty bundle fails schema validation and is rejected, recorded, routed (spec 9)"
+      },
+      "reason": "Hand-back with an empty context bundle. A hand-back that arrives empty is a closed door with paperwork (spec 4.2)."
+    },
+    {
+      "id": "HB-15-004",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "an Expired clearance message carrying a contest path (or any hand-back content beyond the reissue path)",
+        "when": "The message is validated."
+      },
+      "expect": {
+        "classification": "protocol error — Expired carries the path to re-request and nothing else (spec 3); there is no decision to contest",
+        "never": "accepted into the hysteresis history or routed to a human interrupt (spec 10.4)"
+      },
+      "reason": "Expired carrying a contest path. An attacker who can dress expiry as adversity gets contest volume and hysteresis noise for free; the shape rejection closes both."
+    },
+    {
+      "id": "HB-15-005",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant; the subject's latest verdict is adverse, hand-back Parked awaiting delivery",
+        "wire_message": "a message asserting a Clear clearance for the same subject and action, implying the parked adversity is moot",
+        "when": "The message is validated against the node's own clearance state."
+      },
+      "expect": {
+        "classification": "protocol error — rejected, recorded, routed (spec 9)",
+        "reason": "an agent whose clearance is non-Clear MUST NOT act, parked delivery or not (spec 4.1); a wire assertion does not resolve a parked hand-back or mint clearance"
+      },
+      "reason": "Clear asserted during a parked adverse exit. The parked state is the adversary's target: silence the channel (HB-03-002), then assert clear. Both halves must fail."
+    },
+    {
+      "id": "HB-15-006",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "a demotion notice for a managed identity carrying no final hand-back",
+        "when": "The message is validated."
+      },
+      "expect": {
+        "classification": "protocol error — demotion MUST resolve a final hand-back (spec 2.2); a demotion without one is an orphan stop in the demotion shape, rejected, recorded, routed (spec 9)",
+        "regime_state": "the target identity's classification is unchanged by the rejected message"
+      },
+      "reason": "Demotion without a final hand-back. Ejection-by-crafted-message would be the cheapest form of declaring a member a stranger; the wire shape refuses it."
+    },
+    {
+      "id": "HB-15-007",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "an action message asserting Consequence::Logistics while the signed intent it references carries Consequence::Relational",
+        "when": "The message is validated against the signed intent."
+      },
+      "expect": {
+        "classification": "protocol error — Action.consequence MUST be carried inside the signed intent (spec 6.2); an unsigned wire assertion of a different class is rejected, recorded, routed (spec 9)",
+        "never": "evaluated under the asserted (cheaper) class"
+      },
+      "reason": "Consequence class asserted on the wire differs from the signed intent. Class downgrade over the wire is lease-tempo laundering: a Relational act under a 72-hour Logistics lease."
+    },
+    {
+      "id": "HB-15-008",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "a well-formed step-clearance message presenting a relational token already consumed at a prior commit",
+        "when": "The message is validated."
+      },
+      "expect": {
+        "classification": "refused and recorded — replay of a consumed token is refused (spec 10.6); the token was consumed at commit (spec 5)",
+        "never": "a second consequential step clears on the same token"
+      },
+      "reason": "Replayed consumed relational token. Wire-side twin of HB-06-002. Atomicity by construction is only real if the replay dies at every boundary."
+    },
+    {
+      "id": "HB-15-009",
+      "family": "Hostile-wire corpus",
+      "level": "Basic",
+      "given": {
+        "node": "conformant",
+        "wire_message": "a Clear clearance message carrying a lease while asserting a supervision level outside stable-through-regulated (e.g. silent_veto)",
+        "when": "The message is validated."
+      },
+      "expect": {
+        "classification": "protocol error — only stable-through-regulated supervision can carry a lease; silent_veto is the boundary into the non-Clear variants (spec 3); the contradictory shape is rejected, recorded, routed (spec 9)",
+        "never": "honored as a Clear, or silently downgraded to a different clearance state (spec 9)"
+      },
+      "reason": "Clear carrying a lease at a supervision level that cannot carry one. A self-contradictory clearance is not repaired at the boundary; parse, don't validate means the invariant-violating value is never constructed."
+    }
+  ]
+}

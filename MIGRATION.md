@@ -607,3 +607,9 @@ is in KTP-FEDERATION Section 7.4. A deployment that
 sponsors across a link records every such bond in the sponsor's home zone or
 the bond is void. No wire change to the Trust Proof; the trust-proof exchange
 response gains the attested and local quantities as shown in Transport.
+
+**Unreleased recognition migration:** A federation that conditions membership
+on a recognized local rule removes the condition or carries the rule into the
+agreement by amendment. A charter whose amendments have narrowed any class's
+standing to open, contest, or object restores it; the narrowing clauses are
+void. No wire change.

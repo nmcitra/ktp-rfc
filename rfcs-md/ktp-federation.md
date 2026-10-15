@@ -1058,6 +1058,8 @@ Coordination a federation MAY offer and MUST NOT require, because each is an inp
 - Sensor configurations
 - Retention policies
 
+Recognition of a zone's local rule, by a federation or by another zone, creates no term and no obligation on any zone, and MUST NOT be made a condition of membership. A local rule becomes a term of a Federation Agreement only by amendment under Section 5.1 (Agreement Structure), and a coordination a federation offers is adopted by a zone's own act and MAY be withdrawn by the same.
+
 ## Standards Evolution
 
 KTP will evolve. Federations must manage evolution:

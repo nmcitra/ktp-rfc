@@ -32,6 +32,22 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and conformance claims
 
+### A claim names its substrate profile
+
+**Finding:** A conformance claim named a level and a status label and nothing
+about what the implementation runs on, so the level's test IDs had nowhere to
+run. The set carries its first execution profile (#124) and no rule that a
+claim must name one.
+
+- KTP-CONFORMANCE's claim format gains `under [Substrate Profile] [Version]`:
+  a claim MUST name the substrate profile it is made under, the level's
+  specified test IDs run under it, a claim naming none MUST NOT be made, and a
+  claim naming a profile the set does not carry is not a claim under this
+  specification. Terminology gains *Substrate Profile*, with the
+  software-substrate execution profile as the first (vocabulary change; a new
+  term, mapped in MIGRATION.md).
+- Three vectors in `specifications/conformance/claims-substrate-v1.json`.
+
 ### Conformance is claimed, not certified
 
 **Finding:** the conformance document promised certification it could not

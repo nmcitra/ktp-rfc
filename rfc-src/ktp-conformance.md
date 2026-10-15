@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Conformance Requirements: Levels, Testing, and Claims"
 abbrev: "KTP-CONFORMANCE"
 docname: draft-perkins-ktp-conformance-00
-date: 2026-10-12
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -80,6 +80,8 @@ Conformance Claim:  A statement by an implementer that a named implementation ve
 Independent Party:  A party of which none of the relationships listed in Section "Claim Status" holds, at the date of its run, toward the author of this specification or the maintainers of the implementation under test.
 
 Interoperability:  The ability of different KTP implementations to work together correctly.
+
+Substrate Profile:  A specification in this set that fixes, for one execution substrate, the binding of destination and action class, the demand and capacity conditions the substrate declares, and the evidence it produces. The software-substrate execution profile is the first. A conformance claim names the substrate profile it is made under (Section "Claim Format").
 
 # Conformance Levels
 
@@ -1177,11 +1179,13 @@ Version negotiation required for federation.
 
 Conformance claims MUST follow this format:
 
-"\[Product Name] \[Version] claims KTP \[Level] per \[KTP-CONFORMANCE] \[Version]: \[status label], \[specified test IDs run and passed] of \[specified test IDs for the level], \[proposed test IDs not run]; evidence at \[URL]; \[Date]."
+"\[Product Name] \[Version] claims KTP \[Level] under \[Substrate Profile] \[Version] per \[KTP-CONFORMANCE] \[Version]: \[status label], \[specified test IDs run and passed] of \[specified test IDs for the level], \[proposed test IDs not run]; evidence at \[URL]; \[Date]."
 
 Example:
 
-"AcmeTrust 2.1 claims KTP Basic per KTP-CONFORMANCE 3.0.0: tested, 3 of 3 specified test IDs passed, 22 proposed test IDs not run; evidence at https://example.com/acmetrust/2.1/conformance; 2026-12-15."
+"AcmeTrust 2.1 claims KTP Basic under software-substrate-execution 1.0 per KTP-CONFORMANCE 3.0.0: tested, 3 of 3 specified test IDs passed, 22 proposed test IDs not run; evidence at https://example.com/acmetrust/2.1/conformance; 2026-12-15."
+
+A conformance claim MUST name the substrate profile the implementation is claimed under, by the profile's identifier and version, and the specified test IDs of the claimed level are run under that profile. A claim that names no substrate profile is a claim about no substrate and MUST NOT be made. A claim that names a substrate profile this set does not carry is not a claim under this specification.
 
 ## Checking a Claim
 

@@ -593,3 +593,10 @@ the 3.0.0 migration guide when that version is tagged.
 | 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
 | Full: third-party certification | Full: independent reproduction of its specified test IDs |
 
+**Unreleased substrate-profile migration:** A conformance claim adds the
+substrate profile it is made under, by identifier and version, after the level.
+A published claim that names no substrate profile is restated with one or
+withdrawn; a claim on a substrate the set carries no profile for waits for that
+profile to enter the set. No wire change. Vocabulary: *Substrate Profile* is a
+new term with no predecessor; the software-substrate execution profile (#124)
+is its first instance.

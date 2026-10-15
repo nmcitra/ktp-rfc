@@ -34,6 +34,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | `label_sets` | the label set behind each categorical signal and denominator predicate | yes, per aggregated categorical signal |
 | `peer_share` | the peer-signal share of `E_base`, in points | yes (0 where not implemented) |
 | `external_root` | the hop bound and the misattestation adjudicator | yes |
+| `boundary` | the resources the zone's authority covers, the subjects entitled to hold standing, the outside parties its acts may affect with the review route each is owed, the jurisdictions, and the limits of its authority | yes; a zone that declares no boundary makes no conformance claim |
 | `human_policy` | operation-specific human profile ID, version and canonical digest | required before accepting humans or human-origin delegation; omission disables that path |
 | `standing_policy` | the history-with-scoped-readiness mode and exact readiness profile ID, version, and digest | yes in the active v3 profile; `standing_decay_rate` is rejected |
 | `envelope_thresholds` | finite supervision thresholds `0 <= m_veto < m_allow` | optional; absent retains the existing zero-margin veto |
@@ -97,6 +98,18 @@ Two deployment-level declarations from `ktp-core` §5.1:
 - `adjudicator` — *the deployment MUST declare the adjudicator for findings of misattestation, including for-cause withdrawal claims. The adjudicator MUST be neither the attestor nor the subject agent.*
 
 The attestation-level declarations — terminator, chain length, exposure and its class, anchored capacity, instrument status — ride the attestation and the Trust Proof, not the profile. Their schema carriage rides the #71/#83 schema gate and is listed under *Owed to this surface* below.
+
+## Boundary
+
+The zone's boundary, as `[KTP-ZONES]` Zone Boundary requires it declared. Five cells, all required:
+
+- `resources` — what the zone's authority covers, by identifier or by a pattern the deployment resolves literally. *A Zone Gateway MUST deny an act on a resource the declaration does not cover.*
+- `entitled_subjects` — the classes of subject entitled to hold standing in the zone. *A Zone Gateway MUST deny standing to a subject the declaration does not entitle.*
+- `affected_outside` — the classes of party outside the zone that acts within it may affect, each with the review route it is owed. *A denial that affects a party outside the zone MUST record the review route the declaration names for that party.*
+- `jurisdictions` — the jurisdictions the zone operates under.
+- `authority_limits` — what the zone may not do. *A zone MUST NOT act beyond the authority its declaration limits.*
+
+A profile with no `boundary` is not a conformant v3 profile, and a zone that declares no boundary makes no conformance claim. The vectors are `conformance/zone-boundary-v1.json`.
 
 ## Historical standing and scoped readiness
 

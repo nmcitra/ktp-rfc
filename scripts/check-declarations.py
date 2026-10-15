@@ -99,6 +99,15 @@ EXAMPLE = {
                            "summarizes"}}},
     "peer_share": 0,
     "external_root": {"hop_bound": 3, "adjudicator": "example-adjudicator"},
+    "boundary": {
+        "resources": ["svc:example/ledger", "svc:example/reports"],
+        "entitled_subjects": ["sponsored-agent", "guarantor"],
+        "affected_outside": [{"class": "customer-of-record",
+                              "review_route": "https://example.com/review"}],
+        "jurisdictions": ["US-NM"],
+        "authority_limits": ["no act on a resource outside the declared set",
+                             "no standing to a subject outside the entitled set"],
+    },
     # Shape-only illustrative binding; the all-zero digest is not evidence
     # that any readiness profile exists, is approved, or permits execution.
     "standing_policy": {
@@ -137,7 +146,8 @@ def check(profile):
 
     # 1 · shape
     for key in ["profile_id", "version", "risk_factors", "soul_veto",
-                "peer_share", "external_root", "standing_policy"]:
+                "peer_share", "external_root", "standing_policy",
+                "boundary"]:
         if key not in profile:
             fails.append(f"shape: required section '{key}' missing")
     declared_rf = profile.get("risk_factors", {})

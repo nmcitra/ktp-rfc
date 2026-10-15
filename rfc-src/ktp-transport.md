@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Transport Specification"
 abbrev: "KTP-TRANSPORT"
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -31,6 +31,10 @@ normative:
       - name: Chris Perkins
   RFC8174:
 informative:
+  KTP-FEDERATION:
+    title: "Kinetic Trust Protocol (KTP) - Federation Specification"
+    author:
+      - name: Chris Perkins
   GRPC:
     title: "gRPC: A high-performance, open-source universal RPC framework"
     author:
@@ -813,7 +817,9 @@ Exchange Trust Proof from foreign zone.
 
 Request: { "foreign_proof_jws": "eyJhbGciOiJFZERTQSI...", "requesting_zone": "zone:beta", "purpose": "cross_zone_access", "requested_action": { "type": "data_read", "target": "database:shared-catalog" } }
 
-Response (200 OK): { "accepted": true, "local_evaluation": { "foreign_e_trust": 80, "trust_factor": 0.85, "local_equivalent_e_trust": 68, "local_tier": "analyst" }, "local_proof_jws": "eyJhbGciOiJFZERTQSI...", "valid_for_seconds": 10 }
+Response (200 OK): { "accepted": true, "local_evaluation": { "attested_e_base": 85, "trust_factor": 0.9, "local_e_base": 76, "local_risk_factor": 0.05, "local_e_trust": 72, "local_tier": "analyst" }, "local_proof_jws": "eyJhbGciOiJFZERTQSI...", "valid_for_seconds": 10 }
+
+The receiving zone applies the factor it signed for that direction to the Base Trust the foreign proof attests, and computes its own Risk Factor; the foreign proof's E_trust is evidence the receiving zone weighs, never the local quantity ({{KTP-FEDERATION}}).
 
 The issued local ordinary proof MUST satisfy the KTP-Core ten-second maximum and iat <= current_time < exp; valid_for_seconds MUST NOT override the signed claims. At current_time = exp it is expired. Federation outages, caches, and invalid or unverifiable time MUST NOT extend ordinary authority.
 

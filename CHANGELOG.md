@@ -32,6 +32,51 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### What crosses a federation link
+
+**Finding:** Federation multiplied a sending zone's E_base by a factor the
+philosophy made reciprocal, Transport's example multiplied E_trust instead, and
+two "propagation" sections wrote a delta from one zone straight into another's
+measure. Sponsorship across a link had no rule at all: the ingress bond assumed
+a resident sponsor.
+
+- Federation gains Section 4.5 (The Factor): a trust factor is a receiving
+  zone's measure of a sending zone's measure, signed by the receiver for one
+  direction, applied at ingress to the attested Base Trust; the receiver
+  computes its own Risk Factor; a receiver MUST NOT apply a factor it did not
+  sign or a factor above one; a class ceiling and a signed factor are one
+  factor; policies lower and never raise. The decay, floor and behavior
+  modifier calculations become examples of such policies.
+- Federation gains Section 5.4 (Cross-Zone Sponsorship): a sponsor MAY vouch
+  into another zone where the agreement provides; the reserve is held at home
+  and the bond is void if home has not recorded it; the receiver takes the
+  collateral at its own measure; a sponsor not admissible at that measure MUST
+  NOT sponsor; the receiver withdraws and home penalizes, independently; the
+  sponsor's breach records cross as exposure, and a root above its unreconciled
+  count anywhere MUST NOT open a bond anywhere.
+- Federation gains Section 6.5 (Attestations as Evidence): a record crosses, a
+  measure never does; witness signatures only, verified against the registry;
+  one link, and a zone attests only the standing a subject earned within it; a
+  breach record MUST cross as exposure and never as reconciled, to every zone
+  the subject has reached and no other; a positive attestation MAY be admitted
+  under declared policy; a veto crosses as nothing and its constraint travels
+  with the data; a person's attestation crosses only as a signed act and a
+  person's reconciliation record never crosses; a record that a reconciliation
+  was anchored, carrying its two anchors and nothing else, MUST cross wherever
+  the breach record went, for an agent and a person alike.
+- Section 7 (Trust Propagation) becomes informative, as does the mesh model's
+  path calculation; Section 7.4 (What Crosses) carries the migration. The terms
+  *Forward Propagation*, *Backward Propagation* and *Trust Path* are retired
+  (vocabulary change, with the mapping in Section 7.4 and in MIGRATION.md).
+- Transport's trust-proof exchange example applies the factor to attested
+  Base Trust and shows the local Risk Factor. Zones' ingress sponsorship admits
+  a cross-zone sponsor where an agreement provides. Identity's Guarantor phase
+  no longer promises "higher weight" in federation.
+- Five threats added to Federation's Security Considerations.
+- Twenty-four vectors added to `specifications/conformance/federation-v1.json`,
+  FD17 to FD40.
+
+
 ### The federation rule
 
 **Finding:** Federation ran to a thousand lines with one normative keyword

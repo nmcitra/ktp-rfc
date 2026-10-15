@@ -590,3 +590,20 @@ acceptance. A deployment whose evaluation stopped when a federation link
 dropped must evaluate without it. Every federation decision is signed by the
 body that made it, and a subject whose standing a federation decision changed
 has the zone's review route.
+
+**Unreleased federation-crossing migration:** A federated deployment applies
+each signed factor to the Base Trust the sending zone attests, not to the
+foreign proof's E_trust, and computes its own Risk Factor; a gateway that
+copied a foreign E_trust through the factor changes its arithmetic. Any
+implementation of the forward or backward propagation formulas stops writing
+deltas into another zone's measure: it exports breach records and withdrawn
+attestations as exposure to every zone the subject has reached, exports a
+record that a reconciliation was anchored to the same zones, and admits
+positive attestations under a policy it declares. A zone attests for a subject
+only the standing earned within it, so a deployment keeps what it admitted at
+ingress apart from what the subject earned after. The terms *Forward
+Propagation*, *Backward Propagation* and *Trust Path* are retired; the mapping
+is in KTP-FEDERATION Section 7.4. A deployment that
+sponsors across a link records every such bond in the sponsor's home zone or
+the bond is void. No wire change to the Trust Proof; the trust-proof exchange
+response gains the attested and local quantities as shown in Transport.

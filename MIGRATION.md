@@ -573,3 +573,20 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+**Unreleased federation-rule migration:** A federated deployment checks its
+agreements against the required and forbidden cells. A clause that delegates
+a veto, requires acceptance of a foreign evaluation, coordinates evaluation
+inputs, sets a factor above one or one the receiver did not sign, or binds an
+act inside the other zone is void on the day the rule lands; the agreement
+stands without it. A factor the deployment applied because the other side
+applied the same one is not signed and is not applied: each direction is
+re-signed by the zone that receives. A hub stops issuing evaluations for its
+spokes and stops setting their inbound factors. Arbitration awards that
+directed a zone to permit an act are reread as awards on standing in the
+federation or on evidence. Severance procedures that isolated or directed
+agents inside the other zone are rewritten to end the severing zone's own
+acceptance. A deployment whose evaluation stopped when a federation link
+dropped must evaluate without it. Every federation decision is signed by the
+body that made it, and a subject whose standing a federation decision changed
+has the zone's review route.

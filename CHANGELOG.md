@@ -32,6 +32,39 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### The federation rule
+
+**Finding:** Federation ran to a thousand lines with one normative keyword
+outside its boilerplate. Its arbitration was "final and enforceable", its
+severance isolated agents inside the other zone, and its hub trusted its
+spokes at a factor nobody signed. Nothing said what a federation may move and
+what it may never touch.
+
+- Federation gains Section 1.4 (The Rule): a federation moves decisions about
+  the federation and never a zone's evaluation of an act, nor the policy under
+  which it evaluates. A foreign proof, clearance, or attestation is evidence
+  the receiving zone weighs; an agreement MUST NOT require a zone to accept
+  one as its own evaluation. A clause that delegates, waives, or overrides a
+  veto is void and the agreement stands. Severance binds nothing within the
+  other zone, and the loss of a link MUST NOT stop a zone's own evaluation.
+- A federation decision carries the signature of the body that made it and
+  names who answers; unsigned, it binds no zone. One that changes a subject's
+  standing is contestable under that zone's review route.
+- The Federation Agreement gains required cells (parties by terminator and
+  signing authority, per-direction factor signed by the receiver, what
+  crosses, which sovereignty constraints each party enforces, the dispute
+  route and its deadlines) and forbidden cells. Nothing outside the signed
+  agreement is a term. Amendment is by both parties and prospective; a party
+  alone may only lower, suspend, sever, or let expire. The agreement's
+  existence and each direction's factor are visible to both zones' subjects.
+- Reciprocity by default is gone: a factor is signed by the zone that
+  receives, for one direction. The hub signs nothing for a spoke.
+- `specifications/conformance/federation-v1.json`: sixteen vectors, FD01 to
+  FD16.
+
+This adds MUSTs and so requires a MAJOR release under `VERSIONING.md`. It
+remains unreleased; published tags are unchanged.
+
 ### Operation-specific human eligibility and privacy evidence
 
 **Forced by F11 and the approved Option 1 contract (2026-09-07):** the human

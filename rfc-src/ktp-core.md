@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -33,6 +33,10 @@ normative:
     author:
       - name: Chris Perkins
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-SENSORS:
     title: "Kinetic Trust Protocol - Context Signal Sensors"
     author:
@@ -121,6 +125,8 @@ Context Tensor: Retired name for what is now split into Context Signals (the mea
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
 Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
+
+Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests the effect, which the decision record never does. See Section 7.6 (Execution Observation).
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
@@ -1475,6 +1481,10 @@ Trust Proofs MUST NOT be cached beyond their expiration.
 If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a new Trust Proof before continuing. Otherwise it MUST cease protected execution through its previously declared bounded safe transition; this is not permission to finish arbitrary work. This may result in mid-action denial if conditions have degraded.
 
 The ten-second maximum applies to every zone and conformance level. An existing session, cached proof, queued refresh, surrounding token, or emergency declaration MUST NOT extend ordinary authorization. Separately authorized safety or recovery actions follow specifications/emergency-capability.md. That capability is disabled unless an approved policy is pinned; it does not replace an expired proof or override a sovereignty, capacity, or prior veto. Changes to emergency authority are governed by the companion's protected amendment process, including during recovery.
+
+## Execution Observation
+
+A decision record attests the decision. The effect of a consequential action is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/consequential-action-execution-and-evidence.md specifies or an equivalent the deployment profile declares. A consequential decision with no bound observation is unverified as to effect, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as {{KTP-REPAIR}} specifies.
 
 # Silent Veto Mechanism
 

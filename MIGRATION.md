@@ -573,3 +573,13 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+**Unreleased execution-observation migration:** A deployment that reported a
+denial as "not executed" reports it as unverified until an execution
+observation bound to the decision says otherwise. A recorder that carried an
+executed flag on the decision record moves it to the bound observation. A
+monitor that saw a denied action dispatch records a conformance failure and
+opens a breach record. No change to the Trust Proof. Vocabulary: *Execution
+Observation* is a new term with no predecessor; the record it names is the
+observation of specifications/consequential-action-execution-and-evidence.md
+or a declared equivalent.

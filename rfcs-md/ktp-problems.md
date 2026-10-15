@@ -1352,9 +1352,9 @@ CURRENT RESPONSE:
 
 KTP resolves the bootstrap paradox by grounding initial trust in HUMAN IDENTITY VERIFICATION, not agent trajectory. The trust chain starts with verified humans, not with machines.
 
-1. Identity-Proofed Trustees - Genesis requires M-of-N trustees (typically 5-of-7) - Each trustee MUST be identity-proofed to IAL3 per NIST 800-63 - Proofing performed by accredited Identity Proofing Providers - FedRAMP, eIDAS, or equivalent certification required - In-person verification with biometric capture
+1. Identity-Proofed Trustees - Genesis requires k-of-n trustees (typically 5-of-7) - Each trustee MUST be identity-proofed to IAL3 per NIST 800-63 - Proofing performed by accredited Identity Proofing Providers - FedRAMP, eIDAS, or equivalent certification required - In-person verification with biometric capture
 
-1. Formal Genesis Ceremony - Air-gapped environment - Hardware Security Module key generation - Threshold signatures (no single party controls keys) - Witnessed and recorded - Independent infrastructure audit - Genesis block signed by M-of-N verified trustees
+1. Formal Genesis Ceremony - Air-gapped environment - Hardware Security Module key generation - Threshold signatures (no single party controls keys) - Witnessed and recorded - Independent infrastructure audit - Genesis block signed by k-of-n verified trustees
 
 1. External Attestation - HSM/TPM provides hardware root of trust - Independent auditor verifies infrastructure - Published ceremony recording enables verification
 
@@ -1568,7 +1568,7 @@ These conflict. Something must give.
 
 RESOLUTION:
 
-The approved F11 contract separates minimal signed storage envelopes from separately encrypted personal evidence under specifications/privacy-evidence.md. Exact original signed bytes remain unchanged while retained. Corrections and erasure dispositions are new authenticated events; modifying a signed field or inserting a redaction marker into the old record does not preserve its original signature.
+The approved human-eligibility and privacy-evidence contract (specifications/human-eligibility.md, specifications/privacy-evidence.md) separates minimal signed storage envelopes from separately encrypted personal evidence under specifications/privacy-evidence.md. Exact original signed bytes remain unchanged while retained. Corrections and erasure dispositions are new authenticated events; modifying a signed field or inserting a redaction marker into the old record does not preserve its original signature.
 
 Erasure must account for primary copies, replicas, backups, keys, shared-subject records, derivatives and recipients. Destroying one key cannot establish completion while another usable key or plaintext copy remains. A recipient notice is not an acknowledgement of verified disposal. Any retained exception needs a declared purpose, access limits, authority, deletion deadline and scheduled review.
 

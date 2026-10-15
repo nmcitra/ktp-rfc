@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Trust Oracle Specification"
 abbrev: "KTP-ORACLE"
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -75,7 +75,7 @@ Quorum: The required number of distinct, independently controlled members of the
 
 Split Brain: A failure mode where different groups accept conflicting records as the same committed position in the shared history.
 
-Threshold Signature: A cryptographic signature requiring M-of-N participants to produce.
+Threshold Signature: A cryptographic signature requiring k-of-n participants to produce.
 
 Trust Proof: A signed attestation of an agent's current trust state, issued by the Oracle.
 

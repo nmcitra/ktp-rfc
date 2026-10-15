@@ -57,7 +57,7 @@ Quorum: The required number of distinct, independently controlled members of the
 
 Split Brain: A failure mode where different groups accept conflicting records as the same committed position in the shared history.
 
-Threshold Signature: A cryptographic signature requiring M-of-N participants to produce.
+Threshold Signature: A cryptographic signature requiring k-of-n participants to produce.
 
 Trust Proof: A signed attestation of an agent's current trust state, issued by the Oracle.
 

@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -130,7 +130,7 @@ Policy Decision Point (PDP): A component that evaluates Trust Proofs and makes a
 
 Policy Enforcement Point (PEP): A component that enforces PDP decisions by allowing, blocking, or throttling agent actions.
 
-Proof of Resilience: A cryptographically signed ledger of an agent's successful transactions in high-friction environments. See \[KTP- IDENTITY].
+Proof of Resilience: A cryptographically signed ledger of an agent's successful transactions in high-friction environments. See \[KTP-IDENTITY].
 
 Risk Factor (R): A normalized value (0-1) representing aggregated environmental stress. Derived from Context Signals.
 

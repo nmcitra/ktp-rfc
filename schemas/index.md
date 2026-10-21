@@ -13,6 +13,7 @@ the source.
 
 | Schema | File | What it constrains |
 |---|---|---|
+| Root Instrument v1 (proposed) | [`root-instrument.json`](root-instrument.json) | Closed none/bond/attestation proof projection; signatures, lifecycle, lineage and strongest-single selection remain independent checks |
 | Risk Factors | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |

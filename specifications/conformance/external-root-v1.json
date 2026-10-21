@@ -1,0 +1,2517 @@
+{
+  "suite": "external-root-v1",
+  "status": "proposed",
+  "baseline": "v2.1.0",
+  "test_key_warning": "UNSAFE PUBLIC TEST KEYS: ES256 private scalars 4,5,6,7,8,9. Test envelopes are fixture-only, not a production instrument signing profile.",
+  "signature_notation": "Instrument complete bytes are RFC8785 JCS of signed_envelope, including the Oracle witness when present. Complete_digest binds those exact bytes; digest is only the inner-JWS hash for witness binding. Events are separately signed, effective only at/after event_time, and findings bind the exact for-cause JWS digest.",
+  "keys": {
+    "TEST-root-sponsor": {
+      "role": "sponsor",
+      "x": "4lNKNTLQj7ugLd5lnuYr0AMf4tt4VZbvUJMCRGsDCFI",
+      "y": "4PFXWkxjPMcZ3-5f2oYtdk78lsPzDuAFXELCPxhO2MY",
+      "issuer": "agent:guarantor:7gen:optimized:a1b2c3d4",
+      "alg": "ES256"
+    },
+    "TEST-root-attestor": {
+      "role": "attestor",
+      "x": "UVkLelFRQNLXhMhWCGaP3--Mgv0fW-UkIVVKDcPQM-0",
+      "y": "4MF9qJBKcn2K4b82v4p5Jg0BLwDU2AiI0dC7RP2hbaQ",
+      "issuer": "urn:ktp:fixture:TEST-root-attestor",
+      "alg": "ES256"
+    },
+    "TEST-root-adjudicator": {
+      "role": "adjudicator",
+      "x": "sBoXKnakYCyS0yQsuJfd4wJMdA3rshW0xrCq6Twikak",
+      "y": "6FwQdDI32tVv7A4t-6cDeRwA93Acfha9_XxIU4_Hf-I",
+      "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+      "alg": "ES256"
+    },
+    "TEST-root-oracle": {
+      "role": "oracle-witness",
+      "x": "jlM7b6C_e0YluzBmfAH7YH75-LioD-9bMAYocDGHsqM",
+      "y": "c-sdveAzGDZtBp-DpvWQAFPHNjPLBBshxV4ahsH0ALQ",
+      "issuer": "urn:ktp:fixture:TEST-root-oracle",
+      "alg": "ES256"
+    },
+    "TEST-root-attestor-2": {
+      "role": "attestor",
+      "x": "Ytl3nb7psFNAQnQtOrVMrcHSOJgPzpfbtN2dwdtvs5M",
+      "y": "rVrMvZHp2CRP8V13EWfO4KLtUfa752p42lQKag8JlX4",
+      "issuer": "urn:ktp:fixture:TEST-root-attestor-2",
+      "alg": "ES256"
+    },
+    "TEST-root-attestor-3": {
+      "role": "attestor",
+      "x": "6mjXtv7fC3GHiTjVHXH4cp4Ky4wsbfiz156KS5CUnuA",
+      "y": "KidEyXLJ_OeHAUqWSo6gyE1xT-qk3oI_6FoiSk3QSPo",
+      "issuer": "urn:ktp:fixture:TEST-root-attestor-3",
+      "alg": "ES256"
+    }
+  },
+  "instruments": {
+    "bond": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "bond",
+        "kind": "sponsorship_bond",
+        "issuer": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1zcG9uc29yIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJib25kIiwiaW5wdXRzIjp7InNwb25zb3JfZV9iYXNlIjo5MCwic3Rha2VfcGVyY2VudGFnZSI6MjB9LCJpc3N1ZXIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJraW5kIjoic3BvbnNvcnNoaXBfYm9uZCIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.78srlcoNFajIbsMpoI5LVNhEsyGE1v3eVZvG-Q9IdXIOXnst-Wr4gMvtJfnr7XK3fcMpQL0luhbBk9SfSu6DdA",
+      "digest": "sha256:1756d5287fa249a1b18527ae1a83ee3ef0060ff059578cf24059a00b54a7bb38",
+      "oracle_witness": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1vcmFjbGUiLCJ0eXAiOiJrdHAtcm9vdC13aXRuZXNzLXRlc3QtdjEifQ.eyJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjoxNzU2ZDUyODdmYTI0OWExYjE4NTI3YWUxYTgzZWUzZWYwMDYwZmYwNTk1NzhjZjI0MDU5YTAwYjU0YTdiYjM4Iiwic3ViamVjdCI6ImFnZW50OnNwb25zb3JlZDphY21lOmFyaWE6MTIzNCJ9.4voX2nouNwiyrJVBD_gF9K0FVi0upTw5UJY0ypaEOJoiYSy1ITtKX_ofRd0RwhRbN_bl_rUs6hoKiXvxbZe0vA",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1zcG9uc29yIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJib25kIiwiaW5wdXRzIjp7InNwb25zb3JfZV9iYXNlIjo5MCwic3Rha2VfcGVyY2VudGFnZSI6MjB9LCJpc3N1ZXIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJraW5kIjoic3BvbnNvcnNoaXBfYm9uZCIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.78srlcoNFajIbsMpoI5LVNhEsyGE1v3eVZvG-Q9IdXIOXnst-Wr4gMvtJfnr7XK3fcMpQL0luhbBk9SfSu6DdA",
+        "oracle_witness": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1vcmFjbGUiLCJ0eXAiOiJrdHAtcm9vdC13aXRuZXNzLXRlc3QtdjEifQ.eyJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjoxNzU2ZDUyODdmYTI0OWExYjE4NTI3YWUxYTgzZWUzZWYwMDYwZmYwNTk1NzhjZjI0MDU5YTAwYjU0YTdiYjM4Iiwic3ViamVjdCI6ImFnZW50OnNwb25zb3JlZDphY21lOmFyaWE6MTIzNCJ9.4voX2nouNwiyrJVBD_gF9K0FVi0upTw5UJY0ypaEOJoiYSy1ITtKX_ofRd0RwhRbN_bl_rUs6hoKiXvxbZe0vA"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzF6Y0c5dWMyOXlJaXdpZEhsd0lqb2lhM1J3TFhKdmIzUXRhVzV6ZEhKMWJXVnVkQzEwWlhOMExYWXhJbjAuZXlKamFHRnBibDlzWlc1bmRHZ2lPaklzSW1WdVpGOTBhVzFsSWpveE9EQXdNREF3TURFd0xDSm1hWGgwZFhKbFgyWnZjbTFoZENJNkluSnZiM1F0YVc1emRISjFiV1Z1ZEMxMFpYTjBMWFl4SWl3aWFXUWlPaUppYjI1a0lpd2lhVzV3ZFhSeklqcDdJbk53YjI1emIzSmZaVjlpWVhObElqbzVNQ3dpYzNSaGEyVmZjR1Z5WTJWdWRHRm5aU0k2TWpCOUxDSnBjM04xWlhJaU9pSmhaMlZ1ZERwbmRXRnlZVzUwYjNJNk4yZGxianB2Y0hScGJXbDZaV1E2WVRGaU1tTXpaRFFpTENKcmFXNWtJam9pYzNCdmJuTnZjbk5vYVhCZlltOXVaQ0lzSW5KdmIzUmZjR1Z5YzI5dUlqb2ljR1Z5YzI5dU9tRmpZM1E2ZWpFNk1EUXhOeUlzSW5OMFlYSjBYM1JwYldVaU9qRTRNREF3TURBd01EQXNJbk4xWW1wbFkzUWlPaUpoWjJWdWREcHpjRzl1YzI5eVpXUTZZV050WlRwaGNtbGhPakV5TXpRaUxDSjBaWEp0YVc1aGRHOXlJanA3SW10cGJtUWlPaUpsYlhCc2IzbGxjaUlzSW5KbFptVnlaVzVqWlNJNkluVnlianByZEhBNlptbDRkSFZ5WlRwaFkyTnZkVzUwWVdKc1pTMWxiblJwZEhraWZYMC43OHNybGNvTkZhaklic01wb0k1TFZOaEVzeUdFMXYzZVZadkctUTlJZFhJT1huc3QtV3I0Z012dEpmbnI3WEszZmNNcFFMMGx1aGJCazlTZlN1NkRkQSIsIm9yYWNsZV93aXRuZXNzIjoiZXlKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNklsUkZVMVF0Y205dmRDMXZjbUZqYkdVaUxDSjBlWEFpT2lKcmRIQXRjbTl2ZEMxM2FYUnVaWE56TFhSbGMzUXRkakVpZlEuZXlKcGJuTjBjblZ0Wlc1MFgyUnBaMlZ6ZENJNkluTm9ZVEkxTmpveE56VTJaRFV5T0RkbVlUSTBPV0V4WWpFNE5USTNZV1V4WVRnelpXVXpaV1l3TURZd1ptWXdOVGsxTnpoalpqSTBNRFU1WVRBd1lqVTBZVGRpWWpNNElpd2ljM1ZpYW1WamRDSTZJbUZuWlc1ME9uTndiMjV6YjNKbFpEcGhZMjFsT21GeWFXRTZNVEl6TkNKOS40dm9YMm5vdU53aXlySlZCRF9nRjlLMEZWaTB1cFR3NVVKWTB5cGFFT0pvaVlTeTFJVHRLWF9vZlJkMFJ3aFJiTl9ibF9yVXM2aG9LaVh2eGJaZTB2QSJ9",
+      "complete_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b"
+    },
+    "attestation": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "attestation",
+        "kind": "external_attestation",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJhdHRlc3RhdGlvbiIsImlucHV0cyI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJkZWNsYXJlZF9leHBvc3VyZSI6MjUsImV4cG9zdXJlX2NsYXNzIjoiZGVjbGFyZWQgaXJyZWNvdmVyYWJsZSBsZWdhbCBsaWFiaWxpdHkifSwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hdHRlc3RvciIsImtpbmQiOiJleHRlcm5hbF9hdHRlc3RhdGlvbiIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.2GEeBlOoH48CohCtQZIxU6zQKAgPANRYlfGaUrULuOEWVW8Ovottg_FXuG0dXfNzdwoNugXHHJlW_pgDfG1MVA",
+      "digest": "sha256:d5340d4bac75b69c630f002470429cc80e243851b5e0666898babeeb6a645f54",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJhdHRlc3RhdGlvbiIsImlucHV0cyI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJkZWNsYXJlZF9leHBvc3VyZSI6MjUsImV4cG9zdXJlX2NsYXNzIjoiZGVjbGFyZWQgaXJyZWNvdmVyYWJsZSBsZWdhbCBsaWFiaWxpdHkifSwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hdHRlc3RvciIsImtpbmQiOiJleHRlcm5hbF9hdHRlc3RhdGlvbiIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.2GEeBlOoH48CohCtQZIxU6zQKAgPANRYlfGaUrULuOEWVW8Ovottg_FXuG0dXfNzdwoNugXHHJlW_pgDfG1MVA"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzFoZEhSbGMzUnZjaUlzSW5SNWNDSTZJbXQwY0MxeWIyOTBMV2x1YzNSeWRXMWxiblF0ZEdWemRDMTJNU0o5LmV5SmphR0ZwYmw5c1pXNW5kR2dpT2pJc0ltVnVaRjkwYVcxbElqb3hPREF3TURBd01ERXdMQ0ptYVhoMGRYSmxYMlp2Y20xaGRDSTZJbkp2YjNRdGFXNXpkSEoxYldWdWRDMTBaWE4wTFhZeElpd2lhV1FpT2lKaGRIUmxjM1JoZEdsdmJpSXNJbWx1Y0hWMGN5STZleUpoYm1Ob2IzSmxaRjlqWVhCaFkybDBlU0k2TVRBd0xDSmtaV05zWVhKbFpGOWxlSEJ2YzNWeVpTSTZNalVzSW1WNGNHOXpkWEpsWDJOc1lYTnpJam9pWkdWamJHRnlaV1FnYVhKeVpXTnZkbVZ5WVdKc1pTQnNaV2RoYkNCc2FXRmlhV3hwZEhraWZTd2lhWE56ZFdWeUlqb2lkWEp1T210MGNEcG1hWGgwZFhKbE9sUkZVMVF0Y205dmRDMWhkSFJsYzNSdmNpSXNJbXRwYm1RaU9pSmxlSFJsY201aGJGOWhkSFJsYzNSaGRHbHZiaUlzSW5KdmIzUmZjR1Z5YzI5dUlqb2ljR1Z5YzI5dU9tRmpZM1E2ZWpFNk1EUXhOeUlzSW5OMFlYSjBYM1JwYldVaU9qRTRNREF3TURBd01EQXNJbk4xWW1wbFkzUWlPaUpoWjJWdWREcG5kV0Z5WVc1MGIzSTZOMmRsYmpwdmNIUnBiV2w2WldRNllURmlNbU16WkRRaUxDSjBaWEp0YVc1aGRHOXlJanA3SW10cGJtUWlPaUpsYlhCc2IzbGxjaUlzSW5KbFptVnlaVzVqWlNJNkluVnlianByZEhBNlptbDRkSFZ5WlRwaFkyTnZkVzUwWVdKc1pTMWxiblJwZEhraWZYMC4yR0VlQmxPb0g0OENvaEN0UVpJeFU2elFLQWdQQU5SWWxmR2FVclVMdU9FV1ZXOE92b3R0Z19GWHVHMGRYZk56ZHdvTnVnWEhISmxXX3BnRGZHMU1WQSJ9",
+      "complete_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6"
+    },
+    "stronger": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "stronger",
+        "kind": "external_attestation",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor-2",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 50,
+          "anchored_capacity": 100
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3Rvci0yIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJzdHJvbmdlciIsImlucHV0cyI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJkZWNsYXJlZF9leHBvc3VyZSI6NTAsImV4cG9zdXJlX2NsYXNzIjoiZGVjbGFyZWQgaXJyZWNvdmVyYWJsZSBsZWdhbCBsaWFiaWxpdHkifSwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hdHRlc3Rvci0yIiwia2luZCI6ImV4dGVybmFsX2F0dGVzdGF0aW9uIiwicm9vdF9wZXJzb24iOiJwZXJzb246YWNjdDp6MTowNDE3Iiwic3RhcnRfdGltZSI6MTgwMDAwMDAwMCwic3ViamVjdCI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fQ.8u4UXNojNUAROgQiPO_pJ7dQZdy9DoCVSe-j66a76Bc5eOT08Ba6EaNxSTSHMkKmkR6sxGtzPN823PnUgX5pkg",
+      "digest": "sha256:5ca31c4274811a4404609b45694d64bf5eef8ecc63b707a59700897ecb6bb876",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3Rvci0yIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJzdHJvbmdlciIsImlucHV0cyI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJkZWNsYXJlZF9leHBvc3VyZSI6NTAsImV4cG9zdXJlX2NsYXNzIjoiZGVjbGFyZWQgaXJyZWNvdmVyYWJsZSBsZWdhbCBsaWFiaWxpdHkifSwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hdHRlc3Rvci0yIiwia2luZCI6ImV4dGVybmFsX2F0dGVzdGF0aW9uIiwicm9vdF9wZXJzb24iOiJwZXJzb246YWNjdDp6MTowNDE3Iiwic3RhcnRfdGltZSI6MTgwMDAwMDAwMCwic3ViamVjdCI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fQ.8u4UXNojNUAROgQiPO_pJ7dQZdy9DoCVSe-j66a76Bc5eOT08Ba6EaNxSTSHMkKmkR6sxGtzPN823PnUgX5pkg"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzFoZEhSbGMzUnZjaTB5SWl3aWRIbHdJam9pYTNSd0xYSnZiM1F0YVc1emRISjFiV1Z1ZEMxMFpYTjBMWFl4SW4wLmV5SmphR0ZwYmw5c1pXNW5kR2dpT2pJc0ltVnVaRjkwYVcxbElqb3hPREF3TURBd01ERXdMQ0ptYVhoMGRYSmxYMlp2Y20xaGRDSTZJbkp2YjNRdGFXNXpkSEoxYldWdWRDMTBaWE4wTFhZeElpd2lhV1FpT2lKemRISnZibWRsY2lJc0ltbHVjSFYwY3lJNmV5SmhibU5vYjNKbFpGOWpZWEJoWTJsMGVTSTZNVEF3TENKa1pXTnNZWEpsWkY5bGVIQnZjM1Z5WlNJNk5UQXNJbVY0Y0c5emRYSmxYMk5zWVhOeklqb2laR1ZqYkdGeVpXUWdhWEp5WldOdmRtVnlZV0pzWlNCc1pXZGhiQ0JzYVdGaWFXeHBkSGtpZlN3aWFYTnpkV1Z5SWpvaWRYSnVPbXQwY0RwbWFYaDBkWEpsT2xSRlUxUXRjbTl2ZEMxaGRIUmxjM1J2Y2kweUlpd2lhMmx1WkNJNkltVjRkR1Z5Ym1Gc1gyRjBkR1Z6ZEdGMGFXOXVJaXdpY205dmRGOXdaWEp6YjI0aU9pSndaWEp6YjI0NllXTmpkRHA2TVRvd05ERTNJaXdpYzNSaGNuUmZkR2x0WlNJNk1UZ3dNREF3TURBd01Dd2ljM1ZpYW1WamRDSTZJbUZuWlc1ME9tZDFZWEpoYm5SdmNqbzNaMlZ1T205d2RHbHRhWHBsWkRwaE1XSXlZek5rTkNJc0luUmxjbTFwYm1GMGIzSWlPbnNpYTJsdVpDSTZJbVZ0Y0d4dmVXVnlJaXdpY21WbVpYSmxibU5sSWpvaWRYSnVPbXQwY0RwbWFYaDBkWEpsT21GalkyOTFiblJoWW14bExXVnVkR2wwZVNKOWZRLjh1NFVYTm9qTlVBUk9nUWlQT19wSjdkUVpkeTlEb0NWU2UtajY2YTc2QmM1ZU9UMDhCYTZFYU54U1RTSE1rS21rUjZzeEd0elBOODIzUG5VZ1g1cGtnIn0",
+      "complete_digest": "sha256:5e75ab8c637148b2c3078b4fdf4df441178f8384a1d485f35833b254e971d3c9"
+    },
+    "tie": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "tie",
+        "kind": "external_attestation",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor-3",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3Rvci0zIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJ0aWUiLCJpbnB1dHMiOnsiYW5jaG9yZWRfY2FwYWNpdHkiOjEwMCwiZGVjbGFyZWRfZXhwb3N1cmUiOjI1LCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3ItMyIsImtpbmQiOiJleHRlcm5hbF9hdHRlc3RhdGlvbiIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.-csGkMda3m4EsymvzO4Eb1bvoVsUpcto8VX1p8jRoVJVf_CA0RlAcy3GJ87h7Q9sFi6f28daDYbcbBylyzrIuA",
+      "digest": "sha256:9dbb49a47d9920509cee76e3269c78c8306e729148a44c6a1317a30e54afd384",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3Rvci0zIiwidHlwIjoia3RwLXJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIn0.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJ0aWUiLCJpbnB1dHMiOnsiYW5jaG9yZWRfY2FwYWNpdHkiOjEwMCwiZGVjbGFyZWRfZXhwb3N1cmUiOjI1LCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3ItMyIsImtpbmQiOiJleHRlcm5hbF9hdHRlc3RhdGlvbiIsInJvb3RfcGVyc29uIjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInN0YXJ0X3RpbWUiOjE4MDAwMDAwMDAsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0ZXJtaW5hdG9yIjp7ImtpbmQiOiJlbXBsb3llciIsInJlZmVyZW5jZSI6InVybjprdHA6Zml4dHVyZTphY2NvdW50YWJsZS1lbnRpdHkifX0.-csGkMda3m4EsymvzO4Eb1bvoVsUpcto8VX1p8jRoVJVf_CA0RlAcy3GJ87h7Q9sFi6f28daDYbcbBylyzrIuA"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzFoZEhSbGMzUnZjaTB6SWl3aWRIbHdJam9pYTNSd0xYSnZiM1F0YVc1emRISjFiV1Z1ZEMxMFpYTjBMWFl4SW4wLmV5SmphR0ZwYmw5c1pXNW5kR2dpT2pJc0ltVnVaRjkwYVcxbElqb3hPREF3TURBd01ERXdMQ0ptYVhoMGRYSmxYMlp2Y20xaGRDSTZJbkp2YjNRdGFXNXpkSEoxYldWdWRDMTBaWE4wTFhZeElpd2lhV1FpT2lKMGFXVWlMQ0pwYm5CMWRITWlPbnNpWVc1amFHOXlaV1JmWTJGd1lXTnBkSGtpT2pFd01Dd2laR1ZqYkdGeVpXUmZaWGh3YjNOMWNtVWlPakkxTENKbGVIQnZjM1Z5WlY5amJHRnpjeUk2SW1SbFkyeGhjbVZrSUdseWNtVmpiM1psY21GaWJHVWdiR1ZuWVd3Z2JHbGhZbWxzYVhSNUluMHNJbWx6YzNWbGNpSTZJblZ5YmpwcmRIQTZabWw0ZEhWeVpUcFVSVk5VTFhKdmIzUXRZWFIwWlhOMGIzSXRNeUlzSW10cGJtUWlPaUpsZUhSbGNtNWhiRjloZEhSbGMzUmhkR2x2YmlJc0luSnZiM1JmY0dWeWMyOXVJam9pY0dWeWMyOXVPbUZqWTNRNmVqRTZNRFF4TnlJc0luTjBZWEowWDNScGJXVWlPakU0TURBd01EQXdNREFzSW5OMVltcGxZM1FpT2lKaFoyVnVkRHBuZFdGeVlXNTBiM0k2TjJkbGJqcHZjSFJwYldsNlpXUTZZVEZpTW1NelpEUWlMQ0owWlhKdGFXNWhkRzl5SWpwN0ltdHBibVFpT2lKbGJYQnNiM2xsY2lJc0luSmxabVZ5Wlc1alpTSTZJblZ5YmpwcmRIQTZabWw0ZEhWeVpUcGhZMk52ZFc1MFlXSnNaUzFsYm5ScGRIa2lmWDAuLWNzR2tNZGEzbTRFc3ltdnpPNEViMWJ2b1ZzVXBjdG84VlgxcDhqUm9WSlZmX0NBMFJsQWN5M0dKODdoN1E5c0ZpNmYyOGRhRFliY2JCeWx5enJJdUEifQ",
+      "complete_digest": "sha256:e460567464f6e657a43ad4c66c439171e1bd9497d4f1404bbf784c0321dde9a2"
+    },
+    "zero-exposure": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "zero-exposure",
+        "kind": "external_attestation",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 0,
+          "anchored_capacity": 100
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJ6ZXJvLWV4cG9zdXJlIiwiaW5wdXRzIjp7ImFuY2hvcmVkX2NhcGFjaXR5IjoxMDAsImRlY2xhcmVkX2V4cG9zdXJlIjowLCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3IiLCJraW5kIjoiZXh0ZXJuYWxfYXR0ZXN0YXRpb24iLCJyb290X3BlcnNvbiI6InBlcnNvbjphY2N0OnoxOjA0MTciLCJzdGFydF90aW1lIjoxODAwMDAwMDAwLCJzdWJqZWN0IjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0IiwidGVybWluYXRvciI6eyJraW5kIjoiZW1wbG95ZXIiLCJyZWZlcmVuY2UiOiJ1cm46a3RwOmZpeHR1cmU6YWNjb3VudGFibGUtZW50aXR5In19.1YGXaarbyPeMECf01g9IJI3F5xmoFrubOmI4spAYBat7BHONmmZOpKF0MDLlU67-mK1cFZESbsVY0ZeS7JFbXQ",
+      "digest": "sha256:5f6d34f499b158df60bde74263f87fea29583f9d740afb127ae2cb3c9d754c78",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJ6ZXJvLWV4cG9zdXJlIiwiaW5wdXRzIjp7ImFuY2hvcmVkX2NhcGFjaXR5IjoxMDAsImRlY2xhcmVkX2V4cG9zdXJlIjowLCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3IiLCJraW5kIjoiZXh0ZXJuYWxfYXR0ZXN0YXRpb24iLCJyb290X3BlcnNvbiI6InBlcnNvbjphY2N0OnoxOjA0MTciLCJzdGFydF90aW1lIjoxODAwMDAwMDAwLCJzdWJqZWN0IjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0IiwidGVybWluYXRvciI6eyJraW5kIjoiZW1wbG95ZXIiLCJyZWZlcmVuY2UiOiJ1cm46a3RwOmZpeHR1cmU6YWNjb3VudGFibGUtZW50aXR5In19.1YGXaarbyPeMECf01g9IJI3F5xmoFrubOmI4spAYBat7BHONmmZOpKF0MDLlU67-mK1cFZESbsVY0ZeS7JFbXQ"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzFoZEhSbGMzUnZjaUlzSW5SNWNDSTZJbXQwY0MxeWIyOTBMV2x1YzNSeWRXMWxiblF0ZEdWemRDMTJNU0o5LmV5SmphR0ZwYmw5c1pXNW5kR2dpT2pJc0ltVnVaRjkwYVcxbElqb3hPREF3TURBd01ERXdMQ0ptYVhoMGRYSmxYMlp2Y20xaGRDSTZJbkp2YjNRdGFXNXpkSEoxYldWdWRDMTBaWE4wTFhZeElpd2lhV1FpT2lKNlpYSnZMV1Y0Y0c5emRYSmxJaXdpYVc1d2RYUnpJanA3SW1GdVkyaHZjbVZrWDJOaGNHRmphWFI1SWpveE1EQXNJbVJsWTJ4aGNtVmtYMlY0Y0c5emRYSmxJam93TENKbGVIQnZjM1Z5WlY5amJHRnpjeUk2SW1SbFkyeGhjbVZrSUdseWNtVmpiM1psY21GaWJHVWdiR1ZuWVd3Z2JHbGhZbWxzYVhSNUluMHNJbWx6YzNWbGNpSTZJblZ5YmpwcmRIQTZabWw0ZEhWeVpUcFVSVk5VTFhKdmIzUXRZWFIwWlhOMGIzSWlMQ0pyYVc1a0lqb2laWGgwWlhKdVlXeGZZWFIwWlhOMFlYUnBiMjRpTENKeWIyOTBYM0JsY25OdmJpSTZJbkJsY25OdmJqcGhZMk4wT25veE9qQTBNVGNpTENKemRHRnlkRjkwYVcxbElqb3hPREF3TURBd01EQXdMQ0p6ZFdKcVpXTjBJam9pWVdkbGJuUTZaM1ZoY21GdWRHOXlPamRuWlc0NmIzQjBhVzFwZW1Wa09tRXhZakpqTTJRMElpd2lkR1Z5YldsdVlYUnZjaUk2ZXlKcmFXNWtJam9pWlcxd2JHOTVaWElpTENKeVpXWmxjbVZ1WTJVaU9pSjFjbTQ2YTNSd09tWnBlSFIxY21VNllXTmpiM1Z1ZEdGaWJHVXRaVzUwYVhSNUluMTkuMVlHWGFhcmJ5UGVNRUNmMDFnOUlKSTNGNXhtb0ZydWJPbUk0c3BBWUJhdDdCSE9ObW1aT3BLRjBNRExsVTY3LW1LMWNGWkVTYnNWWTBaZVM3SkZiWFEifQ",
+      "complete_digest": "sha256:c7e360f46cc6a641f96eb82e8326eaab677c7585444ef3dc6a1161733c3b7e78"
+    },
+    "person-attestation": {
+      "body": {
+        "fixture_format": "root-instrument-test-v1",
+        "id": "person-attestation",
+        "kind": "external_attestation",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor",
+        "subject": "person:acct:z1:0417",
+        "start_time": 1800000000,
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "inputs": {
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        }
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJwZXJzb24tYXR0ZXN0YXRpb24iLCJpbnB1dHMiOnsiYW5jaG9yZWRfY2FwYWNpdHkiOjEwMCwiZGVjbGFyZWRfZXhwb3N1cmUiOjI1LCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3IiLCJraW5kIjoiZXh0ZXJuYWxfYXR0ZXN0YXRpb24iLCJyb290X3BlcnNvbiI6InBlcnNvbjphY2N0OnoxOjA0MTciLCJzdGFydF90aW1lIjoxODAwMDAwMDAwLCJzdWJqZWN0IjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fQ.X5QTe5BnW8t_NUpMNLAZlhT4WUra2mGiw00GlyBhi_cDOzpHvQZnvbTb292xETM8lPugDyhhDlFAcpJTmTQKIA",
+      "digest": "sha256:f0e83071a516675f4637f322e8fb5be64653d8948130c65627f786b3f9c2b496",
+      "signed_envelope": {
+        "instrument_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWluc3RydW1lbnQtdGVzdC12MSJ9.eyJjaGFpbl9sZW5ndGgiOjIsImVuZF90aW1lIjoxODAwMDAwMDEwLCJmaXh0dXJlX2Zvcm1hdCI6InJvb3QtaW5zdHJ1bWVudC10ZXN0LXYxIiwiaWQiOiJwZXJzb24tYXR0ZXN0YXRpb24iLCJpbnB1dHMiOnsiYW5jaG9yZWRfY2FwYWNpdHkiOjEwMCwiZGVjbGFyZWRfZXhwb3N1cmUiOjI1LCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5In0sImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3IiLCJraW5kIjoiZXh0ZXJuYWxfYXR0ZXN0YXRpb24iLCJyb290X3BlcnNvbiI6InBlcnNvbjphY2N0OnoxOjA0MTciLCJzdGFydF90aW1lIjoxODAwMDAwMDAwLCJzdWJqZWN0IjoicGVyc29uOmFjY3Q6ejE6MDQxNyIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fQ.X5QTe5BnW8t_NUpMNLAZlhT4WUra2mGiw00GlyBhi_cDOzpHvQZnvbTb292xETM8lPugDyhhDlFAcpJTmTQKIA"
+      },
+      "complete_bytes_base64url": "eyJpbnN0cnVtZW50X2p3cyI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW10cFpDSTZJbFJGVTFRdGNtOXZkQzFoZEhSbGMzUnZjaUlzSW5SNWNDSTZJbXQwY0MxeWIyOTBMV2x1YzNSeWRXMWxiblF0ZEdWemRDMTJNU0o5LmV5SmphR0ZwYmw5c1pXNW5kR2dpT2pJc0ltVnVaRjkwYVcxbElqb3hPREF3TURBd01ERXdMQ0ptYVhoMGRYSmxYMlp2Y20xaGRDSTZJbkp2YjNRdGFXNXpkSEoxYldWdWRDMTBaWE4wTFhZeElpd2lhV1FpT2lKd1pYSnpiMjR0WVhSMFpYTjBZWFJwYjI0aUxDSnBibkIxZEhNaU9uc2lZVzVqYUc5eVpXUmZZMkZ3WVdOcGRIa2lPakV3TUN3aVpHVmpiR0Z5WldSZlpYaHdiM04xY21VaU9qSTFMQ0psZUhCdmMzVnlaVjlqYkdGemN5STZJbVJsWTJ4aGNtVmtJR2x5Y21WamIzWmxjbUZpYkdVZ2JHVm5ZV3dnYkdsaFltbHNhWFI1SW4wc0ltbHpjM1ZsY2lJNkluVnlianByZEhBNlptbDRkSFZ5WlRwVVJWTlVMWEp2YjNRdFlYUjBaWE4wYjNJaUxDSnJhVzVrSWpvaVpYaDBaWEp1WVd4ZllYUjBaWE4wWVhScGIyNGlMQ0p5YjI5MFgzQmxjbk52YmlJNkluQmxjbk52YmpwaFkyTjBPbm94T2pBME1UY2lMQ0p6ZEdGeWRGOTBhVzFsSWpveE9EQXdNREF3TURBd0xDSnpkV0pxWldOMElqb2ljR1Z5YzI5dU9tRmpZM1E2ZWpFNk1EUXhOeUlzSW5SbGNtMXBibUYwYjNJaU9uc2lhMmx1WkNJNkltVnRjR3h2ZVdWeUlpd2ljbVZtWlhKbGJtTmxJam9pZFhKdU9tdDBjRHBtYVhoMGRYSmxPbUZqWTI5MWJuUmhZbXhsTFdWdWRHbDBlU0o5ZlEuWDVRVGU1Qm5XOHRfTlVwTU5MQVpsaFQ0V1VyYTJtR2l3MDBHbHlCaGlfY0RPenBIdlFabnZiVGIyOTJ4RVRNOGxQdWdEeWhoRGxGQWNwSlRtVFFLSUEifQ",
+      "complete_digest": "sha256:de8950fab3a08851728d43cffbc5b48925eea178e4de5192d4bb8c5d21305fdd"
+    }
+  },
+  "events": {
+    "bond-without-cause": {
+      "body": {
+        "instrument_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "event_time": 1800000002,
+        "action": "withdraw_without_cause",
+        "issuer": "agent:guarantor:7gen:optimized:a1b2c3d4"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1zcG9uc29yIiwidHlwIjoia3RwLXJvb3QtZXZlbnQtdGVzdC12MSJ9.eyJhY3Rpb24iOiJ3aXRoZHJhd193aXRob3V0X2NhdXNlIiwiZXZlbnRfdGltZSI6MTgwMDAwMDAwMiwiaW5zdHJ1bWVudF9kaWdlc3QiOiJzaGEyNTY6YTZlNzAwMjBmMzkzZTBlOTA1MDIwZmJlYjQyY2JjNjAzNDliOWY1NjE3OGYyM2Q3ZjEzMzk5ZTgxYjEyY2QxYiIsImlzc3VlciI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInN1YmplY3QiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQifQ.PzQGBfYHINz3U19yCwr4VbVXI-xp8H0qVkHtaMxdpBcmXooMYPeN9-LZibpHAzhzMs4Z4VNYMhCleHebWiQ6WA"
+    },
+    "attestation-without-cause": {
+      "body": {
+        "instrument_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "event_time": 1800000002,
+        "action": "withdraw_without_cause",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJ3aXRoZHJhd193aXRob3V0X2NhdXNlIiwiZXZlbnRfdGltZSI6MTgwMDAwMDAwMiwiaW5zdHJ1bWVudF9kaWdlc3QiOiJzaGEyNTY6YWI0MDgzYmRhMThjM2JiZmU5ODRmYTc0ODUxYmFiYTJlOTdmNWVlMmQzNGE2MTU0YTZkMDBhMzA5YTNlOThmNiIsImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYXR0ZXN0b3IiLCJzdWJqZWN0IjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.tgBi81blJFCULF3xM_dnk54eFczvyQQlkjslzlbTQFlh3tftws4oF2COMUf2tAzZvdt8TaobhFOa4g4pS4U4qg"
+    },
+    "bond-for-cause": {
+      "body": {
+        "instrument_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "event_time": 1800000002,
+        "action": "withdraw_for_cause",
+        "issuer": "agent:guarantor:7gen:optimized:a1b2c3d4"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1zcG9uc29yIiwidHlwIjoia3RwLXJvb3QtZXZlbnQtdGVzdC12MSJ9.eyJhY3Rpb24iOiJ3aXRoZHJhd19mb3JfY2F1c2UiLCJldmVudF90aW1lIjoxODAwMDAwMDAyLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphNmU3MDAyMGYzOTNlMGU5MDUwMjBmYmViNDJjYmM2MDM0OWI5ZjU2MTc4ZjIzZDdmMTMzOTllODFiMTJjZDFiIiwiaXNzdWVyIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0Iiwic3ViamVjdCI6ImFnZW50OnNwb25zb3JlZDphY21lOmFyaWE6MTIzNCJ9.aWe889JHhFBWxwKPr7y_BTeedZNeCrJOD5yH-_hNKB5HO4RIpn3OPYFt5WWK-JbNevsCv6SouzUd4-TLy_bCWQ"
+    },
+    "attestation-for-cause": {
+      "body": {
+        "instrument_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "event_time": 1800000002,
+        "action": "withdraw_for_cause",
+        "issuer": "urn:ktp:fixture:TEST-root-attestor"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hdHRlc3RvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJ3aXRoZHJhd19mb3JfY2F1c2UiLCJldmVudF90aW1lIjoxODAwMDAwMDAyLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphYjQwODNiZGExOGMzYmJmZTk4NGZhNzQ4NTFiYWJhMmU5N2Y1ZWUyZDM0YTYxNTRhNmQwMGEzMDlhM2U5OGY2IiwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hdHRlc3RvciIsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.xZcZOXU2w6Dk0WdgTjV2aEu62oOmKnAkRIfFNwSbPHclfryKZsBihM_tXe31Jz-0tLLiZn482cKbON0SVPCYeQ"
+    },
+    "bond-rejected": {
+      "body": {
+        "instrument_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "rejected",
+        "claim_digest": "sha256:cfdbb1c3f539e279135bf9a90f42b8295f17fa2afc564c9bb216cb10e07dd02b"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2OmNmZGJiMWMzZjUzOWUyNzkxMzViZjlhOTBmNDJiODI5NWYxN2ZhMmFmYzU2NGM5YmIyMTZjYjEwZTA3ZGQwMmIiLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoicmVqZWN0ZWQiLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphNmU3MDAyMGYzOTNlMGU5MDUwMjBmYmViNDJjYmM2MDM0OWI5ZjU2MTc4ZjIzZDdmMTMzOTllODFiMTJjZDFiIiwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInN1YmplY3QiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQifQ.XZgX7btzsxsFe-TQPc2eb1jOeF9ViWZ8LHMgpcEbbjAhAb_PO0anYhuBFH0oPQs4hfZQW2jEPoh64UK9h4kwiA"
+    },
+    "attestation-rejected": {
+      "body": {
+        "instrument_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "rejected",
+        "claim_digest": "sha256:75507d1384d43d38796d1eaf8557e09dfd6f8110f7fdd8be1594cc98cff2c297"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2Ojc1NTA3ZDEzODRkNDNkMzg3OTZkMWVhZjg1NTdlMDlkZmQ2ZjgxMTBmN2ZkZDhiZTE1OTRjYzk4Y2ZmMmMyOTciLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoicmVqZWN0ZWQiLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphYjQwODNiZGExOGMzYmJmZTk4NGZhNzQ4NTFiYWJhMmU5N2Y1ZWUyZDM0YTYxNTRhNmQwMGEzMDlhM2U5OGY2IiwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.bqAAG82cnF9PEii_57u8H-ctjgdNEc6DmJGiZ5gfy0lerprE3nSSuJw9JWVaRCOf3nWkw_gnCBLLA87RD1tFRw"
+    },
+    "bond-sustained": {
+      "body": {
+        "instrument_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "sustained",
+        "claim_digest": "sha256:cfdbb1c3f539e279135bf9a90f42b8295f17fa2afc564c9bb216cb10e07dd02b"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2OmNmZGJiMWMzZjUzOWUyNzkxMzViZjlhOTBmNDJiODI5NWYxN2ZhMmFmYzU2NGM5YmIyMTZjYjEwZTA3ZGQwMmIiLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoic3VzdGFpbmVkIiwiaW5zdHJ1bWVudF9kaWdlc3QiOiJzaGEyNTY6YTZlNzAwMjBmMzkzZTBlOTA1MDIwZmJlYjQyY2JjNjAzNDliOWY1NjE3OGYyM2Q3ZjEzMzk5ZTgxYjEyY2QxYiIsImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYWRqdWRpY2F0b3IiLCJzdWJqZWN0IjoiYWdlbnQ6c3BvbnNvcmVkOmFjbWU6YXJpYToxMjM0In0.FqaEEXVkIMzlRMwJmBB4QFQZOF9kc-Eup7XVDE0KqOszeHDnOeahWUVl1TSkjpGWJeruHDT2rdeC6CCM9lIIbg"
+    },
+    "attestation-sustained": {
+      "body": {
+        "instrument_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "sustained",
+        "claim_digest": "sha256:75507d1384d43d38796d1eaf8557e09dfd6f8110f7fdd8be1594cc98cff2c297"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2Ojc1NTA3ZDEzODRkNDNkMzg3OTZkMWVhZjg1NTdlMDlkZmQ2ZjgxMTBmN2ZkZDhiZTE1OTRjYzk4Y2ZmMmMyOTciLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoic3VzdGFpbmVkIiwiaW5zdHJ1bWVudF9kaWdlc3QiOiJzaGEyNTY6YWI0MDgzYmRhMThjM2JiZmU5ODRmYTc0ODUxYmFiYTJlOTdmNWVlMmQzNGE2MTU0YTZkMDBhMzA5YTNlOThmNiIsImlzc3VlciI6InVybjprdHA6Zml4dHVyZTpURVNULXJvb3QtYWRqdWRpY2F0b3IiLCJzdWJqZWN0IjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.VEffKcVO_y1dvnP5ge__qVEOZZi2bGiRYa4OucGul4kzylx2CF5O7l1LZ4Ugd9hFQeGmYlEUvngV9dadedACww"
+    },
+    "bond-misattestation": {
+      "body": {
+        "instrument_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "subject": "agent:sponsored:acme:aria:1234",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "misattestation",
+        "claim_digest": "sha256:cfdbb1c3f539e279135bf9a90f42b8295f17fa2afc564c9bb216cb10e07dd02b"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2OmNmZGJiMWMzZjUzOWUyNzkxMzViZjlhOTBmNDJiODI5NWYxN2ZhMmFmYzU2NGM5YmIyMTZjYjEwZTA3ZGQwMmIiLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoibWlzYXR0ZXN0YXRpb24iLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphNmU3MDAyMGYzOTNlMGU5MDUwMjBmYmViNDJjYmM2MDM0OWI5ZjU2MTc4ZjIzZDdmMTMzOTllODFiMTJjZDFiIiwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInN1YmplY3QiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQifQ.SIvPEW9EEKBILxMECQHroVMD6luYYcXaQaoqbtZkbDx9_tiVIj_A8Q5Y2sSzXDVeVtTwlV9SLWubT5q-6pDbQg"
+    },
+    "attestation-misattestation": {
+      "body": {
+        "instrument_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "event_time": 1800000003,
+        "action": "finding",
+        "issuer": "urn:ktp:fixture:TEST-root-adjudicator",
+        "finding": "misattestation",
+        "claim_digest": "sha256:75507d1384d43d38796d1eaf8557e09dfd6f8110f7fdd8be1594cc98cff2c297"
+      },
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInR5cCI6Imt0cC1yb290LWV2ZW50LXRlc3QtdjEifQ.eyJhY3Rpb24iOiJmaW5kaW5nIiwiY2xhaW1fZGlnZXN0Ijoic2hhMjU2Ojc1NTA3ZDEzODRkNDNkMzg3OTZkMWVhZjg1NTdlMDlkZmQ2ZjgxMTBmN2ZkZDhiZTE1OTRjYzk4Y2ZmMmMyOTciLCJldmVudF90aW1lIjoxODAwMDAwMDAzLCJmaW5kaW5nIjoibWlzYXR0ZXN0YXRpb24iLCJpbnN0cnVtZW50X2RpZ2VzdCI6InNoYTI1NjphYjQwODNiZGExOGMzYmJmZTk4NGZhNzQ4NTFiYWJhMmU5N2Y1ZWUyZDM0YTYxNTRhNmQwMGEzMDlhM2U5OGY2IiwiaXNzdWVyIjoidXJuOmt0cDpmaXh0dXJlOlRFU1Qtcm9vdC1hZGp1ZGljYXRvciIsInN1YmplY3QiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.BmXyYJ9h89aMxEjJw2EsVcTEGIY8JopLEu3Ql2_kMFkDQAg21nd6BLawyEaLC7p28GzsyiWp3oOFtCmEkfIvJw"
+    }
+  },
+  "projection_examples": {
+    "bond": {
+      "kind": "sponsorship_bond",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "bond_id": "bond",
+      "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+      "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+      "bond_inputs": {
+        "sponsor_e_base": 90,
+        "stake_percentage": 20
+      }
+    },
+    "attestation": {
+      "kind": "external_attestation",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "attestation_id": "attestation",
+      "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+      "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+      "exposure_class": "declared irrecoverable legal liability",
+      "declared_exposure": 25,
+      "anchored_capacity": 100
+    },
+    "stronger": {
+      "kind": "external_attestation",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "attestation_id": "stronger",
+      "attestation_digest": "sha256:5e75ab8c637148b2c3078b4fdf4df441178f8384a1d485f35833b254e971d3c9",
+      "attestor_id": "urn:ktp:fixture:TEST-root-attestor-2",
+      "exposure_class": "declared irrecoverable legal liability",
+      "declared_exposure": 50,
+      "anchored_capacity": 100
+    },
+    "tie": {
+      "kind": "external_attestation",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "attestation_id": "tie",
+      "attestation_digest": "sha256:e460567464f6e657a43ad4c66c439171e1bd9497d4f1404bbf784c0321dde9a2",
+      "attestor_id": "urn:ktp:fixture:TEST-root-attestor-3",
+      "exposure_class": "declared irrecoverable legal liability",
+      "declared_exposure": 25,
+      "anchored_capacity": 100
+    },
+    "zero-exposure": {
+      "kind": "external_attestation",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "attestation_id": "zero-exposure",
+      "attestation_digest": "sha256:c7e360f46cc6a641f96eb82e8326eaab677c7585444ef3dc6a1161733c3b7e78",
+      "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+      "exposure_class": "declared irrecoverable legal liability",
+      "declared_exposure": 0,
+      "anchored_capacity": 100
+    },
+    "person-attestation": {
+      "kind": "external_attestation",
+      "status": "current",
+      "end_time": 1800000010,
+      "terminator": {
+        "kind": "employer",
+        "reference": "urn:ktp:fixture:accountable-entity"
+      },
+      "root_person": "person:acct:z1:0417",
+      "chain_length": 2,
+      "attestation_id": "person-attestation",
+      "attestation_digest": "sha256:de8950fab3a08851728d43cffbc5b48925eea178e4de5192d4bb8c5d21305fdd",
+      "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+      "exposure_class": "declared irrecoverable legal liability",
+      "declared_exposure": 25,
+      "anchored_capacity": 100
+    }
+  },
+  "schema_cases": [
+    {
+      "id": "none",
+      "value": {
+        "kind": "none",
+        "status": "none",
+        "reason": "missing"
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "bond",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "bond-missing-kind",
+      "value": {
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-status",
+      "value": {
+        "kind": "sponsorship_bond",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-end_time",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-terminator",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-root_person",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-chain_length",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-bond_id",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-bond_digest",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-sponsor_id",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-missing-bond_inputs",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "bond-non-renewable",
+      "value": {
+        "kind": "sponsorship_bond",
+        "status": "non_renewable",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "bond_id": "bond",
+        "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+        "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "bond_inputs": {
+          "sponsor_e_base": 90,
+          "stake_percentage": 20
+        }
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "attestation",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "attestation-missing-kind",
+      "value": {
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-status",
+      "value": {
+        "kind": "external_attestation",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-end_time",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-terminator",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-root_person",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-chain_length",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-attestation_id",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-attestation_digest",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-attestor_id",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-exposure_class",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-declared_exposure",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-missing-anchored_capacity",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "attestation-non-renewable",
+      "value": {
+        "kind": "external_attestation",
+        "status": "non_renewable",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "none-missing-reason",
+      "value": {
+        "kind": "none",
+        "status": "none"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "none-with-declared_exposure",
+      "value": {
+        "kind": "none",
+        "status": "none",
+        "reason": "missing",
+        "declared_exposure": 1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "none-with-anchored_capacity",
+      "value": {
+        "kind": "none",
+        "status": "none",
+        "reason": "missing",
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "none-with-end_time",
+      "value": {
+        "kind": "none",
+        "status": "none",
+        "reason": "missing",
+        "end_time": 1800000010
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "zero-capacity",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 0
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "negative-capacity",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": -1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "null-capacity",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": null
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "negative-exposure",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": -1,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "null-terminator",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": null,
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "zero-chain",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 0,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "above-maximum-chain",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 13,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "mixed-bond-claim",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100,
+        "bond_id": "bond"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "zero-exposure-shape-only",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "zero-exposure",
+        "attestation_digest": "sha256:c7e360f46cc6a641f96eb82e8326eaab677c7585444ef3dc6a1161733c3b7e78",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 0,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "unknown-kind",
+      "value": {
+        "kind": "other",
+        "status": "current"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "named-human-is-not-institution-terminator",
+      "value": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "named_human",
+          "reference": "person:acct:z1:0417"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "schemaAccepted": false
+    }
+  ],
+  "projection_cases": [
+    {
+      "id": "bond-current",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "sponsorship_bond",
+          "status": "current",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "bond_id": "bond",
+          "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+          "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+          "bond_inputs": {
+            "sponsor_e_base": 90,
+            "stake_percentage": 20
+          }
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "bond-without-cause-before-end",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "sponsorship_bond",
+          "status": "non_renewable",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "bond_id": "bond",
+          "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+          "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+          "bond_inputs": {
+            "sponsor_e_base": 90,
+            "stake_percentage": 20
+          }
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "bond-without-cause-at-end",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "expired"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-expired",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "expired"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-pending-cause",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_pending"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-rejected-cause",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause",
+          "bond-rejected"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_rejected"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-sustained-cause",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause",
+          "bond-sustained"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_sustained"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-unresolved-at-end",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unresolved_lapse"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-over-installed-hop",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 1,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "over_hop_bound"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-future-start",
+      "given": {
+        "instrument": "bond",
+        "now": 1799999999,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-unknown-status",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "authoritative_status_available": false
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-signature-substitution",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "signature_mutation": "flip one signature byte"
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-issuer-substitution",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "trusted_issuer": "urn:ktp:fixture:other"
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-projection-mismatch",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "candidate_projection": {
+          "kind": "sponsorship_bond",
+          "status": "current",
+          "end_time": 1800000011,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "bond_id": "bond",
+          "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+          "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+          "bond_inputs": {
+            "sponsor_e_base": 90,
+            "stake_percentage": 20
+          }
+        }
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-current",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "external_attestation",
+          "status": "current",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "attestation_id": "attestation",
+          "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+          "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "attestation-without-cause-before-end",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "external_attestation",
+          "status": "non_renewable",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "attestation_id": "attestation",
+          "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+          "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "attestation-without-cause-at-end",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "expired"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-expired",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "expired"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-pending-cause",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_pending"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-rejected-cause",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause",
+          "attestation-rejected"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_rejected"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-sustained-cause",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause",
+          "attestation-sustained"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_sustained"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-unresolved-at-end",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unresolved_lapse"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-over-installed-hop",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 1,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "over_hop_bound"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-future-start",
+      "given": {
+        "instrument": "attestation",
+        "now": 1799999999,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-unknown-status",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "authoritative_status_available": false
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-signature-substitution",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "signature_mutation": "flip one signature byte"
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-issuer-substitution",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "trusted_issuer": "urn:ktp:fixture:other"
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "unverifiable"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-projection-mismatch",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "candidate_projection": {
+          "kind": "external_attestation",
+          "status": "current",
+          "end_time": 1800000011,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "attestation_id": "attestation",
+          "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+          "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        }
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-wrong-lineage",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "independent",
+        "generation": 3,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-wrong-sponsor",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "proof_sponsor": "urn:ktp:fixture:other"
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-sponsored-software",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "zero-exposure",
+      "given": {
+        "instrument": "zero-exposure",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "no_exposure"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-misattestation",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause",
+          "attestation-misattestation"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "misattestation"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "missing-instrument",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "instrument_present": false
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "missing"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "rejected-does-not-revive-at-expiry",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000010,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause",
+          "attestation-rejected"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "expired"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "invalid-deployment-hop",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 13,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": []
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "proof-outlives-root",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "proof_exp": 1800000011
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "proof-exp-equals-root-end",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "proof_exp": 1800000010
+      },
+      "expected": {
+        "projection": {
+          "kind": "external_attestation",
+          "status": "current",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "root_person": "person:acct:z1:0417",
+          "chain_length": 2,
+          "attestation_id": "attestation",
+          "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+          "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "bond-event-not-yet-effective",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000001,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "sponsorship_bond",
+          "status": "current",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "chain_length": 2,
+          "bond_id": "bond",
+          "bond_digest": "sha256:a6e70020f393e0e905020fbeb42cbc60349b9f56178f23d7f13399e81b12cd1b",
+          "sponsor_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
+          "bond_inputs": {
+            "sponsor_e_base": 90,
+            "stake_percentage": 20
+          },
+          "root_person": "person:acct:z1:0417"
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "bond-without-cause-cannot-erase-cause",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [
+          "bond-for-cause",
+          "bond-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_pending"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-cycle",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "authenticated_chain_cycle": true
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "bond-terminator-not-outside",
+      "given": {
+        "instrument": "bond",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "sponsored",
+        "generation": 2,
+        "subject": "agent:sponsored:acme:aria:1234",
+        "events": [],
+        "terminator_outside_graph": false
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-event-not-yet-effective",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000001,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "external_attestation",
+          "status": "current",
+          "end_time": 1800000010,
+          "terminator": {
+            "kind": "employer",
+            "reference": "urn:ktp:fixture:accountable-entity"
+          },
+          "chain_length": 2,
+          "attestation_id": "attestation",
+          "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+          "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+          "exposure_class": "declared irrecoverable legal liability",
+          "declared_exposure": 25,
+          "anchored_capacity": 100,
+          "root_person": "person:acct:z1:0417"
+        },
+        "rootCreditEligible": true
+      }
+    },
+    {
+      "id": "attestation-without-cause-cannot-erase-cause",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [
+          "attestation-for-cause",
+          "attestation-without-cause"
+        ]
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "for_cause_pending"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-cycle",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "authenticated_chain_cycle": true
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    },
+    {
+      "id": "attestation-terminator-not-outside",
+      "given": {
+        "instrument": "attestation",
+        "now": 1800000004,
+        "hop_bound": 4,
+        "subject_profile": "software",
+        "lineage": "guarantor",
+        "generation": 7,
+        "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+        "events": [],
+        "terminator_outside_graph": false
+      },
+      "expected": {
+        "projection": {
+          "kind": "none",
+          "status": "none",
+          "reason": "invalid_instrument"
+        },
+        "rootCreditEligible": false
+      }
+    }
+  ],
+  "selection_strength_answers": {
+    "attestation": 25,
+    "tie": 25,
+    "stronger": 50,
+    "zero-exposure": 0
+  },
+  "selection_cases": [
+    {
+      "id": "strongest-single",
+      "candidates": [
+        "attestation",
+        "stronger"
+      ],
+      "expected_selected": "stronger",
+      "expected_projection": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "stronger",
+        "attestation_digest": "sha256:5e75ab8c637148b2c3078b4fdf4df441178f8384a1d485f35833b254e971d3c9",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor-2",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 50,
+        "anchored_capacity": 100
+      },
+      "aggregatePermitted": false
+    },
+    {
+      "id": "reordered-candidates",
+      "candidates": [
+        "stronger",
+        "attestation"
+      ],
+      "expected_selected": "stronger",
+      "expected_projection": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "stronger",
+        "attestation_digest": "sha256:5e75ab8c637148b2c3078b4fdf4df441178f8384a1d485f35833b254e971d3c9",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor-2",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 50,
+        "anchored_capacity": 100
+      },
+      "aggregatePermitted": false
+    },
+    {
+      "id": "equal-strength-tie",
+      "candidates": [
+        "attestation",
+        "tie"
+      ],
+      "expected_selected": "attestation",
+      "expected_projection": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "aggregatePermitted": false
+    },
+    {
+      "id": "withdrawn-strongest-use-backup",
+      "candidates": [
+        "stronger",
+        "attestation"
+      ],
+      "ineligible": [
+        "stronger"
+      ],
+      "expected_selected": "attestation",
+      "expected_projection": {
+        "kind": "external_attestation",
+        "status": "current",
+        "end_time": 1800000010,
+        "terminator": {
+          "kind": "employer",
+          "reference": "urn:ktp:fixture:accountable-entity"
+        },
+        "root_person": "person:acct:z1:0417",
+        "chain_length": 2,
+        "attestation_id": "attestation",
+        "attestation_digest": "sha256:ab4083bda18c3bbfe984fa74851baba2e97f5ee2d34a6154a6d00a309a3e98f6",
+        "attestor_id": "urn:ktp:fixture:TEST-root-attestor",
+        "exposure_class": "declared irrecoverable legal liability",
+        "declared_exposure": 25,
+        "anchored_capacity": 100
+      },
+      "aggregatePermitted": false
+    }
+  ],
+  "evidence_limits": "Modeled shape, signatures and projections; no real issuer/exposure/chain/adjudicator, live registry, current-state authentication or runtime implementation established. For semantic tests all unstated checks pass. Each expected none enforces zero credit and software E_base <=70 plus all tighter ceilings. Projection changes require fresh canonical issuance; not authority to alter signed bytes.",
+  "person_standing_mapping": {
+    "source_suite": "person-standing-v1",
+    "source_case": "PS03-nobody-behind-the-instrument",
+    "lifecycle_status": "lapsed",
+    "lifecycle_reason": "undeclared",
+    "projection": {
+      "kind": "none",
+      "status": "none",
+      "reason": "missing"
+    },
+    "rootCreditEligible": false,
+    "root_term": 0,
+    "E_base_max": 70
+  }
+}

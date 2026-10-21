@@ -7,8 +7,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and
 
 ## 1. Purpose and authority
 
-A Trust Proof is an Oracle's signed, short-lived assertion about a software
-agent's standing and environmental gate state. It is not an action capability
+A Trust Proof is an Oracle's signed, short-lived assertion about a subject's zone-specific standing and environmental gate state. It is not an action capability
 or a human eligibility credential. A valid proof can report `clear`, `veto`,
 or `undetermined`; only `clear` permits the relying component to continue the
 remaining authorization checks. It never grants execution by itself. The
@@ -86,26 +85,38 @@ is a declared demand-side input, never a member of context or a term in R. It re
 schemas by their absolute v2 `$id`s so moving this schema to v3 cannot change
 what those references resolve to.
 
-`generation` is required: sponsored 0–2, independent 3–6, guarantor 7 or more.
-`sub` MUST identify the same lineage, and a generation encoded in an independent
-or guarantor identifier MUST equal the claim. Full identifier grammar and bond
-binding remain KTP-IDENTITY/identifier contract; no identity registry is introduced here.
-`sponsor` is required only for sponsored lineage and prohibited otherwise.
-Optional `resilience_hash`, velocity, volatility and quorum telemetry cannot
-replace independently verified standing or authority.
+`subject_kind` is `software_agent` or `person` and MUST match independently
+established subject context. Software agents require lineage, generation,
+advancement floor and the existing conditional sponsor. Person accounts MUST
+omit those agent-only fields and MUST NOT receive default agent generation or
+mass ceilings. Authenticated receiving-zone transfer ceilings still apply. Person standing contains only signed acts and terminator standing
+under Core; eligibility and capacity remain separate requirements. For a person,
+the root's `root_person` is the same account as `sub`; the terminator is its
+employer, licensing body or board. Identity and signed-act evidence must be
+independently authenticated; candidate labels cannot choose subject policy.
+For software agents, `sub` MUST identify the same lineage as the claim; any
+generation encoded in an independent or guarantor identifier MUST equal the
+`generation` claim. The complete identifier grammar remains in KTP-IDENTITY.
 
-The closed `root_instrument` object is always present. `current` and
-`non_renewable` require integer `end_time`; the proof MUST NOT outlive it.
-`none` contains only `status`, with no invented instrument details. Other
-existing declared fields remain available for active instruments. The complete
-variant/lifecycle contract and projection remain External Root projection contract; these shape checks do
-not authenticate an external instrument or its capacity.
+The closed `root_instrument` is always present and follows
+[Closed External Root Projection](external-root.md) and
+[root-instrument.json](../schemas/root-instrument.json). Its kind is none,
+sponsorship_bond or external_attestation. None requires an established no-credit
+reason; it is a lapse state, never a design without accountability. Numeric
+software E_base is capped at 70, along with all tighter ceilings, and the
+external_root_missing ceiling must be carried. Active variants bind one exact
+signed instrument, issuer/subject, declared inputs and bounded outside
+terminator chain; current/non_renewable require end_time and the proof MUST NOT
+outlive it. Signature, current lifecycle, lineage and strongest-single selection
+are semantic checks under the companion, not consequences of schema success.
+Person subjects use this same proof shape under Core's signed-act standing contract;
+eligibility and capacity remain separate.
 
 `applicable_ceilings` is a nonempty list of closed ceiling/value objects. Names
 MUST be unique. When numeric, E_base MUST NOT exceed any declared ceiling, and
 E_trust MUST NOT exceed E_base. Verifiers MUST additionally establish the list
 contains every ceiling required by their installed policy, with its exact
-authenticated value, including the existing generation ceiling (25, 35, 45,
+authenticated value, including, for software agents only, the generation ceiling (25, 35, 45,
 55, 65, 75, 85 for generations 0–6; 100 thereafter). A proof cannot
 choose a weaker policy by omitting a ceiling. This contract does not prescribe
 the scoring computation or assert numerical equality to any formula.

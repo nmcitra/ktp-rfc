@@ -23,7 +23,7 @@
     "sub": {
       "type": "string",
       "format": "uri",
-      "description": "Agent identifier (subject)",
+      "description": "Authenticated software-agent or person account subject; person standing is zone-specific and not a general score.",
       "minLength": 1
     },
     "iat": {
@@ -91,15 +91,13 @@
         "r",
         "context",
         "soul",
-        "lineage",
         "peer_share",
         "applicable_ceilings",
-        "advancement_floor",
         "root_instrument",
         "version",
         "gate_state",
-        "generation",
-        "zone"
+        "zone",
+        "subject_kind"
       ],
       "properties": {
         "e_base": {
@@ -232,96 +230,7 @@
           "description": "Declared per-generation Resilience floor. A deployment whose environment produces no attestable friction declares 0, and a relying party can see the lineage advanced on time alone."
         },
         "root_instrument": {
-          "type": "object",
-          "required": [
-            "status"
-          ],
-          "properties": {
-            "status": {
-              "type": "string",
-              "enum": [
-                "current",
-                "non_renewable",
-                "none"
-              ],
-              "description": "External Root instrument status; non_renewable follows a withdrawal without cause; none computes the term as zero"
-            },
-            "end_time": {
-              "type": "integer",
-              "description": "Unix timestamp when the instrument ends (bond expiry or attestation expiry); required unless status is none",
-              "minimum": 0,
-              "maximum": 9007199254740991
-            },
-            "exposure_class": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "description": "Declared class of irrecoverable, non-transferable exposure"
-            },
-            "declared_exposure": {
-              "type": [
-                "number",
-                "null"
-              ],
-              "minimum": 0
-            },
-            "anchored_capacity": {
-              "type": [
-                "number",
-                "null"
-              ],
-              "minimum": 0
-            },
-            "terminator": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "description": "The chain's terminator outside the agent-trust graph"
-            },
-            "chain_length": {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "minimum": 1,
-              "description": "Declared accountability-chain length; MUST NOT exceed the deployment's declared hop bound"
-            }
-          },
-          "description": "The accountability instrument occupying the External Root term, per KTP-CORE Section 5.1",
-          "additionalProperties": false,
-          "allOf": [
-            {
-              "if": {
-                "properties": {
-                  "status": {
-                    "enum": [
-                      "current",
-                      "non_renewable"
-                    ]
-                  }
-                }
-              },
-              "then": {
-                "required": [
-                  "end_time"
-                ]
-              }
-            },
-            {
-              "if": {
-                "properties": {
-                  "status": {
-                    "const": "none"
-                  }
-                }
-              },
-              "then": {
-                "maxProperties": 1
-              }
-            }
-          ]
+          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v3/root-instrument.json"
         },
         "version": {
           "const": "ktp-trust-proof-v3"
@@ -406,6 +315,13 @@
           },
           "description": "Standard claim coordinated with proposed nested-zone contract/nested-zone receipt contract (KTP-ZONES Ingress Path and Egress Shaping). At most five bound receipts, outermost first; required at positive authorized topology depth and absent at depth zero. Shape alone does not verify signatures, topology, possession or session binding. See specifications/trust-proof.md.",
           "minItems": 1
+        },
+        "subject_kind": {
+          "enum": [
+            "software_agent",
+            "person"
+          ],
+          "description": "Must match independently authenticated subject class; cannot select a weaker policy."
         }
       },
       "additionalProperties": false,
@@ -416,7 +332,10 @@
               "lineage": {
                 "const": "sponsored"
               }
-            }
+            },
+            "required": [
+              "lineage"
+            ]
           },
           "then": {
             "required": [
@@ -442,7 +361,10 @@
               "lineage": {
                 "const": "independent"
               }
-            }
+            },
+            "required": [
+              "lineage"
+            ]
           },
           "then": {
             "properties": {
@@ -459,7 +381,10 @@
               "lineage": {
                 "const": "guarantor"
               }
-            }
+            },
+            "required": [
+              "lineage"
+            ]
           },
           "then": {
             "properties": {
@@ -553,6 +478,111 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "root_instrument": {
+                "properties": {
+                  "kind": {
+                    "const": "sponsorship_bond"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "lineage": {
+                "const": "sponsored"
+              },
+              "generation": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2
+              }
+            },
+            "required": [
+              "sponsor"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "subject_kind": {
+                "const": "person"
+              }
+            },
+            "required": [
+              "subject_kind"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "lineage"
+                  ]
+                },
+                {
+                  "required": [
+                    "generation"
+                  ]
+                },
+                {
+                  "required": [
+                    "sponsor"
+                  ]
+                },
+                {
+                  "required": [
+                    "advancement_floor"
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "root_instrument": {
+                "not": {
+                  "properties": {
+                    "kind": {
+                      "const": "sponsorship_bond"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                }
+              },
+              "applicable_ceilings": {
+                "items": {
+                  "properties": {
+                    "ceiling": {
+                      "not": {
+                        "enum": [
+                          "generation",
+                          "mass",
+                          "lineage"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "lineage",
+              "generation",
+              "advancement_floor"
+            ]
+          }
         }
       ]
     }
@@ -593,12 +623,19 @@
           {
             "ceiling": "zone_mass",
             "value": 90
+          },
+          {
+            "ceiling": "external_root_missing",
+            "value": 70
           }
         ],
         "advancement_floor": 0,
         "root_instrument": {
-          "status": "none"
-        }
+          "kind": "none",
+          "status": "none",
+          "reason": "missing"
+        },
+        "subject_kind": "software_agent"
       }
     }
   ],

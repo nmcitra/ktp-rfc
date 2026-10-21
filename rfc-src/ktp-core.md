@@ -346,9 +346,9 @@ Historical standing is not evidence that today's code, model, configuration, too
 
 E_base MUST include a term derived from a party that is externally accountable, exposed to loss, and able to revoke. No composition of E_base may consist entirely of terms the subject measures about itself.
 
-The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a physical-presence attestation, a legal entity, or a named human. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
+The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a person, and behind that person an employer, licensing body or board. The person is the External Root subject; the institution is the terminator. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
 
-The instrument occupying this term changes with lineage stage. The share does not.
+For software agents, the instrument occupying this term changes with lineage stage. The share does not. Persons use signed acts and the standing of their institutional terminator under the same Core shares; agent lineage and generation are not defaulted.
 
 | Stage | Instrument | The attestor is exposed to |
 |-------|------------|----------------------------|
@@ -369,7 +369,20 @@ The deployment MUST declare the adjudicator for findings of misattestation, incl
 
 A for-cause claim with no finding at the attestation's expiry lapses unresolved and MUST be recorded as unresolved. No debit is assessed on lapse; an unresolved claim does not become sustained or rejected by lapse of time. The instrument computes as zero in every branch — adjudication decides only whether the attestor is debited.
 
-The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
+The Trust Proof MUST carry the closed root_instrument projection in
+[Closed External Root Projection](../specifications/external-root.md) and
+schemas/root-instrument.json, referenced by the canonical Trust Proof schema.
+The selected live bond or attestation carries its exact signed-instrument digest,
+issuer binding, inputs, bounded outside terminator chain, current or
+non_renewable status and original end time. A no-credit projection uses kind
+none, status none and a required established reason; it MUST NOT carry
+credit-bearing fields or imply an optional rootless design. Its root term is
+zero, software base trust is capped at 70 alongside every tighter ceiling, and
+the agent remains below Operator until someone stands behind it again.
+Detailed claims/findings remain in the owning lifecycle/evaluation record.
+Person subjects use the same canonical proof and attestation branch under Core;
+eligibility and capacity remain separate prerequisites. The accountability
+chain is not the nested-zone enclosure chain.
 
 Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage.
 

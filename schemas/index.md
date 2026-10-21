@@ -13,6 +13,9 @@ the source.
 
 | Schema | File | What it constrains |
 |---|---|---|
+| Demand Input Contract v1 (proposed) | [`demand-input-contract.json`](demand-input-contract.json) | Closed independently supplied demand declaration; no factor weight or Context Signals |
+| Demand Operation v1 (proposed) | [`demand-operation.json`](demand-operation.json) | Exact actual invocation before criticality and final demand calculation |
+| Demand Input Value v1 (proposed) | [`demand-input-value.json`](demand-input-value.json) | Authoritative value payload bound to supplier/profiles, time, provenance and actual operation; authentication remains separate |
 | Risk Factors | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
 | Trust Proof | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |

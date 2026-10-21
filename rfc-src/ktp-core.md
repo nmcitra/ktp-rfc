@@ -1941,14 +1941,28 @@ deployment **MUST** declare its supplier. The supplier is ordinarily the
 deployment's own event calendar, maintenance schedule or mission-phase feed; the
 feeds KTP-SENSORS lists for this input remain its feeds.
 
-The declaration and evaluation boundary cases for a demand input are published
-in specifications/conformance/demand-input-v1.json. They fix decision
-requirements at those boundaries and do not define a formula for A, R or E.
+The complete declaration and per-operation value contract is
+[Per-operation Demand Supplier Contract](../specifications/demand-supplier.md).
+The deployment schema references its closed supplier declaration: unit/range,
+supplier and verification profiles, source, observation-based freshness and
+canonical authoritative value location. The value binds authenticated supplier
+and provenance, observed/issued times, the installed deployment digest and the
+exact actual preclassification operation. No signals, aggregation or weight
+belongs to this demand declaration. The five signal factors remain unchanged.
 
-Converts to spec text when the task-side domain lands, giving this quantity
-signals to aggregate and stating the supplier, the units, and the verification
-path a verifier walks. That domain is carried as a v2.1 obligation; until it
-lands, the declaration is the whole of the treatment.
+Missing, stale, unverifiable, requester-supplied or differently bound values
+remain unavailable and read as the most critical moment, never as a calm zero
+or a fabricated catalogue observation. That reading enters only the demand or
+supervision side and cannot lower A or reverse an earlier veto. No formula for
+producing criticality or A is added. A fresh signature cannot refresh an old
+observation; supplier independence and authoritative provenance require actual
+verification rather than a schema or supplied identifier.
+
+The original boundary vectors in specifications/conformance/demand-input-v1.json
+are complemented by specifications/conformance/demand-supplier-v1.json, which
+fixes full schema, signature, freshness, provenance and exact-binding cases.
+The profile and value shapes do not claim that supplier authenticity, calibration
+or implementation interoperability has been established.
 
 # Security Considerations
 

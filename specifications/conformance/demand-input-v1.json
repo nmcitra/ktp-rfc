@@ -2,7 +2,7 @@
   "suite": "demand-input-v1",
   "kind": "declaration-and-evaluation-boundary",
   "specification": "KTP-CORE L14 (the criticality of the moment is a demand-side input) and L11 (the supplied-input rule); specifications/deployment-profile.md, demand_inputs",
-  "note": "This repository contains no authorizer runtime. These vectors fix decision requirements at two boundaries: the deployment profile's demand_inputs declaration, and the point at which a supplied value enters an evaluation. They do not define a formula for A, R or E; where A is shown after a demand input is applied, the expectation is the ordering the envelope's non-decreasing property requires, not a value. The given/expect objects are test notation, not wire fields. The declaration checker (scripts/check-declarations.py) and the deployment-profile schema both reject the invalid profiles below; the schema is the authority on shape and the checker on arithmetic. Independence of a supplier from the requester is a declared relationship; a checker can refuse the literal case and cannot verify the proxy case, which is left to review.",
+  "note": "This repository contains no authorizer runtime. These vectors fix decision requirements at two boundaries: the deployment profile's demand_inputs declaration, and the point at which a supplied value enters an evaluation. They do not define a formula for A, R or E; where A is shown after a demand input is applied, the expectation is the ordering the envelope's non-decreasing property requires, not a value. The given/expect objects are test notation, not wire fields. The deployment-profile schema fixes declaration shape; semantic arithmetic and supplier-independence checks remain separate. When demand supplier contract is composed, the original checker/embedded profile is incomplete for the expanded supplier contract and is not evidence of current validity. Independence of a supplier from the requester is a declared relationship; a checker can refuse the literal case and cannot verify the proxy case, which is left to review.",
   "value_notation": "value is the supplied demand magnitude in the declared unit (0 to 1, 1 the most critical moment). observed_at and freshness_seconds are the supplier's observation time and the declared freshness window, both in seconds on one clock. bound_to is the digest of the operation the value was supplied for; request is the digest of the operation under evaluation. 'maximal' means the value is read as the most critical moment the unit admits.",
   "vectors": [
     {
@@ -222,5 +222,6 @@
       },
       "reason": "Core's worked example A.1 recomputed over five inputs: R = 0.540, E_trust = 43.70, and 50 > 43.70 vetoes on R alone. The kickoff demand input can only raise A, so it strengthens the veto and could never produce a permit."
     }
-  ]
+  ],
+  "supplier_contract_revision": "When composed with demand supplier contract, the embedded-example shorthand in these older modeled vectors refers to the complete valid declaration in demand-supplier-v1.json; apply the named mutation there. The Python checker embedded example is not the current supplier schema. The original demand-side criticality contract five-factor/demand-side decisions remain unchanged; demand-supplier-v1 fixes the full schema/time/provenance/binding contract."
 }

@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/demand-input-value.json",
+  "title": "Supplied per-operation demand value payload (proposed demand supplier contract)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "value_version",
+    "input",
+    "supplier",
+    "supplier_profile",
+    "declaration_digest",
+    "unit",
+    "value",
+    "observed_at",
+    "issued_at",
+    "provenance",
+    "operation_digest"
+  ],
+  "properties": {
+    "value_version": {
+      "const": "demand-input-value-v1"
+    },
+    "input": {
+      "const": "moment_criticality"
+    },
+    "supplier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "supplier_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+        }
+      }
+    },
+    "declaration_digest": {
+      "type": "string",
+      "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+    },
+    "unit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "value": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "observed_at": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "issued_at": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference",
+        "digest"
+      ],
+      "properties": {
+        "reference": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+        }
+      }
+    },
+    "operation_digest": {
+      "type": "string",
+      "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+    }
+  }
+}

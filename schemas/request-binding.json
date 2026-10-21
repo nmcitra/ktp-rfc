@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/request-binding-v1/request-binding.json",
+  "title": "KTP Ordinary Request Binding v1 (proposed)",
+  "description": "Complete ordinary canonical authorization request. Subject is authenticated requester; actor is software executor and proof subject. JSON Schema does not establish actual invocation, classification, delegation, proof or replay-state trust. See specifications/request-binding.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "subject",
+    "actor",
+    "audience",
+    "operation",
+    "resource",
+    "parameters",
+    "demand",
+    "classification_profile",
+    "request_id",
+    "replay_domain"
+  ],
+  "properties": {
+    "version": {
+      "const": "request-binding-v1"
+    },
+    "subject": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "actor": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "audience": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "operation": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "resource": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Complete inline security-relevant parameters after explicit default resolution; no digest-only alternative in this base profile."
+    },
+    "demand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "unit": {
+          "const": "ktp-action-risk-points"
+        }
+      }
+    },
+    "classification_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+        }
+      }
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[^\\s*?\\[\\]{}]+$(?![\\s\\S])"
+    },
+    "replay_domain": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    }
+  }
+}

@@ -537,6 +537,15 @@ SIDECAR: Separate process manages Oracle communication
 
 ## Authorization Request
 
+Native v3 ordinary software evaluation MUST use the canonical request and
+association schemas of [Ordinary Request and Trust Proof Association](../specifications/request-binding.md),
+with the exact complete compact Trust Proof. An authenticated adapter maps the
+actual invocation into the complete canonical body; arbitrary transport
+headers, omitted defaults, decoded proof summaries or caller-supplied digests
+cannot change the evaluated request. The companion fixes preimages and failures
+across transports. The v1 sketches below lack that binding and are legacy
+examples pending native Transport contract, not a native v3 request schema.
+
 gRPC service definition:
 
 service PolicyEnforcementService { rpc Authorize(AuthorizationRequest) returns (AuthorizationResponse); rpc AuthorizeStream(stream AuthorizationRequest) returns (stream AuthorizationResponse); rpc SubscribeTrustUpdates(SubscribeRequest) returns (stream TrustUpdate); }
@@ -556,6 +565,14 @@ POST /v1/authorize
 Request: { "request_id": "req-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "action": { "type": "data_write", "target": "database:orders", "risk_score": 65 }, "existing_proof_jws": "eyJhbGciOiJFZERTQSI..." }
 
 ## Authorization Response
+
+An ordinary association retained locally is an unsigned prerequisite. A decision
+crossing a trust boundary MUST carry verified signed coverage of both exact
+request/proof digests and the evaluation context, supervision and tightened
+constraints required by the association companion. The legacy response sketches
+below do not provide that signed carrier and MUST NOT authorize external use.
+The Decision Geometry proposal Decision Geometry contract defines its separate carrier; no generic
+HTTP success flag or copied trust score replaces its required authentication.
 
 message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2;
 

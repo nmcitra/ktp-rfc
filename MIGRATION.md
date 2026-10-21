@@ -1,5 +1,19 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed missing-evidence migration (missing-evidence contract, after D-010 approval):**
+Remove default_on_failure from active sensor configurations, including veto
+configurations, and the old fraction-of-feeds dimension fallback. Adopt the
+[explicit layer states](specifications/missing-evidence.md) and their per-layer
+undefined_inputs entries. Continuity requires declared independently current
+redundant evidence satisfying the same signal's complete population rule;
+there is no estimator alternative. Any required unknown signal makes the
+factor unobservable with a separate maximum-stress decision reading, not a
+measurement. Increment configuration/profile versions and digests, reacquire
+current observations, and preserve historical v2.1 records under their original
+release. Do not rename old fallback numbers or cached data into current
+observations; legacy handling cannot weaken active missing-evidence rules.
+
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the
@@ -617,4 +631,3 @@ unchanged at their v2 identifiers and are kept as
 `schemas/risk-factors-legacy-v2.json`, `schemas/trust-proof-legacy-v2.json` and
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
-

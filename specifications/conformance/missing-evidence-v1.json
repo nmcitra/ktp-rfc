@@ -1,0 +1,3856 @@
+{
+  "suite": "missing-evidence-v1",
+  "status": "proposed",
+  "baseline": "v2.1.0",
+  "fixture_profile": {
+    "population": "For each named signal, one complete current eligible alternative suffices. Replacing a failed declared source requires distinct independently established source/control/failure group. Denominator must be positive and declared coverage complete. Values are already authenticated and normalized under the fixture profile, except explicit negative context.",
+    "factor": "Fixture max over complete required signal subset; this reproduces published boundaries without adding a universal aggregation or A/E formula. No factor weighting is altered.",
+    "scope": "Only the named factor/signals are evaluated. Unmentioned ordinary authorization prerequisites are not permission. Soul stops later evaluation; no uncomputed result is filled.",
+    "time": "Milliseconds on one authenticated clock; positive threshold accepts equality; zero threshold requires a current-evaluation fresh response.",
+    "independence": "The booleans model independently supplied trust context, not candidate assertions or real independence proof.",
+    "given_expected": "Modeled inputs/results, not a new collection envelope; result objects use evidence-state.json. Undefined entries preserve exactly input/layer/state, ordered feed/signal/term/query then input."
+  },
+  "configuration_cases": [
+    {
+      "id": "no-numeric-fallback",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average"
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "reject-fallback-0.5",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average",
+        "default_on_failure": 0.5
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "reject-fallback-0.8",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average",
+        "default_on_failure": 0.8
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "reject-fallback-1",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average",
+        "default_on_failure": 1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "reject-feed-local-fallback",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000,
+            "default_on_failure": 1
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average"
+      },
+      "schemaAccepted": false
+    }
+  ],
+  "outcome_schema_cases": [
+    {
+      "id": "current-feed",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "current",
+        "value": 0.2,
+        "observed_at_ms": 9500
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "unavailable-feed",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable",
+        "reason": "unanswered"
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "populated-signal",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "populated",
+        "value": 0.2
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "unknown-signal",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "unknown",
+        "reason": "undefined"
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "observable-term",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "observable",
+        "value": 0.4
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "unobservable-term",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 1
+      },
+      "schemaAccepted": true
+    },
+    {
+      "id": "unavailable-feed-forbids-measured-0",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable",
+        "reason": "unanswered",
+        "value": 0
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unavailable-feed-forbids-measured-0.5",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable",
+        "reason": "unanswered",
+        "value": 0.5
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unavailable-feed-forbids-measured-1",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable",
+        "reason": "unanswered",
+        "value": 1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unavailable-feed-forbids-measured-None",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable",
+        "reason": "unanswered",
+        "value": null
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unknown-signal-forbids-measured-0",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "unknown",
+        "reason": "undefined",
+        "value": 0
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unknown-signal-forbids-measured-0.5",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "unknown",
+        "reason": "undefined",
+        "value": 0.5
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unknown-signal-forbids-measured-1",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "unknown",
+        "reason": "undefined",
+        "value": 1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unknown-signal-forbids-measured-None",
+      "value": {
+        "input": "soul.temporal.action_rate",
+        "layer": "signal",
+        "state": "unknown",
+        "reason": "undefined",
+        "value": null
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-term-forbids-measured-0",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 1,
+        "value": 0
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-term-forbids-measured-0.5",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 1,
+        "value": 0.5
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-term-forbids-measured-1",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 1,
+        "value": 1
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-term-forbids-measured-None",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 1,
+        "value": null
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unavailable-without-reason",
+      "value": {
+        "input": "feed-a",
+        "layer": "feed",
+        "state": "unavailable"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-without-decision-reading",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined"
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "unobservable-wrong-reading",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "unobservable",
+        "reason": "undefined",
+        "decision_stress": 0.5
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "observable-genuine-zero",
+      "value": {
+        "input": "evidence_density",
+        "layer": "term",
+        "state": "observable",
+        "value": 0
+      },
+      "schemaAccepted": true
+    }
+  ],
+  "vectors": [
+    {
+      "id": "all-current",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "one-failed-independent-backup",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "all-feeds-for-required-signal-fail",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "all-feeds-fail",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "empty-denominator-with-current-feeds",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 0
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "one-unknown-in-required-subset",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "no-factor-inputs",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "stale-primary-independent-backup",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 8999,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "stale"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "stale"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "stale-and-unanswered-no-population",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 8999,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "stale"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "stale"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "freshness-exact-threshold",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9000,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9000
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "future-observation",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 10001,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "undefined"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "undefined"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "clock-unknown",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": false,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "undefined"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "undefined"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "undefined"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "undefined"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "undefined"
+          },
+          {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "undefined"
+          },
+          {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "healthy-connection-without-answer",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true,
+            "connected": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "disabled-required-feed",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": false,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "absent"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "absent"
+          },
+          {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "dependent-backup-refused",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "unknown-backup-independence",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": false
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "backup-does-not-cover-required-signal",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "partial-population-not-waived",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1,
+            "coverage_complete": false
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "zero-threshold-cached-value-unavailable",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 0,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "stale"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "unknown",
+            "reason": "undefined"
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "stale"
+          },
+          {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "undefined"
+          },
+          {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "undefined"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "unobservable",
+          "reason": "undefined",
+          "decision_stress": 1
+        },
+        "capacityKnown": false
+      }
+    },
+    {
+      "id": "zero-threshold-current-on-demand-response",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 10000,
+            "value": 0.4,
+            "threshold_ms": 0,
+            "new_response": true,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 10000
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "genuine-zero-is-observable",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "current",
+            "value": 0,
+            "observed_at_ms": 9500
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0,
+            "observed_at_ms": 9500
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0
+          }
+        },
+        "undefined_inputs": [],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "less-than-half-feeds-but-complete-independent-population",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          },
+          "extra-0": {
+            "input": "extra-0",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "extra-1": {
+            "input": "extra-1",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "extra-2": {
+            "input": "extra-2",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "extra-3": {
+            "input": "extra-3",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "extra-4": {
+            "input": "extra-4",
+            "enabled": true,
+            "answered": false,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": []
+      },
+      "expected": {
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.2,
+            "observed_at_ms": 9500
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "layer": "feed",
+            "state": "current",
+            "value": 0.4,
+            "observed_at_ms": 9500
+          },
+          "extra-0": {
+            "input": "extra-0",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "extra-1": {
+            "input": "extra-1",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "extra-2": {
+            "input": "extra-2",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "extra-3": {
+            "input": "extra-3",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          },
+          "extra-4": {
+            "input": "extra-4",
+            "layer": "feed",
+            "state": "unavailable",
+            "reason": "unanswered"
+          }
+        },
+        "signals": {
+          "soul.temporal.action_rate": {
+            "input": "soul.temporal.action_rate",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.2
+          },
+          "relational.trust.outbound_mean": {
+            "input": "relational.trust.outbound_mean",
+            "layer": "signal",
+            "state": "populated",
+            "value": 0.4
+          }
+        },
+        "undefined_inputs": [
+          {
+            "input": "extra-0",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "extra-1",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "extra-2",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "extra-3",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "extra-4",
+            "layer": "feed",
+            "state": "unanswered"
+          },
+          {
+            "input": "feed-a",
+            "layer": "feed",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 0,
+        "factor_evaluated": true,
+        "factor_result": {
+          "input": "evidence_density",
+          "layer": "term",
+          "state": "observable",
+          "value": 0.4
+        },
+        "capacityKnown": true
+      }
+    },
+    {
+      "id": "unanswered-soul",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": [
+          {
+            "id": "framework-a",
+            "answered": false
+          }
+        ]
+      },
+      "expected": {
+        "feeds": {},
+        "signals": {},
+        "undefined_inputs": [
+          {
+            "input": "framework-a",
+            "layer": "query",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 1,
+        "supervision": "silent_veto",
+        "factor_evaluated": false
+      }
+    },
+    {
+      "id": "errored-soul",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": [
+          {
+            "id": "framework-a",
+            "answered": true,
+            "error": true
+          }
+        ]
+      },
+      "expected": {
+        "feeds": {},
+        "signals": {},
+        "undefined_inputs": [
+          {
+            "input": "framework-a",
+            "layer": "query",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 1,
+        "supervision": "silent_veto",
+        "factor_evaluated": false
+      }
+    },
+    {
+      "id": "cached-clear-not-current-soul",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": [
+          {
+            "id": "framework-a",
+            "answered": true,
+            "current": false
+          }
+        ]
+      },
+      "expected": {
+        "feeds": {},
+        "signals": {},
+        "undefined_inputs": [
+          {
+            "input": "framework-a",
+            "layer": "query",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 1,
+        "supervision": "silent_veto",
+        "factor_evaluated": false
+      }
+    },
+    {
+      "id": "current-positive-soul-veto",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": [
+          {
+            "id": "framework-a",
+            "answered": true,
+            "veto": true
+          }
+        ]
+      },
+      "expected": {
+        "feeds": {},
+        "signals": {},
+        "undefined_inputs": [],
+        "executionPermissionEstablished": false,
+        "soul": 1,
+        "supervision": "silent_veto",
+        "factor_evaluated": false
+      }
+    },
+    {
+      "id": "clear-framework-does-not-outvote-unanswered",
+      "given": {
+        "evaluated_at_ms": 10000,
+        "clock_healthy": true,
+        "feeds": {
+          "feed-a": {
+            "input": "feed-a",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-a",
+            "independence_confirmed": true
+          },
+          "feed-b": {
+            "input": "feed-b",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.2,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-b",
+            "independence_confirmed": true
+          },
+          "feed-c": {
+            "input": "feed-c",
+            "enabled": true,
+            "answered": true,
+            "authenticated": true,
+            "observed_at_ms": 9500,
+            "value": 0.4,
+            "threshold_ms": 1000,
+            "new_response": false,
+            "independence_group": "feed-c",
+            "independence_confirmed": true
+          }
+        },
+        "signal_rules": {
+          "soul.temporal.action_rate": {
+            "alternatives": [
+              "feed-a",
+              "feed-b"
+            ],
+            "denominator": 1
+          },
+          "relational.trust.outbound_mean": {
+            "alternatives": [
+              "feed-c"
+            ],
+            "denominator": 1
+          }
+        },
+        "required_signals": [
+          "soul.temporal.action_rate",
+          "relational.trust.outbound_mean"
+        ],
+        "factor": "evidence_density",
+        "factor_rule": "fixture-max-over-complete-required-subset-v1",
+        "soul_queries": [
+          {
+            "id": "framework-a",
+            "answered": true,
+            "veto": false
+          },
+          {
+            "id": "framework-b",
+            "answered": false
+          }
+        ]
+      },
+      "expected": {
+        "feeds": {},
+        "signals": {},
+        "undefined_inputs": [
+          {
+            "input": "framework-b",
+            "layer": "query",
+            "state": "unanswered"
+          }
+        ],
+        "executionPermissionEstablished": false,
+        "soul": 1,
+        "supervision": "silent_veto",
+        "factor_evaluated": false
+      }
+    }
+  ],
+  "evidence_limits": "Fixed modeled propagation and shape cases, not sensor truth, trusted clocks, actual source independence, real population completeness, enforcement or sensor-stack interoperability. No estimator profile exists. decision_stress and capacityKnown are restrictive evaluation metadata, not fabricated observations."
+}

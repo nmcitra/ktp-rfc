@@ -70,7 +70,21 @@ Constraints, all quoted from their rulings:
 
 The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,644 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
 
-`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is available when at least one feed declared to populate it is AVAILABLE under `[KTP-SENSORS]` §6.1; a signal none of whose declared feeds is available reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
+`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is populated only when current declared observations under `[KTP-SENSORS]` §6.1 satisfy its complete population rule, including independently established redundancy where a failed source is replaced. A signal with no sufficient declared current population reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (the owning proposal).
+
+A feed's AVAILABLE state is necessary but not sufficient to populate a signal:
+the complete catalogue population/denominator/normalization rule must hold.
+[Missing Evidence](missing-evidence.md) fixes the end-to-end transition.
+For claimed independent redundant alternatives, feeds entries additionally
+carry paired independence_group and independence_evidence declarations. They
+identify the installed source/control/failure domain and its independence
+assessment reference; labels alone do not establish independence. A replacement
+must have a distinct independently established failure domain from the failed
+feed and satisfy the complete same signal rule. There is no estimator profile
+or numeric fallback. Every required signal must be populated; an unknown one
+makes its factor unobservable with decision_stress 1.0, never a fabricated
+measurement or rescaled subset. The evidence-state schema names the separate
+result branches without asserting live source trust.
 
 The mapping **stays in configuration and does not ride the wire** — the same bind-don't-carry answer #72 ruled for the measurement envelope, applied to a declaration that is stable per deployment rather than per observation.
 
@@ -167,7 +181,17 @@ Every member MUST verify the authenticated configuration and evidence before cou
 - `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
-The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) rides the #71/#83 schema gate; this definition is that gate's cargo.
+The field MUST include every evaluated undefined layer under
+[missing-evidence.md](missing-evidence.md), even a failed feed whose independent
+backup preserves signal population. Unknown signals and unobservable terms
+receive their own entries; a successful backup does not invent those entries.
+An empty denominator yields signal/term entries without a failed feed. An
+unanswered Soul framework yields query/unanswered and veto; later uncomputed
+terms are not fabricated. Preserve the exact three fields and four state names
+above; detailed causes/provenance remain outside these entries. This supplies
+per-layer evidence for the attribution work following Induced Conservatism contract and does not infer
+an adversary's intent. The field MUST appear whenever an undefined input
+resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) follows the owning artifact schemas; this definition is that gate's cargo.
 
 ## Conformance
 

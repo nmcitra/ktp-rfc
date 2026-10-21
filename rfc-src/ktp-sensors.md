@@ -108,27 +108,41 @@ This modularity allows KTP to adapt to diverse deployment contexts while maintai
 
 ## Feed Aggregation
 
-For the five weighted inputs, feeds are aggregated using weighted average:
+Feed evidence MUST first populate each required Context Signal under its
+installed catalogue/population rule. The factor then aggregates its complete
+declared signal subset. Availability and independent redundant continuity
+follow [Missing Evidence](../specifications/missing-evidence.md), not an
+aggregate over whichever feeds happened to answer. An unavailable feed carries
+no numeric observation; one unknown required signal makes the factor
+unobservable with a separate decision_stress reading of 1.0. There is no
+numeric failure default or estimator profile.
+
+For each of the five weighted inputs, `weighted_average` combines the complete
+admissible population with its installed feed weights:
 
 ~~~
    dimension_value = sum(feed_weight[i] * feed_value[i]) /
                      sum(feed_weight[i])
 ~~~
 
-Where: feed_weight\[i] = Configured weight for feed i (default: 1.0) feed_value\[i] = Normalized value (0-1) from feed i
+Here feed_weight[i] is the configured weight (default 1.0) and feed_value[i]
+is the current normalized value in [0,1] admitted by the installed signal
+population rule. The denominator must be finite and positive and the result
+finite and in [0,1]; an undefined aggregate follows the unobservable path above.
+This definition does not permit dropping an unknown required signal or
+renormalizing over whichever feeds answered. Section 2.3's informative sensing
+scopes use this same aggregation for one input; their feed weights are not
+Risk Factor weights. Demand-side `moment_criticality` is not one of these five
+inputs and never enters this aggregation into R.
 
-For the Soul veto, feeds are aggregated using logical OR:
-
-~~~
-   S = 1 IF ANY enabled feed returns veto
-   S = 0 IF ALL enabled feeds return clear
-~~~
+Soul remains an on-demand per-framework query: any veto or UNDETERMINED query
+raises S = 1. A current answer from another framework cannot replace it.
 
 Feed configuration schema:
 
 ~~~
    {
-     "dimension": "m",
+     "dimension": "evidence_density",
      "feeds": [
        {
          "id": "co2-sensor",
@@ -159,8 +173,7 @@ Feed configuration schema:
          "stale_threshold_ms": 300000
        }
      ],
-     "aggregation": "weighted_average",
-     "default_on_failure": 0.8
+     "aggregation": "weighted_average"
    }
 ~~~
 
@@ -920,17 +933,45 @@ Soul is queried on demand and has no staleness threshold. A current query is REQ
 
 6.2. Sensor Failure Handling
 
-If a sensor feed fails:
+Every evaluated feed produces current evidence or explicit unavailable state
+with a reason under schemas/evidence-state.json. No numeric value travels in
+an unavailable branch. A stale, failed, absent or unanswered source is not
+counted current, even if its connection is healthy or its last value is cached.
+The same actual-current count is reported as feeds_active in the audit record
+(see {{KTP-AUDIT}} Section 3.2); it is telemetry, not a permission threshold.
 
-1. Mark feed as degraded
-2. If < 50% of dimension's feeds available: -  Use conservative default (dimension-specific)
-3. If no feeds available: -  Use maximum stress value (1.0) for that dimension
-4. Log sensor failure for investigation
-5. Alert operators if failure persists > threshold
+Availability is a property of the feed. Section 5.2 of {{KTP-CORE}} states the
+rule for the Context Signal a feed populates and for the Risk Factor the
+signals aggregate into; a signal may be unavailable while every feed populating
+it is healthy.
 
-A feed is AVAILABLE only if it has both answered and returned an observation that is current under Section 6.1. A feed that has failed and a feed whose most recent observation has passed its staleness threshold are equally unavailable, and an implementation MUST NOT count either as available in step 2's fraction. This is the same count reported as feeds_active in the audit record (see {{KTP-AUDIT}} Section 3.2), so two conformant implementations observing the same environment record the same number.
+The complete transition contract is specifications/missing-evidence.md:
 
-Availability is a property of the feed. Section 5.2 of {{KTP-CORE}} states the rule for the Context Signal a feed populates and for the Risk Factor the signals aggregate into; a signal may be unavailable while every feed populating it is healthy.
+1. Populate each required signal only from its declared current admissible
+   population. A failed feed can be replaced only by a declared independently
+   current alternative satisfying that whole signal rule. Unknown independence
+   or shared failure domains cannot establish redundant continuity.
+2. If the rule is unsatisfied, the signal is unknown. Empty denominators remain
+   unknown even with every feed current. Zero or an old value is not inferred.
+3. If any required signal is unknown, its factor is unobservable and takes
+   decision_stress 1.0, without manufacturing a measured factor value or
+   renormalizing around the missing input.
+4. Record each evaluated missing feed, unknown signal and unobservable term
+   separately in undefined_inputs. A backup that succeeds preserves the failed
+   feed entry but does not invent a missing signal/term. Unanswered sovereignty
+   queries have their own query entry and veto.
+
+The former fraction-of-feeds dimension default is removed. No 50-percent or
+other availability fraction selects a replacement number. default_on_failure
+is prohibited, including value 1 in a veto configuration; the restrictive
+veto/stress outcome is a decision, never an observation. There is no estimator
+profile for this failure path. Acquisition, retry, alerting and investigation
+are implementation concerns rather than alternate authorization behavior.
+
+See specifications/conformance/missing-evidence-v1.json for exact layer states,
+restrictive readings and attribution entries. The entries support the separate
+Induced Conservatism attribution work following Induced Conservatism contract, without claiming intent
+from a missing observation.
 
 6.3. Cross-Validation
 

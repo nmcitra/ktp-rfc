@@ -1,5 +1,24 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed portable Decision Geometry migration (Decision Geometry contract, after canonical Trust Proof contract/request association contract):**
+Retain historical v2.1 records in their original formats, with their original
+signatures and provenance. They remain historical records; do not invent missing
+inputs, profile/source evidence, undefined-state metadata, associations, margin
+or gates to relabel them decision-geometry-v1. Use fresh evaluations under the
+installed profile and [canonical body/carrier](specifications/decision-geometry.md)
+for the new format. Preserve exact request/proof association preimages from
+request association contract. Keep original producer geometry immutable if a consumer tightens it.
+
+Move product chain/storage/retention/query/enforcement/notification metadata and
+counterfactual projections outside the portable body; no ALLOW/DENY/VETO enum or
+execution outcome belongs there. transaction-record.json stays a Trajectory
+Chain record; do not transform it into pre-action evaluation evidence. Across
+trust boundaries, authorize evaluator-role keys and verify complete typed carrier,
+geometry digest, actual request/proof/profile, current validity and all existing
+replay/grant/readiness constraints. Archived validity cannot restore current
+permission, and a signed geometry does not prove dispatch or non-dispatch.
+
+
 **Ordinary request/proof migration (v2.1.0 baseline):**
 Adopt [request-binding-v1](specifications/request-binding.md) alongside the
 canonical v3 Trust Proof. Build a fresh complete canonical request from the

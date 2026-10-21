@@ -1,0 +1,838 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/decision-geometry-v1/decision-geometry.json",
+  "title": "KTP Decision Geometry v1 (proposed)",
+  "description": "Portable deterministic evaluation record, not a permit, Trajectory Chain record, Flight Recorder row, or execution outcome. Ordered branches, evidence/binding/profile trust and tighten-only semantics require specifications/decision-geometry.md beyond schema shape.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "decision_id",
+    "evaluated_at",
+    "ktp_release",
+    "evaluation_profile",
+    "evaluator",
+    "subject",
+    "actor",
+    "audience",
+    "association",
+    "inputs",
+    "undefined_inputs",
+    "gates",
+    "result",
+    "reason_codes"
+  ],
+  "properties": {
+    "record_version": {
+      "const": "decision-geometry-v1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "evaluated_at": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ktp_release": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "evaluation_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "digest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+        }
+      }
+    },
+    "evaluator": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "subject": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "actor": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "audience": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "association": {
+      "anyOf": [
+        {
+          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/request-binding-v1/request-proof-association.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "layer",
+          "state",
+          "source",
+          "evidence_digests"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "layer": {
+            "enum": [
+              "feed",
+              "signal",
+              "term",
+              "query"
+            ]
+          },
+          "state": {
+            "enum": [
+              "observed",
+              "modeled",
+              "estimated",
+              "absent",
+              "unanswered",
+              "stale",
+              "undefined"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "format": "uri",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "evidence_digests": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+            }
+          },
+          "value": {}
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "observed",
+                    "modeled",
+                    "estimated"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "value"
+              ],
+              "properties": {
+                "evidence_digests": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "value"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "undefined_inputs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "input",
+          "layer",
+          "state"
+        ],
+        "properties": {
+          "input": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "layer": {
+            "enum": [
+              "feed",
+              "signal",
+              "term",
+              "query"
+            ]
+          },
+          "state": {
+            "enum": [
+              "absent",
+              "unanswered",
+              "stale",
+              "undefined"
+            ]
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding",
+        "soul",
+        "prior",
+        "inputs",
+        "capacity",
+        "envelope",
+        "consumer"
+      ],
+      "properties": {
+        "binding": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "soul": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "prior": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "inputs": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "capacity": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "envelope": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        },
+        "consumer": {
+          "enum": [
+            "passed",
+            "failed",
+            "undetermined",
+            "not_evaluated"
+          ]
+        }
+      }
+    },
+    "capacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "A",
+        "E",
+        "unit",
+        "capacityKnown",
+        "relation"
+      ],
+      "properties": {
+        "A": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "E": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "unit": {
+          "const": "ktp-action-risk-points"
+        },
+        "capacityKnown": {
+          "type": "boolean"
+        },
+        "relation": {
+          "enum": [
+            "within",
+            "over",
+            "zero"
+          ]
+        }
+      }
+    },
+    "margin": {
+      "type": "number"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supervision",
+        "tightenedConstraints"
+      ],
+      "properties": {
+        "supervision": {
+          "enum": [
+            "stable",
+            "metacognitive",
+            "assisted",
+            "regulated",
+            "silent_veto"
+          ]
+        },
+        "tightenedConstraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile",
+            "ceilings"
+          ],
+          "properties": {
+            "profile": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "ceilings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "magnitude",
+                  "max"
+                ],
+                "properties": {
+                  "magnitude": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "consumer_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supervision",
+        "tightenedConstraints"
+      ],
+      "properties": {
+        "supervision": {
+          "enum": [
+            "stable",
+            "metacognitive",
+            "assisted",
+            "regulated",
+            "silent_veto"
+          ]
+        },
+        "tightenedConstraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "profile",
+            "ceilings"
+          ],
+          "properties": {
+            "profile": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "ceilings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "magnitude",
+                  "max"
+                ],
+                "properties": {
+                  "magnitude": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "BINDING_INVALID",
+          "PRIOR_VETO",
+          "SOVEREIGNTY_CONSTRAINT",
+          "SOVEREIGNTY_UNDETERMINED",
+          "INPUT_UNAVAILABLE",
+          "TRUST_INSUFFICIENT",
+          "EVALUATION_COMPLETE",
+          "SUPERVISION_REQUIRED",
+          "CONSUMER_TIGHTENED"
+        ]
+      }
+    },
+    "embedded_request": {
+      "$ref": "https://kinetic-trust-protocol.net/specs/schemas/request-binding-v1/request-binding.json"
+    },
+    "embedded_proof": {
+      "type": "string",
+      "maxLength": 65536,
+      "minLength": 5
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "binding": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "soul": {
+                "const": "not_evaluated"
+              },
+              "prior": {
+                "const": "not_evaluated"
+              },
+              "inputs": {
+                "const": "not_evaluated"
+              },
+              "capacity": {
+                "const": "not_evaluated"
+              },
+              "envelope": {
+                "const": "not_evaluated"
+              },
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "soul": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "prior": {
+                "const": "not_evaluated"
+              },
+              "inputs": {
+                "const": "not_evaluated"
+              },
+              "capacity": {
+                "const": "not_evaluated"
+              },
+              "envelope": {
+                "const": "not_evaluated"
+              },
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "prior": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "inputs": {
+                "const": "not_evaluated"
+              },
+              "capacity": {
+                "const": "not_evaluated"
+              },
+              "envelope": {
+                "const": "not_evaluated"
+              },
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "inputs": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "capacity": {
+                "const": "not_evaluated"
+              },
+              "envelope": {
+                "const": "not_evaluated"
+              },
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "capacity": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "envelope": {
+                "const": "not_evaluated"
+              },
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "envelope": {
+                "not": {
+                  "const": "passed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          },
+          "result": {
+            "properties": {
+              "supervision": {
+                "const": "silent_veto"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "binding": {
+                "const": "passed"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "association": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "association": {
+            "type": "null"
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "embedded_request"
+              ]
+            },
+            {
+              "required": [
+                "embedded_proof"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "capacity": {
+                "enum": [
+                  "passed",
+                  "failed"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "capacity"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "capacity"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "capacity": {
+                "const": "passed"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "margin"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "margin"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "consumer_result"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "consumer": {
+                "const": "passed"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "gates": {
+            "properties": {
+              "consumer": {
+                "const": "not_evaluated"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

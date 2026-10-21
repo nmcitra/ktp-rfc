@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/root-instrument.json",
+  "title": "Proposed closed External Root proof projection",
+  "description": "One selected instrument or a required reason for no credit. Independent signature, lifecycle, lineage, hop, numerical and selection checks remain mandatory; no rootless design is permitted.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/none"
+    },
+    {
+      "$ref": "#/$defs/sponsorship_bond"
+    },
+    {
+      "$ref": "#/$defs/external_attestation"
+    }
+  ],
+  "$defs": {
+    "none": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "none"
+        },
+        "status": {
+          "const": "none"
+        },
+        "reason": {
+          "enum": [
+            "missing",
+            "expired",
+            "unverifiable",
+            "over_hop_bound",
+            "invalid_instrument",
+            "for_cause_pending",
+            "for_cause_rejected",
+            "for_cause_sustained",
+            "unresolved_lapse",
+            "misattestation",
+            "no_exposure"
+          ]
+        },
+        "diagnostic_ref": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "kind",
+        "status",
+        "reason"
+      ]
+    },
+    "sponsorship_bond": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "sponsorship_bond"
+        },
+        "bond_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "bond_digest": {
+          "type": "string",
+          "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+        },
+        "sponsor_id": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "bond_inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sponsor_e_base": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "stake_percentage": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "required": [
+            "sponsor_e_base",
+            "stake_percentage"
+          ]
+        },
+        "status": {
+          "enum": [
+            "current",
+            "non_renewable"
+          ]
+        },
+        "end_time": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "terminator": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "employer",
+                "licensing_body",
+                "board"
+              ]
+            },
+            "reference": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "kind",
+            "reference"
+          ]
+        },
+        "chain_length": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "root_person": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^person:",
+          "description": "Authenticated person behind this instrument; for a person subject this equals proof sub. This is not the institution terminator."
+        }
+      },
+      "required": [
+        "kind",
+        "bond_id",
+        "bond_digest",
+        "sponsor_id",
+        "bond_inputs",
+        "status",
+        "end_time",
+        "terminator",
+        "chain_length",
+        "root_person"
+      ]
+    },
+    "external_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "external_attestation"
+        },
+        "attestation_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "attestation_digest": {
+          "type": "string",
+          "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+        },
+        "attestor_id": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "exposure_class": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "declared_exposure": {
+          "type": "number",
+          "minimum": 0
+        },
+        "anchored_capacity": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "status": {
+          "enum": [
+            "current",
+            "non_renewable"
+          ]
+        },
+        "end_time": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "terminator": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "employer",
+                "licensing_body",
+                "board"
+              ]
+            },
+            "reference": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          },
+          "required": [
+            "kind",
+            "reference"
+          ]
+        },
+        "chain_length": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "root_person": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^person:",
+          "description": "Authenticated person behind this instrument; for a person subject this equals proof sub. This is not the institution terminator."
+        }
+      },
+      "required": [
+        "kind",
+        "attestation_id",
+        "attestation_digest",
+        "attestor_id",
+        "exposure_class",
+        "declared_exposure",
+        "anchored_capacity",
+        "status",
+        "end_time",
+        "terminator",
+        "chain_length",
+        "root_person"
+      ]
+    }
+  }
+}

@@ -16,6 +16,7 @@ the source.
 | Risk Factors v3 (unreleased) | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
 | Legacy Risk Factors v2 | [`risk-factors-legacy-v2.json`](risk-factors-legacy-v2.json) | Byte-preserved published schema with six weighted inputs, for interpreting v2 proofs and records |
 | Root Instrument v1 (proposed) | [`root-instrument.json`](root-instrument.json) | Closed none/bond/attestation proof projection; signatures, lifecycle, lineage and strongest-single selection remain independent checks |
+| Component Claim v1 (proposed) | [`component-claim.json`](component-claim.json) | Closed implementer-owned role/build/declaration/tagged-suite metadata; evidence and assembly rules in specifications/component-conformance.md |
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Legacy Trust Proof v2 | [`trust-proof-legacy-v2.json`](trust-proof-legacy-v2.json) | Byte-preserved published schema for interpreting v2 proofs, whose context carries six inputs |
 | Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |

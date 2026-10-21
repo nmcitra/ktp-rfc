@@ -13,6 +13,7 @@ the source.
 
 | Schema | File | What it constrains |
 |---|---|---|
+| Component Claim v1 (proposed) | [`component-claim.json`](component-claim.json) | Closed implementer-owned role/build/declaration/tagged-suite metadata; evidence and assembly rules in specifications/component-conformance.md |
 | Risk Factors | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |

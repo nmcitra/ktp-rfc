@@ -1,0 +1,191 @@
+{
+  "index_version": "component-profiles-v1",
+  "status": "proposed",
+  "release_binding": "All profiles, requirements, schemas and suites resolve at the claim release tag in nmcitra/ktp-rfc. This working-tree index is not a published release. Conditional suites and runtime schedules in component-conformance.md remain mandatory.",
+  "profiles": [
+    {
+      "id": "core-evaluation-v1",
+      "requirements": [
+        "CP-CORE"
+      ],
+      "schemas": [
+        "schemas/risk-factors.json",
+        "schemas/deployment-profile.json"
+      ],
+      "suites": [
+        "specifications/conformance/aggregation-empty-window-v1.json",
+        "specifications/conformance/capacity-gate-v1.json",
+        "specifications/conformance/core-levels-v1.json"
+      ],
+      "evidence": "execution",
+      "exclusions": [
+        "Proof issuance",
+        "Request interception",
+        "Durable audit",
+        "Deployment assurance"
+      ]
+    },
+    {
+      "id": "trust-proof-verifier-v1",
+      "requirements": [
+        "CP-PROOF"
+      ],
+      "schemas": [
+        "schemas/trust-proof.json"
+      ],
+      "suites": [
+        "specifications/conformance/trust-proof-v3.json"
+      ],
+      "evidence": "execution",
+      "exclusions": [
+        "Proof issuance",
+        "Standing truth",
+        "Request interception"
+      ]
+    },
+    {
+      "id": "oracle-issuer-v1",
+      "requirements": [
+        "CP-ORACLE"
+      ],
+      "schemas": [
+        "schemas/trust-proof.json",
+        "schemas/deployment-profile.json",
+        "schemas/readiness-profile.json",
+        "schemas/readiness-attestation.json"
+      ],
+      "suites": [
+        "specifications/conformance/trust-proof-v3.json",
+        "specifications/conformance/readiness-lifecycle-v1.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "PEP interception",
+        "Durable audit unless separately claimed"
+      ]
+    },
+    {
+      "id": "evaluator-pdp-v1",
+      "requirements": [
+        "CP-PDP"
+      ],
+      "schemas": [
+        "schemas/request-binding.json",
+        "schemas/request-proof-association.json",
+        "schemas/decision-geometry.json",
+        "schemas/decision-geometry-carrier.json",
+        "schemas/readiness-decision.json"
+      ],
+      "suites": [
+        "specifications/conformance/capacity-gate-v1.json",
+        "specifications/conformance/core-levels-v1.json",
+        "specifications/conformance/request-binding-v1.json",
+        "specifications/conformance/decision-geometry-v1.json",
+        "specifications/conformance/readiness-lifecycle-v1.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "Target interception",
+        "Dispatch outcome",
+        "Durable recording"
+      ]
+    },
+    {
+      "id": "pep-enforcement-v1",
+      "requirements": [
+        "CP-PEP"
+      ],
+      "schemas": [
+        "schemas/trust-proof.json",
+        "schemas/request-binding.json",
+        "schemas/request-proof-association.json",
+        "schemas/readiness-decision.json"
+      ],
+      "suites": [
+        "specifications/conformance/trust-proof-v3.json",
+        "specifications/conformance/request-binding-v1.json",
+        "specifications/conformance/capacity-gate-v1.json",
+        "specifications/conformance/outage-safety-v1.json",
+        "specifications/conformance/readiness-lifecycle-v1.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "Oracle issuance",
+        "Audit storage guarantees"
+      ]
+    },
+    {
+      "id": "flight-recorder-v1",
+      "requirements": [
+        "CP-AUDIT"
+      ],
+      "schemas": [
+        "schemas/decision-geometry.json",
+        "schemas/transaction-record.json",
+        "schemas/privacy-evidence-envelope.json",
+        "schemas/privacy-erasure-receipt.json"
+      ],
+      "suites": [
+        "specifications/conformance/decision-geometry-v1.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "PEP enforcement",
+        "Oracle issuance",
+        "Authority from archived evidence"
+      ],
+      "conditional_suites": {
+        "trajectory_records": [
+          "specifications/conformance/trajectory-signatures-v3.json",
+          "specifications/conformance/trajectory-lifecycle-v3.json"
+        ],
+        "human_privacy": [
+          "specifications/conformance/human-privacy-lifecycle-v1.json"
+        ]
+      }
+    },
+    {
+      "id": "transport-federation-v1",
+      "requirements": [
+        "CP-TRANSPORT"
+      ],
+      "schemas": [
+        "schemas/trust-proof.json",
+        "schemas/request-binding.json",
+        "schemas/request-proof-association.json",
+        "schemas/decision-geometry-carrier.json"
+      ],
+      "suites": [
+        "specifications/conformance/request-binding-v1.json",
+        "specifications/conformance/decision-geometry-v1.json",
+        "specifications/conformance/trust-proof-v3.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "Zone policy ownership",
+        "Core result recomputation",
+        "End-target enforcement"
+      ]
+    },
+    {
+      "id": "assembled-deployment-v1",
+      "requirements": [
+        "CP-ASSEMBLY"
+      ],
+      "schemas": [
+        "schemas/deployment-profile.json"
+      ],
+      "suites": [
+        "specifications/conformance/core-levels-v1.json",
+        "specifications/conformance/request-binding-v1.json",
+        "specifications/conformance/outage-safety-v1.json",
+        "specifications/conformance/readiness-lifecycle-v1.json"
+      ],
+      "evidence": "runtime",
+      "exclusions": [
+        "Automatic inheritance from component claims",
+        "Assurance beyond the named deployment level"
+      ]
+    }
+  ]
+}

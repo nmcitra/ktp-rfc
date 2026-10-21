@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json",
-  "title": "KTP Trust Proof — Unreleased v3",
-  "description": "Signed token carrying Trust Score and environmental context for the Kinetic Trust Protocol. Its context is the five-input v3 Risk Factors object. The published v2 schema is archived separately as trust-proof-legacy-v2.json.",
+  "title": "KTP Trust Proof v3 (unreleased)",
+  "description": "Canonical signed Oracle standing assertion; shape validation is not cryptographic verification or authorization. See specifications/trust-proof.md.",
   "type": "object",
   "required": [
     "iss",
@@ -10,33 +10,76 @@
     "iat",
     "exp",
     "jti",
-    "ktp"
+    "ktp",
+    "aud"
   ],
   "properties": {
     "iss": {
       "type": "string",
       "format": "uri",
-      "description": "Trust Oracle identifier (issuer)"
+      "description": "Trust Oracle identifier (issuer)",
+      "minLength": 1
     },
     "sub": {
       "type": "string",
       "format": "uri",
-      "description": "Agent identifier (subject)"
+      "description": "Agent identifier (subject)",
+      "minLength": 1
     },
     "iat": {
       "type": "integer",
-      "description": "Issued at (Unix timestamp)"
+      "description": "Issued at (Unix timestamp)",
+      "minimum": 0,
+      "maximum": 9007199254740991
     },
     "exp": {
       "type": "integer",
-      "description": "Expiration time (Unix timestamp). Verifiers must enforce 0 < exp - iat <= 10 seconds and iat <= current_time < exp, including existing sessions and outages. JSON Schema does not establish these cross-field or current-time conditions."
+      "description": "Expiration time (Unix timestamp). Verifiers must enforce 0 < exp - iat <= 10 seconds and iat <= current_time < exp, including existing sessions and outages. JSON Schema does not establish these cross-field or current-time conditions.",
+      "minimum": 0,
+      "maximum": 9007199254740991
     },
     "jti": {
       "type": "string",
-      "description": "Unique token identifier (JWT ID)"
+      "description": "Unique token identifier (JWT ID)",
+      "minLength": 1
     },
     "ktp": {
       "$ref": "#/$defs/ktpClaims"
+    },
+    "aud": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1
+    },
+    "nbf": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "description": "Optional; MUST equal iat. Zero clock-skew allowance."
+    },
+    "extensions": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "critical",
+          "value"
+        ],
+        "properties": {
+          "critical": {
+            "type": "boolean"
+          },
+          "value": {}
+        }
+      },
+      "description": "Only extension location. Names are absolute namespace URIs. Unknown critical entries fail; unknown noncritical entries have no decision effect. All content is signed."
     }
   },
   "$defs": {
@@ -52,23 +95,36 @@
         "peer_share",
         "applicable_ceilings",
         "advancement_floor",
-        "root_instrument"
+        "root_instrument",
+        "version",
+        "gate_state",
+        "generation",
+        "zone"
       ],
       "properties": {
         "e_base": {
-          "type": "number",
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 100,
           "description": "Base Trust score (intrinsic agent capability)"
         },
         "e_trust": {
-          "type": "number",
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 100,
           "description": "Effective Trust score after environmental deflation"
         },
         "r": {
-          "type": "number",
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 1,
           "description": "Aggregated environmental risk computed from the five weighted Risk Factor inputs"
@@ -83,12 +139,26 @@
           "description": "Trust volatility (standard deviation)"
         },
         "context": {
-          "$ref": "risk-factors.json",
-          "description": "The five weighted Risk Factor inputs (Soul is carried separately as a veto, not a term; moment_criticality is a demand input and is not carried here)"
+          "anyOf": [
+            {
+              "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v3/risk-factors.json",
+              "description": "The five weighted Risk Factor inputs (Soul is carried separately as a veto, not a term)"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "soul": {
-          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v2/soul-constraint.json",
-          "description": "Sovereignty constraint evaluation"
+          "anyOf": [
+            {
+              "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v2/soul-constraint.json",
+              "description": "Sovereignty constraint evaluation"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "lineage": {
           "type": "string",
@@ -102,7 +172,8 @@
         "generation": {
           "type": "integer",
           "minimum": 0,
-          "description": "Agent generation number"
+          "description": "Agent generation number",
+          "maximum": 9007199254740991
         },
         "sponsor": {
           "type": "string",
@@ -116,7 +187,8 @@
         },
         "zone": {
           "type": "string",
-          "description": "Blue Zone identifier where proof was issued"
+          "description": "Blue Zone identifier where proof was issued",
+          "minLength": 1
         },
         "oracle_quorum": {
           "type": "string",
@@ -140,16 +212,19 @@
             "properties": {
               "ceiling": {
                 "type": "string",
-                "description": "Which ceiling: generation, trajectory, adversity, ial, zone_mass, or a further declared ceiling"
+                "description": "Which ceiling: generation, trajectory, adversity, ial, zone_mass, or a further declared ceiling",
+                "minLength": 1
               },
               "value": {
                 "type": "number",
                 "minimum": 0,
                 "maximum": 100
               }
-            }
+            },
+            "additionalProperties": false
           },
-          "description": "Every ceiling applicable to this evaluation; E_base is bounded by their minimum. A ceiling absent here was not applied."
+          "description": "Every ceiling applicable to this evaluation; E_base is bounded by their minimum. A ceiling absent here was not applied.",
+          "minItems": 1
         },
         "advancement_floor": {
           "type": "number",
@@ -173,7 +248,9 @@
             },
             "end_time": {
               "type": "integer",
-              "description": "Unix timestamp when the instrument ends (bond expiry or attestation expiry); required unless status is none"
+              "description": "Unix timestamp when the instrument ends (bond expiry or attestation expiry); required unless status is none",
+              "minimum": 0,
+              "maximum": 9007199254740991
             },
             "exposure_class": {
               "type": [
@@ -212,42 +289,301 @@
               "description": "Declared accountability-chain length; MUST NOT exceed the deployment's declared hop bound"
             }
           },
-          "description": "The accountability instrument occupying the External Root term, per KTP-CORE Section 5.1"
+          "description": "The accountability instrument occupying the External Root term, per KTP-CORE Section 5.1",
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "current",
+                      "non_renewable"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "end_time"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "none"
+                  }
+                }
+              },
+              "then": {
+                "maxProperties": 1
+              }
+            }
+          ]
+        },
+        "version": {
+          "const": "ktp-trust-proof-v3"
+        },
+        "gate_state": {
+          "enum": [
+            "clear",
+            "veto",
+            "undetermined"
+          ]
+        },
+        "ingress_path": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "zone_id",
+              "oracle_kid",
+              "sub",
+              "cnf_jkt",
+              "aud",
+              "prev",
+              "topology_epoch",
+              "iat",
+              "exp",
+              "admission_id",
+              "sig"
+            ],
+            "properties": {
+              "zone_id": {
+                "type": "string",
+                "description": "Issuer: the ring whose Trust Oracle admitted the agent"
+              },
+              "oracle_kid": {
+                "type": "string",
+                "description": "Issuer: key identifier of the Trust Oracle key that signed this receipt"
+              },
+              "sub": {
+                "type": "string",
+                "format": "uri",
+                "description": "Subject: the admitted agent"
+              },
+              "cnf_jkt": {
+                "type": "string",
+                "description": "Subject: thumbprint of the agent's proof-of-possession key"
+              },
+              "aud": {
+                "type": "string",
+                "description": "Audience: zone identifier of the next ring inward"
+              },
+              "prev": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Digest of the preceding receipt in the path; null for the outermost receipt"
+              },
+              "topology_epoch": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Topology Epoch under which the admission was granted"
+              },
+              "iat": {
+                "type": "integer",
+                "description": "Issued at (Unix timestamp)"
+              },
+              "exp": {
+                "type": "integer",
+                "description": "Expires at (Unix timestamp)"
+              },
+              "admission_id": {
+                "type": "string",
+                "description": "Fresh identifier of the admission this receipt attests"
+              },
+              "sig": {
+                "type": "string",
+                "description": "Signature by the issuing Trust Oracle over every other member of this receipt"
+              }
+            }
+          },
+          "description": "Standard claim coordinated with proposed nested-zone contract/nested-zone receipt contract (KTP-ZONES Ingress Path and Egress Shaping). At most five bound receipts, outermost first; required at positive authorized topology depth and absent at depth zero. Shape alone does not verify signatures, topology, possession or session binding. See specifications/trust-proof.md.",
+          "minItems": 1
         }
-      }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "lineage": {
+                "const": "sponsored"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "sponsor"
+            ],
+            "properties": {
+              "generation": {
+                "maximum": 2
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "sponsor"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "lineage": {
+                "const": "independent"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "generation": {
+                "minimum": 3,
+                "maximum": 6
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "lineage": {
+                "const": "guarantor"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "generation": {
+                "minimum": 7
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "gate_state": {
+                "const": "clear"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "e_base": {
+                "type": "number"
+              },
+              "e_trust": {
+                "type": "number"
+              },
+              "r": {
+                "type": "number"
+              },
+              "context": {
+                "type": "object"
+              },
+              "soul": {
+                "type": "object",
+                "properties": {
+                  "soul": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "gate_state": {
+                "const": "veto"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "soul": {
+                "type": "object",
+                "properties": {
+                  "soul": {
+                    "const": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "gate_state": {
+                "const": "undetermined"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "e_trust": {
+                "type": "null"
+              },
+              "soul": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "soul": {
+                        "const": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "examples": [
     {
       "iss": "https://oracle.example.com",
-      "sub": "agent:7gen:optimized:a1b2c3d4",
-      "iat": 1699900000,
-      "exp": 1699900010,
-      "jti": "tp-uuid-12345",
+      "sub": "agent:guarantor:7gen:optimized:a1b2c3d4",
+      "aud": "zone:alpha",
+      "iat": 1800000000,
+      "exp": 1800000010,
+      "jti": "proof-v3-clear",
       "ktp": {
-        "e_base": 87,
-        "e_trust": 42,
-        "r": 0.517,
-        "de_dt": -2.3,
-        "sigma": 0.15,
+        "version": "ktp-trust-proof-v3",
+        "gate_state": "clear",
+        "e_base": 60,
+        "e_trust": 45,
+        "r": 0.25,
         "context": {
-          "evidence_density": 0.875,
-          "trust_trend": 0.92,
-          "adversarial_pressure": 0.02,
-          "update_resistance": 0.1,
-          "attestation_coverage": 0.04
+          "evidence_density": 0.25,
+          "trust_trend": 0.25,
+          "adversarial_pressure": 0.25,
+          "update_resistance": 0.25,
+          "attestation_coverage": 0.25
         },
         "soul": {
-          "soul": 0,
-          "constraint_type": null,
-          "constraint_id": null,
-          "authority": null
+          "soul": 0
         },
         "lineage": "guarantor",
         "generation": 7,
-        "resilience_hash": "sha256:abc123def4567890123456789012345678901234567890123456789012345678",
-        "zone": "zone-blue-prod-01",
-        "oracle_quorum": "3-of-5",
+        "zone": "zone:alpha",
         "peer_share": 0,
         "applicable_ceilings": [
           {
@@ -256,72 +592,15 @@
           },
           {
             "ceiling": "zone_mass",
-            "value": 92
-          }
-        ],
-        "advancement_floor": 2000,
-        "root_instrument": {
-          "status": "current",
-          "end_time": 1731436800,
-          "exposure_class": "legal_entity_declared_assets",
-          "declared_exposure": 50,
-          "anchored_capacity": 60,
-          "terminator": "org:acme-holdings",
-          "chain_length": 2
-        }
-      }
-    },
-    {
-      "iss": "https://oracle.example.com",
-      "sub": "agent:2gen:data-analyst:xyz789",
-      "iat": 1699900100,
-      "exp": 1699900110,
-      "jti": "tp-uuid-67890",
-      "ktp": {
-        "e_base": 45,
-        "e_trust": 40,
-        "r": 0.111,
-        "de_dt": 0.5,
-        "sigma": 0.08,
-        "context": {
-          "evidence_density": 0.1,
-          "trust_trend": 0.15,
-          "adversarial_pressure": 0.05,
-          "update_resistance": 0.08,
-          "attestation_coverage": 0.1
-        },
-        "soul": {
-          "soul": 1,
-          "constraint_type": "tk_label",
-          "constraint_id": "TK-NC-001",
-          "constraint_name": "TK Non-Commercial",
-          "authority": "https://localcontexts.org/label/tk-nc/",
-          "community": "Example Indigenous Community",
-          "remediation": "Contact community data steward for commercial licensing"
-        },
-        "lineage": "sponsored",
-        "generation": 2,
-        "sponsor": "agent:guarantor:7gen:optimized:a1b2c3d4",
-        "resilience_hash": "sha256:fedcba9876543210987654321098765432109876543210987654321098765432",
-        "zone": "zone-blue-research",
-        "oracle_quorum": "2-of-3",
-        "peer_share": 0,
-        "applicable_ceilings": [
-          {
-            "ceiling": "generation",
-            "value": 45
-          },
-          {
-            "ceiling": "adversity",
-            "value": 60
+            "value": 90
           }
         ],
         "advancement_floor": 0,
         "root_instrument": {
-          "status": "current",
-          "end_time": 1731436800
+          "status": "none"
         }
       }
     }
-  ]
+  ],
+  "additionalProperties": false
 }

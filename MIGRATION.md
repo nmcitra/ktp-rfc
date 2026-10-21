@@ -1,5 +1,30 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed native v3 canonical Trust Proof migration (canonical Trust Proof contract; v2.1.0 baseline):**
+Adopt [Canonical Trust Proof Contract](specifications/trust-proof.md) and the
+v3 trust-proof schema together. Change Core's old ktp+jwt type/media subtype to
+ktp-trust-proof+jwt; use the one closed payload, explicit version and gate
+state, required audience and conditional claims at every conformance level.
+Old copied Basic/Standard/Full or Crypto payload shapes are not native v3.
+ES256 is the base capability; other algorithms require an installed named
+profile, with Ed25519 identified as EdDSA and exact key/curve/role binding.
+Maintain stronger selected Crypto requirements and Oracle committed-state checks.
+
+Select an authenticated issuer/verifier cutover, key/profile bindings and
+accepted-format floor; do not let a candidate token select legacy mode. Proofs
+are ephemeral: issue fresh v3 proofs at cutover, retaining the ten-second cap,
+zero skew and exact expiry check. Do not re-sign or relabel old tokens as native
+v3 evidence. If needed, operate an explicitly enabled, isolated v2.1 adapter
+using the immutable tagged v2.1.0 schema and artifact rules; adapter output is
+legacy and cannot bypass v3 checks or revive expired authority. Preserve signed
+history unchanged. Invalid proof, valid veto, and valid undetermined results
+must remain distinguishable; none grants execution. Request association (request association contract),
+Decision Geometry (Decision Geometry contract), and External Root lifecycle/projection (External Root projection contract) remain
+separate decisions against this base. Coordinate the standard ingress_path
+claim and receipt verification with nested-zone contract/nested-zone receipt contract; an unavailable receipt
+verifier cannot cause a nested proof to be accepted.
+
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the

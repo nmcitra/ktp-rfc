@@ -149,6 +149,15 @@ All ports use TLS. Unencrypted transport is NOT permitted.
 
 # Message Serialization
 
+Native v3 Trust Proofs remain the exact signed compact JWS of
+[Canonical Trust Proof Contract](../specifications/trust-proof.md), regardless
+of the surrounding JSON, CBOR or protobuf transport. A decoded map, protobuf
+message or re-encoded payload cannot be accepted as an alternative proof. The
+v1 proof/authorization sketches and copied summaries below and in the
+appendices are legacy descriptions pending native Transport contract, not native v3 wire contracts.
+They MUST NOT relax the canonical schema, verification order or lifetime.
+
+
 ## JSON Format
 
 JSON (RFC 8259) is the default format for human-readable contexts.
@@ -380,7 +389,12 @@ Request a new Trust Proof for an agent.
 
 Request: { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "validity_seconds": 10, "include_context": true }
 
-Response (200 OK): { "proof": { "proof_id": "proof-uuid-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "zone_id": "zone:alpha", "e_base": 87, "e_trust": 74, "risk_factor": 0.15, "tier": "operator", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "issued_at": "2025-11-25T12:00:00Z", "expires_at": "2025-11-25T12:00:10Z", "signature": "base64...", "key_id": "oracle-zone-alpha-2025-001" }, "jws": "eyJhbGciOiJFZERTQSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QiLCJra WQiOiJvcmFjbGUtem9uZS1hbHBoYS0yMDI1LTAwMSJ9..." }
+A native v3 response carries the exact compact JWS from
+[Canonical Trust Proof Contract](../specifications/trust-proof.md). Any decoded
+summary is an unauthoritative view and MUST NOT substitute for those signed
+bytes. Complete response-proof examples are the canonical signed fixtures;
+this section defines no alternative claims object. Request options such as
+include_context MUST NOT omit a claim required by the canonical schema.
 
 Response (403 Forbidden): { "error": { "code": "AGENT_HIBERNATING", "message": "Agent is in hibernation mode", "details": { "e_trust": 15, "required_tier": "observer" } } }
 
@@ -392,9 +406,10 @@ Validate an existing Trust Proof.
 
 Request: { "jws": "eyJhbGciOiJFZERTQSI...", "expected_agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "minimum_tier": "analyst" }
 
-Response (200 OK): { "valid": true, "proof": { ... }, "validation": { "signature_valid": true, "not_expired": true, "agent_matches": true, "tier_sufficient": true, "soul_clear": true } }
-
-Response (200 OK, invalid): { "valid": false, "proof": { ... }, "validation": { "signature_valid": true, "not_expired": false, "reason": "Trust Proof expired 5 seconds ago" } }
+Native proof validation follows the canonical contract, Section 5. Its stable
+reason and validity/gate result are distinct: a valid veto or undetermined
+assertion cannot authorize execution. These proof-validation results are not
+an action authorization response; request association remains request association contract.
 
 ### Refresh Trust Proof
 
@@ -402,7 +417,8 @@ POST /v1/trust-proofs/{proof_id}/refresh
 
 Refresh an existing Trust Proof with updated context.
 
-Response (200 OK): { "previous_proof_id": "proof-uuid-12345", "proof": { ... new proof ... }, "jws": "..." }
+A successful native refresh returns a newly issued canonical compact JWS;
+it does not amend or extend the old signed proof.
 
 ### Revoke Trust Proof
 
@@ -991,7 +1007,9 @@ URI suffix: ktp-zone Change controller: IETF Specification document: This docume
 
 ## Media Type Registration
 
-Media type: application/ktp-trust-proof+jwt Encoding: JWT (JSON Web Token) Specification: This document
+Media type: application/ktp-trust-proof+jwt Encoding: compact JWT/JWS
+Specification: specifications/trust-proof.md; this transport supplies no
+alternate artifact contract.
 
 --- back
 

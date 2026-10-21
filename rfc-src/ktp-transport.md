@@ -66,7 +66,7 @@ KTP transport follows these principles:
 
 1. STANDARD PROTOCOLS Build on HTTP/2, gRPC, WebSocket—not custom protocols. Leverage existing infrastructure and tooling.
 
-1. MULTIPLE FORMATS Support JSON (readability), CBOR (efficiency), Protocol Buffers (performance). Implementations choose per context.
+1. CANONICAL BASE Native v3 uses JSON and exact signed JWS artifacts. Alternative encodings require a separately published, versioned interoperability profile; an implementation preference cannot select a different semantic model.
 
 1. LOW LATENCY Trust Score updates must propagate in milliseconds. Design for real-time, not batch.
 
@@ -111,8 +111,8 @@ KTP uses four communication patterns:
 | Layer         | Options                | Required     |
 +---------------+------------------------+--------------+
 | Application   | KTP messages           | Yes          |
-| Serialization | JSON / CBOR / Protobuf | One required |
-| RPC Framework | gRPC / REST            | One required |
+| Serialization | JSON / exact JWS       | Required     |
+| API binding   | HTTP JSON/JWS base     | Required     |
 | Session       | HTTP/2 / WebSocket     | Per pattern  |
 | Security      | TLS 1.3                | Yes          |
 | Transport     | TCP                    | Yes          |
@@ -124,10 +124,9 @@ Minimum viable implementation:
 
 - JSON over REST over HTTP/2 over TLS 1.3
 
-High-performance implementation:
-
-- Protocol Buffers over gRPC over HTTP/2 over TLS 1.3
-- Plus WebSocket for real-time updates
+Alternative performance encodings and streaming bindings are not substitutes
+for the base profile. Their use for native artifacts requires the separately
+published profiles described in specifications/native-transport.md.
 
 ## Port Assignments
 
@@ -145,139 +144,92 @@ High-performance implementation:
 +---------------------+--------------+------------+--------------+
 ~~~
 
-All ports use TLS. Unencrypted transport is NOT permitted.
+All ports use TLS. Unencrypted transport is NOT permitted. The gRPC entries
+are historical port conventions, not native-v3 message profiles or requirements
+to implement a protobuf service. A port number does not negotiate an encoding.
 
 # Message Serialization
 
-Native v3 Trust Proofs remain the exact signed compact JWS of
-[Canonical Trust Proof Contract](../specifications/trust-proof.md), regardless
-of the surrounding JSON, CBOR or protobuf transport. A decoded map, protobuf
-message or re-encoded payload cannot be accepted as an alternative proof. The
-v1 proof/authorization sketches and copied summaries below and in the
-appendices are legacy descriptions pending native Transport contract, not native v3 wire contracts.
-They MUST NOT relax the canonical schema, verification order or lifetime.
+Native v3 MUST support the proposed `ktp-json-jws-v1` base profile in
+[Native JSON/JWS Transport](../specifications/native-transport.md). Its `v1`
+versions this transport profile, not KTP semantics or an HTTP API. The installed
+immutable KTP release identifies the owning artifact contracts. All base
+requests and results MUST satisfy those contracts and the matching schemas;
+Transport does not define parallel copies of their fields.
 
+Trust Proofs remain exact signed compact JWS bytes. A decoded map, translated
+message or re-encoded payload MUST NOT replace them. Ordinary requests and
+associations follow request-binding.md; portable evaluation and its signed
+boundary carrier follow decision-geometry.md. HTTP status, content negotiation,
+a transport label and a valid proof alone never supply execution permission.
+
+The v2.1 protobuf, abbreviated OpenAPI, flat proof and authorization enum are
+legacy only. Their definitions remain at the immutable release and in the
+migration references, not as native-v3 examples in this specification.
 
 ## JSON Format
 
-JSON (RFC 8259) is the default format for human-readable contexts.
+JSON (RFC 8259) is the required base format for JSON artifacts.
 
-Requirements:
+UTF-8, strict parsing, finite numeric bounds, duplicate-member rejection and
+canonical bytes follow each owning artifact contract. In particular, signed
+claims use their specified NumericDate fields and binary fields use their
+specified encodings; generic ISO dates or Base64 conventions MUST NOT override
+an artifact schema. Content-Type is application/json for JSON bodies and
+application/ktp-trust-proof+jwt for a bare canonical Trust Proof. A signed
+Decision Geometry carrier is a compact JWS with its own protected purpose,
+not a JSON copy of its claims. The base profile defines its carriage below.
 
-1. UTF-8 encoding REQUIRED
-2. No comments
-3. No trailing commas
-4. Numbers: IEEE 754 double precision
-5. Dates: ISO 8601 format (e.g., "2025-11-25T12:00:00Z")
-6. Binary data: Base64 encoding (RFC 4648)
-
-Content-Type: application/json
-
-Example Trust Proof Request:
-
-~~~
-   POST /v1/trust-proof HTTP/2
-   Content-Type: application/json
-   Accept: application/json
-~~~
-
-~~~
-   {
-     "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4",
-     "action": {
-       "type": "data_write",
-       "target": "database:orders",
-       "risk_score": 65
-     },
-     "context": {
-       "request_id": "req-12345",
-       "timestamp": "2025-11-25T12:00:00Z"
-     }
-   }
-~~~
+Complete positive and negative artifact examples are the owning signed proof,
+request-binding and Decision Geometry suites. Ellipses or decoded REST summaries
+are not alternative complete wire examples.
 
 ## CBOR Format
 
-CBOR (RFC 8949) provides compact binary encoding.
-
-Requirements:
-
-1. Canonical CBOR encoding (deterministic)
-2. Map keys: Text strings (not integers)
-3. Timestamps: Tag 0 (ISO 8601 string) or Tag 1 (epoch)
-4. Binary data: Byte strings (no Base64 needed)
-
-Content-Type: application/cbor
-
-CBOR is RECOMMENDED for:
-
-- High-volume sensor data
-- Embedded/constrained devices
-- Performance-critical paths
-
-Example size comparison:
-
-~~~
-   Trust Proof (JSON):  ~850 bytes
-   Trust Proof (CBOR):  ~420 bytes
-   Compression ratio:   ~50%
-~~~
+CBOR does not define an alternative native-v3 proof, ordinary request or
+evaluation format in this specification. A binary encoding MUST NOT rewrite
+signed JWS bytes or silently translate the canonical artifacts. Native artifact
+use requires a separately versioned mapping profile with complete artifacts
+and interoperability vectors. Independent sensor telemetry encodings remain
+subject to their own sensor contract; they do not authorize an action.
 
 ## Protocol Buffers
 
-Protocol Buffers (protobuf) provide strongly-typed, efficient serialization with code generation.
+The old `ktp.v1` protobuf package is the legacy v2.1 transport profile, not a
+native-v3 message definition. It is available only through the immutable
+[v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md#protocol-buffers).
+It MUST NOT be recommended, selected, mechanically renamed or decoded as native
+v3. No replacement protobuf or gRPC schema is defined by this decision.
 
-Content-Type: application/x-protobuf Content-Type: application/grpc+proto
-
-Core message definitions:
-
-// trust_proof.proto
-
-syntax = "proto3"; package ktp.v1;
-
-import "google/protobuf/timestamp.proto";
-
-message TrustProof { string proof_id = 1; string agent_id = 2; string zone_id = 3;
-
-double e_base = 4; double e_trust = 5; double risk_factor = 6; TrustTier tier = 7;
-
-ContextTensor context = 8; Lineage lineage = 9;
-
-google.protobuf.Timestamp issued_at = 10; google.protobuf.Timestamp expires_at = 11;
-
-bytes signature = 12; string key_id = 13; }
-
-enum TrustTier { TRUST_TIER_UNKNOWN = 0; TRUST_TIER_HIBERNATION = 1; TRUST_TIER_OBSERVER = 2; TRUST_TIER_ANALYST = 3; TRUST_TIER_OPERATOR = 4; TRUST_TIER_ADMIN = 5; }
-
-message ContextTensor { double mass = 1;        // M double velocity = 2;    // P (momentum proxy) double heat = 3;        // H double time = 4;        // T double inertia = 5;     // I double opacity = 6;     // O int32 soul = 7;         // S (0 or 1) }
-
-message Lineage { LineageType type = 1; int32 generation = 2; string sponsor_id = 3; string trajectory_hash = 4; }
-
-enum LineageType { LINEAGE_UNKNOWN = 0; LINEAGE_SPONSORED = 1; LINEAGE_INDEPENDENT = 2; LINEAGE_GUARANTOR = 3; }
-
-// action.proto
-
-message Action { string action_type = 1; string target = 2; int32 risk_score = 3; map\<string, string> metadata = 4; }
-
-message AuthorizationRequest { string request_id = 1; string agent_id = 2; Action action = 3; TrustProof trust_proof = 4; google.protobuf.Timestamp timestamp = 5; }
-
-message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2; string reason = 3; TrustProof updated_proof = 4; }
-
-enum AuthorizationResult { AUTHORIZATION_UNKNOWN = 0; AUTHORIZATION_ALLOWED = 1; AUTHORIZATION_DENIED = 2; AUTHORIZATION_DEFERRED = 3; }
-
-See Appendix A for complete protobuf definitions.
+A future profile requires its own name/version, complete machine-readable
+artifacts, deterministic mapping to the owning canonical schemas, a named
+builder and positive/negative interoperability vectors. It MUST preserve all
+five named weighted Risk Factors, separately declared demand criticality,
+Soul as an independent gate, complete exact
+signed proof bytes, and supervision plus tightenedConstraints. A derived
+authorization verb is not a stored normative result.
 
 ## Format Negotiation
 
-Clients indicate preferred formats using HTTP headers:
+Peers MUST establish the KTP release, named transport profile and supported
+artifact contracts from authenticated configuration or explicit authenticated
+negotiation before using native artifacts. The base is `ktp-json-jws-v1`; its
+version is independent of API paths such as `/api/v1` or `/v1`. The complete
+namespace inventory and rejection cases are in specifications/native-transport.md
+and specifications/conformance/native-transport-v1.json.
 
-Request: Accept: application/cbor, application/json;q=0.9
+HTTP Accept and Content-Type select representation, not semantic versions.
+application/json does not make legacy payload members native. A bare Trust
+Proof uses application/ktp-trust-proof+jwt; a bare Decision Geometry carrier
+uses application/jose and its independently checked protected purpose. A JSON
+wrapper, when explicitly defined by an installed binding, MUST preserve the
+exact compact JWS string and all canonical request/association bytes.
 
-Response: Content-Type: application/cbor
-
-Servers MUST support JSON. CBOR and Protobuf are RECOMMENDED.
-
-For gRPC, Protobuf is the default and only format.
+An unsupported Accept selection cannot trigger legacy or protobuf fallback;
+a server rejects it (406 for an unacceptable response representation, 415 for
+an unsupported request media type). An ambiguous version, unknown profile or
+mismatched artifact contract MUST fail before any authority is inferred.
+Implementation API routing or a content-type header cannot override that gate.
 
 # Transport Security
 
@@ -368,6 +320,13 @@ The Trust Oracle API provides:
 
 Base URL: https://oracle.zone.example.com:8443/api/v1
 
+Here `v1` is the HTTP API route version only. Endpoint paths below are relative
+to the deployment origin and illustrate the same API namespace; deployments
+MUST publish their exact route mapping rather than concatenate `/api/v1` and
+`/v1` prefixes. Neither route selects a KTP release or transport profile.
+Administrative/sensor examples below are API views, not alternative proof,
+ordinary-request or normative decision schemas.
+
 Authentication:
 
 - mTLS client certificate (preferred)
@@ -409,7 +368,8 @@ Request: { "jws": "eyJhbGciOiJFZERTQSI...", "expected_agent_id": "agent:guaranto
 Native proof validation follows the canonical contract, Section 5. Its stable
 reason and validity/gate result are distinct: a valid veto or undetermined
 assertion cannot authorize execution. These proof-validation results are not
-an action authorization response; request association remains request association contract.
+an action authorization response; request association follows
+specifications/request-binding.md.
 
 ### Refresh Trust Proof
 
@@ -543,60 +503,31 @@ with the exact complete compact Trust Proof. An authenticated adapter maps the
 actual invocation into the complete canonical body; arbitrary transport
 headers, omitted defaults, decoded proof summaries or caller-supplied digests
 cannot change the evaluated request. The companion fixes preimages and failures
-across transports. The v1 sketches below lack that binding and are legacy
-examples pending native Transport contract, not a native v3 request schema.
-
-gRPC service definition:
-
-service PolicyEnforcementService { rpc Authorize(AuthorizationRequest) returns (AuthorizationResponse); rpc AuthorizeStream(stream AuthorizationRequest) returns (stream AuthorizationResponse); rpc SubscribeTrustUpdates(SubscribeRequest) returns (stream TrustUpdate); }
-
-AuthorizationRequest fields:
-
-message AuthorizationRequest { // Required string request_id = 1; string agent_id = 2; Action action = 3;
-
-// Optional - if present, validate rather than fetch TrustProof existing_proof = 4;
-
-// Context google.protobuf.Timestamp timestamp = 5; string source_ip = 6; map\<string, string> additional_context = 7; }
-
-HTTP equivalent:
-
-POST /v1/authorize
-
-Request: { "request_id": "req-12345", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "action": { "type": "data_write", "target": "database:orders", "risk_score": 65 }, "existing_proof_jws": "eyJhbGciOiJFZERTQSI..." }
+across transports. No legacy request-message or abbreviated OpenAPI sketch
+is accepted as an alternative canonical request. The `/v1/authorize` route is
+an API route version, not a KTP semantic version. The authenticated binding MUST
+identify where the complete compact proof is carried and bind it to the actual
+canonical request; an arbitrary caller-selected header is insufficient.
 
 ## Authorization Response
 
-An ordinary association retained locally is an unsigned prerequisite. A decision
-crossing a trust boundary MUST carry verified signed coverage of both exact
-request/proof digests and the evaluation context, supervision and tightened
-constraints required by the association companion. The legacy response sketches
-below do not provide that signed carrier and MUST NOT authorize external use.
-The [Decision Geometry carrier](../specifications/decision-geometry.md)
-provides the separately typed, complete signed evaluation payload for Decision Geometry contract.
-A deployment must implement the entire association, key-role, profile, current
-validity and restriction checks before using it across a trust boundary. No
-generic HTTP success flag, unsigned geometry or copied trust score replaces
-that authentication; the carrier itself is not execution permission.
+The normative evaluation result is supervision plus tightenedConstraints,
+recorded in the canonical Decision Geometry of
+[Decision Geometry](../specifications/decision-geometry.md). A local association
+is an unsigned prerequisite. A decision crossing a trust boundary MUST use the
+separately purpose-typed signed Decision Geometry carrier covering the complete
+body, both exact request/proof digests and evaluation context.
 
-message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2;
+Consumers MUST check key role, installed profile, actual invocation binding,
+current validity, replay and all other restrictions before use. A bare carrier
+uses application/jose; its protected purpose distinguishes it from a Trust
+Proof. Neither carrier validity, an HTTP success status, a copied score nor
+an ALLOWED/DENIED/DEFERRED enum is execution permission. Product-derived verbs
+MUST NOT replace the normative result or remove constraints.
 
-// Detailed result information string reason = 3;
-
-// Updated proof if issued TrustProof trust_proof = 4; string trust_proof_jws = 5;
-
-// For DEFERRED results DeferralInfo deferral = 6;
-
-// Timing int64 evaluation_time_micros = 7; }
-
-message DeferralInfo { string deferral_reason = 1; google.protobuf.Duration retry_after = 2; string callback_url = 3; }
-
-HTTP Response examples:
-
-Allowed (200 OK): { "request_id": "req-12345", "result": "ALLOWED", "trust_proof": { ... }, "evaluation_time_micros": 450 }
-
-Denied (200 OK with result=DENIED): { "request_id": "req-12345", "result": "DENIED", "reason": "Action risk (65) exceeds trust score (55)", "trust_proof": { ... current proof showing E_trust=55 ... } }
-
-Note: HTTP 200 is returned even for DENIED because the request was processed successfully. The authorization result is in the response body.
+The legacy authorization enum, protobuf service and flat HTTP result examples
+remain only at v2.1.0. No asynchronous deferral, retry, callback or execution
+receipt format is introduced here.
 
 ## Inline vs. Sidecar Modes
 
@@ -632,7 +563,14 @@ Endpoint: wss://oracle.zone.example.com:8449/v1/ws
 Connection handshake includes:
 
 - TLS client certificate (mTLS)
-- Sec-WebSocket-Protocol: ktp.v1
+- An explicitly selected, separately published native streaming profile
+
+The old Sec-WebSocket-Protocol token `ktp.v1` denotes the legacy stream binding
+and MUST NOT negotiate native v3. This decision assigns no replacement stream
+subprotocol. The message/event sketches below describe notification patterns,
+not a complete native streaming profile. Notifications are hints only; they
+MUST NOT establish fresh authority, substitute for canonical proof/decision
+validation or extend an existing proof's expiry.
 - Authorization header with agent credential
 
 Message format:
@@ -690,17 +628,10 @@ SSE is simpler than WebSocket but unidirectional. Use when: Client only needs to
 
 ## gRPC Streaming
 
-gRPC provides efficient bidirectional streaming.
-
-service TrustOracleStreaming { // Server streaming: receive trust updates rpc SubscribeTrustUpdates(SubscribeRequest) returns (stream TrustUpdate);
-
-// Bidirectional: sensor data and trust updates rpc SensorChannel(stream SensorReading) returns (stream TrustUpdate);
-
-// Client streaming: batch proof requests rpc BatchProofRequest(stream ProofRequest) returns (BatchProofResponse); }
-
-message SubscribeRequest { repeated string agent_ids = 1; bool include_context = 2; bool include_tier_changes_only = 3; }
-
-message TrustUpdate { string agent_id = 1; double previous_e_trust = 2; double current_e_trust = 3; TrustTier previous_tier = 4; TrustTier current_tier = 5; bool tier_changed = 6; google.protobuf.Timestamp timestamp = 7; ContextTensor context = 8; }
+The v2.1 gRPC service/message definitions are legacy. A future native gRPC
+streaming binding requires the separately published named profile, complete
+machine-readable definitions and vectors described above. HTTP/JSON base
+support is mandatory regardless of any optional future streaming support.
 
 ## Trust Proof Push
 
@@ -711,11 +642,12 @@ Trust Oracles can push updated Trust Proofs to agents:
 3. Oracle pushes new Trust Proof
 4. Agent updates cached proof
 
-This eliminates polling and ensures agents always have current Trust Proofs.
-
-Push message:
-
-{ "type": "proof_push", "id": "push-12345", "timestamp": "2025-11-25T12:00:05Z", "payload": { "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "proof": { ... }, "jws": "eyJhbGciOiJFZERTQSI...", "reason": "scheduled_refresh" } }
+Delivery can be delayed, lost, duplicated or reordered. Receiving an update
+MUST NOT imply current validity; consumers validate the complete newly issued
+compact JWS under the canonical proof contract and cannot extend old authority.
+No flat `proof` object accompanies or substitutes for those exact signed bytes.
+A native push binding must define its complete envelope and authenticated
+profile separately; the old abbreviated push sketch is not a native schema.
 
 # Sensor Data Transport
 
@@ -723,7 +655,7 @@ Push message:
 
 POST /v1/sensors
 
-Request: { "sensor_id": "sensor:node:host-001:cpu", "sensor_type": "cpu_utilization", "dimension": "M", "location": { "host": "host-001", "zone": "zone:alpha" }, "reporting_interval_ms": 1000, "authentication": { "type": "mtls", "certificate_fingerprint": "sha256:abc123..." } }
+Request: { "sensor_id": "sensor:node:host-001:cpu", "sensor_type": "cpu_utilization", "dimension": "evidence_density", "location": { "host": "host-001", "zone": "zone:alpha" }, "reporting_interval_ms": 1000, "authentication": { "type": "mtls", "certificate_fingerprint": "sha256:abc123..." } }
 
 Response (201 Created): { "sensor_id": "sensor:node:host-001:cpu", "assigned_aggregator": "aggregator-alpha-1.ktp.example.com:8446", "reporting_endpoint": "/v1/sensors/sensor:node:host-001:cpu/readings", "authentication_token": "eyJhbGciOiJFZERTQSI..." }
 
@@ -758,7 +690,7 @@ Aggregators perform:
 
 Aggregator output to Trust Oracle:
 
-{ "aggregator_id": "aggregator-alpha-1", "timestamp": "2025-11-25T12:00:05Z", "window_seconds": 5, "dimension": "M", "risk_domain": "node", "aggregations": \[ { "host": "host-001", "value": 0.43, "sample_count": 5, "variance": 0.002, "min": 0.41, "max": 0.45, "p95": 0.44 }, { "host": "host-002", "value": 0.38, "sample_count": 5, "variance": 0.001 } ] }
+{ "aggregator_id": "aggregator-alpha-1", "timestamp": "2025-11-25T12:00:05Z", "window_seconds": 5, "dimension": "evidence_density", "risk_domain": "node", "aggregations": \[ { "host": "host-001", "value": 0.43, "sample_count": 5, "variance": 0.002, "min": 0.41, "max": 0.45, "p95": 0.44 }, { "host": "host-002", "value": 0.38, "sample_count": 5, "variance": 0.001 } ] }
 
 ### Empty and Short Windows
 
@@ -778,7 +710,9 @@ An aggregator MUST emit an entry for a host whose window was empty rather than d
 
 For high-volume sensor data:
 
-Content-Encoding: gzip Content-Type: application/cbor
+Content-Encoding: gzip Content-Type: application/json
+
+Compression does not change the owning sensor schema or artifact semantics.
 
 Batch size recommendations:
 
@@ -798,7 +732,12 @@ Batch size recommendations:
 
 POST /v1/flight-recorder/records
 
-Request: { "record_type": "decision", "timestamp": "2025-11-25T12:00:00.123456Z", "agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "decision": { "action": { "type": "data_write", "target": "database:orders", "risk_score": 65 }, "result": "allowed", "trust_proof_id": "proof-uuid-12345", "e_trust_at_decision": 74, "evaluation_time_micros": 450 }, "context_snapshot": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "signature": "base64...", "previous_record_hash": "sha256:abc123..." }
+Submit the complete canonical Decision Geometry, or its complete signed carrier
+when it crosses a trust boundary, under specifications/decision-geometry.md.
+Storage metadata and product-derived views belong outside the canonical body.
+The old decision wrapper with a derived result verb is not the native record.
+Transport acceptance acknowledges receipt only, not execution or durable audit
+assurance beyond the recorder's separately established contract.
 
 Response (202 Accepted): { "record_id": "fr-uuid-67890", "record_hash": "sha256:def456...", "chain_position": 1547833, "anchor_pending": true }
 
@@ -840,7 +779,13 @@ Response (200 OK): { "verified": true, "records_checked": 1000, "chain_unbroken"
 
 GET /.well-known/ktp-zone
 
-Response (200 OK): { "zone_id": "zone:alpha", "zone_type": "blue", "oracle_endpoints": \[ "https://oracle-1.alpha.example.com:8443", "https://oracle-2.alpha.example.com:8443", "https://oracle-3.alpha.example.com:8443" ], "federation_gateway": "https://federation.alpha.example.com:8448", "public_keys": \[ { "key_id": "oracle-zone-alpha-2025-001", "algorithm": "threshold- frost-ed25519-3of5", "public_key": "base64..." } ], "capabilities": \[ "ktp-core-v1", "ktp-federation-v1", "ktp-celestial-v1" ], "federation_policy": { "accepts_foreign_proofs": true, "trust_factor_minimum": 0.5, "allowed_zone_types": \["deep_blue", "blue", "cyan"] } }
+Discovery MUST distinguish the immutable KTP release from its advertised named
+transport profiles and separately versioned capabilities. Native artifact
+exchange advertises `ktp-json-jws-v1`, subject to authenticated agreement of its
+owning artifact contracts. The historical capability tokens `ktp-core-v1`,
+`ktp-federation-v1` and `ktp-celestial-v1` do not identify native v3 or this base
+profile. A document advertising only those tokens MUST NOT trigger native
+acceptance or silent fallback. Discovery hints alone are not trusted policy.
 
 ## Trust Proof Exchange
 
@@ -858,11 +803,9 @@ The issued local ordinary proof MUST satisfy the KTP-Core ten-second maximum and
 
 Federated zones exchange heartbeats for liveness.
 
-gRPC streaming:
-
-service FederationService { rpc Heartbeat(stream FederationHeartbeat) returns (stream FederationHeartbeat); }
-
-message FederationHeartbeat { string zone_id = 1; google.protobuf.Timestamp timestamp = 2; double current_risk_factor = 3; bool accepting_federation = 4; int32 sequence_number = 5; }
+The heartbeat is a liveness notification. The old gRPC heartbeat definition is
+legacy; a native streaming profile must define its complete envelope separately.
+Heartbeat data MUST NOT substitute for authenticated standing or authorization.
 
 Heartbeat interval: 10 seconds Timeout threshold: 3 missed heartbeats (30 seconds)
 
@@ -1014,7 +957,7 @@ Throughput targets:
 
 ## Replay Protection
 
-- Trust Proofs include timestamps and short validity - Request IDs SHOULD be unique and logged - Nonces RECOMMENDED for critical operations
+- Trust Proofs include timestamps and short validity - Ordinary request IDs, replay domains and reservations MUST satisfy specifications/request-binding.md; logging or a nonce alone does not satisfy that contract
 
 ## Denial of Service
 
@@ -1036,78 +979,17 @@ alternate artifact contract.
 
 # Protocol Buffer Definitions
 
-Complete protobuf definitions for KTP transport.
-
-// ktp/v1/common.proto
-
-syntax = "proto3"; package ktp.v1;
-
-import "google/protobuf/timestamp.proto"; import "google/protobuf/duration.proto";
-
-message ContextTensor { double mass = 1; double velocity = 2; double heat = 3; double time = 4; double inertia = 5; double opacity = 6; int32 soul = 7; }
-
-enum TrustTier { TRUST_TIER_UNKNOWN = 0; TRUST_TIER_HIBERNATION = 1; TRUST_TIER_OBSERVER = 2; TRUST_TIER_ANALYST = 3; TRUST_TIER_OPERATOR = 4; TRUST_TIER_ADMIN = 5; }
-
-enum LineageType { LINEAGE_UNKNOWN = 0; LINEAGE_SPONSORED = 1; LINEAGE_INDEPENDENT = 2; LINEAGE_GUARANTOR = 3; }
-
-message Lineage { LineageType type = 1; int32 generation = 2; string sponsor_id = 3; string trajectory_hash = 4; }
-
-message Action { string action_type = 1; string target = 2; int32 risk_score = 3; map\<string, string> metadata = 4; }
-
-// ktp/v1/trust_proof.proto
-
-syntax = "proto3"; package ktp.v1;
-
-import "ktp/v1/common.proto"; import "google/protobuf/timestamp.proto";
-
-message TrustProof { string proof_id = 1; string agent_id = 2; string zone_id = 3;
-
-double e_base = 4; double e_trust = 5; double risk_factor = 6; TrustTier tier = 7;
-
-ContextTensor context = 8; Lineage lineage = 9;
-
-google.protobuf.Timestamp issued_at = 10; google.protobuf.Timestamp expires_at = 11;
-
-bytes signature = 12; string key_id = 13; }
-
-// ktp/v1/service.proto
-
-syntax = "proto3"; package ktp.v1;
-
-import "ktp/v1/trust_proof.proto"; import "ktp/v1/common.proto"; import "google/protobuf/timestamp.proto";
-
-service TrustOracleService { rpc RequestTrustProof(TrustProofRequest) returns (TrustProofResponse); rpc ValidateTrustProof(ValidateRequest) returns (ValidateResponse); rpc Authorize(AuthorizationRequest) returns (AuthorizationResponse); rpc SubscribeTrustUpdates(SubscribeRequest) returns (stream TrustUpdate); }
-
-message TrustProofRequest { string agent_id = 1; int32 validity_seconds = 2; bool include_context = 3; }
-
-message TrustProofResponse { TrustProof proof = 1; string jws = 2; }
-
-message AuthorizationRequest { string request_id = 1; string agent_id = 2; Action action = 3; TrustProof existing_proof = 4; google.protobuf.Timestamp timestamp = 5; }
-
-enum AuthorizationResult { AUTHORIZATION_UNKNOWN = 0; AUTHORIZATION_ALLOWED = 1; AUTHORIZATION_DENIED = 2; AUTHORIZATION_DEFERRED = 3; }
-
-message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2; string reason = 3; TrustProof trust_proof = 4; string trust_proof_jws = 5; int64 evaluation_time_micros = 6; }
+The legacy definitions are preserved in the immutable
+[v2.1.0 appendix](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md#protocol-buffer-definitions),
+commit 15520035267546e1035aad7beea0cc3cf9ef8f2c. They are not native-v3 examples
+or a recommended encoding. See specifications/native-transport.md and
+MIGRATION.md for negotiated isolation and migration; no stored bytes are rewritten.
 
 # OpenAPI Specification
 
-Abbreviated OpenAPI 3.0 specification (full version in separate file):
-
-openapi: 3.0.3 info: title: KTP Trust Oracle API version: 1.0.0
-
-servers: - url: https://oracle.zone.example.com:8443/api/v1
-
-paths: /trust-proofs: post: summary: Request Trust Proof operationId: requestTrustProof requestBody: content: application/json: schema: $ref: '#/components/schemas/TrustProofRequest' responses: '200': description: Trust Proof issued content: application/json: schema: $ref: '#/components/schemas/TrustProofResponse' '403': description: Agent not authorized content: application/json: schema: $ref: '#/components/schemas/Error'
-
-/authorize: post: summary: Authorization decision operationId: authorize requestBody: content: application/json: schema: $ref: '#/components/schemas/AuthorizationRequest' responses: '200': description: Authorization decision content: application/json: schema: $ref: '#/components/schemas/AuthorizationResponse'
-
-components: schemas: TrustProof: type: object properties: proof_id: type: string agent_id: type: string e_base: type: number e_trust: type: number tier: type: string enum: \[hibernation, observer, analyst, operator, admin]
-
-~~~
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-~~~
+The abbreviated legacy surface is preserved only in the immutable
+[v2.1.0 appendix](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md#openapi-specification).
+There is no complete native OpenAPI artifact in this decision. A future one
+requires a separately named/versioned profile, complete machine-readable
+artifact, deterministic canonical mapping, builder and interoperability vectors.
+An API document cannot weaken the owning request, proof or result contract.

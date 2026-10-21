@@ -1,5 +1,24 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed native Transport migration (native Transport contract; v2.1.0 baseline):**
+The old protobuf package, abbreviated OpenAPI, flat proof/JWS envelope and
+authorization enum remain legacy at the immutable
+[v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md).
+Preserve original bytes and provenance. Native v3 uses the proposed
+[JSON/JWS base profile](specifications/native-transport.md), exact canonical
+proofs, complete ordinary requests/associations and signed Decision Geometry
+carriers across boundaries. Do not mechanically rename old messages or infer
+missing gates/constraints from an old permission verb.
+
+An explicitly enabled legacy adapter remains isolated and cannot be selected
+after native validation fails. Reissue and reevaluate under the installed
+native release/profile and current invocation, keys, time and prerequisites.
+HTTP `/api/v1` and `/v1` routing can remain independently versioned; old `ktp.v1`
+stream/package and capability tokens cannot negotiate native semantics. A future
+protobuf/OpenAPI alternative needs its own versioned complete artifacts,
+builder and interoperability vectors before recommendation or use.
+
+
 **Proposed portable Decision Geometry migration (Decision Geometry contract, after canonical Trust Proof contract/request association contract):**
 Retain historical v2.1 records in their original formats, with their original
 signatures and provenance. They remain historical records; do not invent missing

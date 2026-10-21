@@ -1,5 +1,17 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed demand supplier contract migration (demand supplier contract, after demand-side criticality contract/demand-side criticality proposal and D-010 approval):**
+Follow demand-side criticality contract's five-factor/demand-side migration, then replace the smaller demand
+row with the complete [supplier contract](specifications/demand-supplier.md).
+Increment the installed profile version and digest; reacquire independently
+authenticated supplier values with current provenance, observation time and
+exact preclassification operation binding. Do not rename an old catalogue
+signal, request scalar or stale signed value into new evidence. Unavailable
+values read restrictively as the most critical moment, without fabricating an
+observation or changing R. Historical profiles and bytes retain their release
+meaning; no active fallback to the old declaration is permitted.
+
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the

@@ -85,7 +85,28 @@ Substrate Profile:  A specification in this set that fixes, for one execution su
 
 # Conformance Levels
 
-KTP defines three conformance levels, each building on the previous.
+KTP defines three deployment assurance levels, each building on the previous.
+All native-v3 levels MUST implement the same Core semantic contract defined in
+[One Core, Three Assurance Levels](../specifications/core-conformance.md).
+The five weighted Risk Factors, independent Soul gate, input validity and
+undefined-input handling, standing semantics, Trust Proof contract, and result
+of supervision plus tightenedConstraints MUST NOT vary with the level label.
+For identical complete Core inputs, installed semantic profile and prior
+constraints, every level MUST produce the same Core result. Operational
+availability or a stricter installed policy can restrict execution further;
+neither changes the recorded Core result or reverses a veto.
+
+Levels MAY tighten deployment assurance and require shorter proof lifetimes or
+stronger named cryptographic profiles. They MUST NOT extend Core's maximum
+proof lifetime, omit required claims, change their meaning or substitute a
+binary decision for the normative result. A level label alone neither selects
+semantic thresholds nor establishes production suitability.
+
+The migration mapping and common boundary vectors are in
+specifications/core-conformance.md and
+specifications/conformance/core-levels-v1.json. Historical reduced Basic is
+legacy-v2.1-basic, not native-v3 Basic. Component claim composition is a separate
+decision under component conformance contract.
 
 ## Level 1: Basic
 
@@ -103,30 +124,31 @@ Trust Oracle:
 - Single Oracle (no mesh required)
 - Trust Score calculation (E_trust = E_base × (1 - R))
 - Trust Proof generation and signing
-- Minimum 3 Risk Factor inputs
+- All five weighted Risk Factor inputs and independent Soul gate
 
 Risk Factors:
 
-- Minimum 3 weighted inputs (adversarial_pressure, trust_trend, one other)
-- Basic normalization (min/max scaling)
+- All five weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
+- Core normalization, weight validation and undefined-input handling
+- Core Risk Domain semantics; local collection does not redefine Node, Neighborhood or Global
 
 Policy Enforcement Point:
 
 - Zeroth Law enforcement (A <= E)
 - Trust Proof validation
-- Binary allow/deny decisions
+- Core supervision and tightenedConstraints; a derived action verb cannot add permission
 - Basic logging
 
 Flight Recorder:
 
-- Decision logging (allow/deny with context)
+- Core result logging with context; retain canonical Decision Geometry when recording that artifact
 - Declared purpose-specific retention and erasure policy
 - No immutability requirement
 
 Agents:
 
 - Unique identifier
-- Trust Score tracking
+- Core standing, lineage and Proof of Resilience semantics, including applicable sponsored-agent constraints
 - Basic trajectory (action log)
 
 Protocol:
@@ -140,17 +162,14 @@ Protocol:
 Basic conformance does NOT require:
 
 - Oracle mesh or threshold signatures
-- Soul veto or sovereignty constraints
-- Trust tiers (just binary allow/deny)
 - Federation capabilities
 - Cryptographic chaining in Flight Recorder
-- Proof of Resilience calculation
 
 Basic single-Oracle operation provides no Byzantine consensus guarantee. Any implementation that claims Oracle mesh agreement, regardless of conformance level, MUST satisfy specifications/oracle-consensus.md and the runtime evidence requirements below. A threshold signature alone does not support that claim.
 
 ## Level 2: Standard
 
-Standard conformance provides production-ready KTP functionality suitable for:
+Standard conformance adds deployment assurances for uses such as:
 
 - Production deployments
 - Multi-zone environments
@@ -193,7 +212,6 @@ Agents:
 
 - Full trajectory chain
 - Lineage tracking (Sponsored, Independent, Guarantor)
-- Proof of Resilience calculation
 - Sponsorship support
 
 Protocol:
@@ -234,7 +252,7 @@ Trust Oracle:
 
 Risk Factors:
 
-- All 5 weighted inputs and the Soul veto
+- The same five weighted inputs plus the independent Soul veto
 - Full Indigenous Data Sovereignty support
 - Sub-second sensor refresh for critical dimensions
 - Sensor health monitoring and failover
@@ -263,8 +281,8 @@ Agents:
 
 Protocol:
 
-- All Trust Proof formats
-- All signature algorithms
+- Canonical Trust Proof format with named stronger installed profiles
+- Required algorithms of those named profiles; no level-based algorithm negotiation
 - Federation protocol (full)
 - Celestial protocol (extended proofs)
 
@@ -286,9 +304,10 @@ Full conformance additionally requires:
 +---------------------------+-------+----------+--------+
 | Oracle mesh               | -     | 4+ nodes | 5+     |
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
-| Weighted inputs + Soul    | 3+    | 5+Soul   | 5+Soul |
-| Soul veto                 | -     | Yes      | Yes    |
-| Trust tiers               | -     | 5        | 5      |
+| Weighted Risk Factors     | 5     | 5        | 5      |
+| Independent Soul veto     | Yes   | Yes      | Yes    |
+| Core Risk Domain meaning  | Same  | Same     | Same   |
+| Trust tiers               | 5     | 5        | 5      |
 | Flight Recorder chaining  | -     | Yes      | Yes    |
 | External anchoring        | -     | -        | Yes    |
 | Federation support        | -     | Yes      | Yes    |
@@ -310,7 +329,7 @@ Implementations MAY claim partial compliance (e.g., "Standard with Full Flight R
 
 MUST:
 
-- Accept Risk Factor input
+- Accept all five weighted Risk Factors and the independent Soul veto; apply Core validity and undefined-input handling
 - Validate the deployed Risk Factor weights per \[KTP-CORE] Section 6.5 (Domain Weights) before use, including after reconfiguration; reject invalid declarations without silently rescaling them
 - Calculate Risk Factor: R = Σ(w_i × D_i)
 - Calculate E_trust: E_trust = E_base × (1 - R)
@@ -329,7 +348,7 @@ SHOULD:
 MAY:
 
 - Support single-node operation
-- Use simplified E_base (static assignment)
+- Use deployment-specific assurance mechanisms consistent with Core; a static E_base MUST NOT replace Core standing semantics
 
 ### Standard Oracle Requirements
 
@@ -383,7 +402,7 @@ SHOULD:
 
 MUST:
 
-- Support minimum 3 dimensions -  adversarial_pressure - required -  trust_trend - required -  One additional dimension
+- Support all five weighted Risk Factors and the independent Soul veto under Core; Soul MUST NOT be weighted into R
 - Normalize values to 0-1 range
 - Report sensor health status
 - Handle sensor failure gracefully
@@ -439,6 +458,9 @@ MUST:
 - Validate Trust Proof signature
 - Check Trust Proof expiration
 - Enforce Zeroth Law (A <= E)
+- Check Soul before capacity; preserve prior vetoes and restrictive undefined-input handling
+- Derive supervision and tightenedConstraints and enforce all five Core tiers
+- Support action risk classification under the installed semantic profile
 - Return appropriate HTTP status codes
 - Log all decisions
 
@@ -651,7 +673,7 @@ Implementation MUST:
 - Include A and E in denial response
 - Provide remediation guidance in denial
 
-### Soul Constraint (Standard and Full)
+### Soul Constraint (All Levels)
 
 Before Zeroth Law evaluation:
 
@@ -667,7 +689,7 @@ Soul Veto MUST:
 
 ## Tier Transitions
 
-### Tier Boundaries (Standard and Full)
+### Tier Boundaries (All Levels)
 
 Implementations MUST use these boundaries:
 
@@ -861,6 +883,12 @@ scripts/readiness.py and scripts/test-readiness.py exercise supported declaratio
 
 ### Risk Factor Unit Tests
 
+Every level MUST run the common native-v3 Core suite, including
+specifications/conformance/core-levels-v1.json, the referenced capacity and
+canonical proof suites, and the same Core/provider vectors. Test identifiers
+listed under a stronger level add assurance coverage; they MUST NOT make an
+inherited Core behavior optional at Basic.
+
 Basic:
 
 - CT-B-001: Dimension normalization (proposed)
@@ -868,9 +896,11 @@ Basic:
 - CT-B-003: Sensor failure handling (proposed)
 - CT-B-004: Configuration loading (proposed)
 
+- CT-B-005: All five weighted inputs and independent Soul veto; restrictive undefined inputs (specified: specifications/conformance/core-levels-v1.json)
+
 Standard:
 
-- CT-S-001: All 5 weighted inputs and Soul veto support (proposed)
+- CT-S-001: Inherited five weighted inputs plus independent Soul support (proposed)
 - CT-S-002: Retired. Risk Domains are informative and R has one definition, KTP-CORE Section 5.2; the number is not reused
 - CT-S-003: Feed weighting (proposed)
 - CT-S-004: Soul veto logic (proposed)
@@ -890,6 +920,7 @@ Basic:
 - PEP-B-002: Zeroth Law enforcement (specified: specifications/conformance/capacity-gate-v1.json)
 - PEP-B-003: Denial response format (proposed)
 - PEP-B-004: Logging completeness (proposed)
+- PEP-B-005: Soul, prior veto, all five tiers, supervision and tightenedConstraints (specified: specifications/conformance/core-levels-v1.json)
 
 Standard:
 

@@ -141,6 +141,17 @@ The exact actual request object used for readiness binding is:
 
 The enforcer MUST derive it from the authenticated invocation and resolved actual subject, operation, environment, and parameters. `request_id` identifies that invocation under the deployment's replay controls. A supplied request digest or claimed parameters digest MUST NOT replace this construction and verification.
 
+When ordinary software evaluation also uses
+[request-binding-v1](request-binding.md), independently construct both bindings
+from the same actual invocation and exact complete proof. The purpose-specific
+request body and digest preimages in this readiness contract remain unchanged;
+its request_digest and proof_digest are not aliases for request-binding-v1's
+domain-separated hashes. The adapter MUST verify complete agreement on actual
+executor, operation, resolved scope and parameters before accepting either
+prerequisite. The readiness software subject is the ordinary request's actor,
+not its delegating requester; a shared digest field name or unsigned association proves no
+readiness. This does not change the signed readiness sidecar format.
+
 The signed readiness decision sidecar contains exactly:
 
 ```text

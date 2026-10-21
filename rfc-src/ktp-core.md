@@ -1847,9 +1847,20 @@ Mitigations: - Use multiple independent sensors per dimension - Cross-validate s
 
 Attackers may capture and replay Trust Proofs.
 
-Mitigations: - Short Trust Proof lifetime (max 10 seconds) - Include action hash in Trust Proof - Track Trust Proof JTIs to prevent reuse
+Ordinary software authorization MUST use
+[Ordinary Request and Trust Proof Association](../specifications/request-binding.md).
+Its versioned canonical request digest covers the actual requester, executor,
+operation, resource, complete parameters, classified demand and profile, audience,
+request ID and replay domain. The association binds the complete signed proof
+and its jti at evaluation time; no action-hash claim is added to the state proof.
 
-- Bind Trust Proof to TLS session
+A proof may supply current evidence to distinct requests during its valid
+window. Request IDs are reserved uniquely in authenticated replay domains;
+JTI alone is not permission or a per-request consumption token. Matching TLS
+sessions, subject strings or copied hashes do not replace the canonical binding.
+Decisions crossing a trust boundary require the reviewed signed carrier coverage
+specified by that companion; unavailable carriage fails closed. None of this
+claims target idempotency, exactly-once execution or release-time freshness.
 
 ## Trajectory Forgery
 

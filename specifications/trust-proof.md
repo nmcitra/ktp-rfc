@@ -14,7 +14,9 @@ or `undetermined`; only `clear` permits the relying component to continue the
 remaining authorization checks. It never grants execution by itself. The
 actual request, capacity, Soul constraints, grants, readiness, topology,
 revocations and applicable deployment policy MUST still be checked at execution.
-Request association and Decision Geometry are separate decisions (request association contract/Decision Geometry contract).
+Ordinary association follows [request-binding-v1](request-binding.md) (request association contract);
+Decision Geometry remains the separate carrier decision (Decision Geometry contract). Neither places
+a request digest inside this state assertion.
 
 This document and [`trust-proof.json`](../schemas/trust-proof.json) are the
 single native v3 wire contract for every conformance level. The schema fixes

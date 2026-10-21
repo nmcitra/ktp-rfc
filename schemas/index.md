@@ -13,6 +13,7 @@ the source.
 
 | Schema | File | What it constrains |
 |---|---|---|
+| Evidence State v1 (proposed) | [`evidence-state.json`](evidence-state.json) | Closed per-layer current/unavailable, populated/unknown and observable/unobservable outcomes; restrictive stress is not a measurement |
 | Risk Factors | [`risk-factors.json`](risk-factors.json) | The six weighted inputs and the Soul veto, as one scored object |
 | Trust Proof | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |

@@ -98,7 +98,7 @@ Instead of asking "Does this agent have permission?", KTP asks "Can this environ
 
 The environment becomes the final authority. Just as friction vetoes a sprinter's attempt to run on ice, environmental constraints veto an agent's attempt to act beyond the system's current capacity.
 
-Software-agent standing, Proof of Resilience, lineage, and tiers in this document MUST NOT be converted into a general score or rank for people. Human participation follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
+A person is a subject of this document as an account in a zone, and a person's standing under it is composed from the acts the person signed under it (Section 5.1). That standing bears on what the person may do under this protocol, and on nothing else: it MUST NOT be used as a general score or rank for people outside the protocol. Human participation also follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
 
 ## Requirements Language
 
@@ -112,7 +112,7 @@ Action Risk (A): A numeric value (0-100) representing the intrinsic risk of a re
 
 Adaptive Dormancy: The progressive reduction of agent capabilities as environmental conditions degrade. Agents "hibernate" rather than fail.
 
-Base Trust (E_base): A numeric value (0-100) representing a software agent's intrinsic capability, derived from its Proof of Resilience and lineage. It is not a human score.
+Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic capability. For a software agent it is derived from its Proof of Resilience and lineage; for a person it is composed from the acts the person signed under this protocol (Section 5.1). It is one zone's measure of its subject, never a general score for a person.
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
@@ -120,11 +120,15 @@ Context Tensor: Retired name for what is now split into Context Signals (the mea
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
-Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
+Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that subject's capacity check. For a person, operation eligibility and operational capacity remain separate requirements under {{KTP-HUMAN}}.
+
+External Root: The person at the end of the accountability chain behind an agent, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
+
+Person: A human subject of this specification, as an account in a zone. A person's trajectory is the ledger of acts they signed under the protocol; nothing else about the person enters it.
 
 Policy Decision Point (PDP): A component that evaluates Trust Proofs and makes authorization decisions based on A <= E.
 
@@ -316,7 +320,7 @@ This design is intentional. In an emergency, the natural human instinct is to ov
 
 # Trust Score Calculation
 
-The E_base composition, historical standing, behavioral signals, and tier calculations in this section apply to software agents. They MUST NOT be applied to human principals, including human sponsors and reviewers. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below.
+The E_base composition, historical standing, and tier calculations in this section apply to software agents and to persons. For a person they apply with the person's inputs: the acts the person signed under this protocol and the standing of the terminator behind them, and nothing else (see *The External Root* below). Behavioral signals are inputs for software agents only. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below; they are requirements beside standing, not substitutes for it.
 
 ## Base Trust (E_base)
 
@@ -366,6 +370,16 @@ The deployment MUST declare the adjudicator for findings of misattestation, incl
 A for-cause claim with no finding at the attestation's expiry lapses unresolved and MUST be recorded as unresolved. No debit is assessed on lapse; an unresolved claim does not become sustained or rejected by lapse of time. The instrument computes as zero in every branch — adjudication decides only whether the attestor is debited.
 
 The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
+
+Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage.
+
+A person's trajectory is the ledger of acts they signed under this protocol: bonds posted, attestations issued, approvals, veto clears, decisions contested. Nothing else about a person enters the protocol. A person's E_base is composed under this section from those signed acts and from the standing of the terminator behind the person, under the same shares and the same ceilings that apply to any subject. Concepts that belong to software agents — generation, lineage stage, mass ceilings, mitosis — do not apply to a person and MUST NOT be defaulted. Proof of Resilience applies to a person only through acts they signed under stress; nothing else earns it. Trust Tiers and the Silent Veto apply to a person's acts under the protocol.
+
+A person's Trust Score is the measure of the zone that computes it. It bears on what the person may do in that zone, and on nothing else. It MUST NOT be used as a general score or rank for people outside the protocol, and it MUST NOT be presented as a property of the person rather than of the zone's measure. A person's standing in one zone says nothing about the person in another; it crosses a federation link only as the federation agreement provides ({{KTP-FEDERATION}}, {{KTP-ZONES}}).
+
+A person MAY contest a decision on their standing by whatever route this set gives any subject. Nothing in this section narrows that route, and standing is never a prerequisite for explanation, correction, or review.
+
+The boundary cases for a person's standing are published in specifications/conformance/person-standing-v1.json. They fix what enters a person's standing and where it bears, and do not define a formula for E_base or R.
 
 ### Peer Signals
 

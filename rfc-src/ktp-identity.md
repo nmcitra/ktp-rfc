@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Vector Identity Specification"
 abbrev: "KTP-IDENTITY"
 docname: draft-perkins-ktp-identity-00
-date: 2026-09-07
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -43,7 +43,7 @@ Traditional identity systems treat identity as a static property - an entity eit
 
 Vector Identity addresses this by treating identity as a trajectory rather than a position - a continuous line of movement through state space rather than a single point of authentication.
 
-Trajectory-based standing, Proof of Resilience, sponsorship accounting, and lineage in this document apply to software agents. They MUST NOT become human behavioral dossiers, personal scores, or prerequisites for a person's access to explanation, correction, or review. Human identity assurance and operation-specific eligibility follow {{KTP-HUMAN}} and specifications/human-eligibility.md; an actual software executor retains its own identity, capacity, and readiness requirements.
+Trajectory-based standing, Proof of Resilience, sponsorship accounting, and lineage in this document apply to software agents. A person's trajectory under this protocol is the ledger of acts the person signed, as {{KTP-CORE}} specifies; these mechanisms MUST NOT become human behavioral dossiers, and standing MUST NOT be a prerequisite for a person's access to explanation, correction, or review. Human identity assurance and operation-specific eligibility follow {{KTP-HUMAN}} and specifications/human-eligibility.md; an actual software executor retains its own identity, capacity, and readiness requirements.
 
 ## The Passport Fallacy
 

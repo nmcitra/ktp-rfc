@@ -1,0 +1,318 @@
+{
+  "suite": "person-standing-v1",
+  "specification": "KTP-CORE, Base Trust (E_base) and The External Root; KTP-ZONES, Mass Requirements and Trust Portability; KTP-FEDERATION, Base Trust Factor",
+  "note": "Boundary cases for a person's standing. This repository contains no runtime: nothing here composes a score or admits anyone. The vectors fix what MAY and MUST NOT enter a person's standing, where that standing bears, and how it crosses a zone boundary. They do not define a formula for E_base or R beyond the hundred-point allocation Core already states, and they leave the root_instrument schema unchanged. The given/expect objects are test notation, not wire fields. Every number is re-derivable from the shares and ceilings stated in Core (peer share zero throughout, so PoR_share = 70 and Root_share = 30) and from the Zones ingress arithmetic E_base_zone = E_base_external × federation_trust_factor, then bounded by the receiving zone's declared zone-mass ceiling. Tier names use the v2.0.0 thresholds.",
+  "ledger_notation": "signed_acts lists acts the person signed under the protocol, each with a kind from: bond_posted, attestation_issued, approval, veto_clear, decision_contested; under_stress marks an act signed during a declared incident. offered_inputs lists anything else a caller tries to supply. A ceiling absent from applicable_ceilings was not applied; generation is never defaulted for a person.",
+  "vectors": [
+    {
+      "id": "PS01-signed-acts-compose",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "zone": "zone-blue-z1",
+        "signed_acts": [
+          {
+            "kind": "bond_posted",
+            "under_stress": false
+          },
+          {
+            "kind": "attestation_issued",
+            "under_stress": false
+          },
+          {
+            "kind": "approval",
+            "under_stress": true
+          },
+          {
+            "kind": "veto_clear",
+            "under_stress": true
+          },
+          {
+            "kind": "decision_contested",
+            "under_stress": false
+          }
+        ],
+        "PoR_contribution": 42,
+        "terminator": {
+          "id": "org:employer:z1",
+          "kind": "employer",
+          "standing": 80
+        },
+        "peer_share": 0,
+        "applicable_ceilings": [
+          {
+            "ceiling": "ial",
+            "value": 95
+          }
+        ]
+      },
+      "expect": {
+        "inputsAccepted": [
+          "signed_acts",
+          "terminator.standing"
+        ],
+        "Root_score": 80,
+        "root_term": 24,
+        "E_raw": 66,
+        "E_base": 66,
+        "generationDefaulted": false
+      },
+      "reason": "A person's E_base is composed from the acts they signed and the standing of the terminator behind them, under the same shares as any subject: 42 × (70/70) + 80 × (30/100) = 66, bounded by the one declared ceiling."
+    },
+    {
+      "id": "PS02-observed-behavior-refused",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "signed_acts_as": "PS01",
+        "offered_inputs": [
+          {
+            "name": "login_timing_profile",
+            "source": "endpoint telemetry"
+          },
+          {
+            "name": "message_sentiment",
+            "source": "collaboration platform"
+          },
+          {
+            "name": "behavioral_risk_score",
+            "source": "insider-risk product"
+          }
+        ]
+      },
+      "expect": {
+        "rejected": [
+          "login_timing_profile",
+          "message_sentiment",
+          "behavioral_risk_score"
+        ],
+        "entersStanding": false,
+        "E_base": 66
+      },
+      "reason": "Nothing else about a person enters the protocol. Behavioral signals are inputs for software agents only; a person's standing is unchanged by anything the person did not sign."
+    },
+    {
+      "id": "PS03-nobody-behind-the-instrument",
+      "given": {
+        "subject": "agent:3gen:worker:b7c2",
+        "root_instrument": {
+          "kind": "external_attestation",
+          "terminator": null,
+          "chain_length": null
+        },
+        "PoR_contribution": 70,
+        "peer_share": 0,
+        "applicable_ceilings": []
+      },
+      "expect": {
+        "recordedAs": "lapsed",
+        "reasonRequired": true,
+        "reasonFrom": [
+          "undeclared",
+          "over_hop_bound",
+          "expired",
+          "withdrawn_for_cause",
+          "unresolved"
+        ],
+        "Root_score": 0,
+        "root_term": 0,
+        "E_raw": 70,
+        "E_base_max": 70,
+        "tier_at_R_zero": "analyst",
+        "belowOperator": true
+      },
+      "reason": "An instrument whose terminator or chain length is undeclared computes the root term as zero, and a proof MUST say why there is no credit. With the root term at zero and the peer share at zero, E_base cannot exceed the Proof of Resilience share of 70, which is below Operator at the v2.0.0 threshold of 72."
+    },
+    {
+      "id": "PS04-no-meaning-outside-the-protocol",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base": 66,
+        "request": {
+          "purpose": "read the person's standing as a general score for an employment review and a ranking across teams",
+          "inside_protocol": false
+        }
+      },
+      "expect": {
+        "refused": true,
+        "meaningDefined": false
+      },
+      "reason": "A person's standing bears on what the person may do under the protocol and on nothing else. Outside it the score has no defined meaning, and no vector in this suite claims one."
+    },
+    {
+      "id": "PS05-transfer-by-agreement",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base_external": 66,
+        "from_zone": "zone-blue-z1",
+        "to_zone": "zone-blue-partner",
+        "agreement": {
+          "exists": true,
+          "person_trust_factor": 0.5,
+          "zone_mass_ceiling": 40
+        }
+      },
+      "expect": {
+        "transferred": true,
+        "E_base_zone_before_ceiling": 33,
+        "E_base_zone": 33
+      },
+      "reason": "Standing crosses a federation link only as the agreement provides: 66 × 0.5 = 33, within the receiving zone's declared ceiling of 40."
+    },
+    {
+      "id": "PS06-agreement-admits-at-zero",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base_external": 66,
+        "to_zone": "zone-blue-partner",
+        "agreement": {
+          "exists": true,
+          "person_trust_factor": 0.0,
+          "zone_mass_ceiling": 40
+        }
+      },
+      "expect": {
+        "transferred": true,
+        "E_base_zone": 0,
+        "composesFromSignedActsInReceivingZone": true
+      },
+      "reason": "A receiving zone MAY admit a person at any standing from zero up to its ceiling. At a factor of zero the person starts from nothing and accumulates only what they sign there."
+    },
+    {
+      "id": "PS07-no-agreement-no-transfer",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base_external": 66,
+        "to_zone": "zone-blue-stranger",
+        "agreement": {
+          "exists": false
+        }
+      },
+      "expect": {
+        "transferred": false,
+        "E_base_zone": 0,
+        "error": false
+      },
+      "reason": "Where no agreement exists, no standing transfers. The person's standing in one zone says nothing about the person in another; this is the designed result, not a failure."
+    },
+    {
+      "id": "PS08-ceiling-binds",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base_external": 66,
+        "to_zone": "zone-blue-partner",
+        "agreement": {
+          "exists": true,
+          "person_trust_factor": 1.0,
+          "zone_mass_ceiling": 40
+        }
+      },
+      "expect": {
+        "transferred": true,
+        "E_base_zone_before_ceiling": 66,
+        "E_base_zone": 40
+      },
+      "reason": "The receiving zone's declared zone-mass ceiling bounds imported standing: min(66 × 1.0, 40) = 40."
+    },
+    {
+      "id": "PS09-agent-concepts-not-defaulted",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "offered_inputs": [
+          {
+            "name": "generation",
+            "value": 3
+          },
+          {
+            "name": "lineage",
+            "value": "independent"
+          },
+          {
+            "name": "mass_ceiling",
+            "value": 92
+          },
+          {
+            "name": "mitosis",
+            "value": "scheduled"
+          }
+        ]
+      },
+      "expect": {
+        "rejected": [
+          "generation",
+          "lineage",
+          "mass_ceiling",
+          "mitosis"
+        ],
+        "generationCeilingApplied": false
+      },
+      "reason": "Generation, lineage stage, mass ceilings and mitosis belong to software agents. They do not apply to a person and MUST NOT be defaulted."
+    },
+    {
+      "id": "PS10-resilience-needs-a-signed-act",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "PoR_contribution": 42,
+        "incident": {
+          "declared": true,
+          "handled_by_team": true,
+          "acts_signed_by_subject": []
+        }
+      },
+      "expect": {
+        "PoR_contribution": 42,
+        "credited": false
+      },
+      "reason": "Proof of Resilience applies to a person only through acts they signed under stress. An incident the person's team handled, with nothing signed by the person, earns the person nothing."
+    },
+    {
+      "id": "PS11-contest-needs-no-standing",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_trust": 10,
+        "tier": "hibernation",
+        "request": {
+          "kind": "explanation",
+          "of": "silent_veto on act act-9c21"
+        }
+      },
+      "expect": {
+        "provided": true,
+        "contestRouteOpen": true,
+        "standingChecked": false
+      },
+      "reason": "Standing is never a prerequisite for explanation, correction or review. A person in Hibernation contests by the same route as any subject."
+    },
+    {
+      "id": "PS12-trust-score-and-silent-veto",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_base": 66,
+        "zone_R": 0.25,
+        "candidate_actions": [
+          {
+            "id": "act-9c21",
+            "A": 55
+          },
+          {
+            "id": "act-9c22",
+            "A": 40
+          }
+        ]
+      },
+      "expect": {
+        "E_trust": 49.5,
+        "tier": "observer",
+        "decisions": [
+          {
+            "id": "act-9c21",
+            "silent_veto": true
+          },
+          {
+            "id": "act-9c22",
+            "silent_veto": false
+          }
+        ]
+      },
+      "reason": "E_trust = E_base × (1 − R) under the zone's R: 66 × 0.75 = 49.5, Observer at the v2.0.0 thresholds. A > E_trust vetoes the first act; the second passes the capacity gate, with every other check still to run."
+    }
+  ]
+}

@@ -30,7 +30,54 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and the demand-side criticality input
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and persons as subjects
+
+### A person is a subject; the External Root is a person
+
+**Finding:** the accountability chain behind every agent ended at an
+instrument nobody stood behind. Core said the chain terminates at a named
+human, a legal entity or an attestation, then forbade that human a score or a
+trajectory; the threat model's SR-011 required administrators to have Trust
+Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
+
+- Core: a person is a subject of the specification, as an account in a zone.
+  A person's trajectory is the ledger of acts they signed under the protocol
+  and nothing else. A person's E_base is composed under Section 5.1 from
+  those acts and the standing of the terminator behind them, under the same
+  shares and ceilings as any subject; generation, lineage stage, mass
+  ceilings and mitosis do not apply and are not defaulted. Proof of
+  Resilience is earned only by acts signed under stress.
+- Core: a person's Trust Score is the zone's measure of that account. It
+  bears on what the person may do in that zone and on nothing else, must not
+  be used as a general score or rank outside the protocol, and must not be
+  presented as a property of the person. Standing is never a prerequisite
+  for explanation, correction or review.
+- Core: the chain behind an agent ends at a person, and behind the person at
+  an employer, a licensing body or a board. Persons stand behind the
+  attestation branch of the root instrument; that branch is not locked to any
+  lineage stage.
+- Conformance: `specifications/conformance/person-standing-v1.json`, twelve
+  vectors fixing what enters a person's standing, where it bears, and how it
+  crosses a zone boundary. They do not define a formula for E_base or R.
+- Zones and Federation: a person's standing crosses a federation link only as
+  the agreement provides, through the receiving zone's directional trust
+  factor and zone-mass ceiling, from zero up to that ceiling. Nothing
+  transfers where no agreement exists.
+- Identity, Human, and the human-eligibility contract: the sentences that
+  forbade a person a score are rewritten to the above. Eligibility and
+  capacity remain separate requirements beside standing. The behavioral-data
+  rules in Privacy, including BEHAVIOR-002, are untouched: signed acts are
+  not behavioral data.
+- Vectors for the four behaviors named in the proposal are not included yet.
+
+This alters sentences that reached `main` in the consolidation block recorded
+as D-010, after that block's approval. A conformant implementation that treats
+the External Root as an instrument with nobody behind it, or that implements
+the earlier six-term human score, stops conforming, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
+
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility, and the demand-side criticality input
 
 ### `moment_criticality` leaves the Risk Factor
 

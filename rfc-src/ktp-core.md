@@ -1253,6 +1253,13 @@ Implementations MAY cache aggregated R values for up to 100ms to reduce computat
 
 ## Undefined Inputs
 
+The canonical portable evaluation record is
+[Decision Geometry](../specifications/decision-geometry.md), carrying the
+released undefined_inputs shape, evaluated input provenance, ordered gates,
+supervision and tightenedConstraints. It is not transaction-record.json or
+proof of an execution outcome. Unreached capacity and margin are absent after
+an early stop; a downstream record MUST NOT fabricate a passing measurement.
+
 An input that is absent, unanswered, stale beyond its declared refresh, or otherwise undefined MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point, and the undefined state MUST be recorded on the decision record. Substituting a measured value for an undefined one - including zero - is prohibited (Section 5.2).
 
 "Toward permission" is the operative phrase. Failing closed does not mean denying on every unknown. Where a decision point offers a graded outcome - the supervision ladder of Section 6.7 (Aggregation Algorithm) - an undefined input clamps the result to a more supervised level, per {{KINETIC-ENVELOPE}}: an unknown environment reads as low capacity, not high. Denial is the terminal case, reached only where no more restrictive outcome short of denial exists at that decision point. The Soul veto (Section 6.2) is a decision point with exactly that shape - its outcomes are veto and no veto - so an undefined sovereignty input resolves to the veto ({{KTP-SENSORS}} Section 4.3).

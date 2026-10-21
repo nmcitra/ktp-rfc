@@ -106,6 +106,14 @@ The margin veto takes precedence, including for the omitted-profile default whos
 
 The authorizing gateway consumes `supervision` as a **floor** on its authorization tier: it may raise the tier, never lower one already set. A veto denies with a distinct code (`KINETIC_CAPACITY_EXCEEDED`) so a kinematic veto reads apart from an ordinary limit violation in audit. The veto stays silent to the agentic system; the code lives in the evidence record.
 
+The portable deterministic evaluation is recorded using
+[Decision Geometry](decision-geometry.md), including supervision,
+tightenedConstraints and conditional margin, with explicit unevaluated gates
+and unavailable inputs after an early stop. The geometry is separate from the
+receipt below, a Trajectory Chain record, storage metadata or an action outcome.
+Its signed carrier preserves the complete evaluation and cannot make a veto
+permissive. No additional formula for A or E is introduced by that schema.
+
 ## A and E are implementation-defined
 
 This spec does not publish the formula for A or E. A conformant provider satisfies six properties.

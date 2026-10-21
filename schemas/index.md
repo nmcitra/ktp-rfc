@@ -17,6 +17,8 @@ the source.
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |
 | Request/Proof Association v1 (proposed) | [`request-proof-association.json`](request-proof-association.json) | Unsigned request/proof digest and JTI association; no standalone authorization or signed carrier |
+| Decision Geometry v1 (proposed) | [`decision-geometry.json`](decision-geometry.json) | Closed portable deterministic evaluation; inputs, undefined states, gates, supervision and tightened constraints; not a permit or execution outcome |
+| Decision Geometry Carrier v1 (proposed) | [`decision-geometry-carrier.json`](decision-geometry-carrier.json) | Complete payload of the purpose-typed signed boundary carrier; no independent execution authority |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |
@@ -25,7 +27,7 @@ the source.
 | Emergency Policy | [`emergency-policy.json`](emergency-policy.json) | Exact emergency scope and protected change-control declarations; approval and activation require separate verification |
 | Sensor Configuration | [`sensor-config.json`](sensor-config.json) | A feed's identity, refresh and failure behaviour |
 | Soul Constraint | [`soul-constraint.json`](soul-constraint.json) | The veto: present or absent, never a seventh weight |
-| Transaction Record v3 (unreleased) | [`transaction-record.json`](transaction-record.json) | Complete canonical record and staged JWS envelopes; signatures and authenticated head evidence require separate verification |
+| Transaction Record v3 (unreleased) | [`transaction-record.json`](transaction-record.json) | Trajectory Chain record, not Decision Geometry; complete canonical transition and staged JWS envelopes, with separate signature/head verification |
 | Legacy Transaction Record v2 | [`transaction-record-legacy-v2.json`](transaction-record-legacy-v2.json) | Byte-preserved historical schema for archive interpretation; not a v3 authority acceptance path |
 | Sponsorship Bond | [`sponsorship-bond.json`](sponsorship-bond.json) | What a guarantor stakes, and on whom |
 | Human Eligibility Profile v1 (unreleased) | [`human-eligibility-profile.json`](human-eligibility-profile.json) | Exact operation criteria, permitted issuers, purpose-bearing scopes and governance/review/retention declarations; includes evidence/grant/delegation definitions |

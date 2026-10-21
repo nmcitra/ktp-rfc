@@ -24,7 +24,7 @@ This profile is not a human proof format or a replacement human authorization ad
 This is the ordinary evaluation-time association contract. It does not define
 software-substrate consumption, effect budgets, queue/retry handling, target
 idempotency, exactly-once execution, release-time revalidation or target-effect
-evidence. The signed decision carrier is a separate decision (Decision Geometry contract).
+evidence. The signed decision carrier is the separate [Decision Geometry decision](decision-geometry.md) (Decision Geometry contract).
 
 ## 2. Complete canonical request
 
@@ -156,8 +156,9 @@ a carrier cannot change the associated request or turn missing evidence into
 permission. Carrier replay and freshness obligations remain binding.
 
 This proposal states those coverage requirements, not a second carrier wire
-format. Decision Geometry contract may define the Decision Geometry carrier without changing these
-request/proof preimages. Until a reviewed carrier/profile satisfying them is
+format. [Decision Geometry](decision-geometry.md) (Decision Geometry contract) defines the separate
+purpose-typed carrier covering the entire geometry and association without
+changing these request/proof preimages. Until a reviewed carrier/profile satisfying them is
 available, cross-boundary use MUST fail as `RB_CARRIER`; do not send an unsigned
 association, a generic JWT, a caller-supplied digest or a claimed `verified` flag
 as a replacement. This blocks external decision reuse, not local reevaluation

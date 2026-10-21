@@ -70,7 +70,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Attestation: A cryptographically signed statement about an agent's behavior, issued by the Trust Oracle after successful transaction.
 
-Decision Geometry: The multi-dimensional record of a single authorization decision, including agent context, environmental state, action details, and outcome.
+Decision Geometry: The portable deterministic evaluation record defined by specifications/decision-geometry.md; distinct from Flight Recorder storage, a Trajectory Chain record, and execution outcome.
 
 Flight Recorder: The immutable audit log system that records all KTP decisions and state changes.
 
@@ -86,31 +86,26 @@ Warm Storage: Intermediate storage for less frequently accessed records (days to
 
 # Decision Geometry
 
-Every authorization decision is recorded as a Decision Geometry - a multi-dimensional snapshot that captures not just what happened, but why it happened and what would have happened under different conditions.
+Native v3 Decision Geometry MUST follow
+[Canonical Decision Geometry](../specifications/decision-geometry.md) and its
+[closed schema](../schemas/decision-geometry.json). It records the evaluated
+inputs/provenance, ordered gates, supervision and tightenedConstraints. It
+contains no stored verb, counterfactual analysis or execution outcome. The
+complete signed carrier and deterministic fixtures are defined by that companion.
+Flight Recorder storage/query/retention remain responsibilities of this document,
+outside the portable record.
 
 ## Core Components
 
-A Decision Geometry record contains:
-
-~~~
-   {
-     "record_id": "dr-uuid-12345",
-     "record_type": "authorization_decision",
-     "timestamp": "2025-11-25T14:32:07.123Z",
-     "chain": {
-       "previous_hash": "sha256:abc123...",
-       "sequence_number": 1847392
-     },
-~~~
-
-~~~
-     "agent": { ... },        // Agent context
-     "environment": { ... },  // Environmental snapshot
-     "action": { ... },       // Requested action
-     "decision": { ... },     // Outcome and reasoning
-     "counterfactual": { ... } // What-if analysis
-   }
-~~~
+The canonical body and separately purpose-typed signed carrier are the sole
+native v3 evaluation formats. Their exact fields, conditional early stops,
+undefined_inputs, digest preimages, association and signature contracts live
+in the canonical companion and schemas. The examples and metadata below describe
+legacy/product Flight Recorder wrappers and projections, not extra canonical
+fields. A product MUST preserve the complete original canonical bytes/digest
+and MUST NOT relabel a wrapper, historical record or trajectory as native
+Decision Geometry. Storage metadata and counterfactuals may accompany the
+record separately without participating in its canonical body.
 
 ### Record Identification
 
@@ -230,49 +225,19 @@ trajectory_hash: Hash of agent's trajectory chain for verification
 
 ## Decision Outcome
 
-The decision outcome records what happened and why:
+The canonical evaluation result is supervision plus camelcase
+`tightenedConstraints`, with margin only when calculation was reached and
+released `undefined_inputs` when an unknown restricted the result. See the
+canonical companion for exact fields, stable reasons and early-stop branches.
+It is not evidence of what a target did or did not do.
 
-~~~
-   "decision": {
-     "supervision": "silent_veto",
-     "reason": "TRUST_INSUFFICIENT",
-     "tightened_constraints": {},
-     "evaluation": {
-       "soul_check": "pass",
-       "tier_check": "pass",
-       "zeroth_law_check": "fail",
-       "a": 85,
-       "e_trust": 42,
-       "gap": 43
-     },
-     "enforcement_point": {
-       "pep_id": "pep-api-gateway-east",
-       "pep_type": "api_gateway",
-       "latency_ms": 2
-     },
-     "notification": {
-       "agent_notified": true,
-       "response_code": 403,
-       "response_body_hash": "sha256:ghi789..."
-     }
-   }
-~~~
-
-Key fields:
-
-supervision: the returned supervision level (stable, metacognitive, assisted, regulated, or silent_veto), per \[KTP-CORE] Section 6.7 (Aggregation Algorithm)
-
-tightened_constraints: the tighten-only constraint set on the result; present on every decision
-
-margin: the Zeroth Law margin the supervision was derived from; MUST be present when margin calculation was reached and MUST be omitted when an earlier check stopped the evaluation, per \[KTP-CORE] Section 6.7 (Aggregation Algorithm). The example above vetoes A > E_trust before division and therefore has no margin. An omitted margin MUST NOT be interpreted as zero.
-
-reason: KTP error code when supervision is silent_veto
-
-evaluation: Step-by-step evaluation trace
-
-gap: Difference between A and E_trust (how far from threshold)
-
-The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from supervision and tightened_constraints per \[KTP-CORE] Section 6.7 (Aggregation Algorithm) and is not stored; the record carries the result the verb is read from.
+The decision verb is derived from supervision/constraints and MUST NOT be
+stored in the canonical body. Legacy snake_case/product result projections,
+enforcement-point telemetry and notifications elsewhere in this document are
+outside that body. A consumer MAY record an actually evaluated, tighten-only
+consumer_result; it MUST NOT rewrite the producer's signed bytes or lower a veto.
+Execution outcomes and target evidence remain their separate trajectory/execution
+artifacts, including the target-execution evidence contract.
 
 ## Counterfactual Analysis
 

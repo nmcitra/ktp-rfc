@@ -131,7 +131,7 @@ Agents:
 Protocol:
 
 - Trust Proof JWT format
-- ES256 or Ed25519 signatures
+- Canonical Trust Proof signature profile (ES256 base capability; named profiles for additional algorithms)
 - 10-second maximum proof lifetime; expired at current_time = exp
 
 ### Basic Limitations
@@ -198,7 +198,7 @@ Agents:
 
 Protocol:
 
-- Extended Trust Proof format
+- Canonical Trust Proof format with the level's additional assurance requirements
 - Threshold signatures
 - 10-second maximum proof lifetime, including outages; expired at current_time = exp
 - Federation protocol support
@@ -317,7 +317,7 @@ MUST:
 - Calculate E_trust: E_trust = E_base × (1 - R)
 - Generate signed Trust Proofs
 - Require the installed history-with-scoped-readiness policy and current matched operation-scoped readiness under specifications/operational-readiness.md; readiness is not an E_base term or permission to override a veto
-- Support ES256 or Ed25519 signatures
+- Support the canonical Trust Proof base algorithm and any stronger installed profile
 - Expose health check endpoint
 - Log all Trust Proof issuances
 
@@ -587,7 +587,7 @@ MUST:
 - Complete trajectory verification
 - Cross-zone identity portability
 - Attestation chain support
-- Extended proof support (celestial)
+- Celestial support without extending the canonical ordinary-proof lifetime
 
 SHOULD:
 
@@ -598,87 +598,31 @@ SHOULD:
 
 ## Trust Proof Format
 
+All levels use the same [Canonical Trust Proof Contract](../specifications/trust-proof.md)
+and [closed v3 schema](../schemas/trust-proof.json). Its complete signed
+[fixtures](../specifications/conformance/trust-proof-v3.json) are the only wire
+examples here. Levels do not omit required claims, change nesting, or extend
+proof lifetime. Declared assurance, threshold signing and stronger cryptographic
+requirements are additional prerequisites, not different base artifacts.
+
 ### Basic Trust Proof
 
-Format: JWT (RFC 7519)
-
-Required claims:
-
-~~~
-   {
-     "iss": "oracle-identifier",
-     "sub": "agent-identifier",
-     "iat": 1732547000,
-     "exp": 1732547060,
-     "ktp": {
-       "e_base": 72,
-       "e_trust": 68,
-       "r": 0.056
-     }
-   }
-~~~
-
-Signature: ES256 or Ed25519
+Implement the canonical base profile, including ES256 interoperability and all
+required and conditionally required claims. TP_CLEAR permits further action
+checks; TP_VETO and TP_UNDETERMINED deny execution despite valid signatures.
 
 ### Standard Trust Proof
 
-All Basic claims, plus:
-
-~~~
-   {
-     "ktp": {
-       "e_base": 72,
-       "e_trust": 68,
-       "r": 0.056,
-       "de_dt": -0.5,
-       "tier": "analyst",
-       "soul": 0,
-       "sigma": 3.2,
-       "trajectory_hash": "sha256:abc...",
-       "context": {
-         "evidence_density": 0.45,
-         "trust_trend": 0.32,
-         "adversarial_pressure": 0.28,
-         "update_resistance": 0.52,
-         "attestation_coverage": 0.10
-       }
-     }
-   }
-~~~
-
-Signature: Threshold (2-of-3)
+Use the same canonical artifact with this level's additional operational and
+threshold-signing requirements. A quorum string alone is not evidence of those
+requirements. Extra algorithms require a named installed cryptographic profile.
 
 ### Full Trust Proof
 
-All Standard claims, plus:
-
-~~~
-   {
-     "ktp": {
-       ...
-       "lineage": {
-         "type": "guarantor",
-         "generation": 8,
-         "sponsor": null
-       },
-       "resilience": {
-         "score": 0.87,
-         "events": 12,
-         "ledger_hash": "sha256:def..."
-       },
-       "attestations": [
-         {
-           "issuer": "zone:blue-primary",
-           "timestamp": "2025-11-24T00:00:00Z",
-           "type": "behavior",
-           "signature": "sig:..."
-         }
-       ]
-     }
-   }
-~~~
-
-Signature: Threshold (3-of-5) with key rotation support
+Use the same canonical artifact with this level's stronger cryptographic,
+key-rotation and operational requirements. Optional claims remain those named
+by the schema; a Full label does not introduce a second wire format or a
+longer lifetime.
 
 ## Zeroth Law Enforcement
 
@@ -762,22 +706,13 @@ SHOULD:
 
 ### Signature Algorithms
 
-Basic Level:
-
-- ES256 (ECDSA with P-256 and SHA-256) - REQUIRED
-- Ed25519 - RECOMMENDED
-
-Standard Level:
-
-- ES256 - REQUIRED
-- Ed25519 - REQUIRED
-- Threshold signatures - REQUIRED
-
-Full Level:
-
-- All Standard algorithms
-- ES384 (ECDSA with P-384) - RECOMMENDED
-- Key rotation support - REQUIRED
+For native Trust Proofs, all levels MUST implement the canonical base ES256
+capability and the installed profile requirements of the canonical contract,
+Section 2. Additional JOSE algorithms require a named profile; the JOSE name
+for Ed25519 is EdDSA. Crypto's stronger selected level, threshold signing and
+key-management requirements still apply. They cannot be waived by selecting a
+weaker base verification result. This does not change signature requirements
+for other artifact types.
 
 ### Hash Functions
 

@@ -1269,160 +1269,35 @@ The human eligibility decision schema defines an UNSIGNED prerequisite body, not
 
 ## Token Format
 
-The Trust Proof extends JSON Web Token (JWT) as defined in RFC 7519. It uses the standard JWT structure:
-
-~~~
-   Header.Payload.Signature
-~~~
-
-The header MUST include:
-
-~~~
-   {
-     "alg": "ES256",
-     "typ": "ktp+jwt",
-     "kid": "oracle-key-id"
-   }
-~~~
-
-The "alg" field specifies the signature algorithm. Implementations MUST support ES256 (ECDSA with P-256 and SHA-256). Implementations MAY support additional algorithms.
-
-The "typ" field MUST be "ktp+jwt" to distinguish KTP Trust Proofs from standard JWTs.
-
-The "kid" field identifies the Trust Oracle signing key, enabling key rotation and multi-Oracle deployments.
+Native v3 Trust Proofs MUST follow the envelope, explicit artifact version and
+closed schema in [Canonical Trust Proof Contract](../specifications/trust-proof.md),
+Sections 2–3. The exact protected type is `ktp-trust-proof+jwt`; the media type
+is `application/ktp-trust-proof+jwt`. ES256 is the base interoperability
+capability; stronger selected cryptographic profiles remain binding.
 
 ## Claims
 
-The payload contains standard JWT claims plus KTP-specific claims in the "ktp" namespace.
-
-Standard claims:
-
-~~~
-   iss (Issuer): The Trust Oracle identifier (URI)
-   sub (Subject): The agent identifier (URI)
-   iat (Issued At): Unix timestamp of Trust Proof generation
-   exp (Expiration): Unix timestamp of Trust Proof expiration
-   jti (JWT ID): Unique identifier for this Trust Proof
-~~~
-
-KTP claims (in "ktp" object):
-
-~~~
-   e_base: Base Trust score (0-100)
-   e_trust: Effective Trust score (0-100)
-   r: Risk Factor (0-1)
-   de_dt: Trust Velocity (change per second)
-   sigma: Trust Volatility (standard deviation)
-~~~
-
-~~~
-   risk_factors: Object containing the five normalized inputs
-     adversarial_pressure (0-1)
-     attestation_coverage (0-1)
-     evidence_density (0-1)
-     trust_trend (0-1)
-     update_resistance (0-1)
-~~~
-
-~~~
-   soul: Object containing sovereignty evaluation
-     s: Soul veto status (0 = clear, 1 = veto)
-     constraint_type: Type of constraint if s=1 (null if s=0)
-     constraint_id: Identifier of triggering constraint
-     authority: URI of sovereignty authority
-~~~
-
-~~~
-   lineage: Agent lineage stage ("sponsored", "independent",
-            "guarantor")
-   generation: Agent generation number (0+)
-   sponsor: Sponsor agent identifier (if sponsored)
-   resilience_hash: Hash of current Proof of Resilience ledger
-~~~
-
-Example Trust Proof payload (no sovereignty constraint):
-
-~~~
-   {
-     "iss": "https://oracle.example.com",
-     "sub": "agent:7gen:optimized:a1b2c3d4",
-     "iat": 1699900000,
-     "exp": 1699900010,
-     "jti": "tp-uuid-12345",
-     "ktp": {
-       "e_base": 87,
-       "e_trust": 42,
-       "r": 0.517,
-       "de_dt": -2.3,
-       "sigma": 0.15,
-       "context": {
-         "evidence_density": 0.875,
-         "trust_trend": 0.920,
-         "adversarial_pressure": 0.020,
-         "update_resistance": 0.100,
-         "attestation_coverage": 0.040
-       },
-       "soul": {
-         "soul": 0,
-         "constraint_type": null,
-         "constraint_id": null,
-         "authority": null
-       },
-       "lineage": "guarantor",
-       "generation": 7,
-       "resilience_hash": "sha256:abc123def456..."
-     }
-   }
-~~~
-
-Example Trust Proof payload (sovereignty constraint active):
-
-~~~
-   {
-     "iss": "https://oracle.example.com",
-     "sub": "agent:7gen:optimized:a1b2c3d4",
-     "iat": 1699900000,
-     "exp": 1699900010,
-     "jti": "tp-uuid-12346",
-     "ktp": {
-       "e_base": 95,
-       "e_trust": 90,
-       "r": 0.053,
-       "de_dt": 0.1,
-       "sigma": 0.02,
-       "context": {
-         "evidence_density": 0.100,
-         "trust_trend": 0.150,
-         "adversarial_pressure": 0.010,
-         "update_resistance": 0.050,
-         "attestation_coverage": 0.020
-       },
-       "soul": {
-         "soul": 1,
-         "constraint_type": "tk_label",
-         "constraint_id": "TK-NC-001",
-         "authority": "https://localcontexts.org/label/tk-nc/"
-       },
-       "lineage": "guarantor",
-       "generation": 7,
-       "resilience_hash": "sha256:abc123def456..."
-     }
-   }
-~~~
-
-Note: In the second example, despite high E_trust (90) and low R (0.053), the Soul veto (s=1) will cause any action to be denied that violates the TK Non-Commercial label.
+The [v3 schema](../schemas/trust-proof.json) is the single claim authority.
+Required, optional and conditional members, the three gate states and extension
+processing are specified in the canonical contract, Section 3. Complete signed
+clear, veto and undetermined examples live in its
+[conformance vectors](../specifications/conformance/trust-proof-v3.json), not
+in a second hand-maintained payload here. A proof is standing evidence;
+its possession and even a clear gate do not authorize an action.
 
 ## Signature
 
-The Trust Proof MUST be signed by the Trust Oracle using the algorithm specified in the header.
+The Trust Proof MUST be signed and verified under the independently selected
+key, role and algorithm bindings of the canonical contract, Sections 2 and 5.
+The untrusted header cannot select a more permissive cryptographic profile.
 
 For distributed Trust Oracle deployments, the signature MAY be a threshold signature requiring k-of-n Oracles to sign.
 
 Issuers and honest threshold signers in an Oracle mesh MUST derive the proof's standing, including E_base and its trajectory basis, from verified committed state under specifications/oracle-consensus.md. Single-node proof issuance MAY remain available where the deployment's signing requirements permit it, but MUST NOT turn an uncommitted local proposal into authoritative standing. Signature validity or signing-threshold metadata alone does not prove consensus or freshness of that standing. The selected protocol MUST define how issuers establish applicable committed state, and consumers relying on mesh agreement MUST verify its required evidence and binding to the proof's result. Proof lifetime, current environmental evaluation, and all authorization constraints remain binding.
 
-Implementations MUST verify: 1. The signature is valid for the payload 2. The signing key is a known, trusted Oracle key 3. The signing key has not been revoked
-
-Signature verification failure MUST result in action denial.
+Implementations MUST apply the complete ordered validation and stable reasons
+in the canonical contract, Section 5. Signature validity alone is insufficient;
+only TP_CLEAR permits the remaining action checks to proceed.
 
 ## Operational Readiness for the Requested Action
 
@@ -1444,7 +1319,9 @@ Readiness is checked as an additional prerequisite; it never turns a failed earl
 
 Trust Proofs are intentionally short-lived to ensure they reflect current environmental conditions.
 
-The claims MUST establish 0 < exp - iat <= 10 seconds. A verifier MUST establish iat <= current_time < exp; at current_time = exp the proof is expired. If a timestamp or current time is invalid or unverifiable, the proof MUST NOT authorize an action. Clock rollback MUST NOT restore or prolong expired authority.
+The canonical contract, Section 4, defines the single lifetime, optional nbf,
+clock-skew and exact expiry contract. Every level retains its ten-second
+maximum; unverifiable time and rollback MUST NOT restore authority.
 
 Implementations SHOULD use shorter lifetimes (1-5 seconds) in high- volatility environments.
 
@@ -2002,7 +1879,7 @@ Claim Name: ktp Claim Description: Kinetic Trust Protocol data Change Controller
 
 ## Media Type Registration
 
-Type name: application Subtype name: ktp+jwt Required parameters: None Optional parameters: None Encoding considerations: binary (JWT is Base64url-encoded) Security considerations: See Section 10 Interoperability considerations: None Published specification: This document Applications which use this media type: KTP implementations Fragment identifier considerations: None Restrictions on usage: None Additional information: None Person to contact for further information: \[TBD] Intended usage: COMMON Author/Change controller: IETF
+Type name: application Subtype name: ktp-trust-proof+jwt Required parameters: None Optional parameters: None Encoding considerations: binary (JWT is Base64url-encoded) Security considerations: See Section 10 Interoperability considerations: None Published specification: This document Applications which use this media type: KTP implementations Fragment identifier considerations: None Restrictions on usage: None Additional information: None Person to contact for further information: \[TBD] Intended usage: COMMON Author/Change controller: IETF
 
 ## URI Scheme Registration
 
@@ -2128,8 +2005,12 @@ B.1.  Trust Proof Schema
 
 The canonical schema is the published file, not this appendix.
 
-Location: https://kinetic-trust-protocol.net/specs/schemas/v2/trust-proof.json
+Location: https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json
 
-SHA-256 of the canonical file at the time this document was produced: 41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
+SHA-256 of the canonical file at the time this document was produced: 33f48f5e946e3c292fe830a1de187f5ee7ad7e0a7502c8dab50dc8f5165b0016
 
-The published file carries the v2 claims (the declared peer share, applicable ceilings, advancement floor, and root instrument) and references the risk-factors schema.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.
+The file carries the proposed closed v3 claims and explicit gate/version
+contract, with fixed absolute references to the existing Risk Factor and Soul
+schemas. The canonical companion defines conditions JSON Schema cannot check.
+The released v2.1.0 artifact remains available at its immutable tag; a legacy
+adapter is not native v3. This appendix is a reference, not a second schema.

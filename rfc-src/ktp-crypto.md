@@ -959,43 +959,16 @@ For Level 3, dedicated (non-cloud) HSMs are RECOMMENDED due to the Hypervisor Op
 
 ## Trust Proof Format
 
-Trust Proofs use JWS (JSON Web Signature) format per RFC 7515.
-
-Header: { "alg": "ES256", "typ": "ktp-trust-proof+jwt", "kid": "oracle-zone-alpha-2025-001", "ktp_level": 2, "threshold": "3of5" }
-
-Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4", "aud": "zone:alpha", "iat": 1700000000, "exp": 1700000010, "nbf": 1700000000, "jti": "proof-uuid-12345",
-
-~~~
-     "e_base": 87,
-     "e_trust": 74,
-     "risk_factor": 0.15,
-     "tier": "operator",
-~~~
-
-~~~
-     "context": {
-       "evidence_density": 0.12,
-       "trust_trend": 0.08,
-       "adversarial_pressure": 0.22,
-       "update_resistance": 0.18,
-       "attestation_coverage": 0.10,
-       "soul": 0
-     },
-~~~
-
-~~~
-     "lineage": {
-       "type": "guarantor",
-       "generation": 7,
-       "trajectory_hash": "sha256:abc123..."
-     }
-   }
-~~~
-
-Signature:
-
-- For single-Oracle: Standard JWS signature
-- For threshold: Aggregated threshold signature
+Native v3 Trust Proofs MUST follow
+[Canonical Trust Proof Contract](../specifications/trust-proof.md), Sections
+2–5, and its complete signed fixtures. It fixes the one protected header,
+JOSE algorithm identifiers, closed payload, conditional claims, ten-second cap,
+ordered verification and stable failure reasons. No alternate payload or
+ktp_level/threshold header members are defined here. ES256 support is the base
+interoperability requirement; selected stronger cryptographic requirements in
+this document remain binding. Ed25519 uses JOSE `EdDSA` under an installed named
+profile. Successful base verification is not evidence of threshold participation,
+mesh consensus, key custody, or a stronger selected profile.
 
 ## Readiness Attestation and Decision Formats
 

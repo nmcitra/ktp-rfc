@@ -14,7 +14,7 @@ the source.
 | Schema | File | What it constrains |
 |---|---|---|
 | Risk Factors | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
-| Trust Proof | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry |
+| Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |

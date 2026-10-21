@@ -1,0 +1,1156 @@
+{
+  "profile": "ktp-trust-proof-v3",
+  "baseline": "v2.1.0",
+  "status": "proposed",
+  "evidence": "Modeled signed contract vectors; no runtime or interoperability certification.",
+  "test_key_warning": "UNSAFE TEST KEYS: ES256 private scalar 1; alternate scalar 2; Ed25519 seed bytes 0..31. Never trust these keys in a deployment. ECDSA fixture generation uses RFC6979 deterministic SHA256 then low-s normalization.",
+  "keys": [
+    {
+      "kid": "TEST-oracle-p256",
+      "alg": "ES256",
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+      "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU",
+      "role": "trust-proof-oracle",
+      "issuer": "https://oracle.example.com",
+      "zone": "zone:alpha",
+      "not_before": 1799999900,
+      "not_after": 1800000100,
+      "revoked": false
+    },
+    {
+      "kid": "TEST-revoked",
+      "alg": "ES256",
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+      "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU",
+      "role": "trust-proof-oracle",
+      "issuer": "https://oracle.example.com",
+      "zone": "zone:alpha",
+      "not_before": 1799999900,
+      "not_after": 1800000100,
+      "revoked": true
+    },
+    {
+      "kid": "TEST-agent-role",
+      "alg": "ES256",
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+      "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU",
+      "role": "trajectory-agent",
+      "issuer": "https://oracle.example.com",
+      "zone": "zone:alpha",
+      "not_before": 1799999900,
+      "not_after": 1800000100,
+      "revoked": false
+    },
+    {
+      "kid": "TEST-wrong-curve",
+      "alg": "ES256",
+      "kty": "EC",
+      "crv": "P-384",
+      "x": "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY",
+      "y": "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU",
+      "role": "trust-proof-oracle",
+      "issuer": "https://oracle.example.com",
+      "zone": "zone:alpha",
+      "not_before": 1799999900,
+      "not_after": 1800000100,
+      "revoked": false
+    },
+    {
+      "kid": "TEST-ed25519",
+      "alg": "EdDSA",
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "A6EHv_POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg",
+      "role": "trust-proof-oracle",
+      "issuer": "https://oracle.example.com",
+      "zone": "zone:alpha",
+      "not_before": 1799999900,
+      "not_after": 1800000100,
+      "revoked": false
+    }
+  ],
+  "context": {
+    "issuer": "https://oracle.example.com",
+    "subject": "agent:guarantor:7gen:optimized:a1b2c3d4",
+    "audience": "zone:alpha",
+    "zone": "zone:alpha",
+    "now": 1800000000,
+    "clock_healthy": true,
+    "crypto_profile": "base-es256",
+    "required_ceilings": {
+      "generation": 100,
+      "zone_mass": 90
+    },
+    "ring_depth": 0
+  },
+  "cases": [
+    {
+      "id": "clear",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "veto",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6InZldG8iLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJhdXRob3JpdHkiOiJodHRwczovL2NvbW11bml0eS5leGFtcGxlL2F1dGhvcml0eSIsImNvbnN0cmFpbnRfdHlwZSI6InRrX2xhYmVsIiwic291bCI6MX0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.JPXNbgyN5fr0Pyo5VPaslq83vy2uXnTdqInr2KcFW6Vxxixt_9vqa9JNFisV34LNfOsXSBCIdrOQF9MMnyfAgQ",
+      "expected": {
+        "reason": "TP_VETO",
+        "valid": true,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "undetermined",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOm51bGwsImVfYmFzZSI6NjAsImVfdHJ1c3QiOm51bGwsImdhdGVfc3RhdGUiOiJ1bmRldGVybWluZWQiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6bnVsbCwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6bnVsbCwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.NZKSkIfbh5wMUmIcbEFFBLBtOmeQ5FUQeSLGUAum-DpTFq8slmBTtiyFPTDQc33147REKrJSAuGQmbm0YkpM_A",
+      "expected": {
+        "reason": "TP_UNDETERMINED",
+        "valid": true,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "undetermined-known-soul-clear",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOm51bGwsImVfYmFzZSI6NjAsImVfdHJ1c3QiOm51bGwsImdhdGVfc3RhdGUiOiJ1bmRldGVybWluZWQiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6bnVsbCwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.ALmMeoGC1F1VJiblKN4RRrDj3qfGMwHPoACnG5jRC7YlriRO9YiH5RTxzdfcVYA9LlsHY30AVvWMDYTKW98LGw",
+      "expected": {
+        "reason": "TP_UNDETERMINED",
+        "valid": true,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "sponsored",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjQ1fSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NDAsImVfdHJ1c3QiOjMwLCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjoyLCJsaW5lYWdlIjoic3BvbnNvcmVkIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwic3BvbnNvciI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpzcG9uc29yZWQ6YWNtZTphcmlhOjEyMzQifQ.l7PWg_UJK2W9sREBBF1OMZHGtJ1sK0z1XeEvo_vXu64u52uu0e1JGRRPNNgQFcr5g88wgOVbh5tnovqrmHGSBQ",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      },
+      "context": {
+        "subject": "agent:sponsored:acme:aria:1234",
+        "required_ceilings": {
+          "generation": 45,
+          "zone_mass": 90
+        }
+      }
+    },
+    {
+      "id": "independent",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjU1fSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NTAsImVfdHJ1c3QiOjQwLCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjozLCJsaW5lYWdlIjoiaW5kZXBlbmRlbnQiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6aW5kZXBlbmRlbnQ6M2dlbjphY21lOjEyMzQifQ.7MZLyPfd-EgFItr8wqbzL5RYgRKoEDxe9tWo7YRXado0GcFJ47TS9iE8xlAT1u9GYWXo0EaNGSCLIUnzlPSA-g",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      },
+      "context": {
+        "subject": "agent:independent:3gen:acme:1234",
+        "required_ceilings": {
+          "generation": 55,
+          "zone_mass": 90
+        }
+      }
+    },
+    {
+      "id": "active-root",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJlbmRfdGltZSI6MTgwMDAwMDAxMCwic3RhdHVzIjoiY3VycmVudCJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.SChsf9VSu1Plm-6YGBioR3I6aHND9YOVRvCuK33-g85wlfXXzp3Sau2piMfV8hN_iewZYoYa2lhQi5lpRnZztw",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "nonrenewable-root",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJlbmRfdGltZSI6MTgwMDAwMDAxMCwic3RhdHVzIjoibm9uX3JlbmV3YWJsZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.ZGL9YGlhJJXqRNhfDlFBy7d4h7jBT0qbXFoMqAMEd-sHjdsGtJYwSqEqvcz98vBskwl4xxy7pNcJCQiKrQUd_Q",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "nbf-equals-iat",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJuYmYiOjE4MDAwMDAwMDAsInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.IU0Rmd7Z69YVREpY7iT5Z_t2lfKfYBRqF1KwVAbwbh95javIJBiCxf6bjM5nqFA7BMkdbKyhjsQSgR6vQg_9eQ",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "short-lifetime",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDAxLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.4xkAwUlt7uly4JLd8rnRIPq-HGy8XpChLAsxXb1rL44ISvXb14qk-NdswcwKA_Z6v0kOEzLP64SySN_-BZm1rA",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "zero-capacity-still-requires-action-gate",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjAsImVfdHJ1c3QiOjAsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.WmFFCpA4tuQa9Oy-r4K3Cgl3PSsnzmUm9crsjqX_rygJQ8LKL398lg7u10rZ9yBaQr6jU5g32ONIAq7v5zrlig",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "at-issuance",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      },
+      "context": {
+        "now": 1800000000
+      }
+    },
+    {
+      "id": "last-valid-second",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      },
+      "context": {
+        "now": 1800000009
+      }
+    },
+    {
+      "id": "at-expiry",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000010
+      }
+    },
+    {
+      "id": "after-expiry",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000011
+      }
+    },
+    {
+      "id": "before-issuance",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1799999999
+      }
+    },
+    {
+      "id": "eleven-second-lifetime",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDExLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.aWMjcrEocQ6QTB-LfPkPh9UVazMqY6b4uzA3306TBdBOD1Uj2iNmeIwJYx96gge-eirPNpd7QmgCRkNot-UV3A",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "zero-lifetime",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDAwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.K0T8Ix-LvuaJsbNyykf5KM93dGlvf1k4D3Q318JrKyAofm-vtJm--mXWcPCapWpMk09WVUWVz5O_4jezeGliLA",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "nbf-different",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJuYmYiOjE4MDAwMDAwMDEsInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.uhn4jxsjH0kXJjXpvvmaIL61NkX6CHJhO4fiPFr2jPFgtSgljNY03w-Kj5WXGNgwP-U4i2uN8IJ0ZAmZnZNLNg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "unhealthy-clock",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "clock_healthy": false
+      }
+    },
+    {
+      "id": "key-expiry-insufficient",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMTA1LCJpYXQiOjE4MDAwMDAwOTUsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.AoJWvHSd1CCKIrrQxtw1k_qmupY6wFqVRbpLPWCDW-JPztAujJFaLzbHItfd4fa6w6w2__iExYVQubVRuG52rA",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000095
+      }
+    },
+    {
+      "id": "negative-time",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjo1LCJpYXQiOi0xLCJpc3MiOiJodHRwczovL29yYWNsZS5leGFtcGxlLmNvbSIsImp0aSI6InByb29mLXYzLWNsZWFyIiwia3RwIjp7ImFkdmFuY2VtZW50X2Zsb29yIjowLCJhcHBsaWNhYmxlX2NlaWxpbmdzIjpbeyJjZWlsaW5nIjoiZ2VuZXJhdGlvbiIsInZhbHVlIjoxMDB9LHsiY2VpbGluZyI6InpvbmVfbWFzcyIsInZhbHVlIjo5MH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.eN1oRVAHI48T7r9WjlMIJMUXcLAtnLa8bzMAQS2QdpxkB0ngZOe3-DMRzuaMPyCV9VDUCW-Uo_0NfU9Nvm5-7g",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 0
+      }
+    },
+    {
+      "id": "boolean-time",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOnRydWUsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.rLU6p2R1oeoaXx64xuoAQh_xwK6r2JDk41Cz2B7WJrZlS7GzUZZxk-lMO-w1ln29fr8TQh4e9ePgUzNXgbbuKg",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "issuer-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vYXR0YWNrZXIuZXhhbXBsZSIsImp0aSI6InByb29mLXYzLWNsZWFyIiwia3RwIjp7ImFkdmFuY2VtZW50X2Zsb29yIjowLCJhcHBsaWNhYmxlX2NlaWxpbmdzIjpbeyJjZWlsaW5nIjoiZ2VuZXJhdGlvbiIsInZhbHVlIjoxMDB9LHsiY2VpbGluZyI6InpvbmVfbWFzcyIsInZhbHVlIjo5MH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.1QT5oeXgD4e4kt4JNaBpzPrj6k94ShYH0j_yi0L7rsdGCvEsKI16K3rwjqzwaF3qUpM3NKLPPWO-qblnq2F0XA",
+      "expected": {
+        "reason": "TP_ISSUER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "audience-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOm90aGVyIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.yDxi1Xd0uiKRTQFBbDasY9y4Wc_ZBjdcHWOzUFPD3C8R6Qa3IApkwqoyETxv8kZdQxAqPwaYI95fKYRF7KhStQ",
+      "expected": {
+        "reason": "TP_AUDIENCE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "audience-array",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOlsiem9uZTphbHBoYSJdLCJleHAiOjE4MDAwMDAwMTAsImlhdCI6MTgwMDAwMDAwMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.d26y8bVd65LkEkOJG4K6xeXHZh2rIpe08X24Q_Ie1HshyQoWNE3EZoHXonfcGd_lMhXNyHEx-62cB6j6FZV_XA",
+      "expected": {
+        "reason": "TP_AUDIENCE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-audience",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJleHAiOjE4MDAwMDAwMTAsImlhdCI6MTgwMDAwMDAwMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.XYo9W34-8KEirg_MFlyLeiJu_agxLdVDKpqqeNC_qTBdCxTBToI1q_y6On_QJVlxdkVJlsBJPNpinhRTrrGLmQ",
+      "expected": {
+        "reason": "TP_AUDIENCE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-time",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiaWF0IjoxODAwMDAwMDAwLCJpc3MiOiJodHRwczovL29yYWNsZS5leGFtcGxlLmNvbSIsImp0aSI6InByb29mLXYzLWNsZWFyIiwia3RwIjp7ImFkdmFuY2VtZW50X2Zsb29yIjowLCJhcHBsaWNhYmxlX2NlaWxpbmdzIjpbeyJjZWlsaW5nIjoiZ2VuZXJhdGlvbiIsInZhbHVlIjoxMDB9LHsiY2VpbGluZyI6InpvbmVfbWFzcyIsInZhbHVlIjo5MH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.haN9oCP4N5Pvg6fZb6Kgsn0sDrRPskaHOUNZr2NAlAdp--GCVJD2ceOPoSkaN4c0tMljAkGEQN9PPyX04RJViw",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "wrong-typ",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHArand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.uCbahEiXbZtMHAO4xymblnQHnfgFQZFnSvJOgnJfD-IACo2_oD3CX3ki7eUtOudc12W8YLOoDNb_MTaZw_OLdg",
+      "expected": {
+        "reason": "TP_TYPE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "none-algorithm",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJub25lIiwia2lkIjoiVEVTVC1vcmFjbGUtcDI1NiIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.Ay77tQfTKNRsRR4qiKV-jYlHCjdac8Mh5k-lhBFfBpM6fb1_WkS4yaaNMCp-Fskx3BBsju3G6hMY2VilLbOTvQ",
+      "expected": {
+        "reason": "TP_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "hmac-confusion",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJIUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.zhwZN1GXN_kx3rJXjS6xnG8NsBI72GiCATnvQripeRgNwB8fQ-ddLmIIUPBd2kKJJ1IwN3vSyZv299NA8p9cGw",
+      "expected": {
+        "reason": "TP_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "curve-name-as-alg",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFZDI1NTE5Iiwia2lkIjoiVEVTVC1vcmFjbGUtcDI1NiIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.Uzj8dPe7Fxd1Sm7hkyTHbynALmmOAPr97BAEOBIHxpx8nKb8xGij85WVWcQHWiHLOWgg9Y3qrwH7BRBE1O94cQ",
+      "expected": {
+        "reason": "TP_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "extra-header",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJrdHBfbGV2ZWwiOjEsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.boFi1kIWKQNO8uEyja-SBjwPxEz-4vScx5TnldNZ7uI4eDIlcniDJ6y3atooORucnKz19E3xBERKUgaxJ3Z8OA",
+      "expected": {
+        "reason": "TP_HEADER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "embedded-key",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImp3ayI6eyJrdHkiOiJFQyJ9LCJraWQiOiJURVNULW9yYWNsZS1wMjU2IiwidHlwIjoia3RwLXRydXN0LXByb29mK2p3dCJ9.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.RMBR5Mjo3aIsQfTJqHbogyDveoeHMKT1k4z4YCnTS_4tlrXwcFVNfXOGpPqpeiEm-NbpMhCEsbRtkkp0-pvWNg",
+      "expected": {
+        "reason": "TP_HEADER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "remote-key",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImprdSI6Imh0dHBzOi8vYXR0YWNrZXIuZXhhbXBsZS9qd2tzIiwia2lkIjoiVEVTVC1vcmFjbGUtcDI1NiIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.eo4EvH6l09ltrkhjNl-z8V2QAlbVDASrC9b5J1MFnNxTTCYPdDdrXF7qzJRF6BEqn6lhmASyP23MavsSUo6D4w",
+      "expected": {
+        "reason": "TP_HEADER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "b64-extension",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImI2NCI6ZmFsc2UsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.kMaU3F9avWTZzakWUhX-0qbtiEpmBeeZnszG9rtAn1R5b-NyrGHmzUYKR0EuWhZ7L6tlvTr9s_AxRmB4tsP2DQ",
+      "expected": {
+        "reason": "TP_HEADER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "crit-header",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImNyaXQiOlsieCJdLCJraWQiOiJURVNULW9yYWNsZS1wMjU2IiwidHlwIjoia3RwLXRydXN0LXByb29mK2p3dCJ9.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.qXvBeIB5wcXX50mi2k6fbPTiF__tN71ZAyQddRf_vpJFjUf83uh6Q_U_A4awDCj8flYOyZamWfUqM38AZMFZiQ",
+      "expected": {
+        "reason": "TP_HEADER",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "untrusted-key",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF0dGFja2VyIiwidHlwIjoia3RwLXRydXN0LXByb29mK2p3dCJ9.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.x8EA9CQvpmOpOdaYMx8LWw_LBYqqQg42_8tnqDj-g6JpjAHXDaH08bJnhhIOrGq24r2ExN4YaPeqF64YR3vfBw",
+      "expected": {
+        "reason": "TP_KEY_UNTRUSTED",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "revoked-key",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1QtcmV2b2tlZCIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.rpZpCc58LlnEmrz7OU7uqOYD1B7X9ZpGDYUxoptLmgh4rMaab7si48RqunFIhezPNGZB2zSBGs3SwclHgS7YVg",
+      "expected": {
+        "reason": "TP_KEY_REVOKED",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "wrong-key-role",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1QtYWdlbnQtcm9sZSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.-2q8fl2iyicsjp0EQInov6Ms38jaBKr_cLJ98ce0VnRX8i3D7sJ-4IhCCN1Ue9DGo_udf_Ljx9DBw3708DV3yw",
+      "expected": {
+        "reason": "TP_KEY_ROLE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "wrong-key-curve",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtd3JvbmctY3VydmUiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.KzEVj_WGJ9jPd446SHxDblF1_vt1xip7dWA54XdqBglnVUiGDjeS2xTsCrGt815EUE706Jik3iBZqjh0mcMGUA",
+      "expected": {
+        "reason": "TP_KEY_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "eddsa-disabled",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6IlRFU1QtZWQyNTUxOSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.oTdELlVsF1aEMezYwtjFgdIzXsBsl3dgk0BhqsnO5714ajXFOteow8gOYTg7J8NqsT6RZEczMg3o7YEc1J85Bg",
+      "expected": {
+        "reason": "TP_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "eddsa-named-profile",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6IlRFU1QtZWQyNTUxOSIsInR5cCI6Imt0cC10cnVzdC1wcm9vZitqd3QifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.oTdELlVsF1aEMezYwtjFgdIzXsBsl3dgk0BhqsnO5714ajXFOteow8gOYTg7J8NqsT6RZEczMg3o7YEc1J85Bg",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      },
+      "context": {
+        "crypto_profile": "fixture-es256-ed25519"
+      }
+    },
+    {
+      "id": "algorithm-key-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.rgQ9Pw2XM6uqyB_tsZTSrpp56lZCPtmYzSh-5f0exKh5R36HSB84ZM1a_Px3smpm98QzSXzy1rtQ08J396L0QQ",
+      "expected": {
+        "reason": "TP_KEY_ALGORITHM",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "crypto_profile": "fixture-es256-ed25519"
+      }
+    },
+    {
+      "id": "wrong-signing-key",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.L5Nh9wd9F9pxt4Rrt6Yny83OYZZaE4-CspVPUc6mEwE7Z9V4c-BvHyEAiJOKRGDDpEfJYRpSQmEQmryBQPOhzg",
+      "expected": {
+        "reason": "TP_SIGNATURE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "damaged-signature",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CE2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_SIGNATURE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "high-s",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubfwj1XWciA_VI4_D0OSdqhtiMwVckh6GHEdnxexsiKI8w",
+      "expected": {
+        "reason": "TP_SIGNATURE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "der-signature",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.MEQCIAlNnxqz5F2qWWj9g3zn_VTL2GGThhlIuXE7F3AJQbm3AiAPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_SIGNATURE",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "unknown-top-level",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ1bnJlZ2lzdGVyZWQiOnRydWV9.wNK_sZKhWBRWKb0mu22qUPs-oKCoVJcfaUmMt7j2hzsm1AaiRpL8o3X14DDt4uAPLuWVnb7tzmJlbL-2knD8MQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "unknown-ktp",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInVucmVnaXN0ZXJlZCI6dHJ1ZSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.hkQFBKs2drAKZUWlmzpCiQhjcCTwp5P6xs28FrK4YY9PVx3Mqg8wD531y038_Ba3uxs_JpWJUNHl6AHP55XXQw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "unknown-nested-ceiling",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwiZXh0cmEiOjEsInZhbHVlIjoxMDB9LHsiY2VpbGluZyI6InpvbmVfbWFzcyIsInZhbHVlIjo5MH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.wQdrGGa1Z1h0QvyWiKE7-6VbH8D13-nHNgtbhZ1kYHZ1OzBFGt1Yrz-PPmZvg2_3P0uEW3up6P9IMFmW4gA7yQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-version",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.8me-4J071aibYjiVz1DOWoCqt8souLtHKfWQe3i2MOZLFHKQwtYpiEefItq8YQBTVviUFVWX8xwcDm0l5ORMLg",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-gate_state",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.zqAsimdZ0ydFMWqgnGWaQO4iIvJoZvPEwJtE4UivBbo70NAvqGDyl3tyPTZa72-d6isYZpw0gQW3k6wHANq31A",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-generation",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.N0WQ8XPzNnf-cSrcsTbNkLroPiqcWHrxaJ0y1yal91NQcg38BiOvW7uskxgI4pd_SioEMLX1VrPB1WPRc0T0qg",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-zone",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.omSRPqlCLjlaEW5Oc0BBQEURbpzDWeWMTtqbkbfX-1Zb8-seJtTtD13HBGdtfQ2UuRySXTOGZ8G4CgV54or_9Q",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-soul",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.VrTK7kVTokD7gzTdAp6R0erzGuEFP3EDRXm1xv7WkKs52ACYxO0pCyaysD-7zWTLwpM2u2hRWjz4MoOSld_yRA",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-root_instrument",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.DGyHBhexmS5BrXBqsTP1bmRqo99aTNqNkvicDfpD__IS16h5qOv1rvZHizHyL7OTNbFdLnz2bZ83jsrbxysDLQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "wrong-version",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjIiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.5frDuf8vZOFKJ69Ar1z0G_p0Rii3PirQ0h5ADI4aj8wN9E1Tjufzj3bEhqH6oZ_3Stn_Ar4qRx1zdgjOQzFjww",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "sponsored-without-sponsor",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6MiwibGluZWFnZSI6InNwb25zb3JlZCIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.VNvEwBDCvRwRonrObrpbrnmKwYndPd7y2cc7D67e_OpMmpUGOUXWhe-w78sNtElZOWwEksjP15r3O3ry7boiiQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "guarantor-with-sponsor",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInNwb25zb3IiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.orwsr_9mLM97G_5pP4sSQhebzw0FofR5OzCY7j3Fm2gxcp5Wc3SjCH6L9hlpFw2ATqabcwD4RK-jfqWwlBw17g",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "root-missing-end",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJjdXJyZW50In0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.HCw-K11d3WcG_iWDOF0By9YMhAGdRdOugoWIG-c8aoBhjSws8BZGyg0bYl_2QGKklKibq-x-H0h87q60IwxVnw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "none-root-with-fields",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJlbmRfdGltZSI6MTgwMDAwMDAxMCwic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.Gt3URXsPOtdIvY90rMhbZzk_JOdIHhNXxZKVzbeFeLhFLUUDAOy1i6ibmjpys4ivNd5mhOzhSR8pb6PGYCBJoQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "clear-with-unknown",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0IjpudWxsLCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.f8IH_DsuIUItMWB2vZ0rqelpPS9AHUiUnY0ENzwLxeAPrH57mDaMYFSuiiq1rQIQ19Ed50JBA3Qhg0KRL85TJQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "veto-hidden-as-unknown",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0IjpudWxsLCJnYXRlX3N0YXRlIjoidW5kZXRlcm1pbmVkIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsiYXV0aG9yaXR5IjoiaHR0cHM6Ly9jb21tdW5pdHkuZXhhbXBsZSIsImNvbnN0cmFpbnRfdHlwZSI6Im9jYXAiLCJzb3VsIjoxfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.BGvAfdeWKhFT3N_aMTJj_lPKPu6JyDAWGGg5jAlgIbEQmhwDalaxYoYd8dF4j_LvzX4ZkQAJWKxofoIqScsOTw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "undetermined-with-score",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6InVuZGV0ZXJtaW5lZCIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.fFbBizKFq4S-ucXjVd9gygUsXsUqUgSv1IFJzLkelpAvekjrxdP07aY3gJvnQGZ16Yb0mAtQKGB82I54OLGZHw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "noncritical-extension",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJleHRlbnNpb25zIjp7Imh0dHBzOi8vZXhhbXBsZS5jb20vdHJhY2UiOnsiY3JpdGljYWwiOmZhbHNlLCJ2YWx1ZSI6eyJ0cmFjZSI6Im9wYXF1ZSJ9fX0sImlhdCI6MTgwMDAwMDAwMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.J54bcrW7kjGXhDEVt3OdFuaxnvU8U4mU_N275VGRy7wb3BLdj1Ot0k1oBS06cGFG30OKlRe01EcqqXkGvMx1MA",
+      "expected": {
+        "reason": "TP_CLEAR",
+        "valid": true,
+        "continue_authorization": true
+      }
+    },
+    {
+      "id": "critical-extension",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJleHRlbnNpb25zIjp7Imh0dHBzOi8vZXhhbXBsZS5jb20vdHJhY2UiOnsiY3JpdGljYWwiOnRydWUsInZhbHVlIjp7fX19LCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.p8XVgFy_beocxavEzOfSaIKhM6SLU1PoadBCEXZr-N8C1JVg_QwKZU8jxynGBRSZsbDdJ9UEkvnh03AFJOShHA",
+      "expected": {
+        "reason": "TP_EXTENSION_CRITICAL",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "extension-without-namespace",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJleHRlbnNpb25zIjp7InRyYWNlIjp7ImNyaXRpY2FsIjpmYWxzZSwidmFsdWUiOnt9fX0sImlhdCI6MTgwMDAwMDAwMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.HteVoxKwuPaZyMlYzSIfbRBP_rRD9MUrnvCXaIwr9xBo37UJAk4iaemxAQpe_QRrseFrEvr63zZxRPxdZS_FVQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "extension-malformed",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJleHRlbnNpb25zIjp7Imh0dHBzOi8vZXhhbXBsZS5jb20vdHJhY2UiOnsidmFsdWUiOnt9fX0sImlhdCI6MTgwMDAwMDAwMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.47Fn_OqbqKHFugQHZLvxrjo9DC-DnA4tgJkcwgRJVsdKyhsDu7NKI0xNXiGAl0F5z0zn04Up-NNFKzCtCC-OYA",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "score-exceeds-base",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo4MSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.-E41zmdzYzVzrM3iDo4Fw2ESzISTyOeb7eR2XeFKjrseyjfI4VpAQGf6ocnHMgdbeNd9y-uyvpW7Zi_NI8ToBQ",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "base-exceeds-ceiling",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjkxLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.whik3AzAJsh7Wr9hbjxg4XkTRZ5uiwmdLiI_ulRDLB1owcjihbRcNHTwCpf2jwIcCfSgs0CCjVhNfIxF1x81Ww",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "duplicate-ceiling",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfSx7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.UK2MFqSqT_QqMsmXfoD5PAsNGNAmxsluDmeo_hia4wEB0tQafuIqclHtMzQ2fYyUhVgPUgctHPWfyCR7MJ6WzA",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "omitted-required-ceiling",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH1dLCJjb250ZXh0Ijp7ImFkdmVyc2FyaWFsX3ByZXNzdXJlIjowLjI1LCJhdHRlc3RhdGlvbl9jb3ZlcmFnZSI6MC4yNSwiZXZpZGVuY2VfZGVuc2l0eSI6MC4yNSwidHJ1c3RfdHJlbmQiOjAuMjUsInVwZGF0ZV9yZXNpc3RhbmNlIjowLjI1fSwiZV9iYXNlIjo2MCwiZV90cnVzdCI6NDUsImdhdGVfc3RhdGUiOiJjbGVhciIsImdlbmVyYXRpb24iOjcsImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.JSKL7tSjyncxU96d8xG1WZUGhfu6xDLCL-GVypiLNm1hnD45H2oBZ6YE9GAixwJ_PnP2UtEHKKy-A7MZHrbqsg",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "generation-identifier-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6OCwibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.7TWGPpbLy5S9d2dENrS5xt_kWikHThGCeS3XslMEvPhRhtxq2d8uWRTsgy5OKR7T6_iXxWWUFYqtJRb00Ur50A",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "zone-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTpvdGhlciJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.p32x9FeGQ7dczSbocAZrGJ4Wb5EYjydMdYGBEphm0exNYldfkjMS9fschcEsIsiVpcPSlXkC_x1jdfDN87JClA",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "subject-mismatch",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "subject": "agent:guarantor:7gen:other:1234"
+      }
+    },
+    {
+      "id": "root-ends-before-proof",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJlbmRfdGltZSI6MTgwMDAwMDAwOSwic3RhdHVzIjoiY3VycmVudCJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.vhdSrqUJNKkgNi2MMpCtAB4BpghaE2gupBugHFBGToBs2Npr1LMKR-bslOlRqMKdJfR4ZIESI9Kr39hh5JVWMg",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "missing-ingress-at-depth-one",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_INGRESS",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "ring_depth": 1
+      }
+    },
+    {
+      "id": "empty-ingress",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywiaW5ncmVzc19wYXRoIjpbXSwibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.kUB9C7U2LzWe67MVprfKOkgDMEARob9rQ16odBUqZu0XlrM8Co0I5R-k14WOAh4oeEsW6s0r_aznVP-U-NVbkw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "standard-ingress-known-but-unverified",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywiaW5ncmVzc19wYXRoIjpbeyJhZG1pc3Npb25faWQiOiJ0ZXN0LWFkbWlzc2lvbiIsImF1ZCI6InpvbmU6YWxwaGEiLCJjbmZfamt0IjoidGVzdC10aHVtYnByaW50IiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsIm9yYWNsZV9raWQiOiJURVNULW91dGVyIiwicHJldiI6bnVsbCwic2lnIjoiVU5WRVJJRklFRC1URVNULVJFQ0VJUFQiLCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0b3BvbG9neV9lcG9jaCI6MSwiem9uZV9pZCI6InpvbmU6b3V0ZXIifV0sImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.GNqq29zBouTEU3TgnJAxdhgLyShbcA0xu9dS8grHEEEOuZbvZU02vg3HzeOkgKcmeOWUiyGjBgdRE7RjNa5WHg",
+      "expected": {
+        "reason": "TP_INGRESS",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "ring_depth": 1
+      }
+    },
+    {
+      "id": "ingress-forbidden-at-depth-zero",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywiaW5ncmVzc19wYXRoIjpbeyJhZG1pc3Npb25faWQiOiJ0ZXN0LWFkbWlzc2lvbiIsImF1ZCI6InpvbmU6YWxwaGEiLCJjbmZfamt0IjoidGVzdC10aHVtYnByaW50IiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsIm9yYWNsZV9raWQiOiJURVNULW91dGVyIiwicHJldiI6bnVsbCwic2lnIjoiVU5WRVJJRklFRC1URVNULVJFQ0VJUFQiLCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0b3BvbG9neV9lcG9jaCI6MSwiem9uZV9pZCI6InpvbmU6b3V0ZXIifV0sImxpbmVhZ2UiOiJndWFyYW50b3IiLCJwZWVyX3NoYXJlIjowLCJyIjowLjI1LCJyb290X2luc3RydW1lbnQiOnsic3RhdHVzIjoibm9uZSJ9LCJzb3VsIjp7InNvdWwiOjB9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.GNqq29zBouTEU3TgnJAxdhgLyShbcA0xu9dS8grHEEEOuZbvZU02vg3HzeOkgKcmeOWUiyGjBgdRE7RjNa5WHg",
+      "expected": {
+        "reason": "TP_INGRESS",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "too-many-ingress-receipts",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywiaW5ncmVzc19wYXRoIjpbeyJhZG1pc3Npb25faWQiOiJ0ZXN0LWFkbWlzc2lvbiIsImF1ZCI6InpvbmU6YWxwaGEiLCJjbmZfamt0IjoidGVzdC10aHVtYnByaW50IiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsIm9yYWNsZV9raWQiOiJURVNULW91dGVyIiwicHJldiI6bnVsbCwic2lnIjoiVU5WRVJJRklFRC1URVNULVJFQ0VJUFQiLCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0b3BvbG9neV9lcG9jaCI6MSwiem9uZV9pZCI6InpvbmU6b3V0ZXIifSx7ImFkbWlzc2lvbl9pZCI6InRlc3QtYWRtaXNzaW9uIiwiYXVkIjoiem9uZTphbHBoYSIsImNuZl9qa3QiOiJ0ZXN0LXRodW1icHJpbnQiLCJleHAiOjE4MDAwMDAwMTAsImlhdCI6MTgwMDAwMDAwMCwib3JhY2xlX2tpZCI6IlRFU1Qtb3V0ZXIiLCJwcmV2IjpudWxsLCJzaWciOiJVTlZFUklGSUVELVRFU1QtUkVDRUlQVCIsInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInRvcG9sb2d5X2Vwb2NoIjoxLCJ6b25lX2lkIjoiem9uZTpvdXRlciJ9LHsiYWRtaXNzaW9uX2lkIjoidGVzdC1hZG1pc3Npb24iLCJhdWQiOiJ6b25lOmFscGhhIiwiY25mX2prdCI6InRlc3QtdGh1bWJwcmludCIsImV4cCI6MTgwMDAwMDAxMCwiaWF0IjoxODAwMDAwMDAwLCJvcmFjbGVfa2lkIjoiVEVTVC1vdXRlciIsInByZXYiOm51bGwsInNpZyI6IlVOVkVSSUZJRUQtVEVTVC1SRUNFSVBUIiwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0IiwidG9wb2xvZ3lfZXBvY2giOjEsInpvbmVfaWQiOiJ6b25lOm91dGVyIn0seyJhZG1pc3Npb25faWQiOiJ0ZXN0LWFkbWlzc2lvbiIsImF1ZCI6InpvbmU6YWxwaGEiLCJjbmZfamt0IjoidGVzdC10aHVtYnByaW50IiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsIm9yYWNsZV9raWQiOiJURVNULW91dGVyIiwicHJldiI6bnVsbCwic2lnIjoiVU5WRVJJRklFRC1URVNULVJFQ0VJUFQiLCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQiLCJ0b3BvbG9neV9lcG9jaCI6MSwiem9uZV9pZCI6InpvbmU6b3V0ZXIifSx7ImFkbWlzc2lvbl9pZCI6InRlc3QtYWRtaXNzaW9uIiwiYXVkIjoiem9uZTphbHBoYSIsImNuZl9qa3QiOiJ0ZXN0LXRodW1icHJpbnQiLCJleHAiOjE4MDAwMDAwMTAsImlhdCI6MTgwMDAwMDAwMCwib3JhY2xlX2tpZCI6IlRFU1Qtb3V0ZXIiLCJwcmV2IjpudWxsLCJzaWciOiJVTlZFUklGSUVELVRFU1QtUkVDRUlQVCIsInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsInRvcG9sb2d5X2Vwb2NoIjoxLCJ6b25lX2lkIjoiem9uZTpvdXRlciJ9LHsiYWRtaXNzaW9uX2lkIjoidGVzdC1hZG1pc3Npb24iLCJhdWQiOiJ6b25lOmFscGhhIiwiY25mX2prdCI6InRlc3QtdGh1bWJwcmludCIsImV4cCI6MTgwMDAwMDAxMCwiaWF0IjoxODAwMDAwMDAwLCJvcmFjbGVfa2lkIjoiVEVTVC1vdXRlciIsInByZXYiOm51bGwsInNpZyI6IlVOVkVSSUZJRUQtVEVTVC1SRUNFSVBUIiwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0IiwidG9wb2xvZ3lfZXBvY2giOjEsInpvbmVfaWQiOiJ6b25lOm91dGVyIn1dLCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.Sds5BRkO_ntTzITT1I-rbF9Bz1eGV7axzXWoHHyxc9gc4Wt30E1MrhDcCiKv8IWX5JMNS8WPz9N_umbdEayuTQ",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "invalid-compact",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "x.y",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "padding",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0=.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.CU2fGrPkXapZaP2DfOf9VMvYYZOGGUi5cTsXcAlBubcPcKoojd_ArHHA8LxtiVeSNBrlO16dhhPWGrMRSkCcXg",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "duplicate-header",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImFsZyI6Im5vbmUiLCJraWQiOiJURVNULW9yYWNsZS1wMjU2IiwidHlwIjoia3RwLXRydXN0LXByb29mK2p3dCJ9.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.IXTGlB5mOiCIC6oCqQXtSxzvGzTW0LbhzcqtVzzaiFVXEikjfrgldQU0NhQ3ub89y8SLsjAxjacFqqK2KH32dQ",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "duplicate-payload",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJpc3MiOiJhIiwiaXNzIjoiYiJ9.oMMjYPmetGnm3p93KcEFfz4ogPxgG2EIyUbcJJl3g3IqTFkEU5papxnpuepy8tem0GUuFG1u8CkJjobkVd7_hw",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "noncanonical-json",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJpc3MiOiAiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCAic3ViIjogImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCIsICJhdWQiOiAiem9uZTphbHBoYSIsICJpYXQiOiAxODAwMDAwMDAwLCAiZXhwIjogMTgwMDAwMDAxMCwgImp0aSI6ICJwcm9vZi12My1jbGVhciIsICJrdHAiOiB7InZlcnNpb24iOiAia3RwLXRydXN0LXByb29mLXYzIiwgImdhdGVfc3RhdGUiOiAiY2xlYXIiLCAiZV9iYXNlIjogNjAsICJlX3RydXN0IjogNDUsICJyIjogMC4yNSwgImNvbnRleHQiOiB7ImV2aWRlbmNlX2RlbnNpdHkiOiAwLjI1LCAidHJ1c3RfdHJlbmQiOiAwLjI1LCAiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOiAwLjI1LCAidXBkYXRlX3Jlc2lzdGFuY2UiOiAwLjI1LCAiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOiAwLjI1fSwgInNvdWwiOiB7InNvdWwiOiAwfSwgImxpbmVhZ2UiOiAiZ3VhcmFudG9yIiwgImdlbmVyYXRpb24iOiA3LCAiem9uZSI6ICJ6b25lOmFscGhhIiwgInBlZXJfc2hhcmUiOiAwLCAiYXBwbGljYWJsZV9jZWlsaW5ncyI6IFt7ImNlaWxpbmciOiAiZ2VuZXJhdGlvbiIsICJ2YWx1ZSI6IDEwMH0sIHsiY2VpbGluZyI6ICJ6b25lX21hc3MiLCAidmFsdWUiOiA5MH1dLCAiYWR2YW5jZW1lbnRfZmxvb3IiOiAwLCAicm9vdF9pbnN0cnVtZW50IjogeyJzdGF0dXMiOiAibm9uZSJ9fX0.OyD_w59Y506ilXOkVb-dBZp6dTQAtdyrUNYkchYriTxSyzzRSgYh-B11gzA1_fg18WuEqdu4pqILEjnxZUB_uA",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "nonfinite-json",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJtZWFzdXJlbWVudCI6TmFOfQ.Mdq2JkkWuH5GHUfDP2USd7nDNhYD_wMpN5081ASljmBnlEyOQEmZHE_b9yIn0yOkRAKbReyV7m1aolzUEOWq1g",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "unsafe-integer",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJtZWFzdXJlbWVudCI6OTAwNzE5OTI1NDc0MDk5M30.YKgszxUZtyEH_DSq-En5qKFtdr6dBW9KgeLLoL-cmO8EOSDfz63zc3ertPQqu8dOjHbv8IvOt08uep5iB8Fnyg",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "invalid-utf8",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJ4Ijoi_yJ9.k4v0cXUcR2MXkCaIdSIWjd-9OkUYPZKiPEyK4KQo4Gw54Zj53BZYsM3mbtgwhTkHqJ0VvpZsstH3nTXCURKLqw",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "integer-decimal-token",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAuMCwiaXNzIjoiaHR0cHM6Ly9vcmFjbGUuZXhhbXBsZS5jb20iLCJqdGkiOiJwcm9vZi12My1jbGVhciIsImt0cCI6eyJhZHZhbmNlbWVudF9mbG9vciI6MCwiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImdlbmVyYXRpb24iLCJ2YWx1ZSI6MTAwfSx7ImNlaWxpbmciOiJ6b25lX21hc3MiLCJ2YWx1ZSI6OTB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjAsImVfdHJ1c3QiOjQ1LCJnYXRlX3N0YXRlIjoiY2xlYXIiLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJzb3VsIjowfSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.gjOoyvf90K_1xFHCpHUhZdm_7gEFrUikt2E1Rbqd5QQsA1CJGBXmzI7Hwl_t2DrYC94Esyv3tNKVAG5JqcPwjw",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "oversized-envelope",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "oversized-header",
+      "mutation": "damaged envelope or explicit raw bytes",
+      "jws": "eyJvdmVyc2l6ZSI6ImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEifQ.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.Ux_J5Hi0xoBFwk9c4eDiNXSIQO7MAKorqGPGkcysBcYUZ32YajYFHPBTDeSwY829NlON8uSLqsRUtPNxNz2TXg",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "excessive-depth",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJleHRlbnNpb25zIjp7Imh0dHBzOi8vZXhhbXBsZS5jb20vZGVlcCI6eyJjcml0aWNhbCI6ZmFsc2UsInZhbHVlIjp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7IngiOnsieCI6eyJ4Ijp7fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19LCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.cHWbAbjmGerTeM_mN9G-j0yt_xIEPFGo1UbFDBcRgR0QNAnNrz46CY6bVeu7pG4o8EPNoNJHAHTcD5Xam4GUVQ",
+      "expected": {
+        "reason": "TP_FORMAT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "type-before-expiry",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHArand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.uCbahEiXbZtMHAO4xymblnQHnfgFQZFnSvJOgnJfD-IACo2_oD3CX3ki7eUtOudc12W8YLOoDNb_MTaZw_OLdg",
+      "expected": {
+        "reason": "TP_TYPE",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000010
+      }
+    },
+    {
+      "id": "signature-before-expiry",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.L5Nh9wd9F9pxt4Rrt6Yny83OYZZaE4-CspVPUc6mEwE7Z9V4c-BvHyEAiJOKRGDDpEfJYRpSQmEQmryBQPOhzg",
+      "expected": {
+        "reason": "TP_SIGNATURE",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000010
+      }
+    },
+    {
+      "id": "time-before-schema",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInVucmVnaXN0ZXJlZCI6dHJ1ZSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.hkQFBKs2drAKZUWlmzpCiQhjcCTwp5P6xs28FrK4YY9PVx3Mqg8wD531y038_Ba3uxs_JpWJUNHl6AHP55XXQw",
+      "expected": {
+        "reason": "TP_TIME",
+        "valid": false,
+        "continue_authorization": false
+      },
+      "context": {
+        "now": 1800000010
+      }
+    },
+    {
+      "id": "schema-before-invariant",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo4MSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInVucmVnaXN0ZXJlZCI6dHJ1ZSwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6ImFnZW50Omd1YXJhbnRvcjo3Z2VuOm9wdGltaXplZDphMWIyYzNkNCJ9.Qj-zTmKDg7hMwUMITRDFBU5LnbYS41h66VejgfHh96dNAvcC5uVBa6VvaWAtZG7MYtn7qm-ddcb4iTK3fknvgw",
+      "expected": {
+        "reason": "TP_SCHEMA",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "invariant-before-veto",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjkwfV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo4MSwiZ2F0ZV9zdGF0ZSI6InZldG8iLCJnZW5lcmF0aW9uIjo3LCJsaW5lYWdlIjoiZ3VhcmFudG9yIiwicGVlcl9zaGFyZSI6MCwiciI6MC4yNSwicm9vdF9pbnN0cnVtZW50Ijp7InN0YXR1cyI6Im5vbmUifSwic291bCI6eyJhdXRob3JpdHkiOiJodHRwczovL2NvbW11bml0eS5leGFtcGxlIiwiY29uc3RyYWludF90eXBlIjoib2NhcCIsInNvdWwiOjF9LCJ2ZXJzaW9uIjoia3RwLXRydXN0LXByb29mLXYzIiwiem9uZSI6InpvbmU6YWxwaGEifSwic3ViIjoiYWdlbnQ6Z3VhcmFudG9yOjdnZW46b3B0aW1pemVkOmExYjJjM2Q0In0.qtpQXhHNUBhlZA-eIm701KdnBO7QVTU9Izdo6mxBhCxRolAMmnT5YO6TjRqSXd1k2IRBb8d0MpAQe5eS3HWoZA",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    },
+    {
+      "id": "changed-ceiling-value",
+      "mutation": "fully signed candidate; optional trusted-context mutation",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYWR2YW5jZW1lbnRfZmxvb3IiOjAsImFwcGxpY2FibGVfY2VpbGluZ3MiOlt7ImNlaWxpbmciOiJnZW5lcmF0aW9uIiwidmFsdWUiOjEwMH0seyJjZWlsaW5nIjoiem9uZV9tYXNzIiwidmFsdWUiOjk1fV0sImNvbnRleHQiOnsiYWR2ZXJzYXJpYWxfcHJlc3N1cmUiOjAuMjUsImF0dGVzdGF0aW9uX2NvdmVyYWdlIjowLjI1LCJldmlkZW5jZV9kZW5zaXR5IjowLjI1LCJ0cnVzdF90cmVuZCI6MC4yNSwidXBkYXRlX3Jlc2lzdGFuY2UiOjAuMjV9LCJlX2Jhc2UiOjYwLCJlX3RydXN0Ijo0NSwiZ2F0ZV9zdGF0ZSI6ImNsZWFyIiwiZ2VuZXJhdGlvbiI6NywibGluZWFnZSI6Imd1YXJhbnRvciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJzdGF0dXMiOiJub25lIn0sInNvdWwiOnsic291bCI6MH0sInZlcnNpb24iOiJrdHAtdHJ1c3QtcHJvb2YtdjMiLCJ6b25lIjoiem9uZTphbHBoYSJ9LCJzdWIiOiJhZ2VudDpndWFyYW50b3I6N2dlbjpvcHRpbWl6ZWQ6YTFiMmMzZDQifQ.IN-9ZjyWvlhZt3SDPoTy6gDPLvjKfYZlpXtspwHHOeNtaCGWtjUukqrSgp55HJhFk29oONk8TPgofRX2nOpdhQ",
+      "expected": {
+        "reason": "TP_INVARIANT",
+        "valid": false,
+        "continue_authorization": false
+      }
+    }
+  ]
+}

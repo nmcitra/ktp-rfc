@@ -53,6 +53,20 @@ Read these before you write anything. They are the difference between a contribu
    ```
    That is the same sequence CI runs. Green locally, then open the PR.
 
+   This source-PR command copies tracked working files into a temporary tree,
+   regenerates `rfcs-md/` there, and checks the fresh render along with the
+   sources, declarations, schemas, and conformance tests. Local edits and staged
+   additions are included; untracked additions must be staged first. It leaves
+   the checkout and committed generated documents unchanged, as required by
+   the source-only schedule in #182.
+
+   Before a release tag, the maintainer regenerates the release documents once
+   and runs `scripts/check-all.sh --release`. That mode retains strict parity
+   with the committed Markdown artifacts; `scripts/check-parity.py` also
+   remains a strict standalone parity check. The separate text-generation
+   check still requires the kramdown/xml2rfc toolchain.
+
+
 4. **One PR per decision.** The PR names its issue and its entry in [`DECISIONS.md`](DECISIONS.md). A PR that carries two decisions gets split.
 
 5. **Fill in the PR template.** It lists the gates. Every box is a real question.

@@ -37,7 +37,9 @@ score at all (unreleased) → a person's E_base is composed under Core Section
 5.1 from signed acts and the terminator's standing; administrators were scored
 in the threat model and unscored in Core → scored, under Core; standing
 portability was for agents only → persons too, by the same federation factor
-and ceiling, only where an agreement exists. Eligibility (above) stays a
+and ceiling, only where an agreement exists; the subject's kind was implied
+by which claims a proof carried → it is declared on the proof, and the root
+projection names the person and the institutional terminator. Eligibility (above) stays a
 separate requirement. Legacy general human scores still do not convert into
 anything.
 

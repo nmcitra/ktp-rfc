@@ -68,6 +68,13 @@ Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
   capacity remain separate requirements beside standing. The behavioral-data
   rules in Privacy, including BEHAVIOR-002, are untouched: signed acts are
   not behavioral data.
+- Core: a Trust Proof declares its subject's kind, software agent or person,
+  never inferred from absent claims; the root projection names the person and
+  the terminator by kind (employer, licensing body, board) and reference; the
+  person is never the terminator; persons are identified by `person:` URIs.
+  The serialization and the terminator vocabulary were proposed by
+  @martherus on #201 and are adopted here so the decision and its encoding
+  share an owner. The schema encoding rides #157.
 - Vectors for the four behaviors named in the proposal are not included yet.
 
 This alters sentences that reached `main` in the consolidation block recorded

@@ -1,5 +1,27 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased v3 sponsored-identifier migration (#149; proposed against v2.1.0):**
+The old-to-new vocabulary mapping is in [KTP-IDENTITY] Section 9.2.3
+(Old-to-new vocabulary mapping). The identifier segment formerly called
+sponsor_id is now sponsor_ref; the bond field sponsor_id remains a complete
+sponsor Agent URI. Existing canonical example-form identifiers keep their bytes.
+Stop deriving sponsor identity from the embedded reference. Validate the bond
+and require exact equality of the evaluated subject, proof sub and bond
+sponsored_id, and separately of proof sponsor and bond sponsor_id.
+
+Preserve all legacy signed identifiers, bonds, proofs and trajectory records.
+Do not normalize or rename their bytes in place. A legacy identifier outside
+the native v3 grammar cannot be presented as a native v3 identifier. If moving
+such a subject into native v3, obtain a newly authenticated canonical identity
+binding and a newly signed bond and proof referencing it under the applicable
+identity and trajectory migration process. Explicitly record the old/new
+identity relationship and the authority for it; the mapping alone grants no
+sponsorship or carried standing. Retain the old artifacts as legacy history.
+Never infer a complete sponsor URI from a historical segment to manufacture a
+new bond. An absent or unverifiable migration binding fails closed for native
+v3 sponsorship; an explicit legacy adapter remains a legacy path.
+
+
 **Unreleased F11 human/privacy migration:** Replace general human Trust Scores,
 ranked tiers and human-to-agent score inheritance with
 [operation-specific eligibility](specifications/human-eligibility.md). Install

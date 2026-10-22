@@ -1,0 +1,223 @@
+{
+  "profile": "agent-identifiers-v3",
+  "issue": 149,
+  "baseline": "v2.1.0",
+  "status": "proposed",
+  "evidence": "Modeled syntax and binding decisions, not cryptographic or runtime validation.",
+  "binding_preconditions": "Bonds and proofs are otherwise authenticated and applicable; null represents a missing claim.",
+  "parse_cases": [
+    {
+      "id": "sponsored",
+      "identifier": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "expected_valid": true
+    },
+    {
+      "id": "independent",
+      "identifier": "agent:independent:3gen:acme-line:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "guarantor",
+      "identifier": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "encoded-colon",
+      "identifier": "agent:sponsored:acme%3Adeploy:aria:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "encoded-percent",
+      "identifier": "agent:sponsored:acme%253Adeploy:aria:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "encoded-space",
+      "identifier": "agent:sponsored:acme%20deploy:aria:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "maximum-segment",
+      "identifier": "agent:sponsored:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:aria:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "empty",
+      "identifier": "agent:sponsored::aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "extra-delimiter",
+      "identifier": "agent:sponsored:agent:guarantor:7gen:acme:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "lowercase-escape",
+      "identifier": "agent:sponsored:acme%3adeploy:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "encoded-unreserved",
+      "identifier": "agent:sponsored:%61cme:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "broken-escape",
+      "identifier": "agent:sponsored:acme%3:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "raw-space",
+      "identifier": "agent:sponsored:acme deploy:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "raw-slash",
+      "identifier": "agent:sponsored:acme/deploy:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "encoded-control",
+      "identifier": "agent:sponsored:acme%0Adeploy:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "encoded-nonascii",
+      "identifier": "agent:sponsored:acme%C3%A9:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "case-scheme",
+      "identifier": "Agent:sponsored:acme:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "case-lineage",
+      "identifier": "agent:Sponsored:acme:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "generation-leading-zero",
+      "identifier": "agent:independent:03gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "generation-suffix-case",
+      "identifier": "agent:independent:3GEN:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "oversize",
+      "identifier": "agent:sponsored:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:aria:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "oversize-generation",
+      "identifier": "agent:independent:1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "fragment",
+      "identifier": "agent:sponsored:acme-deploy:aria:7f8a9b2c#x",
+      "expected_valid": false
+    },
+    {
+      "id": "query",
+      "identifier": "agent:sponsored:acme-deploy:aria:7f8a9b2c?x",
+      "expected_valid": false
+    },
+    {
+      "id": "maximum-encoded-segment",
+      "identifier": "agent:sponsored:%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A:aria:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "oversize-encoded-segment",
+      "identifier": "agent:sponsored:%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A%3A:aria:1234",
+      "expected_valid": false
+    }
+  ],
+  "binding_cases": [
+    {
+      "id": "matching",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "reference-does-not-name-sponsor",
+      "subject": "agent:sponsored:unrelated:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:unrelated:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:unrelated:aria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": true
+    },
+    {
+      "id": "bond-subject-mismatch",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:other:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "proof-subject-mismatch",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:other:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "proof-sponsor-mismatch",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:other:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "opaque-reference-used-as-sponsor",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "acme-deploy",
+      "expected_valid": false
+    },
+    {
+      "id": "case-is-significant",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:Aria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "noncanonical-equivalent-is-invalid",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:%61ria:7f8a9b2c",
+      "proof_sponsor": "agent:guarantor:7gen:acme:1234",
+      "expected_valid": false
+    },
+    {
+      "id": "missing-sponsor",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": null,
+      "expected_valid": false
+    }
+  ]
+}

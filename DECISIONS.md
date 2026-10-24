@@ -170,11 +170,14 @@ Decision: Approved as proposed. The software-substrate execution profile enters
 proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
 
-### D-010 · The consolidation block (open)
-Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06
+### D-010 · The consolidation block
+Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06 · approved 2026-10-23
 Source: PR #122; CHANGELOG § Unreleased
 Text landed on `main` via PR #123 (2026-09-09), ahead of the floor.
-Decision: pending.
+Decision: Approved as landed. The block stays unreleased on `main` until the
+v3.0.0 tag and ships with it. PR #122 is closed as superseded by the landed
+text. A later proposal that alters a sentence in this block says so in its
+own entry; approval here does not freeze the text.
 
 ### D-011 · Supplier-neutral illustrative examples
 2026-09-20 · Editorial · no clock

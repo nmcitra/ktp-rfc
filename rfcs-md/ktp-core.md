@@ -1423,7 +1423,7 @@ The ten-second maximum applies to every zone and conformance level. An existing 
 
 ## Execution Observation
 
-A decision record attests the decision. The effect of a consequential action is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/consequential-action-execution-and-evidence.md specifies or an equivalent the deployment profile declares. A consequential decision with no bound observation is unverified as to effect, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as [KTP-REPAIR] specifies.
+A decision record attests the decision. The effect of a consequential action is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/conformance/execution-observation-v1.json fixes or an equivalent the deployment profile declares. A consequential decision with no bound observation is unverified as to effect, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as [KTP-REPAIR] specifies. An observation of dispatch for which no decision exists, on a route that carries no enforcement point, is a bypass on the same terms, recorded against the zone's declared enforcement level.
 
 # Silent Veto Mechanism
 

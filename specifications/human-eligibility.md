@@ -1,7 +1,9 @@
 # Operation-specific human eligibility
 
-Status: normative, unreleased F11 contract, 2026-09-07. This replaces the human
-score, person-tier, and human-to-agent score-transfer rules. It does not change
+Status: normative, unreleased contract, 2026-09-07. Eligibility is a separate,
+operation-specific requirement beside a person's standing under KTP-Core; it
+replaces the person-tier and human-to-agent score-transfer rules, and it does not
+establish, substitute for, or convert into standing. It does not change
 software-agent historical standing or remove scoped readiness.
 
 The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,

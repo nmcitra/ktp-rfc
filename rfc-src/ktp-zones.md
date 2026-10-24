@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-09-06
+date: 2026-10-12
 category: exp
 ipr: trust200902
 
@@ -694,6 +694,8 @@ Trust components that don't travel:
 - Zone-specific permissions
 - Local relationships
 - Zone-specific attestations (converted to Exit Attestation)
+
+A person's standing crosses a zone boundary only as the federation agreement provides. The receiving zone applies its directional trust factor and its zone-mass ceiling to a person's imported standing, as it does for an agent, and MAY admit a person at any standing from zero up to that ceiling. Where no agreement exists, no standing transfers. A person's standing in one zone says nothing about the person in another.
 
 ## Cross-Zone Movement
 

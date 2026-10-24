@@ -63,6 +63,8 @@ The deployment MUST define comparable demand and current capacity for the partic
 
 All existing input-validity, zero-capacity, A > E, threshold, sovereignty, grant, and Soul checks remain binding. Eligibility adds no numeric increment and MUST NOT reverse any prior veto. A <= E alone is never sufficient authorization. Software agents retain their own historical standing and current scoped readiness under specifications/operational-readiness.md.
 
+Standing is a third requirement, separate from both. A person is a subject of [KTP-CORE] as an account in a zone, and the person's E_base is composed there from the acts the person signed under the protocol and from the standing of the terminator behind them. Eligibility, capacity, and standing are three requirements; none substitutes for another, and none of the evidence collected for eligibility enters standing unless the person signed it as an act under the protocol. A person's standing is the zone's measure of that account; it is not carried outside the protocol and it is not a general score for the person.
+
 ## Sessions and Freshness
 
 A human-facing session MAY remain open while its backend refreshes short-lived authorization evidence. This MUST NOT extend an ordinary proof beyond ten seconds, renew expired qualifications, or delay known invalidation. The previous human-specific five-minute risk averaging and tier hysteresis recommendations MUST NOT be used to defer a safety response. No repeated manual login every ten seconds is required by this specification.
@@ -73,7 +75,7 @@ Current eligibility, delegated scope, and safety MUST be re-established at execu
 
 Record the decision, the requirement results, the versioned policy and evidence bindings, and the information necessary to explain and review the decision. Protect person-specific evidence separately. Authorization records MUST NOT become career-long behavioral profiles, general resilience credit, employee rankings, or a basis for automatically promoting a person.
 
-Collection, access, disclosure, corrections, and erasure follow KTP-Privacy and specifications/privacy-evidence.md. Metadata and opaque identifiers can still identify people through linkage. Retention is purpose-specific, bounded, and reviewed; no default permanent human trajectory is required.
+Collection, access, disclosure, corrections, and erasure follow KTP-Privacy and specifications/privacy-evidence.md. Metadata and opaque identifiers can still identify people through linkage. Retention is purpose-specific, bounded, and reviewed. A person's trajectory under [KTP-CORE] is only the ledger of acts the person signed; these records are not part of it, and no default permanent record of a person beyond those signed acts is required.
 
 # Human-Agent Collaboration
 

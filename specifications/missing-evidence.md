@@ -6,6 +6,12 @@ The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 
 ## 1. States do not impersonate observations
 
+The factor population is the five weighted Risk Factors defined by Core.
+Demand-side `moment_criticality` remains a separately declared supplied input;
+it MUST NOT be configured as a sensor-factor dimension or added to the weighted
+population. Its absence follows Core's demand-side rule, not a fabricated
+Context Signal observation.
+
 A feed's transport health, a signal's population and a factor's observability
 are distinct. Evaluate them under the installed configuration and actual
 authenticated source/evaluation context. Candidate labels cannot establish

@@ -37,6 +37,9 @@ Additional algorithms require an independently installed, named cryptographic
 profile authorizing the exact algorithm, curve and Oracle role; a candidate
 proof cannot enable one. For Ed25519 the JOSE identifier is `EdDSA`, never
 `Ed25519`. An EdDSA profile MUST bind the exact curve, not merely that label.
+The per-level algorithm floors in KTP-CONFORMANCE's Signature Algorithms
+section still apply: a required additional algorithm requires its named
+profile at that level, and a recommended algorithm's profile stays recommended.
 Stronger deployment requirements, threshold participation, mesh committed-state
 evidence and Crypto key-custody rules remain prerequisites; base verification
 MUST NOT be presented as satisfying a stronger selected profile. Threshold

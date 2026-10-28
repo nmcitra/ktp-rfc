@@ -701,13 +701,33 @@ SHOULD:
 
 ### Signature Algorithms
 
-For native Trust Proofs, all levels MUST implement the canonical base ES256
-capability and the installed profile requirements of the canonical contract,
-Section 2. Additional JOSE algorithms require a named profile; the JOSE name
-for Ed25519 is EdDSA. Crypto's stronger selected level, threshold signing and
-key-management requirements still apply. They cannot be waived by selecting a
-weaker base verification result. This does not change signature requirements
-for other artifact types.
+For native Trust Proofs, every level MUST implement the canonical base ES256
+capability. Additional JOSE algorithms use independently installed named
+profiles under the canonical contract, Section 2. A level's required or
+recommended algorithm remains required or recommended through its named
+profile; selecting the base capability does not waive that level's floor.
+
+Basic Level:
+
+- ES256 (ECDSA with P-256 and SHA-256) - REQUIRED base capability
+- Named Ed25519 profile (JOSE `EdDSA`, bound to the Ed25519 curve) - RECOMMENDED
+
+Standard Level:
+
+- ES256 - REQUIRED base capability
+- Named Ed25519 profile (JOSE `EdDSA`, bound to the Ed25519 curve) - REQUIRED
+- Threshold signatures - REQUIRED
+
+Full Level:
+
+- All Standard algorithms and required named profiles
+- Named ES384 profile (ECDSA with P-384 and SHA-384) - RECOMMENDED
+- Key rotation support - REQUIRED
+
+Crypto's stronger selected level, threshold signing and key-management
+requirements still apply. They cannot be waived by selecting a weaker base
+verification result. This does not change signature requirements for other
+artifact types.
 
 ### Hash Functions
 

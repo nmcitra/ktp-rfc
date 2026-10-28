@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Cryptographic Specification"
 abbrev: "KTP-CRYPTO"
-date: 2026-09-07
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -880,7 +880,7 @@ Threshold keys provide inherent recovery: any k-of-n shares can reconstruct sign
 
 For disaster recovery (loss of k+ shares):
 
-1. COLD BACKUP -  Encrypted backup of key shares stored offline -  Backup encrypted to recovery keys held by trustees -  M-of-N trustees required to recover
+1. COLD BACKUP -  Encrypted backup of key shares stored offline -  Backup encrypted to recovery keys held by trustees -  k-of-n trustees required to recover
 
 1. RECOVERY CEREMONY -  Convene required trustees -  Decrypt backup shares -  Install on new HSMs -  Verify signing capability -  Destroy backup shares used
 
@@ -916,7 +916,7 @@ HSMs used for KTP MUST support:
 
 HSMs used for Level 3 MUST additionally support:
 
-- Multi-person access control (M-of-N authentication)
+- Multi-person access control (k-of-n authentication)
 - Remote attestation
 - Tamper response (key zeroization)
 - Secure key backup/restore

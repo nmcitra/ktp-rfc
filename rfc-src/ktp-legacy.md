@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Legacy Integration Specification"
 abbrev: "KTP-LEGACY"
-date: 2026-08-13
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -181,7 +181,7 @@ OAuth scopes map to KTP capability tiers:
          "max_action_risk": 10
        },
        "write": {
-         "tier": "participant",
+         "tier": "observer",
          "max_action_risk": 25
        },
        "admin": {
@@ -354,8 +354,8 @@ SAML entitlements map to KTP capabilities:
          "tier": "observer",
          "max_e_base": 30
        },
-       "urn:example:ktp:tier:participant": {
-         "tier": "participant",
+       "urn:example:ktp:tier:observer": {
+         "tier": "observer",
          "max_e_base": 45
        },
        "urn:example:ktp:tier:analyst": {

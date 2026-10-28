@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-10-12
+date: 2026-10-27
 category: exp
 ipr: trust200902
 
@@ -174,7 +174,7 @@ A critical challenge in environmental sensing is oscillation: rapid fluctuation 
 
 Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If a single sensor on a single node experiences a momentary spike—a brief CPU surge, a transient network blip—the agent could rapidly transition Operator → Analyst → Operator → Analyst, disrupting operations and creating audit noise.
 
-To prevent this, KTP implements three-level Risk Domains. A ring in a nested deployment adds a fourth, the Enclosure Domain (2.3.6).
+To prevent this, KTP implements three-level Risk Domains. A ring in a nested deployment also carries its enclosure's exposure into its Risk Factor, the Enclosure Domain (2.3.6). The Enclosure Domain is not one of the three levels: it acts on the Risk Factor itself, and its requirements are normative.
 
 2.3.1.  The Three Levels
 
@@ -344,9 +344,9 @@ Together, they create stable system behavior without sacrificing responsiveness 
 
 2.3.6.  The Enclosure Domain
 
-In a nested deployment ({{KTP-ZONES}} Section 3.7 (Nested Zones)), a ring's Risk Factor takes a fourth level. It carries the exposure of the ring's enclosure into the ring. It applies only to a ring of depth 1 or more; at depth 0 it is disabled and the three levels above are the whole calculation.
+In a nested deployment ({{KTP-ZONES}} Section 3.7 (Nested Zones)), a ring's Risk Factor carries one input from outside the ring: the exposure of its enclosure. This subsection is normative. It acts on the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) defines it, not on the three levels above. It applies only to a ring of depth 1 or more; at depth 0 it is disabled and the ring's Risk Factor is that sum alone.
 
-Level 4 - Enclosure Domain:
+Enclosure Domain:
 
 ~~~
    The zone that directly surrounds the ring.
@@ -366,16 +366,16 @@ Level 4 - Enclosure Domain:
    surrounds. An enclosure reporting calm does not lower it.
 ~~~
 
-The Enclosure Domain does not take a share of the three local weights, and those weights still sum to 1.0. It acts on the three-level result as a floor:
+The Enclosure Domain is not a term of the Risk Factor's sum and takes no share of its weights, which still sum to 1.0. It acts on the ring's Risk Factor as a floor:
 
-- The result MUST NOT be lower than the ring's contemporaneous three-level Risk Factor.
+- The result MUST NOT be lower than the ring's contemporaneous Risk Factor computed without it.
 - With other inputs fixed, increasing enclosure risk MUST NOT decrease the result.
 - The ring's own Zone Gateway reading of the enclosure MUST be an input, and an enclosure's report MUST NOT overwrite a higher reading.
 - The enclosure's signed Risk Factor is attenuated only across a Class Step, by the profile's attenuation per step; between rings of equal Enforcement Class it is not attenuated.
-- How far the enclosure's exposure reaches into the ring is a reach between 0 and 1, declared in the domain profile. At depth 1 or more the reach MUST be greater than 0; the domain is disabled only at depth 0, where there is no enclosure ({{KTP-ZONES}} Section 3.7 (Nested Zones)).
+- How far the enclosure's exposure reaches into the ring is a reach between 0 and 1, declared in the deployment profile. At depth 1 or more the reach MUST be greater than 0; the domain is disabled only at depth 0, where there is no enclosure ({{KTP-ZONES}} Section 3.7 (Nested Zones)).
 - The Enclosure Domain takes part in every evaluation for agents resident in the ring, not only at ingress.
 
-Reference form (informative). Let L be the three-level Risk Factor computed as in 2.3.2, P the enclosure's signed Risk Factor, a the attenuation across the boundary (1.0 where there is no Class Step), G the ring's own Zone Gateway reading of the enclosure, and w the reach. Then:
+Reference form (informative). Let L be the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) computes it, before this domain, P the enclosure's signed Risk Factor, a the attenuation across the boundary (1.0 where there is no Class Step), G the ring's own Zone Gateway reading of the enclosure, and w the reach. Then:
 
 ~~~
    H = max(a × P, G)
@@ -387,8 +387,8 @@ This form satisfies every requirement above: R is never below L, never above 1, 
 Scenario 4: Enclosure Heat
 
 ~~~
-   The ring's three levels give L = 0.22 (as in Scenario 1, before
-   the spike). Its enclosure is one Class Step out and signs
+   The ring's own Risk Factor is L = 0.22. Its enclosure is one
+   Class Step out and signs
    P = 0.80. Attenuation a = 0.50, so a x P = 0.40.
    The ring's gateway reads the enclosure at G = 0.30.
    Reach w = 0.50.
@@ -406,16 +406,14 @@ Scenario 4: Enclosure Heat
    at 0.22: calm from outside never lowers the ring's own measure.
 ~~~
 
-Domain configuration adds one entry:
+The deployment profile declares it, in an `enclosure` object:
 
 ~~~
    {
-     "risk_domains": {
-       "enclosure": {
-         "reach": 0.50,
-         "attenuation_per_class_step": 0.50,
-         "update_interval_ms": 60000
-       }
+     "enclosure": {
+       "reach": 0.50,
+       "attenuation_per_class_step": 0.50,
+       "update_interval_ms": 60000
      }
    }
 ~~~

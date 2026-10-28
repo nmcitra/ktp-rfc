@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-10-12
+date: 2026-10-27
 category: exp
 ipr: trust200902
 
@@ -106,7 +106,7 @@ Depth: A ring's depth is its number of enclosures; an outermost ring has depth 0
 
 Enclosure: The zone that directly surrounds a ring, the next zone out with one boundary between them. An outermost ring has no enclosure.
 
-Enclosure Domain: The Risk Domain through which an enclosure's Risk Factor bears on the Risk Factor of the ring it surrounds.
+Enclosure Domain: The floor through which an enclosure's Risk Factor bears on the Risk Factor of the ring it surrounds. It can raise the ring's Risk Factor and never lower it ({{KTP-SENSORS}} Section 2.3).
 
 Enforcement Class: A zone's position on the Zone Gradient: Green, Cyan, Blue or Deep Blue, from lightest to hardest. The Wild has no Enforcement Class.
 

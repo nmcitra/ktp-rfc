@@ -45,9 +45,9 @@ do both. Proposed in #⧗.
   Class, is the RECOMMENDED profile; an ancestry path holds at most six rings.
   Seven invariants govern a nested deployment, and Enforcement Class is
   non-decreasing inward.
-- Sensors adds a fourth Risk Domain, the Enclosure Domain, which can raise a
-  ring's Risk Factor and never lower it below the ring's own three-level
-  value. It is disabled at depth 0, and at depth 1 or more a ring declares a
+- Sensors adds the Enclosure Domain, a floor on a ring's Risk Factor that can
+  raise it and never lower it below the ring's own value under Core Section
+  5.2. It is disabled at depth 0, and at depth 1 or more a ring declares a
   reach greater than 0. An informative reference form is given; the
   requirements, not the form, are normative.
 - The Trust Proof gains an optional `ingress_path` claim, required at a ring

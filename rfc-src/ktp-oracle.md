@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Trust Oracle Specification"
 abbrev: "KTP-ORACLE"
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -75,7 +75,7 @@ Quorum: The required number of distinct, independently controlled members of the
 
 Split Brain: A failure mode where different groups accept conflicting records as the same committed position in the shared history.
 
-Threshold Signature: A cryptographic signature requiring M-of-N participants to produce.
+Threshold Signature: A cryptographic signature requiring k-of-n participants to produce.
 
 Trust Proof: A signed attestation of an agent's current trust state, issued by the Oracle.
 
@@ -172,16 +172,8 @@ The Risk Calculator computes R from Risk Factor measurements:
    R = Σ(risk_factor_i × weight_i) for i in the six inputs
 ~~~
 
-Where weights sum to 1.0 (default):
 
-~~~
-   soul_weight       = 0.25
-   body_weight       = 0.10
-   world_weight      = 0.15
-   time_weight       = 0.15
-   relational_weight = 0.20
-   signal_weight     = 0.15
-~~~
+The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as {{KTP-CORE}} Section 6.7 (Aggregation Algorithm) specifies, from the six named Risk Factors at the weights the deployment profile declares.
 
 The Calculator MUST:
 

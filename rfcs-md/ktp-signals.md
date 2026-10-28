@@ -670,16 +670,7 @@ Each domain produces a risk score from its signals:
 
 The six domain risks aggregate into overall R:
 
-~~~
-   R = weighted_sum(
-      soul_risk       * 0.25,
-      body_risk       * 0.10,
-      world_risk      * 0.15,
-      time_risk       * 0.15,
-      relational_risk * 0.20,
-      information_risk * 0.15
-   )
-~~~
+The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as [KTP-CORE] Section 6.7 (Aggregation Algorithm) specifies, from the six named Risk Factors at the weights the deployment profile declares.
 
 ## Threshold-Based Risk
 

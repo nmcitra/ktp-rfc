@@ -1,8 +1,8 @@
 {
   "suite": "federation-v1",
   "kind": "normative-downstream-requirements",
-  "specification": "KTP-FEDERATION Section 1.4 (The Rule) and Section 5.1 (Agreement Structure)",
-  "note": "Normative downstream requirements for the federation rule and the Federation Agreement. This repository contains no gateway, Oracle or federation runtime: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-FEDERATION names and define no formula. given/expect are test notation, not wire fields; an agreement shown in `given` is the signed Federation Agreement for the case, and a clause is shown by its effect. Digests and signatures are placeholders of the correct shape. All other applicable checks pass unless a vector states otherwise.",
+  "specification": "KTP-FEDERATION Section 1.4 (The Rule), Section 4.5 (The Factor), Section 5.1 (Agreement Structure), Section 5.4 (Cross-Zone Sponsorship), Section 6.5 (Attestations as Evidence) and Section 7.4 (What Crosses)",
+  "note": "Normative downstream requirements for the federation rule, the Federation Agreement, the trust factor, cross-zone sponsorship, and what crosses a link. This repository contains no gateway, Oracle or federation runtime: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-FEDERATION names and define no formula. given/expect are test notation, not wire fields; an agreement shown in `given` is the signed Federation Agreement for the case, and a clause is shown by its effect. Digests and signatures are placeholders of the correct shape. All other applicable checks pass unless a vector states otherwise.",
   "vectors": [
     {
       "id": "FD01-veto-delegation-clause-void",
@@ -457,6 +457,1140 @@
         }
       },
       "reason": "A federation MAY require coordination of formats and versions and MUST NOT require coordination of the inputs to a zone's evaluation; the zone's own thresholds apply."
+    },
+    {
+      "id": "FD17-factor-applies-to-attested-base-trust",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "crossing": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "subject": "agent-1",
+          "attestedBy": "zone-a",
+          "attested": {
+            "E_base": 85,
+            "E_trust": 80,
+            "R": 0.06
+          }
+        },
+        "receiver": {
+          "R": 0.05
+        }
+      },
+      "expect": {
+        "appliedFactor": 0.8,
+        "operand": "E_base",
+        "localE_base": 68,
+        "localR": 0.05,
+        "localE_trust": 64.6,
+        "foreignE_trustUsedAs": "evidence"
+      },
+      "reason": "The factor applies at ingress to the Base Trust the sending zone attests; the receiving zone computes its own Risk Factor; the foreign E_trust is evidence, never the local quantity."
+    },
+    {
+      "id": "FD18-receiver-computes-own-risk-factor",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "crossing": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "subject": "agent-1",
+          "attested": {
+            "E_base": 85,
+            "R": 0.4
+          }
+        },
+        "receiver": {
+          "R": 0.05
+        }
+      },
+      "expect": {
+        "localR": 0.05,
+        "importedR": null,
+        "localE_trust": 64.6
+      },
+      "reason": "Nothing a receiving zone imports carries the sending zone's Risk Factor with it."
+    },
+    {
+      "id": "FD19-factor-above-one-not-applied",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 1.25
+          }
+        },
+        "crossing": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "subject": "agent-1",
+          "attested": {
+            "E_base": 60
+          }
+        }
+      },
+      "expect": {
+        "appliedFactor": null,
+        "clauseVoid": true,
+        "agreementStands": true,
+        "crossingAdmitted": false
+      },
+      "reason": "A receiving zone MUST NOT apply a factor greater than one; the clause that sets one is void and the agreement otherwise stands."
+    },
+    {
+      "id": "FD20-class-ceiling-and-signed-factor-are-one-factor",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "profile": {
+          "enforcementClassCeiling": {
+            "zone-b": 0.7
+          }
+        },
+        "crossing": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "subject": "agent-1",
+          "attested": {
+            "E_base": 80
+          }
+        }
+      },
+      "expect": {
+        "appliedFactor": 0.7,
+        "factorsApplied": 1,
+        "localE_base": 56
+      },
+      "reason": "Where the profile sets an Enforcement Class ceiling, the applied factor is the lesser of the signed factor and the ceiling; a class factor and a federation factor are one factor, never two."
+    },
+    {
+      "id": "FD21-lowering-policy-never-raises-above-signed",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "receiverPolicy": {
+          "behaviorModifier": 1.3,
+          "floor": 0.9
+        },
+        "crossing": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "subject": "agent-1",
+          "attested": {
+            "E_base": 80
+          }
+        }
+      },
+      "expect": {
+        "appliedFactor": 0.8,
+        "modifierClampedTo": 1.0,
+        "floorApplied": false,
+        "floorValid": false
+      },
+      "reason": "A receiving zone MAY lower its applied factor under a declared policy and MUST NOT raise it above the signed factor by any such policy; a floor above the signed factor is not valid."
+    },
+    {
+      "id": "FD22-signed-factor-change-is-a-federation-decision",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "change": {
+          "direction": "zone-a-to-zone-b",
+          "from": 0.8,
+          "to": 0.7,
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "answers": "federation-council-ab",
+          "effective": "t0"
+        },
+        "subjects": [
+          {
+            "id": "agent-1",
+            "admittedAt": "t0-5s",
+            "proofValidUntil": "t0+5s"
+          },
+          {
+            "id": "agent-2",
+            "ingressAt": "t0+5s"
+          }
+        ]
+      },
+      "expect": {
+        "decisionSigned": true,
+        "agent-1": {
+          "reMeasuredByChange": false,
+          "appliedFactorAtNextIngress": 0.7
+        },
+        "agent-2": {
+          "appliedFactor": 0.7
+        },
+        "unsignedVariantBinds": false
+      },
+      "reason": "A change to the signed factor is a decision the federation moves: signed, attributed, and prospective at the first ingress after its effective time; an admission under the old factor stands until the subject's next ingress."
+    },
+    {
+      "id": "FD23-cross-zone-bond-unrecorded-at-home-void",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "bond": {
+          "sponsor": "guarantor-a1",
+          "sponsorZone": "zone-a",
+          "subject": "agent-new",
+          "receivingZone": "zone-b",
+          "anchoredIn": "zone-b",
+          "recordedIn": []
+        }
+      },
+      "expect": {
+        "bondValid": false,
+        "reason": "unrecorded-at-home",
+        "subjectAdmittedAsSponsored": false
+      },
+      "reason": "A bond the sponsor's zone has not recorded is void."
+    },
+    {
+      "id": "FD24-reserve-held-at-home-reduces-available-standing",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "sponsor": {
+          "id": "guarantor-a1",
+          "zone": "zone-a",
+          "E_base": 90,
+          "existingBondsStake": 20
+        },
+        "bond": {
+          "stake": 15,
+          "receivingZone": "zone-b",
+          "anchoredIn": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        }
+      },
+      "expect": {
+        "bondValid": true,
+        "reserveHeldIn": "zone-a",
+        "sponsorAvailableE_base": 55,
+        "attestedTo": "zone-a"
+      },
+      "reason": "The sponsor's zone holds the reserve and reduces the sponsor's available standing by the stake for every bond the sponsor holds, wherever the bond is anchored."
+    },
+    {
+      "id": "FD25-collateral-at-receiver-measure",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "sponsor": {
+          "id": "guarantor-a1",
+          "zone": "zone-a",
+          "attestedE_base": 90
+        },
+        "bond": {
+          "stake": 30,
+          "collateralShare": 0.5,
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        }
+      },
+      "expect": {
+        "sponsorMeasureInB": 72,
+        "collateralReceivedInB": 12,
+        "basis": "attested Base Trust through zone-a-to-zone-b factor"
+      },
+      "reason": "The receiving zone receives the collateral at its own measure of the sponsor: the sponsor's attested Base Trust through the trust factor for that direction."
+    },
+    {
+      "id": "FD26-sponsor-not-admissible-cannot-sponsor",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "sponsor": {
+          "id": "guarantor-a2",
+          "zone": "zone-a",
+          "attestedE_base": 40
+        },
+        "receiver": {
+          "admissionFloorE_base": 50
+        },
+        "bond": {
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        }
+      },
+      "expect": {
+        "sponsorMeasureInB": 32,
+        "sponsorAdmissible": false,
+        "bondValid": false
+      },
+      "reason": "A sponsor that is not itself admissible to the receiving zone at that measure MUST NOT sponsor there."
+    },
+    {
+      "id": "FD27-sponsored-standing-not-above-sponsor",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "sponsor": {
+          "id": "guarantor-a1",
+          "zone": "zone-a",
+          "attestedE_base": 90
+        },
+        "subject": {
+          "id": "agent-new",
+          "earnedInB": 80
+        },
+        "bond": {
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        }
+      },
+      "expect": {
+        "sponsorMeasureInB": 72,
+        "subjectStandingInB": 72,
+        "capped": true
+      },
+      "reason": "A sponsored subject's standing in the receiving zone MUST NOT exceed the sponsor's own at that zone's measure."
+    },
+    {
+      "id": "FD28-violation-receiver-withdraws-home-penalizes-independently",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "bond": {
+          "sponsor": "guarantor-a1",
+          "sponsorZone": "zone-a",
+          "subject": "agent-new",
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        },
+        "event": {
+          "zone": "zone-b",
+          "subject": "agent-new",
+          "breach": true,
+          "zoneBAttestation": "att-b-77"
+        }
+      },
+      "expect": {
+        "zone-b": {
+          "lentStandingWithdrawn": true,
+          "by": "own-evaluation",
+          "waitsOn": null
+        },
+        "zone-a": {
+          "penaltyAssessed": true,
+          "on": "att-b-77",
+          "waitsOn": null
+        }
+      },
+      "reason": "On a violation the receiving zone withdraws the lent standing by its own evaluation, and the sponsor's zone assesses the penalty on the receiving zone's attestation; neither waits on the other."
+    },
+    {
+      "id": "FD29-bond-ends-earliest-earned-standing-stays",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true,
+          "expires": "t+400d"
+        },
+        "bond": {
+          "duration": "t+90d",
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        },
+        "severance": {
+          "by": "zone-b",
+          "at": "t+30d"
+        },
+        "subject": {
+          "earnedInB": 40,
+          "lentInB": 32
+        }
+      },
+      "expect": {
+        "bondEndsAt": "t+30d",
+        "endedBy": "severance",
+        "standingInB": {
+          "lent": 0,
+          "earned": 40
+        },
+        "earnedStandingRemains": true
+      },
+      "reason": "A bond ends at the earliest of its duration, the agreement, or severance; the standing the subject earned in the receiving zone is that zone's measure and remains."
+    },
+    {
+      "id": "FD30-sponsor-breach-exposure-crosses-root-above-count-no-bond",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "crossZoneSponsorship": true
+        },
+        "sponsor": {
+          "id": "guarantor-a1",
+          "zone": "zone-a",
+          "root": "root-x"
+        },
+        "records": {
+          "zone-c": {
+            "unreconciledBreaches": 3,
+            "declaredCount": 2
+          }
+        },
+        "bond": {
+          "receivingZone": "zone-b",
+          "recordedIn": [
+            "zone-a"
+          ]
+        }
+      },
+      "expect": {
+        "breachRecordsExportedTo": [
+          "zone-b"
+        ],
+        "as": "exposure",
+        "rootAboveDeclaredCount": true,
+        "bondValid": false
+      },
+      "reason": "An agreement providing for cross-zone sponsorship MUST export the sponsor's breach records to the receiving zone as exposure; a root above its declared unreconciled count in any zone where its lineages have breached MUST NOT open a bond in any zone."
+    },
+    {
+      "id": "FD31-unwitnessed-signature-adds-nothing-registry-verified",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "attestation": {
+          "id": "att-9",
+          "type": "exit",
+          "subject": "agent-1",
+          "actWitnessedBy": [
+            "zone-a"
+          ],
+          "signatures": [
+            {
+              "zone": "zone-a",
+              "registryKeyMatch": true
+            },
+            {
+              "zone": "zone-c",
+              "registryKeyMatch": true
+            }
+          ]
+        },
+        "receiver": "zone-b"
+      },
+      "expect": {
+        "signaturesCounted": [
+          "zone-a"
+        ],
+        "zone-c": {
+          "contribution": 0,
+          "reason": "did-not-witness"
+        },
+        "registryVerified": true,
+        "admitted": true,
+        "weighedAs": "evidence"
+      },
+      "reason": "An attestation is signed by the Trust Oracle of each zone that witnessed the act; a signature by a zone that did not witness it adds nothing; each signature is verified against the registry before admission."
+    },
+    {
+      "id": "FD32-attestation-crosses-one-link",
+      "given": {
+        "agreements": {
+          "a-b": {
+            "parties": [
+              "zone-a",
+              "zone-b"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-b"
+            ],
+            "factors": {
+              "zone-a-to-zone-b": 0.8,
+              "zone-b-to-zone-a": 0.6
+            }
+          },
+          "b-c": {
+            "parties": [
+              "zone-b",
+              "zone-c"
+            ],
+            "signedBy": [
+              "zone-b",
+              "zone-c"
+            ],
+            "factors": {
+              "zone-b-to-zone-c": 0.5
+            }
+          }
+        },
+        "attestation": {
+          "id": "att-9",
+          "issuedBy": "zone-a",
+          "subject": "agent-1"
+        },
+        "path": [
+          "zone-a",
+          "zone-b",
+          "zone-c"
+        ]
+      },
+      "expect": {
+        "zone-b": {
+          "admitted": true,
+          "atFactor": 0.8
+        },
+        "zone-c": {
+          "admitsAttA": false,
+          "admits": "zone-b's own attestation of its own measure",
+          "atFactor": 0.5
+        }
+      },
+      "reason": "An attestation crosses one link; what a zone passes on is its own attestation of its own measure."
+    },
+    {
+      "id": "FD33-breach-record-must-cross-as-exposure-never-reconciled",
+      "given": {
+        "agreements": {
+          "a-b": {
+            "parties": [
+              "zone-a",
+              "zone-b"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-b"
+            ],
+            "factors": {
+              "zone-a-to-zone-b": 0.8,
+              "zone-b-to-zone-a": 0.6
+            }
+          },
+          "a-c": {
+            "parties": [
+              "zone-a",
+              "zone-c"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-c"
+            ],
+            "factors": {
+              "zone-a-to-zone-c": 0.7
+            }
+          }
+        },
+        "record": {
+          "type": "breach",
+          "subject": "agent-1",
+          "zone": "zone-a",
+          "reconciledIn": "zone-a"
+        }
+      },
+      "expect": {
+        "crossesTo": [
+          "zone-b",
+          "zone-c"
+        ],
+        "as": "exposure",
+        "asReconciled": false,
+        "receiverEvaluates": true
+      },
+      "reason": "A breach record MUST cross to every zone whose agreement covers the subject, as exposure and never as reconciled; each receiving zone evaluates it itself."
+    },
+    {
+      "id": "FD34-positive-attestation-may-be-admitted-never-written",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "attestation": {
+          "type": "crisis",
+          "subject": "agent-1",
+          "issuedBy": "zone-a",
+          "deltaProposedBySender": 5
+        },
+        "receiverPolicy": {
+          "admitPositive": true
+        }
+      },
+      "expect": {
+        "admitted": true,
+        "underPolicyOf": "zone-b",
+        "deltaWrittenBySender": false,
+        "standingChangeBy": "zone-b's own evaluation"
+      },
+      "reason": "A positive attestation MAY be admitted under the receiving zone's declared policy; the sending zone never writes it into the receiving zone's measure."
+    },
+    {
+      "id": "FD35-veto-crosses-as-nothing-constraint-travels",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "event": {
+          "zone": "zone-a",
+          "subject": "agent-1",
+          "soulVeto": true,
+          "constraint": "tk-label:restricted"
+        },
+        "data": {
+          "constraintAttached": "tk-label:restricted"
+        },
+        "crossing": {
+          "to": "zone-b"
+        }
+      },
+      "expect": {
+        "eventCrosses": false,
+        "standingInBChangedByEvent": false,
+        "constraintEnforcedInB": true
+      },
+      "reason": "A Silent Veto, including a Soul veto, is not an event and crosses as nothing; the constraint that caused it travels with the data and the receiving zone enforces it as its own."
+    },
+    {
+      "id": "FD36-person-attestation-only-as-signed-act-reconciliation-never",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          },
+          "persons": {
+            "cross": true,
+            "terms": "signed-acts-only"
+          }
+        },
+        "records": [
+          {
+            "about": "person-7",
+            "kind": "attestation",
+            "signedByPerson": true
+          },
+          {
+            "about": "person-7",
+            "kind": "observed-behavior",
+            "signedByPerson": false
+          },
+          {
+            "about": "person-7",
+            "kind": "reconciliation-record"
+          }
+        ]
+      },
+      "expect": {
+        "crosses": [
+          true,
+          false,
+          false
+        ],
+        "reasons": [
+          "signed act under the agreement",
+          "not an act the person signed",
+          "a person's reconciliation record never crosses"
+        ]
+      },
+      "reason": "An attestation about a person crosses only as the agreement provides and only as an act the person signed; a person's reconciliation record never crosses."
+    },
+    {
+      "id": "FD37-delta-rather-than-record-admits-nothing",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "factors": {
+            "zone-a-to-zone-b": 0.8,
+            "zone-b-to-zone-a": 0.6
+          }
+        },
+        "message": {
+          "from": "zone-a",
+          "to": "zone-b",
+          "kind": "propagation",
+          "subject": "agent-1",
+          "delta": -5.76,
+          "record": null
+        }
+      },
+      "expect": {
+        "admitted": false,
+        "standingInBChanged": false,
+        "reason": "a delta is not a record"
+      },
+      "reason": "The propagation formulas are informative; a zone that receives a delta rather than a record admits nothing."
+    },
+    {
+      "id": "FD38-a-zone-attests-only-standing-earned-within-it",
+      "given": {
+        "agreements": {
+          "a-h": {
+            "parties": [
+              "zone-a",
+              "zone-h"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-h"
+            ],
+            "factors": {
+              "zone-a-to-zone-h": 0.9
+            }
+          },
+          "h-b": {
+            "parties": [
+              "zone-h",
+              "zone-b"
+            ],
+            "signedBy": [
+              "zone-h",
+              "zone-b"
+            ],
+            "factors": {
+              "zone-h-to-zone-b": 0.9
+            }
+          },
+          "a-b": null
+        },
+        "subject": {
+          "id": "agent-1",
+          "eBaseEarnedIn": {
+            "zone-a": 80
+          },
+          "ingress": [
+            {
+              "into": "zone-h",
+              "from": "zone-a",
+              "attestedEBase": 80,
+              "admittedEBase": 72
+            }
+          ],
+          "earnedAfterIngress": {
+            "zone-h": 10
+          },
+          "measureIn": {
+            "zone-h": 82
+          }
+        },
+        "crossing": {
+          "into": "zone-b",
+          "from": "zone-h"
+        }
+      },
+      "expect": {
+        "zone-h-attestedEBase": 10,
+        "zone-b-admittedEBase": 9,
+        "admittedStandingReattested": false,
+        "zone-a-standingReachesB": false,
+        "reason": "zone-b signed no factor for zone-a; what zone-h admitted from zone-a is zone-h's to weigh and crosses no further"
+      },
+      "reason": "A zone attests for a subject only the standing the subject earned by acts within it; standing admitted at ingress from another zone crosses no further, so a route through an intermediary carries nothing the direct link would not."
+    },
+    {
+      "id": "FD39-a-record-crosses-only-to-zones-the-subject-has-reached",
+      "given": {
+        "agreements": {
+          "a-b": {
+            "parties": [
+              "zone-a",
+              "zone-b"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-b"
+            ],
+            "factors": {
+              "zone-a-to-zone-b": 0.8,
+              "zone-b-to-zone-a": 0.6
+            }
+          },
+          "a-c": {
+            "parties": [
+              "zone-a",
+              "zone-c"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-c"
+            ],
+            "factors": {
+              "zone-a-to-zone-c": 0.7
+            }
+          },
+          "a-d": {
+            "parties": [
+              "zone-a",
+              "zone-d"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-d"
+            ],
+            "factors": {
+              "zone-a-to-zone-d": 0.7
+            }
+          }
+        },
+        "subject": {
+          "id": "agent-1",
+          "standingAdmittedIn": [
+            "zone-b"
+          ],
+          "bondOpenedIn": [
+            "zone-c"
+          ],
+          "attestationAdmittedIn": [],
+          "neverReached": [
+            "zone-d"
+          ]
+        },
+        "record": {
+          "type": "breach",
+          "subject": "agent-1",
+          "zone": "zone-a"
+        }
+      },
+      "expect": {
+        "crossesTo": [
+          "zone-b",
+          "zone-c"
+        ],
+        "crossesTo-zone-d": false,
+        "atNextIngressToD": "carried by zone-a's attestation of the subject",
+        "as": "exposure",
+        "asReconciled": false
+      },
+      "reason": "A zone's agreement covers a subject that holds standing there admitted under it, holds or has opened a bond there, or about whom the zone has admitted an attestation; no record crosses to a zone the subject has not reached."
+    },
+    {
+      "id": "FD40-reconciliation-anchored-record-crosses-where-the-breach-went",
+      "given": {
+        "agreements": {
+          "a-b": {
+            "parties": [
+              "zone-a",
+              "zone-b"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-b"
+            ],
+            "factors": {
+              "zone-a-to-zone-b": 0.8,
+              "zone-b-to-zone-a": 0.6
+            }
+          },
+          "a-c": {
+            "parties": [
+              "zone-a",
+              "zone-c"
+            ],
+            "signedBy": [
+              "zone-a",
+              "zone-c"
+            ],
+            "factors": {
+              "zone-a-to-zone-c": 0.7
+            }
+          }
+        },
+        "breachRecords": [
+          {
+            "anchor": "anchor-breach-1",
+            "subject": "agent-1",
+            "zone": "zone-a",
+            "crossedTo": [
+              "zone-b",
+              "zone-c"
+            ]
+          },
+          {
+            "anchor": "anchor-breach-2",
+            "subject": "person-7",
+            "zone": "zone-a",
+            "crossedTo": [
+              "zone-b"
+            ]
+          }
+        ],
+        "reconciliationRecords": [
+          {
+            "anchor": "anchor-rec-1",
+            "closes": "anchor-breach-1",
+            "zone": "zone-a"
+          },
+          {
+            "anchor": "anchor-rec-2",
+            "closes": "anchor-breach-2",
+            "zone": "zone-a"
+          }
+        ]
+      },
+      "expect": {
+        "agent-1": {
+          "recordCrosses": {
+            "kind": "reconciliation-anchored",
+            "carries": [
+              "anchor-breach-1",
+              "anchor-rec-1"
+            ]
+          },
+          "crossesTo": [
+            "zone-b",
+            "zone-c"
+          ],
+          "carriesParties": false,
+          "carriesResidualHarm": false,
+          "carriesVerifier": false,
+          "isReconciliationRecord": false,
+          "receiverExposureClosedByIt": false,
+          "receiverWeighsAsEvidence": true
+        },
+        "person-7": {
+          "recordCrosses": {
+            "kind": "reconciliation-anchored",
+            "carries": [
+              "anchor-breach-2",
+              "anchor-rec-2"
+            ]
+          },
+          "crossesTo": [
+            "zone-b"
+          ],
+          "reconciliationRecordCrosses": false,
+          "isReconciliationRecord": false,
+          "receiverExposureClosedByIt": false
+        }
+      },
+      "reason": "When a reconciliation record is anchored, a record that it was anchored, carrying the two anchors and nothing else, MUST cross to every zone the breach record reached, for an agent and a person alike; it is not the reconciliation record, and the receiving zone weighs it as evidence and never as the closure of its own exposure."
     }
   ]
 }

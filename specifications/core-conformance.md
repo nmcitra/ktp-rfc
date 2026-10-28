@@ -1,4 +1,4 @@
-# One Core, Three Assurance Levels
+# One Core, Three Conformance Levels
 
 **Proposed, unreleased native-v3 common Core contract.**
 
@@ -11,7 +11,7 @@ inherited requirements at every level, never additional features of a level:
 
 - All five named weighted Risk Factors: `evidence_density`, `trust_trend`,
   `adversarial_pressure`, `update_resistance`, and
-  `attestation_coverage`. Weight validation, normalization, Risk Domain meaning
+  `attestation_coverage`. Weight validation, normalization
   and restrictive undefined-input handling follow KTP-Core. Missing inputs
   MUST NOT silently become a reduced-factor calculation or fabricated zeros.
 - Declared demand-side `moment_criticality` follows the demand supplier contract;
@@ -72,7 +72,6 @@ requirements remain subject to their own proposals and clocks.
 | Basic excludes Soul | Independent mandatory Soul gate | Add the gate before capacity; favorable standing cannot offset it |
 | Basic binary result and no tiers | Supervision plus `tightenedConstraints`, all five Core tiers | A field rename or allow/deny wrapper is insufficient |
 | Basic simplified static E_base | Core standing and applicable lineage/PoR constraints | Replace the shortcut before claiming native v3 |
-| Basic single risk domain | Core Node/Neighborhood/Global meanings | Local deployment does not rename or collapse the semantic domains |
 | Basic maximum sixty-second proof | Canonical proof with maximum ten-second lifetime | Reissue under the new contract; do not relabel old bytes |
 | Standard ten-second proof with fuller fields | Same canonical proof as every level | Migrate legacy fields and signatures; retain additional signing assurance |
 | Full additional formats/algorithms | Same canonical base artifact with named stronger profiles | Do not treat a Full label as a new wire format or algorithm negotiation |

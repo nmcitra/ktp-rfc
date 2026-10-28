@@ -85,9 +85,9 @@ Substrate Profile:  A specification in this set that fixes, for one execution su
 
 # Conformance Levels
 
-KTP defines three deployment assurance levels, each building on the previous.
+KTP defines three conformance levels, each adding deployment assurance to the same Core.
 All native-v3 levels MUST implement the same Core semantic contract defined in
-[One Core, Three Assurance Levels](../specifications/core-conformance.md).
+[One Core, Three Conformance Levels](../specifications/core-conformance.md).
 The five weighted Risk Factors, independent Soul gate, input validity and
 undefined-input handling, standing semantics, Trust Proof contract, and result
 of supervision plus tightenedConstraints MUST NOT vary with the level label.
@@ -130,7 +130,6 @@ Risk Factors:
 
 - All five weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
 - Core normalization, weight validation and undefined-input handling
-- Core Risk Domain semantics; local collection does not redefine Node, Neighborhood or Global
 
 Policy Enforcement Point:
 
@@ -306,7 +305,6 @@ Full conformance additionally requires:
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
 | Weighted Risk Factors     | 5     | 5        | 5      |
 | Independent Soul veto     | Yes   | Yes      | Yes    |
-| Core Risk Domain meaning  | Same  | Same     | Same   |
 | Trust tiers               | 5     | 5        | 5      |
 | Flight Recorder chaining  | -     | Yes      | Yes    |
 | External anchoring        | -     | -        | Yes    |

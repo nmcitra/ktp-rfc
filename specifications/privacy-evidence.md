@@ -1,6 +1,6 @@
 # Purpose-limited evidence, correction, and erasure
 
-Status: normative, unreleased F11 contract, 2026-09-07. Applies to personal data
+Status: normative, unreleased privacy-evidence contract, 2026-09-07. Applies to personal data
 in human and software-agent records, including copied and derived evidence.
 
 The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,
@@ -171,7 +171,7 @@ Retention and erasure limits MUST be declared when evidence is first accepted
 for an audit or conformance claim. Erased evidence cannot continue to support
 an operation requiring it to be independently verified.
 
-F08's preservation of admissible historical achievement prevents time alone
+The operational-readiness specification's preservation of admissible historical achievement prevents time alone
 from subtracting standing. It does not mandate indefinite personal-data
 retention or permit use of unavailable, corrected, or unverified evidence.
 Retention while evidence is held, its integrity, current authority, and lawful

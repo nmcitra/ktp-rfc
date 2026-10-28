@@ -1,5 +1,18 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased Risk Domains migration:** R has one definition. Old → new: a
+Risk Factor computed as the node/neighborhood/global composite of Sensors
+Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the
+weights of Core Section 6.5; node, neighborhood, and global as levels of R →
+sensing scopes of one input, configured as that input's feeds and aggregated
+by Sensors Section 2.2; a `risk_domains` configuration block → no declaration
+beyond feeds; CT-S-002 → retired. Where every scope computed the same
+six-input sum with the same factor weights and nothing was clamped per scope,
+the composite and Section 5.2's sum are the same number, because the two
+weighted sums commute: such an implementation changes where it aggregates, not
+what it reports. One that used different factor weights per scope picks one
+declared set.
+
 **Unreleased F11 human/privacy migration:** Replace general human Trust Scores,
 ranked tiers and human-to-agent score inheritance with
 [operation-specific eligibility](specifications/human-eligibility.md). Install

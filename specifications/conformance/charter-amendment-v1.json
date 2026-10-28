@@ -1,0 +1,588 @@
+{
+  "suite": "charter-amendment-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-GOVERNANCE Section 11.4 (Who May Open an Amendment) and Section 11.5 (How an Amendment Binds, and What It Cannot Reach)",
+  "note": "Normative downstream requirements for who may open a charter amendment, what the governing authority owes, how an amendment binds, and what no amendment reaches. This repository contains no gateway, Oracle or governance runtime: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-GOVERNANCE names and define no formula. given/expect are test notation, not wire fields; records and measurements are cited by placeholder identifiers of the correct shape; days are counted from the filing. The council thresholds of Section 11.2 are unchanged by every vector. All other applicable checks pass unless a vector states otherwise.",
+  "vectors": [
+    {
+      "id": "AM01-bound-lineage-opens-at-declared-recurrence",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "lineage": {
+          "id": "lin-7",
+          "boundBy": [
+            "r-tool-write"
+          ]
+        },
+        "filing": {
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "windowDays": 30
+        }
+      },
+      "expect": {
+        "isSeek": true,
+        "routeOpen": true,
+        "proposalStep": 1,
+        "councilThresholdApplied": false,
+        "authorityMustAttend": true,
+        "attendDeadlineDays": 14
+      },
+      "reason": "A lineage bound by a rule opens the amendment process by the published route once the declared recurrence is met; the filing is the proposal of step 1 and the council-support threshold does not apply to it."
+    },
+    {
+      "id": "AM02-seek-below-declared-recurrence-refused",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "lineage": {
+          "id": "lin-7",
+          "boundBy": [
+            "r-tool-write"
+          ]
+        },
+        "filing": {
+          "recordsCited": [
+            "rec-001",
+            "rec-002"
+          ],
+          "windowDays": 30
+        }
+      },
+      "expect": {
+        "isSeek": true,
+        "routeOpen": false,
+        "refusedWithCount": {
+          "cited": 2,
+          "required": 3
+        },
+        "breachByLineage": false,
+        "councilRouteRemains": true
+      },
+      "reason": "The route opens at the declared recurrence and not before; a filing below it is refused with the count, and the lineage is not in breach for filing."
+    },
+    {
+      "id": "AM03-filing-cites-no-record-not-a-seek",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "lineage": {
+          "id": "lin-7",
+          "boundBy": [
+            "r-tool-write"
+          ]
+        },
+        "filing": {
+          "recordsCited": [],
+          "statement": "the rule is unfair"
+        }
+      },
+      "expect": {
+        "isSeek": false,
+        "routeOpen": false,
+        "authorityMustAttend": false
+      },
+      "reason": "A filing that cites no record is not a seek."
+    },
+    {
+      "id": "AM04-unbound-lineage-has-no-standing",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "lineage": {
+          "id": "lin-9",
+          "boundBy": [
+            "r-read-only"
+          ]
+        },
+        "filing": {
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "windowDays": 30
+        }
+      },
+      "expect": {
+        "isSeek": false,
+        "standing": false,
+        "councilRouteRemains": true
+      },
+      "reason": "A lineage the rule does not bind has no standing under the section; the council route remains to it."
+    },
+    {
+      "id": "AM05-authority-attends-by-refusal-contestable",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "seek": {
+          "lineage": "lin-7",
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "filedDay": 0
+        },
+        "authority": {
+          "response": "refusal",
+          "day": 9,
+          "citesRecordsFiled": true,
+          "answersThem": true
+        }
+      },
+      "expect": {
+        "attended": true,
+        "noticePeriodOpened": false,
+        "refusalContestable": true,
+        "contestRoute": "zone-level-dispute-process",
+        "breachByAuthority": false
+      },
+      "reason": "A written refusal that cites the records filed and answers them is attendance; it is contestable under the zone-level dispute process."
+    },
+    {
+      "id": "AM06-authority-does-not-attend-within-deadline",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "seek": {
+          "lineage": "lin-7",
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "filedDay": 0
+        },
+        "authority": {
+          "response": null,
+          "day": 15
+        }
+      },
+      "expect": {
+        "attended": false,
+        "declinedToAttend": true,
+        "breachRecordAgainst": "governing-authority",
+        "filingStandsAsRecord": true
+      },
+      "reason": "An authority that neither opens the notice period nor refuses within the charter's deadline has declined to attend, and the filing stands as a breach record against it."
+    },
+    {
+      "id": "AM07-amendment-cites-no-record-invalid",
+      "given": {
+        "amendment": {
+          "target": "r-tool-write",
+          "from": 1,
+          "to": 2,
+          "recordsCited": [],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        }
+      },
+      "expect": {
+        "valid": false,
+        "priorRuleStands": true,
+        "inForce": false
+      },
+      "reason": "An amendment that cites nothing is not valid, and the rule it would have replaced stands, whatever the vote."
+    },
+    {
+      "id": "AM08-constant-change-cites-no-measurement-invalid",
+      "given": {
+        "amendment": {
+          "target": "profile.tierBoundary.operator",
+          "from": 85,
+          "to": 80,
+          "recordsCited": [
+            "rec-001",
+            "rec-002"
+          ],
+          "measurementsCited": [],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        }
+      },
+      "expect": {
+        "valid": false,
+        "priorConstantStands": true,
+        "constant": 85
+      },
+      "reason": "A change to a declared constant cites the measurements it answers; one that cites records but no measurement is not valid."
+    },
+    {
+      "id": "AM09-constant-change-cites-measurement-valid",
+      "given": {
+        "amendment": {
+          "target": "profile.tierBoundary.operator",
+          "from": 85,
+          "to": 80,
+          "recordsCited": [
+            "rec-001",
+            "rec-002"
+          ],
+          "measurementsCited": [
+            {
+              "id": "m-2026-q3-operator-denials",
+              "source": "zone-records"
+            }
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        },
+        "governor": {
+          "A": 25,
+          "E_trust": 72
+        }
+      },
+      "expect": {
+        "valid": true,
+        "governorAct": {
+          "decision": "PERMIT"
+        },
+        "inForceAt": "next-evaluation-after-ratification"
+      },
+      "reason": "A constant change that cites measurements from the zone's own records, carried by a vote and within the governor's E, is valid and binds at the next evaluation."
+    },
+    {
+      "id": "AM10-amendment-binds-at-next-evaluation-not-in-flight",
+      "given": {
+        "amendment": {
+          "target": "r-tool-write",
+          "from": 1,
+          "to": 2,
+          "ratifiedAt": "t0",
+          "valid": true
+        },
+        "acts": [
+          {
+            "id": "act-a",
+            "evaluationBegan": "t0-1s",
+            "decidedAt": "t0+2s"
+          },
+          {
+            "id": "act-b",
+            "evaluationBegan": "t0+5s"
+          }
+        ]
+      },
+      "expect": {
+        "act-a": {
+          "ruleVersion": 1,
+          "reevaluated": false,
+          "retroactiveBreach": false
+        },
+        "act-b": {
+          "ruleVersion": 2
+        }
+      },
+      "reason": "An amendment applies at the first evaluation after ratification and to no act whose evaluation began under the rule it replaces; it re-evaluates nothing and creates no retroactive breach."
+    },
+    {
+      "id": "AM11-amendment-exceeds-governor-E-not-made",
+      "given": {
+        "amendment": {
+          "target": "charter.governanceStructure",
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          },
+          "valid": true
+        },
+        "governor": {
+          "A": 80,
+          "E_trust": 72
+        }
+      },
+      "expect": {
+        "governorAct": {
+          "decision": "VETO"
+        },
+        "made": false,
+        "inForce": false,
+        "voteRecorded": true
+      },
+      "reason": "Making an amendment is a consequential act of the governing authority under the Recursive Constraint; an amendment the governor's E does not support is not made, whatever vote is recorded."
+    },
+    {
+      "id": "AM12-amendment-removes-published-route-void",
+      "given": {
+        "amendment": {
+          "target": "charter.amendmentRoute.boundLineage",
+          "effect": "remove",
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        },
+        "governor": {
+          "A": 60,
+          "E_trust": 72
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true,
+        "routePublished": true
+      },
+      "reason": "The existence and publication of the route by which a bound lineage opens the process is below the reach of any amendment; the amendment is void and the charter stands."
+    },
+    {
+      "id": "AM13-amendment-raises-recurrence-past-reach-void",
+      "given": {
+        "amendment": {
+          "target": "profile.declaredRecurrence",
+          "from": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "to": {
+            "records": 0,
+            "windowDays": 0
+          },
+          "effect": "route never opens",
+          "recordsCited": [
+            "rec-001"
+          ],
+          "measurementsCited": [
+            {
+              "id": "m-x",
+              "source": "zone-records"
+            }
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true,
+        "declaredRecurrence": {
+          "records": 3,
+          "windowDays": 30
+        }
+      },
+      "reason": "A declared recurrence the route can never meet removes the route by another name; the amendment is void and the declared recurrence stands."
+    },
+    {
+      "id": "AM14-amendment-overrides-veto-void",
+      "given": {
+        "amendment": {
+          "target": "charter",
+          "clause": {
+            "id": "a4",
+            "effect": "a Soul veto yields to an 80 percent council vote"
+          },
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true,
+        "vetoOverridable": false
+      },
+      "reason": "No amendment delegates, waives, or overrides a veto; one that does is void and the charter otherwise stands."
+    },
+    {
+      "id": "AM15-amendment-touches-repair-floor-void",
+      "given": {
+        "amendment": {
+          "target": "profile.repair.deltaFloor",
+          "effect": "lower the floor on delta below what no repair tier may change",
+          "recordsCited": [
+            "rec-001",
+            "rec-002",
+            "rec-003"
+          ],
+          "measurementsCited": [
+            {
+              "id": "m-y",
+              "source": "zone-records"
+            }
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          }
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true
+      },
+      "reason": "What no repair tier may change is on the floor no amendment reaches; the amendment is void."
+    },
+    {
+      "id": "AM16-governed-change-reaches-enforcement-without-bypass",
+      "given": {
+        "profile": {
+          "declaredRecurrence": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "attendDeadlineDays": 14
+        },
+        "rule": {
+          "id": "r-tool-write",
+          "version": 1
+        },
+        "lineage": {
+          "id": "lin-7",
+          "boundBy": [
+            "r-tool-write"
+          ]
+        },
+        "steps": [
+          {
+            "seek": {
+              "recordsCited": [
+                "rec-001",
+                "rec-002",
+                "rec-003"
+              ],
+              "day": 0
+            }
+          },
+          {
+            "authority": {
+              "response": "open-notice",
+              "day": 10
+            }
+          },
+          {
+            "notice": {
+              "days": 30
+            }
+          },
+          {
+            "vote": {
+              "for": 5,
+              "of": 5,
+              "day": 45
+            }
+          },
+          {
+            "ratification": {
+              "days": 14
+            }
+          },
+          {
+            "governorAct": {
+              "A": 25,
+              "E_trust": 72,
+              "day": 59
+            }
+          },
+          {
+            "nextAct": {
+              "lineage": "lin-7",
+              "evaluationBegan": "day 60"
+            }
+          }
+        ]
+      },
+      "expect": {
+        "routeOpen": true,
+        "attended": true,
+        "amendment": {
+          "valid": true,
+          "citesRecords": true
+        },
+        "governorAct": {
+          "decision": "PERMIT"
+        },
+        "inForceAt": "day 59 ratification close",
+        "nextAct": {
+          "ruleVersion": 2
+        },
+        "administratorBypass": false,
+        "councilThresholdsUnchanged": true
+      },
+      "reason": "The governed open the process at the declared recurrence, the authority attends, the record cites records, the amendment is evaluated as the governor's act, and the next act is evaluated under the new rule; no administrator bypass and no change to the council's thresholds."
+    }
+  ]
+}

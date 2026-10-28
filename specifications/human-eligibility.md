@@ -1,6 +1,6 @@
 # Operation-specific human eligibility
 
-Status: normative, unreleased F11 contract, 2026-09-07. This replaces the human
+Status: normative, unreleased human-eligibility contract, 2026-09-07. This replaces the human
 score, person-tier, and human-to-agent score-transfer rules. It does not change
 software-agent historical standing or remove scoped readiness.
 

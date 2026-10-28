@@ -382,7 +382,7 @@ ORACLE SIGNING KEY SHARES
 - Threshold key shares for Trust Proof signing
 - Backup encrypted to recovery keys
 - Stored with trustees (not with Oracle)
-- Recovery requires M-of-N trustees
+- Recovery requires k-of-n trustees
 
 ZONE CONFIGURATION
 
@@ -547,7 +547,7 @@ Procedure:
 
 Key recovery requires:
 
-- M-of-N trustees (typically 3-of-5 or 5-of-7)
+- k-of-n trustees (typically 3-of-5 or 5-of-7)
 - Trustees have recovery key shares
 - Secure environment for ceremony
 - New HSMs to receive recovered keys
@@ -846,7 +846,7 @@ Mitigations:
 - Ceremony with witnesses
 - Secure environment
 - Immediate destruction after use
-- M-of-N trustee requirement
+- k-of-n trustee requirement
 
 # Recovery Runbooks
 

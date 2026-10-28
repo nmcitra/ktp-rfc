@@ -2,9 +2,9 @@
 
 **A ≤ E** — The Zeroth Law. Autonomy cannot exceed environmental stability.
 
-**Blue Zone** — A federated space where KTP physics is enforced.
+**Blue Zone** — A network segment where KTP is enforced. Defined in KTP-Zones, with the zone types from Deep Blue to Wild.
 
-**Context Tensor** — Seven-dimensional measure of environmental state.
+**Context Tensor** — Retired at v2.0.0. Split into Context Signals (the measurement catalogue, `catalog/`) and the Risk Factors (six weighted inputs plus the Soul veto). See KTP-Core Section 6.
 
 **E_base** — Intrinsic capability of an agent, earned through trajectory.
 

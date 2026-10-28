@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
 abbrev: "KTP-CONFORMANCE"
 docname: draft-perkins-ktp-conformance-00
-date: 2026-10-04
+date: 2026-10-27
 category: exp
 ipr: trust200902
 
@@ -107,7 +107,6 @@ Risk Factors:
 
 - Minimum 3 weighted inputs (adversarial_pressure, trust_trend, one other)
 - Basic normalization (min/max scaling)
-- Single risk domain (no Node/Neighborhood/Global separation)
 
 Policy Enforcement Point:
 
@@ -170,7 +169,6 @@ Risk Factors:
 
 - All 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
 - Soul veto support
-- Risk domain separation (Node, Neighborhood, Global)
 - Feed aggregation with configurable weights
 
 Policy Enforcement Point:
@@ -288,7 +286,6 @@ Full conformance additionally requires:
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
 | Context dimensions        | 3+    | 6+       | 7      |
 | Soul veto                 | -     | Yes      | Yes    |
-| Risk domains              | 1     | 3        | 3      |
 | Trust tiers               | -     | 5        | 5      |
 | Flight Recorder chaining  | -     | Yes      | Yes    |
 | External anchoring        | -     | -        | Yes    |
@@ -403,8 +400,6 @@ MUST:
 
 - Support all 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
 - Support the Soul veto
-- Implement 3 risk domains (Node, Neighborhood, Global)
-- Weighted aggregation across domains
 - Feed-level configuration
 - Sensor validation and quality metrics
 - Refresh within 30 seconds
@@ -907,7 +902,7 @@ Basic:
 Standard:
 
 - CT-S-001: All 7 input support
-- CT-S-002: Risk domain aggregation
+- CT-S-002: Retired. Risk Domains are informative and R has one definition, KTP-CORE Section 5.2; the number is not reused
 - CT-S-003: Feed weighting
 - CT-S-004: Soul veto logic
 - CT-S-005: Sensor validation

@@ -32,6 +32,25 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### The boundary is declared
+
+**Finding:** The zone boundary was a perimeter with a gateway on it. Nothing
+declared what was inside it, who was entitled to stand in it, who outside it
+an act could reach, or where the zone's authority stopped, so "outside" had no
+meaning a vector could check.
+
+- KTP-ZONES's Zone Boundary gains the declaration: a zone MUST declare its
+  boundary in its deployment profile (resources, entitled subjects, affected
+  outside parties with the review route each is owed, jurisdictions, authority
+  limits); a Zone Gateway MUST deny an act on an undeclared resource and
+  standing to an unentitled subject, recording the review route when a denial
+  affects an outsider; a zone MUST NOT act beyond its declared authority; a
+  zone that declares no boundary makes no conformance claim; an enclosed zone's
+  declared resources MUST NOT exceed its enclosure's.
+- `schemas/deployment-profile.json` gains the required `boundary` object;
+  `specifications/deployment-profile.md` documents it; the declarations gate's
+  embedded example carries one.
+- Five vectors in `specifications/conformance/zone-boundary-v1.json`.
 ### R is defined once; Risk Domains are an informative technique
 
 **Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk

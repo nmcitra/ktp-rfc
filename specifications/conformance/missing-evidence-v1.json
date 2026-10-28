@@ -204,6 +204,44 @@
         "aggregation": "weighted_average"
       },
       "schemaAccepted": false
+    },
+    {
+      "id": "reject-demand-input-as-sensor-factor",
+      "configuration": {
+        "dimension": "moment_criticality",
+        "feeds": [
+          {
+            "id": "co2-sensor",
+            "type": "physical",
+            "source": "mqtt://sensors.local/building/co2",
+            "enabled": true,
+            "weight": 1.0,
+            "normalization": {
+              "min": 400,
+              "max": 2000,
+              "invert": false
+            },
+            "refresh_interval_ms": 30000,
+            "stale_threshold_ms": 120000
+          },
+          {
+            "id": "badge-count",
+            "type": "physical",
+            "source": "https://access.local/api/v1/count",
+            "enabled": true,
+            "weight": 1.5,
+            "normalization": {
+              "min": 0,
+              "max": 5000,
+              "invert": false
+            },
+            "refresh_interval_ms": 60000,
+            "stale_threshold_ms": 300000
+          }
+        ],
+        "aggregation": "weighted_average"
+      },
+      "schemaAccepted": false
     }
   ],
   "outcome_schema_cases": [

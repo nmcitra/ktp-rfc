@@ -408,6 +408,7 @@ The structure below is an example of a Federation Agreement carrying the require
          "zone_id": "zone-blue-corp-a",
          "legal_entity": "Corporation A Inc.",
          "jurisdiction": "US-DE",
+         "accountability_chain_terminator": "Corporation A Inc., Board of Directors",
          "signing_authority": "CISO",
          "signature": "sig:zone-a:abc123..."
        },
@@ -415,6 +416,7 @@ The structure below is an example of a Federation Agreement carrying the require
          "zone_id": "zone-blue-corp-b",
          "legal_entity": "Corporation B Ltd.",
          "jurisdiction": "UK",
+         "accountability_chain_terminator": "Corporation B Ltd., Board of Directors",
          "signing_authority": "Head of Security",
          "signature": "sig:zone-b:def456..."
        }
@@ -423,19 +425,29 @@ The structure below is an example of a Federation Agreement carrying the require
 
 ~~~
      "trust_terms": {
-       "base_trust_factor": 0.85,
-       "direction": "zone-blue-corp-a-to-zone-blue-corp-b",
-       "dynamic_adjustment": true,
-       "decay_rate": 0.99,
-       "floor": 0.5,
-       "ceiling": 0.95
+       "zone-blue-corp-a-to-zone-blue-corp-b": {
+         "factor": 0.85,
+         "signed_by": "zone-blue-corp-b",
+         "factor_by_action_class": { "consequential": 0.70 },
+         "lowering_policies": ["decay", "liveness"],
+         "decay_rate": 0.99,
+         "floor": 0.5,
+         "lowest_enforcement_class": "blue"
+       },
+       "zone-blue-corp-b-to-zone-blue-corp-a": {
+         "factor": 0.70,
+         "signed_by": "zone-blue-corp-a",
+         "lowering_policies": ["decay"],
+         "decay_rate": 0.99,
+         "floor": 0.4,
+         "lowest_enforcement_class": "blue"
+       }
      },
 ~~~
 
 ~~~
      "obligations": {
        "ktp_version": "1.0",
-       "min_zone_type": "blue",
        "flight_recorder": "required",
        "audit_access": "quarterly",
        "incident_notification": "24_hours",
@@ -445,15 +457,26 @@ The structure below is an example of a Federation Agreement carrying the require
 
 ~~~
      "data_handling": {
-       "cross_zone_attestations": true,
+       "attestation_types": ["passage", "behavior", "exit", "crisis"],
        "trajectory_sharing": "on_request",
+       "persons": { "cross": true, "terms": "signed_acts_only" },
+       "cross_zone_sponsorship": true,
+       "breach_records": "exposure",
        "resilience_ledger_sync": "daily"
+     },
+~~~
+
+~~~
+     "sovereignty_constraints": {
+       "zone-blue-corp-a": ["us-de-privacy", "tk-labels"],
+       "zone-blue-corp-b": ["uk-gdpr", "tk-labels"]
      },
 ~~~
 
 ~~~
      "dispute_resolution": {
        "negotiation_period_days": 30,
+       "arbitration_deadline_days": 60,
        "mediation": "recommended",
        "arbitration": "JAMS",
        "arbitration_jurisdiction": "US-NY",

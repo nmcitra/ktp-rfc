@@ -1927,6 +1927,8 @@ deployment's own event calendar, maintenance schedule or mission-phase feed. A
 demand input is not configured as a sensor factor; KTP-SENSORS describes,
 informatively, how a supplier can derive its value from those schedules.
 
+Converted in v3.0.0 by the per-operation demand supplier contract (#147), which states the supplier, the unit and the verification path.
+
 The complete declaration and per-operation value contract is
 [Per-operation Demand Supplier Contract](../specifications/demand-supplier.md).
 The deployment schema references its closed supplier declaration: unit/range,

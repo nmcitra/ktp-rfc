@@ -1,0 +1,72 @@
+{
+  "suite": "claims-substrate-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-CONFORMANCE Section \"Claim Format\" and the Terminology entry Substrate Profile",
+  "note": "Normative downstream requirements for a conformance claim's substrate profile. This repository contains no runtime: these vectors fix the decisions a conformant claim checker produces and define no formula. given/expect are test notation, not wire fields; a profile shown in `given` is one the set carries unless the vector states otherwise.",
+  "vectors": [
+    {
+      "id": "CS01-claim-without-substrate-profile-is-not-a-claim",
+      "given": {
+        "claim": {
+          "product": "AcmeTrust",
+          "version": "2.1",
+          "level": "Basic",
+          "status": "tested",
+          "substrateProfile": null
+        }
+      },
+      "expect": {
+        "accepted": false,
+        "reason": "a claim that names no substrate profile is a claim about no substrate"
+      },
+      "reason": "A conformance claim MUST name the substrate profile it is made under; one that names none MUST NOT be made."
+    },
+    {
+      "id": "CS02-claim-runs-the-level-under-its-profile",
+      "given": {
+        "claim": {
+          "product": "AcmeTrust",
+          "version": "2.1",
+          "level": "Basic",
+          "status": "tested",
+          "substrateProfile": {
+            "id": "software-substrate-execution",
+            "version": "1.0"
+          }
+        },
+        "profilesInSet": [
+          "software-substrate-execution 1.0"
+        ]
+      },
+      "expect": {
+        "accepted": true,
+        "specifiedTestIdsRunUnder": "software-substrate-execution 1.0",
+        "levelUnchanged": "Basic"
+      },
+      "reason": "The specified test IDs of the claimed level are run under the named substrate profile; the profile qualifies the claim and does not change the level."
+    },
+    {
+      "id": "CS03-claim-naming-a-profile-the-set-does-not-carry-is-refused",
+      "given": {
+        "claim": {
+          "product": "AcmeTrust",
+          "version": "2.1",
+          "level": "Basic",
+          "status": "tested",
+          "substrateProfile": {
+            "id": "vendor-private-runtime",
+            "version": "4"
+          }
+        },
+        "profilesInSet": [
+          "software-substrate-execution 1.0"
+        ]
+      },
+      "expect": {
+        "accepted": false,
+        "reason": "not a substrate profile this set carries"
+      },
+      "reason": "A claim that names a substrate profile this set does not carry is not a claim under this specification."
+    }
+  ]
+}

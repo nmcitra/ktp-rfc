@@ -127,15 +127,15 @@ Both feeds above declare a stale_threshold_ms of four to five times their refres
 
 ## Risk Domains (Node, Neighborhood, Global)
 
-A critical challenge in environmental sensing is oscillation: rapid fluctuation in the Risk Factor caused by local noise, leading to unstable Trust Scores and excessive tier transitions.
+This section is informative. The Risk Factor is defined once, in [KTP-CORE] Section 5.2 (Risk Factor (R)), as the weighted sum of the six inputs with the weights of [KTP-CORE] Section 6.5 (Domain Weights). Nothing in this section defines R, and no weight named here is a weight of that sum. This section describes one technique for keeping a single input steady against local noise before the input enters the Risk Factor.
 
-Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If a single sensor on a single node experiences a momentary spike—a brief CPU surge, a transient network blip—the agent could rapidly transition Operator → Analyst → Operator → Analyst, disrupting operations and creating audit noise.
+The problem the technique addresses is oscillation. Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If one sensor on one node reports a momentary spike, a brief CPU surge or a transient network blip, the input that sensor populates can move enough to carry R across the boundary and back, and the agent transitions Operator to Analyst to Operator, disrupting operations and creating audit noise.
 
-To prevent this, KTP implements three-level Risk Domains:
+The technique reads one input at three sensing scopes, called Risk Domains, and aggregates the readings by the feed aggregation of Section 2.2: each scope is a feed of that input, with a feed weight, and the input's value is the weighted average of the three.
 
-2.3.1.  The Three Levels
+2.3.1.  The Three Scopes
 
-Level 1 - Node Domain:
+Node Domain:
 
 ~~~
    The immediate context of a single resource or endpoint.
@@ -144,16 +144,16 @@ Level 1 - Node Domain:
 ~~~
    Scope: One server, one API instance, one database replica
    Update frequency: High (1-5 seconds)
-   Sensors: Local CPU, local memory, local connections, local errors
-   Weight in R: 30% (default)
+   Feeds: Local CPU, local memory, local connections, local errors
+   Example feed weight: 0.30
 ~~~
 
 ~~~
-   Node-level readings are the most granular and most volatile.
+   Node-scope readings are the most granular and most volatile.
    They capture immediate conditions but are subject to noise.
 ~~~
 
-Level 2 - Neighborhood Domain:
+Neighborhood Domain:
 
 ~~~
    The local cluster, service mesh, or subnet.
@@ -162,17 +162,17 @@ Level 2 - Neighborhood Domain:
 ~~~
    Scope: Peer nodes, immediate dependencies, same availability zone
    Update frequency: Medium (10-30 seconds)
-   Sensors: Cluster averages, mesh telemetry, subnet utilization
-   Weight in R: 40% (default)
+   Feeds: Cluster averages, mesh telemetry, subnet utilization
+   Example feed weight: 0.40
 ~~~
 
 ~~~
-   Neighborhood-level readings smooth out individual node variance
+   Neighborhood-scope readings smooth out individual node variance
    by aggregating across peers. A single node spike doesn't move
    the neighborhood, but coordinated degradation does.
 ~~~
 
-Level 3 - Global Domain:
+Global Domain:
 
 ~~~
    The zone-wide or federation-wide environment.
@@ -181,114 +181,129 @@ Level 3 - Global Domain:
 ~~~
    Scope: Entire Blue Zone, federated zones, external threat feeds
    Update frequency: Low (30-120 seconds)
-   Sensors: Zone-wide aggregates, threat intelligence, external events
-   Weight in R: 30% (default)
+   Feeds: Zone-wide aggregates, threat intelligence, external events
+   Example feed weight: 0.30
 ~~~
 
 ~~~
-   Global-level readings capture broad trends and external factors.
+   Global-scope readings capture broad trends and external factors.
    They change slowly but authoritatively. A global threat indicator
    affects all agents regardless of local conditions.
 ~~~
 
-2.3.2.  Aggregation Formula
+2.3.2.  Aggregation Within One Input
 
-The final Risk Factor incorporates all three domains:
+The value one input takes is the weighted average of its scope feeds, by Section 2.2:
 
 ~~~
-   R = (w_node × R_node) + (w_neighborhood × R_neighborhood) +
-       (w_global × R_global)
+   s = (w_node × s_node) + (w_neighborhood × s_neighborhood) +
+       (w_global × s_global)
 ~~~
 
-Where w_node + w_neighborhood + w_global = 1.0
+Where w_node + w_neighborhood + w_global = 1.0 and s is the value of one input in [0, 1].
 
-Default weights: w_node = 0.30 w_neighborhood = 0.40 w_global = 0.30
-
-This weighting gives the neighborhood domain primary influence, which provides stability while remaining responsive.
+The example weights give the neighborhood scope primary influence, which provides stability while remaining responsive. They are feed weights of one input. They are not the weights of [KTP-CORE] Section 5.2 (Risk Factor (R)), which apply to the six inputs after each has taken its value, and the sum above is not R.
 
 2.3.3.  Anti-Oscillation Mechanics
 
-The three-domain structure prevents oscillation through damping:
+The three scopes damp the input. In each scenario, s is one input, and R moves by the movement of s times that input's weight in [KTP-CORE] Section 5.2 (Risk Factor (R)); the figures below use a weight of 0.20.
 
 Scenario 1: Single Node Spike
 
 ~~~
-   Node R jumps from 0.20 to 0.80 (local event)
-   Neighborhood R unchanged at 0.25
-   Global R unchanged at 0.20
+   s_node jumps from 0.20 to 0.80 (local event)
+   s_neighborhood unchanged at 0.25
+   s_global unchanged at 0.20
 ~~~
 
 ~~~
-   R_before = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.20) = 0.22
-   R_after  = (0.30 × 0.80) + (0.40 × 0.25) + (0.30 × 0.20) = 0.40
+   s_before = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.20) = 0.22
+   s_after  = (0.30 × 0.80) + (0.40 × 0.25) + (0.30 × 0.20) = 0.40
 ~~~
 
 ~~~
-   Result: R increases, but not catastrophically. No tier transition
-   if agent has buffer above threshold.
+   Result: the input rises by 0.18 and R by 0.036. No tier
+   transition if the agent has that much buffer above the
+   threshold.
 ~~~
 
 Scenario 2: Neighborhood Degradation
 
 ~~~
-   Node R rises to 0.60 (local reflection of broader issue)
-   Neighborhood R rises to 0.70 (many nodes affected)
-   Global R unchanged at 0.20
+   s_node rises to 0.60 (local reflection of broader issue)
+   s_neighborhood rises to 0.70 (many nodes affected)
+   s_global unchanged at 0.20
 ~~~
 
 ~~~
-   R = (0.30 × 0.60) + (0.40 × 0.70) + (0.30 × 0.20) = 0.52
+   s = (0.30 × 0.60) + (0.40 × 0.70) + (0.30 × 0.20) = 0.52
 ~~~
 
 ~~~
-   Result: Significant R increase. Likely tier transition, but
-   justified because the neighborhood is actually degraded.
+   Result: the input rises by 0.30 and R by 0.060. A tier
+   transition is likely and justified: the neighborhood is
+   degraded.
 ~~~
 
 Scenario 3: Global Threat
 
 ~~~
-   Node R unchanged at 0.20
-   Neighborhood R unchanged at 0.25
-   Global R rises to 0.80 (external threat intelligence)
+   s_node unchanged at 0.20
+   s_neighborhood unchanged at 0.25
+   s_global rises to 0.80 (external threat intelligence)
 ~~~
 
 ~~~
-   R = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.80) = 0.40
+   s = (0.30 × 0.20) + (0.40 × 0.25) + (0.30 × 0.80) = 0.40
 ~~~
 
 ~~~
-   Result: R increases meaningfully even though local conditions
-   are fine. The global threat affects all agents in the zone.
+   Result: the input rises by 0.18 and R by 0.036 even though
+   local conditions are fine. The global threat reaches every
+   agent in the zone through this input.
 ~~~
 
-2.3.4.  Domain Configuration
+2.3.4.  Configuration
 
-Domain weights are configurable per deployment:
+There is no declaration for Risk Domains apart from feeds. A deployment that uses the technique configures one feed per scope for the input, in the feed configuration of Section 2.2; one that does not, does not. For adversarial_pressure:
 
 ~~~
    {
-     "risk_domains": {
-       "node": {
+     "dimension": "adversarial_pressure",
+     "feeds": [
+       {
+         "id": "node-errors",
+         "type": "application",
+         "source": "https://node.local/api/errors",
+         "enabled": true,
          "weight": 0.30,
-         "update_interval_ms": 5000,
-         "sensors": ["cpu", "memory", "connections", "errors"]
+         "refresh_interval_ms": 5000,
+         "stale_threshold_ms": 25000
        },
-       "neighborhood": {
+       {
+         "id": "cluster-mesh",
+         "type": "network",
+         "source": "https://mesh.local/api/telemetry",
+         "enabled": true,
          "weight": 0.40,
-         "update_interval_ms": 15000,
-         "sensors": ["cluster_avg", "mesh_telemetry", "peer_health"]
+         "refresh_interval_ms": 15000,
+         "stale_threshold_ms": 75000
        },
-       "global": {
+       {
+         "id": "zone-threat-intel",
+         "type": "security",
+         "source": "https://intel.zone.example/api/zone",
+         "enabled": true,
          "weight": 0.30,
-         "update_interval_ms": 60000,
-         "sensors": ["zone_aggregate", "threat_intel", "external_feeds"]
+         "refresh_interval_ms": 60000,
+         "stale_threshold_ms": 300000
        }
-     }
+     ],
+     "aggregation": "weighted_average"
    }
 ~~~
 
-For highly stable environments, increase neighborhood weight. For rapidly changing environments, increase node weight. For threat- sensitive environments, increase global weight.
+For highly stable environments, raise the neighborhood weight. For rapidly changing environments, raise the node weight. For threat-sensitive environments, raise the global weight. Each feed's stale_threshold_ms is five times its refresh_interval_ms, as in Section 2.2; normalization is as in Section 2.2.
 
 2.3.5.  Hysteresis Complement
 

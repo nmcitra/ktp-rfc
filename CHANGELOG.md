@@ -32,6 +32,32 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Six named limits from the v3.0.0 release decision
+
+**Finding:** The v3.0.0 release proposal (#182, Section 1.5) named six places
+where the set contradicts itself and this release does not resolve the
+contradiction. Each enters KTP-CORE's Limits section as a statement of what
+the set does not yet state, with the condition that would convert it, so that
+no implementation promises past it.
+
+- Core, L17: the cryptographic floors (the minimum TLS version, the minimum
+  AES key size, and when hybrid post-quantum signatures are required) are
+  stated in more than one document, and the statements differ.
+- Core, L18: not every penalty and debit names the quantity it lands on. The
+  federation trust factor names its operand and is outside the limit.
+- Core, L19: quarantine admits an agent at a Trust Score of 20, below the
+  Hibernation threshold of 22.
+- Core, L20: a zone whose Mass Ceiling is below 95 cannot deliver Admin Mode,
+  and the set does not state how infrastructure is modified there.
+- Core, L21: the set states two end conditions for a sponsorship stake.
+- Core, L22: the celestial validity caps are not reconciled with the Trust
+  Proof lifetime of Core Section 7.5.
+- Core's informative references gain KTP-RECOVERY and KTP-CELESTIAL, which
+  L18 and L22 cite.
+
+Class: MAJOR, through the release decision (#182); this entry rides it. No
+MUST is added or altered.
+
 ### R is defined once; Risk Domains are an informative technique
 
 **Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk

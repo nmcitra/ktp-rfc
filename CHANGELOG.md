@@ -32,6 +32,39 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### R is defined once; Risk Domains are an informative technique
+
+**Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk
+Factor a second time, as a weighted composite of node, neighborhood, and
+global values at 0.30/0.40/0.30, beside Core Section 5.2's weighted sum of
+the six inputs. The catalogue has no node/neighborhood/global axis, the Risk
+Factors schema admits no such keys, and the deployment profile had nowhere to
+declare those weights. At least one implementation computed R from the
+composite. Reported on #144 (2026-10-05); implementation evidence on the same
+issue (2026-10-10) found that the two definitions could not coexist and kept
+the six-input sum as the contract, with spatial aggregation inside an input.
+
+- Core, Section 5.2.1: the composite formula is removed. R is defined once,
+  in Section 5.2. The subsection points to Sensors for the technique.
+- Sensors, Section 2.3: informative. The three levels are three sensing
+  scopes of one input, aggregated by Section 2.2's feed aggregation into the
+  value that input takes. The weights are feed weights, not Risk Factor
+  weights. The `risk_domains` configuration block is replaced by Section 2.2's
+  feed configuration for one input, and the worked scenarios are restated for
+  one input.
+- Conformance: Risk Domains are no longer a requirement at any level. The
+  "Risk domains" row of the level comparison and the Standard-level
+  requirements to implement three domains and aggregate across them are
+  removed; CT-S-002 is retired and its number is not reused.
+- Transport: the zone-state response example no longer carries a
+  `risk_domains` object. It was never a schema field.
+- Problems: "pre-digested Risk Domain scores" reads "aggregated inputs".
+
+Class: MINOR (#144), on the D-006 precedent. The set contradicted itself,
+Core's form was always the contract, and the change moves an implementation
+that followed the other copy. No MUST is added or altered. The migration
+entry gives the old-to-new mapping.
+
 ### Operation-specific human eligibility and privacy evidence
 
 **Forced by F11 and the approved Option 1 contract (2026-09-07):** the human

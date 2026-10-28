@@ -426,24 +426,7 @@ This design ensures that environmental risk has veto power over agent capability
 
 ### Risk Domains
 
-To prevent oscillation in the Risk Factor—rapid fluctuation caused by local sensor noise—KTP calculates R at three hierarchical levels:
-
-Node Domain: Local to a single resource or endpoint. High frequency updates (1-5 seconds). Captures immediate conditions but subject to noise. Default weight: 30%.
-
-Neighborhood Domain: The local cluster, service mesh, or subnet. Medium frequency updates (10-30 seconds). Smooths out individual node variance. Default weight: 40%.
-
-Global Domain: Zone-wide or federation-wide environment. Low frequency updates (30-120 seconds). Captures broad trends and external threats. Default weight: 30%.
-
-The final Risk Factor aggregates all three levels:
-
-~~~
-   R = (w_node × R_node) + (w_neighborhood × R_neighborhood) +
-       (w_global × R_global)
-~~~
-
-This three-level structure prevents a single node spike from causing tier oscillation while ensuring that genuine widespread degradation is detected and acted upon.
-
-See [KTP-SENSORS] Section 2.3 for detailed specification of Risk Domains including anti-oscillation mechanics and configuration.
+The Risk Factor is defined once, in Section 5.2 above, and nowhere else in this set. Keeping one input steady against local sensor noise before it enters that sum is a matter of feed configuration. [KTP-SENSORS] Section 2.3 describes, informatively, reading an input at three sensing scopes, Node, Neighborhood, and Global, and aggregating the readings by the feed aggregation of [KTP-SENSORS] Section 2.2. The technique yields the value of one input. It does not yield R; its weights are feed weights of that input, not the weights of Section 6.5 (Domain Weights); and a deployment that does not use it is not less conformant for that.
 
 ## Effective Trust Score (E_trust)
 

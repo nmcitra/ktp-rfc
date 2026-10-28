@@ -201,3 +201,11 @@ Decision: The descriptive formulas in ktp-signals, ktp-attenuation and
 ktp-oracle that still carried a Soul term inside the weighted sum become
 cross-references to ktp-core's aggregation, with one line recording that the
 weighted form was retired at v2.0.0. No conformant implementation changes.
+
+### D-014 · R is defined once; Risk Domains become an informative technique
+Published 2026-10-05 · MINOR · clock 2026-10-05 → floor 2026-10-26 · review-by 2026-11-16 · approved 2026-10-27
+Source: issue #144; the PR opened with this record
+Decision: Shape A, retire. Core Section 5.2 is the one definition of the
+Risk Factor; Sensors 2.3 keeps the node, neighborhood and global levels as an
+informative technique for one input, Conformance drops the Risk Domain
+requirements, and CT-S-002 is retired.

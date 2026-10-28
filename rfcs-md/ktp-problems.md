@@ -159,7 +159,7 @@ Each level:
 - Filters noise (only significant changes propagate)
 - Adds latency tolerance (buffered updates)
 
-The Trust Oracle receives pre-digested Risk Domain scores, not millions of individual sensor readings.
+The Trust Oracle receives aggregated inputs, not millions of individual sensor readings.
 
 D. CACHING AND LOCALITY
 

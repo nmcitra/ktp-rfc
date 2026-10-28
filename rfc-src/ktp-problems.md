@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Open Problems and Anticipated Critiques"
 abbrev: "KTP-PROBLEMS"
 docname: draft-perkins-ktp-problems-00
-date: 2026-10-14
+date: 2026-10-27
 category: exp
 ipr: trust200902
 
@@ -178,7 +178,7 @@ Each level:
 - Filters noise (only significant changes propagate)
 - Adds latency tolerance (buffered updates)
 
-The Trust Oracle receives pre-digested Risk Domain scores, not millions of individual sensor readings.
+The Trust Oracle receives aggregated inputs, not millions of individual sensor readings.
 
 D. CACHING AND LOCALITY
 

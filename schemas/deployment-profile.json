@@ -422,6 +422,7 @@
       "type": "object",
       "required": [
         "default_endpoint",
+        "recipients",
         "classes",
         "decision_review",
         "ledger"
@@ -433,6 +434,29 @@
           "type": "string",
           "minLength": 1,
           "description": "The hand-back endpoint a template-less refusal resolves to when the mint request names no channel."
+        },
+        "recipients": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "recipient",
+              "capacity_binding"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "recipient": {
+                "type": "string",
+                "minLength": 1
+              },
+              "capacity_binding": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "description": "Per recipient: the reviewed capacity binding through which KTP-ENFORCE evidences that recipient's human operational capacity. Delivery to a recipient whose capacity is exhausted parks the hand-back (specifications/hand-back.md, Section 4.1)."
         },
         "classes": {
           "type": "object",

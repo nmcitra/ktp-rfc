@@ -616,7 +616,7 @@ is its first instance.
 
 **Unreleased hand-back migration:** Nothing changes for an implementation that
 does not declare the hand-back. A declarer adds the `hand_back` section to its
-deployment profile, registers a hand-back template for each (subject,
+deployment profile, naming each recipient's capacity binding, registers a hand-back template for each (subject,
 consequence class) before minting, and answers identities with no standing
 with one code and one body. Vocabulary: Hand-Back, Clearance, Lease,
 Consequence Class, Managed Identity, Unmanaged Identity, Delegator, Recourse

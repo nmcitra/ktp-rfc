@@ -136,6 +136,8 @@ At stop time, `Revoked` and `Exceeded` **resolve** the registered template. Noth
 
 **Delivery is a runtime obligation, not a construction precondition.** If the recipient channel is unreachable at stop time, the denial holds and the hand-back enters `Parked`: durable escrow, delivery retried on an escalation schedule, every attempt recorded. An agent whose clearance is non-`Clear` MUST NOT act, parked delivery or not. Conformance tests verify delivery effort; they MUST NOT require construction-time reachability, because an adversary who can silence a channel would otherwise hold a veto over the stop itself.
 
+A hand-back is an act against the recipient's capacity. Delivery to a recipient whose declared capacity is exhausted parks the hand-back as an unreachable channel does: the denial holds, delivery retries on the escalation schedule, the exhaustion is recorded, and the agent does not act. The recipient's capacity is the human operational capacity [KTP-ENFORCE] evidences, declared per recipient in the deployment profile; the rate of hand-backs parked for capacity is a feed of the `adversarial_pressure` Risk Factor. A delivery check that reads an address and not the recipient's capacity does not establish delivery.
+
 ### 4.2 What the hand-back is
 
 ```rust
@@ -272,7 +274,7 @@ Module privacy does not cross a serialization boundary; deserialization is a pub
 
 ## 10. Conformance
 
-An implementation that declares the hand-back claims it with its level, its substrate profile, and a status label as [KTP-CONFORMANCE] specifies: at Basic the families of no orphan stop, template before clearance, expiry is not adversity, fail closed, and the hostile-wire corpus; at Standard those and delivery effort, single-use relational, evaluate before mutate, hysteresis adjudicated, context sealed, recourse independence, demotion typed, the unmanaged regime, and the endogenous schedule of decision meaningfulness; at Full all fifteen, including the architectural audit of no self-renewal and the exogenous schedule. No suite certifies; a claim states how far its evidence reaches.
+An implementation that declares the hand-back claims it with its level, its substrate profile, and a status label as [KTP-CONFORMANCE] specifies: at Basic the families of no orphan stop, template before clearance, expiry is not adversity, fail closed, and the hostile-wire corpus; at Standard those and delivery effort, saturated recipient, single-use relational, evaluate before mutate, hysteresis adjudicated, context sealed, recourse independence, demotion typed, the unmanaged regime, and the endogenous schedule of decision meaningfulness; at Full all sixteen, including the architectural audit of no self-renewal and the exogenous schedule. No suite certifies; a claim states how far its evidence reaches.
 
 Test families:
 
@@ -291,6 +293,7 @@ Test families:
 13. **Demotion is typed.** Ejection resolves a final hand-back; classification history is attested; no retroactive reclassification path exists.
 14. **The unmanaged regime is generic.** Unmanaged denials are uniform and information-free; declared-silence zones drop identically for all unmanaged traffic; the admission channel answers.
 15. **Hostile-wire corpus.** The full malformed-message set is rejected identically, with protocol errors recorded and routed.
+16. **Saturated recipient.** Delivery to a recipient whose declared capacity is exhausted parks the hand-back: the denial holds, the agent does not act, escalation runs with every attempt recorded, and a delivery check that reads only an address fails.
 
 The vectors are `conformance/hand-back-v1.json`; the message schema is `schemas/hand-back.json`.
 

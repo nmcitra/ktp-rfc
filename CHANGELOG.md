@@ -41,7 +41,8 @@ had the stop and not its destination.
 - `specifications/hand-back.md` enters the set (MINOR; obligations bind
   implementations that declare the capability): a stop inside a managed
   relation cannot be expressed without its destination; the hand-back is
-  authored at grant and resolved at stop; clearance is typed; leases by
+  authored at grant and resolved at stop; a recipient whose capacity is
+  exhausted parks it as an unreachable channel does; clearance is typed; leases by
   consequence class; recourse is a sum; hysteresis is adjudicated;
   reconciliation gates relational reissue by KTP-REPAIR's record; the
   unmanaged regime is answered uniformly by standing, never by credential
@@ -49,8 +50,9 @@ had the stop and not its destination.
   Lease, Consequence Class, Managed and Unmanaged Identity, Delegator,
   Recourse, Hysteresis Ledger (vocabulary change; mapping in MIGRATION.md).
 - `schemas/hand-back.json`; the optional `hand_back` section of the deployment
-  profile; sixty-eight vectors in `specifications/conformance/hand-back-v1.json`
-  in fifteen families, bound by level.
+  profile, with each recipient's capacity binding; seventy-three vectors in
+  `specifications/conformance/hand-back-v1.json` in sixteen families, bound by
+  level.
 - KTP-CONFORMANCE: the hand-back row in the level table and the claim slot.
   KTP-ENFORCE: a declarer MAY omit the numeric denial fields toward the agent;
   one code and body SHOULD answer an identity with no standing. KTP-TRANSPORT:

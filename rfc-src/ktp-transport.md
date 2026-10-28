@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Transport Specification"
 abbrev: "KTP-TRANSPORT"
-date: 2026-10-04
+date: 2026-10-27
 category: exp
 ipr: trust200902
 
@@ -458,7 +458,7 @@ GET /v1/context
 
 Retrieve current zone-wide Context Signals.
 
-Response (200 OK): { "zone_id": "zone:alpha", "timestamp": "2025-11-25T12:00:00Z", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "risk_factor": 0.15, "risk_domains": { "node": 0.10, "neighborhood": 0.18, "global": 0.12 }, "trend": { "direction": "improving", "velocity": -0.02 } }
+Response (200 OK): { "zone_id": "zone:alpha", "timestamp": "2025-11-25T12:00:00Z", "context": { "evidence_density": 0.12, "trust_trend": 0.08, "adversarial_pressure": 0.22, "moment_criticality": 0.05, "update_resistance": 0.18, "attestation_coverage": 0.10, "soul": 0 }, "risk_factor": 0.15, "trend": { "direction": "improving", "velocity": -0.02 } }
 
 ### Get Context History
 

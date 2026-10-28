@@ -192,7 +192,7 @@ Multiple entities share governance:
                  v
        +------------------+
        |  Council Voting  |
-       |  (M-of-N)        |
+       |  (k-of-n)        |
        +------------------+
                  |
                  v

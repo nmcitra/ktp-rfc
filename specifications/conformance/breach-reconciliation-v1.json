@@ -949,6 +949,53 @@
       "reason": "A root whose lineages carry unreconciled breaches above the declared count (one) cannot open a Sponsorship Bond; a bond opened anyway is void and the agent has no genesis."
     },
     {
+      "id": "BR21b-zero-count-reconciliation-reopens-sponsorship",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 0,
+          "routePublished": true
+        },
+        "root": "terminator:a-root",
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80
+        },
+        "bondRequestedWhileUnreconciled": true,
+        "reconciliation": {
+          "breach_anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "parties": [
+            "terminator:a-root",
+            "terminator:b-root"
+          ],
+          "acknowledged_by": "terminator:a-root",
+          "residual_harm": "declared: two records corrupted, restored",
+          "verifier": {
+            "party": "verifier:v",
+            "independent": true
+          },
+          "anchored": true
+        },
+        "unreconciledBreachesOnLineagesAfterRecord": 0,
+        "bondRequestedAfterRecord": true
+      },
+      "expect": {
+        "bondOpenedWhileUnreconciled": false,
+        "bondVoidWhileUnreconciled": true,
+        "bondOpenedAfterRecord": true,
+        "bondVoidAfterRecord": false
+      },
+      "reason": "At a declared count of zero, one unreconciled breach is more than the declared count: the bond requested before the record is void. Once the record is anchored the lineages carry none, which is not more than zero, so the root may open a bond again. The bar lifts when the count is at or below the declared count, so a count of zero is a declaration a root can satisfy."
+    },
+    {
       "id": "BR22-stock-falls-only-on-record-index-falls-with-arrivals",
       "given": {
         "zone_id": "zone-a",
@@ -1157,6 +1204,41 @@
         "reportedAsDebtGrowth": true
       },
       "reason": "Arrival at twice the declared capacity: ρ = 2, the stock grows by at least the whole capacity per window, and the deployment reports the stock as growing. The index raises heat; the capacity check does the vetoing."
+    },
+    {
+      "id": "BR27b-above-one-stock-falls-on-interval-records",
+      "given": {
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 2,
+          "repairerInterval": 1,
+          "criticality": 2,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "U": 10,
+        "windows": [
+          {
+            "Z": 3,
+            "R": 4,
+            "RWithinRepairerInterval": 2
+          }
+        ]
+      },
+      "expect": {
+        "rho": 1.5,
+        "B": 3.0,
+        "U": [
+          9
+        ],
+        "arrivalsAboveDemonstratedCapacityReported": true,
+        "stockChangeReported": -1
+      },
+      "reason": "Arrival is one and a half times the zone's demonstrated capacity of two: ρ = 1.5 and B = 3. Four records are anchored, two of them within a repairer interval, so the stock falls from ten to nine while ρ is above one. The deployment reports both: arrivals above its demonstrated capacity, and the stock's actual change of minus one."
     },
     {
       "id": "BR28-one-lineage-barrage-capped-in-arrival",

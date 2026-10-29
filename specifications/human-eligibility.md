@@ -13,8 +13,11 @@ in BCP 14 (RFC 2119 and RFC 8174) when, and only when, they appear in all capita
 ## 1. Eligibility is a prerequisite
 
 A human principal MUST be evaluated against the explicit requirements for a
-particular operation. General human E_base, Trust Scores, resilience credit,
-and ranked tiers MUST NOT be used. Tenure, seniority, peer popularity, generic
+particular operation. Eligibility MUST NOT be derived from a score, rank or
+tier. A person's standing in a zone under KTP-Core is that zone's measure, and
+it is checked beside eligibility, never in its place. A general human E_base,
+Trust Score, resilience credit or ranked tier that is not a zone's measure MUST
+NOT be used. Tenure, seniority, peer popularity, generic
 incident totals, and inferred personality, emotion, or loyalty MUST NOT confer
 automatic privileges. A role may establish a particular grant; a relevant
 qualification may satisfy a particular criterion. Neither is general merit.
@@ -117,8 +120,9 @@ period. A human session may stay open while the backend refreshes proofs;
 refreshing does not renew qualifications. An ineligible decision supplies no
 usable execution authority.
 
-This contract does not introduce a human JWT format or claim the generic
-software-agent proof schema is suitable for people. A deployment MUST use a
+This contract introduces no token of its own. A Trust Proof that describes a
+person carries that person's standing in a zone under KTP-Core; it does not
+carry or establish eligibility. A deployment MUST use a
 reviewed authorization adapter that establishes the human operation's actual
 capacity, scope, current proof and all gates without fake software fields. Until
 that adapter is available, the reference's eligible result MUST NOT enable

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-10-27
+date: 2026-10-29
 category: exp
 ipr: trust200902
 
@@ -817,7 +817,7 @@ Cross-zone transaction:
 
 At egress from a ring, the Zone Gateway MUST issue the outward Trust Proof with inner-zone claims omitted or replaced under the ring's disclosure policy. At minimum:
 
-- `r`, `e_trust`, the six inputs in `context`, `de_dt` and `sigma` MUST be restated at the enclosure's measure or omitted
+- `r`, `e_trust`, the five weighted inputs in `context`, `de_dt` and `sigma` MUST be restated at the enclosure's measure or omitted
 - the ring's own Ingress Receipt and any inner ring's receipts MUST be removed from `ingress_path`
 
 so that no claim in the outward proof, alone or with `e_base`, reveals the ring's Risk Factor or its inputs. An outermost ring has no enclosure; it shapes outward proofs under its own disclosure policy, as a zone outside any nested deployment does today.

@@ -87,7 +87,6 @@ Risk Factors:
 
 - Minimum 3 weighted inputs (adversarial_pressure, trust_trend, one other)
 - Basic normalization (min/max scaling)
-- Single risk domain (no Node/Neighborhood/Global separation)
 
 Policy Enforcement Point:
 
@@ -150,7 +149,6 @@ Risk Factors:
 
 - All 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
 - Soul veto support
-- Risk domain separation (Node, Neighborhood, Global)
 - Feed aggregation with configurable weights
 
 Policy Enforcement Point:
@@ -268,7 +266,6 @@ Full conformance additionally requires:
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
 | Context dimensions        | 3+    | 6+       | 7      |
 | Soul veto                 | -     | Yes      | Yes    |
-| Risk domains              | 1     | 3        | 3      |
 | Trust tiers               | -     | 5        | 5      |
 | Flight Recorder chaining  | -     | Yes      | Yes    |
 | External anchoring        | -     | -        | Yes    |
@@ -292,7 +289,7 @@ Implementations MAY claim partial compliance (e.g., "Standard with Full Flight R
 MUST:
 
 - Accept Risk Factor input
-- Validate the deployed Risk Factor weights per [KTP-CORE] Section 6.4 before use, including after reconfiguration; reject invalid declarations without silently rescaling them
+- Validate the deployed Risk Factor weights per [KTP-CORE] Section 6.5 (Domain Weights) before use, including after reconfiguration; reject invalid declarations without silently rescaling them
 - Calculate Risk Factor: R = Σ(w_i × D_i)
 - Calculate E_trust: E_trust = E_base × (1 - R)
 - Generate signed Trust Proofs
@@ -383,8 +380,6 @@ MUST:
 
 - Support all 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
 - Support the Soul veto
-- Implement 3 risk domains (Node, Neighborhood, Global)
-- Weighted aggregation across domains
 - Feed-level configuration
 - Sensor validation and quality metrics
 - Refresh within 30 seconds
@@ -669,13 +664,13 @@ The Zeroth Law (A <= E_trust) MUST be enforced as follows:
 
 1. Extract E_trust from Trust Proof
 2. Determine action risk (A) from classification
-3. Apply the input checks of [KTP-CORE] Section 6.6: resolve undefined inputs restrictively; veto if no finite, non-negative, comparable A and E_trust remain
+3. Apply the input checks of [KTP-CORE] Section 6.7 (Aggregation Algorithm) and resolve undefined inputs restrictively under [KTP-CORE] Section 6.8 (Undefined Inputs); veto if no finite, non-negative, comparable A and E_trust remain
 4. If E_trust = 0 or A > E_trust: supervision = silent_veto (Silent Veto); STOP before division or profile evaluation
 5. Compute the Zeroth Law margin from A and E_trust
 6. If margin <= M_veto: supervision = silent_veto (Silent Veto)
-7. Otherwise: derive supervision and tightenedConstraints from the margin per [KTP-CORE] Section 6.6 (proceed to other checks)
+7. Otherwise: derive supervision and tightenedConstraints from the margin per [KTP-CORE] Section 6.7 (Aggregation Algorithm), then proceed to other checks
 
-Declared thresholds MUST satisfy the finite-number and 0 <= M_veto < M_allow requirements of [KTP-CORE] Section 6.6. An invalid declaration MUST NOT authorize execution. Omitting the declaration retains the existing zero-threshold default, including its veto at A = E_trust. The independent capacity veto is checked regardless of thresholds, and supervision MUST NOT lower any prior veto.
+Declared thresholds MUST satisfy the finite-number and 0 <= M_veto < M_allow requirements of [KTP-CORE] Section 6.7 (Aggregation Algorithm). An invalid declaration MUST NOT authorize execution. Omitting the declaration retains the existing zero-threshold default, including its veto at A = E_trust. The independent capacity veto is checked regardless of thresholds, and supervision MUST NOT lower any prior veto.
 
 The substrate-independent boundary cases are published in specifications/conformance/capacity-gate-v1.json. Implementations MUST satisfy their admission and supervision requirements in addition to the applicable substrate vectors. These cases do not define the formula for A or E_trust.
 
@@ -887,7 +882,7 @@ Basic:
 Standard:
 
 - CT-S-001: All 7 input support
-- CT-S-002: Risk domain aggregation
+- CT-S-002: Retired. Risk Domains are informative and R has one definition, KTP-CORE Section 5.2; the number is not reused
 - CT-S-003: Feed weighting
 - CT-S-004: Soul veto logic
 - CT-S-005: Sensor validation

@@ -3,7 +3,7 @@
 ## Decision this PR carries
 
 Issue: #
-DECISIONS.md entry: D-
+DECISIONS.md entry: (assigned by the maintainer when the decision is recorded)
 Class: clarification / MINOR / MAJOR / vocabulary / editorial
 
 One PR per decision. If this carries two, split it.

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Recovery Specification"
 abbrev: "KTP-RECOVERY"
-date: 2026-09-06
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -45,7 +45,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Recovery Principles
 
-PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point (\[KTP-CORE] Section 6.7). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.
+PRINCIPLE 1: FAIL CLOSED An undefined input MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point, per \[KTP-CORE] Section 6.8 (Undefined Inputs). Where recovery offers a graded outcome, that is the more supervised level, not a denial; deny where nothing more restrictive short of denial exists. A system that fails open is worse than a system that fails closed. Availability loss is recoverable; security breach may not be.
 
 PRINCIPLE 2: NO SINGLE POINT OF FAILURE Every critical component should have redundancy. Threshold cryptography for Oracles. Multiple Flight Recorders. Distributed sensors.
 
@@ -400,7 +400,7 @@ ORACLE SIGNING KEY SHARES
 - Threshold key shares for Trust Proof signing
 - Backup encrypted to recovery keys
 - Stored with trustees (not with Oracle)
-- Recovery requires M-of-N trustees
+- Recovery requires k-of-n trustees
 
 ZONE CONFIGURATION
 
@@ -565,7 +565,7 @@ Procedure:
 
 Key recovery requires:
 
-- M-of-N trustees (typically 3-of-5 or 5-of-7)
+- k-of-n trustees (typically 3-of-5 or 5-of-7)
 - Trustees have recovery key shares
 - Secure environment for ceremony
 - New HSMs to receive recovered keys
@@ -864,7 +864,7 @@ Mitigations:
 - Ceremony with witnesses
 - Secure environment
 - Immediate destruction after use
-- M-of-N trustee requirement
+- k-of-n trustee requirement
 
 --- back
 

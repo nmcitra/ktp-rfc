@@ -43,17 +43,6 @@ The review window is twice the floor. It is the outer bound, not a target.
 A proposal tagged `blocked-on-evidence` is waiting on a fact, not on time.
 The clock keeps running. Both must clear.
 
-## 3. The three questions
-
-Answered separately, recorded separately. A count of supporters answers none
-of them.
-
-| | Question | A no means |
-|---|---|---|
-| **A** | Is it sound? Does it hold under the Zeroth Law and against the rest of the set? | Revise or decline |
-| **B** | Does it break a conformant implementation? | It is MAJOR, whatever it was filed as, and it needs a migration path |
-| **C** | Will someone build it? Is there a named implementer, or a reference implementation already? | It waits. A specification nobody intends to build is not adopted on merit alone |
-
 ## 4. Labels and the clock
 
 Labels on this repository speak to contributors. The clock reads them.
@@ -68,8 +57,10 @@ Labels on this repository speak to contributors. The clock reads them.
 | `accepted` | Decided yes. A PR is welcome or in progress |
 | `declined` | Decided no. The reason is in the thread and in this file |
 
-The clock starts on the later of the two labels, `decision-needed` and
-`class:*`. When a proposal passes its review window still marked
+The clock starts when the proposal is published (§1). The workflow reads
+the later of the two labels, `decision-needed` and `class:*`, as its record
+of that day — apply both on the day of publication, or the mechanism will
+close the window late. When a proposal passes its review window still marked
 `decision-needed`, a workflow removes that label, applies `discussion`, and
 says so in the thread. That is the window closing by mechanism, not by hand.
 Re-applying `decision-needed` restarts the clock. The workflow is
@@ -101,9 +92,7 @@ governed by this file.
 ### D-NNN · <title>
 Date · Class · Clock start → floor → review-by
 Source: <issue, PR, tag, or CHANGELOG section>
-A: <sound?>   B: <breaks?>   C: <builder?>
 Decision: <what was decided, in one or two sentences>
-Provenance: proposed / edited / built first / reference (where applicable)
 ```
 
 Entries before 2026-09-17 are back-filled from the public record: tags, merged
@@ -130,25 +119,16 @@ never moved. The one descriptive tag suffix is left in place for that reason.
 2026-07-23 · MINOR · clock not run
 Source: PR #44; `specifications/kinetic-envelope.md`;
 `specifications/conformance/ros2-reference-v0.1.json`
-A: yes. B: no; the envelope is opt-in. C: yes; a reference profile (ROS2) and
-a seven-vector conformance suite shipped with it.
 Decision: The set fixes the interface, the decision contract, and the
 conformance suite for the envelope, and leaves the formula for A and E
 implementation-defined. Two systems conform if they produce the same decisions
 on the published vectors.
-Provenance: proposed jointly with an external collaborator; text edited by the
-maintainer; first built externally as a ROS2 profile; the reference is the
-canonical suite in this repository.
 
 ### D-004 · v2.0.0 "Gödel": the deliberate break
 2026-08-14 · MAJOR · clock not run
 Source: PR #116; tag `v2.0.0`; CHANGELOG § 2.0.0; four *Changes from v1*
 appendices
-A: yes. B: yes, by design; an implementation reads v1 or v2, with no
-dual-accept period, because no rename machinery existed, the conformant
-population was small and known, and identifiers re-mint on generation advance.
-C: yes.
-Decision: The break is taken now, while it is cheap. Headline moves: `E_base`
+Decision: Headline moves: `E_base`
 becomes a hundred-point allocation; tier thresholds move; God Mode becomes
 Admin Mode; lineage stages are renamed `sponsored → independent → guarantor`;
 the Soul veto leaves the weighted vector; the letter scheme leaves the wire;
@@ -165,17 +145,13 @@ bundle. The tag, Release, and DOI stay exactly as published.
 ### D-006 · v2.1.0: an erratum classed MINOR, not PATCH
 2026-09-03 · MINOR · clock not run
 Source: PR #120, PR #121; tag `v2.1.0`; CHANGELOG § 2.1.0; SN-003
-A: yes. B: no conformant implementation of 2.0.0 becomes non-conformant; one
-that gated on the stale sentence is now told so. C: not applicable.
 Decision: `ktp-enforce` §9.1's Hibernation threshold sentence moves from the
-v1 value 50 to 22, matching three other normative locations. VERSIONING
-resolves ambiguity upward, and a change that moves an implementation is not
-editorial, so it is MINOR.
+v1 value 50 to 22, matching three other normative locations.
 Provenance: finding reported by Mike Storm from a shipping v2.0.0 Risk Factor
 producer; text edited by the maintainer.
 
 ### D-007 · Hibernation is the fifth tier, named
-2026-09-09 · Clarification · clock not run
+2026-09-09 · Editorial
 Source: PR #123; SN-004
 Decision: The Trust Tier glossary names Hibernation as the fifth tier rather
 than leaving it implied by the threshold table.
@@ -183,33 +159,53 @@ than leaving it implied by the threshold table.
 ### D-008 · Process labels become contributor labels; this file exists
 2026-09-17 · Editorial · clock not run
 Source: this PR
-Decision: Six internal process labels are removed from the public repository,
-having never been applied to any issue or pull request. Six contributor-facing
-labels replace them, five class labels are added, and the clock in §2 starts
-binding from the next entry. `CONTRIBUTING.md` now points here for the
-amendment process; `ktp-governance` describes zone governance, not this
-repository's.
+Decision: Contributor-facing labels and this file are added; `CONTRIBUTING.md`
+points here.
 
-### D-009 · An infrastructure execution profile (open)
-Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28
-Source: issue #124
-A: under review. B: proposed as no; the proposer states no change to core
-authority semantics or wire processing. C: a reference implementation exists
-in private; an accessible, pinned, reproducible release is the proposer's own
-stated gate before anyone relies on it.
-Decision: pending. Placement question under review: a profile in
-`specifications/`, following D-003, rather than a new RFC.
+### D-009 · An infrastructure execution profile
+Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28 · approved 2026-10-14
+Source: issue #124; PR #131
+Decision: Approved as proposed. The software-substrate execution profile enters
+`specifications/` with v3.0.0; PR #131 merges in the order the v3.0.0 release
+proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
 
-### D-010 · The consolidation block: which release carries it (open)
-Published 2026-09-09 · proposed MAJOR · floor 2026-10-23 · review-by 2026-12-06
+### D-010 · The consolidation block
+Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06 · approved 2026-10-23
 Source: PR #122; CHANGELOG § Unreleased
-A: under review; all thirteen gates pass on the branch. B: proposed as yes:
-human scoring gives way to operation-specific grants, the trajectory format
-moves to v3 and rejects unknown fields, and the active deployment profile
-rejects the v2 `standing_decay_rate` declaration. A v2.1.0 implementation does
-not survive unchanged. C: yes; the block was forced by an external
-implementation review of v2.1.0 (findings F01–F12).
-Decision: pending. Under review: whether this block is the first part of the
-next MAJOR or a release of its own. VERSIONING resolves ambiguity upward.
-Provenance: findings from an external review; text edited by the maintainer.
+Text landed on `main` via PR #123 (2026-09-09), ahead of the floor.
+Decision: Approved as landed. The block stays unreleased on `main` until the
+v3.0.0 tag and ships with it. PR #122 is closed as superseded by the landed
+text. A later proposal that alters a sentence in this block says so in its
+own entry; approval here does not freeze the text.
+
+### D-011 · Supplier-neutral illustrative examples
+2026-09-20 · Editorial · no clock
+Source: issue #132; PR #133
+Decision: Named companies in a hypothetical hardware-lock-in critique and in
+the OUI tooltip are replaced with supplier-independent wording; the affected
+RFC views are regenerated from source. Proposed by Mike Storm.
+
+### D-012 · Consequential-action execution and evidence
+Published 2026-09-18 · MINOR · floor 2026-10-09 · review-by 2026-10-30 · approved 2026-10-14
+Source: issue #129; PR #139
+Decision: Approved as proposed. The consequential-action execution and
+evidence specification, its schema and its vectors enter the set with v3.0.0;
+PR #139 merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by Mike Storm; KAG as the reference implementation.
+
+### D-013 · Three Risk Factor formulas no longer weight the Soul veto
+Published 2026-10-05 · Clarification · clock 2026-10-05 → floor 2026-10-12 · review-by 2026-10-19 · approved 2026-10-14
+Source: issue #142; the clarification PR opened with this record
+Decision: The descriptive formulas in ktp-signals, ktp-attenuation and
+ktp-oracle that still carried a Soul term inside the weighted sum become
+cross-references to ktp-core's aggregation, with one line recording that the
+weighted form was retired at v2.0.0. No conformant implementation changes.
+
+### D-014 · R is defined once; Risk Domains become an informative technique
+Published 2026-10-05 · MINOR · clock 2026-10-05 → floor 2026-10-26 · review-by 2026-11-16 · approved 2026-10-27
+Source: issue #144; the PR opened with this record
+Decision: Shape A, retire. Core Section 5.2 is the one definition of the
+Risk Factor; Sensors 2.3 keeps the node, neighborhood and global levels as an
+informative technique for one input, Conformance drops the Risk Domain
+requirements, and CT-S-002 is retired.

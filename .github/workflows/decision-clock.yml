@@ -13,6 +13,7 @@ on:
 
 permissions:
   issues: write
+  pull-requests: write   # gh pr list needs read; labels and comments on a PR need write
 
 jobs:
   clock:
@@ -25,21 +26,27 @@ jobs:
         run: |
           set -euo pipefail
           now=$(date -u +%s)
-          gh issue list -R "$REPO" --state open --label decision-needed --limit 200 \
-            --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"' |
+          # Issues and pull requests both carry decisions; scan both.
+          { gh issue list -R "$REPO" --state open --label decision-needed --limit 200 \
+              --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"';
+            gh pr list -R "$REPO" --state open --label decision-needed --limit 200 \
+              --json number,labels --jq '.[] | "\(.number)\t\([.labels[].name]|join(","))"'; } |
           while IFS=$'\t' read -r num labels; do
             # Floor in days by class (DECISIONS.md §2); review window is twice the floor.
-            case ",$labels," in
-              *,class:clarification,*) floor=7 ;;
-              *,class:minor,*)         floor=21 ;;
-              *,class:major,*)         floor=44 ;;
-              *,class:vocabulary,*)    floor=44 ;;
-              *,class:emergency,*)     floor=7 ;;
-              *) echo "#$num: no class label, clock not started"; continue ;;
-            esac
+            # A proposal carrying more than one class label runs on the longest of
+            # their clocks: a MINOR with a Vocabulary rider has the Vocabulary floor.
+            floor=0
+            for class_floor in clarification:7 emergency:7 minor:21 major:44 vocabulary:44; do
+              case ",$labels," in
+                *",class:${class_floor%%:*},"*)
+                  if [ "${class_floor##*:}" -gt "$floor" ]; then floor=${class_floor##*:}; fi ;;
+              esac
+            done
+            if [ "$floor" -eq 0 ]; then echo "#$num: no class label, clock not started"; continue; fi
             window=$(( floor * 2 ))
-            # Clock start: the later of the two labels, decision-needed and class:*,
-            # from the issue's own timeline.
+            # Clock start is publication (DECISIONS.md §1). The later of the two
+            # labels, decision-needed and class:*, is this mechanism's record of
+            # that day — late labels close the window late, never early.
             # --paginate applies the filter per page, so take the max across pages too.
             start=$(gh api --paginate "repos/$REPO/issues/$num/timeline" \
               --jq '.[] | select(.event=="labeled" and (.label.name=="decision-needed" or (.label.name|startswith("class:")))) | .created_at' \

@@ -1,5 +1,20 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Closed External Root migration:**
+Preserve published v2.1 proof bytes and signatures under their original release.
+A nullable property bag, missing discriminator/reason or credit-bearing none
+is not a native proof projection. Reissue from authoritative complete signed
+bonds/attestations and current lifecycle/profile evidence under
+[external-root-v1](specifications/external-root.md). Do not infer issuer,
+terminator, exposure, cause/finding or expiry from a copied score. No root
+credit implies base trust at most 70 for any subject plus every tighter ceiling;
+missing evidence cannot mint an anchor. The separate person decision owns
+subject eligibility. Explicit legacy handling stays isolated with no native
+fallback. Unreleased Canonical Trust Proof Contract (specifications/trust-proof.md) fixtures adopt the new shape; dependent proposed
+Request Binding (specifications/request-binding.md) and Decision Geometry (specifications/decision-geometry.md) fixture associations/carriers must be refreshed against the exact
+new proof bytes when the proposals are composed.
+
+
 **Canonical v3 Trust Proof migration (v2.1.0 baseline):**
 Adopt [Canonical Trust Proof Contract](specifications/trust-proof.md) and the
 v3 trust-proof schema together. Change Core's old ktp+jwt type/media subtype to

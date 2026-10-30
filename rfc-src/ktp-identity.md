@@ -563,6 +563,14 @@ stake_amount = sponsor_E_base * (stake_percentage / 100)
 
 ## Stake Mechanics
 
+Native proof projection of a live bond follows
+specifications/external-root.md and schemas/root-instrument.json. Its exact
+complete signed bond, sponsor and subject, authenticated input snapshot,
+current lifecycle, original expiry and outside accountability chain MUST be
+bound to the proof; a completed tether or residual liability alone is not a
+live root instrument. For-cause claims/findings remain in the authoritative
+lifecycle record; the smaller proof status does not infer an adjudication.
+
 When a Sponsorship Bond is created:
 
 1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds
@@ -840,7 +848,7 @@ Where a reviewed proof format carries identity assurance, it MUST bind only the 
 
 # Lineage Evolution
 
-Lineage tracks the maturation of a software agent from dependent newcomer to autonomous veteran. It consists of three phases. These phases, generation counters, and standing calculations MUST NOT be applied to human principals; neither tenure nor seniority is a replacement generation counter.
+Lineage tracks the maturation of a software agent from dependent newcomer to autonomous veteran. It consists of three phases. These phases and generation counters MUST NOT be applied to person subjects; neither tenure nor seniority is a replacement generation counter. Person standing follows Core's signed-act contract, separately from eligibility and capacity.
 
 ## Phase 1: Sponsored
 

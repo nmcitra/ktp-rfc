@@ -13,15 +13,18 @@ the source.
 
 | Schema | File | What it constrains |
 |---|---|---|
-| Risk Factors | [`risk-factors.json`](risk-factors.json) | The six weighted inputs and the Soul veto, as one scored object |
-| Trust Proof | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry |
+| Risk Factors v3 (unreleased) | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
+| Legacy Risk Factors v2 | [`risk-factors-legacy-v2.json`](risk-factors-legacy-v2.json) | Byte-preserved published schema with six weighted inputs, for interpreting v2 proofs and records |
+| Trust Proof v3 (unreleased) | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry; its context is the five-input object |
+| Legacy Trust Proof v2 | [`trust-proof-legacy-v2.json`](trust-proof-legacy-v2.json) | Byte-preserved published schema for interpreting v2 proofs, whose context carries six inputs |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |
 | Readiness Attestation v1 (unreleased) | [`readiness-attestation.json`](readiness-attestation.json) | Complete signed assessment, subject configuration, scope, challenge and observations |
 | Readiness Decision v1 (unreleased) | [`readiness-decision.json`](readiness-decision.json) | Signed binding of actual request and complete ordinary proof to current readiness evidence |
 | Emergency Policy | [`emergency-policy.json`](emergency-policy.json) | Exact emergency scope and protected change-control declarations; approval and activation require separate verification |
-| Sensor Configuration | [`sensor-config.json`](sensor-config.json) | A feed's identity, refresh and failure behaviour |
+| Sensor Configuration v3 (unreleased) | [`sensor-config.json`](sensor-config.json) | A feed's identity, refresh and failure behavior; its dimension is one of the five weighted inputs or the veto |
+| Legacy Sensor Configuration v2 | [`sensor-config-legacy-v2.json`](sensor-config-legacy-v2.json) | Byte-preserved published schema, whose dimension enum includes moment_criticality, for interpreting v2 configurations |
 | Soul Constraint | [`soul-constraint.json`](soul-constraint.json) | The veto: present or absent, never a seventh weight |
 | Transaction Record v3 (unreleased) | [`transaction-record.json`](transaction-record.json) | Complete canonical record and staged JWS envelopes; signatures and authenticated head evidence require separate verification |
 | Legacy Transaction Record v2 | [`transaction-record-legacy-v2.json`](transaction-record-legacy-v2.json) | Byte-preserved historical schema for archive interpretation; not a v3 authority acceptance path |

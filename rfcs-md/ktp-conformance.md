@@ -143,11 +143,11 @@ Trust Oracle:
 - Threshold signatures (2-of-3 minimum)
 - Full Trust Score calculation
 - Trust velocity tracking (dE/dt)
-- All 6 weighted Risk Factor inputs
+- All 5 weighted Risk Factor inputs
 
 Risk Factors:
 
-- All 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
+- All 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
 - Soul veto support
 - Feed aggregation with configurable weights
 
@@ -212,7 +212,7 @@ Trust Oracle:
 
 Risk Factors:
 
-- All 7 inputs (including Soul)
+- All 5 weighted inputs and the Soul veto
 - Full Indigenous Data Sovereignty support
 - Sub-second sensor refresh for critical dimensions
 - Sensor health monitoring and failover
@@ -264,7 +264,7 @@ Full conformance additionally requires:
 +---------------------------+-------+----------+--------+
 | Oracle mesh               | -     | 3+ nodes | 5+     |
 | Threshold signatures      | -     | 2-of-3   | 3-of-5 |
-| Context dimensions        | 3+    | 6+       | 7      |
+| Weighted inputs + Soul    | 3+    | 5+Soul   | 5+Soul |
 | Soul veto                 | -     | Yes      | Yes    |
 | Trust tiers               | -     | 5        | 5      |
 | Flight Recorder chaining  | -     | Yes      | Yes    |
@@ -318,7 +318,7 @@ MUST:
 - Operate as a consensus mesh with at least 4 authenticated members for f = 1; the default is N = 5, f = 1, q = 4
 - Implement threshold signatures (2-of-3)
 - Protect authoritative state under a reviewed, named and versioned consensus protocol satisfying specifications/oracle-consensus.md; verify committed standing before proof issuance or signing
-- Support all 6 weighted dimensions
+- Support all 5 weighted dimensions
 - Support the Soul veto
 - Calculate and track dE/dt (Trust velocity)
 - Support agent lineage tracking
@@ -378,7 +378,7 @@ All Basic requirements, plus:
 
 MUST:
 
-- Support all 6 weighted inputs (evidence_density, trust_trend, adversarial_pressure, moment_criticality, update_resistance, attestation_coverage)
+- Support all 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
 - Support the Soul veto
 - Feed-level configuration
 - Sensor validation and quality metrics
@@ -614,7 +614,6 @@ All Basic claims, plus:
          "evidence_density": 0.45,
          "trust_trend": 0.32,
          "adversarial_pressure": 0.28,
-         "moment_criticality": 0.15,
          "update_resistance": 0.52,
          "attestation_coverage": 0.10
        }
@@ -881,7 +880,7 @@ Basic:
 
 Standard:
 
-- CT-S-001: All 7 input support
+- CT-S-001: All 5 weighted inputs and Soul veto support
 - CT-S-002: Retired. Risk Domains are informative and R has one definition, KTP-CORE Section 5.2; the number is not reused
 - CT-S-003: Feed weighting
 - CT-S-004: Soul veto logic

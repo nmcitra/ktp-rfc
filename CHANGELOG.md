@@ -30,7 +30,66 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and the demand-side criticality input
+
+### `moment_criticality` leaves the Risk Factor
+
+**Finding:** the carriage interface named `moment_criticality` as the standing
+supplied input and L14 said the action request supplies it, while the same
+value was a weighted term in `R`. A request that reports a quiet moment lowers
+`R` and widens what passes `A <= E`; the party the protocol constrains supplied
+the number that loosened the constraint. Proposed in #161.
+
+- Core aggregates five weighted inputs. `moment_criticality` is described as a
+  demand input: `A` is non-decreasing in it, a profile that fixes its own
+  magnitudes gives it no ceiling, it enters only as L11 permits, and L14 is
+  rewritten as the rule for a demand input. The carriage interface no longer
+  names a standing supplied instance.
+- L14 states the supplier rule: an externally supplied input enters only on
+  the demand or supervision side, is never supplied by the requester or a
+  party acting for it, and its supplier is declared.
+- Every published weight profile renormalizes proportionally to two
+  decimals, with the rounding residual on the largest remaining weight, and
+  sums to exactly 1.00. The rule is stated once so it applies the next time an
+  input enters or leaves.
+- Sensors adds a third contribution type, "demand" (raises `A` only), and
+  moves the `moment_criticality` section to the end of its chapter as a demand
+  input. A demand input is not configured as a sensor factor; its feed table
+  stays as an informative description of how a supplier derives the value.
+- The deployment profile gains a `demand_inputs` declaration (supplier, unit,
+  source per input). `risk-factors.json`, `deployment-profile.json`,
+  `trust-proof.json` and `sensor-config.json` follow; the declaration checker
+  and the weight regression gate check five factors and the new declaration.
+- `risk-factors.json`, `trust-proof.json` and `sensor-config.json` take v3
+  identifiers, and the published v2 files are kept byte for byte as
+  `risk-factors-legacy-v2.json`, `trust-proof-legacy-v2.json` and
+  `sensor-config-legacy-v2.json`, as `deployment-profile.json` and
+  `transaction-record.json` were; `moment_criticality` leaves the sensor
+  configuration's `dimension` enum, because a demand input is not a sensor
+  factor. The first draft rewrote the v2 Risk Factors
+  schema in place, so one published identifier named two schemas: a validator
+  that fetched it from its published address rejected every five-input
+  context, and the preserved v2 transaction record, which refers to it,
+  changed meaning. Found by @martherus while implementing the vectors.
+- The signed trajectory fixture is regenerated from the repository's own test
+  keys over the five-input Risk Factors object.
+- `specifications/conformance/demand-input-v1.json` (11 vectors) fixes the
+  declaration and evaluation boundaries: a declared supplier's value raises
+  `A` only; a requester or a party acting for it as supplier is refused; a
+  missing declaration, a stale value and a differently bound value read as
+  the most critical moment; six-factor and non-summing profiles are
+  invalid; the renormalization rule reproduces the Stadium profile; the
+  kickoff example still vetoes.
+- The vectors and Core's worked examples carry exact values. The first draft
+  rounded each term to three places, so the kickoff example read R = 0.540
+  and E_trust = 43.70 where Core's formulas give 0.53975 and 43.72375, and
+  an implementation that computed exactly failed the vectors. The weight
+  regression gate now recomputes them. Found by @martherus.
+
+A conformant implementation that aggregates six inputs, or that accepts the
+criticality value from the action request, stops conforming, so this requires
+a MAJOR release under `VERSIONING.md`. It remains unreleased; published tags
+are unchanged.
 
 ### R is defined once; Risk Domains are an informative technique
 

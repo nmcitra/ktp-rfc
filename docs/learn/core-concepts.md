@@ -338,7 +338,7 @@ To enforce the Zeroth Law, KTP must measure both A (action risk) and E (environm
 | **trust_trend** | Direction and velocity of change | [Deep dive →](risk-factors.md#__tabbed_2_2) |
 | **update_resistance** | Resistance to rapid shifts | [Deep dive →](risk-factors.md#__tabbed_2_3) |
 | **adversarial_pressure** | Environmental stress and anomaly load | [Deep dive →](risk-factors.md#__tabbed_2_4) |
-| **moment_criticality** | Temporal context and decay | [Deep dive →](risk-factors.md#__tabbed_2_5) |
+| **moment_criticality** | Criticality of the moment; a demand input that raises A, not a weight in R | [Deep dive →](risk-factors.md#__tabbed_2_5) |
 | **attestation_coverage** | Attestation coverage and visibility | [Deep dive →](risk-factors.md#__tabbed_2_6) |
 | **soul** | Constitutional constraints (vetoes) | [Deep dive →](risk-factors.md#__tabbed_2_7) |
 

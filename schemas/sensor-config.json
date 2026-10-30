@@ -1,15 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/sensor-config.json",
-  "title": "KTP Sensor Feed Configuration",
-  "description": "Configuration schema for Context Signals sensor feeds",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/sensor-config.json",
+  "title": "KTP Sensor Feed Configuration — Unreleased v3",
+  "description": "Configuration schema for Context Signals sensor feeds. Its dimension is one of the five weighted inputs or the Soul veto; a demand input is not configured as a sensor factor. The published v2 schema, whose dimension enum included moment_criticality, is archived separately as sensor-config-legacy-v2.json.",
   "type": "object",
   "required": ["dimension", "feeds"],
   "properties": {
     "dimension": {
       "type": "string",
-      "enum": ["evidence_density", "trust_trend", "adversarial_pressure", "moment_criticality", "update_resistance", "attestation_coverage", "soul"],
-      "description": "The Risk Factor this configuration applies to, or soul for the veto"
+      "enum": ["evidence_density", "trust_trend", "adversarial_pressure", "update_resistance", "attestation_coverage", "soul"],
+      "description": "The Risk Factor this configuration applies to, or soul for the veto; a demand input such as moment_criticality is declared under KTP-CORE L14, never configured here"
     },
     "feeds": {
       "type": "array",

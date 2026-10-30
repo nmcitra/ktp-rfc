@@ -24,7 +24,7 @@ This profile is not a human proof format or a replacement human authorization ad
 This is the ordinary evaluation-time association contract. It does not define
 software-substrate consumption, effect budgets, queue/retry handling, target
 idempotency, exactly-once execution, release-time revalidation or target-effect
-evidence. The signed decision carrier is the separate [Decision Geometry decision](decision-geometry.md) (Decision Geometry contract).
+evidence. The signed decision carrier is the separate [Decision Geometry decision](decision-geometry.md) (Decision Geometry (specifications/decision-geometry.md)).
 
 ## 2. Complete canonical request
 

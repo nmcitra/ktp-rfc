@@ -56,7 +56,7 @@ cross-boundary decision prerequisite.
 
 A passed binding gate means the actual request, complete proof bytes, identity,
 issuer/audience/time and digest association were established. It does **not**
-assert RB_BOUND, replay reservation success or permission: request association contract's gate/replay/
+assert RB_BOUND, replay reservation success or permission: Request Binding (specifications/request-binding.md)'s gate/replay/
 carriage checks remain mandatory for any authorizing use. A verified proof that
 reports veto or undetermined can therefore support a binding-complete rejection
 record whose Soul gate stops the evaluation. Invalid proof/association MUST NOT
@@ -115,7 +115,7 @@ a recorded gate value.
 | Known Soul veto | Soul failed, later gates not_evaluated; silent_veto, SOVEREIGNTY_CONSTRAINT |
 | Unresolved Soul | Soul undetermined with released undefined entry; later gates not_evaluated; silent_veto, SOVEREIGNTY_UNDETERMINED |
 | Inherited veto | Prior gate failed, a sourced prior_supervision = silent_veto, later gates not_evaluated; no invented numeric failure; silent_veto, PRIOR_VETO |
-| No valid finite common-scale A/E | Inputs failed/undetermined, no capacity or margin; silent_veto, INPUT_UNAVAILABLE |
+| No valid finite common-scale A/E | Inputs failed/undetermined, no capacity or margin; silent_veto, TRUST_INSUFFICIENT |
 | E = 0 or A > E | Capacity failed with relation zero/over; no margin or envelope/consumer calculation; silent_veto, TRUST_INSUFFICIENT |
 | A = E > 0 | Capacity passed with relation within; margin zero is present; existing margin policy veto remains, consumer not_evaluated |
 | Capacity check passed | Carry A, E, common unit, capacityKnown, relation within and computed margin; evaluate the installed envelope profile |
@@ -128,9 +128,9 @@ is recorded as undefined and cannot be assumed stable.
 
 A and E are the **validated values actually used**, not a new computation from
 this schema. Demand MUST match the canonical request/classifier. Software
-capacity MUST not exceed the standing supported by the verified proof or other
+capacity MUST NOT exceed the standing supported by the verified proof or other
 applicable ceilings. Estimates retain capacityKnown = false. Existing Core and
-Kinetic Envelope arithmetic/order applies; this proposal adds no A/E formula.
+Kinetic Envelope arithmetic/order applies; this document adds no A/E formula.
 The fixture profile uses the existing margin relation in binary64 with exact
 JCS-encoded expected values; numerical conventions of another installed profile
 MUST be explicit, reproducible and no more permissive at normative boundaries.
@@ -160,7 +160,7 @@ stored verb, executed flag, dispatch receipt or notification field is admitted.
 
 ## 4. Canonical body digest
 
-Use strict UTF-8 JSON and RFC 8785 JCS with canonical Trust Proof contract's safe-integer/finite-number
+Use strict UTF-8 JSON and RFC 8785 JCS with Canonical Trust Proof Contract (specifications/trust-proof.md)'s safe-integer/finite-number
 restrictions, duplicate rejection, exact strings, array order and no Unicode
 normalization. Incoming body JSON may differ in whitespace/key order; canonical
 body bytes are JCS of the complete body, including optional embeddings and any
@@ -182,7 +182,7 @@ Never substitute one because the strings look alike.
 
 Proposed bounds: canonical/input geometry body at most 262,144 UTF-8 bytes,
 container depth at most 32, URI identifiers at most 2,048 characters and decision
-ID at most 255 characters. Apply canonical Trust Proof contract/request association contract's own limits to embedded artifacts;
+ID at most 255 characters. Apply Canonical Trust Proof Contract and Request Binding's own limits to embedded artifacts;
 carrier size cannot enlarge them. Reject rather than truncate.
 
 ## 5. Signed boundary carrier
@@ -204,11 +204,15 @@ covers every gate, input/provenance/undefined state, request/proof digest and
 jti, evaluation time/profile, supervision, tightened constraint and embedding.
 There is no signature field in the body and no cyclic hash exclusion rule.
 
-Reuse canonical Trust Proof contract's strict canonical JWS/base64url, algorithm/key-type/curve, low-s,
+Reuse Canonical Trust Proof Contract (specifications/trust-proof.md)'s strict canonical JWS/base64url, algorithm/key-type/curve, low-s,
 revocation and no-embedded-key rules, with the **different evaluator role and
 purpose**. ES256 is the base capability; stronger installed Crypto profiles
 remain binding. A trusted Oracle key is not thereby an authorized evaluator
-key. The record/headers cannot appoint trust anchors or enable algorithms.
+key. The Evaluator Signing Key type is defined in KTP-CRYPTO's Key Types.
+Its `decision-geometry-evaluator` role, allowed evaluator identity, audience,
+algorithm/curve, validity and revocation source MUST be installed through an
+independently authorized deployment/evaluation profile before verification.
+The candidate cannot install or widen that binding. The record/headers cannot appoint trust anchors or enable algorithms.
 Limits: decoded header 1,024 bytes, decoded carrier payload 393,216 bytes,
 complete compact JWS 524,288 ASCII bytes; depth 32. Carrier headers/payload
 MUST already be JCS, not just semantically equivalent JSON.
@@ -219,7 +223,7 @@ a verified complete proof and request association, and recomputed geometry
 digest. Require `evaluated_at <= now < expires_at`, with integer times, no
 skew/grace, and expiry no later than the proof, evaluator-key validity, profile
 validity or any other supporting prerequisite. Reject unbound/null association.
-No carrier can extend the ordinary proof's ten-second window. Required request association contract
+No carrier can extend the ordinary proof's ten-second window. Required Request Binding (specifications/request-binding.md)
 replay/association checks and all grants/readiness/use-time constraints still
 apply; a successful carrier check does not reserve or consume execution.
 
@@ -257,7 +261,8 @@ or classification, durable audit/replay storage, enforcement, target behavior
 or independent interoperability. Evidence digests and fixture contexts model
 already verified evidence; unresolved runtime inputs cannot be assumed true.
 A production integration MUST implement and test the whole carrier/association
-contract, including request association contract's atomic replay reservation and the target-execution evidence contract;
+contract, including Request Binding (specifications/request-binding.md)'s atomic replay reservation and, where the deployment implements it, the
+[Consequential-action Execution and Evidence specification](consequential-action-execution-and-evidence.md);
 matching a fixture result alone is insufficient.
 
 No first-conformance or reference implementation

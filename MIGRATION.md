@@ -1,13 +1,13 @@
 # Migrating from v1.0.1 to v2.0.0
 
-**Proposed portable Decision Geometry migration (Decision Geometry contract, after canonical Trust Proof contract/request association contract):**
+**Portable Decision Geometry migration:**
 Retain historical v2.1 records in their original formats, with their original
 signatures and provenance. They remain historical records; do not invent missing
 inputs, profile/source evidence, undefined-state metadata, associations, margin
 or gates to relabel them decision-geometry-v1. Use fresh evaluations under the
 installed profile and [canonical body/carrier](specifications/decision-geometry.md)
 for the new format. Preserve exact request/proof association preimages from
-request association contract. Keep original producer geometry immutable if a consumer tightens it.
+Request Binding (specifications/request-binding.md). Keep original producer geometry immutable if a consumer tightens it.
 
 Move product chain/storage/retention/query/enforcement/notification metadata and
 counterfactual projections outside the portable body; no ALLOW/DENY/VETO enum or

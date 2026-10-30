@@ -14,13 +14,28 @@ or `undetermined`; only `clear` permits the relying component to continue the
 remaining authorization checks. It never grants execution by itself. The
 actual request, capacity, Soul constraints, grants, readiness, topology,
 revocations and applicable deployment policy MUST still be checked at execution.
-Request association and Decision Geometry are separate decisions (request association contract/Decision Geometry contract).
+Ordinary request association is specified in [Request Binding](request-binding.md);
+portable evaluation records are specified in [Decision Geometry](decision-geometry.md).
 
 This document and [`trust-proof.json`](../schemas/trust-proof.json) are the
 single native v3 wire contract for every conformance level. The schema fixes
 shape; this text fixes verification order and semantic conditions. An
 implementation MUST satisfy both. No additional wire claim can become standard
 through a copied example. This profile supplies no formula for A or E.
+
+## Native v3 and legacy adapters
+
+In this set, **native v3** means an implementation or artifact that satisfies
+this canonical v3 Trust Proof contract and the applicable v3 specifications,
+without substituting a legacy wire format or legacy semantic profile. The
+term names conformance to these contracts; it does not assert that the
+unreleased v3 specification set has been approved or published.
+
+A **legacy adapter** is an explicitly authorized boundary component that
+interprets a historical artifact under the immutable tagged release that
+issued it. Its output remains identified as legacy; translating fields does
+not make an artifact native v3, and an adapter cannot bypass native validation
+or revive expired authority. A candidate artifact cannot select legacy mode.
 
 ## 2. Envelope, algorithms and trusted context
 
@@ -85,14 +100,16 @@ extension container. All other top-level members are rejected.
 `ktp.version` is `ktp-trust-proof-v3`. Required KTP members, their ranges,
 optional telemetry, Soul object and conditional branches are defined once by
 the schema. `context` contains the five weighted Risk Factor inputs. `moment_criticality`
-is a declared demand-side input, never a member of context or a term in R. It references the existing Risk Factor and Soul
-schemas by their absolute v2 `$id`s so moving this schema to v3 cannot change
-what those references resolve to.
+is a declared demand-side input, never a member of context or a term in R. The `context` member references the v3 Risk Factors schema at
+`https://kinetic-trust-protocol.net/specs/schemas/v3/risk-factors.json`; the
+Soul member references the unchanged v2 Soul schema at
+`https://kinetic-trust-protocol.net/specs/schemas/v2/soul-constraint.json`.
+The preserved v2 Risk Factors schema is not the five-input context schema.
 
 `generation` is required: sponsored 0–2, independent 3–6, guarantor 7 or more.
 `sub` MUST identify the same lineage, and a generation encoded in an independent
 or guarantor identifier MUST equal the claim. Full identifier grammar and bond
-binding remain KTP-IDENTITY/identifier contract; no identity registry is introduced here.
+binding remain KTP-IDENTITY/KTP-IDENTITY, Canonical grammar and equality; no identity registry is introduced here.
 `sponsor` is required only for sponsored lineage and prohibited otherwise.
 Optional `resilience_hash`, velocity, volatility and quorum telemetry cannot
 replace independently verified standing or authority.
@@ -101,7 +118,7 @@ The closed `root_instrument` object is always present. `current` and
 `non_renewable` require integer `end_time`; the proof MUST NOT outlive it.
 `none` contains only `status`, with no invented instrument details. Other
 existing declared fields remain available for active instruments. The complete
-variant/lifecycle contract and projection remain External Root projection contract; these shape checks do
+variant/lifecycle contract and projection remain Closed External Root Projection (specifications/external-root.md); these shape checks do
 not authenticate an external instrument or its capacity.
 
 `applicable_ceilings` is a nonempty list of closed ceiling/value objects. Names
@@ -124,21 +141,21 @@ the scoring computation or assert numerical equality to any formula.
 A known Soul veto MUST be encoded as `veto`, never hidden as `undetermined`.
 A numeric zero is a measurement, never a substitute for missing evidence.
 Nulls admitted for veto/undetermined are statements of unavailable evidence,
-not a change to Risk Factor missing-evidence propagation (missing-evidence contract). A capacity
+not a change to Risk Factor missing-evidence propagation (Missing Evidence (specifications/missing-evidence.md)). A capacity
 failure for an actual action is evaluated by the relying component, not
 represented here by changing the meaning of the Soul bit.
 
 ### Standard nested-zone claim
 
 `ktp.ingress_path` is a standard optional claim, not an extension. Its closed
-receipt shape is inherited from proposed nested-zone contract/nested-zone receipt contract: at most five receipts,
+receipt shape is inherited from proposed KTP-ZONES, Ingress Path and Egress Shaping: at most five receipts,
 outermost first, each carrying `zone_id`, `oracle_kid`, `sub`, `cnf_jkt`, `aud`,
 `prev`, `topology_epoch`, `iat`, `exp`, `admission_id`, `sig`. At a ring of
 authorized depth d > 0, exactly d receipts are required; at depth 0 the member
 is absent, not an empty path. Depth MUST come from the authenticated Topology,
 never from path presence. Verify receipt signatures, ancestry, links, epoch,
 subject, possession-key/session bindings, audiences and current validity under
-KTP-ZONES/nested-zone receipt contract before accepting the proof for further authorization. Shape
+KTP-ZONES/KTP-ZONES' Ingress Path and Egress Shaping before accepting the proof for further authorization. Shape
 alone is insufficient. If that verification is unavailable, fail closed at
 `TP_INGRESS`; nested-zone verification remains mandatory when the installed topology requires it.
 
@@ -164,6 +181,10 @@ lengthen it or add expiry grace. An untrusted clock, rollback that could revive
 expired authority, missing current revocation state or unverifiable validity
 MUST prevent use. Sessions, cache entries, queued requests, enclosing tokens,
 refresh attempts, outages and emergency declarations cannot extend this window.
+Experimental Extended Trust Proofs in KTP-CELESTIAL are outside this canonical
+contract until their own decision establishes compatibility; their longer
+validity limits do not extend this contract's ten-second maximum.
+
 Revalidate at execution and during continuing protected operation; retain the
 existing bounded safe-stop and separately authorized emergency requirements.
 
@@ -203,20 +224,22 @@ cases are either newly signed mutations or explicit damaged envelopes; the
 case description distinguishes them. Fixed fixture bytes are authoritative;
 regenerating an equivalent ECDSA signature is not required. Test keys are
 publicly reproducible and unsafe outside this suite. Implementations MUST test
-ES256 base verification and the named test Ed25519 profile against these
-fixtures. This repository publishes the contract and vectors, not an executable
+ES256 base verification against these fixtures. At levels requiring the named
+Ed25519 profile, implementations MUST test that profile too. At Basic it remains
+RECOMMENDED; an implementation claiming support for that optional profile MUST
+test it before making the claim. This repository publishes the contract and vectors, not an executable
 verifier or a designated reference implementation. The fixtures do not
 establish runtime consensus, trusted clocks, key custody, topology
 receipt cryptography, profile approval, current operational capacity, request
 association, replay protection or independent interoperability. Nontrivial
-nested-zone acceptance remains dependent on nested-zone receipt contract's own vectors and checks.
+nested-zone acceptance remains dependent on KTP-ZONES' Ingress Path and Egress Shaping's own vectors and checks.
 All stronger deployment obligations remain. Schema/vector success is modeled
 contract evidence, never runtime certification.
 
 Core, Crypto, Transport, Enforce and Conformance cite this contract and its
 fixtures. Decoded REST/protobuf/CBOR views or copied summary claims cannot
 replace the exact signed native compact JWS. Historical Transport v1 sketches
-remain legacy descriptions pending native Transport contract; they are not alternative v3 shapes.
+remain legacy descriptions pending Native Transport (specifications/native-transport.md); they are not alternative v3 shapes.
 
 No first implementation or reference implementation is claimed. Migration is
 recorded in MIGRATION.md; the decision record remains the maintainer's.

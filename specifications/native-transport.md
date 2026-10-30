@@ -1,15 +1,15 @@
 # Native JSON/JWS Transport
 
-**Proposed, unreleased ktp-json-jws-v1 transport contract.**
+**ktp-json-jws-v1 transport contract.**
 
 The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 
 ## 1. One interoperable base
 
-Native v3 implementations MUST support the JSON/JWS base profile
+[Native v3](trust-proof.md#native-v3-and-legacy-adapters) implementations MUST support the JSON/JWS base profile
 `ktp-json-jws-v1`. Its `v1` versions this transport profile only. It does not
 identify KTP v1, a KTP release tag, an artifact schema version or an HTTP API.
-The profile is proposed until published in an immutable KTP release.
+Profile selection binds an immutable KTP release.
 
 The base carries the owning artifacts without restating their members:
 
@@ -24,12 +24,12 @@ The base carries the owning artifacts without restating their members:
 Media types describe representation, not approval, trust or authorization.
 application/jose does not choose a signing purpose or role: the independently
 expected protected purpose and evaluator key binding remain mandatory. This
-proposal uses an existing JWS media type and makes no new IANA registration.
+profile uses an existing JWS media type and makes no new IANA registration.
 
 An authenticated HTTP API binding MUST identify the complete canonical request,
 where the exact complete proof bytes are carried, the expected response artifact,
 and how the actual invocation maps to them under request-binding.md. This
-proposal does not invent a request/proof wrapper, header name, server API or
+profile does not define a request/proof wrapper, header name, server API or
 new signed preimage. A JSON wrapper is usable only where an installed binding
 explicitly defines it and preserves the exact JWS string. Arbitrary candidate
 headers, copied claims or digests MUST NOT select the binding or supply missing
@@ -61,7 +61,7 @@ the following namespaces. Repeated route occurrences share the same rule.
 | --- | --- |
 | Immutable `v2.1.0` tag | KTP specification set; historical compatibility baseline, not native-v3 negotiation |
 | Installed immutable native-v3 release | KTP semantic set; fixes the owning artifact contracts; distinct from profile/API versions |
-| `ktp-json-jws-v1` | Proposed base transport profile; its version is independent of the KTP set |
+| `ktp-json-jws-v1` | Base transport profile; its version is independent of the KTP set |
 | `ktp.v1` protobuf package and `ktp/v1/*.proto` imports | Legacy v2.1 protobuf profile; not a native-v3 type or a rename target |
 | `Sec-WebSocket-Protocol: ktp.v1` | Legacy stream binding; not native-v3 negotiation; this decision allocates no replacement stream token |
 | `ktp-core-v1`, `ktp-federation-v1`, `ktp-celestial-v1` | Historical capability identifiers; none identifies the JSON/JWS base or native-v3 semantic compatibility |
@@ -148,6 +148,3 @@ Implementers MUST run the cases on their actual adapters and exercise the
 complete owning suites; this repository publishes no transport implementation.
 These vectors do not establish actual network interoperability, key custody,
 authenticated negotiation, enforcement, durable replay or successful migration.
-
-No first builder or public reference
-implementation is claimed. Maintainer ratification remains separate.

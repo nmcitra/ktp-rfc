@@ -365,7 +365,7 @@ Validate an existing Trust Proof.
 
 Request: { "jws": "eyJhbGciOiJFZERTQSI...", "expected_agent_id": "agent:guarantor:7gen:optimized:a1b2c3d4", "minimum_tier": "analyst" }
 
-Native proof validation follows the Canonical Trust Proof Contract, Section 5. Its stable
+Native proof validation follows [trust-proof.md, Section 5](../specifications/trust-proof.md#5-ordered-verification-and-stable-reasons). Its stable
 reason and validity/gate result are distinct: a valid veto or undetermined
 assertion cannot authorize execution. These proof-validation results are not
 an action authorization response; request association follows
@@ -644,9 +644,9 @@ Trust Oracles can push updated Trust Proofs to agents:
 
 Delivery can be delayed, lost, duplicated or reordered. Receiving an update
 MUST NOT imply current validity; consumers validate the complete newly issued
-compact JWS under the canonical proof contract and cannot extend old authority.
+compact JWS under [trust-proof.md](../specifications/trust-proof.md) and cannot extend old authority.
 No flat `proof` object accompanies or substitutes for those exact signed bytes.
-A native push binding must define its complete envelope and authenticated
+A native push binding MUST define its complete envelope and authenticated
 profile separately; the old abbreviated push sketch is not a native schema.
 
 # Sensor Data Transport
@@ -804,7 +804,7 @@ The issued local ordinary proof MUST satisfy the KTP-Core ten-second maximum and
 Federated zones exchange heartbeats for liveness.
 
 The heartbeat is a liveness notification. The old gRPC heartbeat definition is
-legacy; a native streaming profile must define its complete envelope separately.
+legacy; a native streaming profile MUST define its complete envelope separately.
 Heartbeat data MUST NOT substitute for authenticated standing or authorization.
 
 Heartbeat interval: 10 seconds Timeout threshold: 3 missed heartbeats (30 seconds)

@@ -817,10 +817,12 @@ failure at 3:00 AM.
 It is not a Risk Factor and does not enter R. Every Risk Factor measures the
 environment, the E side of A <= E; criticality relative to an event horizon is a
 property of the act proposed against the environment, so it is on the A side. A
-deployment that accounts for it declares it as an autonomy-demand magnitude
-([KINETIC-ENVELOPE]): A is non-decreasing in it, and it enters only as
-L11 permits an externally supplied input. L14 states the
-declaration it requires.
+deployment that accounts for it declares it as a demand input: A is
+non-decreasing in it, as [KINETIC-ENVELOPE] requires of a declared
+autonomy-demand magnitude, and where the declared profile fixes its own
+magnitudes and their ceilings the input can only raise A and carries no
+ceiling of its own. It enters only as L11 permits an externally supplied
+input. L14 states the declaration it requires.
 
 ## The Soul Veto
 
@@ -2027,7 +2029,7 @@ Zeroth Law evaluation: A <= E_trust ? 50 <= 43.72375 ? FALSE
 
 Result: Silent Veto. Deployment denied.
 
-The five minutes to kickoff do not enter R. Where the deployment declares moment_criticality as an autonomy-demand magnitude (L14), kickoff raises A for this request, which can only strengthen the veto.
+The five minutes to kickoff do not enter R. Where the deployment declares moment_criticality as a demand input (L14), kickoff raises A for this request, which can only strengthen the veto.
 
 A.2.  Same Agent, Calm Conditions
 

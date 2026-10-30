@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-10-29
+date: 2026-10-30
 category: exp
 ipr: trust200902
 
@@ -633,8 +633,8 @@ Example Calculation (Earnings Call):
 
 moment_criticality is not a weighted input and does not contribute to R. It
 describes the act proposed against the environment, not the environment, so it
-is on the A side of A <= E. A deployment that uses it declares it as an
-autonomy-demand magnitude under [KTP-CORE] L14, and it enters only as
+is on the A side of A <= E. A deployment that uses it declares it as a
+demand input under [KTP-CORE] L14, and it enters only as
 [KTP-CORE] L11 permits an externally supplied input. It is not configured as a
 sensor factor. The table below is informative: it describes how a supplier can
 derive the value from the deployment's own schedules, never from the request.

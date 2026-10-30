@@ -41,9 +41,10 @@ value was a weighted term in `R`. A request that reports a quiet moment lowers
 the number that loosened the constraint. Proposed in #161.
 
 - Core aggregates five weighted inputs. `moment_criticality` is described as a
-  demand magnitude: `A` is non-decreasing in it, it enters only as L11
-  permits, and L14 is rewritten as the rule for a demand input. The carriage
-  interface no longer names a standing supplied instance.
+  demand input: `A` is non-decreasing in it, a profile that fixes its own
+  magnitudes gives it no ceiling, it enters only as L11 permits, and L14 is
+  rewritten as the rule for a demand input. The carriage interface no longer
+  names a standing supplied instance.
 - L14 states the supplier rule: an externally supplied input enters only on
   the demand or supervision side, is never supplied by the requester or a
   party acting for it, and its supplier is declared.

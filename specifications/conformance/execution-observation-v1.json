@@ -2,7 +2,7 @@
   "suite": "execution-observation-v1",
   "kind": "normative-downstream-requirements",
   "specification": "KTP-CORE Section 7.6 (Execution Observation) and KTP-AUDIT Section 3.4 (Decision Outcome)",
-  "note": "Normative downstream requirements for the execution observation: a decision record attests the decision, the effect is attested only by an observation bound to it. This repository contains no PEP, recorder or execution boundary: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-CORE names and define no formula. given/expect are test notation, not wire fields; an observation shown in `given` is one made at the execution boundary and bound to the decision unless the vector states otherwise.",
+  "note": "Normative downstream requirements for the execution observation: a decision record attests the decision, whether the action ran is attested only by an observation bound to it, and a dispatch is not an effect. This repository contains no PEP, recorder or execution boundary: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-CORE names and define no formula. given/expect are test notation, not wire fields; an observation shown in `given` is one made at the execution boundary, bound to the decision and authenticated as specifications/consequential-action-execution-and-evidence.md requires for its state, unless the vector states otherwise. `evidenceState` names a state of that specification's record.",
   "vectors": [
     {
       "id": "EO01-denial-with-dispatch-observed-is-a-bypass",
@@ -20,12 +20,13 @@
         }
       },
       "expect": {
-        "effect": "executed",
+        "evidenceState": "dispatched",
+        "effectClaimed": false,
         "bypassOfEnforcementBoundary": true,
         "conformanceFailureRecorded": true,
         "breachRecordOpened": true
       },
-      "reason": "A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure recorded as such, opening a breach record as KTP-REPAIR specifies."
+      "reason": "A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure recorded as such, opening a breach record as KTP-REPAIR specifies. The dispatch is not an effect, and none is claimed."
     },
     {
       "id": "EO02-denial-with-no-observation-is-unverified-not-did-not-run",
@@ -39,18 +40,18 @@
         "observation": null
       },
       "expect": {
-        "effect": "unverified",
+        "evidenceState": "unknown",
         "reportableAsNotExecuted": false,
         "decisionRecordAttests": "the decision only"
       },
-      "reason": "A consequential decision with no bound observation is unverified as to effect and MUST NOT be reported as an action that did not execute."
+      "reason": "A consequential decision with no bound observation is unverified and MUST NOT be reported as an action that did not execute."
     },
     {
       "id": "EO03-permit-with-non-dispatch-is-recorded-as-not-executed",
       "given": {
         "decision": {
           "id": "dec-3",
-          "supervision": "allow",
+          "supervision": "stable",
           "action": "write-ledger",
           "consequential": true
         },
@@ -61,11 +62,11 @@
         }
       },
       "expect": {
-        "effect": "not-executed",
+        "evidenceState": "withheld",
         "effectClaimed": false,
         "bypassOfEnforcementBoundary": false
       },
-      "reason": "The effect is attested by the bound observation: a permitted action observed as non_dispatch is recorded as not executed, and no effect is claimed for it."
+      "reason": "Whether the action ran is attested by the bound observation: a permitted action observed as non_dispatch is recorded as not executed, and no effect is claimed for it."
     }
   ]
 }

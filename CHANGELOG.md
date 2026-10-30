@@ -32,7 +32,7 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
-### The effect is attested where it executes
+### Whether a consequential action ran is attested where it executes
 
 **Finding:** The audit recorded a denial as what happened. A denial is what
 the PEP decided; whether the action ran is witnessed at the execution boundary,
@@ -41,14 +41,15 @@ an observation record for consequential actions (#129) and no rule that reads
 it.
 
 - KTP-CORE gains Section 7.6 (Execution Observation): a decision record
-  attests the decision; the effect of a consequential action is attested only
+  attests the decision; whether a consequential action ran is attested only
   by an execution observation made at the execution boundary and bound to the
-  decision; a decision with no bound observation is unverified as to effect
-  and MUST NOT be reported as an action that did not execute; a denial with a
-  bound observation of dispatch is a bypass, a conformance failure recorded as
-  such, opening a breach record. KTP-REPAIR enters the informative references.
-  Terminology gains *Execution Observation* (vocabulary change; a new term,
-  mapped in MIGRATION.md).
+  decision; a dispatch is not an effect, and a confirmed effect is a further
+  state of the observation record of #129; a decision with no bound
+  observation is unverified and MUST NOT be reported as an action that did
+  not execute; a denial with a bound observation of dispatch is a bypass, a
+  conformance failure recorded as such, opening a breach record. KTP-REPAIR
+  enters the informative references. Terminology gains *Execution
+  Observation* (vocabulary change; a new term, mapped in MIGRATION.md).
 - KTP-AUDIT's Decision Outcome records what was decided; the example gains its
   observation line.
 - Three vectors in `specifications/conformance/execution-observation-v1.json`.

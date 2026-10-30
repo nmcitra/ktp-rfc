@@ -1,5 +1,32 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Native Transport migration (v2.1.0 baseline):**
+The old protobuf package, abbreviated OpenAPI, flat proof/JWS envelope and
+authorization enum remain legacy at the immutable
+[v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md).
+Preserve original bytes and provenance. Native v3 uses the
+[JSON/JWS base profile](specifications/native-transport.md), exact canonical
+proofs, complete ordinary requests/associations and signed Decision Geometry
+carriers across boundaries. Do not mechanically rename old messages or infer
+missing gates/constraints from an old permission verb.
+
+An explicitly enabled legacy adapter remains isolated and cannot be selected
+after native validation fails. Reissue and reevaluate under the installed
+native release/profile and current invocation, keys, time and prerequisites.
+HTTP `/api/v1` and `/v1` routing can remain independently versioned; old `ktp.v1`
+stream/package and capability tokens cannot negotiate native semantics. A future
+protobuf/OpenAPI alternative needs its own versioned complete artifacts,
+builder and interoperability vectors before recommendation or use.
+
+CBOR is demoted from an optional native encoding to a separately versioned
+mapping for proof, ordinary-request and decision artifacts; it cannot replace
+the JSON/JWS base without that mapping. See
+[native-transport.md, Retired alternatives and future profiles](specifications/native-transport.md#3-retired-alternatives-and-future-profiles).
+Replay protection changes from SHOULD to MUST: implement request-ID reservation,
+replay-domain uniqueness and issuer/JTI collision checks under
+[request-binding.md, Replay-domain uniqueness and collisions](specifications/request-binding.md#6-replay-domain-uniqueness-and-collisions).
+
+
 **Portable Decision Geometry migration:**
 Retain historical v2.1 records in their original formats, with their original
 signatures and provenance. They remain historical records; do not invent missing

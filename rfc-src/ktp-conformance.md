@@ -106,7 +106,7 @@ The migration mapping and common boundary vectors are in
 specifications/core-conformance.md and
 specifications/conformance/core-levels-v1.json. Historical reduced Basic is
 legacy-v2.1-basic, not native-v3 Basic. Component claim composition is a separate
-decision under component conformance contract.
+requirements in specifications/component-conformance.md.
 
 ## Level 1: Basic
 
@@ -321,6 +321,12 @@ Full conformance additionally requires:
 ~~~
 
 Implementations MAY claim partial compliance (e.g., "Standard with Full Flight Recorder") but MUST clearly document deviations.
+
+Historical claims remain interpreted under their tagged release. New component
+claims follow [Component Conformance Profiles](../specifications/component-conformance.md)
+and its versioned role index. Basic, Standard and Full name whole deployments;
+under component-profiles-v1, a calculation library or proof verifier MUST NOT claim a deployment level.
+Component profiles are additive and do not change the one-Core contract.
 
 # Component Requirements
 
@@ -1159,6 +1165,23 @@ Implementations SHOULD support:
 Version negotiation required for federation.
 
 # Conformance Claims
+
+## Component Role Claims
+
+Implementers MAY make a scoped claim using
+specifications/component-conformance.md, schemas/component-claim.json and
+specifications/conformance/component-profiles-v1.json. The claim names its
+published release tag, versioned role profile, exact build, installed
+declaration digest and tagged vector suites. Evidence status follows KTP-CONFORMANCE “Claim Status” as defined in
+[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166). Component evidence does not
+establish a whole-deployment claim; enforcement and assembly require actual
+path evidence. The fixtures in component-claims-v1.json test metadata only.
+These proposed profiles await publication at an immutable release tag.
+
+The following older general claim format and certification provisions remain
+outside these component profiles; whole-deployment claims use the form from
+[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166), including
+the substrate field from [source proposal #184](https://github.com/nmcitra/ktp-rfc/issues/184).
 
 ## Claim Format
 

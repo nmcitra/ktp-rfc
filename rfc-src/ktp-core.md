@@ -585,7 +585,7 @@ GOODHART-003: E_base MUST include demonstrated performance under adversity, not 
 
 Proof of Resilience already requires crisis-time attestations. This section strengthens that requirement:
 
-- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R > 0.5 - E_base > 80 requires attestations under R > 0.7 - E_base > 90 requires attestations under CRISIS conditions
+- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R >= 0.5 - E_base > 80 requires attestations under R >= 0.7 - E_base > 90 requires attestations under CRISIS conditions
 
 This cannot be gamed by self-inflicted crises because: - Attestations require Oracle signature - Oracle only signs if crisis is zone-wide (not agent-local) - Manufactured crises harm the manufacturing agent
 

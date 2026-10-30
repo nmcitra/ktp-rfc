@@ -33,9 +33,9 @@ Canonical wording:
 > [suite path, tag, digest for each suite]; evidence: [report references].
 
 Component wording has no level suffix. Whole-deployment claims use
-[KTP-CONFORMANCE, Claim Format](../rfcs-md/ktp-conformance.md#claim-format),
+[KTP-CONFORMANCE, Claim Format](../rfc-src/ktp-conformance.md#claim-format),
 including its substrate profile and version. Status labels are defined only in
-[KTP-CONFORMANCE, Claim Status](../rfcs-md/ktp-conformance.md#claim-status).
+[KTP-CONFORMANCE, Claim Status](../rfc-src/ktp-conformance.md#claim-status).
 
 A claim checker is a verifier of a claim made under component-profiles-v1.
 

@@ -393,6 +393,8 @@ Example demotions:
    -  Base Tier: Observer   G=1: Observer   G=2: Observer  G=3: Observer
 ~~~
 
+This demotion is temporary and environmental; it lifts as gravity falls. It is not the cost of a breach: standing lost at a breach is bounded by the ceiling of [KTP-REPAIR] Section 4.4 (The Cost) and returns only by acts recorded after reconciliation.
+
 ### Action Class Restriction
 
 Specific action classes are disabled at gravity thresholds:

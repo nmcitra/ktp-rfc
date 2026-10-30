@@ -27,7 +27,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | section | declares | required |
 |---|---|---|
 | `risk_factors` | which Context Signals feed each of the five Risk Factors, by what aggregation, at what weight | yes |
-| `demand_inputs` | each externally supplied demand input (such as `moment_criticality`): its supplying party, unit convention, and source, per `[KTP-CORE]` L14 | yes, per demand input used |
+| `demand_inputs` | each externally supplied demand input: its closed supplier/profile, source, unit/range, freshness and verification contract under [demand-supplier.md](demand-supplier.md); no signals, aggregation or weight | yes, per demand input used |
 | `soul_veto` | the sovereignty frameworks queried before aggregation | yes |
 | `feeds` | which signals each configured feed populates | yes, where feeds are configured |
 | `aliases` | which member of each populated alias set this deployment populates | yes, per populated set |
@@ -65,6 +65,26 @@ Constraints, all quoted from their rulings:
 ### The Soul veto
 
 `soul_veto` declares the sovereignty frameworks queried per `[KTP-SENSORS]` §4.3. It is not a weighted term: a sufficiently good score must not be able to outvote a sovereignty constraint (#83). If ANY framework returns veto, S = 1; if ANY query is UNDETERMINED — unreachable, error, timeout, or empty — S = 1, one branch, no separation (`ktp-sensors` §4.3, per #105). Only an answering framework returns a clearance.
+
+## Demand inputs — the supplier contract
+
+`moment_criticality` is demand-side under demand-side criticality contract, not a sixth weighted Risk Factor.
+Every used input declares the complete contract in
+[demand-supplier.md](demand-supplier.md) and
+[demand-input-contract.json](../schemas/demand-input-contract.json), referenced
+by this deployment schema. The authoritative value is the closed
+[demand-input-value-v1](../schemas/demand-input-value.json) payload obtained or
+corroborated through the declared source, not a requester-provided scalar.
+Its supplier/profile, full deployment digest, unit, observed/issued times,
+authenticated provenance and exact preclassification operation binding must
+all match independently trusted evaluation context. A missing or invalid value
+reads as the most critical moment without becoming a fabricated observation.
+No supplier formula or extra Context Signal aggregation is standardized here.
+
+Declaration changes increment this profile's version and digest. Old values
+cannot choose the old profile or an alternative source after current validation
+fails. Supplier independence and actual evidence freshness remain runtime
+obligations; the closed shape alone establishes neither.
 
 ## Feeds — how the wire reaches the catalogue
 

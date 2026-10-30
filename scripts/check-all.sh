@@ -3,7 +3,7 @@
 # This is the one command to run before opening a pull request.
 # Mirrors .github/workflows/rfc-sync.yml (job: gates) and repo-hygiene.yml.
 #
-# The conformance tests need three packages. CI installs them into its runner;
+# The conformance tests need four packages. CI installs them into its runner;
 # locally this script installs them into a throwaway .venv/ in the repo root
 # (ignored by git and by the hygiene check), never into the system Python.
 set -euo pipefail
@@ -26,16 +26,17 @@ step "Section references";               python3 scripts/check-section-refs.py
 
 step "Conformance test dependencies"
 PY=python3
-if ! python3 -c 'import jsonschema, cryptography, rfc8785' 2>/dev/null; then
+if ! python3 -c 'import jsonschema, cryptography, rfc8785, rfc3986_validator' 2>/dev/null; then
   [ -x .venv/bin/python3 ] || python3 -m venv .venv
   PY=.venv/bin/python3
-  "$PY" -c 'import jsonschema, cryptography, rfc8785' 2>/dev/null \
-    || "$PY" -m pip install --quiet jsonschema==4.26.0 cryptography==50.0.1 rfc8785==0.1.4
+  "$PY" -c 'import jsonschema, cryptography, rfc8785, rfc3986_validator' 2>/dev/null \
+    || "$PY" -m pip install --quiet jsonschema==4.26.0 cryptography==50.0.1 rfc8785==0.1.4 rfc3986-validator==0.1.1
   echo "using .venv/"
 fi
 
 step "Declarations";                     "$PY" scripts/check-declarations.py
 step "Tooling regressions";               "$PY" scripts/test-source-checks.py
+step "Supplier declaration regressions";  "$PY" scripts/test-demand-declarations.py
 
 step "Capacity threshold regressions";   "$PY" scripts/test-envelope-thresholds.py
 step "Risk Factor weight regressions";   "$PY" scripts/test-risk-factor-weights.py

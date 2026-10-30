@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-27
+date: 2026-10-30
 category: exp
 ipr: trust200902
 
@@ -1627,7 +1627,7 @@ Admissibility verdicts are invariant under re-description — packet level,
 syscall level, API level, agent level — only because action risk attaches to
 governed-world state transitions rather than to description events, and
 composition merges causal action contracts before evaluating risk. That algebra
-is discharged; the aggregation in Section 6.8 does not yet perform the
+is discharged; the aggregation in Section 6.7 does not yet perform the
 composition, and L15 states that limit. The theorem it yields is conditional on
 **faithful description**:
 a proof, per description level, that the level's events implement the claimed
@@ -1952,7 +1952,7 @@ lands, the declaration is the whole of the treatment.
 ## L15. Composition across requests is not yet required
 
 This specification does not claim that a limit holds across requests. The
-aggregation algorithm (Section 6.8) evaluates one request: A for that request,
+aggregation algorithm (Section 6.7) evaluates one request: A for that request,
 against E at that moment. It has no step that combines the consequences of
 separate requests. A consequence split across tools, agents, routes, time, or
 the identities of one beneficiary can therefore pass every per-request
@@ -1981,7 +1981,7 @@ lineage is among what would convert this limit.
 Converts to spec text when the aggregation composes, before evaluating risk,
 every request that shares a declared consequence measure and window, across
 tools, agents, routes, time, and the identities that resolve to one
-beneficiary, against one atomic reservation of the remaining capacity; when a
+beneficiary, against one atomic reservation of the remaining budget; when a
 reservation is released only on authenticated evidence that nothing was
 dispatched; when a declared joint operation shares that reservation rather than
 being refused; and when those cases are run.

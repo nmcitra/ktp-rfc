@@ -54,7 +54,7 @@ attack cases name each of those splits.
   the governed world, not the decision record.
 - The entry states what converts it: composition before risk evaluation of
   every request sharing a declared consequence measure and window, against
-  one atomic reservation of the remaining capacity, released only on
+  one atomic reservation of the remaining budget, released only on
   authenticated evidence of non-dispatch, with declared joint operations
   sharing the reservation; a ceiling summed over a lineage is named as among
   what is owed.

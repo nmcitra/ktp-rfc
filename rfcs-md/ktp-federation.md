@@ -301,6 +301,8 @@ Example calculation:
    E_base in Zone B = 85 * 0.8 = 68
 ~~~
 
+The same calculation applies to a person's standing, and only where a federation agreement exists. A person's standing crosses a federation link as the agreement provides: the receiving zone applies its directional trust factor and its zone-mass ceiling, and MAY admit the person at any standing from zero up to that ceiling. An agreement MAY set the factor for persons separately from the factor for agents. Where no agreement exists, no standing transfers, and a person's standing in one zone says nothing about the person in another.
+
 ## Dynamic Trust Factor
 
 Trust factors can be adjusted dynamically based on:

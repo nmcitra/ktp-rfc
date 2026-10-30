@@ -15,6 +15,7 @@ actual request, capacity, Soul constraints, grants, readiness, topology,
 revocations and applicable deployment policy MUST still be checked at execution.
 Ordinary request association is specified in [Request Binding](request-binding.md);
 portable evaluation records are specified in [Decision Geometry](decision-geometry.md).
+Neither places a request digest inside this state assertion.
 
 This document and [`trust-proof.json`](../schemas/trust-proof.json) are the
 single native v3 wire contract for every conformance level. The schema fixes

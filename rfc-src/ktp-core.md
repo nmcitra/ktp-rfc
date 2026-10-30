@@ -485,6 +485,8 @@ This design ensures that environmental risk has veto power over agent capability
 
 The Risk Factor is defined once, in Section 5.2 above, and nowhere else in this set. Keeping one input steady against local sensor noise before it enters that sum is a matter of feed configuration. {{KTP-SENSORS}} Section 2.3 describes, informatively, reading an input at three sensing scopes, Node, Neighborhood, and Global, and aggregating the readings by the feed aggregation of {{KTP-SENSORS}} Section 2.2. The technique yields the value of one input. It does not yield R; its weights are feed weights of that input, not the weights of Section 6.5 (Domain Weights); and a deployment that does not use it is not less conformant for that.
 
+In a nested deployment, a ring's Risk Factor also carries its enclosure's exposure, the Enclosure Domain. It acts on Section 5.2's sum as a floor: it can raise R and never lower it below the value that sum produces. See {{KTP-SENSORS}} Section 2.3 and {{KTP-ZONES}} Section 3.7 (Nested Zones).
+
 ## Effective Trust Score (E_trust)
 
 The Effective Trust Score is the value used to evaluate the Zeroth Law. It is calculated as:

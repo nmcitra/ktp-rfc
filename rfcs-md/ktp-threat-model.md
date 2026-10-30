@@ -806,18 +806,39 @@ TM-FED-002: Trust Factor Manipulation Threat: Artificially inflate foreign zone 
 
 TM-FED-003: Federation Partition Threat: Isolate zones from each other Attack: Network attack, DNS hijacking Impact: MEDIUM - federation disruption Mitigation: Multiple paths, independent operation Risk: MEDIUM
 
-TM-FED-004: Cross-Zone Attack Escalation Threat: Use federation to attack multiple zones Attack: Compromise one zone, propagate via federation Impact: HIGH - multi-zone compromise Mitigation: Trust Factor limits blast radius Risk: LOW
+TM-FED-004: Cross-Zone Attack Escalation Threat: Use federation to attack multiple zones Attack: Compromise one zone, propagate via federation Impact: HIGH - multi-zone compromise Mitigation: Trust Factor limits blast radius; nested deployments additionally apply the failure rules of KTP-ZONES invariant 4 Risk: LOW
+
+TM-FED-005: Depth Spoofing Threat: Claim a depth or ancestry not traversed Attack: Forged Ingress Receipts, or genuine receipts from Oracles that are not in fact nested Impact: HIGH - admission to an inner ring without crossing its enclosures Mitigation: Receipts bound to issuer, subject, audience, preceding receipt, Topology Epoch and admission; ancestry verified against the authenticated Topology, not registry membership Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-006: Calm Injection Threat: An enclosure reports a low Risk Factor to lull a ring Attack: Compromised or misconfigured enclosure Oracle Impact: MEDIUM - enclosure surcharge suppressed Mitigation: The floor of KTP-ZONES invariant 1; the ring's own gateway reading of the enclosure; audit. The floor does not establish that a measurement is true Risk: MEDIUM
+
+TM-FED-007: Ring Bypass Threat: Reach an inner ring without passing an enclosure's gateway Attack: A legitimate receipt chain presented over a route that skipped a gateway, or an exposed management interface Impact: HIGH - inner-ring access outside enforcement Mitigation: Every data, management and control-plane route passes an enforcing gateway (KTP-ZONES invariant 4); receipts bound to the admission Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-008: Enclosure Heat Poisoning Threat: An enclosure signs falsely high risk to suppress legitimate operation inside a ring Attack: Compromised enclosure Oracle Impact: MEDIUM - degraded operation inside the ring Mitigation: Bounded reach; signed, attributable reports; the ring's independent gateway reading; Recursive Constraint over the enclosure's governance. The floor holds against false calm, not false heat Risk: MEDIUM
+
+TM-FED-009: Topology Tampering Threat: Publish a false Topology so a ring believes it is outermost, or believes an attacker's zone is its enclosure Attack: Compromise of the Topology publication channel, or a stale epoch held back from one ring Impact: HIGH - every receipt check passes against the false map Mitigation: Topology changes authenticated under Zone Governance; Topology Epoch bound into every receipt; Recursive Constraint over the publisher Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-010: Enclosure Availability Denial Threat: Deny new ingress to every ring inside an enclosure Attack: Denial of service against one enclosure's Trust Oracle (TM-D-001), which fail-closed ingress turns into a stack-wide denial Impact: MEDIUM - no new admissions inside the enclosure; resident agents continue under the ring's degraded-operation rules Mitigation: Trust Oracle mesh redundancy in every enclosure; degraded-operation rules for residents. The residual is accepted by design: ingress without evidence does not open Risk: MEDIUM
+
+TM-FED-011: Inner-Zone Inference Threat: Reconstruct a confidential ring's conditions from claims in an outward proof or an Exit Attestation Attack: Read the six inputs, trust velocity, volatility or Trust Score statistics that egress shaping left in place Impact: MEDIUM - ring conditions disclosed to any holder of the proof Mitigation: Egress Shaping restates or omits every claim that carries the ring's conditions (KTP-ZONES Section 7.4); confidential rings omit Trust Score statistics from Exit Attestations Risk: LOW
 
 ~~~
 Summary:
-+------------+--------+------------+--------+---------------+
-| Threat     | Impact | Likelihood | Risk   | Mitigation    |
-+------------+--------+------------+--------+---------------+
-| TM-FED-001 | HIGH   | LOW        | LOW    | Verification  |
-| TM-FED-002 | MEDIUM | MEDIUM     | MEDIUM | Limits, audit |
-| TM-FED-003 | MEDIUM | MEDIUM     | MEDIUM | Redundancy    |
-| TM-FED-004 | HIGH   | LOW        | LOW    | Trust Factor  |
-+------------+--------+------------+--------+---------------+
++------------+--------+------------+------------+------------------------+
+| Threat     | Impact | Likelihood | Risk       | Mitigation             |
++------------+--------+------------+------------+------------------------+
+| TM-FED-001 | HIGH   | LOW        | LOW        | Verification           |
+| TM-FED-002 | MEDIUM | MEDIUM     | MEDIUM     | Limits, audit          |
+| TM-FED-003 | MEDIUM | MEDIUM     | MEDIUM     | Redundancy             |
+| TM-FED-004 | HIGH   | LOW        | LOW        | Trust Factor           |
+| TM-FED-005 | HIGH   | UNASSESSED | UNASSESSED | Bound receipts         |
+| TM-FED-006 | MEDIUM | MEDIUM     | MEDIUM     | Floor, own reading     |
+| TM-FED-007 | HIGH   | UNASSESSED | UNASSESSED | Gateway containment    |
+| TM-FED-008 | MEDIUM | MEDIUM     | MEDIUM     | Bounded reach          |
+| TM-FED-009 | HIGH   | UNASSESSED | UNASSESSED | Authenticated Topology |
+| TM-FED-010 | MEDIUM | MEDIUM     | MEDIUM     | Oracle redundancy      |
+| TM-FED-011 | MEDIUM | LOW        | LOW        | Egress Shaping         |
++------------+--------+------------+------------+------------------------+
 ~~~
 
 # Attack Trees

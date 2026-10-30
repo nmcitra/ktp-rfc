@@ -58,6 +58,18 @@ no implementation promises past it.
 Class: MAJOR, through the release decision (#182); this entry rides it. No
 MUST is added or altered.
 
+### L23: a number that is digested or compared has no single written form
+
+**Finding:** Implementing the vectors exposed that the set fixes no written
+form for a number whose bytes are digested or compared. A repeating value,
+such as one third of the hundred-point allocation, or a decimal with more
+significant digits than an IEEE 754 double holds, can be written more than one
+way. Found by @martherus.
+
+- Core, L23: the gap is named, with the condition that converts it.
+
+Class: Clarification. No MUST is added or altered.
+
 ### R is defined once; Risk Domains are an informative technique
 
 **Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk

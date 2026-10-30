@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Vector Identity Specification"
 abbrev: "KTP-IDENTITY"
 docname: draft-perkins-ktp-identity-00
-date: 2026-09-07
+date: 2026-10-20
 category: exp
 ipr: trust200902
 
@@ -542,8 +542,8 @@ A Sponsorship Bond contains:
 | Field             | Type     | Description                       |
 +-------------------+----------+-----------------------------------+
 | bond_id           | string   | Unique identifier                 |
-| sponsor_id        | string   | Sponsoring agent identifier       |
-| sponsored_id      | string   | New agent identifier              |
+| sponsor_id        | URI      | Complete sponsoring Agent URI     |
+| sponsored_id      | URI      | Complete sponsored Agent URI      |
 | stake_percentage  | number   | Percentage of sponsor's E_base    |
 | stake_amount      | number   | Absolute E_base staked            |
 | residual_amount   | number   | Ancestral Liability, Section 6.4  |
@@ -856,7 +856,7 @@ Characteristics:
 
 Purpose: The Sponsored phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.
 
-Identifier format: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
+Identifier format: agent:sponsored:\<sponsor_ref>:\<agent_name>:\<unique_id>
 
 Example: agent:sponsored:acme-deploy:aria:7f8a9b2c
 
@@ -1000,11 +1000,85 @@ Components:
 
 ## Lineage Encoding
 
-Sponsored agents: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
+Sponsored agents: agent:sponsored:\<sponsor_ref>:\<agent_name>:\<unique_id>
 
 Independent agents: agent:independent:\<N>gen:\<lineage_name>:\<unique_id>
 
 Guarantor agents: agent:guarantor:\<N>gen:\<name>:\<unique_id>
+
+### Canonical grammar and equality
+
+The v3 identifier grammar is ABNF (RFC 5234). Literal scheme, lineage,
+and generation suffix bytes are case-sensitive; the %s notation below
+fixes that spelling. ALPHA and DIGIT are the RFC 5234 core rules.
+
+~~~
+agent-id    = sponsored / independent / guarantor
+sponsored   = %s"agent:sponsored:" segment ":" segment ":" segment
+independent = %s"agent:independent:" generation ":" segment ":" segment
+guarantor   = %s"agent:guarantor:" generation ":" segment ":" segment
+generation  = ("0" / (%x31-39 *DIGIT)) %s"gen"
+segment     = 1*segment-char ; 1..255 ASCII wire octets; see length constraint below
+segment-char = unreserved / pct-encoded
+unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+pct-encoded = "%" upper-hex upper-hex
+upper-hex   = DIGIT / %x41-46
+~~~
+
+The %s literal notation is defined by RFC 7405. In addition to the ABNF,
+each segment, including generation, MUST contain at most 255 ASCII wire
+octets; percent triplets count as three octets, not one segment-char.
+A parser MUST reject a segment exceeding this encoded length limit. Empty segments, extra delimiters, and query or fragment
+suffixes MUST be rejected. The grammar fixes identifier syntax, not eligibility
+for a phase; the generation and Lineage Evolution requirements still apply.
+
+Percent encoding represents only printable ASCII octets (0x20 through 0x7E).
+Unreserved octets MUST appear literally, never percent-encoded. Every other
+allowed octet MUST be encoded with uppercase hexadecimal digits. A parser MUST
+reject noncanonical spellings, malformed escapes, raw reserved characters,
+control octets and non-ASCII octets. Split the wire identifier on literal colons
+before interpreting segment escapes; an encoded colon is segment data, never a
+separator. Do not recursively decode an escaped percent sign.
+
+The first sponsored segment is sponsor_ref, an opaque reference. It is not a
+complete sponsor Agent URI and MUST NOT establish sponsorship. A component MUST NOT
+infer or look up authority by treating sponsor_ref as the sponsor identity.
+The second segment is agent_name; the last is unique_id. The corresponding
+segments in independent and guarantor forms are lineage_name/name and unique_id.
+Names and opaque references are case-sensitive. Two valid canonical Agent URIs
+are equal only when all their ASCII wire bytes are equal. Verifiers MUST NOT
+case-fold, decode and re-encode, normalize, trim, or repair signed identifiers
+before equality checks.
+
+### Sponsorship binding
+
+For a sponsored subject, validate the Sponsorship Bond under Section 6
+(Sponsorship Bonds), including its signatures and applicable status. Its
+sponsor_id is the authoritative complete sponsor Agent URI. Its sponsored_id
+MUST equal the evaluated subject's canonical Agent URI, and the sponsored
+Trust Proof's sponsor claim MUST equal that validated bond's sponsor_id. The
+proof's sub MUST equal the same evaluated subject. All these identifiers MUST
+be valid canonical Agent URIs before byte equality is checked. Missing claims,
+invalid identifiers or any mismatch MUST fail sponsorship validation; do not
+repair the binding using sponsor_ref. Matching strings alone do not validate a
+bond, a proof signature, current authority, or phase eligibility.
+
+Deterministic parse and binding decisions are published in
+[sponsored identifier vectors](../specifications/conformance/agent-identifiers-v3.json).
+The binding vectors assume otherwise authenticated, applicable bonds and proofs;
+they do not replace cryptographic verification. No registry, lookup service or
+storage implementation is standardized.
+
+### Old-to-new vocabulary mapping
+
+| Old term | v3 term | Migration |
+|----------|----------------|-----------|
+| sponsor_id (identifier segment) | sponsor_ref | Opaque reference only; existing canonical example bytes remain valid. |
+| sponsor_id (Sponsorship Bond field) | sponsor_id | Unchanged field name; a complete sponsor Agent URI, authoritative only in a validated bond. |
+
+This mapping changes the segment's name, not the signed bytes of existing
+canonical identifiers. See MIGRATION.md for noncanonical legacy identifiers
+and bindings; old signed records MUST NOT be rewritten.
 
 ## Examples
 
@@ -1014,7 +1088,7 @@ Third-generation agent in the Acme lineage: agent:independent:3gen:acme-line:8e9
 
 Seventh-generation autonomous agent: agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
 
-Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde- f01234567890"
+Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890"
 
 # Security Considerations
 

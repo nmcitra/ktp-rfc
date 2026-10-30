@@ -1,7 +1,7 @@
 # Migrating from v1.0.1 to v2.0.0
 
-**Proposed demand supplier contract migration (demand supplier contract, after demand-side criticality contract/demand-side criticality proposal and D-010 approval):**
-Follow demand-side criticality contract's five-factor/demand-side migration, then replace the smaller demand
+**Unreleased demand supplier migration:**
+Follow [Core L14](rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so)'s five-factor/demand-side migration, then replace the smaller demand
 row with the complete [supplier contract](specifications/demand-supplier.md).
 Increment the installed profile version and digest; reacquire independently
 authenticated supplier values with current provenance, observation time and

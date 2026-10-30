@@ -1,6 +1,6 @@
 # Per-operation Demand Supplier Contract
 
-**Proposed, unreleased demand supplier contract.**
+**Unreleased demand supplier contract.**
 
 `moment_criticality` is a declared demand-side input, never a weighted Risk
 Factor. The Risk Factor aggregates five weighted inputs; this contract adds
@@ -12,7 +12,7 @@ The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 
 A deployment that uses `moment_criticality` MUST install its complete declaration
 under `demand_inputs.moment_criticality` in the deployment profile. A deployment
-that uses none may omit demand_inputs as demand-side criticality contract permits. Omission is not a way to
+that uses none may omit demand_inputs under [Core L14](../rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so). Omission is not a way to
 ignore an input required for an actual operation: that required but undeclared
 input is unavailable and receives the restrictive reading below.
 
@@ -113,11 +113,10 @@ The exact preimage includes one zero byte after the ASCII prefix.
 The descriptor deliberately excludes the supplied criticality value and final
 computed A: hashing either into the input needed to compute A would be circular.
 A later canonical authorization request MUST independently bind its final
-classified demand and the same resolved invocation fields. Where request association contract is
+classified demand and the same resolved invocation fields. Where canonical request association is
 composed, construct both bindings from that single actual invocation; the
-preclassification digest does not replace request association contract's complete request/proof digest,
-replay reservation or use-time checks. This proposal is reviewable on demand-side criticality proposal
-without making request association contract's separate artifact a new dependency.
+preclassification digest does not replace the complete canonical request/proof digest,
+replay reservation or use-time checks. See [Core Section 6.6](../rfc-src/ktp-core.md#66-decision-contract) for the decision contract.
 
 Digest matching admits a value only for evaluation of that exact operation.
 It is not a capability, replay reservation, dispatch promise or execution
@@ -127,7 +126,7 @@ receipt. Missing actual invocation data cannot be supplied by the value itself.
 
 After declaration, supplier, complete authentication, provenance, time and
 operation binding pass, consume the supplied value only on the demand or
-supervision side as demand-side criticality contract specifies. It MUST NOT enter R, change E_base or
+supervision side under [Core L14](../rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so). It MUST NOT enter R, change E_base or
 E_trust, lower A, lower existing supervision, remove constraints or reverse
 Soul/capacity/prior vetoes. No Context Signal subset is fabricated for it.
 
@@ -137,7 +136,10 @@ moment (1 in the native declared range). This is a restrictive decision reading,
 not a fabricated observed value. Preserve the unavailable state, cause and
 provenance in the evaluation record; do not replace the signed payload with 1
 or represent 1 as the supplier's observation. The producer's original bytes
-remain immutable.
+remain immutable. In `undefined_inputs`, record `layer: term`,
+`input: moment_criticality`, and `state: absent`, `unanswered`, `stale` or
+`undefined` according to the actual cause: missing input, no usable answer,
+expired observation, or failed validation/binding respectively.
 
 Evaluation may proceed with that restrictive reading only if the installed
 contract can establish a finite conservative demand on the common scale.
@@ -156,7 +158,7 @@ schema or weaken its record/carrier contract.
 
 ## 5. Migration, vectors and evidence limits
 
-[demand-supplier-v1.json](conformance/demand-supplier-v1.json) complements demand-side criticality contract's
+[demand-supplier-v1.json](conformance/demand-supplier-v1.json) complements the Core demand-input
 [demand-input-v1.json](conformance/demand-input-v1.json) with complete declaration,
 operation, signed test value, golden SHA-256/SHA-384 preimages, and positive/
 negative supplier, time, provenance and operation-binding cases. Its signing
@@ -164,14 +166,13 @@ profile and unsafe public test key are fixture-only, not a production envelope.
 These are modeled boundary requirements, not supplier authentication or runtime
 certification. Implementations must exercise the actual supplier/verifier path.
 
-Migrate generic six-factor declarations according to demand-side criticality contract, then install the
+Migrate generic six-factor declarations under [Core L14](../rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so), then install the
 complete supplier contract and new deployment digest. Reacquire and authenticate
 per-operation values under that configuration; never rename catalogue signals
 or old request-supplied scalars into valid demand evidence. Historical profiles,
 values and signatures remain under their original release. Explicit legacy
 handling cannot bypass the new active declaration and binding requirements.
 
-Schemas and external
-fixture checks still do not establish supplier independence, live clocks,
+Schemas and external fixture checks still do not establish supplier independence, live clocks,
 provenance truth, calibration or actual enforcement. No public reference
 implementation or first-conformance claim is offered.

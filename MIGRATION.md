@@ -1,5 +1,19 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Native-v3 conformance-level migration (v2.1.0 baseline):**
+Basic, Standard and Full remain three conformance levels, each adding deployment
+assurance to the same Core. A v2.1.0 Basic deployment with three weighted inputs,
+no Soul gate and a sixty-second proof retains the identity `legacy-v2.1-basic`;
+it MUST NOT claim native-v3 Basic by changing its label. Native-v3 Basic requires
+all five weighted inputs, the independent Soul gate, Core standing and result
+semantics, and the same canonical proof with a ten-second maximum lifetime as
+every other level. Follow the complete
+[migration mapping](specifications/core-conformance.md#immutable-baseline-and-migration-mapping)
+before making a native claim. Preserve historical signed bytes and their release
+meaning; any explicitly authorized legacy verifier remains separate, with no
+automatic fallback from native-v3 verification.
+
+
 **Portable Decision Geometry migration:**
 Retain historical v2.1 records in their original formats, with their original
 signatures and provenance. They remain historical records; do not invent missing

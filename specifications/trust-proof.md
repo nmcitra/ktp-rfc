@@ -124,8 +124,8 @@ The closed `root_instrument` is always present and follows
 [Closed External Root Projection](external-root.md) and
 [root-instrument.json](../schemas/root-instrument.json). Its kind is none,
 sponsorship_bond or external_attestation. None requires an established no-credit
-reason; it is a lapse state, never a design without accountability. Numeric
-E_base for any subject is capped at 70, along with all tighter ceilings, and the
+reason; it is a lapse state, never a design without accountability. For any subject with no root credit, numeric
+E_base is capped at 70, along with all tighter ceilings, and the
 external_root_missing ceiling MUST be carried. Active variants bind one exact
 signed instrument, issuer/subject, declared inputs and bounded outside
 terminator chain; current/non_renewable require end_time and the proof MUST NOT

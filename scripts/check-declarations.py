@@ -7,9 +7,9 @@ script checks what a schema cannot — the joins against catalog/, which stays
 the single source of every identifier list so the profile schema never grows
 a second copy of them:
 
-  1. shape — required sections, the arity (five factors + soul_veto),
-     field types and ranges (stdlib only; run any 2020-12 validator for the
-     full schema when one is available)
+  1. shape — required sections, the #83 arity (declared factors + soul_veto),
+     field types and ranges (supplier declarations also use jsonschema
+     and rfc3986-validator, installed by check-all.sh)
   2. existence — every declared signal ID resolves in catalog/*.json
   3. aliases — no aggregation includes more than one member of an alias set,
      and every populated set is declared under `aliases` with a member of
@@ -18,7 +18,7 @@ a second copy of them:
      normalization entry
   5. envelope_thresholds — finite numbers, 0 <= m_veto < m_allow
      where declared; omission retains the zero-threshold default
-  6. risk-factor weights — five finite numbers in (0, 1], whose parsed
+  6. risk-factor weights — declared finite numbers in (0, 1], whose parsed
      decimal representations sum exactly to 1; never silently rescaled
   7. emergency_policy — optional exact policy ID/version/digest reference;
      this checks its shape, not approval or activation
@@ -46,10 +46,9 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "catalog"
 DOMAINS = ["world", "information", "time", "soul", "relational", "body",
            "meta"]
-FACTORS = ["evidence_density", "trust_trend", "adversarial_pressure",
-           "update_resistance", "attestation_coverage"]
-DEMAND_INPUTS = ["moment_criticality"]
-DEMAND_FIELDS = ["supplier", "unit", "source"]
+PROFILE_SCHEMA = json.loads((ROOT / "schemas/deployment-profile.json").read_text())
+FACTORS = PROFILE_SCHEMA["properties"]["risk_factors"]["required"]
+
 
 EXAMPLE = {
     "profile_id": "example-minimal",
@@ -60,31 +59,29 @@ EXAMPLE = {
                         "relational.trust.outbound_mean"],
             "aggregation": {"method": "weighted_average",
                             "parameters": {"weights": [0.6, 0.4]}},
-            "weight": 0.29},
+            "weight": 0.25},
         "trust_trend": {
             "signals": ["soul.temporal.pattern_stability"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.18},
+            "weight": 0.15},
         "adversarial_pressure": {
             "signals": ["world.security.anomaly_score"],
             "aggregation": {"method": "max"},
-            "weight": 0.24},
+            "weight": 0.2},
         "update_resistance": {
             "signals": ["soul.consistency.behavioral_drift_rate"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.12},
+            "weight": 0.1},
         "attestation_coverage": {
             "signals": ["body.hardware.bmc_reachable"],
             "aggregation": {"method": "min"},
-            "weight": 0.17},
+            "weight": 0.15},
+        "moment_criticality": {
+            "signals": ["time.window.business_hours_active"],
+            "aggregation": {"method": "max"},
+            "weight": 0.15},
     },
     "soul_veto": {"frameworks": ["example-sovereignty-registry"]},
-    "demand_inputs": {
-        "moment_criticality": {
-            "supplier": "example-event-calendar",
-            "unit": "0 to 1, 1 is the most critical moment",
-            "range": [0, 1],
-            "source": "deployment calendar feed"}},
     "feeds": {"feed-01": {"populates": ["world.security.anomaly_score"]}},
     "aliases": {"business_hours_active": "time.window.business_hours_active"},
     "normalization": {
@@ -115,6 +112,51 @@ EXAMPLE = {
 }
 
 
+# Examples follow the checked-out contract, never a profile submitted by a user.
+# #147 supplies the complete example as a normative conformance vector.
+SUPPLIER_VECTOR = ROOT / "specifications/conformance/demand-supplier-v1.json"
+if SUPPLIER_VECTOR.exists():
+    EXAMPLE = json.loads(SUPPLIER_VECTOR.read_text())["deployment_profile"]
+elif "moment_criticality" not in FACTORS:
+    # PR #164's explicitly chosen illustrative weights; no normalization of
+    # submitted declarations, whose exact unit sum remains checked below.
+    EXAMPLE["risk_factors"].pop("moment_criticality")
+    for factor, weight in zip(FACTORS, (0.29, 0.18, 0.24, 0.12, 0.17), strict=True):
+        EXAMPLE["risk_factors"][factor]["weight"] = weight
+    EXAMPLE["demand_inputs"] = {"moment_criticality": {
+        "supplier": "example-event-calendar",
+        "unit": "0 to 1, 1 is the most critical moment", "range": [0, 1],
+        "source": "deployment calendar feed"}}
+
+
+def check_demand_inputs(profile):
+    if "demand_inputs" not in profile:
+        return []
+    if "demand_inputs" not in PROFILE_SCHEMA["properties"]:
+        return ["shape: demand_inputs is not declared in this deployment schema"]
+    # Use the canonical schema, including closed nested objects and URI format,
+    # instead of maintaining a second list of supplier contract fields.
+    import rfc3986_validator  # Required: jsonschema otherwise silently skips URI checks.
+    from jsonschema import Draft202012Validator, FormatChecker
+    validator = Draft202012Validator(PROFILE_SCHEMA, format_checker=FormatChecker())
+    fails = ["shape: " + ".".join(map(str, error.absolute_path)) + ": " + error.message
+             for error in validator.iter_errors(profile)
+             if error.absolute_path and error.absolute_path[0] == "demand_inputs"]
+    rows = profile["demand_inputs"]
+    if isinstance(rows, dict):
+        for name, row in rows.items():
+            if isinstance(row, dict):
+                for field in ("supplier", "unit", "source"):
+                    if isinstance(row.get(field), str) and not row[field].strip():
+                        fails.append(f"shape: demand_inputs.{name}.{field} must be non-empty")
+            if isinstance(row, dict) and isinstance(row.get("supplier"), str):
+                if row["supplier"].strip().lower() in (
+                        "requester", "request", "the request", "action request"):
+                    fails.append(f"shape: demand_inputs.{name}.supplier is the requester; "
+                                 "the supplying party must be independent")
+    return fails
+
+
 def load_catalogue():
     ids, synthetic = set(), set()
     for dom in DOMAINS:
@@ -134,9 +176,9 @@ def load_catalogue():
 
 
 def check(profile):
-    fails = []
     if not isinstance(profile, dict):
         return ["shape: deployment profile must be an object"]
+    fails = check_demand_inputs(profile)
     ids, synthetic, alias_sets = load_catalogue()
 
     # 1 · shape
@@ -147,14 +189,14 @@ def check(profile):
     declared_rf = profile.get("risk_factors", {})
     if not isinstance(declared_rf, dict):
         fails.append("shape: risk_factors must be an object containing the "
-                     "five weighted inputs")
+                     "declared weighted inputs")
         return fails
     for f in FACTORS:
         if f not in declared_rf:
             fails.append(f"shape: risk factor '{f}' missing — the #83 arity "
-                         "is five weighted inputs plus the Soul veto")
+                         "is declared weighted inputs plus the Soul veto")
     for f in set(declared_rf) - set(FACTORS):
-        fails.append(f"shape: '{f}' is not one of the five Risk Factors")
+        fails.append(f"shape: '{f}' is not one of the declared Risk Factors")
     # Later catalogue checks only inspect known factors with object shapes.
     # Malformed declarations still fail; filtering never repairs the profile.
     rf, weights = {}, []
@@ -184,37 +226,12 @@ def check(profile):
         # already resolved each number; this does not preserve token text.
         total = sum(weights, Fraction(0))
         if total != 1:
-            fails.append("weights: the five Risk Factor weights must sum "
+            fails.append("weights: the declared Risk Factor weights must sum "
                          f"exactly to 1 (parsed decimal total: {total}); "
                          "invalid weights are not rescaled (ktp-core 6.4)")
     if "soul_veto" in profile and not profile["soul_veto"].get("frameworks"):
         fails.append("shape: soul_veto.frameworks empty — the veto needs at "
                      "least one framework to query")
-    di = profile.get("demand_inputs")
-    if di is not None:
-        if not isinstance(di, dict):
-            fails.append("shape: demand_inputs must be an object keyed by demand input")
-        else:
-            for name, spec in di.items():
-                if name not in DEMAND_INPUTS:
-                    fails.append(f"shape: '{name}' is not a declared demand input")
-                    continue
-                if not isinstance(spec, dict):
-                    fails.append(f"shape: demand_inputs.{name} must be an object")
-                    continue
-                for extra in set(spec) - set(DEMAND_FIELDS) - {"range"}:
-                    fails.append(f"shape: demand_inputs.{name}.{extra} is not a demand-input "
-                                 "field; a demand input declares supplier, unit, source and an "
-                                 "optional range, and never signals, an aggregation or a weight")
-                for field in DEMAND_FIELDS:
-                    v = spec.get(field)
-                    if not (isinstance(v, str) and v.strip()):
-                        fails.append(f"shape: demand_inputs.{name}.{field} must be a "
-                                     "non-empty string (ktp-core L14: the supplying "
-                                     "party, unit convention and source are declared)")
-                if isinstance(spec.get("supplier"), str) and spec["supplier"].strip().lower() in ("requester", "request", "the request", "action request"):
-                    fails.append(f"shape: demand_inputs.{name}.supplier is the requester; "
-                                 "a demand input is never supplied by the requesting party")
     ps = profile.get("peer_share")
     if ps is not None and ps != 0 and not (
             isinstance(ps, (int, float)) and 10 <= ps <= 20):

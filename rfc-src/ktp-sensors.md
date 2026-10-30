@@ -118,22 +118,28 @@ unobservable with a separate decision_stress reading of 1.0. There is no
 numeric failure default or estimator profile.
 
 For each of the five weighted inputs, `weighted_average` combines the complete
-admissible population with its installed feed weights:
+declared signal/collection slots, each with its fixed installed weight:
 
 ~~~
-   dimension_value = sum(feed_weight[i] * feed_value[i]) /
-                     sum(feed_weight[i])
+   dimension_value = sum(slot_weight[i] * slot_value[i]) /
+                     sum(slot_weight[i])
 ~~~
 
-Here feed_weight[i] is the configured weight (default 1.0) and feed_value[i]
-is the current normalized value in [0,1] admitted by the installed signal
-population rule. The denominator must be finite and positive and the result
-finite and in [0,1]; an undefined aggregate follows the unobservable path above.
-This definition does not permit dropping an unknown required signal or
-renormalizing over whichever feeds answered. Section 2.3's informative sensing
-scopes use this same aggregation for one input; their feed weights are not
-Risk Factor weights. Demand-side `moment_criticality` is not one of these five
-inputs and never enters this aggregation into R.
+The denominator covers every declared slot and is fixed before evaluation.
+`aggregation_slots` in sensor-config.json records slot IDs, positive weights,
+and ordered alternative feed IDs. Where omitted, the installed complete
+signal/collection mapping MUST establish equivalent fixed slots and weights
+(default 1.0); it MUST NOT derive them from currently admitted feeds.
+For each slot, select exactly one admissible complete current alternative in
+installed order. A backup fills the SAME slot at the SAME slot weight even if
+its own configured feed weight differs. Simultaneous alternatives MUST NOT be
+counted twice. Replacement additionally requires the independently established
+continuity conditions in Missing Evidence. A slot without sufficient current
+population is unknown; do not drop it or renormalize over available sources.
+The denominator MUST be finite and positive, and the result finite and in [0,1];
+an undefined aggregate follows the unobservable path above. Section 2.3's
+informative sensing scopes use this same aggregation for one input; slot weights
+are not Risk Factor weights. Demand-side `moment_criticality` never enters it.
 
 Soul remains an on-demand per-framework query: any veto or UNDETERMINED query
 raises S = 1. A current answer from another framework cannot replace it.

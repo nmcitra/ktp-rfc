@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/sensor-config.json",
   "title": "KTP Sensor Feed Configuration — Unreleased v3",
-  "description": "Configuration schema for Context Signals sensor feeds. Its dimension is one of the five weighted inputs or the Soul veto; a demand input is not configured as a sensor factor. The published v2 schema, whose dimension enum included moment_criticality, is archived separately as sensor-config-legacy-v2.json.",
+  "description": "Active v3 sensor configuration. Missing evidence has no numeric failure fallback; independent alternatives fill declared fixed-weight slots under specifications/missing-evidence.md.",
   "type": "object",
   "required": [
     "dimension",
@@ -11,7 +11,14 @@
   "properties": {
     "dimension": {
       "type": "string",
-      "enum": ["evidence_density", "trust_trend", "adversarial_pressure", "update_resistance", "attestation_coverage", "soul"],
+      "enum": [
+        "evidence_density",
+        "trust_trend",
+        "adversarial_pressure",
+        "update_resistance",
+        "attestation_coverage",
+        "soul"
+      ],
       "description": "The Risk Factor this configuration applies to, or soul for the veto; a demand input such as moment_criticality is declared under KTP-CORE L14, never configured here"
     },
     "feeds": {
@@ -20,7 +27,7 @@
         "$ref": "#/$defs/feed"
       },
       "minItems": 1,
-      "description": "Array of sensor feeds for this Risk Factor"
+      "description": "Configured feeds for a weighted Risk Factor or Soul veto."
     },
     "aggregation": {
       "type": "string",
@@ -32,7 +39,40 @@
         "min"
       ],
       "default": "weighted_average",
-      "description": "How to aggregate multiple feeds (the soul veto must use any_veto)"
+      "description": "Installed aggregation over complete declared slots; weighted_average uses fixed slot weights, including on substitution."
+    },
+    "aggregation_slots": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Fixed signal/collection slots installed before evaluation. Each alternative must satisfy the same complete population rule. The first admissible eligible alternative is selected in declared order, once per slot; backup feed weight does not replace slot weight. Slot IDs and alternative IDs must be unique, with alternatives resolving to configured feed IDs. Semantic population and independence checks remain required.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "weight",
+          "alternatives"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "weight": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "alternatives": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {
@@ -109,11 +149,28 @@
         "transform": {
           "type": "string",
           "description": "Optional JSONPath or transformation expression"
+        },
+        "independence_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "independence_evidence": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1
         }
       },
       "not": {
         "required": [
           "default_on_failure"
+        ]
+      },
+      "dependentRequired": {
+        "independence_group": [
+          "independence_evidence"
+        ],
+        "independence_evidence": [
+          "independence_group"
         ]
       }
     },
@@ -210,9 +267,5 @@
       "aggregation": "any_veto"
     }
   ],
-  "not": {
-    "required": [
-      "default_on_failure"
-    ]
-  }
+  "additionalProperties": false
 }

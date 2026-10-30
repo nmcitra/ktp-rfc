@@ -242,6 +242,158 @@
         "aggregation": "weighted_average"
       },
       "schemaAccepted": false
+    },
+    {
+      "id": "reject-top-level-unknown",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "a",
+            "source": "https://a.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "a",
+            "independence_evidence": "urn:ktp:fixture:independence:a"
+          },
+          {
+            "id": "b",
+            "source": "https://b.example/reading",
+            "enabled": true,
+            "weight": 0.5,
+            "independence_group": "b",
+            "independence_evidence": "urn:ktp:fixture:independence:b"
+          },
+          {
+            "id": "c",
+            "source": "https://c.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "c",
+            "independence_evidence": "urn:ktp:fixture:independence:c"
+          }
+        ],
+        "aggregation": "weighted_average",
+        "aggregation_slots": [
+          {
+            "id": "signal-one",
+            "weight": 1,
+            "alternatives": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "id": "signal-two",
+            "weight": 1,
+            "alternatives": [
+              "c"
+            ]
+          }
+        ],
+        "unrecognized": true
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "reject-unpaired-independence-group",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "a",
+            "source": "https://a.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "a"
+          },
+          {
+            "id": "b",
+            "source": "https://b.example/reading",
+            "enabled": true,
+            "weight": 0.5,
+            "independence_group": "b",
+            "independence_evidence": "urn:ktp:fixture:independence:b"
+          },
+          {
+            "id": "c",
+            "source": "https://c.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "c",
+            "independence_evidence": "urn:ktp:fixture:independence:c"
+          }
+        ],
+        "aggregation": "weighted_average",
+        "aggregation_slots": [
+          {
+            "id": "signal-one",
+            "weight": 1,
+            "alternatives": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "id": "signal-two",
+            "weight": 1,
+            "alternatives": [
+              "c"
+            ]
+          }
+        ]
+      },
+      "schemaAccepted": false
+    },
+    {
+      "id": "reject-unpaired-independence-evidence",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "a",
+            "source": "https://a.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_evidence": "urn:ktp:fixture:independence:a"
+          },
+          {
+            "id": "b",
+            "source": "https://b.example/reading",
+            "enabled": true,
+            "weight": 0.5,
+            "independence_group": "b",
+            "independence_evidence": "urn:ktp:fixture:independence:b"
+          },
+          {
+            "id": "c",
+            "source": "https://c.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "c",
+            "independence_evidence": "urn:ktp:fixture:independence:c"
+          }
+        ],
+        "aggregation": "weighted_average",
+        "aggregation_slots": [
+          {
+            "id": "signal-one",
+            "weight": 1,
+            "alternatives": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "id": "signal-two",
+            "weight": 1,
+            "alternatives": [
+              "c"
+            ]
+          }
+        ]
+      },
+      "schemaAccepted": false
     }
   ],
   "outcome_schema_cases": [
@@ -3890,5 +4042,100 @@
       }
     }
   ],
-  "evidence_limits": "Fixed modeled propagation and shape cases, not sensor truth, trusted clocks, actual source independence, real population completeness, enforcement or sensor-stack interoperability. No estimator profile exists. decision_stress and capacityKnown are restrictive evaluation metadata, not fabricated observations."
+  "evidence_limits": "Fixed modeled propagation and shape cases, not sensor truth, trusted clocks, actual source independence, real population completeness, enforcement or sensor-stack interoperability. No estimator profile exists. decision_stress and capacityKnown are restrictive evaluation metadata, not fabricated observations.",
+  "weighted_average_cases": [
+    {
+      "id": "unequal-source-weight-same-slot-substitution",
+      "configuration": {
+        "dimension": "evidence_density",
+        "feeds": [
+          {
+            "id": "a",
+            "source": "https://a.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "a",
+            "independence_evidence": "urn:ktp:fixture:independence:a"
+          },
+          {
+            "id": "b",
+            "source": "https://b.example/reading",
+            "enabled": true,
+            "weight": 0.5,
+            "independence_group": "b",
+            "independence_evidence": "urn:ktp:fixture:independence:b"
+          },
+          {
+            "id": "c",
+            "source": "https://c.example/reading",
+            "enabled": true,
+            "weight": 1,
+            "independence_group": "c",
+            "independence_evidence": "urn:ktp:fixture:independence:c"
+          }
+        ],
+        "aggregation": "weighted_average",
+        "aggregation_slots": [
+          {
+            "id": "signal-one",
+            "weight": 1,
+            "alternatives": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "id": "signal-two",
+            "weight": 1,
+            "alternatives": [
+              "c"
+            ]
+          }
+        ]
+      },
+      "independence_confirmed": true,
+      "normalized_values": {
+        "a": 0.2,
+        "b": 0.2,
+        "c": 0.4
+      },
+      "evaluations": [
+        {
+          "current": [
+            "a",
+            "b",
+            "c"
+          ],
+          "selected": [
+            "a",
+            "c"
+          ],
+          "denominator": 2,
+          "expected": {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "observable",
+            "value": 0.3
+          }
+        },
+        {
+          "current": [
+            "b",
+            "c"
+          ],
+          "selected": [
+            "b",
+            "c"
+          ],
+          "denominator": 2,
+          "expected": {
+            "input": "evidence_density",
+            "layer": "term",
+            "state": "observable",
+            "value": 0.3
+          }
+        }
+      ]
+    }
+  ]
 }

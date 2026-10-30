@@ -165,8 +165,11 @@ failure and causal links stay in the associated evidence record. Canonical
 ordering, when serialized, is layer order feed, signal, term, query, then
 lexicographic input identifier within each layer.
 
+Carry these entries only in canonical Decision Geometry and the audit record,
+never as additional members of the closed TrustProof payload.
+
 These entries support the attribution work following
-[Induced Conservatism Induced Conservatism contract](https://github.com/nmcitra/ktp-rfc/issues/146): a feed
+[Induced Conservatism](https://github.com/nmcitra/ktp-rfc/issues/146): a feed
 failure, a derived unknown and a factor's restrictive reading remain separately
 visible. They do not establish whether an adversary caused the uncertainty.
 This proposal neither assigns blame nor changes the later attribution bounds.
@@ -194,3 +197,13 @@ population completeness, trusted clocks, actual sensor-stack interoperability
 or runtime enforcement. Acquisition, retries, alerting and operator workflow
 remain product responsibilities. No public reference implementation or
 first-conformance claim is offered.
+
+## Fixed-weight redundant substitution
+
+For `weighted_average`, use the complete declared signal/collection slots and
+fixed weights defined in [Sensors Feed Aggregation](../rfc-src/ktp-sensors.md#feed-aggregation).
+Each slot contributes once. An independent backup supplies the same slot at the
+same weight; its configured source weight cannot change that weight. With slot
+weights 1 and 1, readings 0.2 and 0.4 yield 0.3 both before and after replacing
+the first source by a backup reading 0.2 whose configured weight is 0.5.
+Concurrent alternatives do not add a slot or change the denominator.

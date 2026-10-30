@@ -70,7 +70,7 @@ Constraints, all quoted from their rulings:
 
 The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,644 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
 
-`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is populated only when current declared observations under `[KTP-SENSORS]` §6.1 satisfy its complete population rule, including independently established redundancy where a failed source is replaced. A signal with no sufficient declared current population reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (the owning proposal).
+`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is populated only when current declared observations under `[KTP-SENSORS]` §6.1 satisfy its complete population rule, including independently established redundancy where a failed source is replaced. A signal with no sufficient declared current population reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
 
 A feed's AVAILABLE state is necessary but not sufficient to populate a signal:
 the complete catalogue population/denominator/normalization rule must hold.
@@ -188,10 +188,12 @@ receive their own entries; a successful backup does not invent those entries.
 An empty denominator yields signal/term entries without a failed feed. An
 unanswered Soul framework yields query/unanswered and veto; later uncomputed
 terms are not fabricated. Preserve the exact three fields and four state names
-above; detailed causes/provenance remain outside these entries. This supplies
-per-layer evidence for the attribution work following Induced Conservatism contract and does not infer
-an adversary's intent. The field MUST appear whenever an undefined input
-resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) follows the owning artifact schemas; this definition is that gate's cargo.
+above; detailed causes/provenance remain outside these entries. This preserves per-layer evidence without inferring an adversary's intent.
+The field MUST appear whenever an undefined input resolved the outcome toward
+the more restrictive alternative. Carry it only in canonical Decision Geometry
+and its audit record, under their owning schemas; the closed TrustProof payload
+MUST NOT gain an `undefined_inputs` member.
+
 
 ## Conformance
 

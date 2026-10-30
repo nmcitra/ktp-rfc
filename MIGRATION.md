@@ -631,3 +631,5 @@ unchanged at their v2 identifiers and are kept as
 `schemas/risk-factors-legacy-v2.json`, `schemas/trust-proof-legacy-v2.json` and
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
+
+**Sensor aggregation migration:** Remove numeric failure defaults and install fixed aggregation slots and independently assessed alternatives before using redundant coverage. Historical configurations retain their release meaning.

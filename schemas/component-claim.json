@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ktp.dev/schemas/component-claim.json",
-  "title": "Proposed component-scoped implementer claim metadata",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/component-claim-v1/component-claim.json",
+  "title": "Component-scoped implementer claim metadata",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -25,15 +25,11 @@
         "evaluator-pdp-v1",
         "pep-enforcement-v1",
         "flight-recorder-v1",
-        "transport-federation-v1",
-        "assembled-deployment-v1"
+        "transport-federation-v1"
       ]
     },
     "scope": {
-      "enum": [
-        "component",
-        "deployment"
-      ]
+      "const": "component"
     },
     "implementation": {
       "type": "object",
@@ -138,69 +134,6 @@
           "declaration_digest"
         ]
       }
-    },
-    "deployment_level": {
-      "enum": [
-        "Basic",
-        "Standard",
-        "Full"
-      ]
-    },
-    "components": {
-      "type": "array",
-      "minItems": 7,
-      "maxItems": 100,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "profile": {
-            "enum": [
-              "core-evaluation-v1",
-              "trust-proof-verifier-v1",
-              "oracle-issuer-v1",
-              "evaluator-pdp-v1",
-              "pep-enforcement-v1",
-              "flight-recorder-v1",
-              "transport-federation-v1"
-            ]
-          },
-          "implementation": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "uri": {
-                "type": "string",
-                "format": "uri",
-                "maxLength": 2048
-              },
-              "build": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 2048
-              }
-            },
-            "required": [
-              "uri",
-              "build"
-            ]
-          },
-          "declaration_digest": {
-            "type": "string",
-            "pattern": "^sha256:[0-9a-f]{64}$"
-          },
-          "claim_digest": {
-            "type": "string",
-            "pattern": "^sha256:[0-9a-f]{64}$"
-          }
-        },
-        "required": [
-          "profile",
-          "implementation",
-          "declaration_digest",
-          "claim_digest"
-        ]
-      }
     }
   },
   "required": [
@@ -214,48 +147,5 @@
     "status",
     "suite_versions",
     "evidence"
-  ],
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "profile": {
-            "const": "assembled-deployment-v1"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "scope": {
-            "const": "deployment"
-          }
-        },
-        "required": [
-          "deployment_level",
-          "components"
-        ]
-      },
-      "else": {
-        "properties": {
-          "scope": {
-            "const": "component"
-          }
-        },
-        "not": {
-          "anyOf": [
-            {
-              "required": [
-                "deployment_level"
-              ]
-            },
-            {
-              "required": [
-                "components"
-              ]
-            }
-          ]
-        }
-      }
-    }
   ]
 }

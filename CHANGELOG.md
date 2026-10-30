@@ -80,7 +80,7 @@ than they can be repaired.
   stays open to the affected party in every tier; the chain anchors and the
   roots produce; residual harm reads undeclared where nothing was declared.
 - `specifications/conformance/breach-reconciliation-v1.json` publishes
-  forty-one boundary cases, including theatre, holdout, the hollow return,
+  forty-three boundary cases, including theatre, holdout, the hollow return,
   the barrage, the Silent Veto storm, the crisis landmark, a criticality
   invalid against measured reproduction, one lineage capped in arrival,
   capacity revised to demonstrated, and the tiers and what no tier may change. They define no formula.

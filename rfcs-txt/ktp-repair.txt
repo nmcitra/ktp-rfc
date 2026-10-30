@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Perkins
 Internet-Draft                                                   NMCITRA
-Intended status: Experimental                            13 October 2026
-Expires: 16 April 2027
+Intended status: Experimental                            29 October 2026
+Expires: 2 May 2027
 
 
           Kinetic Trust Protocol (KTP) - Repair Specification
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 April 2027.
+   This Internet-Draft will expire on 2 May 2027.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 1]
+Perkins                    Expires 2 May 2027                   [Page 1]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -90,9 +90,9 @@ Table of Contents
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
    9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  15
    10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
-   11. Limits of This Specification  . . . . . . . . . . . . . . . .  15
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  15
+   11. Limits of This Specification  . . . . . . . . . . . . . . . .  16
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  16
      12.2.  Informative References . . . . . . . . . . . . . . . . .  16
    Appendix A.  Acknowledgments  . . . . . . . . . . . . . . . . . .  17
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  17
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 2]
+Perkins                    Expires 2 May 2027                   [Page 2]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -165,7 +165,7 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 3]
+Perkins                    Expires 2 May 2027                   [Page 3]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -221,7 +221,7 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 4]
+Perkins                    Expires 2 May 2027                   [Page 4]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -277,7 +277,7 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 5]
+Perkins                    Expires 2 May 2027                   [Page 5]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -333,7 +333,7 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 6]
+Perkins                    Expires 2 May 2027                   [Page 6]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -389,7 +389,7 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 7]
+Perkins                    Expires 2 May 2027                   [Page 7]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
@@ -414,13 +414,14 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
 5.2.  Sponsorship Under Unreconciled Breach
 
-   A root whose lineages carry unreconciled breaches above the count its
-   published profile declares *MUST NOT* open a Sponsorship Bond until
-   the count falls below it.  The declared count *MUST NOT* exceed the
-   profile's declared repair capacity μ per window, and for hard entries
-   the count *MUST NOT* be greater than one.  A bond opened in breach of
-   this rule is void, and the agent it would have sponsored has no
-   genesis.
+   A root whose lineages carry more unreconciled breaches than the count
+   its published profile declares *MUST NOT* open a Sponsorship Bond
+   while they do.  At a declared count of zero, one unreconciled breach
+   closes sponsorship and its reconciliation reopens it.  The declared
+   count *MUST NOT* exceed the profile's declared repair capacity μ per
+   window, and for hard entries the count *MUST NOT* be greater than
+   one.  A bond opened in breach of this rule is void, and the agent it
+   would have sponsored has no genesis.
 
    This is the only cost a lineage of disposable agents cannot avoid,
    and it is the lineage-summed bound that [KTP-CORE] names as owed
@@ -441,15 +442,15 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    computes ambient breach against that.  A profile *MAY* declare a
    repairer interval, the time a repairer is given after bringing a
    hard-entry record to anchor before carrying the next; where it does,
-   a record brought to anchor by a repairer within the interval still
 
 
 
-Perkins                   Expires 16 April 2027                 [Page 8]
+Perkins                    Expires 2 May 2027                   [Page 8]
 
 Internet-Draft                 KTP-REPAIR                   October 2026
 
 
+   a record brought to anchor by a repairer within the interval still
    reduces the open breach stock and re-establishes what it re-
    establishes, and does not count toward demonstrated capacity.  A zone
    that spends its repairers cannot show the throughput as durable.  A
@@ -488,9 +489,22 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    declared criticality it is reported as the breach index B = Kρ. The
    zone's reserve is 1/K: while ρ is at or below it the zone holds the
    margin its criticality demands; above it the reserve is gone, whether
-   or not the stock is growing; above one the stock necessarily grows;
-   at two or above the stock grows faster than the whole of the zone's
-   repair capacity.
+   or not the stock is growing; above one, breaches arrive faster than
+   the zone has demonstrated it can reconcile them, and at that rate the
+   stock grows; at two or above, at that rate it grows by at least the
+   whole of the zone's repair capacity each window.  The stock itself
+   can still fall in a window where ρ is above one, because records
+   brought to anchor within a repairer interval reduce it without
+   counting toward demonstrated capacity.
+
+
+
+
+
+Perkins                    Expires 2 May 2027                   [Page 9]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
 
    The breach index is reported to the zone's environmental measurement
    as a source feeding adversarial pressure, in the same way as the
@@ -498,14 +512,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    aggregation window and with the excess above one banked so that a
    lull does not clear it.  The weight the deployment gives it is the
    deployment's declared appetite under the prudence rail.  The signals
-
-
-
-Perkins                   Expires 16 April 2027                 [Page 9]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
-
    from which arrival and stock are computed are those the catalogue
    already carries for obligation breaches and relational repair; this
    document introduces no signal.  The Effective Trust Score is
@@ -525,9 +531,10 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
    3.  Above the reserve, the breach index raises the Risk Factor it
        feeds, to the ceiling the deployment declared for that feed.
-       Above one, the stock is growing and the deployment *MUST* report
-       it so.  The index does not by itself veto any action; the
-       capacity check does.
+       Above one, the deployment *MUST* report that arrivals exceed its
+       demonstrated capacity, and *MUST* report the stock's actual
+       change in the window beside it.  The index does not by itself
+       veto any action; the capacity check does.
 
    4.  A zone with no accountable root has a repair capacity of zero and
        is saturated whenever its open breach stock is above zero.
@@ -535,6 +542,25 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    5.  A person's acts contribute to arrival and stock as acts.  Ambient
        breach and the breach index are properties of the zone and *MUST
        NOT* be reported per person.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                    Expires 2 May 2027                  [Page 10]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
 
    6.  Breaches reproduce: a breach that draws a breach in answer, a
        rule that keeps producing them, and an adversary adapting to the
@@ -554,14 +580,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    B = Kρ; the stock as dU/dt = Z − R, where R is the records anchored
    in the window, R ≤ μ, and no term leaves the stock otherwise; the
    banked excess as C(t+Δt) = max(0, C(t) + (B − 1)Δt); with
-
-
-
-Perkins                   Expires 16 April 2027                [Page 10]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
-
    reproduction g measured at idle, the queue folds at ρ = 1 − √g and
    the reserve is valid while K > 1/(1 − √g).  The derivation, the
    correction that produced the utilization form, the recovery
@@ -588,6 +606,18 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    breaches while it repairs.  A contingency that is not declared in the
    profile is not available.
 
+
+
+
+
+
+
+
+Perkins                    Expires 2 May 2027                  [Page 11]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
    Crisis: utilization at or above two, held over the recovery window.
    The zone *MAY* declare a repair emergency under [KTP-EMERGENCY], and
    only under it: its custodians, its activation threshold, its
@@ -610,14 +640,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    breach stock at or below its declared target, the banked excess at
    zero, and records amended to raise residual harm and the further
    breaches of seeking without attending both below their declared
-
-
-
-Perkins                   Expires 16 April 2027                [Page 11]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
-
    rates.  Crossing back below a threshold is not recovery.  A tier that
    was entered produces a rule-repair record under Section 4.6 (The
    Rule) naming what in the profile let it happen; the tier is itself a
@@ -645,6 +667,13 @@ Internet-Draft                 KTP-REPAIR                   October 2026
       and is carried as unrepairable; an absent value invalidates the
       record.
 
+
+
+Perkins                    Expires 2 May 2027                  [Page 12]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
    *  verifier: the independent party and its declaration of
       independence at the date of the record.
 
@@ -664,15 +693,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    process [KTP-AUDIT] specifies.  Disposition does not reopen the
    ceiling: a disposed record remains a record for the purpose of the
    precondition by its anchor.
-
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 12]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
 
 7.  Conformance
 
@@ -702,6 +722,14 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    The threats this document is written against, and where each is
    answered:
 
+
+
+
+Perkins                    Expires 2 May 2027                  [Page 13]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
    *  Identity shedding.  A breached actor spawns or splits and re-
       enters as a fresh agent.  The breach attaches to the trajectory,
       and descendants spawned after it carry it (Section 4.1).
@@ -719,16 +747,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
    *  Waiting it out.  Time, restart, fresh proof, new sponsor, the
       actor's ending.  None is reconciliation (Section 4.1).
-
-
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 13]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
 
    *  Manufactured breach.  An adversary induces vetoes to flood the
       repair route.  A Silent Veto is not a breach; the first entry
@@ -759,6 +777,15 @@ Internet-Draft                 KTP-REPAIR                   October 2026
       anchor and is a record only while the anchor verifies under the
       current profile (Section 4.1, [KTP-CRYPTO]).
 
+
+
+
+
+Perkins                    Expires 2 May 2027                  [Page 14]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
    *  The orphan stop.  A breached actor with no way back.  The route is
       published, the obligation to seek it is on the breacher, and the
       tier below the ceiling keeps the heartbeat (Sections 4.5, 5.3).
@@ -773,18 +800,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
       the roots who anchor wear out.  Effective capacity is the lesser
       of declared and demonstrated, so the zone's own chain revises the
       denominator before the index lies (Section 5.3).
-
-
-
-
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 14]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
 
    *  The crisis that drops the rules.  A zone in debt closes breaches
       by policy, lowers Δ, drains the stock.  No tier may change the
@@ -813,6 +828,20 @@ Internet-Draft                 KTP-REPAIR                   October 2026
 
    This document has no IANA actions.
 
+
+
+
+
+
+
+
+
+
+Perkins                    Expires 2 May 2027                  [Page 15]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
 11.  Limits of This Specification
 
    This document binds re-entry and the rule, not the mechanism of
@@ -833,14 +862,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 15]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
 
    [KTP-CORE] Perkins, C., "Kinetic Trust Protocol - Core Protocol",
               n.d..
@@ -870,6 +891,13 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    [KTP-GOVERNANCE]
               Perkins, C., "Kinetic Trust Protocol - Governance", n.d..
 
+
+
+Perkins                    Expires 2 May 2027                  [Page 16]
+
+Internet-Draft                 KTP-REPAIR                   October 2026
+
+
    [KTP-HUMAN]
               Perkins, C., "Kinetic Trust Protocol - Human Integration",
               n.d..
@@ -888,15 +916,6 @@ Internet-Draft                 KTP-REPAIR                   October 2026
    [KTP-CRYPTO]
               Perkins, C., "Kinetic Trust Protocol - Cryptographic
               Requirements", n.d..
-
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 16]
-
-Internet-Draft                 KTP-REPAIR                   October 2026
-
 
    [KTP-EMERGENCY]
               Perkins, C., "Kinetic Trust Protocol - Emergency
@@ -930,23 +949,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 16 April 2027                [Page 17]
+Perkins                    Expires 2 May 2027                  [Page 17]

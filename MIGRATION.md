@@ -1,5 +1,24 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased v3 PoR boundary migration (from v2.1.0):**
+Use the exact intervals in [KTP-IDENTITY] Section 5.2 (Friction Categories).
+Non-boundary categories are unchanged. At 0.5, 0.7, and 0.9 the upper category
+applies; at 0.3 CALM applies and an ordinary success earns no new attestation.
+Preserve every original signed historical record. For historical ordinary-success
+attestations at exactly R = 0.3, a deployment MUST explicitly declare either
+(a) grandfathered credit evaluated only under an identified, tagged v2
+calculation profile, or (b) zero credit in its v3 evaluation. Grandfathered
+credit MUST NOT be represented as credit earned under the v3 intervals. If the
+tagged profile and prior credit cannot be established, v3 credit is zero.
+Record the migration choice, affected records, prior profile and credit where
+known, and resulting credit with authenticated authority and provenance in an
+appended migration record. Do not modify signed history or silently change its
+category. Reevaluate other exact-boundary records under the declared calculation
+profile and record any credit change with the same provenance. The vectors
+specify new ordinary successes, not retroactive issuance or automatic changes
+to graceful-degradation or recovery attestations.
+
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the

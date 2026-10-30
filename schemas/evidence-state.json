@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/evidence-state.json",
+  "title": "Proposed per-layer evidence state (missing-evidence contract)",
+  "description": "Closed feed/signal/term outcomes. No unavailable observation has a measured value. decision_stress is restrictive treatment, not measurement. Actual authentication/population and time semantics are not schema claims.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/feed_current"
+    },
+    {
+      "$ref": "#/$defs/feed_unavailable"
+    },
+    {
+      "$ref": "#/$defs/signal_populated"
+    },
+    {
+      "$ref": "#/$defs/signal_unknown"
+    },
+    {
+      "$ref": "#/$defs/term_observable"
+    },
+    {
+      "$ref": "#/$defs/term_unobservable"
+    }
+  ],
+  "$defs": {
+    "feed_current": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "feed"
+        },
+        "state": {
+          "const": "current"
+        },
+        "value": {
+          "not": {
+            "type": "null"
+          }
+        },
+        "observed_at_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "value",
+        "observed_at_ms"
+      ]
+    },
+    "feed_unavailable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "feed"
+        },
+        "state": {
+          "const": "unavailable"
+        },
+        "reason": {
+          "enum": [
+            "absent",
+            "unanswered",
+            "stale",
+            "undefined"
+          ]
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "reason"
+      ]
+    },
+    "signal_populated": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "signal"
+        },
+        "state": {
+          "const": "populated"
+        },
+        "value": {
+          "not": {
+            "type": "null"
+          }
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "value"
+      ]
+    },
+    "signal_unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "signal"
+        },
+        "state": {
+          "const": "unknown"
+        },
+        "reason": {
+          "enum": [
+            "absent",
+            "unanswered",
+            "stale",
+            "undefined"
+          ]
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "reason"
+      ]
+    },
+    "term_observable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "term"
+        },
+        "state": {
+          "const": "observable"
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "value"
+      ]
+    },
+    "term_unobservable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "const": "term"
+        },
+        "state": {
+          "const": "unobservable"
+        },
+        "reason": {
+          "enum": [
+            "absent",
+            "unanswered",
+            "stale",
+            "undefined"
+          ]
+        },
+        "decision_stress": {
+          "const": 1
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state",
+        "reason",
+        "decision_stress"
+      ]
+    },
+    "undefined_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "layer": {
+          "enum": [
+            "feed",
+            "signal",
+            "term",
+            "query"
+          ]
+        },
+        "state": {
+          "enum": [
+            "absent",
+            "unanswered",
+            "stale",
+            "undefined"
+          ]
+        }
+      },
+      "required": [
+        "input",
+        "layer",
+        "state"
+      ]
+    }
+  }
+}

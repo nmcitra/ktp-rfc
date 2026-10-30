@@ -60,6 +60,14 @@
         }
       }
     },
+    "demand_inputs": {
+      "type": "object",
+      "description": "Each externally supplied demand input the deployment uses: its supplying party, unit convention and source ([KTP-CORE] L14). A demand input raises the demand an action presents (A) and never enters R. An absent, stale, unverifiable or differently bound value reads as the most critical moment. Declared for each demand input the deployment uses; a deployment that uses none omits this object.",
+      "additionalProperties": false,
+      "properties": {
+        "moment_criticality": { "$ref": "#/$defs/demand_input" }
+      }
+    },
     "feeds": {
       "type": "object",
       "description": "The wire-to-catalogue mapping (#106): which catalogue signals each configured feed populates. Keys are feed ids as configured in [KTP-SENSORS] 2.2 / sensor-config.json. Stays in configuration; does not ride the wire.",
@@ -303,16 +311,6 @@
         "m_veto": { "type": "number", "minimum": 0 },
         "m_allow": { "type": "number", "exclusiveMinimum": 0 }
       }
-    },
-    "demand_inputs": {
-      "type": "object",
-      "description": "Each externally supplied demand input the deployment uses: its supplying party, unit convention and source ([KTP-CORE] L14). A demand input raises the demand an action presents (A) and never enters R. An absent, stale, unverifiable or differently bound value reads as the most critical moment. Declared for each demand input the deployment uses; a deployment that uses none omits this object.",
-      "additionalProperties": false,
-      "properties": {
-        "moment_criticality": {
-          "$ref": "#/$defs/demand_input"
-        }
-      }
     }
   },
   "$defs": {
@@ -325,6 +323,17 @@
       "type": "string",
       "pattern": "^(world|information|time|soul|relational|body|meta)\\.[a-z0-9_]+\\.[a-z0-9_]+$",
       "description": "A Context Signal ID, domain.group.name, resolved against catalog/*.json."
+    },
+    "demand_input": {
+      "type": "object",
+      "required": ["supplier", "unit", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "supplier": { "type": "string", "minLength": 1, "description": "The declared party that supplies the value. Never the requester or a party acting for the requester ([KTP-CORE] L14); ordinarily the deployment's own event calendar, maintenance schedule or mission-phase feed." },
+        "unit": { "type": "string", "minLength": 1, "description": "The unit convention in force for the value. Values are not comparable across deployments that have not declared a common convention." },
+        "range": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" }, "description": "The accepted inclusive range of the value, low then high. Optional." },
+        "source": { "type": "string", "minLength": 1, "description": "Where the value is read from: the feed, system or record in which the supplier publishes it." }
+      }
     },
     "factor": {
       "type": "object",
@@ -359,41 +368,6 @@
           "exclusiveMinimum": 0,
           "maximum": 1,
           "description": "The factor's finite weight w_i in R = sum(w_i * s_i), strictly greater than 0 and at most 1. The five factor weights must sum to 1, checked by scripts/check-declarations.py; an invalid declaration is rejected, never silently rescaled. This does not constrain per-feed aggregation weights."
-        }
-      }
-    },
-    "demand_input": {
-      "type": "object",
-      "required": [
-        "supplier",
-        "unit",
-        "source"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "supplier": {
-          "type": "string",
-          "minLength": 1,
-          "description": "The declared party that supplies the value. Never the requester or a party acting for the requester ([KTP-CORE] L14); ordinarily the deployment's own event calendar, maintenance schedule or mission-phase feed."
-        },
-        "unit": {
-          "type": "string",
-          "minLength": 1,
-          "description": "The unit convention in force for the value. Values are not comparable across deployments that have not declared a common convention."
-        },
-        "range": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 2,
-          "items": {
-            "type": "number"
-          },
-          "description": "The accepted inclusive range of the value, low then high. Optional."
-        },
-        "source": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Where the value is read from: the feed, system or record in which the supplier publishes it."
         }
       }
     }

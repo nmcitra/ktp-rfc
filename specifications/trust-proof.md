@@ -110,19 +110,23 @@ omit those agent-only fields and MUST NOT receive default agent generation or
 mass ceilings. Authenticated receiving-zone transfer ceilings still apply. Person standing contains only signed acts and terminator standing
 under Core; eligibility and capacity remain separate requirements. For a person,
 the root's `root_person` is the same account as `sub`; the terminator is its
-employer, licensing body or board. Identity and signed-act evidence must be
+employer, licensing body or board. Identity and signed-act evidence MUST be
 independently authenticated; candidate labels cannot choose subject policy.
 For software agents, `sub` MUST identify the same lineage as the claim; any
 generation encoded in an independent or guarantor identifier MUST equal the
 `generation` claim. The complete identifier grammar remains in KTP-IDENTITY.
+For software agents, generation is required: sponsored 0–2, independent 3–6,
+guarantor 7 or more. `sponsor` is required only for sponsored lineage and
+prohibited otherwise. Optional `resilience_hash`, velocity, volatility and
+quorum telemetry cannot replace independently verified standing or authority.
 
 The closed `root_instrument` is always present and follows
 [Closed External Root Projection](external-root.md) and
 [root-instrument.json](../schemas/root-instrument.json). Its kind is none,
 sponsorship_bond or external_attestation. None requires an established no-credit
 reason; it is a lapse state, never a design without accountability. Numeric
-software E_base is capped at 70, along with all tighter ceilings, and the
-external_root_missing ceiling must be carried. Active variants bind one exact
+E_base for any subject is capped at 70, along with all tighter ceilings, and the
+external_root_missing ceiling MUST be carried. Active variants bind one exact
 signed instrument, issuer/subject, declared inputs and bounded outside
 terminator chain; current/non_renewable require end_time and the proof MUST NOT
 outlive it. Signature, current lifecycle, lineage and strongest-single selection

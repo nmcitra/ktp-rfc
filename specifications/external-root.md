@@ -1,14 +1,16 @@
 # Closed External Root Projection
 
-**Proposed, unreleased External Root projection contract.**
+**Proposed, unreleased Closed External Root Projection (specifications/external-root.md).**
 
-The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and
+"MAY" are interpreted as described in BCP 14 (RFC 2119 and RFC 8174) when,
+and only when, they appear in all capitals.
 
 ## 1. Accountability, never a rootless design
 
 KTP-Core's External Root requires an externally accountable party, exposed to
 loss and able to revoke, with a finite declared chain terminating outside the
-agent-trust graph. This proposal fixes the proof projection, not the scoring
+agent-trust graph. This document fixes the proof projection, not the scoring
 computation, legal exposure, adjudication policy or instrument issuance format.
 
 [Root Instrument](../schemas/root-instrument.json) is a closed discriminated
@@ -30,7 +32,7 @@ that its instrument exists, its signatures pass or its lifecycle is current.
   proof's sponsor, and the signed bond's sponsored subject MUST equal proof sub.
   Bond collateral/residual accounting does not become additional root credit.
 - `external_attestation`: attestation id and complete signed-instrument digest,
-  attestor id, exposure class, non-negative declared exposure, strictly positive
+  attestor id, exposure class, strictly positive declared exposure, strictly positive
   anchored capacity, `status`, `end_time`, terminator and chain length. The
   issuer/subject and every projected value MUST match the authenticated source.
   Zero exposure is representable as an instrument input but supplies no credit:
@@ -86,23 +88,23 @@ cryptographic policy, never by a candidate downgrade. Equal decoded fields do
 not permit substituting different signed bytes. The independently installed
 instrument profile fixes signed encoding, issuer roles/keys, witness rules,
 subject, units, exposure interpretation, validity, chain semantics and current
-status access. This decision introduces no universal bond/attestation signing
+status access. This document introduces no universal bond/attestation signing
 format. Without an approved mapping and trustworthy current status, use no
 credit; an unrevoked signature is not evidence of current validity.
 
 For bonds, authenticate the sponsor signature and required Oracle witness, exact
 bond identity/subject/stake terms and authoritative live sponsor input snapshot.
-The registered bond and current input evidence must agree; copying an old stake
+The registered bond and current input evidence MUST agree; copying an old stake
 or the collateral half cannot satisfy that check. For attestations, authenticate
 the attestor, subject, exposure class and numerically comparable declared inputs.
-All numeric inputs must be finite and in their declared bounds; boolean values
+All numeric inputs MUST be finite and in their declared bounds; boolean values
 are not numbers. Capacity at or below zero, missing exposure interpretation or
-unit mismatch is invalid. The evidence must establish irrecoverable,
+unit mismatch is invalid. The evidence MUST establish irrecoverable,
 non-transferable exposure under Core, not merely a positive JSON number.
 
 `current` and `non_renewable` require a complete live instrument with integer
 NumericDate `end_time`, matched exactly to its signed expiry. At issuance and
-reliance, its start time must have arrived and current_time must be strictly
+reliance, its start time MUST have arrived and current_time MUST be strictly
 less than end_time; proof exp MUST NOT exceed it. Equal proof exp and end_time
 is permitted; both cease to be valid at that boundary. Proof lifetime/readiness
 and key ceilings remain independently binding. A future/lapsed instrument is
@@ -117,15 +119,15 @@ invalid_instrument. If verification cannot establish a reported lifecycle event,
 use unverifiable rather than inventing cause. When multiple failures exist,
 record one established applicable reason and retain all detailed evidence in
 the owning lifecycle/evaluation record. The reason never changes zero credit.
-For a software proof with no credit, the applicable ceiling list MUST include
+For any subject with no root credit, the applicable ceiling list MUST include
 `external_root_missing: 70`; verifiers enforce this independently of the list,
 so omission or substitution cannot weaken the cap. Other ceilings still apply.
 
 ## 3. Lifecycle-to-proof table
 
-Every event must bind the selected instrument's exact digest, subject, issuer,
+Every event MUST bind the selected instrument's exact digest, subject, issuer,
 effective time and authenticated event role. The deployment's adjudicator is
-neither attestor nor subject. Findings before expiry must bind the recorded
+neither attestor nor subject. Findings before expiry MUST bind the recorded
 claim and instrument. Conflicting or unavailable authoritative state supplies
 no credit. Reduced proof status MUST NOT invent a detailed claim or finding.
 
@@ -161,7 +163,7 @@ otherwise combine attestations. Select the strongest single eligible instrument.
 For an exact strength tie, select the lexicographically smallest complete
 instrument digest (all candidates use the independently selected digest
 algorithm). Candidate ordering cannot affect the result. This deterministic tie
-rule is a proposed serialization choice, not a new scoring formula.
+rule is the serialization rule, not a new scoring formula.
 
 The proof identifies that selected signed instrument; every projected field
 comes from it and its own lifecycle. Retain the candidate-set evidence,
@@ -181,12 +183,10 @@ explicitly unsafe public test keys. The test-only envelope is not a normative
 production signing profile. Published strength answers are test values under
 the existing Core contract; no formula for A or E is introduced here.
 
-The proposed canonical proof fixtures are regenerated against the closed
-projection and mandatory no-credit reason. This is revision of unreleased
-fixtures, never rewriting released v2.1 proofs. Dependent request association contract/Decision Geometry contract fixtures
-must be refreshed with the exact newly issued proof bytes and recomputed
-associations/carriers when these proposals are composed. Old proposal fixtures
-cannot bypass the adopted root schema merely because they once passed canonical Trust Proof contract.
+The [canonical proof fixtures](conformance/trust-proof-v3.json) use the closed
+projection and mandatory no-credit reason. Request Binding and Decision Geometry
+use these exact signed bytes in their associations and carriers. Published
+v2.1 proofs retain their original signed bytes and release interpretation.
 
 Published v2.1 property bags remain interpretable only under their original
 release, through an explicitly enabled isolated legacy adapter. Migration
@@ -196,6 +196,6 @@ fields. Stored legacy proofs/signatures/provenance remain unchanged.
 
 Schema success, fixed signatures and projection examples do not establish
 real exposure, a trusted issuer/adjudicator, current status, provider correctness,
-accountability chain truth or runtime enforcement. Actual implementations must
+accountability chain truth or runtime enforcement. Actual implementations MUST
 execute these cases against those mechanisms. No reference implementation or
 first-conformance claim is offered.

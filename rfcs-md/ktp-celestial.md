@@ -323,7 +323,7 @@ Validity formula:
 
 Where: base_validity = Standard terrestrial validity (10 seconds) distance_factor = 2 * light_time_one_way (minimum round-trip) trust_factor = 1.0 + (departure_tier * 0.5) (higher trust = longer validity extension)
 
-Example: Mars transit (12.5 min average), Operator tier (0.85)
+Example: Mars transit (12.5 min average), Admin tier (0.85)
 
 ~~~
    distance_factor = 2 * 750 seconds = 1500

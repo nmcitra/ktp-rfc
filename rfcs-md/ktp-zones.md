@@ -857,7 +857,7 @@ Zone genesis MUST follow a formal ceremony:
 
 PHASE 1: TRUSTEE ASSEMBLY
 
-1. Identify M-of-N genesis trustees (recommended: 5-of-7)
+1. Identify k-of-n genesis trustees (recommended: 5-of-7)
 2. Each trustee MUST be identity-proofed to IAL3 by an accredited Identity Proofing Provider (see Section 9.3.4)
 3. Trustees MUST represent diverse interests: -  At least 2 from different organizations -  At least 1 independent technical expert -  At least 1 legal/governance expert
 4. No single organization may control more than 2 trustees
@@ -873,7 +873,7 @@ PHASE 3: KEY GENERATION
 
 1. Conducted in physically secure, air-gapped environment
 2. HSMs generate zone root keypair
-3. M-of-N threshold signatures configured for trustees
+3. k-of-n threshold signatures configured for trustees
 4. Root key NEVER exists in assembled form after ceremony
 5. Each trustee receives encrypted key share
 6. Key shares stored in geographically distributed locations
@@ -881,7 +881,7 @@ PHASE 3: KEY GENERATION
 PHASE 4: GENESIS BLOCK
 
 1. First Trust Oracle is initialized with: -  Zone root public key -  Genesis timestamp -  Trustee public keys and IAL attestations -  Infrastructure Attestation reference -  Zone governance document hash
-2. Genesis block is signed by M-of-N trustees
+2. Genesis block is signed by k-of-n trustees
 3. Genesis block becomes the immutable anchor
 
 PHASE 5: PUBLICATION
@@ -1028,7 +1028,7 @@ The Genesis Block is the zone's immutable origin:
          "trustee_id": "trustee:genesis:1",
          "signature": "sig:trustee:1:..."
        },
-       // ... M-of-N signatures required
+       // ... k-of-n signatures required
      ]
    }
 ~~~
@@ -1041,7 +1041,7 @@ FIRST 24 HOURS (Genesis Window):
 
 - Only genesis trustees can operate as agents
 - Trustees manually verify first operational agents
-- Each new agent requires M-of-N trustee approval
+- Each new agent requires k-of-n trustee approval
 - Maximum 10 agents can be created
 
 DAYS 2-7 (Nursery Period):
@@ -1098,7 +1098,7 @@ Sponsored genesis requirements:
 If the genesis is compromised (trustee breach, key exposure):
 
 1. Any trustee can initiate revocation
-2. M-of-N trustees must confirm
+2. k-of-n trustees must confirm
 3. Zone enters EMERGENCY mode
 4. All Trust Proofs invalidated
 5. New genesis ceremony required

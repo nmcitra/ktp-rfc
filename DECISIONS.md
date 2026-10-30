@@ -57,8 +57,10 @@ Labels on this repository speak to contributors. The clock reads them.
 | `accepted` | Decided yes. A PR is welcome or in progress |
 | `declined` | Decided no. The reason is in the thread and in this file |
 
-The clock starts on the later of the two labels, `decision-needed` and
-`class:*`. When a proposal passes its review window still marked
+The clock starts when the proposal is published (§1). The workflow reads
+the later of the two labels, `decision-needed` and `class:*`, as its record
+of that day — apply both on the day of publication, or the mechanism will
+close the window late. When a proposal passes its review window still marked
 `decision-needed`, a workflow removes that label, applies `discussion`, and
 says so in the thread. That is the window closing by mechanism, not by hand.
 Re-applying `decision-needed` restarts the clock. The workflow is
@@ -149,7 +151,7 @@ Provenance: finding reported by Mike Storm from a shipping v2.0.0 Risk Factor
 producer; text edited by the maintainer.
 
 ### D-007 · Hibernation is the fifth tier, named
-2026-09-09 · Clarification · clock not run
+2026-09-09 · Editorial
 Source: PR #123; SN-004
 Decision: The Trust Tier glossary names Hibernation as the fifth tier rather
 than leaving it implied by the threshold table.
@@ -160,16 +162,22 @@ Source: this PR
 Decision: Contributor-facing labels and this file are added; `CONTRIBUTING.md`
 points here.
 
-### D-009 · An infrastructure execution profile (open)
-Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28
-Source: issue #124
-Decision: pending.
+### D-009 · An infrastructure execution profile
+Published 2026-09-16 · MINOR · floor 2026-10-07 · review-by 2026-10-28 · approved 2026-10-14
+Source: issue #124; PR #131
+Decision: Approved as proposed. The software-substrate execution profile enters
+`specifications/` with v3.0.0; PR #131 merges in the order the v3.0.0 release
+proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
 
-### D-010 · The consolidation block (open)
-Published 2026-09-09 · class pending
+### D-010 · The consolidation block
+Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06 · approved 2026-10-23
 Source: PR #122; CHANGELOG § Unreleased
-Decision: pending.
+Text landed on `main` via PR #123 (2026-09-09), ahead of the floor.
+Decision: Approved as landed. The block stays unreleased on `main` until the
+v3.0.0 tag and ships with it. PR #122 is closed as superseded by the landed
+text. A later proposal that alters a sentence in this block says so in its
+own entry; approval here does not freeze the text.
 
 ### D-011 · Supplier-neutral illustrative examples
 2026-09-20 · Editorial · no clock
@@ -177,3 +185,27 @@ Source: issue #132; PR #133
 Decision: Named companies in a hypothetical hardware-lock-in critique and in
 the OUI tooltip are replaced with supplier-independent wording; the affected
 RFC views are regenerated from source. Proposed by Mike Storm.
+
+### D-012 · Consequential-action execution and evidence
+Published 2026-09-18 · MINOR · floor 2026-10-09 · review-by 2026-10-30 · approved 2026-10-14
+Source: issue #129; PR #139
+Decision: Approved as proposed. The consequential-action execution and
+evidence specification, its schema and its vectors enter the set with v3.0.0;
+PR #139 merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by Mike Storm; KAG as the reference implementation.
+
+### D-013 · Three Risk Factor formulas no longer weight the Soul veto
+Published 2026-10-05 · Clarification · clock 2026-10-05 → floor 2026-10-12 · review-by 2026-10-19 · approved 2026-10-14
+Source: issue #142; the clarification PR opened with this record
+Decision: The descriptive formulas in ktp-signals, ktp-attenuation and
+ktp-oracle that still carried a Soul term inside the weighted sum become
+cross-references to ktp-core's aggregation, with one line recording that the
+weighted form was retired at v2.0.0. No conformant implementation changes.
+
+### D-014 · R is defined once; Risk Domains become an informative technique
+Published 2026-10-05 · MINOR · clock 2026-10-05 → floor 2026-10-26 · review-by 2026-11-16 · approved 2026-10-27
+Source: issue #144; the PR opened with this record
+Decision: Shape A, retire. Core Section 5.2 is the one definition of the
+Risk Factor; Sensors 2.3 keeps the node, neighborhood and global levels as an
+informative technique for one input, Conformance drops the Risk Domain
+requirements, and CT-S-002 is retired.

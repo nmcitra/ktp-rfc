@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Governance Specification"
 abbrev: "KTP-GOVERNANCE"
-date: 2026-09-06
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -192,7 +192,7 @@ Multiple entities share governance:
                  v
        +------------------+
        |  Council Voting  |
-       |  (M-of-N)        |
+       |  (k-of-n)        |
        +------------------+
                  |
                  v

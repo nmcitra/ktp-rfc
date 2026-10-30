@@ -59,7 +59,7 @@ interface KineticEnvelopePlugin {
 
 `ActionContext` carries the sensed state of the action, in the signals the declared profile names. A missing signal that an action class requires sets `capacityKnown = false`.
 
-The numeric demand and capacity fields describe validated, finite, non-negative measurements or declared conservative estimates on a common scale. If input validation cannot establish such a pair, `computeEnvelope` MUST reject without returning a `KineticEnvelopeResult`. The gateway MUST treat that rejection as `silent_veto` and record unavailable inputs under `[KTP-CORE]` §6.7; it MUST NOT fabricate numeric measurements to fill this interface. A valid numeric pair that triggers an early capacity veto still returns a result with `supervision = silent_veto`.
+The numeric demand and capacity fields describe validated, finite, non-negative measurements or declared conservative estimates on a common scale. If input validation cannot establish such a pair, `computeEnvelope` MUST reject without returning a `KineticEnvelopeResult`. The gateway MUST treat that rejection as `silent_veto` and record unavailable inputs under `[KTP-CORE]` §6.8 (Undefined Inputs); it MUST NOT fabricate numeric measurements to fill this interface. A valid numeric pair that triggers an early capacity veto still returns a result with `supervision = silent_veto`.
 
 `margin` MUST be present when the decision reaches margin calculation and MUST be absent when an earlier check stops the evaluation. Absence MUST NOT be interpreted as zero or any other numeric margin.
 
@@ -85,7 +85,7 @@ Per-joint limits are magnitudes like any other, namespaced by joint. `ActionCont
 
 ## Decision contract
 
-The independent capacity check precedes margin arithmetic and profile evaluation. Resolve undefined inputs restrictively under `[KTP-CORE]` §6.7. A declared conservative estimate may supply a usable capacity, but it retains `capacityKnown = false` and its supervision floor. If no finite, non-negative, same-scale A and E remain, the evaluation MUST NOT authorize an action. Booleans, non-numeric values, NaN, and infinities are invalid inputs; do not compare or divide them and do not fabricate a margin for unavailable inputs.
+The independent capacity check precedes margin arithmetic and profile evaluation. Resolve undefined inputs restrictively under `[KTP-CORE]` §6.8 (Undefined Inputs). A declared conservative estimate may supply a usable capacity, but it retains `capacityKnown = false` and its supervision floor. If no finite, non-negative, same-scale A and E remain, the evaluation MUST NOT authorize an action. Booleans, non-numeric values, NaN, and infinities are invalid inputs; do not compare or divide them and do not fabricate a margin for unavailable inputs.
 
 **For a candidate action with valid numeric inputs, `E = 0` or `A > E` MUST yield `silent_veto` before division or profile evaluation.** Profile thresholds and human or peer approval MUST NOT lower that result. A revised candidate action may be proposed and evaluated using its actual parameters; approval alone does not change the demand or capacity of the original action. Existing grants, sovereignty vetoes, and tighter supervision remain binding.
 
@@ -147,7 +147,7 @@ interface KineticReceipt {
 }
 ```
 
-A receipt follows the result's margin-presence rule, including omission on an early capacity veto. Malformed-input rejection is recorded on the gateway's decision record under `[KTP-CORE]` §6.7, without inventing A, E, or a margin to construct this receipt.
+A receipt follows the result's margin-presence rule, including omission on an early capacity veto. Malformed-input rejection is recorded on the gateway's decision record under `[KTP-CORE]` §6.8 (Undefined Inputs), without inventing A, E, or a margin to construct this receipt.
 
 ## Reference profile (ROS2, informative)
 

@@ -38,7 +38,7 @@ recorded when found rather than held for the release that corrects them), and
 Federation's trust rule, under which a parent and child zone trust each other
 at factor 1.0, conflicted with the class-factor deflation that Zones applies at
 ingress once a harder zone sat inside a lighter one; an implementer could not
-do both. Proposed in #⧗.
+do both. Proposed in #159.
 
 - Zones defines nested zones as rings, with enclosure, depth, Class Step,
   Ingress Receipt, Ingress Path and Topology. Four rings, one per Enforcement

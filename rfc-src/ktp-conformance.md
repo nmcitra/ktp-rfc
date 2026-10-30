@@ -177,25 +177,28 @@ Standard conformance adds deployment assurances for uses such as:
 
 ### Standard Requirements Summary
 
+Items marked “Inherited Core” apply at every level; the remaining items add
+Standard deployment assurance.
+
 Trust Oracle:
 
 - Oracle consensus mesh (minimum 4 members for one-Byzantine tolerance; default 5 members, decision quorum 4)
 - Threshold signatures (2-of-3 minimum)
-- Full Trust Score calculation
+- Inherited Core: Full Trust Score calculation
 - Trust velocity tracking (dE/dt)
-- All 5 weighted Risk Factor inputs
+- Inherited Core: All 5 weighted Risk Factor inputs
 
 Risk Factors:
 
-- All 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
-- Soul veto support
+- Inherited Core: All 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
+- Inherited Core: Soul veto support
 - Feed aggregation with configurable weights
 
 Policy Enforcement Point:
 
-- Zeroth Law enforcement
-- Trust tier enforcement (all 5 tiers)
-- Soul veto checking
+- Inherited Core: Zeroth Law enforcement
+- Inherited Core: Trust tier enforcement (all 5 tiers)
+- Inherited Core: Soul veto checking
 - Graceful degradation on Oracle failure
 - Detailed decision logging
 
@@ -210,14 +213,14 @@ Flight Recorder:
 Agents:
 
 - Full trajectory chain
-- Lineage tracking (Sponsored, Independent, Guarantor)
-- Sponsorship support
+- Inherited Core: Lineage tracking (Sponsored, Independent, Guarantor)
+- Inherited Core: Sponsorship support
 
 Protocol:
 
-- Canonical Trust Proof format with the level's additional assurance requirements
+- Inherited Core: Canonical Trust Proof format with the level's additional assurance requirements
 - Threshold signatures
-- 10-second maximum proof lifetime, including outages; expired at current_time = exp
+- Inherited Core: 10-second maximum proof lifetime, including outages; expired at current_time = exp
 - Federation protocol support
 
 ### Standard Limitations
@@ -350,18 +353,19 @@ MAY:
 
 ### Standard Oracle Requirements
 
-All Basic requirements, plus:
+All Basic requirements, including the inherited Core items identified below,
+plus the remaining Standard assurance requirements:
 
 MUST:
 
 - Operate as a consensus mesh with at least 4 authenticated members for f = 1; the default is N = 5, f = 1, q = 4
 - Implement threshold signatures (2-of-3)
 - Protect authoritative state under a reviewed, named and versioned consensus protocol satisfying specifications/oracle-consensus.md; verify committed standing before proof issuance or signing
-- Support all 5 weighted dimensions
-- Support the Soul veto
+- Inherited Core: Support all 5 weighted dimensions
+- Inherited Core: Support the Soul veto
 - Calculate and track dE/dt (Trust velocity)
-- Support agent lineage tracking
-- Calculate Proof of Resilience
+- Inherited Core: Support agent lineage tracking
+- Inherited Core: Calculate Proof of Resilience
 - Implement graceful degradation
 - Support federation protocol
 
@@ -413,12 +417,13 @@ SHOULD:
 
 ### Standard Tensor Requirements
 
-All Basic requirements, plus:
+All Basic requirements, including the inherited Core items identified below,
+plus the remaining Standard assurance requirements:
 
 MUST:
 
-- Support all 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
-- Support the Soul veto
+- Inherited Core: Support all 5 weighted inputs (evidence_density, trust_trend, adversarial_pressure, update_resistance, attestation_coverage)
+- Inherited Core: Support the Soul veto
 - Feed-level configuration
 - Sensor validation and quality metrics
 - Refresh within 30 seconds
@@ -470,12 +475,13 @@ SHOULD:
 
 ### Standard PEP Requirements
 
-All Basic requirements, plus:
+All Basic requirements, including the inherited Core items identified below,
+plus the remaining Standard assurance requirements:
 
 MUST:
 
-- Enforce Trust Tiers (all 5)
-- Check Soul constraint (S = 0)
+- Inherited Core: Enforce Trust Tiers (all 5)
+- Inherited Core: Check Soul constraint (S = 0)
 - Support action risk classification
 - Graceful degradation on Oracle failure
 - Report decisions to Flight Recorder
@@ -579,13 +585,14 @@ SHOULD:
 
 ### Standard Agent Requirements
 
-All Basic requirements, plus:
+All Basic requirements, including the inherited Core items identified below,
+plus the remaining Standard assurance requirements:
 
 MUST:
 
 - Maintain trajectory chain
-- Support lineage (Sponsored, Independent, Guarantor)
-- Handle tier transitions
+- Inherited Core: Support lineage (Sponsored, Independent, Guarantor)
+- Inherited Core: Handle tier transitions
 - Support delegation (if human or delegating)
 - Implement graceful degradation
 
@@ -1161,7 +1168,7 @@ Conformance claims MUST follow this format:
 
 Example:
 
-"AcmeTrust 2.1 claims KTP Basic under software-substrate-execution-v1 per KTP-CONFORMANCE 3.0.0: tested, 3 of 3 specified test IDs passed, 22 proposed test IDs not run; evidence at https://example.com/acmetrust/2.1/conformance; 2026-12-15."
+"AcmeTrust 2.1 claims KTP Basic under software-substrate-execution-v1 per KTP-CONFORMANCE 3.0.0: tested, 5 of 5 specified test IDs passed, 22 proposed test IDs not run; evidence at https://example.com/acmetrust/2.1/conformance; 2026-12-15."
 
 A conformance claim MUST name the substrate profile the implementation is claimed under, by the profile's versioned identifier, and the specified test IDs of the claimed level are run under that profile. A claim that names no substrate profile is a claim about no substrate and MUST NOT be made. A claim that names a substrate profile this set does not carry is not a claim under this specification.
 

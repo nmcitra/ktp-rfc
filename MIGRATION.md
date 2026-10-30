@@ -1,6 +1,6 @@
 # Migrating from v1.0.1 to v2.0.0
 
-**Proposed native-v3 conformance-level migration (v2.1.0 baseline):**
+**Native-v3 conformance-level migration (v2.1.0 baseline):**
 Basic, Standard and Full remain three conformance levels, each adding deployment
 assurance to the same Core. A v2.1.0 Basic deployment with three weighted inputs,
 no Soul gate and a sixty-second proof retains the identity `legacy-v2.1-basic`;

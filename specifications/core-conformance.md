@@ -1,6 +1,6 @@
 # One Core, Three Conformance Levels
 
-**Proposed, unreleased native-v3 common Core contract.**
+**Native-v3 common Core contract.**
 
 The key words MUST, MUST NOT, SHOULD and MAY have their BCP 14 meanings.
 
@@ -14,7 +14,7 @@ inherited requirements at every level, never additional features of a level:
   `attestation_coverage`. Weight validation, normalization
   and restrictive undefined-input handling follow KTP-Core. Missing inputs
   MUST NOT silently become a reduced-factor calculation or fabricated zeros.
-- Declared demand-side `moment_criticality` follows the demand supplier contract;
+- Declared demand-side `moment_criticality` follows KTP-Core L14;
   it raises A only and MUST NOT enter R or the weighted input population.
 - The independent Soul veto, evaluated before capacity, MUST NOT be weighted
   into R or offset by favorable measurements. Prior vetoes remain binding.
@@ -60,9 +60,7 @@ extend expiration during outages, change signed claims or accept a proof
 failing the canonical contract. Shorter acceptance is an additional gate and
 can deny an otherwise valid Core result; it does not reinterpret that result.
 
-This decision does not choose new assurance bundles, certify production
-suitability, or settle component conformance contract's component-only claims. Existing assurance
-requirements remain subject to their own proposals and clocks.
+Component-only claims are specified separately in `specifications/component-conformance.md`.
 
 ## Immutable baseline and migration mapping
 
@@ -84,10 +82,10 @@ Basic conformance, and its R, proof and binary result MUST NOT be accepted as
 native Core artifacts. A verifier expecting native v3 MUST reject that legacy
 identity or explicitly route it to a separately authorized legacy verifier;
 no automatic fallback or renaming is permitted. Historical artifacts retain
-their original release meaning; this proposal does not invalidate that history.
+their original release meaning; this contract does not invalidate that history.
 
 A continuing reduced model outside that historical contract MUST publish a
-separately named profile, schema and media type before use. This proposal
+separately named profile, schema and media type before use. This contract
 assigns none. Such a profile MUST NOT claim its R, proof or result is the native
 Core artifact; no gateway can gain native authority by copying its fields.
 
@@ -103,7 +101,6 @@ provider vectors remain required; the cases here do not replace them.
 The vectors specify cross-level equality of expectations and reference the
 existing capacity boundaries. This repository does not execute a Core provider,
 certify assurance bundles or prove runtime interoperability.
-Passing schema and vector checks MUST NOT be presented as certification.
-
-No public reference implementation or first
-builder is claimed. Maintainer decision recording remains in DECISIONS.md.
+Claim status MUST use KTP-CONFORMANCE “Claim Status” as defined in
+[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166);
+schema and vector checks alone do not establish a stronger claim status.

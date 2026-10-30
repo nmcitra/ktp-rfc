@@ -618,6 +618,8 @@ Tier Demotion (E_trust decreases):
 - Agent should implement graceful capability shedding
 - Logged to Flight Recorder with context
 
+After a breach, the tier follows the ceiling on standing that [KTP-REPAIR] specifies: an actor whose standing is ceilinged at re-entry is promoted only as acts recorded after its reconciliation record lift the ceiling, and a tier cap applied with the standing untouched is no cost.
+
 Hysteresis (optional):
 
 To prevent oscillation at tier boundaries, implementations MAY implement hysteresis:

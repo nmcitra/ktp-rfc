@@ -24,7 +24,7 @@ This profile is not a human proof format or a replacement human authorization ad
 This is the ordinary evaluation-time association contract. It does not define
 software-substrate consumption, effect budgets, queue/retry handling, target
 idempotency, exactly-once execution, release-time revalidation or target-effect
-evidence. The signed decision carrier is a separate decision (Decision Geometry contract).
+evidence. The signed decision carrier is a separate decision (Decision Geometry (specifications/decision-geometry.md)).
 
 ## 2. Complete canonical request
 
@@ -38,7 +38,7 @@ body schema. The body contains exactly:
 | `audience` | Exact logical relying audience URI |
 | `operation`, `resource` | Exact operation identifier URI and evaluated resource identifier URI |
 | `parameters` | Complete inline object of security-relevant parameters |
-| `demand` | Closed `{value, unit}`; finite value on [0,100], unit `ktp-action-risk-points` |
+| `demand` | Closed `{value, unit}`; finite value on [0,100], unit `urn:ktp:unit:action-risk-points` |
 | `classification_profile` | Closed `{id, digest}` identifying the independently installed demand classifier |
 | `request_id` | Unique invocation identifier within the replay domain |
 | `replay_domain` | Authenticated replay-authority domain URI |
@@ -104,7 +104,7 @@ dropping its signature, or signing it again produces a different association.
 Limits in this proposed base profile: 65,536 incoming request UTF-8 bytes, 65,536 association UTF-8 bytes, and
 65,536 resulting canonical bytes, container nesting depth at most 32 (root is
 1), identifier URIs at most 2,048 characters and request_id at most 255 characters.
-These limits do not extend canonical Trust Proof contract's proof limits. Association containers also
+These limits do not extend Canonical Trust Proof Contract (specifications/trust-proof.md)'s proof limits. Association containers also
 retain the depth-32 limit. Reject rather than truncate.
 
 ## 4. Association and proof verification
@@ -120,7 +120,7 @@ defines the closed, **unsigned internal value**:
 Independently reconstruct the actual canonical request and compare its complete
 bytes with the supplied request's canonical bytes. Recompute both digests from
 the exact inputs and compare them literally with the association. Verify the
-complete proof under canonical Trust Proof contract's ordered contract and trusted key, issuer, audience,
+complete proof under Canonical Trust Proof Contract (specifications/trust-proof.md)'s ordered contract and trusted key, issuer, audience,
 clock, revocation, topology and profile context. The proof's audience MUST equal
 the request audience; its subject MUST equal the actor. Its issuer MUST match
 the expected authenticated Oracle binding. `proof_jti` MUST equal the verified
@@ -155,13 +155,13 @@ or other supporting prerequisites. It MUST preserve prior vetoes and tightening;
 a carrier cannot change the associated request or turn missing evidence into
 permission. Carrier replay and freshness obligations remain binding.
 
-This proposal states those coverage requirements, not a second carrier wire
-format. Decision Geometry contract may define the Decision Geometry carrier without changing these
-request/proof preimages. Until a reviewed carrier/profile satisfying them is
-available, cross-boundary use MUST fail as `RB_CARRIER`; do not send an unsigned
-association, a generic JWT, a caller-supplied digest or a claimed `verified` flag
-as a replacement. This blocks external decision reuse, not local reevaluation
-of the actual request with a newly verified proof.
+The signed [Decision Geometry carrier](decision-geometry.md#5-signed-boundary-carrier)
+uses these request/proof preimages without redefining them. Verify that carrier
+under the installed, reviewed profile satisfying the bindings above. If the
+required verification is unavailable or fails, cross-boundary use MUST fail as
+`RB_CARRIER`; an unsigned association, generic JWT, caller-supplied digest or
+claimed `verified` flag is not a replacement. Local reevaluation of the actual
+request with a newly verified proof remains subject to the same checks.
 
 ## 6. Replay-domain uniqueness and collisions
 
@@ -203,7 +203,7 @@ in the authenticated audit record without exposing sensitive diagnostics.
 | 3 | Closed request and association schemas | `RB_SCHEMA` |
 | 4 | Complete actual invocation, authenticated subject/actor/delegation, audience and replay-domain match; installed classifier/demand/unit and digest algorithm match | `RB_CONTEXT`, `RB_PROFILE` |
 | 5 | Recomputed complete request/proof digests | `RB_DIGEST` |
-| 6 | canonical Trust Proof contract proof validation, then verified jti association, then clear gate | `RB_PROOF` (with TP reason), `RB_MATCH`, `RB_GATE` (with TP reason) |
+| 6 | Canonical Trust Proof Contract (specifications/trust-proof.md) proof validation, then verified jti association, then clear gate | `RB_PROOF` (with TP reason), `RB_MATCH`, `RB_GATE` (with TP reason) |
 | 7 | Protected local carriage or reviewed authenticated signed carrier | `RB_CARRIER` |
 | 8 | Current authoritative replay state, request collision, exact replay, issuer/jti collision, atomic reservation | `RB_REPLAY_STATE`, `RB_COLLISION`, `RB_REPLAY`, `RB_JTI_COLLISION` |
 

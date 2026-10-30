@@ -571,7 +571,7 @@ crossing a trust boundary MUST carry verified signed coverage of both exact
 request/proof digests and the evaluation context, supervision and tightened
 constraints required by the association companion. The legacy response sketches
 below do not provide that signed carrier and MUST NOT authorize external use.
-The Decision Geometry proposal Decision Geometry contract defines its separate carrier; no generic
+The Decision Geometry proposal Decision Geometry (specifications/decision-geometry.md) defines its separate carrier; no generic
 HTTP success flag or copied trust score replaces its required authentication.
 
 message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2;

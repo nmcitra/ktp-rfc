@@ -1,6 +1,6 @@
 # Migrating from v1.0.1 to v2.0.0
 
-**Proposed ordinary request/proof migration (request association contract, after canonical Trust Proof contract; v2.1.0 baseline):**
+**Ordinary request/proof migration (v2.1.0 baseline):**
 Adopt [request-binding-v1](specifications/request-binding.md) alongside the
 canonical v3 Trust Proof. Build a fresh complete canonical request from the
 authenticated actual invocation, explicit requester/executor, resolved resource
@@ -8,6 +8,13 @@ and parameters, installed classifier and replay context. Recompute the exact
 domain-separated request and complete-proof digests; a subject/JTI/session match
 or historical project-owned action hash cannot substitute. Do not insert a
 request hash into the closed state proof or relabel an old proof/request pair.
+
+The former instruction to track Trust Proof JTIs to prevent reuse is replaced:
+one verified proof MAY serve distinct requests inside its ten-second validity
+window. Replay is guarded by `(replay_domain, request_id)`; each verified
+`(issuer, jti)` MUST still identify exactly one complete proof digest. Existing
+implementations must change both state keys and collision checks, not disable
+replay protection or extend proof lifetime.
 
 Install authenticated active replay-domain bindings and accepted-domain floors,
 with atomic request-ID reservations and issuer/JTI collision checks. Missing
@@ -17,10 +24,10 @@ all v3 prerequisites. Keep explicitly enabled v2.1 handling separate, with no
 fallback around native checks. Preserve old signed history rather than rewriting
 its hashes. Decision use across a trust boundary remains disabled unless a
 reviewed signed carrier binds the complete association and evaluation context;
-Decision Geometry contract defines that separate carrier. Readiness keeps its own signed preimages:
+Decision Geometry (specifications/decision-geometry.md) defines that separate carrier. Readiness keeps its own signed preimages:
 construct and verify both contracts against the same actual invocation/proof.
 No exactly-once target effect, durable retry, queue, release-time freshness or
-effect-evidence claim is added; the owning proposal/the owning proposal remain separate.
+effect-evidence claim is added; the consequential-action execution specification (specifications/consequential-action-execution-and-evidence.md) remain separate.
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Human Integration Humans, Agents, and System Ethics"
 abbrev: "KTP-HUMAN"
-date: 2026-09-07
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -170,6 +170,8 @@ The reviewer MUST have power to investigate and correct an individual case, incl
 Corrections MUST append an authenticated correction event, mark superseded evidence as unusable for future decisions, update the current evidence state and epoch, invalidate dependent cached decisions, and propagate to affected authorized recipients. The original signed bytes MUST NOT be rewritten. A retained record of the error is not permission to keep treating it as true.
 
 A reviewer MUST NOT manually boost a score, substitute an unexplained approval, or override a valid safety check. Corrected evidence produces a fresh decision under the current approved rules. Challenges to those rules themselves MUST reach the designated governing authority.
+
+For a software agent in a managed relation, the destination of an adverse stop and the contest path it carries are specified in specifications/hand-back.md; the review this section requires is the recourse a person is owed under it.
 
 ## Alice's Correction Scenario
 

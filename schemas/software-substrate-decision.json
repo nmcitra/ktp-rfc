@@ -17,7 +17,7 @@
   "additionalProperties": false,
   "properties": {
     "artifact_type": {
-      "const": "ktp-software-substrate-decision"
+      "const": "ktp-software-substrate-decision-v1"
     },
     "request_binding": {
       "$ref": "#/$defs/request_binding"
@@ -44,10 +44,12 @@
       "maximum": 9007199254740991
     },
     "evaluated_at": {
-      "$ref": "#/$defs/safe_integer"
+      "$ref": "#/$defs/safe_integer",
+      "description": "Nonnegative Unix seconds encoded as a safe JSON integer token."
     },
     "expires_at": {
-      "$ref": "#/$defs/safe_integer"
+      "$ref": "#/$defs/safe_integer",
+      "description": "Nonnegative Unix seconds encoded as a safe JSON integer token."
     },
     "issuer_id": {
       "$ref": "#/$defs/literal"
@@ -62,8 +64,8 @@
     }
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://kinetic-trust-protocol.net/specs/schemas/software-substrate-decision.json",
-  "title": "Software-substrate consumption decision \u2014 proposal, unreleased",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/software-substrate-v1/software-substrate-decision.json",
+  "title": "Software-substrate consumption decision \u2014 unreleased",
   "description": "Separately signed consumption decision bound to an existing complete ordinary proof, actual software request, installed profile/policy, local evidence, prerequisite artifacts and current epoch. Not a Trust Proof extension or standalone permission. All members except signature are covered by the canonical signed payload. Schema shape does not verify signatures, numeric finiteness, digests, current state, expiry, observation authenticity or authority; the profile requires semantic checks.",
   "$defs": {
     "safe_integer": {
@@ -102,10 +104,12 @@
           "$ref": "#/$defs/literal"
         },
         "actor_id": {
-          "$ref": "#/$defs/literal"
+          "$ref": "#/$defs/literal",
+          "description": "Authenticated requesting principal."
         },
         "workload_id": {
-          "$ref": "#/$defs/literal"
+          "$ref": "#/$defs/literal",
+          "description": "Actual executing actor or workload."
         },
         "authority_class": {
           "$ref": "#/$defs/literal"
@@ -162,7 +166,7 @@
       "additionalProperties": false,
       "properties": {
         "profile": {
-          "const": "software-substrate-execution"
+          "const": "software-substrate-execution-v1"
         },
         "ceilings": {
           "type": "array",
@@ -274,8 +278,60 @@
         },
         "margin": {
           "type": "number"
+        },
+        "policyCode": {
+          "$ref": "#/$defs/literal",
+          "description": "Envelope/Audit reason when applicable; a kinematic veto uses KINETIC_CAPACITY_EXCEEDED."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "capacityKnown": {
+                "const": false
+              }
+            },
+            "required": [
+              "capacityKnown"
+            ]
+          },
+          "then": {
+            "properties": {
+              "supervision": {
+                "enum": [
+                  "assisted",
+                  "regulated",
+                  "silent_veto"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "supervisionAvailable": {
+                "const": false
+              }
+            },
+            "required": [
+              "supervisionAvailable"
+            ]
+          },
+          "then": {
+            "properties": {
+              "supervision": {
+                "enum": [
+                  "stable",
+                  "metacognitive",
+                  "silent_veto"
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

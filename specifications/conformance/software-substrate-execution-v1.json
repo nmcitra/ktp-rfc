@@ -1,9 +1,9 @@
 {
-  "profile": "software-substrate-execution",
-  "ktpReleaseBaseline": "v2.1.0",
-  "status": "proposal, unreleased",
-  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. trustedFixtures represent independently established verification/status outcomes and do not claim cryptographic verification or real measurement. Every vector begins with all other required contracts satisfied. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
-  "timeNotation": "All vector times/ages are fixed integer milliseconds, including proof and observation deadlines; wire-schema decision times are integer Unix seconds. No real clock, target effect or source measurement is represented. The installed observation-time resolution in these fixtures is one millisecond.",
+  "profile": "software-substrate-execution-v1",
+  "ktpReleaseBaseline": "unreleased main; intended v3.0.0",
+  "status": "unreleased",
+  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. Except for the signed cryptographic fixtures, trustedFixtures represent supplied verification/status outcomes and do not claim cryptographic verification or real measurement. Every vector begins with all other required contracts satisfied. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
+  "timeNotation": "Vector times and ages are integer milliseconds aligned to whole Unix seconds, the declared fixture resolution; decision wire timestamps are Unix seconds. Freshness equality is stale. The S22 intentionally inconsistent decision-expiry bound isolates the freshness check; a conforming issuer must also reject that expiry.",
   "normativeExpectations": [
     "decision",
     "supervision",
@@ -14,7 +14,8 @@
     "environmentalCapacityNotGreaterThanCompared",
     "compareTo",
     "decisionNotLooserThan",
-    "supervisionAtLeast"
+    "supervisionAtLeast",
+    "repeatCount"
   ],
   "vectors": [
     {
@@ -38,11 +39,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -116,11 +117,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -173,7 +174,7 @@
     },
     {
       "id": "S03-existing-ceiling",
-      "note": "Existing byte ceiling is preserved; the bound candidate is revised to the smaller effect.",
+      "note": "The requested 256 bytes exceed the existing 128-byte ceiling; do not forward the original operation.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -192,11 +193,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -210,7 +211,7 @@
           },
           "existingSupervision": "stable",
           "existingCeilings": {
-            "effectBytes": 256,
+            "effectBytes": 128,
             "affectedObjects": 1,
             "fanoutTargets": 1
           },
@@ -238,13 +239,7 @@
         }
       },
       "expect": {
-        "decision": "allow",
-        "supervision": "stable",
-        "tightenedAtMost": {
-          "effectBytes": 256,
-          "affectedObjects": 1,
-          "fanoutTargets": 1
-        }
+        "decision": "deny"
       }
     },
     {
@@ -268,11 +263,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -339,11 +334,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -392,8 +387,8 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.AZr5H6w1dtueJHaasXr2gLH2kyW5dom7afRdEH3W7NRterdP4gfVEIZ7kMWCboLieokbezHKCiwV5GKAg0w2cg"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.WUw0SqJIQsoWL52s-i0nzPaZAjyhCRERnhahF1lae3RXb1ntFBl0Y2V0haQDSt7NJ2ZeAMqMT8RrhsvxRNnf6g"
           }
         }
       },
@@ -422,11 +417,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -492,11 +487,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -545,8 +540,8 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.7o6S7GNmzpkUdDWkyk80T0EIa6EsV9rtVM-4ZcRTRMBLJ9OzmOZlbRoIo5PGv5busK22pGkpAgUhzFxivqmASQ"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.oy299fn5IAn9v3p5PztyHvTjZc8uwmVn5YKQwLKh0_N06yZi796ekQIpeohDXlv44gjHKuoQildy_8kU9NOQXQ"
           }
         }
       },
@@ -575,11 +570,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -628,8 +623,8 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.bWcSVfTfcJNGFsZ7I1jNo2ijZ_4xjXu4kAZrygsna6nLuX69QhfJnY_yBVlFcncEAJVMsC_OUjSeVNQBH0uBlg",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.-7FlXlQEzxMdE2TdvW4UO8aPHV18YH0Mxxt03ADHYzg0bR4iqyX5cPlwMl7QdT2QXlJONH2uBUsOfxkW56aMWA"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.5ahsS0_Pwk3IASQ-HeAyQY5P2MpokAqzO0UrmVX3KT8vDiiYi6fxX2ECvdd47Jw_xU6KHnqHNdlPplGJselmUQ",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.KXOLnULU779LRc0RckZjrtGyb82yZm53KPMLjHab84mZZ9hDYFQejPTZo2cM6QQfDCL3kUb_PmgRHh4gYgLcHw"
           }
         }
       },
@@ -658,11 +653,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -728,11 +723,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -798,11 +793,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -868,11 +863,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -921,8 +916,8 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.SnUxYNxQoQmdadp_bNuLnd16wSeJLER3f8zQXpI4_5nfuYw3r27bvEsMR1ZIay27Ugf5J2bU3-bh4DA23kTbag"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.nO91XuAW030onI_qWKRSzOxZSR8g8qv9KUgrXaLeBWqDNX2NH9FHnYCKgMaOw24d1_xSh-GaiI116BGMB4cWEA"
           }
         }
       },
@@ -951,11 +946,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1021,11 +1016,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1091,11 +1086,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1133,11 +1128,13 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
+          },
+          "conservativeEstimateDeclared": false
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "deny",
+        "undefinedRecorded": true
       }
     },
     {
@@ -1161,11 +1158,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1203,11 +1200,13 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
+          },
+          "conservativeEstimateDeclared": false
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "deny",
+        "undefinedRecorded": true
       }
     },
     {
@@ -1231,11 +1230,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1273,11 +1272,13 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
+          },
+          "conservativeEstimateDeclared": false
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "deny",
+        "undefinedRecorded": true
       }
     },
     {
@@ -1301,11 +1302,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1343,11 +1344,13 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
+          },
+          "conservativeEstimateDeclared": false
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "deny",
+        "undefinedRecorded": true
       }
     },
     {
@@ -1371,11 +1374,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1441,11 +1444,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1511,11 +1514,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1580,9 +1583,81 @@
             "repairPathVerified": true,
             "supervisionAvailable": true
           },
-          "nowMs": 100500,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "nowMs": 101000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 2000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 102000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S23-future-observation",
+      "note": "A future observation cannot establish required current conditions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 101000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
           "decisionExpiresAtMs": 101000,
@@ -1623,78 +1698,8 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
-        }
-      },
-      "expect": {
-        "decision": "deny",
-        "undefinedRecorded": true
-      }
-    },
-    {
-      "id": "S23-future-observation",
-      "note": "A future observation cannot establish required current conditions.",
-      "request": {
-        "resource": "software:///test-object",
-        "action": "replace",
-        "softwareContext": {
-          "magnitudes": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
           },
-          "conditions": {
-            "resourcePressure": 0.1,
-            "controlLatencyMs": 10,
-            "irreversibility": 0.1,
-            "novelty": 0,
-            "repairPathVerified": true,
-            "supervisionAvailable": true
-          },
-          "nowMs": 100000,
-          "observedAtMs": 100001,
-          "maxAgeMs": 1000,
-          "proofIssuedAtMs": 99000,
-          "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
-          "candidateEnvelope": {
-            "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
-            "capacityKnown": true,
-            "supervision": "stable",
-            "ceilings": {
-              "effectBytes": 1024,
-              "affectedObjects": 1,
-              "fanoutTargets": 1
-            }
-          },
-          "existingSupervision": "stable",
-          "existingCeilings": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
-          },
-          "trustedFixtures": {
-            "ordinaryAuthorization": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": true,
-            "authorityClassMatches": true,
-            "proofMatches": true,
-            "profileMatches": true,
-            "policyMatches": true,
-            "evidenceMatches": true,
-            "prerequisitesCurrent": true,
-            "epochCurrent": true,
-            "sourceAuthenticated": true,
-            "sourceHealthy": true,
-            "sequenceCurrent": true,
-            "trustedTime": true,
-            "restrictionContinuity": true,
-            "unresolvedRestriction": false,
-            "revoked": false,
-            "scaleMatches": true
-          }
+          "conservativeEstimateDeclared": false
         }
       },
       "expect": {
@@ -1723,11 +1728,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 100000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1793,11 +1798,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 110000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1863,11 +1868,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1914,7 +1919,7 @@
     },
     {
       "id": "S27-refresh-unresolved-restriction",
-      "note": "A fresh proof cannot erase an unresolved restriction.",
+      "note": "The input begins with an unresolved restriction; this vector checks that a refreshed proof cannot override it, not that a two-step history preserves it.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -1933,11 +1938,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 100000,
           "proofExpiresAtMs": 110000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2003,11 +2008,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2079,11 +2084,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 0,
@@ -2150,11 +2155,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2221,11 +2226,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2291,11 +2296,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2361,11 +2366,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.4,
             "environmentalCapacity": 1,
@@ -2434,11 +2439,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 0.8,
@@ -2512,11 +2517,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2554,7 +2559,10 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
-          }
+          },
+          "repairDependentClasses": [
+            "repair"
+          ]
         }
       },
       "expect": {
@@ -2562,8 +2570,8 @@
       }
     },
     {
-      "id": "S36-supervision-unavailable",
-      "note": "Modeled withholding result when supervision is unavailable; this does not assert a live repair, target effect, or human supervision.",
+      "id": "S36-supervision-unavailable-stable",
+      "note": "Stable does not require an available supervisor; all independent prerequisites remain satisfied.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -2582,11 +2590,11 @@
             "supervisionAvailable": false
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2628,7 +2636,8 @@
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "allow",
+        "supervision": "stable"
       }
     },
     {
@@ -2652,11 +2661,11 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 0.8,
@@ -2711,7 +2720,7 @@
     },
     {
       "id": "S38-supervision-capacity-monotonic",
-      "note": "Only the authenticated capacity-condition value supervisionAvailable worsens from true to false; E cannot rise and the result cannot loosen. Other establishment/status fixtures stay satisfied. Modeled inputs are not cryptographic or live availability evidence.",
+      "note": "The authenticated supervision condition worsens; the supplied modeled E falls and the result cannot loosen. Stable remains eligible.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -2730,11 +2739,11 @@
             "supervisionAvailable": false
           },
           "nowMs": 100000,
-          "observedAtMs": 99500,
-          "maxAgeMs": 1000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 0.8,
@@ -2779,7 +2788,12 @@
         "compareTo": "S01-current-bound-action",
         "environmentalCapacityNotGreaterThanCompared": true,
         "decisionNotLooserThan": "allow",
-        "decision": "deny"
+        "supervisionAtLeast": "stable",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        }
       }
     },
     {
@@ -2802,12 +2816,12 @@
             "repairPathVerified": true,
             "supervisionAvailable": true
           },
-          "nowMs": 100500,
+          "nowMs": 101000,
           "observedAtMs": 100000,
-          "maxAgeMs": 1000,
+          "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -2851,11 +2865,943 @@
       "expect": {
         "decision": "deny"
       }
+    },
+    {
+      "id": "S40-repair-path-verified",
+      "note": "Positive control for the declared repair-dependent class.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "repair",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "repairDependentClasses": [
+            "repair"
+          ]
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable"
+      }
+    },
+    {
+      "id": "S41-assisted-supervision-baseline",
+      "note": "Known-capacity assisted baseline.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "assisted",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "escalate",
+        "supervision": "assisted"
+      }
+    },
+    {
+      "id": "S42-assisted-supervision-unavailable",
+      "note": "Unavailable supervision vetoes an otherwise assisted result.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": false
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0.8,
+            "capacityKnown": true,
+            "supervision": "assisted",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "supervision": "silent_veto",
+        "compareTo": "S41-assisted-supervision-baseline"
+      }
+    },
+    {
+      "id": "S43-pressure-out-of-domain",
+      "note": "Pressure outside the declared domain is undefined.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 1.5,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S44-condition-missing",
+      "note": "A required condition is missing.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S45-condition-null",
+      "note": "A required condition is null.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": null,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S46-magnitude-missing",
+      "note": "A required magnitude is missing.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S47-magnitude-extra",
+      "note": "An undeclared magnitude is rejected.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1,
+            "unrecognized": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S48-ceiling-exceeds-request",
+      "note": "The candidate ceiling exceeds the requested bound.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 2048,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S49-novelty-domain-undeclared",
+      "note": "No validated novelty domain is declared.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "noveltyDomainDeclared": false,
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S50-event-only-invalidation-silent",
+      "note": "Silence from an event-only source is not current status.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true,
+            "eventOnlyInvalidation": true,
+            "invalidationCurrentStatusAvailable": false
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S51-resigned-stale-observation",
+      "note": "Re-signing does not refresh the underlying observation.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 97000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "observationResignedAtMs": 100000,
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S52-observation-at-evaluation",
+      "note": "Observation at evaluation time is fresh.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 100000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable"
+      }
     }
   ],
   "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature or an ordinary proof. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged. Schema acceptance does not imply temporal, binding, token-representation or cryptographic acceptance.",
   "schemaFixture": {
-    "artifact_type": "ktp-software-substrate-decision",
+    "artifact_type": "ktp-software-substrate-decision-v1",
     "request_binding": {
       "request_id": "test-request-id",
       "actor_id": "test-actor-id",
@@ -2872,7 +3818,9 @@
     "request_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
     "proof_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
     "evidence_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    "prerequisite_digests": [],
+    "prerequisite_digests": [
+      "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ],
     "consumption_epoch": 1,
     "evaluated_at": 100,
     "expires_at": 101,
@@ -2885,7 +3833,7 @@
       "repairPathVerified": true,
       "supervisionAvailable": true,
       "tightenedConstraints": {
-        "profile": "software-substrate-execution",
+        "profile": "software-substrate-execution-v1",
         "ceilings": [
           {
             "magnitude": "effectBytes",
@@ -3274,8 +4222,108 @@
         "operation": "set",
         "value": false
       }
+    },
+    {
+      "id": "J27-unknown-capacity-stable",
+      "mutation": {
+        "path": [
+          "result",
+          "capacityKnown"
+        ],
+        "operation": "set",
+        "value": false
+      },
+      "expect": {
+        "schemaValid": false
+      }
+    },
+    {
+      "id": "J28-unavailable-supervision-regulated",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "supervisionAvailable"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "regulated"
+        }
+      ],
+      "expect": {
+        "schemaValid": false
+      }
+    },
+    {
+      "id": "J29-unknown-capacity-assisted",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "capacityKnown"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "assisted"
+        }
+      ],
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J30-unavailable-supervision-veto",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "supervisionAvailable"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "silent_veto"
+        }
+      ],
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J31-policy-code-allowed",
+      "mutation": {
+        "path": [
+          "result",
+          "policyCode"
+        ],
+        "operation": "set",
+        "value": "KINETIC_CAPACITY_EXCEEDED"
+      },
+      "expect": {
+        "schemaValid": true
+      }
     }
   ],
   "cryptographicFixtureNote": "Test key is public and has no authority. These cases require verifying compact ES256 JWS signatures and independently hashing the RFC 8785 actual request-binding object and complete ASCII proof. All other trustedFixtures are assumptions.",
-  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdMSaMZLTXNtI3bSeDrnYKvk8z915\n3R2TX7F1FBeOLf2KMVh6SN5oZ+BTeTWKffnvBPAUQd3sdQGK2QUrBp1XZA==\n-----END PUBLIC KEY-----\n"
+  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgQ3AZpI3r3JC28SfJuhxx6iBTFJY\nDxbA+kt1YDyZw2mRJJrGooP+dFic/Jz6L8KS9VLj0FxS4A3B8ugR/mGSmw==\n-----END PUBLIC KEY-----\n"
 }

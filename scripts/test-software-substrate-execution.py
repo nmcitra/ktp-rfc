@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = json.loads(
     (ROOT / "schemas/software-substrate-decision.json").read_text())
 SUITE = json.loads(
-    (ROOT / "specifications/conformance/software-substrate-execution.json")
+    (ROOT / "specifications/conformance/software-substrate-execution-v1.json")
     .read_text())
 VALIDATOR = Draft202012Validator(SCHEMA)
 
@@ -44,7 +44,7 @@ def apply_mutation(value, mutation):
 class SoftwareSubstrateExecutionTests(unittest.TestCase):
     def test_capacity_input_pairs_are_isolated(self):
         vectors = {v["id"]: v for v in SUITE["vectors"]}
-        self.assertEqual(len(vectors), 39)
+        self.assertEqual(len(vectors), 52)
         self.assertEqual(len(vectors), len(SUITE["vectors"]))
         baseline = vectors["S01-current-bound-action"]
         for name, field in (
@@ -89,6 +89,21 @@ class SoftwareSubstrateExecutionTests(unittest.TestCase):
                 self.assertEqual(request_matches, name == "S08")
                 self.assertEqual(proof_matches, name != "S08")
 
+    def test_wire_times_and_review_controls(self):
+        vectors = {v["id"][:3]: v for v in SUITE["vectors"]}
+        for vector in vectors.values():
+            c = vector["request"]["softwareContext"]
+            for field in ("nowMs", "observedAtMs", "maxAgeMs", "proofIssuedAtMs", "proofExpiresAtMs", "decisionExpiresAtMs"):
+                self.assertEqual(c[field] % 1000, 0, (vector["id"], field))
+        stable = vectors["S36"]
+        self.assertFalse(stable["request"]["softwareContext"]["conditions"]["supervisionAvailable"])
+        self.assertEqual(stable["expect"]["decision"], "allow")
+        veto = vectors["S42"]
+        self.assertFalse(veto["request"]["softwareContext"]["conditions"]["supervisionAvailable"])
+        self.assertEqual(veto["expect"]["supervision"], "silent_veto")
+        self.assertEqual(vectors["S35"]["expect"]["decision"], "deny")
+        self.assertEqual(vectors["S40"]["expect"]["decision"], "allow")
+
     def test_schema_definition(self):
         Draft202012Validator.check_schema(SCHEMA)
 
@@ -98,6 +113,8 @@ class SoftwareSubstrateExecutionTests(unittest.TestCase):
                 candidate = copy.deepcopy(SUITE["schemaFixture"])
                 if "mutation" in vector:
                     apply_mutation(candidate, vector["mutation"])
+                for mutation in vector.get("mutations", []):
+                    apply_mutation(candidate, mutation)
                 actual = VALIDATOR.is_valid(candidate)
                 expected = vector["expect"]["schemaValid"]
                 self.assertEqual(actual, expected, vector["id"])

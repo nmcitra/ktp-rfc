@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Regression gate for consequential-action evidence schema vectors.
 
-This validates only the proposed record's JSON shape. It does not verify a
-signature, authorize an action, establish protected-path coverage, or prove a
-target effect.
+This checks fixture integrity, a synthetic signature, and schema shape. It does
+not authorize an action, establish protected-path coverage, or prove a target
+effect.
 """
 
 import copy
+import base64
+
+import rfc8785
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import ec, utils
 import json
 import unittest
 from pathlib import Path
@@ -54,6 +59,17 @@ class ConsequentialActionEvidenceTests(unittest.TestCase):
                 self.assertTrue(vector["request"])
                 self.assertIsInstance(vector["expect"], dict)
                 self.assertTrue(vector["expect"])
+
+    def test_non_dispatch_fixture_signature(self):
+        request = next(v["request"] for v in SUITE["vectors"] if v["id"] == "E17")
+        header, payload, signature = request["nonDispatchRecordJws"].split(".")
+        decode = lambda value: base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
+        raw = decode(signature)
+        der = utils.encode_dss_signature(int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big"))
+        key = serialization.load_pem_public_key(SUITE["nonDispatchFixturePublicKeyPem"].encode())
+        key.verify(der, (header + "." + payload).encode(), ec.ECDSA(hashes.SHA256()))
+        self.assertEqual(decode(payload), rfc8785.dumps(request["nonDispatchRecord"]))
+        self.assertEqual(request["nonDispatchRecord"]["statement"], "no_dispatch")
 
     def test_schema_definition(self):
         Draft202012Validator.check_schema(SCHEMA)

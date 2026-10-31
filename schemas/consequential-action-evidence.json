@@ -1,21 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/consequential-action-evidence-v1/consequential-action-evidence.json",
-  "title": "KTP Consequential Action Evidence v1 — Proposal, unreleased",
-  "description": "Proposal-only, unreleased correlation record for one consequential-action request, its consumed signed consumption decision, a reservation, and recorded observation. It is never an authorization or proof of a target effect. Every member except signature belongs to the canonical signed payload. Semantic checks for signature and authentication, duplicate-key and canonical-input control, interval ordering, freshness, authorization, non-dispatch coverage, and actual target effect are outside JSON Schema.",
+  "title": "KTP Consequential Action Evidence v1 \u2014 unreleased",
+  "description": "Unreleased correlation record for one consequential-action request, its consumed signed consumption decision, a reservation, and recorded observation. It is never an authorization or proof of a target effect. Every member except signature belongs to the canonical signed payload. Semantic checks for signature and authentication, duplicate-key and canonical-input control, interval ordering, freshness, authorization, non-dispatch coverage, and actual target effect are outside JSON Schema.",
   "type": "object",
   "required": [
     "artifact_type",
     "request_id",
     "operation_fingerprint_digest",
     "consumption_decision_digest",
-    "reservation_reference",
-    "reservation_digest",
     "evidence_state",
     "observation",
-    "target_marker",
-    "recorder_evidence_digest",
-    "signature"
+    "signature",
+    "enforcement_destination"
   ],
   "additionalProperties": false,
   "allOf": [
@@ -35,6 +32,11 @@
                 "const": "non_dispatch"
               }
             }
+          },
+          "observation": {
+            "required": [
+              "protected_path_coverage"
+            ]
           }
         }
       }
@@ -83,7 +85,7 @@
       "if": {
         "properties": {
           "evidence_state": {
-            "const": "unknown"
+            "const": "no_effect"
           }
         }
       },
@@ -92,10 +94,7 @@
           "target_marker": {
             "properties": {
               "kind": {
-                "enum": [
-                  "non_dispatch",
-                  "dispatch"
-                ]
+                "const": "no_effect"
               }
             }
           }
@@ -132,6 +131,7 @@
         "withheld",
         "dispatched",
         "effect_confirmed",
+        "no_effect",
         "unknown"
       ]
     },
@@ -147,6 +147,10 @@
     },
     "signature": {
       "$ref": "#/$defs/signature"
+    },
+    "enforcement_destination": {
+      "$ref": "#/$defs/literal",
+      "description": "Authenticated actual enforcement destination; verification is a semantic obligation."
     }
   },
   "$defs": {
@@ -172,7 +176,6 @@
       "type": "object",
       "required": [
         "source_id",
-        "protected_path_coverage",
         "interval_start",
         "interval_end",
         "provenance_digest"
@@ -211,7 +214,8 @@
           "enum": [
             "non_dispatch",
             "dispatch",
-            "effect"
+            "effect",
+            "no_effect"
           ],
           "description": "Marker semantics: non_dispatch is not-dispatch evidence, dispatch is a delivery indication, and effect is an effect-observation claim subject to semantic verification."
         },
@@ -227,5 +231,13 @@
       "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$(?![\\s\\S])",
       "description": "Compact JWS with three nonempty unpadded base64url segments. Shape does not verify protected headers, key role, payload binding, or signature validity."
     }
+  },
+  "dependentRequired": {
+    "reservation_reference": [
+      "reservation_digest"
+    ],
+    "reservation_digest": [
+      "reservation_reference"
+    ]
   }
 }

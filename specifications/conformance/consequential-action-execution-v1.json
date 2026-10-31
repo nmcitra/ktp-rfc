@@ -1,6 +1,6 @@
 {
   "profile": "consequential-action-execution-v1",
-  "note": "Proposal, unreleased. Fixed modeled contract vectors. Expected fields are obligations for a declaring implementation; this repository runner checks fixture integrity and schema shape, not target execution or semantic implementation conformance.",
+  "note": "Unreleased modeled contract vectors. Each request supplies changes to the baseline below; all other baseline conditions apply. Boolean authentication fixtures are assumptions, not cryptographic or runtime conformance evidence. M01 tests the repository runner, not implementation conformance.",
   "vectors": [
     {
       "id": "E01",
@@ -57,13 +57,17 @@
       "id": "E05",
       "case": "target_version_change",
       "request": {
-        "targetVersionMatch": false,
-        "conditionalCommitSupported": true
+        "conditionalCommitSupported": true,
+        "nonDispatchAuthenticated": false,
+        "targetVersionAtRevalidation": "v1",
+        "targetVersionAtCommit": "v2",
+        "conditionalCommitExpectedVersion": "v1"
       },
       "expect": {
         "releaseAllowed": false,
         "evidenceState": "unknown"
-      }
+      },
+      "note": "The target rejects the atomic conditional commit after version drift; without authenticated non-dispatch evidence the outcome remains unknown."
     },
     {
       "id": "E06",
@@ -88,7 +92,8 @@
       "expect": {
         "additionalInvocationAllowed": false,
         "identityCollision": true
-      }
+      },
+      "note": "A different release-relevant request body under the same replay identity collides; refreshed decisions alone are excluded from the fingerprint."
     },
     {
       "id": "E08",
@@ -102,7 +107,7 @@
       },
       "expect": {
         "secondReleaseAllowed": false,
-        "remainingCapacityUnits": 4
+        "remainingBudgetUnitsAtMost": 4
       }
     },
     {
@@ -210,13 +215,22 @@
       "case": "authenticated_non_dispatch",
       "request": {
         "decisionDenied": true,
-        "nonDispatchAuthenticated": true,
         "coverageComplete": true,
-        "intervalBound": true
+        "intervalBound": true,
+        "nonDispatchRecord": {
+          "source_id": "installed-test-observer",
+          "protected_path_coverage": "enforcer-to-test-target",
+          "interval_start": 100,
+          "interval_end": 101,
+          "request_id": "test-request-17",
+          "statement": "no_dispatch"
+        },
+        "nonDispatchRecordJws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRlc3Qtb2JzZXJ2ZXIiLCJ0eXAiOiJ0ZXN0LW5vbi1kaXNwYXRjaCJ9.eyJpbnRlcnZhbF9lbmQiOjEwMSwiaW50ZXJ2YWxfc3RhcnQiOjEwMCwicHJvdGVjdGVkX3BhdGhfY292ZXJhZ2UiOiJlbmZvcmNlci10by10ZXN0LXRhcmdldCIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtMTciLCJzb3VyY2VfaWQiOiJpbnN0YWxsZWQtdGVzdC1vYnNlcnZlciIsInN0YXRlbWVudCI6Im5vX2Rpc3BhdGNoIn0.XFrDXkctqyGjqFYg0T1XXApq8Xi0eRPn-goMY0CDSNt6nUyRsPN0xhnAeaPuRZoW_khYH2hjcbSqLb83K2qTtw"
       },
       "expect": {
         "evidenceState": "withheld"
-      }
+      },
+      "note": "Verify the signed record with the published installed test observer key, compare its canonical payload, and check source, request, full path and interval; other cases use flag-supplied fixtures. The record overrides the baseline nonDispatchAuthenticated flag."
     },
     {
       "id": "E18",
@@ -235,12 +249,16 @@
       "case": "fresh_proof_uncertain_effect",
       "request": {
         "proofRefreshed": true,
-        "priorEffectUncertain": true
+        "priorEffectUncertain": true,
+        "sameIdentity": true,
+        "sameFingerprint": true,
+        "renewedDecisionFreshlyValidated": true
       },
       "expect": {
         "retryAllowed": false,
         "reservationRetained": true
-      }
+      },
+      "note": "Renewal preserves unresolved operation history; it does not authorize another invocation."
     },
     {
       "id": "E20",
@@ -252,6 +270,97 @@
       "expect": {
         "continueOriginalAllowed": false,
         "safeTransitionRequired": true
+      }
+    },
+    {
+      "id": "E21",
+      "case": "retry_new_transport_identity",
+      "request": {
+        "sameIdentity": true,
+        "transportIdentityChanged": true,
+        "priorDispatch": true
+      },
+      "expect": {
+        "additionalInvocationAllowed": false,
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E22",
+      "case": "stale_observation_unexpired_decision",
+      "request": {
+        "requiredObservationsCurrent": false,
+        "decisionUnexpired": true
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "unknown"
+      }
+    },
+    {
+      "id": "E23",
+      "case": "retry_after_withheld",
+      "request": {
+        "sameIdentity": true,
+        "sameFingerprint": true,
+        "priorWithheldAuthenticated": true,
+        "authorizationCurrent": true,
+        "freshDecision": true
+      },
+      "expect": {
+        "retryAllowed": true
+      }
+    },
+    {
+      "id": "E24",
+      "case": "no_conditional_commit",
+      "request": {
+        "conditionalCommitSupported": false,
+        "authorizationCurrent": true
+      },
+      "expect": {
+        "commitTimeAuthorizationGuarantee": false
+      }
+    },
+    {
+      "id": "E25",
+      "case": "timeout_unknown",
+      "request": {
+        "timeout": true,
+        "nonDispatchAuthenticated": false,
+        "dispatchAuthenticated": false
+      },
+      "expect": {
+        "evidenceState": "unknown",
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E26",
+      "case": "authenticated_no_effect",
+      "request": {
+        "dispatchAuthenticated": true,
+        "targetNoEffectAuthenticated": true
+      },
+      "expect": {
+        "evidenceState": "no_effect",
+        "reservationRetained": true
+      }
+    },
+    {
+      "id": "E27",
+      "case": "second_request_fits_remainder",
+      "request": {
+        "scopeLimit": 10,
+        "firstReservation": 6,
+        "secondRequested": 3,
+        "profileDecision": "allow",
+        "atomicAuthority": true
+      },
+      "expect": {
+        "secondBudgetEligible": true,
+        "remainingBudgetUnitsAtMost": 4,
+        "profileDecisionUnchanged": true
       }
     }
   ],
@@ -276,7 +385,8 @@
       "value": "test-non-dispatch-marker"
     },
     "recorder_evidence_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-    "signature": "YQ.Yg.Yw"
+    "signature": "YQ.Yg.Yw",
+    "enforcement_destination": "test-destination"
   },
   "schemaVectors": [
     {
@@ -339,7 +449,7 @@
       }
     },
     {
-      "id": "J06-http-status-marker",
+      "id": "J06-marker-wrong-type",
       "expect": {
         "schemaValid": false
       },
@@ -365,10 +475,24 @@
       }
     },
     {
-      "id": "J08-withheld-shape",
+      "id": "J08-no-reservation",
       "expect": {
         "schemaValid": true
-      }
+      },
+      "mutations": [
+        {
+          "path": [
+            "reservation_reference"
+          ],
+          "operation": "remove"
+        },
+        {
+          "path": [
+            "reservation_digest"
+          ],
+          "operation": "remove"
+        }
+      ]
     },
     {
       "id": "J09-dispatched-shape",
@@ -438,6 +562,195 @@
           "value": "dispatch"
         }
       ]
+    },
+    {
+      "id": "J-invalid-withheld-marker",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "withheld"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "J-invalid-dispatched-marker",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "dispatched"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "effect"
+        }
+      ]
+    },
+    {
+      "id": "J-invalid-effect_confirmed-marker",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "effect_confirmed"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "J-invalid-no_effect-marker",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "no_effect"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "effect"
+        }
+      ]
+    },
+    {
+      "id": "J-unknown-effect-marker",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "unknown"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "effect"
+        }
+      ]
+    },
+    {
+      "id": "J-uppercase-digest",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "reservation_digest"
+        ],
+        "operation": "set",
+        "value": "sha256:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    {
+      "id": "J-reservation-pair",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "reservation_digest"
+        ],
+        "operation": "remove"
+      }
+    },
+    {
+      "id": "J-no-marker",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutation": {
+        "path": [
+          "target_marker"
+        ],
+        "operation": "remove"
+      }
+    },
+    {
+      "id": "J-no-effect",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutations": [
+        {
+          "path": [
+            "evidence_state"
+          ],
+          "operation": "set",
+          "value": "no_effect"
+        },
+        {
+          "path": [
+            "target_marker",
+            "kind"
+          ],
+          "operation": "set",
+          "value": "no_effect"
+        }
+      ]
+    },
+    {
+      "id": "J-http-status-marker-value-shape-only",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutation": {
+        "path": [
+          "target_marker",
+          "value"
+        ],
+        "operation": "set",
+        "value": "http-status:200"
+      }
     }
   ],
   "mutationValidationVectors": [
@@ -451,5 +764,25 @@
         "value": "unknown"
       }
     }
-  ]
+  ],
+  "requestBaseline": {
+    "authorizationCurrent": true,
+    "bindingsCurrent": true,
+    "requiredObservationsCurrent": true,
+    "recorderRequired": true,
+    "requiredRecorderAvailable": true,
+    "targetVersionMatch": true,
+    "conditionalCommitSupported": true,
+    "budgetStateAvailable": true,
+    "reservation": "accepted",
+    "nonDispatchAuthenticated": false,
+    "dispatchAuthenticated": false,
+    "targetEffectAuthenticated": false,
+    "conflictingEvidence": false,
+    "restorationCurrent": true,
+    "sameIdentity": true,
+    "sameFingerprint": true,
+    "priorEffectUncertain": false
+  },
+  "nonDispatchFixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEkpLOJ3zjHrskCuMGoXpRSFcrW9a\nvelLYSTuQUN+k57dxv6a9K1Pk1+BqPvd0BBfciEsZznM18NHHd6+YrEWDw==\n-----END PUBLIC KEY-----\n"
 }

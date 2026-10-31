@@ -44,7 +44,7 @@ def apply_mutation(value, mutation):
 class SoftwareSubstrateExecutionTests(unittest.TestCase):
     def test_capacity_input_pairs_are_isolated(self):
         vectors = {v["id"]: v for v in SUITE["vectors"]}
-        self.assertEqual(len(vectors), 52)
+        self.assertEqual(len(vectors), 53)
         self.assertEqual(len(vectors), len(SUITE["vectors"]))
         baseline = vectors["S01-current-bound-action"]
         for name, field in (
@@ -65,36 +65,66 @@ class SoftwareSubstrateExecutionTests(unittest.TestCase):
 
     def test_real_signature_and_binding_fixtures(self):
         key = serialization.load_pem_public_key(SUITE["fixturePublicKeyPem"].encode())
-        vectors = {v["id"][:3]: v for v in SUITE["vectors"]}
-        def verify(jws):
+        order = int("ffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551", 16)
+
+        def verify(jws, expected_type):
             h, p, signature = jws.split(".")
-            decode = lambda value: base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
+            def decode(value):
+                raw = base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
+                self.assertEqual(base64.urlsafe_b64encode(raw).rstrip(b"=").decode(), value)
+                return raw
+            header = {"alg": "ES256", "kid": "fixture-only", "typ": expected_type}
+            self.assertEqual(decode(h), rfc8785.dumps(header))
             raw = decode(signature)
-            der = utils.encode_dss_signature(int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big"))
-            key.verify(der, (h + "." + p).encode(), ec.ECDSA(hashes.SHA256()))
-            return json.loads(decode(p))
+            self.assertEqual(len(raw), 64)
+            r, s = int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big")
+            self.assertTrue(0 < s <= order // 2)
+            key.verify(utils.encode_dss_signature(r, s), (h + "." + p).encode(), ec.ECDSA(hashes.SHA256()))
+            payload_bytes = decode(p)
+            payload = json.loads(payload_bytes)
+            self.assertEqual(payload_bytes, rfc8785.dumps(payload))
+            return payload
+
         digest = lambda value: "sha256:" + hashlib.sha256(value).hexdigest()
-        for name in ("S05", "S07", "S08", "S12"):
-            with self.subTest(vector=name):
-                c = vectors[name]["request"]["softwareContext"]
-                inputs = c["cryptographicInputs"]
-                verify(inputs["ordinaryProof"])
-                if name == "S12":
-                    with self.assertRaises(InvalidSignature):
-                        verify(inputs["signedDecision"])
-                    continue
-                decision = verify(inputs["signedDecision"])
-                request_matches = decision["request_digest"] == digest(rfc8785.dumps(inputs["actualRequestBinding"]))
-                proof_matches = decision["proof_digest"] == digest(inputs["ordinaryProof"].encode("ascii"))
-                self.assertEqual(request_matches, name == "S08")
-                self.assertEqual(proof_matches, name != "S08")
+        cases = [v for v in SUITE["vectors"] if v.get("stage") == "signature_binding"]
+        self.assertEqual(len(cases), 5)
+        self.assertTrue(any(v["expect"]["decision"] == "allow" for v in cases))
+        for vector in cases:
+            with self.subTest(vector=vector["id"]):
+                inputs = vector["request"]["softwareContext"]["cryptographicInputs"]
+                verify(inputs["ordinaryProof"], "test-ordinary-proof")
+                actual = {"proofSignatureValid": True}
+                try:
+                    decision = verify(inputs["signedDecision"], "ktp-software-substrate-decision-v1")
+                    actual["decisionSignatureValid"] = True
+                except InvalidSignature:
+                    actual["decisionSignatureValid"] = False
+                if actual["decisionSignatureValid"]:
+                    actual["requestBindingMatches"] = decision["request_digest"] == digest(rfc8785.dumps(inputs["actualRequestBinding"]))
+                    actual["proofDigestMatches"] = decision["proof_digest"] == digest(inputs["ordinaryProof"].encode("ascii"))
+                self.assertEqual(actual, vector["expect"]["cryptographicChecks"])
+
+    def test_independent_freshness_and_expiry_checks(self):
+        for vector in SUITE["vectors"]:
+            c = vector["request"]["softwareContext"]
+            expect = vector["expect"]
+            with self.subTest(vector=vector["id"]):
+                if "observationFresh" in expect:
+                    fresh = c["observedAtMs"] <= c["nowMs"] < c["observedAtMs"] + c["maxAgeMs"]
+                    self.assertEqual(fresh, expect["observationFresh"])
+                if "decisionUnexpired" in expect:
+                    self.assertEqual(c["nowMs"] < c["decisionExpiresAtMs"], expect["decisionUnexpired"])
+                if vector.get("stage") == "observation_freshness":
+                    self.assertNotIn("decisionExpiresAtMs", c)
+                    self.assertNotIn("decision", expect)
 
     def test_wire_times_and_review_controls(self):
         vectors = {v["id"][:3]: v for v in SUITE["vectors"]}
         for vector in vectors.values():
             c = vector["request"]["softwareContext"]
             for field in ("nowMs", "observedAtMs", "maxAgeMs", "proofIssuedAtMs", "proofExpiresAtMs", "decisionExpiresAtMs"):
-                self.assertEqual(c[field] % 1000, 0, (vector["id"], field))
+                if field in c:
+                    self.assertEqual(c[field] % 1000, 0, (vector["id"], field))
         stable = vectors["S36"]
         self.assertFalse(stable["request"]["softwareContext"]["conditions"]["supervisionAvailable"])
         self.assertEqual(stable["expect"]["decision"], "allow")

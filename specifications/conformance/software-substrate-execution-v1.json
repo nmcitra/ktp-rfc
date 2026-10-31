@@ -2,8 +2,8 @@
   "profile": "software-substrate-execution-v1",
   "ktpReleaseBaseline": "unreleased main; intended v3.0.0",
   "status": "unreleased",
-  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. Except for the signed cryptographic fixtures, trustedFixtures represent supplied verification/status outcomes and do not claim cryptographic verification or real measurement. Every vector begins with all other required contracts satisfied. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
-  "timeNotation": "Vector times and ages are integer milliseconds aligned to whole Unix seconds, the declared fixture resolution; decision wire timestamps are Unix seconds. Freshness equality is stale. The S22 intentionally inconsistent decision-expiry bound isolates the freshness check; a conforming issuer must also reject that expiry.",
+  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. Except for the signed cryptographic fixtures, trustedFixtures represent supplied verification/status outcomes and do not claim cryptographic verification or real measurement. Unless stage is observation_freshness, every vector begins with all other required contracts satisfied. observation_freshness cases exercise only the freshness predicate and make no full-action or authorization assertion. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
+  "timeNotation": "Vector times and ages are integer milliseconds aligned to whole Unix seconds, the declared fixture resolution; decision wire timestamps are Unix seconds. Freshness equality is stale. S22/S51/S52 test the observation-freshness predicate independently, with no consumption decision. S39 tests decision expiry while the observation is fresh. Diagnostic expected fields are not new decision wire members.",
   "normativeExpectations": [
     "decision",
     "supervision",
@@ -15,7 +15,10 @@
     "compareTo",
     "decisionNotLooserThan",
     "supervisionAtLeast",
-    "repeatCount"
+    "repeatCount",
+    "observationFresh",
+    "decisionUnexpired",
+    "cryptographicChecks"
   ],
   "vectors": [
     {
@@ -315,7 +318,7 @@
     },
     {
       "id": "S05-destination-substitution",
-      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -387,14 +390,21 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.WUw0SqJIQsoWL52s-i0nzPaZAjyhCRERnhahF1lae3RXb1ntFBl0Y2V0haQDSt7NJ2ZeAMqMT8RrhsvxRNnf6g"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.kNPr6-uOPY6tBds4viEthjVW18Q6tJmdI9hREXHvu6Y2k-B50tHOEKYg0fA3nevWDr0_DUxMCPgZWcekvAqv2A"
           }
         }
       },
       "expect": {
-        "decision": "deny"
-      }
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": false,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
     },
     {
       "id": "S06-class-substitution",
@@ -468,7 +478,7 @@
     },
     {
       "id": "S07-request-substitution",
-      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -540,18 +550,25 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.oy299fn5IAn9v3p5PztyHvTjZc8uwmVn5YKQwLKh0_N06yZi796ekQIpeohDXlv44gjHKuoQildy_8kU9NOQXQ"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.Dn6uJ-lb0frw-TZVjJr1B0PVmv4fbrtJ3FycuXXIyWEtIALGOlbmiFHPgIfLFTAQRETsATlT6ebXIP93wgGwxA"
           }
         }
       },
       "expect": {
-        "decision": "deny"
-      }
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": false,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
     },
     {
       "id": "S08-proof-substitution",
-      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -623,14 +640,21 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.5ahsS0_Pwk3IASQ-HeAyQY5P2MpokAqzO0UrmVX3KT8vDiiYi6fxX2ECvdd47Jw_xU6KHnqHNdlPplGJselmUQ",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.KXOLnULU779LRc0RckZjrtGyb82yZm53KPMLjHab84mZZ9hDYFQejPTZo2cM6QQfDCL3kUb_PmgRHh4gYgLcHw"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.z2hhETPFSMjL5SXCAkLN9t51yCyt3nD-Fhr8OcsDn50AVxVnUJN7yaWPBdsmDPY3DoF2eCDxSaWLmEXouzLiCA",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.qm_M6LPUsC1DL8zyiW1qnpa_dcxP80wDLN6a1SnPtw8TcEtfcFc8MB3jgWp9j6N-g7FS5cDxQbYoTqTImvUmNg"
           }
         }
       },
       "expect": {
-        "decision": "deny"
-      }
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": true,
+          "proofDigestMatches": false
+        }
+      },
+      "stage": "signature_binding"
     },
     {
       "id": "S09-profile-substitution",
@@ -844,7 +868,7 @@
     },
     {
       "id": "S12-unverified-signature",
-      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -916,14 +940,19 @@
               "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             },
-            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.nsCzzhoIuqtSmxI6_b8QD2Ih-LJe0FXgarhVJGJiBsoyqLoxErzstqEbQWAoE0gQRQAtE973zrOUa-KX8ZerDw",
-            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OmExYzM4ZGNiZGIxNzhmYTg4ZGVlYTI4ZmJlNDM5NGUxNTk4Njc3NTkyMTcyOTQyNWM2YzY5MGY4MDYzNjdjMjAiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.nO91XuAW030onI_qWKRSzOxZSR8g8qv9KUgrXaLeBWqDNX2NH9FHnYCKgMaOw24d1_xSh-GaiI116BGMB4cWEA"
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.EXTem25aFT58Za7Y28nTR9JjU7TD7w4lZA1XjZNf7-YDP50_gs0BLuh7V4j6AxiofZl6D29bFmSflttcUCKzyg"
           }
         }
       },
       "expect": {
-        "decision": "deny"
-      }
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": false
+        }
+      },
+      "stage": "signature_binding"
     },
     {
       "id": "S13-missing-prerequisite",
@@ -1565,75 +1594,18 @@
     },
     {
       "id": "S22-freshness-equality",
-      "note": "Observation freshness deadline equality is stale while the decision remains unexpired.",
+      "note": "Independently test the observation-freshness predicate at exact deadline equality; no consumption decision is supplied or authorized.",
       "request": {
-        "resource": "software:///test-object",
-        "action": "replace",
         "softwareContext": {
-          "magnitudes": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
-          },
-          "conditions": {
-            "resourcePressure": 0.1,
-            "controlLatencyMs": 10,
-            "irreversibility": 0.1,
-            "novelty": 0,
-            "repairPathVerified": true,
-            "supervisionAvailable": true
-          },
           "nowMs": 101000,
           "observedAtMs": 99000,
-          "maxAgeMs": 2000,
-          "proofIssuedAtMs": 99000,
-          "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 102000,
-          "candidateEnvelope": {
-            "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
-            "capacityKnown": true,
-            "supervision": "stable",
-            "ceilings": {
-              "effectBytes": 1024,
-              "affectedObjects": 1,
-              "fanoutTargets": 1
-            }
-          },
-          "existingSupervision": "stable",
-          "existingCeilings": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
-          },
-          "trustedFixtures": {
-            "ordinaryAuthorization": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": true,
-            "authorityClassMatches": true,
-            "proofMatches": true,
-            "profileMatches": true,
-            "policyMatches": true,
-            "evidenceMatches": true,
-            "prerequisitesCurrent": true,
-            "epochCurrent": true,
-            "sourceAuthenticated": true,
-            "sourceHealthy": true,
-            "sequenceCurrent": true,
-            "trustedTime": true,
-            "restrictionContinuity": true,
-            "unresolvedRestriction": false,
-            "revoked": false,
-            "scaleMatches": true
-          },
-          "conservativeEstimateDeclared": false
+          "maxAgeMs": 2000
         }
       },
       "expect": {
-        "decision": "deny",
-        "undefinedRecorded": true
-      }
+        "observationFresh": false
+      },
+      "stage": "observation_freshness"
     },
     {
       "id": "S23-future-observation",
@@ -2798,7 +2770,7 @@
     },
     {
       "id": "S39-decision-expiry-equality",
-      "note": "Decision expires at equality while the observation is still fresh.",
+      "note": "Decision expires at equality while the observation is still fresh. Independently report observationFresh and decisionUnexpired; the final deny alone does not satisfy this vector.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -2863,7 +2835,9 @@
         }
       },
       "expect": {
-        "decision": "deny"
+        "decision": "deny",
+        "observationFresh": true,
+        "decisionUnexpired": false
       }
     },
     {
@@ -3656,80 +3630,38 @@
     },
     {
       "id": "S51-resigned-stale-observation",
-      "note": "Re-signing does not refresh the underlying observation.",
+      "note": "Re-signing at evaluation time does not change the original observation-freshness deadline; this tests the predicate, not a full consumption decision.",
       "request": {
-        "resource": "software:///test-object",
-        "action": "replace",
         "softwareContext": {
-          "magnitudes": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
-          },
-          "conditions": {
-            "resourcePressure": 0.1,
-            "controlLatencyMs": 10,
-            "irreversibility": 0.1,
-            "novelty": 0,
-            "repairPathVerified": true,
-            "supervisionAvailable": true
-          },
           "nowMs": 100000,
           "observedAtMs": 97000,
           "maxAgeMs": 3000,
-          "proofIssuedAtMs": 99000,
-          "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 101000,
-          "candidateEnvelope": {
-            "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
-            "capacityKnown": true,
-            "supervision": "stable",
-            "ceilings": {
-              "effectBytes": 1024,
-              "affectedObjects": 1,
-              "fanoutTargets": 1
-            }
-          },
-          "existingSupervision": "stable",
-          "existingCeilings": {
-            "effectBytes": 1024,
-            "affectedObjects": 1,
-            "fanoutTargets": 1
-          },
-          "trustedFixtures": {
-            "ordinaryAuthorization": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": true,
-            "authorityClassMatches": true,
-            "proofMatches": true,
-            "profileMatches": true,
-            "policyMatches": true,
-            "evidenceMatches": true,
-            "prerequisitesCurrent": true,
-            "epochCurrent": true,
-            "sourceAuthenticated": true,
-            "sourceHealthy": true,
-            "sequenceCurrent": true,
-            "trustedTime": true,
-            "restrictionContinuity": true,
-            "unresolvedRestriction": false,
-            "revoked": false,
-            "scaleMatches": true
-          },
-          "observationResignedAtMs": 100000,
-          "conservativeEstimateDeclared": false
+          "observationResignedAtMs": 100000
         }
       },
       "expect": {
-        "decision": "deny",
-        "undefinedRecorded": true
-      }
+        "observationFresh": false
+      },
+      "stage": "observation_freshness"
     },
     {
       "id": "S52-observation-at-evaluation",
-      "note": "Observation at evaluation time is fresh.",
+      "note": "Positive observation-freshness control: an observation at evaluation time is fresh. This predicate result alone authorizes nothing.",
+      "request": {
+        "softwareContext": {
+          "nowMs": 100000,
+          "observedAtMs": 100000,
+          "maxAgeMs": 3000
+        }
+      },
+      "expect": {
+        "observationFresh": true
+      },
+      "stage": "observation_freshness"
+    },
+    {
+      "id": "S53-verified-signature-and-binding",
+      "note": "Positive control for the signature-and-binding stage; ordinary authorization and noncryptographic prerequisites are supplied assumptions.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -3748,7 +3680,7 @@
             "supervisionAvailable": true
           },
           "nowMs": 100000,
-          "observedAtMs": 100000,
+          "observedAtMs": 99000,
           "maxAgeMs": 3000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
@@ -3772,11 +3704,7 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": true,
             "authorityClassMatches": true,
-            "proofMatches": true,
             "profileMatches": true,
             "policyMatches": true,
             "evidenceMatches": true,
@@ -3790,13 +3718,37 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.Td6n7BfUCD3zRaHS_dTLi5s6UPONxWa_eDfGXMQIB6YrzB5KyYTlziiflPHXjDOFPpe8pj6GgUv1UuvhIGDgJA"
           }
         }
       },
       "expect": {
         "decision": "allow",
-        "supervision": "stable"
-      }
+        "supervision": "stable",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": true,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
     }
   ],
   "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature or an ordinary proof. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged. Schema acceptance does not imply temporal, binding, token-representation or cryptographic acceptance.",
@@ -4324,6 +4276,6 @@
       }
     }
   ],
-  "cryptographicFixtureNote": "Test key is public and has no authority. These cases require verifying compact ES256 JWS signatures and independently hashing the RFC 8785 actual request-binding object and complete ASCII proof. All other trustedFixtures are assumptions.",
-  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgQ3AZpI3r3JC28SfJuhxx6iBTFJY\nDxbA+kt1YDyZw2mRJJrGooP+dFic/Jz6L8KS9VLj0FxS4A3B8ugR/mGSmw==\n-----END PUBLIC KEY-----\n"
+  "cryptographicFixtureNote": "These cases exercise a signature-and-binding stage using ES256 and the published fixture-only public key. ordinaryProof is an opaque, complete signed test artifact, not a schema-valid KTP Trust Proof. ordinaryAuthorization and other required prerequisite/status checks remain explicitly supplied assumptions. cryptographicChecks are independent normative diagnostic outcomes, not new wire members; neither a generic deny nor those assumptions substitute for the required signature and binding checks. S53 is the positive stage control. The fixture key has no authority and no private key is published.",
+  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvHC5Zsgu0e996snvXmgcUXd53Et+\nY9ih8wMMfR6mzdB4jistd1jRniRmWyihSJLXFsps98AhSxu0i0m2fa1VuQ==\n-----END PUBLIC KEY-----\n"
 }

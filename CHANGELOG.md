@@ -65,6 +65,17 @@ Core's form was always the contract, and the change moves an implementation
 that followed the other copy. No MUST is added or altered. The migration
 entry gives the old-to-new mapping.
 
+### Consequential-action execution and evidence (D-012)
+
+**Finding (#129 / #139):** A signed consumption decision alone does not establish
+release-time validity, replay continuity, aggregate budget safety or target effects.
+The opt-in companion adds release revalidation, durable request identity,
+conservative shared reservations and authenticated reconciliation. Its signed
+correlation record distinguishes withheld, dispatched, effect confirmed, no effect
+and unknown; only authenticated non-dispatch releases a held reservation. The
+schema, modeled contract/schema fixtures and CI runner do not certify a runtime.
+See MIGRATION.md for adoption after the software-substrate profile.
+
 ### Operation-specific human eligibility and privacy evidence
 
 **Forced by F11 and the approved Option 1 contract (2026-09-07):** the human

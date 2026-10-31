@@ -35,6 +35,7 @@ step "Trajectory signature regressions"; "$PY" scripts/test-trajectory-signature
 step "Operational readiness regressions"; "$PY" scripts/test-readiness.py
 step "Human eligibility regressions";    "$PY" scripts/test-human-eligibility.py
 step "Privacy evidence regressions";     "$PY" scripts/test-privacy-evidence.py
+step "Consequential-action evidence regressions"; "$PY" scripts/test-consequential-action-evidence.py
 step "Catalogue tables";                 python3 scripts/gen-catalog-tables.py --check
 
 printf '\nAll gates green.\n'

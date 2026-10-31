@@ -2,8 +2,8 @@
   "profile": "software-substrate-execution",
   "ktpReleaseBaseline": "v2.1.0",
   "status": "proposal, unreleased",
-  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. trustedFixtures represent independently established verification/status outcomes and do not claim cryptographic verification or real measurement. Every vector begins with all other required contracts satisfied. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33/S34 require at least regulated and no-looser ceilings, not a particular A/E value. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification.",
-  "timeNotation": "All vector times/ages are fixed integer milliseconds, including proof and observation deadlines; wire-schema decision times are integer Unix seconds. No real clock, target effect or source measurement is represented.",
+  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. trustedFixtures represent independently established verification/status outcomes and do not claim cryptographic verification or real measurement. Every vector begins with all other required contracts satisfied. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
+  "timeNotation": "All vector times/ages are fixed integer milliseconds, including proof and observation deadlines; wire-schema decision times are integer Unix seconds. No real clock, target effect or source measurement is represented. The installed observation-time resolution in these fixtures is one millisecond.",
   "normativeExpectations": [
     "decision",
     "supervision",
@@ -62,8 +62,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -142,8 +140,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -220,8 +216,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -298,8 +292,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -328,7 +320,7 @@
     },
     {
       "id": "S05-destination-substitution",
-      "note": "The required destinationMatches condition is false; withholding is terminal for the original action.",
+      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -371,13 +363,7 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": false,
             "authorityClassMatches": true,
-            "proofMatches": true,
             "profileMatches": true,
             "policyMatches": true,
             "evidenceMatches": true,
@@ -391,12 +377,28 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "substituted-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.AZr5H6w1dtueJHaasXr2gLH2kyW5dom7afRdEH3W7NRterdP4gfVEIZ7kMWCboLieokbezHKCiwV5GKAg0w2cg"
           }
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -444,8 +446,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -468,13 +468,12 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
       "id": "S07-request-substitution",
-      "note": "The required requestMatches condition is false; withholding is terminal for the original action.",
+      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -517,13 +516,7 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
-            "signatureVerified": true,
-            "requestMatches": false,
-            "destinationMatches": true,
             "authorityClassMatches": true,
-            "proofMatches": true,
             "profileMatches": true,
             "policyMatches": true,
             "evidenceMatches": true,
@@ -537,17 +530,33 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "substituted-request",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.7o6S7GNmzpkUdDWkyk80T0EIa6EsV9rtVM-4ZcRTRMBLJ9OzmOZlbRoIo5PGv5busK22pGkpAgUhzFxivqmASQ"
           }
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
       "id": "S08-proof-substitution",
-      "note": "The required proofMatches condition is false; withholding is terminal for the original action.",
+      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -590,13 +599,7 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
-            "signatureVerified": true,
-            "requestMatches": true,
-            "destinationMatches": true,
             "authorityClassMatches": true,
-            "proofMatches": false,
             "profileMatches": true,
             "policyMatches": true,
             "evidenceMatches": true,
@@ -610,12 +613,28 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.bWcSVfTfcJNGFsZ7I1jNo2ijZ_4xjXu4kAZrygsna6nLuX69QhfJnY_yBVlFcncEAJVMsC_OUjSeVNQBH0uBlg",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.-7FlXlQEzxMdE2TdvW4UO8aPHV18YH0Mxxt03ADHYzg0bR4iqyX5cPlwMl7QdT2QXlJONH2uBUsOfxkW56aMWA"
           }
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -663,8 +682,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -687,8 +704,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -736,8 +752,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -760,8 +774,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -809,8 +822,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -833,13 +844,12 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
       "id": "S12-unverified-signature",
-      "note": "The required signatureVerified condition is false; withholding is terminal for the original action.",
+      "note": "Verify signed inputs with the published test key and bind the actual RFC 8785 request object and complete ordinary proof; withholding is terminal.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -882,13 +892,7 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
-            "signatureVerified": false,
-            "requestMatches": true,
-            "destinationMatches": true,
             "authorityClassMatches": true,
-            "proofMatches": true,
             "profileMatches": true,
             "policyMatches": true,
             "evidenceMatches": true,
@@ -902,12 +906,28 @@
             "unresolvedRestriction": false,
             "revoked": false,
             "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.mCegytrlbZ3Pb-5VfMUV-4gMyunvLcbI2VF4f7MQwJUEIKCiBD-Du1yq_1kg9My-sJ2U6smiBVAaNA7kC_uP6w",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24ifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbiIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOltdLCJwcm9vZl9kaWdlc3QiOiJzaGEyNTY6ODcxMzQ3Yjk5ZDBiOGVmZjUyNDc3ZGY1ZWI0OWJiNWYzMTk5N2JjM2E2MTYyNTI2MTFiNzE4OWU3YjA3MDY2OSIsInJlcXVlc3RfYmluZGluZyI6eyJhY3Rvcl9pZCI6InRlc3QtYWN0b3ItaWQiLCJhdXRob3JpdHlfY2xhc3MiOiJ0ZXN0LWF1dGhvcml0eS1jbGFzcyIsImVuZm9yY2VtZW50X2Rlc3RpbmF0aW9uIjoidGVzdC1lbmZvcmNlbWVudC1kZXN0aW5hdGlvbiIsImV4ZWN1dGlvbl9wcm9maWxlX2RpZ2VzdCI6InNoYTI1NjphYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIiwiaWRlbnRpdHlfc2Vzc2lvbl9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsIm9wZXJhdGlvbl9pZCI6InRlc3Qtb3BlcmF0aW9uLWlkIiwicGFyYW1ldGVyc19kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInBvbGljeV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtaWQiLCJyZXNvdXJjZV9pZCI6InRlc3QtcmVzb3VyY2UtaWQiLCJ3b3JrbG9hZF9pZCI6InRlc3Qtd29ya2xvYWQtaWQifSwicmVxdWVzdF9kaWdlc3QiOiJzaGEyNTY6MGViYjI4ZGM2M2UxYTE5YzY5ODA1MzhmZmFiYTlkYWVhNTc4ZmIxNmUyMTA2MjRkZDk1NzI3NDBlMWYwMGNlMCIsInJlc3VsdCI6eyJhdXRvbm9teURlbWFuZCI6MC4yLCJjYXBhY2l0eUtub3duIjp0cnVlLCJlbnZpcm9ubWVudGFsQ2FwYWNpdHkiOjEsIm1hcmdpbiI6MC44LCJyYXRpb25hbGUiOlsiTW9kZWxlZCBzaGFwZSBmaXh0dXJlOyBub3Qgc2lnbmVkIGF1dGhvcml0eS4iXSwicmVwYWlyUGF0aFZlcmlmaWVkIjp0cnVlLCJzdXBlcnZpc2lvbiI6InN0YWJsZSIsInN1cGVydmlzaW9uQXZhaWxhYmxlIjp0cnVlLCJ0aWdodGVuZWRDb25zdHJhaW50cyI6eyJjZWlsaW5ncyI6W3sibWFnbml0dWRlIjoiZWZmZWN0Qnl0ZXMiLCJtYXgiOjEwMjR9LHsibWFnbml0dWRlIjoiYWZmZWN0ZWRPYmplY3RzIiwibWF4IjoxfSx7Im1hZ25pdHVkZSI6ImZhbm91dFRhcmdldHMiLCJtYXgiOjF9XSwicHJvZmlsZSI6InNvZnR3YXJlLXN1YnN0cmF0ZS1leGVjdXRpb24ifX19.SnUxYNxQoQmdadp_bNuLnd16wSeJLER3f8zQXpI4_5nfuYw3r27bvEsMR1ZIay27Ugf5J2bU3-bh4DA23kTbag"
           }
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -955,8 +975,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -979,8 +997,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1028,8 +1045,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1052,8 +1067,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1101,8 +1115,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1125,8 +1137,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1174,8 +1185,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1198,8 +1207,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1247,8 +1255,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1271,8 +1277,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1320,8 +1325,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1344,8 +1347,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1393,8 +1395,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1417,8 +1417,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1466,8 +1465,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1490,8 +1487,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1539,8 +1535,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": false,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1563,13 +1557,12 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
       "id": "S22-freshness-equality",
-      "note": "Exact equality at the observation freshness deadline is stale, and the dependent decision is expired; no conservative replacement is supplied.",
+      "note": "Observation freshness deadline equality is stale while the decision remains unexpired.",
       "request": {
         "resource": "software:///test-object",
         "action": "replace",
@@ -1592,7 +1585,7 @@
           "maxAgeMs": 1000,
           "proofIssuedAtMs": 99000,
           "proofExpiresAtMs": 109000,
-          "decisionExpiresAtMs": 100500,
+          "decisionExpiresAtMs": 101000,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
             "environmentalCapacity": 1,
@@ -1612,8 +1605,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1637,7 +1628,6 @@
       },
       "expect": {
         "decision": "deny",
-        "supervision": "silent_veto",
         "undefinedRecorded": true
       }
     },
@@ -1686,8 +1676,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1711,7 +1699,6 @@
       },
       "expect": {
         "decision": "deny",
-        "supervision": "silent_veto",
         "undefinedRecorded": true
       }
     },
@@ -1760,8 +1747,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1784,8 +1769,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1833,8 +1817,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1857,8 +1839,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1906,8 +1887,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -1930,8 +1909,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -1979,8 +1957,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2003,8 +1979,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto"
+        "decision": "deny"
       }
     },
     {
@@ -2052,8 +2027,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2130,8 +2103,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2203,8 +2174,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2277,8 +2246,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2350,8 +2317,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2405,7 +2370,7 @@
           "proofExpiresAtMs": 109000,
           "decisionExpiresAtMs": 100500,
           "candidateEnvelope": {
-            "autonomyDemand": 0.2,
+            "autonomyDemand": 0.4,
             "environmentalCapacity": 1,
             "capacityKnown": true,
             "supervision": "stable",
@@ -2423,8 +2388,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2447,15 +2410,10 @@
         }
       },
       "expect": {
-        "tightenedAtMost": {
-          "effectBytes": 1024,
-          "affectedObjects": 1,
-          "fanoutTargets": 1
-        },
         "compareTo": "S02-existing-supervision-floor",
         "autonomyDemandNotLessThanCompared": true,
         "decisionNotLooserThan": "escalate",
-        "supervisionAtLeast": "regulated"
+        "decision": "deny"
       }
     },
     {
@@ -2486,7 +2444,7 @@
           "decisionExpiresAtMs": 100500,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
+            "environmentalCapacity": 0.8,
             "capacityKnown": true,
             "supervision": "stable",
             "ceilings": {
@@ -2503,8 +2461,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2555,7 +2511,7 @@
             "controlLatencyMs": 10,
             "irreversibility": 0.1,
             "novelty": 0,
-            "repairPathVerified": true,
+            "repairPathVerified": false,
             "supervisionAvailable": true
           },
           "nowMs": 100000,
@@ -2583,8 +2539,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": false,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2607,13 +2561,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto",
-        "tightenedAtMost": {
-          "effectBytes": 0,
-          "affectedObjects": 0,
-          "fanoutTargets": 0
-        }
+        "decision": "deny"
       }
     },
     {
@@ -2634,7 +2582,7 @@
             "irreversibility": 0.1,
             "novelty": 0,
             "repairPathVerified": true,
-            "supervisionAvailable": true
+            "supervisionAvailable": false
           },
           "nowMs": 100000,
           "observedAtMs": 99500,
@@ -2661,8 +2609,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": false,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2685,13 +2631,7 @@
         }
       },
       "expect": {
-        "decision": "deny",
-        "supervision": "silent_veto",
-        "tightenedAtMost": {
-          "effectBytes": 0,
-          "affectedObjects": 0,
-          "fanoutTargets": 0
-        }
+        "decision": "deny"
       }
     },
     {
@@ -2722,7 +2662,7 @@
           "decisionExpiresAtMs": 100500,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
+            "environmentalCapacity": 0.8,
             "capacityKnown": true,
             "supervision": "stable",
             "ceilings": {
@@ -2739,8 +2679,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2802,7 +2740,7 @@
           "decisionExpiresAtMs": 100500,
           "candidateEnvelope": {
             "autonomyDemand": 0.2,
-            "environmentalCapacity": 1,
+            "environmentalCapacity": 0.8,
             "capacityKnown": true,
             "supervision": "stable",
             "ceilings": {
@@ -2819,8 +2757,6 @@
           },
           "trustedFixtures": {
             "ordinaryAuthorization": true,
-            "repairPathVerified": true,
-            "supervisionAvailable": true,
             "signatureVerified": true,
             "requestMatches": true,
             "destinationMatches": true,
@@ -2846,12 +2782,77 @@
         "compareTo": "S01-current-bound-action",
         "environmentalCapacityNotGreaterThanCompared": true,
         "decisionNotLooserThan": "allow",
-        "supervisionAtLeast": "stable",
-        "tightenedAtMost": {
-          "effectBytes": 1024,
-          "affectedObjects": 1,
-          "fanoutTargets": 1
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S39-decision-expiry-equality",
+      "note": "Decision expires at equality while the observation is still fresh.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100500,
+          "observedAtMs": 100000,
+          "maxAgeMs": 1000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 100500,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
         }
+      },
+      "expect": {
+        "decision": "deny"
       }
     }
   ],
@@ -3277,5 +3278,7 @@
         "value": false
       }
     }
-  ]
+  ],
+  "cryptographicFixtureNote": "Test key is public and has no authority. These cases require verifying compact ES256 JWS signatures and independently hashing the RFC 8785 actual request-binding object and complete ASCII proof. All other trustedFixtures are assumptions.",
+  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdMSaMZLTXNtI3bSeDrnYKvk8z915\n3R2TX7F1FBeOLf2KMVh6SN5oZ+BTeTWKffnvBPAUQd3sdQGK2QUrBp1XZA==\n-----END PUBLIC KEY-----\n"
 }

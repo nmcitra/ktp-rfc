@@ -1,5 +1,18 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
+opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
+use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
+the suffix versions the identifier, not the KTP release. Install the declared
+magnitudes, conditions, observation sources, supervision/repair requirements,
+digest preimages and continuity state. Bind a separately signed consumption
+decision to the complete ordinary proof, actual request and mandatory software
+readiness decision; wire evaluation/expiration times are integer Unix seconds.
+Experimental or unversioned artifacts do not become conforming by renaming them.
+Implementations not declaring this profile gain no obligations from D-009 alone;
+independent v3 requirements still apply. The vectors specify contract expectations,
+not a runtime conformance claim.
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the

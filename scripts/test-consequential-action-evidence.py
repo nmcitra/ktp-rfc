@@ -69,7 +69,12 @@ class ConsequentialActionEvidenceTests(unittest.TestCase):
         key = serialization.load_pem_public_key(SUITE["nonDispatchFixturePublicKeyPem"].encode())
         key.verify(der, (header + "." + payload).encode(), ec.ECDSA(hashes.SHA256()))
         self.assertEqual(decode(payload), rfc8785.dumps(request["nonDispatchRecord"]))
-        self.assertEqual(request["nonDispatchRecord"]["statement"], "no_dispatch")
+        record = request["nonDispatchRecord"]
+        self.assertEqual(record["statement"], "no_dispatch")
+        self.assertEqual(record["request_id"], request["requestId"])
+        self.assertEqual(record["protected_path_coverage"], request["protectedPath"])
+        self.assertEqual((record["interval_start"], record["interval_end"]),
+                         (request["intervalStart"], request["intervalEnd"]))
 
     def test_schema_definition(self):
         Draft202012Validator.check_schema(SCHEMA)

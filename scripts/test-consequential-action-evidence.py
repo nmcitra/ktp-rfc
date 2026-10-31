@@ -8,8 +8,10 @@ effect.
 
 import copy
 import base64
+import re
 
 import rfc8785
+from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ec, utils
 import json
@@ -43,6 +45,46 @@ def apply_mutation(value, mutation):
         del target[leaf]
 
 
+def verify_non_dispatch_fixture(request):
+    """Check only this suite's synthetic observer contract, not a live source."""
+    def decode(segment):
+        if not re.fullmatch(r"[A-Za-z0-9_-]+", segment):
+            raise ValueError("noncanonical base64url")
+        value = base64.urlsafe_b64decode(segment + "=" * (-len(segment) % 4))
+        if base64.urlsafe_b64encode(value).rstrip(b"=").decode() != segment:
+            raise ValueError("noncanonical base64url")
+        return value
+
+    header, payload, signature = request["nonDispatchRecordJws"].split(".")
+    observer = SUITE["nonDispatchFixtureObserver"]
+    if decode(header) != rfc8785.dumps(observer["protectedHeader"]):
+        raise ValueError("unexpected observer header")
+    raw = decode(signature)
+    if len(raw) != 64:
+        raise ValueError("wrong ES256 signature length")
+    r, scalar_s = int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big")
+    order = int("ffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551", 16)
+    if not 0 < r < order or not 0 < scalar_s <= order // 2:
+        raise ValueError("noncanonical ECDSA scalars")
+    key = serialization.load_pem_public_key(SUITE["nonDispatchFixturePublicKeyPem"].encode())
+    key.verify(utils.encode_dss_signature(r, scalar_s),
+               (header + "." + payload).encode(), ec.ECDSA(hashes.SHA256()))
+    record = request["nonDispatchRecord"]
+    if decode(payload) != rfc8785.dumps(record):
+        raise ValueError("record/payload mismatch")
+    expected = {
+        "source_id": observer["sourceId"],
+        "statement": "no_dispatch",
+        "request_id": request["requestId"],
+        "protected_path_coverage": request["protectedPath"],
+        "interval_start": request["intervalStart"],
+        "interval_end": request["intervalEnd"],
+    }
+    if record != expected:
+        raise ValueError("non-dispatch binding mismatch")
+    return record
+
+
 class ConsequentialActionEvidenceTests(unittest.TestCase):
     def test_contract_fixture_integrity(self):
         vectors = SUITE["vectors"]
@@ -60,21 +102,41 @@ class ConsequentialActionEvidenceTests(unittest.TestCase):
                 self.assertIsInstance(vector["expect"], dict)
                 self.assertTrue(vector["expect"])
 
-    def test_non_dispatch_fixture_signature(self):
-        request = next(v["request"] for v in SUITE["vectors"] if v["id"] == "E17")
-        header, payload, signature = request["nonDispatchRecordJws"].split(".")
-        decode = lambda value: base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
-        raw = decode(signature)
-        der = utils.encode_dss_signature(int.from_bytes(raw[:32], "big"), int.from_bytes(raw[32:], "big"))
-        key = serialization.load_pem_public_key(SUITE["nonDispatchFixturePublicKeyPem"].encode())
-        key.verify(der, (header + "." + payload).encode(), ec.ECDSA(hashes.SHA256()))
-        self.assertEqual(decode(payload), rfc8785.dumps(request["nonDispatchRecord"]))
-        record = request["nonDispatchRecord"]
-        self.assertEqual(record["statement"], "no_dispatch")
-        self.assertEqual(record["request_id"], request["requestId"])
-        self.assertEqual(record["protected_path_coverage"], request["protectedPath"])
-        self.assertEqual((record["interval_start"], record["interval_end"]),
-                         (request["intervalStart"], request["intervalEnd"]))
+    def test_non_dispatch_fixture_signature_and_binding_controls(self):
+        vectors = {v["id"]: v for v in SUITE["vectors"]}
+        verify_non_dispatch_fixture(vectors["E17"]["request"])
+        for name in ("E28", "E29"):
+            with self.subTest(vector=name):
+                with self.assertRaises((ValueError, InvalidSignature)):
+                    verify_non_dispatch_fixture(vectors[name]["request"])
+                self.assertEqual(vectors[name]["expect"]["evidenceState"], "unknown")
+
+    def test_evidence_expectations_have_authentication_inputs(self):
+        for vector in SUITE["vectors"]:
+            with self.subTest(vector=vector["id"]):
+                request = {**SUITE["requestBaseline"], **vector["request"]}
+                state = vector["expect"].get("evidenceState")
+                if state == "dispatched":
+                    self.assertTrue(request["dispatchAuthenticated"])
+                elif state == "withheld":
+                    if "nonDispatchRecordJws" in request:
+                        verify_non_dispatch_fixture(request)
+                    else:
+                        self.assertTrue(request["nonDispatchAuthenticated"])
+                elif state == "effect_confirmed":
+                    self.assertTrue(request["targetEffectAuthenticated"])
+                elif state == "no_effect":
+                    self.assertTrue(request["dispatchAuthenticated"])
+                    self.assertTrue(request["targetNoEffectAuthenticated"])
+
+    def test_second_request_fits_an_exact_authenticated_remainder(self):
+        request = next(v["request"] for v in SUITE["vectors"] if v["id"] == "E27")
+        self.assertEqual(request["authenticatedRemainingBudgetUnits"],
+                         request["scopeLimit"] - request["firstReservation"])
+        self.assertLessEqual(request["secondConservativeReservation"],
+                             request["authenticatedRemainingBudgetUnits"])
+        self.assertGreaterEqual(request["secondConservativeReservation"],
+                                request["secondRequested"])
 
     def test_schema_definition(self):
         Draft202012Validator.check_schema(SCHEMA)

@@ -1,6 +1,6 @@
 # Consequential-action execution and evidence
 
-**Status: unreleased normative companion.** Decision: D-012 ([#129](https://github.com/nmcitra/ktp-rfc/issues/129)). Release baseline: **KTP `v2.1.0`**. This additive, opt-in contract has no independent release number, tag, or DOI and makes no change to KTP core.
+**Status: unreleased normative companion.** Decision: D-012 ([#129](https://github.com/nmcitra/ktp-rfc/issues/129)). Original compatibility baseline: **KTP `v2.1.0`**; this companion targets the unreleased v3 set and depends on the software-substrate profile. This additive, opt-in contract has no independent release number, tag, or DOI and makes no change to KTP core.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and "MAY" are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).
 
@@ -16,7 +16,7 @@ Before releasing a consequential action, an enforcer MUST use trusted context to
 
 Immediately before release, the enforcer MUST revalidate the complete ordinary authorization, installed profile restrictions, required trusted current state, and every required observation; decision binding alone is insufficient. A stale, missing, unavailable, unauthenticated, or conflicting required observation or current-state result MUST withhold the action. This requirement applies even when the signed consumption decision has not expired.
 
-The enforcer MUST release only the action and destination that the consumed decision binds. A redirect, target substitution, resolution change, parameter expansion, or loss of a required current-state observation is a new candidate with a new request identity; it MUST NOT be released under the original identity and requires a fresh applicable decision. A signed consumption decision is not a standalone permission and does not remove any existing proof, veto, supervision, capacity, or target constraint.
+The enforcer MUST release only the action and destination that the consumed decision binds. A redirect, target substitution, resolution change, or parameter expansion is a changed candidate with a new request identity; it MUST NOT be released under the original identity and requires a fresh applicable decision. Loss of a required current-state observation withholds an unchanged candidate pending fresh evidence and evaluation; it does not replace that candidate’s durable request identity. A signed consumption decision is not a standalone permission and does not remove any existing proof, veto, supervision, capacity, or target constraint.
 
 ## Replay and retry contract
 
@@ -60,7 +60,7 @@ The [evidence schema](../schemas/consequential-action-evidence.json) defines the
 
 The conformance suite MUST contain deterministic fixtures for release-time revalidation, changed-body rejection, retry identity preservation, conservative shared reservation, unavailable budget state, each of the five evidence states, and restart reconciliation. A vector runner MAY validate declared fixture shape and the stated expected properties. It MUST NOT claim to execute a real target, prove a real-world effect, or establish runtime certification.
 
-The [suite](conformance/consequential-action-execution-v1.json) publishes modeled contract and schema vectors. `scripts/test-consequential-action-evidence.py` checks contract-fixture integrity and schema mutations only. A declaring implementation MUST separately report each expected/actual semantic outcome against immutable implementation and suite pins; passing this repository's integrity runner does not execute those semantics.
+The [suite](conformance/consequential-action-execution-v1.json) publishes modeled contract and schema vectors. `scripts/test-consequential-action-evidence.py` checks contract-fixture integrity, synthetic non-dispatch signatures and bindings, and schema mutations. A declaring implementation MUST separately report each expected/actual semantic outcome against immutable implementation and suite pins; passing this repository's integrity runner does not execute those semantics.
 
 Passing every released vector means only that an implementation satisfies the explicit expectations of those vectors. It does not certify a target product, a deployment, an effect-budget backend, KAG, KIL, or any runtime environment. A vector suite or schema is not released merely because this companion names it.
 

@@ -9,7 +9,7 @@
         "authorizationCurrent": true,
         "bindingsCurrent": true,
         "reservation": "accepted",
-        "dispatchObserved": true
+        "dispatchAuthenticated": true
       },
       "expect": {
         "releaseAllowed": true,
@@ -22,7 +22,8 @@
       "case": "expired_queue",
       "request": {
         "proofExpiredAtQueueExit": true,
-        "nonDispatchAuthenticated": true
+        "nonDispatchAuthenticated": true,
+        "authorizationCurrent": false
       },
       "expect": {
         "releaseAllowed": false,
@@ -34,7 +35,8 @@
       "case": "scope_change",
       "request": {
         "parametersMatch": false,
-        "nonDispatchAuthenticated": true
+        "nonDispatchAuthenticated": true,
+        "bindingsCurrent": false
       },
       "expect": {
         "releaseAllowed": false,
@@ -46,7 +48,8 @@
       "case": "destination_change",
       "request": {
         "destinationMatch": false,
-        "nonDispatchAuthenticated": true
+        "nonDispatchAuthenticated": true,
+        "bindingsCurrent": false
       },
       "expect": {
         "releaseAllowed": false,
@@ -207,7 +210,8 @@
         "nonDispatchAuthenticated": false
       },
       "expect": {
-        "evidenceState": "unknown"
+        "evidenceState": "unknown",
+        "releaseAllowed": false
       }
     },
     {
@@ -232,7 +236,8 @@
         "intervalEnd": 101
       },
       "expect": {
-        "evidenceState": "withheld"
+        "evidenceState": "withheld",
+        "releaseAllowed": false
       },
       "note": "Verify the signed record with the published installed test observer key, compare its canonical payload, and check source, request, full path and interval; other cases use flag-supplied fixtures. The record overrides the baseline nonDispatchAuthenticated flag."
     },
@@ -359,13 +364,70 @@
         "firstReservation": 6,
         "secondRequested": 3,
         "profileDecision": "allow",
-        "atomicAuthority": true
+        "atomicAuthority": true,
+        "authenticatedRemainingBudgetUnits": 4,
+        "secondConservativeReservation": 3
       },
       "expect": {
         "secondBudgetEligible": true,
-        "remainingBudgetUnitsAtMost": 4,
-        "profileDecisionUnchanged": true
-      }
+        "profileDecisionUnchanged": true,
+        "remainingBudgetUnits": 4
+      },
+      "note": "The authenticated remaining budget is exactly four units after the accepted six-unit reservation; the second conservative three-unit reservation fits. This does not infer an exact remainder from an upper bound."
+    },
+    {
+      "id": "E28",
+      "case": "tampered_non_dispatch_signature",
+      "request": {
+        "decisionDenied": true,
+        "coverageComplete": true,
+        "intervalBound": true,
+        "nonDispatchRecord": {
+          "source_id": "installed-test-observer",
+          "protected_path_coverage": "enforcer-to-test-target",
+          "interval_start": 100,
+          "interval_end": 101,
+          "request_id": "test-request-17",
+          "statement": "no_dispatch"
+        },
+        "nonDispatchRecordJws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRlc3Qtb2JzZXJ2ZXIiLCJ0eXAiOiJ0ZXN0LW5vbi1kaXNwYXRjaCJ9.eyJpbnRlcnZhbF9lbmQiOjEwMSwiaW50ZXJ2YWxfc3RhcnQiOjEwMCwicHJvdGVjdGVkX3BhdGhfY292ZXJhZ2UiOiJlbmZvcmNlci10by10ZXN0LXRhcmdldCIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtMTciLCJzb3VyY2VfaWQiOiJpbnN0YWxsZWQtdGVzdC1vYnNlcnZlciIsInN0YXRlbWVudCI6Im5vX2Rpc3BhdGNoIn0.XVrDXkctqyGjqFYg0T1XXApq8Xi0eRPn-goMY0CDSNt6nUyRsPN0xhnAeaPuRZoW_khYH2hjcbSqLb83K2qTtw",
+        "requestId": "test-request-17",
+        "protectedPath": "enforcer-to-test-target",
+        "intervalStart": 100,
+        "intervalEnd": 101
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "unknown"
+      },
+      "note": "The record bytes are unchanged, but the signature is invalid. The failed record cannot establish non-dispatch."
+    },
+    {
+      "id": "E29",
+      "case": "non_dispatch_wrong_request",
+      "request": {
+        "decisionDenied": true,
+        "coverageComplete": true,
+        "intervalBound": true,
+        "nonDispatchRecord": {
+          "source_id": "installed-test-observer",
+          "protected_path_coverage": "enforcer-to-test-target",
+          "interval_start": 100,
+          "interval_end": 101,
+          "request_id": "test-request-17",
+          "statement": "no_dispatch"
+        },
+        "nonDispatchRecordJws": "eyJhbGciOiJFUzI1NiIsImtpZCI6InRlc3Qtb2JzZXJ2ZXIiLCJ0eXAiOiJ0ZXN0LW5vbi1kaXNwYXRjaCJ9.eyJpbnRlcnZhbF9lbmQiOjEwMSwiaW50ZXJ2YWxfc3RhcnQiOjEwMCwicHJvdGVjdGVkX3BhdGhfY292ZXJhZ2UiOiJlbmZvcmNlci10by10ZXN0LXRhcmdldCIsInJlcXVlc3RfaWQiOiJ0ZXN0LXJlcXVlc3QtMTciLCJzb3VyY2VfaWQiOiJpbnN0YWxsZWQtdGVzdC1vYnNlcnZlciIsInN0YXRlbWVudCI6Im5vX2Rpc3BhdGNoIn0.XFrDXkctqyGjqFYg0T1XXApq8Xi0eRPn-goMY0CDSNt6nUyRsPN0xhnAeaPuRZoW_khYH2hjcbSqLb83K2qTtw",
+        "requestId": "different-actual-request",
+        "protectedPath": "enforcer-to-test-target",
+        "intervalStart": 100,
+        "intervalEnd": 101
+      },
+      "expect": {
+        "releaseAllowed": false,
+        "evidenceState": "unknown"
+      },
+      "note": "A valid signature for a different request cannot establish non-dispatch for the actual request."
     }
   ],
   "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature, authenticated observation, authorization, non-dispatch coverage, or actual target effect. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged.",
@@ -755,6 +817,53 @@
         "operation": "set",
         "value": "http-status:200"
       }
+    },
+    {
+      "id": "J-withheld-requires-coverage",
+      "mutation": {
+        "operation": "remove",
+        "path": [
+          "observation",
+          "protected_path_coverage"
+        ]
+      },
+      "expect": {
+        "schemaValid": false
+      }
+    },
+    {
+      "id": "J-unknown-no-coverage",
+      "mutations": [
+        {
+          "operation": "set",
+          "path": [
+            "evidence_state"
+          ],
+          "value": "unknown"
+        },
+        {
+          "operation": "remove",
+          "path": [
+            "observation",
+            "protected_path_coverage"
+          ]
+        }
+      ],
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J-reservation-reference-missing",
+      "mutation": {
+        "operation": "remove",
+        "path": [
+          "reservation_reference"
+        ]
+      },
+      "expect": {
+        "schemaValid": false
+      }
     }
   ],
   "mutationValidationVectors": [
@@ -786,7 +895,45 @@
     "sameIdentity": true,
     "sameFingerprint": true,
     "priorEffectUncertain": false,
-    "targetVersionMatchAtRevalidation": true
+    "targetVersionMatchAtRevalidation": true,
+    "proofExpiredAtQueueExit": false,
+    "parametersMatch": true,
+    "destinationMatch": true,
+    "targetVersionAtRevalidation": "v1",
+    "targetVersionAtCommit": "v1",
+    "conditionalCommitExpectedVersion": "v1",
+    "priorDispatch": false,
+    "durableReservation": true,
+    "dispatchIntent": false,
+    "targetOutcomeAvailable": false,
+    "responseLost": false,
+    "reservationPreviouslyUncertain": false,
+    "decisionDenied": false,
+    "coverageComplete": false,
+    "intervalBound": false,
+    "proofRefreshed": false,
+    "renewedDecisionFreshlyValidated": false,
+    "checkpointAuthorizationCurrent": true,
+    "safeTransitionDeclared": true,
+    "transportIdentityChanged": false,
+    "decisionUnexpired": true,
+    "priorWithheldAuthenticated": false,
+    "freshDecision": false,
+    "timeout": false,
+    "targetNoEffectAuthenticated": false
   },
-  "nonDispatchFixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEkpLOJ3zjHrskCuMGoXpRSFcrW9a\nvelLYSTuQUN+k57dxv6a9K1Pk1+BqPvd0BBfciEsZznM18NHHd6+YrEWDw==\n-----END PUBLIC KEY-----\n"
+  "nonDispatchFixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEEkpLOJ3zjHrskCuMGoXpRSFcrW9a\nvelLYSTuQUN+k57dxv6a9K1Pk1+BqPvd0BBfciEsZznM18NHHd6+YrEWDw==\n-----END PUBLIC KEY-----\n",
+  "fixtureSemantics": {
+    "baseline": "Each request is a shallow override of requestBaseline. Missing optional record or HTTP fields mean no such observation is supplied. Budget-specific numerical inputs are supplied by the relevant case.",
+    "firstReservation": "Units in the accepted conservative reservation. An authenticatedRemainingBudgetUnits value, when supplied, is the actual current remainder rather than an upper bound.",
+    "signedNonDispatch": "An installed observer key, algorithm, purpose and source are fixed by nonDispatchFixtureObserver. Verify the JWS and independently bind its payload to the actual request/path/interval. A failed signed record does not inherit an authenticated non-dispatch flag."
+  },
+  "nonDispatchFixtureObserver": {
+    "sourceId": "installed-test-observer",
+    "protectedHeader": {
+      "alg": "ES256",
+      "kid": "test-observer",
+      "typ": "test-non-dispatch"
+    }
+  }
 }

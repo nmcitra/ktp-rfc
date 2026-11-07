@@ -209,3 +209,12 @@ Decision: Shape A, retire. Core Section 5.2 is the one definition of the
 Risk Factor; Sensors 2.3 keeps the node, neighborhood and global levels as an
 informative technique for one input, Conformance drops the Risk Domain
 requirements, and CT-S-002 is retired.
+
+### D-015 · L23: a number that is digested or compared has no single written form
+Published 2026-10-30 · Clarification · clock 2026-10-30 → floor 2026-11-06 · review-by 2026-11-13 · approved 2026-11-07
+Source: issue #211; PR #212
+Decision: Approved as proposed. L23 enters KTP-CORE's named limits with
+v3.0.0 and adds no requirement. PR #212 merges after #209 in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by Chris Perkins, from a gap @martherus found
+implementing the published vectors.

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-10-14
+date: 2026-11-07
 category: exp
 ipr: trust200902
 
@@ -180,7 +180,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 50
 3. Trajectory chain verification (sampling)
 4. Independent or Guarantor lineage (generation 3+)
-5. Environmental sensing (five of the six weighted inputs)
+5. Environmental sensing (all five weighted inputs)
 6. Soul veto active for labeled data
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder required
@@ -212,7 +212,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 30 OR sponsored
 3. Lightweight trajectory (last transaction only)
 4. Any lineage permitted
-5. Environmental sensing (three of the six weighted inputs)
+5. Environmental sensing (three of the five weighted inputs)
 6. Soul veto optional
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder recommended

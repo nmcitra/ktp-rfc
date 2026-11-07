@@ -255,10 +255,11 @@ def scheme():
     example in the set still shipped the scheme it retired. This function is
     the missing half: it decides on SHAPE, not on words.
 
-    D1a, ruled: the JSON key IS the name. The six weighted inputs are
-    evidence_density, trust_trend, adversarial_pressure, moment_criticality,
-    update_resistance and attestation_coverage; the veto is `soul`; the object
-    that carries them is `risk_factors`, never `context_tensor`.
+    D1a, ruled: the JSON key IS the name. The five weighted inputs are
+    evidence_density, trust_trend, adversarial_pressure, update_resistance and
+    attestation_coverage; the veto is `soul`; moment_criticality is a demand
+    input, not a Risk Factor; the object that carries the five is
+    `risk_factors`, never `context_tensor`.
 
     TWO SIGNATURES, both deliberately narrow
 
@@ -410,11 +411,10 @@ def main():
           "six letters and context_tensor retire")
     if scheme_hits:
         print()
-        print("Letter scheme still on the wire (#68). The six weighted inputs are "
+        print("Letter scheme still on the wire (#68). The five weighted inputs are "
               "evidence_density,")
-        print("trust_trend, adversarial_pressure, moment_criticality, "
-              "update_resistance and")
-        print("attestation_coverage; the veto is soul; the object is risk_factors:")
+        print("trust_trend, adversarial_pressure, update_resistance and")
+        print("attestation_coverage; the veto is soul; moment_criticality is a demand input; the object is risk_factors:")
         for rel, i, kind, text in scheme_hits[:25]:
             print(f"  {rel}:{i}  {kind}: {text}")
         if len(scheme_hits) > 25:

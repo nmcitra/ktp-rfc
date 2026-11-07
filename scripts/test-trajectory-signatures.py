@@ -295,7 +295,8 @@ class TrajectorySignatureTests(unittest.TestCase):
     def test_all_attestation_leaves_are_covered_by_real_oracle_signature(self):
         attestation = {k: v for k, v in self.record['oracle_attestation'].items() if k != 'oracle_signature'}
         paths = list(leaves(attestation))
-        self.assertEqual(len(paths), 8)
+        # oracle_id, attestation_time, and one leaf per required Risk Factor input
+        self.assertEqual(len(paths), 2 + len(TS.RISK_SCHEMA['required']))
         for path, value in paths:
             with self.subTest(path=path):
                 altered = set_path(self.record, ('oracle_attestation',) + path, changed(value))

@@ -2,12 +2,12 @@
 
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
-Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the
+Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the
 weights of Core Section 6.5; node, neighborhood, and global as levels of R →
 sensing scopes of one input, configured as that input's feeds and aggregated
 by Sensors Section 2.2; a `risk_domains` configuration block → no declaration
 beyond feeds; CT-S-002 → retired. Where every scope computed the same
-six-input sum with the same factor weights and nothing was clamped per scope,
+five-input sum with the same factor weights and nothing was clamped per scope,
 the composite and Section 5.2's sum are the same number, because the two
 weighted sums commute: such an implementation changes where it aggregates, not
 what it reports. One that used different factor weights per scope picks one
@@ -586,3 +586,35 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+## 4. Unreleased v3 changes
+
+### 4.1 `moment_criticality` leaves the Risk Factor
+
+The criticality of the moment is no longer a weighted term in `R`. It is a
+demand-side input: it raises the demand an action presents (`A`) and never
+lowers `R` or raises `E`. Section 2.10 above described the v2 state, in which
+the value was supplied by the action request; that state is replaced.
+
+| v2.1.0 | v3 |
+|---|---|
+| `moment_criticality`, a weighted Risk Factor input | `moment_criticality`, a demand input declared under `demand_inputs` |
+| six weights summing to 1.0 | five weights summing to 1.0, renormalized proportionally to two decimals with the rounding residual on the largest remaining weight |
+| supplied by the action request's context | supplied by a declared party that is not the requester |
+| `risk_factors.moment_criticality` required on the wire | absent from `risk_factors`; carried nowhere in the Trust Proof |
+
+An implementation computes `R` over five inputs, declares a supplier for the
+demand input in the deployment profile, and reads an absent, stale,
+unverifiable or differently bound value as the most critical moment.
+
+Three schemas change shape, so they take v3 identifiers:
+`https://kinetic-trust-protocol.net/specs/schemas/v3/risk-factors.json`;
+`https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json`, whose
+`context` is that object; and
+`https://kinetic-trust-protocol.net/specs/schemas/v3/sensor-config.json`, whose
+`dimension` no longer lists `moment_criticality`. The published v2 files stay
+unchanged at their v2 identifiers and are kept as
+`schemas/risk-factors-legacy-v2.json`, `schemas/trust-proof-legacy-v2.json` and
+`schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
+still validates against the schema it was issued under.
+

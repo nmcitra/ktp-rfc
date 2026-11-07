@@ -127,7 +127,6 @@ The environmental snapshot captures the complete Risk Factor input state at deci
        "evidence_density": 0.45,
        "trust_trend": 0.78,
        "adversarial_pressure": 0.82,
-       "moment_criticality": 0.30,
        "update_resistance": 0.25,
        "attestation_coverage": 0.15
      },
@@ -931,7 +930,6 @@ ML export format:
        "evidence_density": 0.45,
        "trust_trend": 0.78,
        "adversarial_pressure": 0.82,
-       "moment_criticality": 0.30,
        "update_resistance": 0.25,
        "attestation_coverage": 0.15,
        "action_risk": 85,

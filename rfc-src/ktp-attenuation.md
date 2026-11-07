@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Capability Attenuation Specification"
 abbrev: "KTP-ATTENUATION"
-date: 2026-10-14
+date: 2026-10-28
 category: exp
 ipr: trust200902
 
@@ -167,7 +167,7 @@ R ranges from 0.0-1.0 based on environmental conditions:
 
 R is derived from the six domain risks:
 
-The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as {{KTP-CORE}} Section 6.7 (Aggregation Algorithm) specifies, from the six named Risk Factors at the weights the deployment profile declares.
+The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as {{KTP-CORE}} Section 6.7 (Aggregation Algorithm) specifies, from the five weighted Risk Factors at the weights the deployment profile declares.
 
 Weights MUST sum to 1.0.  Zone operators MAY adjust weights based on operational context.
 

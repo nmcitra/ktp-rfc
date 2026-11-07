@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/risk-factors.json",
+  "title": "KTP Risk Factors",
+  "description": "The six weighted Risk Factor inputs to the risk aggregate R for the Kinetic Trust Protocol. The Soul veto is evaluated before aggregation and is not a term in it (see soul-constraint.json); six-plus-veto, not seven.",
+  "type": "object",
+  "required": [
+    "adversarial_pressure",
+    "attestation_coverage",
+    "evidence_density",
+    "moment_criticality",
+    "trust_trend",
+    "update_resistance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "evidence_density": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Weight and density of presence in the environment: human presence, spatial and electromagnetic congestion, telemetry volume. High density slows operations and raises the cost of movement."
+    },
+    "trust_trend": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Rate of change of standing, and its direction: how fast trust-relevant state is moving. Captures acceleration up or down so decisions are not made against a stale level."
+    },
+    "adversarial_pressure": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Measured adversarial stress on the environment: attack indicators, anomaly rates, active-incident signals. This measures stress, not energy transfer."
+    },
+    "moment_criticality": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Criticality of the current moment or operational phase: maintenance windows, cutovers, deadline proximity, ceremonial or protected periods."
+    },
+    "update_resistance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How hard the trust value is to move: the depth of the evidence base behind current standing. Standing backed by deep evidence shifts slowly."
+    },
+    "attestation_coverage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How much of the agent's activity is witnessed and attestable: oversight population, audit reach, fraction of actions under observation."
+    }
+  },
+  "examples": [
+    {
+      "adversarial_pressure": 0.02,
+      "attestation_coverage": 0.04,
+      "evidence_density": 0.875,
+      "moment_criticality": 1.0,
+      "trust_trend": 0.92,
+      "update_resistance": 0.1
+    },
+    {
+      "adversarial_pressure": 0.05,
+      "attestation_coverage": 0.1,
+      "evidence_density": 0.1,
+      "moment_criticality": 0.2,
+      "trust_trend": 0.15,
+      "update_resistance": 0.08
+    }
+  ]
+}

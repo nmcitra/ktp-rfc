@@ -228,18 +228,19 @@ Different readers need different entry points. Select the journey that matches y
 
 ## Risk Factors Schema
 
-The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.json` by the v2 schema rewrite — carries the six weighted inputs to the risk aggregate `R`. Six keys, each a number in `[0, 1]`, all required, no others accepted:
+The Risk Factors object — formerly the Context Tensor; renamed `risk-factors.json` by the v2 schema rewrite — carries the five weighted inputs to the risk aggregate `R`. Five keys, each a number in `[0, 1]`, all required, no others accepted:
 
 | Key | What it measures |
 |-----|------------------|
 | `evidence_density` | Weight and density of presence in the environment |
 | `trust_trend` | Rate of change of standing, and its direction |
 | `adversarial_pressure` | Measured adversarial stress on the environment |
-| `moment_criticality` | Criticality of the current moment or operational phase |
 | `update_resistance` | How hard the trust value is to move — the depth of the evidence base behind current standing |
 | `attestation_coverage` | How much of the agent's activity is witnessed and attestable |
 
-The Soul veto is evaluated before aggregation and is not a term in it — six plus a veto, never seven. It has its own schema, [`soul-constraint.json`](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/soul-constraint.json).
+`moment_criticality`, the criticality of the current moment or operational phase, is not in this object: it is a demand input that raises A, declared under `demand_inputs`, not a weighted Risk Factor.
+
+The Soul veto is evaluated before aggregation and is not a term in it — five plus a veto, never six. It has its own schema, [`soul-constraint.json`](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/soul-constraint.json).
 
 For the full JSON schema definition, see [risk-factors.json](https://github.com/nmcitra/ktp-rfc/blob/main/schemas/risk-factors.json).
 

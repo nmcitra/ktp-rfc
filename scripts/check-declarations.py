@@ -7,7 +7,7 @@ script checks what a schema cannot — the joins against catalog/, which stays
 the single source of every identifier list so the profile schema never grows
 a second copy of them:
 
-  1. shape — required sections, the #83 arity (six factors + soul_veto),
+  1. shape — required sections, the arity (five factors + soul_veto),
      field types and ranges (stdlib only; run any 2020-12 validator for the
      full schema when one is available)
   2. existence — every declared signal ID resolves in catalog/*.json
@@ -18,7 +18,7 @@ a second copy of them:
      normalization entry
   5. envelope_thresholds — finite numbers, 0 <= m_veto < m_allow
      where declared; omission retains the zero-threshold default
-  6. risk-factor weights — six finite numbers in (0, 1], whose parsed
+  6. risk-factor weights — five finite numbers in (0, 1], whose parsed
      decimal representations sum exactly to 1; never silently rescaled
   7. emergency_policy — optional exact policy ID/version/digest reference;
      this checks its shape, not approval or activation
@@ -47,7 +47,9 @@ CATALOG = ROOT / "catalog"
 DOMAINS = ["world", "information", "time", "soul", "relational", "body",
            "meta"]
 FACTORS = ["evidence_density", "trust_trend", "adversarial_pressure",
-           "update_resistance", "attestation_coverage", "moment_criticality"]
+           "update_resistance", "attestation_coverage"]
+DEMAND_INPUTS = ["moment_criticality"]
+DEMAND_FIELDS = ["supplier", "unit", "source"]
 
 EXAMPLE = {
     "profile_id": "example-minimal",
@@ -58,29 +60,31 @@ EXAMPLE = {
                         "relational.trust.outbound_mean"],
             "aggregation": {"method": "weighted_average",
                             "parameters": {"weights": [0.6, 0.4]}},
-            "weight": 0.25},
+            "weight": 0.29},
         "trust_trend": {
             "signals": ["soul.temporal.pattern_stability"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.15},
+            "weight": 0.18},
         "adversarial_pressure": {
             "signals": ["world.security.anomaly_score"],
             "aggregation": {"method": "max"},
-            "weight": 0.2},
+            "weight": 0.24},
         "update_resistance": {
             "signals": ["soul.consistency.behavioral_drift_rate"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.1},
+            "weight": 0.12},
         "attestation_coverage": {
             "signals": ["body.hardware.bmc_reachable"],
             "aggregation": {"method": "min"},
-            "weight": 0.15},
-        "moment_criticality": {
-            "signals": ["time.window.business_hours_active"],
-            "aggregation": {"method": "max"},
-            "weight": 0.15},
+            "weight": 0.17},
     },
     "soul_veto": {"frameworks": ["example-sovereignty-registry"]},
+    "demand_inputs": {
+        "moment_criticality": {
+            "supplier": "example-event-calendar",
+            "unit": "0 to 1, 1 is the most critical moment",
+            "range": [0, 1],
+            "source": "deployment calendar feed"}},
     "feeds": {"feed-01": {"populates": ["world.security.anomaly_score"]}},
     "aliases": {"business_hours_active": "time.window.business_hours_active"},
     "normalization": {
@@ -143,14 +147,14 @@ def check(profile):
     declared_rf = profile.get("risk_factors", {})
     if not isinstance(declared_rf, dict):
         fails.append("shape: risk_factors must be an object containing the "
-                     "six weighted inputs")
+                     "five weighted inputs")
         return fails
     for f in FACTORS:
         if f not in declared_rf:
             fails.append(f"shape: risk factor '{f}' missing — the #83 arity "
-                         "is six weighted inputs plus the Soul veto")
+                         "is five weighted inputs plus the Soul veto")
     for f in set(declared_rf) - set(FACTORS):
-        fails.append(f"shape: '{f}' is not one of the six Risk Factors")
+        fails.append(f"shape: '{f}' is not one of the five Risk Factors")
     # Later catalogue checks only inspect known factors with object shapes.
     # Malformed declarations still fail; filtering never repairs the profile.
     rf, weights = {}, []
@@ -180,12 +184,37 @@ def check(profile):
         # already resolved each number; this does not preserve token text.
         total = sum(weights, Fraction(0))
         if total != 1:
-            fails.append("weights: the six Risk Factor weights must sum "
+            fails.append("weights: the five Risk Factor weights must sum "
                          f"exactly to 1 (parsed decimal total: {total}); "
                          "invalid weights are not rescaled (ktp-core 6.4)")
     if "soul_veto" in profile and not profile["soul_veto"].get("frameworks"):
         fails.append("shape: soul_veto.frameworks empty — the veto needs at "
                      "least one framework to query")
+    di = profile.get("demand_inputs")
+    if di is not None:
+        if not isinstance(di, dict):
+            fails.append("shape: demand_inputs must be an object keyed by demand input")
+        else:
+            for name, spec in di.items():
+                if name not in DEMAND_INPUTS:
+                    fails.append(f"shape: '{name}' is not a declared demand input")
+                    continue
+                if not isinstance(spec, dict):
+                    fails.append(f"shape: demand_inputs.{name} must be an object")
+                    continue
+                for extra in set(spec) - set(DEMAND_FIELDS) - {"range"}:
+                    fails.append(f"shape: demand_inputs.{name}.{extra} is not a demand-input "
+                                 "field; a demand input declares supplier, unit, source and an "
+                                 "optional range, and never signals, an aggregation or a weight")
+                for field in DEMAND_FIELDS:
+                    v = spec.get(field)
+                    if not (isinstance(v, str) and v.strip()):
+                        fails.append(f"shape: demand_inputs.{name}.{field} must be a "
+                                     "non-empty string (ktp-core L14: the supplying "
+                                     "party, unit convention and source are declared)")
+                if isinstance(spec.get("supplier"), str) and spec["supplier"].strip().lower() in ("requester", "request", "the request", "action request"):
+                    fails.append(f"shape: demand_inputs.{name}.supplier is the requester; "
+                                 "a demand input is never supplied by the requesting party")
     ps = profile.get("peer_share")
     if ps is not None and ps != 0 and not (
             isinstance(ps, (int, float)) and 10 <= ps <= 20):

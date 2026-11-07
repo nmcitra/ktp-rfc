@@ -313,6 +313,48 @@
         ]
       },
       "reason": "E_trust = E_base × (1 − R) under the zone's R: 66 × 0.75 = 49.5, Observer at the v2.0.0 thresholds. A > E_trust vetoes the first act; the second passes the capacity gate, with every other check still to run."
+    },
+    {
+      "id": "PS13-concurrent-instruments-strongest-single",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "zone": "zone-blue-z1",
+        "PoR_contribution": 42,
+        "root_instruments": [
+          {
+            "kind": "external_attestation",
+            "terminator": {
+              "id": "org:employer:z1",
+              "kind": "employer",
+              "standing": 80
+            }
+          },
+          {
+            "kind": "external_attestation",
+            "terminator": {
+              "id": "org:employer:z2",
+              "kind": "employer",
+              "standing": 90
+            }
+          }
+        ],
+        "peer_share": 0,
+        "applicable_ceilings": [
+          {
+            "ceiling": "ial",
+            "value": 95
+          }
+        ]
+      },
+      "expect": {
+        "Root_score": 90,
+        "root_term": 27,
+        "E_raw": 69,
+        "E_base": 69,
+        "summed": false,
+        "scoredBy": "terminator.standing"
+      },
+      "reason": "A person holding two current instruments is credited with the strongest single one, never their sum, and each scores as its terminator's standing, never as declared exposure over anchored capacity: 42 × (70/70) + 90 × (30/100) = 69."
     }
   ]
 }

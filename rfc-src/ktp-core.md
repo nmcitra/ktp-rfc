@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-27
+date: 2026-11-07
 category: exp
 ipr: trust200902
 
@@ -361,7 +361,7 @@ An agent past Sponsored holding no unexpired, unrevoked attestation computes thi
 
 An attestation MUST declare the attestor's exposure and the capacity it anchors. Exposure counts toward this term only insofar as it is irrecoverable and non-transferable: exposure that cannot be shed by abandoning the attestor's identity. The declaration MUST name the exposure's class — a named human's professional or legal liability; a license whose revocation attaches to its holder; posted non-recoverable collateral; a legal entity's declared irrecoverable assets. The class list is open; additions compose under the same cannot-be-shed test. An attestation declaring no exposure computes as zero. A declared exposure found not to exist, or found to be transferable, is misattestation.
 
-An agent MAY hold concurrent attestations from distinct attestors. Where it does, this term is computed from the strongest single instrument. An anchor MUST NOT be a combination of attestors: instrument scores are never summed or otherwise aggregated across attestors. Concurrency is redundancy — a second attestation is a hedge against the withdrawal of the first, not an addition to it.
+A subject MAY hold concurrent attestations from distinct attestors. Where it does, this term is computed from the strongest single instrument. An anchor MUST NOT be a combination of attestors: instrument scores are never summed or otherwise aggregated across attestors. Concurrency is redundancy — a second attestation is a hedge against the withdrawal of the first, not an addition to it.
 
 Attestations carry a validity period and MUST be renewed or replaced on expiry. An attestor withdrawing an attestation MUST state whether the withdrawal is for cause. Withdrawal for cause zeroes the instrument immediately. Withdrawal without cause renders the attestation irrevocably non-renewable; the instrument holds until the attestation's declared expiry, then computes as zero. The validity period the attestor declared at issuance is the notice period — no separate notice parameter exists. A for-cause claim that does not survive scrutiny is misattestation. A decline in the attestor's own standing does not zero the term; a finding of misattestation invalidates the attestation and debits the attestor.
 
@@ -442,11 +442,16 @@ Maturity raises a ceiling. It does not contribute standing. An agent that has ad
 
        (Sponsor_E_base × stake_percentage / 100) / 50 × 100   (Sponsored)
        min(100, 100 × declared_exposure / anchored_capacity)  (Independent, Guarantor)
+       the terminator's standing                              (person)
        0                                                      (no valid instrument)
 
        stake_percentage is in percent-points (1-50). Under
        concurrent attestations, Root_score is the maximum of
        the individual instrument scores, never a sum.
+       For a person, each instrument scores as its
+       terminator's standing; declared exposure over
+       anchored capacity never scores or ranks a
+       person's instruments.
 
      Peer_score = 0-100, as specified in Peer Validation.
 
@@ -1281,9 +1286,9 @@ Silence and absence do not separate. A channel that returns nothing and a channe
 
 The Trust Proof is a signed token that travels with each request, carrying the current Trust Score and environmental context.
 
-The standing-bearing claims and examples in this section describe software agents. They do not define a human proof format. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
+A Trust Proof describes a software agent or a person and declares which, as Section 5.1.1 (The External Root) states. For a person, its standing-bearing claims carry only the person's standing in the zone, from the acts the person signed and the standing of the terminator behind them, and never eligibility. The examples in this section describe software agents. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
 
-The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the proof format, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
+The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the body's authentication, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
 
 ## Token Format
 

@@ -32,6 +32,32 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Induced Conservatism is a named threat (TM-D-005)
+
+**Proposed by @kimosmond-del** on #146 (2026-10-07). KTP-CORE's Security
+Considerations describe an attacker who raises R to deny service, but the
+threat model gave that attack no ID, actor, rating, attack tree or residual
+risk. Every fail-safe and fail-closed rule in the set is sound against an
+adversary who wants permission; to an adversary who wants denial, the same
+rules deliver the attack.
+
+- Threat Model, Threat Actors: the Conservatism Exploiter, an actor defined
+  by its goal rather than its capability.
+- Threat Model, Denial of Service: TM-D-005, Induced Conservatism. Fail-safe
+  mode is named as the delivery mechanism, not a mitigation.
+- Threat Model, Attack Trees: "Freeze the Zone".
+- Threat Model, Residual Risks, the top-risks table and the Threat Catalog:
+  TM-D-005 at HIGH.
+- Three corrections: TM-D-002's mitigations resolve unavailable feeds per
+  Sensors Section 6 (Sensor Quality and Validation) instead of using the last
+  known good value, which that section forbids; TM-TO-005's impact is HIGH, because unverifiable time
+  rejects every ordinary proof zone-wide under SR-012; SR-014's rationale
+  covers confidentiality and integrity, and points availability under induced
+  conservatism to TM-D-005.
+
+Class: Clarification (#146). The threat model names a threat the set already
+describes; no behavior changes and no conformant implementation changes.
+
 ### R is defined once; Risk Domains are an informative technique
 
 **Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk

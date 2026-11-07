@@ -160,6 +160,10 @@ profile and authoritative status. Invalid, unavailable, expired, zero-exposure
 or for-cause candidates contribute no credit and cannot win. Compute admissible
 instrument strength under the existing Core/provider contract; never sum or
 otherwise combine attestations. Select the strongest single eligible instrument.
+For a person subject, each eligible instrument scores as its terminator's
+standing under Core; declared exposure over anchored capacity never scores or
+ranks a person's instruments. The person-standing suite's
+`PS13-concurrent-instruments-strongest-single` fixes this boundary.
 For an exact strength tie, select the lexicographically smallest complete
 instrument digest (all candidates use the independently selected digest
 algorithm). Candidate ordering cannot affect the result. This deterministic tie

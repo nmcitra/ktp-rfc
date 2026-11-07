@@ -583,6 +583,84 @@
         "councilThresholdsUnchanged": true
       },
       "reason": "The governed open the process at the declared recurrence, the authority attends, the record cites records, the amendment is evaluated as the governor's act, and the next act is evaluated under the new rule; no administrator bypass and no change to the council's thresholds."
+    },
+    {
+      "id": "AM17-measured-raise-of-recurrence-count-void",
+      "given": {
+        "amendment": {
+          "target": "profile.declaredRecurrence",
+          "from": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "recordsCited": [
+            "rec-001"
+          ],
+          "measurementsCited": [
+            {
+              "id": "m-x",
+              "source": "zone-records"
+            }
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          },
+          "to": {
+            "records": 4,
+            "windowDays": 30
+          },
+          "effect": "route opens later"
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true,
+        "declaredRecurrence": {
+          "records": 3,
+          "windowDays": 30
+        }
+      },
+      "reason": "The declared recurrence, its count and its window, are on the floor of Section 11.5; a raise from three records to four is void even with measurements cited, and the declared recurrence stands."
+    },
+    {
+      "id": "AM18-easing-of-recurrence-count-void",
+      "given": {
+        "amendment": {
+          "target": "profile.declaredRecurrence",
+          "from": {
+            "records": 3,
+            "windowDays": 30
+          },
+          "recordsCited": [
+            "rec-001"
+          ],
+          "measurementsCited": [
+            {
+              "id": "m-x",
+              "source": "zone-records"
+            }
+          ],
+          "vote": {
+            "for": 5,
+            "of": 5
+          },
+          "to": {
+            "records": 2,
+            "windowDays": 30
+          },
+          "effect": "route opens sooner"
+        }
+      },
+      "expect": {
+        "void": true,
+        "charterStands": true,
+        "declaredRecurrence": {
+          "records": 3,
+          "windowDays": 30
+        }
+      },
+      "reason": "An easing reaches the floor as a raise does; an amendment that lowers the count from three records to two is void, and the declared recurrence stands."
     }
   ]
 }

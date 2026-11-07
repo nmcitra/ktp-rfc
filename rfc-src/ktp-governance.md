@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Governance Specification"
 abbrev: "KTP-GOVERNANCE"
-date: 2026-10-14
+date: 2026-11-07
 category: exp
 ipr: trust200902
 
@@ -759,7 +759,7 @@ An amendment binds forward. It applies at the first evaluation after its ratific
 
 Making an amendment is a consequential act of the governing authority, and Section 4 (The Recursive Constraint) applies to it. The act carries the autonomy Section 4.3 (Governor Autonomy Calculation) assigns to the change it makes, and an amendment the governor's E does not support at ratification is not made, whatever vote is recorded. The Flight Recorder entry for the amendment carries that evaluation with the vote.
 
-No amendment reaches the following: the elements of Section 6.3 (Charter Immutability); the existence and publication of the route by which a bound lineage opens this process, and of the declared recurrence; that no amendment delegates, waives, or overrides a veto; and what no repair tier may change, as {{KTP-REPAIR}} states. An amendment that touches any of these is void and the charter otherwise stands. Section 11.3 (Amendment Constraints) lists what the process may touch under conditions. This section lists what it may not touch at all.
+No amendment reaches the following: the elements of Section 6.3 (Charter Immutability); the existence and publication of the route by which a bound lineage opens this process; the declared recurrence, its count and its window; that no amendment delegates, waives, or overrides a veto; and what no repair tier may change, as {{KTP-REPAIR}} states. An amendment that touches any of these is void and the charter otherwise stands. Section 11.3 (Amendment Constraints) lists what the process may touch under conditions. This section lists what it may not touch at all.
 
 # Transparency Requirements
 

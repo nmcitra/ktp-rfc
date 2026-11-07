@@ -65,8 +65,8 @@ declared constant had to answer any measurement.
   publicly accessible; amendments are published with the records they cite.
 - Four threats added to Security Considerations: the barrage, the rule
   drifting while acts close, amendment as bypass, the vote above the gate.
-- New suite `specifications/conformance/charter-amendment-v1.json`, sixteen
-  vectors, AM01 to AM16.
+- New suite `specifications/conformance/charter-amendment-v1.json`, eighteen
+  vectors, AM01 to AM18.
 
 ### R is defined once; Risk Domains are an informative technique
 

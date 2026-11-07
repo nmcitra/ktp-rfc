@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-10-14
+date: 2026-10-29
 category: exp
 ipr: trust200902
 
@@ -27,8 +27,13 @@ normative:
     author:
       - name: Chris Perkins
     date: 2025-11
+  KTP-SENSORS:
+    title: "Kinetic Trust Protocol - Context Signal Sensor Specification"
+    author:
+      - name: Chris Perkins
   RFC2119:
   RFC8174:
+  RFC8725:
 informative:
   KTP-FEDERATION:
     title: "Kinetic Trust Protocol - Trust Federation Specification"
@@ -91,9 +96,19 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Blue Zone: A network segment where KTP is fully enforced, including all seven Constitutional Laws.
 
+Class Step: A boundary across which a Ring's Enforcement Class is strictly harder than its Enclosure's.
+
 Cyan Zone: A network segment with partial KTP enforcement, typically excluding some advanced features.
 
 Deep Blue Zone: A network segment with maximum KTP enforcement, requiring high agent mass and full trajectory verification.
+
+Depth: A ring's depth is its number of enclosures; an outermost ring has depth 0. Deployment depth is the greatest ring depth in the deployment.
+
+Enclosure: The zone that directly surrounds a ring, the next zone out with one boundary between them. An outermost ring has no enclosure.
+
+Enclosure Domain: The floor through which an enclosure's Risk Factor bears on the Risk Factor of the ring it surrounds. It can raise the ring's Risk Factor and never lower it ({{KTP-SENSORS}} Section 2.3).
+
+Enforcement Class: A zone's position on the Zone Gradient: Green, Cyan, Blue or Deep Blue, from lightest to hardest. The Wild has no Enforcement Class.
 
 Exit Attestation: A signed statement from a zone's Trust Oracle attesting to an agent's behavior during its time in the zone.
 
@@ -103,7 +118,17 @@ Green Zone: A network segment with minimal KTP enforcement, primarily passthroug
 
 Ingress: The process of entering a zone, including Trust Proof validation and mass verification.
 
+Ingress Path: The ordered Ingress Receipts of a ring's enclosures, outermost first.
+
+Ingress Receipt: A signed statement by a ring's Trust Oracle that an agent was admitted through that ring's Zone Gateway in a given admission.
+
 Quarantine Zone: A restricted area where agents with insufficient trust can operate with limited capabilities while building mass.
+
+Ring: A zone that takes part in a nested deployment, including its outermost zone. Ingress to an inner ring passes through its enclosure and then the inner ring's own gateway.
+
+Topology: A nested deployment's authorized containment relationships among its rings, established under Zone Governance.
+
+Topology Epoch: An identifier for the current Topology, published to the rings and changed whenever the Topology changes.
 
 Wild: Network segments with no KTP enforcement (legacy internet).
 
@@ -263,6 +288,8 @@ Ingress requirements:
 - Trust Proof honored if provided
 - Agents without Trust Proof treated as E_trust = 0
 
+A Green zone that takes part in a nested deployment as a ring has further requirements; see Section 3.7 (Nested Zones).
+
 ## Wild (Unzoned)
 
 Wild refers to network segments with no KTP enforcement—the legacy internet as it exists today.
@@ -288,6 +315,50 @@ Agents entering zones from Wild:
 - Must obtain Trust Proof (may require sponsorship)
 - Start with E_base based on any prior zone history
 - May enter Quarantine Zone first
+
+## Nested Zones
+
+A zone MAY sit inside another zone. Where enforcement nests in this way, the zones form a nested deployment and each zone in it is a ring. Ingress to an inner ring passes through its enclosure and then through the inner ring's own Zone Gateway, so an agent crossing inward crosses a boundary it can see, as Transparent Boundaries requires.
+
+Nesting does not make the Trust Score global. Each ring evaluates each agent from its own measure of its own environment. What an enclosure contributes is exposure: conditions outside a ring that bear on conditions inside it. That contribution enters a ring's Risk Factor through the Enclosure Domain, specified in the Risk Domains section of {{KTP-SENSORS}}. It can raise a ring's Risk Factor and never lower it. Heat moves inward; calm does not; nothing moves outward.
+
+### Reference Profile
+
+Four rings is the RECOMMENDED profile: Deep Blue inside Blue inside Cyan inside Green, one ring per Enforcement Class. A deployment MAY omit classes it does not need. A deployment MAY place more than one ring at the same Enforcement Class, within the bound below. Separate nested deployments MAY sit side by side as peers, federated under {{KTP-FEDERATION}}, with no limit on how many.
+
+An ancestry path MUST contain no more than six rings, including the receiving ring, so a ring's depth is at most 5.
+
+The deployment's authorized Topology determines each ring's required depth. Ingress Receipts attest that an agent traversed it.
+
+A ring at depth 1 or more MUST declare, in its profile and in its registry record, an Enclosure Domain reach greater than 0. A zone whose enclosure cannot bear on its Risk Factor is not inside that zone in any sense this protocol can see; it is a peer, and the Topology MUST NOT list it as a ring.
+
+A Green zone that takes part in a nested deployment as a ring MUST operate a Trust Oracle and environmental sensing, and MUST sign ingress. A Green zone outside any nested deployment is unchanged.
+
+### Invariants
+
+A nested deployment MUST satisfy the following invariants.
+
+1. Floor. For each evaluation, Enclosure Domain processing MUST produce a Risk Factor no lower than the ring's contemporaneous Risk Factor computed from its own three domains alone. With other inputs fixed, increasing enclosure risk MUST NOT decrease the result. An enclosure's report MUST NOT overwrite a higher risk that the ring's own Zone Gateway observes of the enclosure. The floor is contemporaneous, not historical: when the enclosure's conditions improve the surcharge recedes, and it never becomes a discount below the ring's own measure. Attenuation applies only across a Class Step; between rings of equal Enforcement Class the attenuation factor is 1.0. The reference attenuation is 0.5 per Class Step and is experimental. It is a parameter of the Enclosure Domain, not the propagation decay of {{KTP-FEDERATION}}.
+
+2. Scoped disclosure. A ring MUST restrict disclosure of its internal Risk Factor, its membership and its Topology to authorized recipients. A confidential ring MUST use access-controlled discovery and registry records. Outward Trust Proofs, federation messages and externally reachable logs MUST omit or replace inner-zone claims, as Section 7.4 (Egress Shaping) specifies. This invariant prevents disclosure by the protocol itself. It does not guarantee concealment from authorized participants or from traffic analysis.
+
+3. The Wild is measured, not trusted. The outermost ring MUST NOT accept a Risk Factor from the Wild. External threat feeds enter at the outermost ring's Global Domain, as {{KTP-SENSORS}} specifies.
+
+4. Depth is attested. Each ring's Trust Oracle MUST sign ingress. A Trust Proof presented at a ring of depth d MUST carry the Ingress Path of its d enclosures, bound to the current admission, as Section 6.6 (Ingress Path) specifies. Every data, management and control-plane route into a ring MUST pass through an enforcing Zone Gateway; Ingress Receipts do not replace network containment. Loss or revocation of an enclosure's Trust Oracle MUST NOT shorten the required ancestry and MUST NOT reduce the ring's Risk Factor for want of evidence. New ingress that requires unavailable or invalid evidence MUST fail closed. Degraded operation for agents already resident is governed by the ring's profile, which MUST treat an outage and a proven key compromise as distinct cases. Re-establishing a ring as an outermost ring requires an authenticated Topology change and a new Topology Epoch.
+
+5. Every ring evaluates. A ring MUST perform its own evaluation; an enclosure's clearance of an agent is informational. The Enclosure Domain represents current exposure and MUST take part in every evaluation for agents resident in the ring, not only at ingress.
+
+6. Class is non-decreasing inward. A ring's Enforcement Class MUST be equal to or harder than its enclosure's. A Quarantine Zone is a boundary structure of a ring and is not a ring. A deployment that needs a lighter zone inside a harder one carves it out as a separate zone and federates with it as a peer.
+
+7. No double counting. Enclosure exposure MUST NOT also be applied as an ingress discount to E_base: the federation trust factor discounts imported standing, and the Enclosure Domain measures current exposure. A profile MUST specify how overlapping evidence is combined across the ring's own domains and the Enclosure Domain. An enclosure MUST NOT publish an aggregate that contains an inner ring's protected telemetry and feed it back inward.
+
+The boundary cases for these invariants are published in specifications/conformance/nested-zones-v1.json. They fix decision requirements at the boundaries they name and do not define a formula for R.
+
+### Depth 0 and Legacy Proofs
+
+A ring of depth 0 has no enclosure. Enclosure Domain processing is disabled and its Risk Factor is computed from its own three domains, as for a zone outside any nested deployment.
+
+A missing Ingress Path MUST NOT be read as depth 0: a ring's depth comes from the authorized Topology, not from the proof. A ring MAY accept a Trust Proof without an Ingress Path only under an explicitly selected legacy profile, and only where the Topology gives the ring depth 0.
 
 # Zone Architecture
 
@@ -645,6 +716,24 @@ Quarantine progression:
 5. When E_base >= zone_min_mass, agent can exit quarantine
 6. Agent transitions to full zone membership
 
+## Ingress Path
+
+At a ring of depth d, the Zone Gateway MUST require the Trust Proof's `ingress_path` claim to hold the Ingress Receipts of the ring's d enclosures, ordered outermost first. It MUST refuse ingress if any receipt is missing, invalid, or not bound to this admission. Because an ancestry path holds at most six rings, `ingress_path` holds at most five receipts; the receiving ring is not its own enclosure.
+
+When a ring admits an agent that is moving toward an inner ring, the ring's Trust Oracle MUST issue an Ingress Receipt with that inner ring as its audience.
+
+Each Ingress Receipt binds:
+
+- its issuer: the issuing ring's zone identifier and the Trust Oracle's key identifier
+- its subject: the agent and the agent's proof-of-possession key
+- its audience: the next ring inward
+- the digest of the preceding receipt in the path, or none for the outermost
+- the Topology Epoch
+- its issue and expiry times
+- a fresh admission identifier
+
+The receipt's signature covers every bound field. The receiving Zone Gateway MUST verify each binding against the current ingress session and the authenticated Topology, not merely against registry membership. Issuer, subject and audience validation follow {{RFC8725}}, Sections 3.8 through 3.12.
+
 # Zone Egress
 
 ## Exit Attestation
@@ -723,6 +812,17 @@ Cross-zone transaction:
       |                        |                        |
       |                        |    [Agent now in Zone B]
 ~~~
+
+## Egress Shaping
+
+At egress from a ring, the Zone Gateway MUST issue the outward Trust Proof with inner-zone claims omitted or replaced under the ring's disclosure policy. At minimum:
+
+- `r`, `e_trust`, the five weighted inputs in `context`, `de_dt` and `sigma` MUST be restated at the enclosure's measure or omitted
+- the ring's own Ingress Receipt and any inner ring's receipts MUST be removed from `ingress_path`
+
+so that no claim in the outward proof, alone or with `e_base`, reveals the ring's Risk Factor or its inputs. An outermost ring has no enclosure; it shapes outward proofs under its own disclosure policy, as a zone outside any nested deployment does today.
+
+An Exit Attestation from a ring carries the ring's assessment of the agent, not the ring's conditions. For a confidential ring, the attestation's summary MUST omit Trust Score statistics, including `min_e_trust`, `max_e_trust`, `avg_e_trust` and `tier_history`, because together with E_base they reveal the ring's Risk Factor.
 
 # Zone Governance
 
@@ -1179,6 +1279,22 @@ Mitigations:
 - Service mesh enforcement
 - Anomaly detection for ungated traffic
 - Regular boundary audits
+
+10.4. Nested Zones
+
+A nested deployment adds seven threats, named in the threat model as Depth Spoofing, Calm Injection, Ring Bypass, Enclosure Heat Poisoning, Topology Tampering, Enclosure Availability Denial and Inner-Zone Inference.
+
+Mitigations:
+
+- Ingress Receipts bound to the admission and verified against the authenticated Topology (Section 6.6 (Ingress Path))
+- The floor of invariant 1, and the ring's own Zone Gateway reading of its enclosure
+- Network containment of every route into a ring (invariant 4)
+- A bounded reach for the Enclosure Domain, and signed, attributable enclosure reports
+- Topology changes authenticated under Zone Governance, with the Topology Epoch bound into every receipt
+- Trust Oracle redundancy in every enclosure, since new ingress fails closed when an enclosure's Oracle is unavailable
+- Egress Shaping applied to every claim that carries the ring's conditions (Section 7.4 (Egress Shaping))
+
+The floor holds against an enclosure that reports false calm. It does not hold against an enclosure that reports false heat; that case is bounded by the reach, not prevented.
 
 # IANA Considerations
 

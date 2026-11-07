@@ -156,6 +156,17 @@
         }
       }
     },
+    "enclosure": {
+      "type": "object",
+      "description": "The Enclosure Domain of a ring in a nested deployment ([KTP-SENSORS] 2.3.6; [KTP-ZONES] 3.7). Present for a ring at depth 1 or more, absent at depth 0. reach is how far the enclosure's exposure reaches into the ring; at depth 1 or more it MUST be greater than 0. attenuation_per_class_step attenuates the enclosure's signed Risk Factor across each Class Step and is not the propagation decay of KTP-FEDERATION.",
+      "required": ["reach", "attenuation_per_class_step"],
+      "additionalProperties": false,
+      "properties": {
+        "reach": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "attenuation_per_class_step": { "type": "number", "minimum": 0, "maximum": 1 },
+        "update_interval_ms": { "type": "integer", "minimum": 1 }
+      }
+    },
     "standing_policy": {
       "type": "object",
       "description": "Required exact binding to an independently approved readiness profile. Historical resilience is retained; current authority additionally requires fresh verified readiness for the requested operation and exact subject/scope. This declaration alone neither approves the profile nor grants authority. Changes use the protected profile-change process described in specifications/operational-readiness.md. The digest binds the RFC 8785 canonical readiness-profile payload; Level 3 requires SHA-384 as selected by the trusted cryptographic profile. The legacy standing_decay_rate field is invalid in v3.",

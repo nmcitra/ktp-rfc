@@ -161,7 +161,7 @@ The standard enforcement flow for every action follows. Software-agent tiers and
 
 1. The PEP intercepts the request and authenticates principal type, identity, session, the actual executing actor, and the resolved request scope and parameters. Dispatch follows the authenticated executor; software executing for a human remains subject to software-agent requirements.
 
-1. PEP validates Trust Proof signature and lifetime: 0 < exp - iat <= 10 seconds and iat <= current_time < exp; invalid or unverifiable timestamps or current time, or any failed check, return silent_veto with reason INVALID_TRUST_PROOF and STOP
+1. PEP applies specifications/trust-proof.md Section 5 (Ordered verification and stable reasons), preserving the first stable reason. Any invalid proof, TP_VETO or TP_UNDETERMINED returns silent_veto and STOP. TP_CLEAR only permits the remaining checks; it is not action permission
 
 1. The PEP verifies the proof's trusted issuer/key, applicable format, audience/session/request binding and replay conditions, then extracts the authenticated Soul constraint status. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
 
@@ -239,6 +239,13 @@ Every KTP-compliant PEP MUST:
 1. Return appropriate error responses with KTP headers
 
 1. Support Trust Proof refresh/forwarding for downstream services
+
+Native proof validation MUST follow
+[Canonical Trust Proof Contract](../specifications/trust-proof.md), including
+closed claims, trusted issuer/audience/key-role bindings and ordered reasons.
+The local INVALID_TRUST_PROOF envelope MAY wrap its stable failure reason;
+it MUST NOT discard that reason from the authenticated audit record or treat
+an authenticated veto/undetermined assertion as a clear gate.
 
 An existing session, queued action, low-risk classification, unavailable Oracle, or enclosing token lifetime MUST NOT extend an ordinary Trust Proof. PEPs MUST revalidate the proof at execution and MUST NOT restore or prolong expired authority after clock rollback. If current validity cannot be established, the proof MUST NOT authorize an action. Continuing actions MUST refresh their proofs or cease ordinary operation through a previously declared bounded safe transition; the transition MUST NOT continue the original task or authorize new discretionary actions. Any independently authorized emergency action follows `specifications/emergency-capability.md` and remains subject to its Soul, capacity, audit, and policy-change controls.
 

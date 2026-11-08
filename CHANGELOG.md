@@ -89,7 +89,11 @@ Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
   5.1.1; Identity Section 6). The sponsor of a person is a person. A bond on a
   person is limited as a bond on a Sponsored agent is (at most 20 staked from
   an IAL2 sponsor, 50 from IAL3), and Identity's penalty, termination and
-  liability rules read for the sponsored person.
+  liability rules read for the sponsored person. For a person, the
+  trajectory-length ceiling counts the acts the person signed. The
+  constitution's Article III Section 5(d) now says that ending a sponsorship
+  runs the bond to its declared end and that the sponsor's liability survives
+  it.
 - Texts that still forbade a person standing, or scoped it to software agents,
   now read for persons: Core Sections 4.1 and 4.2 and the Trust Oracle's
   duties; Enforce's enforcement flow and component roles; KTP-HUMAN;
@@ -98,7 +102,7 @@ Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
   human-eligibility requirements; and the human-eligibility contract. The
   migration guide's UserInfo extension says a person's values stay one zone's
   measure, not an attribute of the person.
-- Conformance: `specifications/conformance/person-standing-v1.json`, seventeen
+- Conformance: `specifications/conformance/person-standing-v1.json`, eighteen
   vectors fixing what enters a person's standing, where it bears, how it
   crosses a zone boundary, which E a person's capacity check uses, what the
   tier does not restrict, and how a person stakes and is sponsored. They do not

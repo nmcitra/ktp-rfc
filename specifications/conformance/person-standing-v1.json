@@ -2,7 +2,7 @@
   "suite": "person-standing-v1",
   "specification": "KTP-CORE, The Zeroth Law, Base Trust (E_base) and The External Root; KTP-ZONES, Mass Requirements and Trust Portability; KTP-FEDERATION, Base Trust Factor; KTP-IDENTITY, Sponsorship Bonds and Phase 2: Independent; KTP-ENFORCE, Tier Definitions, Capability Matrices, Standard Action Classes and Veto Evaluation Order",
   "note": "Boundary cases for a person's standing. This repository contains no runtime: nothing here composes a score or admits anyone. The vectors fix what MAY and MUST NOT enter a person's standing, where that standing bears, how it crosses a zone boundary, which E a person's capacity check uses, what the tier does not restrict, and how a person stakes and is sponsored. They do not define a formula for E_base or R beyond the hundred-point allocation Core already states, and they leave the root_instrument schema unchanged. The given/expect objects are test notation, not wire fields. Every number is re-derivable from the shares and ceilings stated in Core (peer share zero throughout, so PoR_share = 70 and Root_share = 30) and from the Zones ingress arithmetic E_base_zone = E_base_external × federation_trust_factor, then bounded by the receiving zone's declared zone-mass ceiling. Tier names use the v2.0.0 thresholds. A person's E_trust sets the person's Trust Tier, which restricts the classes of action the person may execute as the KTP-ENFORCE Capability Matrix states. The capacity check compares A with the operational E the reviewed adapter authenticates, given here as operational_E; the suite does not define how the adapter establishes it. Action classes and their A values are KTP-ENFORCE's standard classes; a ledger act's A is given in the vector. Write (logs) is the class the Capability Matrix lists as Emit logs. capacityPassed states whether A <= E holds for the E shown, whether or not an earlier check stopped evaluation; the vectors take no position on whether the tier check or the capacity check runs first. silent_veto states the supervision value Enforce returns; vetoReason names the check that denied. PS15's stake figures follow KTP-IDENTITY's Stake Mechanics: stake_amount = sponsor_E_base × stake_percentage / 100, and sponsor_available_E_base = sponsor_E_base − the bond's effective stake contribution, which is the whole stake_amount while the sponsored agent's intrinsic E_base is 0.",
-  "ledger_notation": "signed_acts lists acts the person signed under the protocol, each with a kind from: bond_posted, attestation_issued, approval, veto_clear, decision_contested; under_stress marks an act signed during a declared incident. offered_inputs lists anything else a caller tries to supply. A ceiling absent from applicable_ceilings was not applied; generation is never defaulted for a person.",
+  "ledger_notation": "signed_acts lists acts the person signed under the protocol, each with a kind from: bond_posted, attestation_issued, approval, veto_clear, decision_contested; under_stress marks an act signed during a declared incident. offered_inputs lists anything else a caller tries to supply. A ceiling absent from applicable_ceilings was not applied; generation is never defaulted for a person. signed_acts may list a sample of the ledger; trajectory_length, where given, is the ledger's full count of signed acts, which the trajectory-length ceiling reads.",
   "vectors": [
     {
       "id": "PS01-signed-acts-compose",
@@ -32,6 +32,7 @@
           }
         ],
         "PoR_contribution": 42,
+        "trajectory_length": 1600,
         "terminator": {
           "id": "org:employer:z1",
           "kind": "employer",
@@ -42,6 +43,10 @@
           {
             "ceiling": "ial",
             "value": 95
+          },
+          {
+            "ceiling": "trajectory_length",
+            "value": 70
           }
         ]
       },
@@ -56,7 +61,7 @@
         "E_base": 66,
         "generationDefaulted": false
       },
-      "reason": "A person's E_base is composed from the acts they signed and the standing of the terminator behind them, under the same shares as any subject: 42 × (70/70) + 80 × (30/100) = 66, bounded by the one declared ceiling."
+      "reason": "A person's E_base is composed from the acts they signed and the standing of the terminator behind them, under the same shares as any subject: 42 × (70/70) + 80 × (30/100) = 66, below both declared ceilings: IAL 95, and trajectory length 70, since the ledger holds 1,600 signed acts, of which the five listed are a sample."
     },
     {
       "id": "PS02-observed-behavior-refused",
@@ -328,6 +333,7 @@
         "subject": "person:acct:z1:0417",
         "zone": "zone-blue-z1",
         "PoR_contribution": 42,
+        "trajectory_length": 1600,
         "root_instruments": [
           {
             "kind": "external_attestation",
@@ -351,6 +357,10 @@
           {
             "ceiling": "ial",
             "value": 95
+          },
+          {
+            "ceiling": "trajectory_length",
+            "value": 70
           }
         ]
       },
@@ -441,7 +451,14 @@
           }
         ],
         "peer_share": 0,
-        "zone_R": 0
+        "zone_R": 0,
+        "trajectory_length": 0,
+        "applicable_ceilings": [
+          {
+            "ceiling": "trajectory_length",
+            "value": 50
+          }
+        ]
       },
       "expect": {
         "Root_score": 80,
@@ -481,6 +498,48 @@
         "silent_veto": false
       },
       "reason": "The tier restricts the actions a person executes, not the acts in the person's ledger: a person in Hibernation may sign an approval they are eligible for, and the capacity check compares its A of 30 with the adapter's E of 40. Otherwise a person could never sign the acts that raise them."
+    },
+    {
+      "id": "PS18-trajectory-ceiling-counts-signed-acts",
+      "given": {
+        "subject": "person:acct:z1:0612",
+        "PoR_contribution": 40,
+        "terminator": {
+          "id": "org:employer:z1",
+          "kind": "employer",
+          "standing": 80
+        },
+        "peer_share": 0,
+        "cases": [
+          {
+            "trajectory_length": 999,
+            "applicable_ceilings": [
+              {
+                "ceiling": "trajectory_length",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "trajectory_length": 1000,
+            "applicable_ceilings": [
+              {
+                "ceiling": "trajectory_length",
+                "value": 70
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "E_raw": 64,
+        "E_base": [
+          50,
+          64
+        ],
+        "counted": "signed_acts"
+      },
+      "reason": "For a person, the trajectory-length ceiling is the agent's table counted in the acts the person signed: below 1,000 signed acts E_base is held at 50, and from 1,000 to 9,999 at 70. E_raw = 40 × (70/70) + 80 × (30/100) = 64, so the ceiling binds at 999 acts and not at 1,000."
     }
   ]
 }

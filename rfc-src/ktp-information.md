@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Information Environment Specification"
 abbrev: "KTP-INFORMATION"
-date: 2026-09-07
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -56,7 +56,7 @@ KTP-SENSORS environmental sensors MUST NOT capture communication content. Conten
 
 Local processing MUST remain within that declared purpose and source scope. It MAY export only the aggregate measurements authorized for the intended recipients. Export approval MUST account for small groups, repeated queries, linkage and available auxiliary information; a pseudonym, minimum bucket size or aggregate label alone does not establish anonymity. Raw content, individual histories and identifying evidence MUST NOT flow into the sensor network, general risk-factor feed or federated reports under the authority of this specification. Authorized review evidence uses the protected evidence path rather than an unbounded content-export exception.
 
-The groups and metrics below describe environmental or corpus-level evidence. They MUST NOT be implemented as covert personality, emotion or loyalty inference, individual behavioral tracking, or a general reliability score for a person. Labels such as "Emotional Weather", "Tribal Dynamics", "Collective Trauma" and "Sacred/Meaning" do not authorize psychological diagnosis, belief dossiers or political-affiliation tracking. Security measurements MUST NOT be repurposed to rank people for HR decisions. A human's permitted operation follows `specifications/human-eligibility.md`, with specific evidence and review rights, not an environmental score assigned to that person.
+The groups and metrics below describe environmental or corpus-level evidence. They MUST NOT be implemented as covert personality, emotion or loyalty inference, individual behavioral tracking, or a general reliability score for a person. Labels such as "Emotional Weather", "Tribal Dynamics", "Collective Trauma" and "Sacred/Meaning" do not authorize psychological diagnosis, belief dossiers or political-affiliation tracking. Security measurements MUST NOT be repurposed to rank people for HR decisions. A human's permitted operation follows `specifications/human-eligibility.md`, with specific evidence and review rights, beside the person's standing in the zone under KTP-Core; none of these metrics is assigned to a person as a score.
 
 The evaluator MUST document the evidence, uncertainty, scope and limitations of each inference. Lack of measurement authority MUST NOT be concealed by fabricating a favorable measurement or widening access. The applicable policy must handle unavailable evidence without bypassing current safety requirements. This document does not establish empirical validity of an information-quality measure or legal authority to collect it.
 

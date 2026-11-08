@@ -1,8 +1,8 @@
 {
   "suite": "person-standing-v1",
-  "specification": "KTP-CORE, Base Trust (E_base) and The External Root; KTP-ZONES, Mass Requirements and Trust Portability; KTP-FEDERATION, Base Trust Factor",
-  "note": "Boundary cases for a person's standing. This repository contains no runtime: nothing here composes a score or admits anyone. The vectors fix what MAY and MUST NOT enter a person's standing, where that standing bears, and how it crosses a zone boundary. They do not define a formula for E_base or R beyond the hundred-point allocation Core already states, and they leave the root_instrument schema unchanged. The given/expect objects are test notation, not wire fields. Every number is re-derivable from the shares and ceilings stated in Core (peer share zero throughout, so PoR_share = 70 and Root_share = 30) and from the Zones ingress arithmetic E_base_zone = E_base_external × federation_trust_factor, then bounded by the receiving zone's declared zone-mass ceiling. Tier names use the v2.0.0 thresholds.",
-  "ledger_notation": "signed_acts lists acts the person signed under the protocol, each with a kind from: bond_posted, attestation_issued, approval, veto_clear, decision_contested; under_stress marks an act signed during a declared incident. offered_inputs lists anything else a caller tries to supply. A ceiling absent from applicable_ceilings was not applied; generation is never defaulted for a person.",
+  "specification": "KTP-CORE, The Zeroth Law, Base Trust (E_base) and The External Root; KTP-ZONES, Mass Requirements and Trust Portability; KTP-FEDERATION, Base Trust Factor; KTP-IDENTITY, Sponsorship Bonds and Phase 2: Independent; KTP-ENFORCE, Tier Definitions, Capability Matrices, Standard Action Classes and Veto Evaluation Order",
+  "note": "Boundary cases for a person's standing. This repository contains no runtime: nothing here composes a score or admits anyone. The vectors fix what MAY and MUST NOT enter a person's standing, where that standing bears, how it crosses a zone boundary, which E a person's capacity check uses, what the tier does not restrict, and how a person stakes and is sponsored. They do not define a formula for E_base or R beyond the hundred-point allocation Core already states, and they leave the root_instrument schema unchanged. The given/expect objects are test notation, not wire fields. Every number is re-derivable from the shares and ceilings stated in Core (peer share zero throughout, so PoR_share = 70 and Root_share = 30) and from the Zones ingress arithmetic E_base_zone = E_base_external × federation_trust_factor, then bounded by the receiving zone's declared zone-mass ceiling. Tier names use the v2.0.0 thresholds. A person's E_trust sets the person's Trust Tier, which restricts the classes of action the person may execute as the KTP-ENFORCE Capability Matrix states. The capacity check compares A with the operational E the reviewed adapter authenticates, given here as operational_E; the suite does not define how the adapter establishes it. Action classes and their A values are KTP-ENFORCE's standard classes; a ledger act's A is given in the vector. Write (logs) is the class the Capability Matrix lists as Emit logs. capacityPassed states whether A <= E holds for the E shown, whether or not an earlier check stopped evaluation; the vectors take no position on whether the tier check or the capacity check runs first. silent_veto states the supervision value Enforce returns; vetoReason names the check that denied. PS15's stake figures follow KTP-IDENTITY's Stake Mechanics: stake_amount = sponsor_E_base × stake_percentage / 100, and sponsor_available_E_base = sponsor_E_base − the bond's effective stake contribution, which is the whole stake_amount while the sponsored agent's intrinsic E_base is 0.",
+  "ledger_notation": "signed_acts lists acts the person signed under the protocol, each with a kind from: bond_posted, attestation_issued, approval, veto_clear, decision_contested; under_stress marks an act signed during a declared incident. offered_inputs lists anything else a caller tries to supply. A ceiling absent from applicable_ceilings was not applied; generation is never defaulted for a person. signed_acts may list a sample of the ledger; trajectory_length, where given, is the ledger's full count of signed acts, which the trajectory-length ceiling reads.",
   "vectors": [
     {
       "id": "PS01-signed-acts-compose",
@@ -32,6 +32,7 @@
           }
         ],
         "PoR_contribution": 42,
+        "trajectory_length": 1600,
         "terminator": {
           "id": "org:employer:z1",
           "kind": "employer",
@@ -42,6 +43,10 @@
           {
             "ceiling": "ial",
             "value": 95
+          },
+          {
+            "ceiling": "trajectory_length",
+            "value": 70
           }
         ]
       },
@@ -56,7 +61,7 @@
         "E_base": 66,
         "generationDefaulted": false
       },
-      "reason": "A person's E_base is composed from the acts they signed and the standing of the terminator behind them, under the same shares as any subject: 42 × (70/70) + 80 × (30/100) = 66, bounded by the one declared ceiling."
+      "reason": "A person's E_base is composed from the acts they signed and the standing of the terminator behind them, under the same shares as any subject: 42 × (70/70) + 80 × (30/100) = 66, below both declared ceilings: IAL 95, and trajectory length 70, since the ledger holds 1,600 signed acts, of which the five listed are a sample."
     },
     {
       "id": "PS02-observed-behavior-refused",
@@ -282,19 +287,22 @@
       "reason": "Standing is never a prerequisite for explanation, correction or review. A person in Hibernation contests by the same route as any subject."
     },
     {
-      "id": "PS12-trust-score-and-silent-veto",
+      "id": "PS12-trust-score-sets-the-tier",
       "given": {
         "subject": "person:acct:z1:0417",
         "E_base": 66,
         "zone_R": 0.25,
+        "operational_E": 60,
         "candidate_actions": [
           {
             "id": "act-9c21",
-            "A": 55
+            "class": "Write (modify)",
+            "A": 50
           },
           {
             "id": "act-9c22",
-            "A": 40
+            "class": "Write (logs)",
+            "A": 25
           }
         ]
       },
@@ -304,15 +312,20 @@
         "decisions": [
           {
             "id": "act-9c21",
-            "silent_veto": true
+            "E": 60,
+            "capacityPassed": true,
+            "silent_veto": true,
+            "vetoReason": "TIER_RESTRICTION"
           },
           {
             "id": "act-9c22",
+            "E": 60,
+            "capacityPassed": true,
             "silent_veto": false
           }
         ]
       },
-      "reason": "E_trust = E_base × (1 − R) under the zone's R: 66 × 0.75 = 49.5, Observer at the v2.0.0 thresholds. A > E_trust vetoes the first act; the second passes the capacity gate, with every other check still to run."
+      "reason": "E_trust = E_base × (1 − R) under the zone's R: 66 × 0.75 = 49.5, Observer at the v2.0.0 thresholds. The tier restricts a person's actions as it does a software agent's: Observer permits reads of public data and emitted logs, so it denies the first action, a modification, although its A of 50 is within the adapter's E of 60 and above E_trust, 49.5. The capacity gate compares A with the adapter's E, not with E_trust. The second action passes both, with every other check still to run."
     },
     {
       "id": "PS13-concurrent-instruments-strongest-single",
@@ -320,6 +333,7 @@
         "subject": "person:acct:z1:0417",
         "zone": "zone-blue-z1",
         "PoR_contribution": 42,
+        "trajectory_length": 1600,
         "root_instruments": [
           {
             "kind": "external_attestation",
@@ -343,6 +357,10 @@
           {
             "ceiling": "ial",
             "value": 95
+          },
+          {
+            "ceiling": "trajectory_length",
+            "value": 70
           }
         ]
       },
@@ -355,6 +373,173 @@
         "scoredBy": "terminator.standing"
       },
       "reason": "A person holding two current instruments is credited with the strongest single one, never their sum, and each scores as its terminator's standing, never as declared exposure over anchored capacity: 42 × (70/70) + 90 × (30/100) = 69."
+    },
+    {
+      "id": "PS14-capacity-from-the-adapter",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_trust": 49.5,
+        "tier": "observer",
+        "operational_E": 20,
+        "candidate_actions": [
+          {
+            "id": "act-9c23",
+            "class": "Write (logs)",
+            "A": 25
+          }
+        ]
+      },
+      "expect": {
+        "decisions": [
+          {
+            "id": "act-9c23",
+            "E": 20,
+            "capacityPassed": false,
+            "silent_veto": true,
+            "vetoReason": "TRUST_INSUFFICIENT"
+          }
+        ]
+      },
+      "reason": "A person's capacity check compares A with the operational E the reviewed adapter authenticates, never with E_trust. The tier permits emitted logs and 25 is within E_trust, but 25 exceeds the adapter's E of 20, so the Silent Veto denies the action."
+    },
+    {
+      "id": "PS15-person-stakes-on-an-agent",
+      "given": {
+        "sponsor": {
+          "id": "person:acct:z1:0520",
+          "E_base": 66,
+          "bonds_held": 0
+        },
+        "sponsored": {
+          "kind": "software_agent",
+          "stage": "sponsored",
+          "intrinsic_E_base": 0
+        },
+        "stake_percentage": 25
+      },
+      "expect": {
+        "stakedFrom": "sponsor.E_base",
+        "inventedBalance": false,
+        "stake_amount": 16.5,
+        "sponsor_available_E_base": 49.5,
+        "sponsored": {
+          "Root_score": 33,
+          "root_term": 9.9
+        }
+      },
+      "reason": "A person's bond on an agent stakes the person's own standing, under the same mechanics as any sponsor's: stake_amount = 66 × 25/100 = 16.5, which leaves 66 − 16.5 = 49.5 available to stake elsewhere, and the agent's Root_score is the Sponsored row's (16.5/50) × 100 = 33, a root term of 33 × 30/100 = 9.9."
+    },
+    {
+      "id": "PS16-person-sponsors-a-person",
+      "given": {
+        "subject": "person:acct:z1:0911",
+        "signed_acts": [],
+        "terminator": null,
+        "root_instruments": [
+          {
+            "kind": "sponsorship_bond",
+            "sponsor": {
+              "id": "person:acct:z1:0233",
+              "E_base": 80,
+              "ial": 3,
+              "terminator": {
+                "id": "org:employer:z1",
+                "kind": "employer"
+              }
+            },
+            "stake_percentage": 50
+          }
+        ],
+        "peer_share": 0,
+        "zone_R": 0,
+        "trajectory_length": 0,
+        "applicable_ceilings": [
+          {
+            "ceiling": "trajectory_length",
+            "value": 50
+          }
+        ]
+      },
+      "expect": {
+        "Root_score": 80,
+        "root_term": 24,
+        "E_raw": 24,
+        "E_base": 24,
+        "E_trust": 24,
+        "tier": "observer",
+        "chainTerminatesAt": "org:employer:z1",
+        "generationDefaulted": false,
+        "endsAt": "closure",
+        "afterClosure": {
+          "root_instrument": "none",
+          "root_term": 0
+        }
+      },
+      "reason": "A person may stand behind a new person with a sponsorship bond; a stake of 40 needs an IAL3 sponsor, whose limit is 50. With no institution behind the newcomer, the bond is the root instrument and scores as the Sponsored row does: (80 × 50/100)/50 × 100 = 80, a root term of 24, so E_base 24 and Observer at R 0. The chain runs through the sponsor to the sponsor's employer. The newcomer has no generation, so the bond ends at its closure, never at a generation step; with no other instrument the root term is then zero."
+    },
+    {
+      "id": "PS17-ledger-acts-not-tier-restricted",
+      "given": {
+        "subject": "person:acct:z1:0417",
+        "E_trust": 10,
+        "tier": "hibernation",
+        "operational_E": 40,
+        "act": {
+          "id": "act-9c24",
+          "kind": "approval",
+          "A": 30,
+          "eligible": true
+        }
+      },
+      "expect": {
+        "tierChecked": false,
+        "E": 40,
+        "capacityPassed": true,
+        "silent_veto": false
+      },
+      "reason": "The tier restricts the actions a person executes, not the acts in the person's ledger: a person in Hibernation may sign an approval they are eligible for, and the capacity check compares its A of 30 with the adapter's E of 40. Otherwise a person could never sign the acts that raise them."
+    },
+    {
+      "id": "PS18-trajectory-ceiling-counts-signed-acts",
+      "given": {
+        "subject": "person:acct:z1:0612",
+        "PoR_contribution": 40,
+        "terminator": {
+          "id": "org:employer:z1",
+          "kind": "employer",
+          "standing": 80
+        },
+        "peer_share": 0,
+        "cases": [
+          {
+            "trajectory_length": 999,
+            "applicable_ceilings": [
+              {
+                "ceiling": "trajectory_length",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "trajectory_length": 1000,
+            "applicable_ceilings": [
+              {
+                "ceiling": "trajectory_length",
+                "value": 70
+              }
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "E_raw": 64,
+        "E_base": [
+          50,
+          64
+        ],
+        "counted": "signed_acts"
+      },
+      "reason": "For a person, the trajectory-length ceiling is the agent's table counted in the acts the person signed: below 1,000 signed acts E_base is held at 50, and from 1,000 to 9,999 at 70. E_raw = 40 × (70/70) + 80 × (30/100) = 64, so the ceiling binds at 999 acts and not at 1,000."
     }
   ]
 }

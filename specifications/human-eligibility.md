@@ -1,10 +1,11 @@
 # Operation-specific human eligibility
 
-Status: normative, unreleased human-eligibility contract, 2026-09-07. Eligibility is a separate,
-operation-specific requirement beside a person's standing under KTP-Core; it
-replaces the person-tier and human-to-agent score-transfer rules, and it does not
-establish, substitute for, or convert into standing. It does not change
-software-agent historical standing or remove scoped readiness.
+Status: normative, unreleased human-eligibility contract, 2026-09-07. Eligibility
+is a separate, operation-specific requirement beside a person's standing under
+KTP-Core; it replaces the v2.1.0 person-tier and human-to-agent score-transfer
+rules, and it does not establish, substitute for, or convert into standing or
+the Trust Tier that standing sets. It does not change software-agent historical
+standing or remove scoped readiness.
 
 The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,
 RECOMMENDED, NOT RECOMMENDED, MAY, and OPTIONAL are to be interpreted as described
@@ -24,7 +25,8 @@ qualification may satisfy a particular criterion. Neither is general merit.
 
 Eligibility MUST NOT turn a prior denial into permission. The full authorizer
 MUST independently verify all current grants, sovereignty, actual operation
-scope, capacity, Soul, supervision, and execution conditions. The capacity
+scope, capacity, the person's Trust Tier restriction on what the person
+executes, Soul, supervision, and execution conditions. The capacity
 profile MUST establish comparable demand and current operational capacity;
 human credentials MUST NOT be converted into a fictional E value. Missing
 capacity evidence leaves the dependent operation unavailable. Invalid inputs,

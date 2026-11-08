@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-11-07
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -98,7 +98,7 @@ Instead of asking "Does this agent have permission?", KTP asks "Can this environ
 
 The environment becomes the final authority. Just as friction vetoes a sprinter's attempt to run on ice, environmental constraints veto an agent's attempt to act beyond the system's current capacity.
 
-A person is a subject of this document as an account in a zone, and a person's standing under it is composed from the acts the person signed under it (Section 5.1). That standing bears on what the person may do under this protocol, and on nothing else: it MUST NOT be used as a general score or rank for people outside the protocol. Human participation also follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
+A person is a subject of this document as an account in a zone, and a person's standing under it is composed from the acts the person signed under it and from the person's root instrument (Section 5.1.1 (The External Root)). That standing bears on what the person may do under this protocol, and on nothing else: it MUST NOT be used as a general score or rank for people outside the protocol. Human participation also follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
 
 ## Requirements Language
 
@@ -112,7 +112,7 @@ Action Risk (A): A numeric value (0-100) representing the intrinsic risk of a re
 
 Adaptive Dormancy: The progressive reduction of agent capabilities as environmental conditions degrade. Agents "hibernate" rather than fail.
 
-Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic capability. For a software agent it is derived from its Proof of Resilience and lineage; for a person it is composed from the acts the person signed under this protocol (Section 5.1). It is one zone's measure of its subject, never a general score for a person.
+Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic capability. For a software agent it is derived from its Proof of Resilience and lineage; for a person it is composed from the acts the person signed under this protocol and from the person's root instrument (Section 5.1.1 (The External Root)). It is one zone's measure of its subject, never a general score for a person.
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
@@ -120,9 +120,9 @@ Context Tensor: Retired name for what is now split into Context Signals (the mea
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
-Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that subject's capacity check. For a person, operation eligibility and operational capacity remain separate requirements under {{KTP-HUMAN}}.
+Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for a software agent's capacity check. A person's operational E is established separately under the reviewed adapter, and eligibility is a separate requirement ({{KTP-HUMAN}}).
 
-External Root: The person at the end of the accountability chain behind an agent, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
+External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
@@ -134,17 +134,17 @@ Policy Decision Point (PDP): A component that evaluates Trust Proofs and makes a
 
 Policy Enforcement Point (PEP): A component that enforces PDP decisions by allowing, blocking, or throttling agent actions.
 
-Proof of Resilience: A cryptographically signed ledger of an agent's successful transactions in high-friction environments. See \[KTP-IDENTITY].
+Proof of Resilience: A cryptographically signed ledger of a subject's successful acts in high-friction environments. See \[KTP-IDENTITY].
 
 Risk Factor (R): A normalized value (0-1) representing aggregated environmental stress. Derived from Context Signals.
 
-Silent Veto: The automatic denial of an action when A > E_trust, without requiring human intervention.
+Silent Veto: The automatic denial of an action when A > E, without requiring human intervention.
 
 Soul (Sovereignty Veto): The sixth named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the five weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), regardless of Trust Score. Takes precedence over the standard Silent Veto evaluation.
 
-Sponsorship Bond: A cryptographic commitment where a high-mass entity stakes trust on behalf of a new, low-mass agent.
+Sponsorship Bond: A cryptographic commitment in which a sponsor stakes part of the sponsor's own E_base on behalf of a new agent or a new person; the sponsor of a person is a person. See {{KTP-IDENTITY}}.
 
 Trajectory Chain: A cryptographically linked chain of agent transactions, where each link includes agent signature, environment attestation, and previous state hash. See {{KTP-IDENTITY}}.
 
@@ -162,7 +162,7 @@ Trust Velocity (dE/dt): The rate of change of the Trust Score over time. Rapid n
 
 Vector Identity: Identity represented as a trajectory (position + momentum) rather than a static credential (a "verb" rather than a "noun").
 
-Zeroth Law: The foundational constraint A <= E: an agent's autonomy must never exceed the environment's stability.
+Zeroth Law: The foundational constraint A <= E: an actor's autonomy must never exceed the environment's stability.
 
 # Protocol Overview
 
@@ -296,7 +296,7 @@ Where:
    calculated from agent history and environmental conditions.
 ~~~
 
-For a human actor, an independently approved operational-capacity evaluation MUST establish comparable A and E for the actual request. Eligibility, a professional credential, a role, or a person's approval MUST NOT be substituted for E. The evaluation MUST bind its evidence, measurement profile, scope, and freshness; unresolved or incomparable capacity MUST deny the affected action. No personal E_base, tier, generation, or resilience accumulator is required or permitted as a substitute.
+For a human actor, an independently approved operational-capacity evaluation MUST establish comparable A and E for the actual request. Eligibility, a professional credential, a role, or a person's approval MUST NOT be substituted for E. The evaluation MUST bind its evidence, measurement profile, scope, and freshness; unresolved or incomparable capacity MUST deny the affected action. A person's standing, E_trust, and Trust Tier (Section 5.1.1 (The External Root)) are neither required for this evaluation nor permitted as a substitute for it, and the evaluation creates none of them.
 
 The inequality MUST be evaluated for every authorization request. It is not a policy that can be overridden by human intervention or emergency procedures. It is a physical constraint, analogous to the constraint that prevents a person from running faster than their muscles allow.
 
@@ -308,19 +308,19 @@ Enforcement of the Zeroth Law is cryptographic, not administrative.
 
 For software agents, the Trust Proof token contains: - The current E_trust value - The Trust Oracle's signature over E_trust - The timestamp of calculation
 
-The PEP: - Verifies the Trust Oracle's signature - Checks that the Trust Proof has not expired - Looks up the Action Risk (A) for the requested operation - Evaluates A <= E_trust
+The PEP: - Verifies the Trust Oracle's signature - Checks that the Trust Proof has not expired - Looks up the Action Risk (A) for the requested operation - Evaluates A <= E, with E as Section 4.1 (Definition) defines it for the actual actor
 
-If the Trust Proof signature is invalid, the action MUST be denied. If the Trust Proof has expired, a new Trust Proof MUST be obtained. If A > E_trust, the action MUST be denied (Silent Veto).
+If the Trust Proof signature is invalid, the action MUST be denied. If the Trust Proof has expired, a new Trust Proof MUST be obtained. If A > E, the action MUST be denied (Silent Veto).
 
-A human deployment MUST provide the reviewed authorization adapter and authenticated operation/capacity binding specified below. The same signature, current-evidence, ordinary-proof lifetime, sovereignty, and capacity requirements apply; human eligibility is not a replacement proof or a bypass.
+A human deployment MUST provide the reviewed authorization adapter and authenticated operation/capacity binding specified below. The same signature, current-evidence, ordinary-proof lifetime, sovereignty, and capacity requirements apply; human eligibility is not a replacement proof or a bypass. For a person, E is the operational E that binding authenticates, never the E_trust in the person's Trust Proof; that E_trust sets the person's Trust Tier ({{KTP-ENFORCE}}).
 
-There is no "emergency override" mechanism. A different, genuinely lower-demand action, a corrected factual assessment, or changed capacity or environmental conditions requires a fresh evaluation. Relabeling the same action, changing a score by fiat, or receiving human approval MUST NOT relax a veto. Software-agent standing may grow through the established evidence process; that process does not create personal trust points for a human.
+There is no "emergency override" mechanism. A different, genuinely lower-demand action, a corrected factual assessment, or changed capacity or environmental conditions requires a fresh evaluation. Relabeling the same action, changing a score by fiat, or receiving human approval MUST NOT relax a veto. Standing may grow through the established evidence process, a person's as Section 5.1.1 (The External Root) states, and it never substitutes for a person's eligibility or capacity.
 
 This design is intentional. In an emergency, the natural human instinct is to override safety controls. This instinct is often catastrophically wrong. By removing the override capability, KTP forces systems to operate within their actual capacity, even when humans wish they could exceed it.
 
 # Trust Score Calculation
 
-The E_base composition, historical standing, and tier calculations in this section apply to software agents and to persons. For a person they apply with the person's inputs: the acts the person signed under this protocol and the standing of the terminator behind them, and nothing else (see *The External Root* below). Behavioral signals are inputs for software agents only. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below; they are requirements beside standing, not substitutes for it.
+The E_base composition, historical standing, and tier calculations in this section apply to software agents and to persons. For a person they apply with the person's inputs: the acts the person signed under this protocol and the person's root instrument, the standing of the terminator behind the person or a live bond another person has posted on the person, and nothing else (see *The External Root* below). Behavioral signals are inputs for software agents only. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below; they are requirements beside standing, not substitutes for it.
 
 ## Base Trust (E_base)
 
@@ -331,7 +331,7 @@ E_base is a hundred-point allocation. The shares MUST sum to 100, and each term 
 | Component | Share | Description |
 |-----------|-------|-------------|
 | Proof of Resilience | 70 | Historical performance, especially under stress |
-| External Root | 30 | The party currently accountable for the agent |
+| External Root | 30 | The party currently accountable for the subject |
 | Peer Signals | declared | Observations by other agents, where implemented |
 
 - An agent with 10,000 transactions during crises has higher E_base than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
@@ -371,17 +371,17 @@ A for-cause claim with no finding at the attestation's expiry lapses unresolved 
 
 The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
 
-Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage.
+Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage. A person may also stand behind a subject with a sponsorship bond ({{KTP-IDENTITY}} Section 6 (Sponsorship Bonds)), on an agent or on another person; a person's bond stakes the person's own standing, under the same mechanics as any sponsor's.
 
-A person's trajectory is the ledger of acts they signed under this protocol: bonds posted, attestations issued, approvals, veto clears, decisions contested. Nothing else about a person enters the protocol. A person's E_base is composed under this section from those signed acts and from the standing of the terminator behind the person, under the same shares and the same ceilings that apply to any subject. Concepts that belong to software agents — generation, lineage stage, mass ceilings on a subject's own standing, mitosis — do not apply to a person and MUST NOT be defaulted. A zone's mass ceiling still bounds a person's imported standing, as {{KTP-ZONES}} states. Proof of Resilience applies to a person only through acts they signed under stress; nothing else earns it. Trust Tiers and the Silent Veto apply to a person's acts under the protocol.
+A person's trajectory is the ledger of acts they signed under this protocol: bonds posted, attestations issued, approvals, veto clears, decisions contested. Nothing else about a person enters the protocol. A person's E_base is composed under this section from those signed acts and from the person's root instrument, under the same shares and the same ceilings that apply to any subject; the trajectory-length ceiling counts the acts the person signed. A bond the person posts is one of those acts: its stake reduces the person's available E_base, and a penalty under it debits the person's E_base ({{KTP-IDENTITY}} Section 6.4 (Penalty and Release)). A person's root instrument is the standing of the terminator behind the person, or a live sponsorship bond another person has posted on them; under concurrent instruments the strongest single one counts. A person has no generation, so a bond on a person is never released at a generation step: it ends at its closure ({{KTP-IDENTITY}} Section 6.4 (Penalty and Release)), and the person's root instrument is then the terminator's standing, a new bond, or none. Concepts that belong to software agents — generation, lineage stage, mass ceilings on a subject's own standing, mitosis — do not apply to a person and MUST NOT be defaulted. A zone's mass ceiling still bounds a person's imported standing, as {{KTP-ZONES}} states. Proof of Resilience applies to a person only through acts they signed under stress; nothing else earns it. Trust Tiers and the Silent Veto apply to a person's actions under the protocol. The person's E_trust in the zone sets the person's Trust Tier, and the tier restricts the classes of action the person may execute as it does for a software agent ({{KTP-ENFORCE}}). The tier does not restrict the acts that make up the person's ledger: signing a bond, an attestation, an approval, or a veto clear is governed by the person's eligibility for it and by the capacity check, and a bond also by {{KTP-IDENTITY}} Section 6 (Sponsorship Bonds), and a contest is governed as the paragraph on contest below states. The person's capacity check compares A with the operational E the reviewed adapter authenticates (Sections 4.1 (Definition) and 8.2 (Veto Trigger)), never with E_trust. Where this set states the capacity check in terms of E_trust, for a person it uses that operational E.
 
-A Trust Proof declares which kind of subject it describes, a software agent or a person. The kind is declared, never inferred from which claims are absent. A root instrument's projection names the person behind it, and names the terminator by kind — employer, licensing body, or board — and by an identifying reference. The person is never recorded as the terminator. For a person subject, the person named behind the root is the subject. A person is identified by a URI in the `person:` scheme. The trust-proof schema carries the subject's kind; the root-instrument projection carries the person and the terminator.
+A Trust Proof declares which kind of subject it describes, a software agent or a person. The kind is declared, never inferred from which claims are absent. A root instrument's projection names the person behind it, and names the terminator by kind — employer, licensing body, or board — and by an identifying reference. The person is never recorded as the terminator. For a person subject, the person named behind the root is the subject, or, under a sponsorship bond, the sponsoring person; either way the chain terminates at an employer, a licensing body, or a board. A person is identified by a URI in the `person:` scheme. The trust-proof schema carries the subject's kind; the root-instrument projection carries the person and the terminator.
 
 A person's Trust Score is the measure of the zone that computes it. It bears on what the person may do in that zone, and on nothing else. It MUST NOT be used as a general score or rank for people outside the protocol, and it MUST NOT be presented as a property of the person rather than of the zone's measure. A person's standing in one zone says nothing about the person in another; it crosses a federation link only as the federation agreement provides ({{KTP-FEDERATION}}, {{KTP-ZONES}}).
 
 A person MAY contest a decision on their standing by whatever route this set gives any subject. Nothing in this section narrows that route, and standing is never a prerequisite for explanation, correction, or review.
 
-The boundary cases for a person's standing are published in specifications/conformance/person-standing-v1.json. They fix what enters a person's standing and where it bears, and do not define a formula for E_base or R.
+The boundary cases for a person's standing are published in specifications/conformance/person-standing-v1.json. They fix what enters a person's standing, where it bears, how it crosses a zone boundary, which E a person's capacity check uses, what the tier does not restrict, and how a person stakes and is sponsored. They do not define a formula for E_base or R.
 
 ### Peer Signals
 
@@ -442,16 +442,18 @@ Maturity raises a ceiling. It does not contribute standing. An agent that has ad
 
        (Sponsor_E_base × stake_percentage / 100) / 50 × 100   (Sponsored)
        min(100, 100 × declared_exposure / anchored_capacity)  (Independent, Guarantor)
-       the terminator's standing                              (person)
+       the terminator's standing                              (person, attestation)
        0                                                      (no valid instrument)
 
        stake_percentage is in percent-points (1-50). Under
-       concurrent attestations, Root_score is the maximum of
+       concurrent instruments, Root_score is the maximum of
        the individual instrument scores, never a sum.
-       For a person, each instrument scores as its
-       terminator's standing; declared exposure over
-       anchored capacity never scores or ranks a
-       person's instruments.
+       For a person, an attestation scores as its
+       terminator's standing, and a sponsorship bond
+       another person posts scores as the Sponsored
+       row does; declared exposure over anchored
+       capacity never scores or ranks a person's
+       instruments.
 
      Peer_score = 0-100, as specified in Peer Validation.
 
@@ -460,7 +462,7 @@ Maturity raises a ceiling. It does not contribute standing. An agent that has ad
        100 (generation 7+)
 ~~~
 
-E_base MUST be recalculated when new Proof of Resilience attestations are received, when agent generation advances, when sponsorship terms change, when an external attestation is issued, renewed, withdrawn, or expires, and when a for-cause claim is adjudicated.
+E_base MUST be recalculated when new Proof of Resilience attestations are received, when agent generation advances, when sponsorship terms change or a sponsorship bond closes, when an external attestation is issued, renewed, withdrawn, or expires, and when a for-cause claim is adjudicated.
 
 E_base SHOULD be cached for performance, with a maximum cache lifetime of 60 seconds.
 
@@ -508,7 +510,7 @@ The Risk Factor is defined once, in Section 5.2 above, and nowhere else in this 
 
 ## Effective Trust Score (E_trust)
 
-The Effective Trust Score is the value used to evaluate the Zeroth Law. It is calculated as:
+The Effective Trust Score sets every subject's Trust Tier, and for a software agent it is also the E against which the Zeroth Law is evaluated (for a person, see Section 5.1.1 (The External Root)). It is calculated as:
 
 ~~~
    E_trust = E_base * (1 - R)
@@ -1269,7 +1271,7 @@ Silence and absence do not separate. A channel that returns nothing and a channe
 
 The Trust Proof is a signed token that travels with each request, carrying the current Trust Score and environmental context.
 
-A Trust Proof describes a software agent or a person and declares which, as Section 5.1.1 (The External Root) states. For a person, its standing-bearing claims carry only the person's standing in the zone, from the acts the person signed and the standing of the terminator behind them, and never eligibility. The examples in this section describe software agents. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
+A Trust Proof describes a software agent or a person and declares which, as Section 5.1.1 (The External Root) states. For a person, its standing-bearing claims carry only the person's standing in the zone, from the acts the person signed and the person's root instrument (Section 5.1.1 (The External Root)), and never eligibility. The examples in this section describe software agents. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
 
 The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the body's authentication, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
 
@@ -1307,7 +1309,7 @@ only TP_CLEAR permits the remaining action checks to proceed.
 
 ## Operational Readiness for the Requested Action
 
-The PEP MUST authenticate both the requesting principal and the actor actually executing the operation. Dispatch MUST use independently authenticated principal type and execution context, not a request label. A human actor requires current operation-specific eligibility and separately evidenced capacity under the installed human policy and reviewed adapter. Evidence correction, grant revocation, profile replacement, or epoch change MUST invalidate superseded dependent decisions; stale proofs, restored state, or a legacy human score MUST NOT recover authority.
+The PEP MUST authenticate both the requesting principal and the actor actually executing the operation. Dispatch MUST use independently authenticated principal type and execution context, not a request label. A human actor requires current operation-specific eligibility and separately evidenced capacity under the installed human policy and reviewed adapter, and a Trust Tier that permits the class of the action the person executes (Section 5.1.1 (The External Root)). Evidence correction, grant revocation, profile replacement, or epoch change MUST invalidate superseded dependent decisions; stale proofs, restored state, or a legacy human score MUST NOT recover authority.
 
 A human delegator or supervisor does not turn a software executor into a human actor. The PEP MUST verify the human's current eligibility for the exact delegation or supervisory operation and every applicable restriction along the delegation chain, in addition to the software executor's own grants, capacity, and readiness. Neither co-signing nor delegated permission transfers personal standing or assessment evidence. Missing authenticated actor binding or required human policy MUST deny the affected operation.
 
@@ -1339,7 +1341,7 @@ The ten-second maximum applies to every zone and conformance level. An existing 
 
 # Silent Veto Mechanism
 
-The Silent Veto is the automatic denial of an action when A > E_trust. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
+The Silent Veto is the automatic denial of an action when A > E. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
 
 ## Action Risk Classification
 
@@ -1370,7 +1372,7 @@ Implementations MAY define additional action classes. Implementations MUST allow
 The veto evaluation is performed at the PEP:
 
 ~~~
-   IF A > E_trust THEN
+   IF A > E THEN
      trigger Silent Veto
    ELSE
      continue through Section 6.7 (Aggregation Algorithm) and the remaining checks
@@ -1389,7 +1391,7 @@ When a Silent Veto is triggered, the PEP MUST:
 
 1. Deny the action immediately
 
-1. Return an error response to the agent including: - Error code indicating Trust-based denial - Current E_trust value - Required E_trust for the action (A) - Trust Velocity (dE/dt) for predictive purposes
+1. Return an error response to the requester including: - Error code indicating Trust-based denial - Current E value, the one the capacity check used (Section 4.1 (Definition)) - Required E for the action (A) - For a software agent, Trust Velocity (dE/dt) for predictive purposes
 
 1. Log the denial to the Flight Recorder with full Decision Geometry
 
@@ -1412,6 +1414,8 @@ Recommended HTTP response:
    }
 ~~~
 
+The example shows a software agent. For a person, the response reports the operational E the capacity check used, never E_trust in its place, and omits de_dt (Section 5.1.1 (The External Root)).
+
 The "retry_after" field MAY contain an estimated time (in seconds) until conditions might permit the action, based on Trust Velocity projections. If conditions are degrading (dE/dt < 0), this field SHOULD be null.
 
 # Trust Oracle
@@ -1422,7 +1426,7 @@ The Trust Oracle is the authoritative source of Trust Scores and Trust Proofs wi
 
 The Trust Oracle:
 
-1. Ingests sensor data from the Context Signal sensors 2. Maintains the Proof of Resilience ledger for all agents 3. Calculates E_base for each agent 4. Calculates R from the Risk Factor inputs 5. Calculates E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private key 7. Issues Attestations of Passage for successful transactions 8. Publishes its public key for Trust Proof verification
+1. Ingests sensor data from the Context Signal sensors 2. Maintains the Proof of Resilience ledger for every subject 3. Calculates E_base for each subject 4. Calculates R from the Risk Factor inputs 5. Calculates E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private key 7. Issues Attestations of Passage for successful transactions 8. Publishes its public key for Trust Proof verification
 
 ## Distribution
 
@@ -1444,7 +1448,7 @@ Oracle meshes MUST use the reviewed, named and versioned consensus protocol requ
 
 When multiple Oracles are active, they MUST agree on:
 
-1. Current sensor values (within tolerance) 2. Agent E_base values (must match exactly) 3. Calculated R and E_trust (within tolerance)
+1. Current sensor values (within tolerance) 2. Subject E_base values (must match exactly) 3. Calculated R and E_trust (within tolerance)
 
 Tolerance for sensor values: 5% relative difference Tolerance for E_trust: 2 points absolute difference
 

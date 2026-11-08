@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
 abbrev: "KTP-CONFORMANCE"
 docname: draft-perkins-ktp-conformance-00
-date: 2026-10-27
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -110,7 +110,7 @@ Risk Factors:
 
 Policy Enforcement Point:
 
-- Zeroth Law enforcement (A <= E_trust)
+- Zeroth Law enforcement (A <= E)
 - Trust Proof validation
 - Binary allow/deny decisions
 - Basic logging
@@ -436,7 +436,7 @@ MUST:
 - Intercept all protected requests
 - Validate Trust Proof signature
 - Check Trust Proof expiration
-- Enforce Zeroth Law (A <= E_trust)
+- Enforce Zeroth Law (A <= E)
 - Return appropriate HTTP status codes
 - Log all decisions
 
@@ -623,17 +623,17 @@ longer lifetime.
 
 ### Enforcement Requirements (All Levels)
 
-The Zeroth Law (A <= E_trust) MUST be enforced as follows:
+The Zeroth Law (A <= E) MUST be enforced as follows:
 
-1. Extract E_trust from Trust Proof
+1. Obtain E: for a software agent, E_trust from the Trust Proof; for a person, the operational E the reviewed adapter authenticates (\[KTP-CORE] Section 4.1 (Definition))
 2. Determine action risk (A) from classification
-3. Apply the input checks of \[KTP-CORE] Section 6.7 (Aggregation Algorithm) and resolve undefined inputs restrictively under \[KTP-CORE] Section 6.8 (Undefined Inputs); veto if no finite, non-negative, comparable A and E_trust remain
-4. If E_trust = 0 or A > E_trust: supervision = silent_veto (Silent Veto); STOP before division or profile evaluation
-5. Compute the Zeroth Law margin from A and E_trust
+3. Apply the input checks of \[KTP-CORE] Section 6.7 (Aggregation Algorithm) and resolve undefined inputs restrictively under \[KTP-CORE] Section 6.8 (Undefined Inputs); veto if no finite, non-negative, comparable A and E remain
+4. If E = 0 or A > E: supervision = silent_veto (Silent Veto); STOP before division or profile evaluation
+5. Compute the Zeroth Law margin from A and E
 6. If margin <= M_veto: supervision = silent_veto (Silent Veto)
 7. Otherwise: derive supervision and tightenedConstraints from the margin per \[KTP-CORE] Section 6.7 (Aggregation Algorithm), then proceed to other checks
 
-Declared thresholds MUST satisfy the finite-number and 0 <= M_veto < M_allow requirements of \[KTP-CORE] Section 6.7 (Aggregation Algorithm). An invalid declaration MUST NOT authorize execution. Omitting the declaration retains the existing zero-threshold default, including its veto at A = E_trust. The independent capacity veto is checked regardless of thresholds, and supervision MUST NOT lower any prior veto.
+Declared thresholds MUST satisfy the finite-number and 0 <= M_veto < M_allow requirements of \[KTP-CORE] Section 6.7 (Aggregation Algorithm). An invalid declaration MUST NOT authorize execution. Omitting the declaration retains the existing zero-threshold default, including its veto at A = E. The independent capacity veto is checked regardless of thresholds, and supervision MUST NOT lower any prior veto.
 
 The substrate-independent boundary cases are published in specifications/conformance/capacity-gate-v1.json. Implementations MUST satisfy their admission and supervision requirements in addition to the applicable substrate vectors. These cases do not define the formula for A or E_trust.
 
@@ -641,12 +641,12 @@ Implementation MUST NOT:
 
 - Allow override of Zeroth Law
 - Skip Zeroth Law check under any condition
-- Modify A or E_trust to force allow
+- Modify A or E to force allow
 
 Implementation MUST:
 
 - Log all Zeroth Law evaluations
-- Include A and E_trust in denial response
+- Include A and E in denial response
 - Provide remediation guidance in denial
 
 ### Soul Constraint (Standard and Full)
@@ -1148,7 +1148,7 @@ Conformance does not guarantee security:
 
 ## Human Eligibility and Privacy Evidence Conformance
 
-Deployments accepting human actions or human-origin delegation MUST satisfy specifications/human-eligibility.md and install the authenticated human_policy binding. Human eligibility is separate from software-agent standing and scoped readiness. A person label supplied by a request MUST NOT choose the verification path; the actual executing actor remains independently authenticated. Capacity, Soul, current grants and all ordinary-proof freshness requirements remain mandatory.
+Deployments accepting human actions or human-origin delegation MUST satisfy specifications/human-eligibility.md and install the authenticated human_policy binding. Human eligibility is separate from standing, a software agent's or a person's, and from scoped readiness. A person label supplied by a request MUST NOT choose the verification path; the actual executing actor remains independently authenticated. Capacity, the Trust Tier restriction on what a person executes, Soul, current grants and all ordinary-proof freshness requirements remain mandatory.
 
 All deployments retaining personal evidence MUST satisfy specifications/privacy-evidence.md, including purpose boundaries, meaningful correction, limited retention, and truthful verification after erasure. Existing signed records MUST NOT be redacted in place. Schema validity and reference helper success establish neither identity nor legal compliance nor production erasure.
 

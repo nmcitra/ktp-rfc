@@ -71,14 +71,21 @@ with an employer, a licensing body or a board as the terminator behind them;
 trajectory had three shapes, all software agents → a fourth shape, a person's
 signed acts; the human E_base was a six-term weighted sum (v2.1.0) and then no
 score at all (unreleased) → a person's E_base is composed under Core Section
-5.1 from signed acts and the terminator's standing; administrators were scored
-in the threat model and unscored in Core → scored, under Core; standing
-portability was for agents only → persons too, by the same federation factor
-and ceiling, only where an agreement exists; the subject's kind was implied
-by which claims a proof carried → it is declared on the proof, and the root
-projection names the person and the institutional terminator. Eligibility (above) stays a
-separate requirement. Legacy general human scores still do not convert into
-anything.
+5.1 from signed acts and the person's root instrument (the terminator's
+standing, or a bond another person posts); a human sponsor's bond staked no
+personal balance → it stakes the person's own standing (a stake, not the v2.1.0
+score inheritance), and a person may sponsor a person, the bond ending at its
+closure; administrators were scored in the threat model and unscored in Core →
+scored, under Core; standing portability was for agents only → persons too, by
+the same federation factor and ceiling, only where an agreement exists; the
+eligibility contract (above) had removed a person's Trust Tier → a person's
+E_trust sets one again, and it restricts the classes of action the person
+executes as a software agent's does, while a person's capacity check still
+compares A with the operational E the reviewed adapter authenticates, never
+with E_trust; the subject's kind was implied by which claims a proof carried →
+it is declared on the proof, and the root projection names the person and the
+institutional terminator. Eligibility (above) stays a separate requirement.
+Legacy general human scores still do not convert into anything.
 
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and

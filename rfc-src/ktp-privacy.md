@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Privacy Specification"
 abbrev: "KTP-PRIVACY"
-date: 2026-09-07
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -62,7 +62,7 @@ KTP addresses this tension through:
 
 1. LOCAL OVER CENTRAL Trust calculation can be distributed. Data need not leave local zone. Federation transmits proofs, not raw data.
 
-1. AGENT OVER HUMAN KTP evaluates software agents. Human participation uses eligibility for a specified operation, not a general score of a person. Processing human data requires declared purpose and authority, including valid consent where that is the applicable basis.
+1. AGENT OVER HUMAN KTP evaluates software agents from admitted history, and a person only from the acts the person signed under the protocol and the person's root instrument, as one zone's measure of the account (KTP-Core). Human participation uses eligibility for a specified operation, not a general score of a person. Processing human data requires declared purpose and authority, including valid consent where that is the applicable basis.
 
 ## Privacy Hierarchy
 

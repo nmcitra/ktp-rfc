@@ -1785,6 +1785,330 @@
       "reason_codes": [
         "TRUST_INSUFFICIENT"
       ]
+    },
+    "person-adapter-capacity-above-standing": {
+      "record_version": "decision-geometry-v1",
+      "decision_id": "person-adapter-capacity-above-standing",
+      "evaluated_at": 1800000000,
+      "ktp_release": "v2.1.0",
+      "evaluation_profile": {
+        "id": "urn:ktp:profile:geometry-v1-draft",
+        "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "evaluator": "urn:ktp:evaluator:fixture",
+      "subject": "person:acct:z1:0417",
+      "actor": "person:acct:z1:0417",
+      "audience": "zone:alpha",
+      "association": {
+        "version": "request-proof-association-v1",
+        "request_digest": "sha256:a824fb88e781e86ea0bd562e6bf3e1ab82b8a1a473769dbd5a2e92c659598f72",
+        "proof_digest": "sha256:ef3079792685e1696e7da203f0e488f71da6113059633dd285ae0c775245d749",
+        "proof_jti": "proof-v3-clear"
+      },
+      "inputs": [
+        {
+          "name": "soul",
+          "layer": "query",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:soul",
+          "evidence_digests": [
+            "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070"
+          ],
+          "value": 0
+        },
+        {
+          "name": "demand",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand",
+          "evidence_digests": [
+            "sha256:ba47918e8d8616c1153da4ff82a412074f64021a9f1dfae14f3f8a164b7e2c55"
+          ],
+          "value": 25
+        },
+        {
+          "name": "capacity",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:human-adapter",
+          "evidence_digests": [
+            "sha256:2baca42a6742af728064860b9daeb4fbffb51ec40fa3e7ce20cace4fdc2ccd92"
+          ],
+          "value": 60
+        },
+        {
+          "name": "evidence_density",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:evidence_density",
+          "evidence_digests": [
+            "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "trust_trend",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:trust_trend",
+          "evidence_digests": [
+            "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "adversarial_pressure",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:adversarial_pressure",
+          "evidence_digests": [
+            "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "update_resistance",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:update_resistance",
+          "evidence_digests": [
+            "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "attestation_coverage",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:attestation_coverage",
+          "evidence_digests": [
+            "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "demand.moment_criticality",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand.moment_criticality",
+          "evidence_digests": [
+            "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "grant.max_calls",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:grant.max_calls",
+          "evidence_digests": [
+            "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38"
+          ],
+          "value": 10
+        },
+        {
+          "name": "prior_supervision",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:prior_supervision",
+          "evidence_digests": [
+            "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386"
+          ],
+          "value": "stable"
+        }
+      ],
+      "undefined_inputs": [],
+      "gates": {
+        "binding": "passed",
+        "soul": "passed",
+        "prior": "passed",
+        "inputs": "passed",
+        "capacity": "passed",
+        "envelope": "passed",
+        "consumer": "not_evaluated"
+      },
+      "capacity": {
+        "A": 25,
+        "E": 60,
+        "unit": "urn:ktp:unit:action-risk-points",
+        "capacityKnown": true,
+        "relation": "within"
+      },
+      "margin": 0.5833333333333334,
+      "result": {
+        "supervision": "stable",
+        "tightenedConstraints": {
+          "profile": "urn:ktp:profile:geometry-v1-draft",
+          "ceilings": [
+            {
+              "magnitude": "max_calls",
+              "max": 8
+            }
+          ]
+        }
+      },
+      "reason_codes": [
+        "EVALUATION_COMPLETE"
+      ]
+    },
+    "person-adapter-capacity-veto": {
+      "record_version": "decision-geometry-v1",
+      "decision_id": "person-adapter-capacity-veto",
+      "evaluated_at": 1800000000,
+      "ktp_release": "v2.1.0",
+      "evaluation_profile": {
+        "id": "urn:ktp:profile:geometry-v1-draft",
+        "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "evaluator": "urn:ktp:evaluator:fixture",
+      "subject": "person:acct:z1:0417",
+      "actor": "person:acct:z1:0417",
+      "audience": "zone:alpha",
+      "association": {
+        "version": "request-proof-association-v1",
+        "request_digest": "sha256:a824fb88e781e86ea0bd562e6bf3e1ab82b8a1a473769dbd5a2e92c659598f72",
+        "proof_digest": "sha256:ef3079792685e1696e7da203f0e488f71da6113059633dd285ae0c775245d749",
+        "proof_jti": "proof-v3-clear"
+      },
+      "inputs": [
+        {
+          "name": "soul",
+          "layer": "query",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:soul",
+          "evidence_digests": [
+            "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070"
+          ],
+          "value": 0
+        },
+        {
+          "name": "demand",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand",
+          "evidence_digests": [
+            "sha256:9463e47f46fc2988ccfbbf64a11646d50eae111aa631af2bcc65b4817f1a4081"
+          ],
+          "value": 25
+        },
+        {
+          "name": "capacity",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:human-adapter",
+          "evidence_digests": [
+            "sha256:a95e2db4934734f2408538703c111a9d725deb506112d34a2edd665b81ad6f29"
+          ],
+          "value": 20
+        },
+        {
+          "name": "evidence_density",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:evidence_density",
+          "evidence_digests": [
+            "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "trust_trend",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:trust_trend",
+          "evidence_digests": [
+            "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "adversarial_pressure",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:adversarial_pressure",
+          "evidence_digests": [
+            "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "update_resistance",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:update_resistance",
+          "evidence_digests": [
+            "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "attestation_coverage",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:attestation_coverage",
+          "evidence_digests": [
+            "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "demand.moment_criticality",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand.moment_criticality",
+          "evidence_digests": [
+            "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "grant.max_calls",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:grant.max_calls",
+          "evidence_digests": [
+            "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38"
+          ],
+          "value": 10
+        },
+        {
+          "name": "prior_supervision",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:prior_supervision",
+          "evidence_digests": [
+            "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386"
+          ],
+          "value": "stable"
+        }
+      ],
+      "undefined_inputs": [],
+      "gates": {
+        "binding": "passed",
+        "soul": "passed",
+        "prior": "passed",
+        "inputs": "passed",
+        "capacity": "failed",
+        "envelope": "not_evaluated",
+        "consumer": "not_evaluated"
+      },
+      "capacity": {
+        "A": 25,
+        "E": 20,
+        "unit": "urn:ktp:unit:action-risk-points",
+        "capacityKnown": true,
+        "relation": "over"
+      },
+      "result": {
+        "supervision": "silent_veto",
+        "tightenedConstraints": {
+          "profile": "urn:ktp:profile:geometry-v1-draft",
+          "ceilings": []
+        }
+      },
+      "reason_codes": [
+        "TRUST_INSUFFICIENT"
+      ]
     }
   },
   "contexts": {
@@ -4048,6 +4372,429 @@
       "clock_healthy": true,
       "now": 1800000000,
       "profile_expires_at": 1800000008
+    },
+    "person-adapter-capacity-above-standing": {
+      "identity": {
+        "record_version": "decision-geometry-v1",
+        "decision_id": "geometry-1",
+        "evaluated_at": 1800000000,
+        "ktp_release": "v2.1.0",
+        "evaluation_profile": {
+          "id": "urn:ktp:profile:geometry-v1-draft",
+          "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "evaluator": "urn:ktp:evaluator:fixture",
+        "subject": "person:acct:z1:0417",
+        "actor": "person:acct:z1:0417",
+        "audience": "zone:alpha"
+      },
+      "digest_algorithm": "sha256",
+      "signature_algorithm": "ES256",
+      "crypto_level": 1,
+      "binding_verified": true,
+      "request": {
+        "version": "request-binding-v1",
+        "subject": "person:acct:z1:0417",
+        "actor": "person:acct:z1:0417",
+        "audience": "zone:alpha",
+        "operation": "urn:ktp:operation:append",
+        "resource": "urn:ktp:resource:reports",
+        "parameters": {
+          "overwrite": false,
+          "path": "/reports/2026",
+          "format": "json"
+        },
+        "demand": {
+          "value": 25,
+          "unit": "urn:ktp:unit:action-risk-points"
+        },
+        "classification_profile": {
+          "id": "urn:ktp:classification:reports-v1",
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "request_id": "invocation-1",
+        "replay_domain": "urn:ktp:replay:alpha-epoch-1"
+      },
+      "proof": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImlhbCIsInZhbHVlIjo5NX0seyJjZWlsaW5nIjoidHJhamVjdG9yeV9sZW5ndGgiLCJ2YWx1ZSI6NzB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjYsImVfdHJ1c3QiOjQ5LjUsImdhdGVfc3RhdGUiOiJjbGVhciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJhdHRlc3RhdGlvbl9kaWdlc3QiOiJzaGEyNTY6ZGU4OTUwZmFiM2EwODg1MTcyOGQ0M2NmZmJjNWI0ODkyNWVlYTE3OGU0ZGU1MTkyZDRiYjhjNWQyMTMwNWZkZCIsImF0dGVzdGF0aW9uX2lkIjoicGVyc29uLWF0dGVzdGF0aW9uIiwiYXR0ZXN0b3JfaWQiOiJ1cm46a3RwOmZpeHR1cmU6VEVTVC1yb290LWF0dGVzdG9yIiwiY2hhaW5fbGVuZ3RoIjoyLCJkZWNsYXJlZF9leHBvc3VyZSI6MjUsImVuZF90aW1lIjoxODAwMDAwMDEwLCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5Iiwia2luZCI6ImV4dGVybmFsX2F0dGVzdGF0aW9uIiwicm9vdF9wZXJzb24iOiJwZXJzb246YWNjdDp6MTowNDE3Iiwic3RhdHVzIjoiY3VycmVudCIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fSwic291bCI6eyJzb3VsIjowfSwic3ViamVjdF9raW5kIjoicGVyc29uIiwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6InBlcnNvbjphY2N0OnoxOjA0MTcifQ.LsYzOFkB4x6fcU4vacTwBsMO8eZJqmJqTndPycOU3wBO7vGesheNDfNQWur_g4XEujfTN91rT4cpMesv981ZlA",
+      "expected_inputs": [
+        {
+          "name": "soul",
+          "layer": "query",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:soul",
+          "evidence_digests": [
+            "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070"
+          ],
+          "value": 0
+        },
+        {
+          "name": "demand",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand",
+          "evidence_digests": [
+            "sha256:ba47918e8d8616c1153da4ff82a412074f64021a9f1dfae14f3f8a164b7e2c55"
+          ],
+          "value": 25
+        },
+        {
+          "name": "capacity",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:human-adapter",
+          "evidence_digests": [
+            "sha256:2baca42a6742af728064860b9daeb4fbffb51ec40fa3e7ce20cace4fdc2ccd92"
+          ],
+          "value": 60
+        },
+        {
+          "name": "evidence_density",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:evidence_density",
+          "evidence_digests": [
+            "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "trust_trend",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:trust_trend",
+          "evidence_digests": [
+            "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "adversarial_pressure",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:adversarial_pressure",
+          "evidence_digests": [
+            "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "update_resistance",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:update_resistance",
+          "evidence_digests": [
+            "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "attestation_coverage",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:attestation_coverage",
+          "evidence_digests": [
+            "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "demand.moment_criticality",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand.moment_criticality",
+          "evidence_digests": [
+            "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "grant.max_calls",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:grant.max_calls",
+          "evidence_digests": [
+            "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38"
+          ],
+          "value": 10
+        },
+        {
+          "name": "prior_supervision",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:prior_supervision",
+          "evidence_digests": [
+            "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386"
+          ],
+          "value": "stable"
+        }
+      ],
+      "verified_evidence": [
+        "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3",
+        "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd",
+        "sha256:2baca42a6742af728064860b9daeb4fbffb51ec40fa3e7ce20cace4fdc2ccd92",
+        "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c",
+        "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db",
+        "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070",
+        "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60",
+        "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386",
+        "sha256:ba47918e8d8616c1153da4ff82a412074f64021a9f1dfae14f3f8a164b7e2c55",
+        "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38",
+        "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+      ],
+      "expected_gates": {
+        "binding": "passed",
+        "soul": "passed",
+        "prior": "passed",
+        "inputs": "passed",
+        "capacity": "passed",
+        "envelope": "passed",
+        "consumer": "not_evaluated"
+      },
+      "expected_result": {
+        "supervision": "stable",
+        "tightenedConstraints": {
+          "profile": "urn:ktp:profile:geometry-v1-draft",
+          "ceilings": [
+            {
+              "magnitude": "max_calls",
+              "max": 8
+            }
+          ]
+        }
+      },
+      "expected_reasons": [
+        "EVALUATION_COMPLETE"
+      ],
+      "grant_ceilings": {
+        "max_calls": 10
+      },
+      "profile": {
+        "m_veto": 0,
+        "m_allow": 0.2,
+        "gray_supervision": "assisted"
+      },
+      "clock_healthy": true,
+      "now": 1800000000,
+      "profile_expires_at": 1800000008,
+      "human_adapter": {
+        "authenticated": true,
+        "operational_E": 60,
+        "tier": "observer",
+        "action_class": "Write (logs)",
+        "tier_permitted": true,
+        "human_policy_installed": true,
+        "proof_subject_kind": "person",
+        "source_case": "PS12-trust-score-sets-the-tier"
+      }
+    },
+    "person-adapter-capacity-veto": {
+      "identity": {
+        "record_version": "decision-geometry-v1",
+        "decision_id": "geometry-1",
+        "evaluated_at": 1800000000,
+        "ktp_release": "v2.1.0",
+        "evaluation_profile": {
+          "id": "urn:ktp:profile:geometry-v1-draft",
+          "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "evaluator": "urn:ktp:evaluator:fixture",
+        "subject": "person:acct:z1:0417",
+        "actor": "person:acct:z1:0417",
+        "audience": "zone:alpha"
+      },
+      "digest_algorithm": "sha256",
+      "signature_algorithm": "ES256",
+      "crypto_level": 1,
+      "binding_verified": true,
+      "request": {
+        "version": "request-binding-v1",
+        "subject": "person:acct:z1:0417",
+        "actor": "person:acct:z1:0417",
+        "audience": "zone:alpha",
+        "operation": "urn:ktp:operation:append",
+        "resource": "urn:ktp:resource:reports",
+        "parameters": {
+          "overwrite": false,
+          "path": "/reports/2026",
+          "format": "json"
+        },
+        "demand": {
+          "value": 25,
+          "unit": "urn:ktp:unit:action-risk-points"
+        },
+        "classification_profile": {
+          "id": "urn:ktp:classification:reports-v1",
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "request_id": "invocation-1",
+        "replay_domain": "urn:ktp:replay:alpha-epoch-1"
+      },
+      "proof": "eyJhbGciOiJFUzI1NiIsImtpZCI6IlRFU1Qtb3JhY2xlLXAyNTYiLCJ0eXAiOiJrdHAtdHJ1c3QtcHJvb2Yrand0In0.eyJhdWQiOiJ6b25lOmFscGhhIiwiZXhwIjoxODAwMDAwMDEwLCJpYXQiOjE4MDAwMDAwMDAsImlzcyI6Imh0dHBzOi8vb3JhY2xlLmV4YW1wbGUuY29tIiwianRpIjoicHJvb2YtdjMtY2xlYXIiLCJrdHAiOnsiYXBwbGljYWJsZV9jZWlsaW5ncyI6W3siY2VpbGluZyI6ImlhbCIsInZhbHVlIjo5NX0seyJjZWlsaW5nIjoidHJhamVjdG9yeV9sZW5ndGgiLCJ2YWx1ZSI6NzB9XSwiY29udGV4dCI6eyJhZHZlcnNhcmlhbF9wcmVzc3VyZSI6MC4yNSwiYXR0ZXN0YXRpb25fY292ZXJhZ2UiOjAuMjUsImV2aWRlbmNlX2RlbnNpdHkiOjAuMjUsInRydXN0X3RyZW5kIjowLjI1LCJ1cGRhdGVfcmVzaXN0YW5jZSI6MC4yNX0sImVfYmFzZSI6NjYsImVfdHJ1c3QiOjQ5LjUsImdhdGVfc3RhdGUiOiJjbGVhciIsInBlZXJfc2hhcmUiOjAsInIiOjAuMjUsInJvb3RfaW5zdHJ1bWVudCI6eyJhbmNob3JlZF9jYXBhY2l0eSI6MTAwLCJhdHRlc3RhdGlvbl9kaWdlc3QiOiJzaGEyNTY6ZGU4OTUwZmFiM2EwODg1MTcyOGQ0M2NmZmJjNWI0ODkyNWVlYTE3OGU0ZGU1MTkyZDRiYjhjNWQyMTMwNWZkZCIsImF0dGVzdGF0aW9uX2lkIjoicGVyc29uLWF0dGVzdGF0aW9uIiwiYXR0ZXN0b3JfaWQiOiJ1cm46a3RwOmZpeHR1cmU6VEVTVC1yb290LWF0dGVzdG9yIiwiY2hhaW5fbGVuZ3RoIjoyLCJkZWNsYXJlZF9leHBvc3VyZSI6MjUsImVuZF90aW1lIjoxODAwMDAwMDEwLCJleHBvc3VyZV9jbGFzcyI6ImRlY2xhcmVkIGlycmVjb3ZlcmFibGUgbGVnYWwgbGlhYmlsaXR5Iiwia2luZCI6ImV4dGVybmFsX2F0dGVzdGF0aW9uIiwicm9vdF9wZXJzb24iOiJwZXJzb246YWNjdDp6MTowNDE3Iiwic3RhdHVzIjoiY3VycmVudCIsInRlcm1pbmF0b3IiOnsia2luZCI6ImVtcGxveWVyIiwicmVmZXJlbmNlIjoidXJuOmt0cDpmaXh0dXJlOmFjY291bnRhYmxlLWVudGl0eSJ9fSwic291bCI6eyJzb3VsIjowfSwic3ViamVjdF9raW5kIjoicGVyc29uIiwidmVyc2lvbiI6Imt0cC10cnVzdC1wcm9vZi12MyIsInpvbmUiOiJ6b25lOmFscGhhIn0sInN1YiI6InBlcnNvbjphY2N0OnoxOjA0MTcifQ.LsYzOFkB4x6fcU4vacTwBsMO8eZJqmJqTndPycOU3wBO7vGesheNDfNQWur_g4XEujfTN91rT4cpMesv981ZlA",
+      "expected_inputs": [
+        {
+          "name": "soul",
+          "layer": "query",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:soul",
+          "evidence_digests": [
+            "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070"
+          ],
+          "value": 0
+        },
+        {
+          "name": "demand",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand",
+          "evidence_digests": [
+            "sha256:9463e47f46fc2988ccfbbf64a11646d50eae111aa631af2bcc65b4817f1a4081"
+          ],
+          "value": 25
+        },
+        {
+          "name": "capacity",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:human-adapter",
+          "evidence_digests": [
+            "sha256:a95e2db4934734f2408538703c111a9d725deb506112d34a2edd665b81ad6f29"
+          ],
+          "value": 20
+        },
+        {
+          "name": "evidence_density",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:evidence_density",
+          "evidence_digests": [
+            "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "trust_trend",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:trust_trend",
+          "evidence_digests": [
+            "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "adversarial_pressure",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:adversarial_pressure",
+          "evidence_digests": [
+            "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "update_resistance",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:update_resistance",
+          "evidence_digests": [
+            "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "attestation_coverage",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:attestation_coverage",
+          "evidence_digests": [
+            "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "demand.moment_criticality",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:demand.moment_criticality",
+          "evidence_digests": [
+            "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd"
+          ],
+          "value": 0.25
+        },
+        {
+          "name": "grant.max_calls",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:grant.max_calls",
+          "evidence_digests": [
+            "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38"
+          ],
+          "value": 10
+        },
+        {
+          "name": "prior_supervision",
+          "layer": "term",
+          "state": "observed",
+          "source": "urn:ktp:fixture-source:prior_supervision",
+          "evidence_digests": [
+            "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386"
+          ],
+          "value": "stable"
+        }
+      ],
+      "verified_evidence": [
+        "sha256:1f0e250fc2a716d4ea5d9c8604421aecd5b9a1b476e6a2b0c244f044002522f3",
+        "sha256:208349bc365124c6405346332017662cc2cd27659dfddf198b72b587664f4acd",
+        "sha256:48039f595071e4534325f43a727ae6c6f6e373a01732522d63cc0447a4bfed9c",
+        "sha256:74affc2ba75745c9832d51f45a59c35106e31accee08451277e4b9bd4f7a80db",
+        "sha256:7d0ebe043fe948ff4a8041bb76fc36fc28609538453f43ab44a3895ff24ff070",
+        "sha256:9463e47f46fc2988ccfbbf64a11646d50eae111aa631af2bcc65b4817f1a4081",
+        "sha256:a95e2db4934734f2408538703c111a9d725deb506112d34a2edd665b81ad6f29",
+        "sha256:ad33554072ad005e753495bbd047630ed2bc0463c3b7eefac950cb1c03870f60",
+        "sha256:b303e29880837970cc703da3c7d62985536f75b98b43673763af844341727386",
+        "sha256:eb41ca6da097a0d36dc4d79a1b65107bf1d555ae35b13b5d49601fd0d3621b38",
+        "sha256:f24c3ccd53560d18a0e86466bbf6928d3dad5dc1bc44c3cf811483c0d281381b"
+      ],
+      "expected_gates": {
+        "binding": "passed",
+        "soul": "passed",
+        "prior": "passed",
+        "inputs": "passed",
+        "capacity": "failed",
+        "envelope": "not_evaluated",
+        "consumer": "not_evaluated"
+      },
+      "expected_result": {
+        "supervision": "silent_veto",
+        "tightenedConstraints": {
+          "profile": "urn:ktp:profile:geometry-v1-draft",
+          "ceilings": []
+        }
+      },
+      "expected_reasons": [
+        "TRUST_INSUFFICIENT"
+      ],
+      "grant_ceilings": {
+        "max_calls": 10
+      },
+      "profile": {
+        "m_veto": 0,
+        "m_allow": 0.2,
+        "gray_supervision": "assisted"
+      },
+      "clock_healthy": true,
+      "now": 1800000000,
+      "profile_expires_at": 1800000008,
+      "human_adapter": {
+        "authenticated": true,
+        "operational_E": 20,
+        "tier": "observer",
+        "action_class": "Write (logs)",
+        "tier_permitted": true,
+        "human_policy_installed": true,
+        "proof_subject_kind": "person",
+        "source_case": "PS14-capacity-from-the-adapter"
+      }
     }
   },
   "keys": [
@@ -4938,6 +5685,18 @@
           }
         ]
       }
+    },
+    {
+      "id": "person-adapter-capacity-above-standing",
+      "base": "person-adapter-capacity-above-standing",
+      "context": "person-adapter-capacity-above-standing",
+      "expected": "DG_VALID"
+    },
+    {
+      "id": "person-adapter-capacity-veto",
+      "base": "person-adapter-capacity-veto",
+      "context": "person-adapter-capacity-veto",
+      "expected": "DG_VALID"
     }
   ],
   "carrier_cases": [

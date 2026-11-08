@@ -129,7 +129,11 @@ is recorded as undefined and cannot be assumed stable.
 A and E are the **validated values actually used**, not a new computation from
 this schema. Demand MUST match the canonical request/classifier. Software
 capacity MUST NOT exceed the standing supported by the verified proof or other
-applicable ceilings. Estimates retain capacityKnown = false. Existing Core and
+applicable ceilings. For a person, E is the operational capacity independently
+authenticated by the reviewed human adapter, never the proof's E_trust. The
+proof's E_trust sets the execution tier; eligibility and tier authorization
+remain separate prerequisites. A person's operational E may exceed their
+E_trust without granting a higher tier. Estimates retain capacityKnown = false. Existing Core and
 Kinetic Envelope arithmetic/order applies; this document adds no A/E formula.
 The fixture profile uses the existing margin relation in binary64 with exact
 JCS-encoded expected values; numerical conventions of another installed profile

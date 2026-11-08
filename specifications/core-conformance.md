@@ -54,6 +54,17 @@ performance, resilience and independent review. A single Oracle is still
 permitted at Basic; that does not remove any Core gate. A threshold-signing
 configuration is not evidence of Byzantine agreement.
 
+At Basic, as at every level, the deployment profile's `soul_veto` declares
+at least one sovereignty framework. The single Oracle queries every declared
+framework for every action before aggregation and carries the decision made by
+that framework's authority; the protocol carries the constraint and never
+authors it. Any veto or unanswered query reads S = 1. The Soul gate is
+independent of R, not of the Oracle. Where no community or treaty constraint
+is in scope, the minimum source is Data Provenance under KTP-SENSORS
+Section 4.2.6: trace data to its origin to determine whether other frameworks
+apply. See [deployment-profile.md](deployment-profile.md#the-soul-veto) and
+[KTP-SENSORS](../rfc-src/ktp-sensors.md).
+
 A stronger installed assurance profile MAY shorten proof acceptance or require
 stronger named algorithms. It MUST NOT lengthen Core's maximum lifetime,
 extend expiration during outages, change signed claims or accept a proof
@@ -67,7 +78,7 @@ Component-only claims are specified separately in `specifications/component-conf
 | v2.1.0 requirement or permission | Native-v3 requirement at every level | Migration consequence |
 | --- | --- | --- |
 | Basic minimum three weighted inputs | All five, with Core validity and undefined-input rules | Supply all five or apply Core's restrictive missing-input path; never renormalize a reduced model into native R |
-| Basic excludes Soul | Independent mandatory Soul gate | Add the gate before capacity; favorable standing cannot offset it |
+| Basic excludes Soul | Mandatory Soul gate using declared `soul_veto` frameworks; Data Provenance is the minimum source when no community or treaty constraint is in scope | Query before aggregation for every action; any veto or unanswered query reads S = 1 |
 | Basic binary result and no tiers | Supervision plus `tightenedConstraints`, all five Core tiers | A field rename or allow/deny wrapper is insufficient |
 | Basic simplified static E_base | Core standing and applicable lineage/PoR constraints | Replace the shortcut before claiming native v3 |
 | Basic maximum sixty-second proof | Canonical proof with maximum ten-second lifetime | Reissue under the new contract; do not relabel old bytes |

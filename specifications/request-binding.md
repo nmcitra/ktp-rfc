@@ -24,7 +24,7 @@ This profile is not a human proof format or a replacement human authorization ad
 This is the ordinary evaluation-time association contract. It does not define
 software-substrate consumption, effect budgets, queue/retry handling, target
 idempotency, exactly-once execution, release-time revalidation or target-effect
-evidence. A signed decision carrier is required for cross-boundary use; this unsigned association supplies none.
+evidence. The signed decision carrier follows [Decision Geometry](decision-geometry.md).
 
 ## 2. Complete canonical request
 

@@ -703,6 +703,18 @@ Properties:
 - Rotation: Rare (5+ years) or upon compromise
 - Used only to sign subordinate keys
 
+### Evaluator Signing Keys
+
+Purpose: sign the separately typed Decision Geometry carrier described in
+specifications/decision-geometry.md. The key type is `evaluator_signing`, and
+the verification role is `decision-geometry-evaluator`. An independently
+approved deployment/evaluation profile MUST bind the public key identifier,
+evaluator identity, audience, permitted algorithm and curve, validity interval
+and current revocation source before use. The carrier cannot install that
+binding. Oracle, agent and other key roles do not confer this role implicitly;
+key custody, strength and lifecycle requirements of the selected cryptographic
+level still apply.
+
 ## Key Generation
 
 ### Randomness Requirements

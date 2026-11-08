@@ -1,6 +1,6 @@
 # One Core, Three Conformance Levels
 
-**Native-v3 common Core contract.**
+**Proposed, unreleased native-v3 common Core contract.**
 
 The key words MUST, MUST NOT, SHOULD and MAY have their BCP 14 meanings.
 
@@ -71,8 +71,6 @@ extend expiration during outages, change signed claims or accept a proof
 failing the canonical contract. Shorter acceptance is an additional gate and
 can deny an otherwise valid Core result; it does not reinterpret that result.
 
-Component-only claims are specified separately in `specifications/component-conformance.md`.
-
 ## Immutable baseline and migration mapping
 
 | v2.1.0 requirement or permission | Native-v3 requirement at every level | Migration consequence |
@@ -112,6 +110,5 @@ provider vectors remain required; the cases here do not replace them.
 The vectors specify cross-level equality of expectations and reference the
 existing capacity boundaries. This repository does not execute a Core provider,
 certify assurance bundles or prove runtime interoperability.
-Claim status MUST use KTP-CONFORMANCE “Claim Status” as defined in
-[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166);
+Claim status MUST use [KTP-CONFORMANCE, Claim Status](../rfc-src/ktp-conformance.md#claim-status);
 schema and vector checks alone do not establish a stronger claim status.

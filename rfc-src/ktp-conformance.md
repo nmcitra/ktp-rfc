@@ -105,8 +105,7 @@ semantic thresholds nor establishes production suitability.
 The migration mapping and common boundary vectors are in
 specifications/core-conformance.md and
 specifications/conformance/core-levels-v1.json. Historical reduced Basic is
-legacy-v2.1-basic, not native-v3 Basic. Component claim composition is a separate
-decision under component conformance contract.
+legacy-v2.1-basic, not native-v3 Basic.
 
 ## Level 1: Basic
 
@@ -483,7 +482,6 @@ MUST:
 
 - Inherited Core: Enforce Trust Tiers (all 5)
 - Inherited Core: Check Soul constraint (S = 0)
-- Support action risk classification
 - Graceful degradation on Oracle failure
 - Report decisions to Flight Recorder
 - Include full context in denial responses

@@ -1171,16 +1171,12 @@ Implementers MAY make a scoped claim using
 specifications/component-conformance.md, schemas/component-claim.json and
 specifications/conformance/component-profiles-v1.json. The claim names its
 published release tag, versioned role profile, exact build, installed
-declaration digest and tagged vector suites. Evidence status follows KTP-CONFORMANCE “Claim Status” as defined in
-[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166). Component evidence does not
+declaration digest and tagged vector suites. Evidence status follows Section "Claim Status". Component evidence does not
 establish a whole-deployment claim; enforcement and assembly require actual
 path evidence. The fixtures in component-claims-v1.json test metadata only.
-These proposed profiles await publication at an immutable release tag.
 
-The following older general claim format and certification provisions remain
-outside these component profiles; whole-deployment claims use the form from
-[source proposal #166](https://github.com/nmcitra/ktp-rfc/issues/166), including
-the substrate field from [source proposal #184](https://github.com/nmcitra/ktp-rfc/issues/184).
+Whole-deployment claims use Section "Claim Format", including its substrate
+declaration.
 
 ## Claim Format
 

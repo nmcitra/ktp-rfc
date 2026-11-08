@@ -1,6 +1,6 @@
 # Component Conformance Profiles
 
-**component-profiles-v1 contract.**
+**Proposed, unreleased component-profiles-v1 contract.**
 
 The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 
@@ -34,7 +34,7 @@ Canonical wording:
 
 Component wording has no level suffix. Whole-deployment claims use
 [KTP-CONFORMANCE, Claim Format](../rfc-src/ktp-conformance.md#claim-format),
-including its substrate profile and version. Status labels are defined only in
+including its versioned substrate identifier. Status labels are defined only in
 [KTP-CONFORMANCE, Claim Status](../rfc-src/ktp-conformance.md#claim-status).
 
 A claim checker is a verifier of a claim made under component-profiles-v1.

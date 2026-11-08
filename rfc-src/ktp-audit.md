@@ -237,7 +237,9 @@ enforcement-point telemetry and notifications elsewhere in this document are
 outside that body. A consumer MAY record an actually evaluated, tighten-only
 consumer_result; it MUST NOT rewrite the producer's signed bytes or lower a veto.
 Execution outcomes and target evidence remain their separate trajectory/execution
-artifacts, including [Consequential-action Execution and Evidence](../specifications/consequential-action-execution-and-evidence.md) where the deployment implements it. An evaluation result alone establishes neither dispatch nor non-dispatch; the separate execution observation identifies which target effect is actually attested.
+artifacts where the deployment implements them. An evaluation result alone
+establishes neither dispatch nor non-dispatch; an execution outcome requires
+separately authenticated evidence.
 
 ## Counterfactual Analysis
 

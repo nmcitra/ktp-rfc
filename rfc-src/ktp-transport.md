@@ -572,7 +572,7 @@ request/proof digests and the evaluation context, supervision and tightened
 constraints required by the association companion. The legacy response sketches
 below do not provide that signed carrier and MUST NOT authorize external use.
 The [Decision Geometry carrier](../specifications/decision-geometry.md)
-provides the separately typed, complete signed evaluation payload for Decision Geometry (specifications/decision-geometry.md).
+provides the separately typed, complete signed evaluation payload.
 A deployment MUST implement the entire association, key-role, profile, current
 validity and restriction checks before using it across a trust boundary. No
 generic HTTP success flag, unsigned geometry or copied trust score replaces

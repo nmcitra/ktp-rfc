@@ -30,7 +30,106 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and persons as subjects
+
+### A person is a subject; the External Root is a person
+
+**Finding:** the accountability chain behind every agent ended at an
+instrument nobody stood behind. Core said the chain terminates at a named
+human, a legal entity or an attestation, then forbade that human a score or a
+trajectory; the threat model's SR-011 required administrators to have Trust
+Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
+
+- Core: a person is a subject of the specification, as an account in a zone.
+  A person's trajectory is the ledger of acts they signed under the protocol
+  and nothing else. A person's E_base is composed under Section 5.1 from
+  those acts and the person's root instrument (the standing of the
+  terminator behind the person, or a bond another person has posted on the
+  person), under the same shares and ceilings as any subject; generation,
+  lineage stage, mass ceilings and mitosis do not apply and are not
+  defaulted. Proof of Resilience is earned only by acts signed under stress.
+- Core: a person's Trust Score is the zone's measure of that account. It
+  bears on what the person may do in that zone and on nothing else, must not
+  be used as a general score or rank outside the protocol, and must not be
+  presented as a property of the person. Standing is never a prerequisite
+  for explanation, correction or review.
+- Core: the chain behind an agent ends at a person, and behind the person at
+  an employer, a licensing body or a board. Persons stand behind the
+  attestation branch of the root instrument; that branch is not locked to any
+  lineage stage.
+- What a person's standing does: a person's E_trust sets the person's Trust
+  Tier, and the tier restricts the classes of action the person executes, as
+  it does a software agent's. It does not restrict the acts in the person's
+  ledger: signing stays governed by eligibility and the capacity check, and a
+  contest by the contest route. A person's capacity check compares A with the
+  operational E the reviewed adapter authenticates, never with E_trust. For a
+  person, Admin Mode's lineage requirement does not apply. KTP-HUMAN states
+  what each of the three requirements gates (eligibility the operation,
+  capacity each action, and standing, through the Trust Tier, the classes of
+  action), and a person's explanation distinguishes a Trust Tier restriction
+  from ineligibility and from a capacity or Soul veto.
+- Where the Silent Veto, the capacity check, the veto record or the required
+  contents of a denial named E_trust for any subject, it now names E, which
+  Core Section 4.1 defines for each actor: Core's Terminology and Sections 4.2,
+  5.3, 8, 8.2 and 8.3 (in 8.3, Trust Velocity is now reported for a software
+  agent only); Enforce's PEP requirements, Capability Matrices, veto order and
+  response codes; Conformance's Zeroth Law requirements; Audit's gap field;
+  Transport's error table; Governance's governor E; Zones' administrators; the
+  migration guide's OAuth and SAML steps; and the constitution's Articles I, IV
+  and VII. The example denial bodies in Core and Enforce show a software agent
+  and now say what a person's denial reports. Where other text still states the
+  check in terms of E_trust, Core Section 5.1.1 says a person's check uses the
+  operational E. The constitution's Zeroth Law, Silent Veto and prohibitions
+  name persons beside agents.
+- Sponsorship, reusing the tether: a person's bond on an agent stakes the
+  person's own standing, under the same stake mechanics as any sponsor's
+  (Identity). A person may sponsor a person: the bond fills the sponsored
+  person's root instrument, scored as a Sponsored agent's bond is, and with no
+  generation it ends at its closure, never at a generation step (Core Section
+  5.1.1; Identity Section 6). The sponsor of a person is a person. A bond on a
+  person is limited as a bond on a Sponsored agent is (at most 20 staked from
+  an IAL2 sponsor, 50 from IAL3), and Identity's penalty, termination and
+  liability rules read for the sponsored person. For a person, the
+  trajectory-length ceiling counts the acts the person signed. The
+  constitution's Article III Section 5(d) now says that ending a sponsorship
+  runs the bond to its declared end and that the sponsor's liability survives
+  it.
+- Texts that still forbade a person standing, or scoped it to software agents,
+  now read for persons: Core Sections 4.1 and 4.2 and the Trust Oracle's
+  duties; Enforce's enforcement flow and component roles; KTP-HUMAN;
+  KTP-IDENTITY, including its IAL ceilings, which apply to a person as Core
+  says; KTP-PRIVACY's first principle; KTP-INFORMATION; Conformance's
+  human-eligibility requirements; and the human-eligibility contract. The
+  migration guide's UserInfo extension says a person's values stay one zone's
+  measure, not an attribute of the person.
+- Conformance: `specifications/conformance/person-standing-v1.json`, eighteen
+  vectors fixing what enters a person's standing, where it bears, how it
+  crosses a zone boundary, which E a person's capacity check uses, what the
+  tier does not restrict, and how a person stakes and is sponsored. They do not
+  define a formula for E_base or R.
+- Zones and Federation: a person's standing crosses a federation link only as
+  the agreement provides, through the receiving zone's directional trust
+  factor and zone-mass ceiling, from zero up to that ceiling. Nothing
+  transfers where no agreement exists.
+- Identity's lineage sentence takes @martherus's wording from #201.
+  Eligibility and capacity remain separate requirements beside standing.
+  Privacy's behavioral-data rules, including BEHAVIOR-002, are untouched:
+  signed acts are not behavioral data.
+- Core: a Trust Proof declares its subject's kind, software agent or person,
+  never inferred from absent claims; the root projection names the person and
+  the terminator by kind (employer, licensing body, board) and reference; the
+  person is never the terminator; persons are identified by `person:` URIs.
+  The serialization and the terminator vocabulary were proposed by
+  @martherus on #201 and are adopted here so the decision and its encoding
+  share an owner. The schema encoding rides #157.
+
+This alters sentences that reached `main` in the consolidation block recorded
+as D-010, after that block's approval. A conformant implementation that treats
+the External Root as an instrument with nobody behind it, that implements
+the earlier six-term human score, or that does not restrict what a person
+executes by the person's Trust Tier, stops conforming, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
 
 ### Induced Conservatism is a named threat (TM-D-005)
 

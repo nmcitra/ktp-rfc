@@ -610,8 +610,8 @@ Sponsorship bond at ingress:
 ~~~
    {
      "bond_type": "ingress_sponsorship",
-     "sponsor_id": "agent:guarantor:corp:sponsor123",
-     "sponsored_id": "agent:external:unknown:newagent",
+     "sponsor_id": "agent:guarantor:7gen:corp:sponsor123",
+     "sponsored_id": "agent:sponsored:ingress:newagent:entry01",
      "zone_id": "zone-blue-prod-01",
      "stake_percentage": 15,
      "duration": "PT24H",

@@ -150,7 +150,7 @@ to implement a protobuf service. A port number does not negotiate an encoding.
 
 # Message Serialization
 
-Native v3 MUST support the proposed `ktp-json-jws-v1` base profile in
+Native v3 MUST support the proposed, unreleased `ktp-json-jws-v1` base profile in
 [Native JSON/JWS Transport](../specifications/native-transport.md). Its `v1`
 versions this transport profile, not KTP semantics or an HTTP API. The installed
 immutable KTP release identifies the owning artifact contracts. All base
@@ -199,7 +199,7 @@ The old `ktp.v1` protobuf package is the legacy v2.1 transport profile, not a
 native-v3 message definition. It is available only through the immutable
 [v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md#protocol-buffers).
 It MUST NOT be recommended, selected, mechanically renamed or decoded as native
-v3. No replacement protobuf or gRPC schema is defined by this decision.
+v3. No replacement protobuf or gRPC schema is defined by this specification.
 
 A future profile requires its own name/version, complete machine-readable
 artifacts, deterministic mapping to the owning canonical schemas, a named
@@ -566,7 +566,7 @@ Connection handshake includes:
 - An explicitly selected, separately published native streaming profile
 
 The old Sec-WebSocket-Protocol token `ktp.v1` denotes the legacy stream binding
-and MUST NOT negotiate native v3. This decision assigns no replacement stream
+and MUST NOT negotiate native v3. This specification assigns no replacement stream
 subprotocol. The message/event sketches below describe notification patterns,
 not a complete native streaming profile. Notifications are hints only; they
 MUST NOT establish fresh authority, substitute for canonical proof/decision
@@ -989,7 +989,7 @@ MIGRATION.md for negotiated isolation and migration; no stored bytes are rewritt
 
 The abbreviated legacy surface is preserved only in the immutable
 [v2.1.0 appendix](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md#openapi-specification).
-There is no complete native OpenAPI artifact in this decision. A future one
+There is no complete native OpenAPI artifact in this specification. A future one
 requires a separately named/versioned profile, complete machine-readable
 artifact, deterministic canonical mapping, builder and interoperability vectors.
 An API document cannot weaken the owning request, proof or result contract.

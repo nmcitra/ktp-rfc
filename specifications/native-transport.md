@@ -1,8 +1,9 @@
 # Native JSON/JWS Transport
 
-**ktp-json-jws-v1 transport contract.**
+**Proposed, unreleased ktp-json-jws-v1 transport contract.**
 
-The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and
+"MAY" are interpreted as described in BCP 14 (RFC 2119 and RFC 8174).
 
 ## 1. One interoperable base
 
@@ -63,7 +64,7 @@ the following namespaces. Repeated route occurrences share the same rule.
 | Installed immutable native-v3 release | KTP semantic set; fixes the owning artifact contracts; distinct from profile/API versions |
 | `ktp-json-jws-v1` | Base transport profile; its version is independent of the KTP set |
 | `ktp.v1` protobuf package and `ktp/v1/*.proto` imports | Legacy v2.1 protobuf profile; not a native-v3 type or a rename target |
-| `Sec-WebSocket-Protocol: ktp.v1` | Legacy stream binding; not native-v3 negotiation; this decision allocates no replacement stream token |
+| `Sec-WebSocket-Protocol: ktp.v1` | Legacy stream binding; not native-v3 negotiation; this specification allocates no replacement stream token |
 | `ktp-core-v1`, `ktp-federation-v1`, `ktp-celestial-v1` | Historical capability identifiers; none identifies the JSON/JWS base or native-v3 semantic compatibility |
 | `/api/v1` and every `/v1/...` HTTP path, including `/v1/ws` and `/v1/events` | HTTP API route namespace only; may remain if independently documented; cannot select KTP semantics |
 | OpenAPI `info.version: 1.0.0` | Legacy API-description version; not the KTP release or a native profile |

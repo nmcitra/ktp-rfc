@@ -14,8 +14,6 @@ or `undetermined`; only `clear` permits the relying component to continue the
 remaining authorization checks. It never grants execution by itself. The
 actual request, capacity, Soul constraints, grants, readiness, topology,
 revocations and applicable deployment policy MUST still be checked at execution.
-Ordinary request association is specified in [Request Binding](request-binding.md);
-portable evaluation records are specified in [Decision Geometry](decision-geometry.md).
 
 This document and [`trust-proof.json`](../schemas/trust-proof.json) are the
 single native v3 wire contract for every conformance level. The schema fixes
@@ -109,7 +107,7 @@ The preserved v2 Risk Factors schema is not the five-input context schema.
 `generation` is required: sponsored 0–2, independent 3–6, guarantor 7 or more.
 `sub` MUST identify the same lineage, and a generation encoded in an independent
 or guarantor identifier MUST equal the claim. Full identifier grammar and bond
-binding remain KTP-IDENTITY/KTP-IDENTITY, Canonical grammar and equality; no identity registry is introduced here.
+binding follow KTP-IDENTITY; no identity registry is introduced here.
 `sponsor` is required only for sponsored lineage and prohibited otherwise.
 Optional `resilience_hash`, velocity, volatility and quorum telemetry cannot
 replace independently verified standing or authority.
@@ -118,7 +116,7 @@ The closed `root_instrument` object is always present. `current` and
 `non_renewable` require integer `end_time`; the proof MUST NOT outlive it.
 `none` contains only `status`, with no invented instrument details. Other
 existing declared fields remain available for active instruments. The complete
-variant/lifecycle contract and projection remain Closed External Root Projection (specifications/external-root.md); these shape checks do
+instrument lifecycle remains governed by KTP-CORE; these shape checks do
 not authenticate an external instrument or its capacity.
 
 `applicable_ceilings` is a nonempty list of closed ceiling/value objects. Names
@@ -141,21 +139,21 @@ the scoring computation or assert numerical equality to any formula.
 A known Soul veto MUST be encoded as `veto`, never hidden as `undetermined`.
 A numeric zero is a measurement, never a substitute for missing evidence.
 Nulls admitted for veto/undetermined are statements of unavailable evidence,
-not a change to Risk Factor missing-evidence propagation (Missing Evidence (specifications/missing-evidence.md)). A capacity
+not a change to KTP-CORE's Risk Factor missing-evidence propagation. A capacity
 failure for an actual action is evaluated by the relying component, not
 represented here by changing the meaning of the Soul bit.
 
 ### Standard nested-zone claim
 
 `ktp.ingress_path` is a standard optional claim, not an extension. Its closed
-receipt shape is inherited from proposed KTP-ZONES, Ingress Path and Egress Shaping: at most five receipts,
+receipt shape is inherited from KTP-ZONES Sections 6.6 (Ingress Path) and 7.4 (Egress Shaping): at most five receipts,
 outermost first, each carrying `zone_id`, `oracle_kid`, `sub`, `cnf_jkt`, `aud`,
 `prev`, `topology_epoch`, `iat`, `exp`, `admission_id`, `sig`. At a ring of
 authorized depth d > 0, exactly d receipts are required; at depth 0 the member
 is absent, not an empty path. Depth MUST come from the authenticated Topology,
 never from path presence. Verify receipt signatures, ancestry, links, epoch,
 subject, possession-key/session bindings, audiences and current validity under
-KTP-ZONES/KTP-ZONES' Ingress Path and Egress Shaping before accepting the proof for further authorization. Shape
+KTP-ZONES Sections 6.6 and 7.4 before accepting the proof for further authorization. Shape
 alone is insufficient. If that verification is unavailable, fail closed at
 `TP_INGRESS`; nested-zone verification remains mandatory when the installed topology requires it.
 
@@ -239,7 +237,7 @@ contract evidence, never runtime certification.
 Core, Crypto, Transport, Enforce and Conformance cite this contract and its
 fixtures. Decoded REST/protobuf/CBOR views or copied summary claims cannot
 replace the exact signed native compact JWS. Historical Transport v1 sketches
-remain legacy descriptions pending Native Transport (specifications/native-transport.md); they are not alternative v3 shapes.
+remain legacy descriptions; they are not alternative v3 shapes.
 
 No first implementation or reference implementation is claimed. Migration is
 recorded in MIGRATION.md; the decision record remains the maintainer's.

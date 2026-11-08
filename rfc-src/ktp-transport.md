@@ -154,7 +154,7 @@ Native v3 Trust Proofs remain the exact signed compact JWS of
 of the surrounding JSON, CBOR or protobuf transport. A decoded map, protobuf
 message or re-encoded payload cannot be accepted as an alternative proof. The
 v1 proof/authorization sketches and copied summaries below and in the
-appendices are legacy descriptions pending Native Transport (specifications/native-transport.md), not native v3 wire contracts.
+appendices are legacy descriptions, not native v3 wire contracts.
 They MUST NOT relax the canonical schema, verification order or lifetime.
 
 
@@ -409,7 +409,7 @@ Request: { "jws": "eyJhbGciOiJFZERTQSI...", "expected_agent_id": "agent:guaranto
 Native proof validation follows the Canonical Trust Proof Contract, Section 5. Its stable
 reason and validity/gate result are distinct: a valid veto or undetermined
 assertion cannot authorize execution. These proof-validation results are not
-an action authorization response; request association remains Request Binding (specifications/request-binding.md).
+an action authorization response.
 
 ### Refresh Trust Proof
 

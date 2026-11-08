@@ -59,27 +59,23 @@ EXAMPLE = {
                         "relational.trust.outbound_mean"],
             "aggregation": {"method": "weighted_average",
                             "parameters": {"weights": [0.6, 0.4]}},
-            "weight": 0.25},
+            "weight": 0.29},
         "trust_trend": {
             "signals": ["soul.temporal.pattern_stability"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.15},
+            "weight": 0.18},
         "adversarial_pressure": {
             "signals": ["world.security.anomaly_score"],
             "aggregation": {"method": "max"},
-            "weight": 0.2},
+            "weight": 0.24},
         "update_resistance": {
             "signals": ["soul.consistency.behavioral_drift_rate"],
             "aggregation": {"method": "weighted_average"},
-            "weight": 0.1},
+            "weight": 0.12},
         "attestation_coverage": {
             "signals": ["body.hardware.bmc_reachable"],
             "aggregation": {"method": "min"},
-            "weight": 0.15},
-        "moment_criticality": {
-            "signals": ["time.window.business_hours_active"],
-            "aggregation": {"method": "max"},
-            "weight": 0.15},
+            "weight": 0.17},
     },
     "soul_veto": {"frameworks": ["example-sovereignty-registry"]},
     "feeds": {"feed-01": {"populates": ["world.security.anomaly_score"]}},
@@ -120,7 +116,6 @@ if SUPPLIER_VECTOR.exists():
 elif "moment_criticality" not in FACTORS:
     # PR #164's explicitly chosen illustrative weights; no normalization of
     # submitted declarations, whose exact unit sum remains checked below.
-    EXAMPLE["risk_factors"].pop("moment_criticality")
     for factor, weight in zip(FACTORS, (0.29, 0.18, 0.24, 0.12, 0.17), strict=True):
         EXAMPLE["risk_factors"][factor]["weight"] = weight
     EXAMPLE["demand_inputs"] = {"moment_criticality": {

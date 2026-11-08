@@ -37,7 +37,7 @@ def check_source(root):
         # dependency, check-all creates a disposable environment in this tree.
         python = root / ".venv/bin/python3"
         if python.exists() and subprocess.run(
-                [str(python), "-c", "import jsonschema, cryptography, rfc8785"],
+                [str(python), "-c", "import jsonschema, cryptography, rfc8785, rfc3986_validator"],
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
             (target / ".venv").symlink_to((root / ".venv").resolve())
         rendered = subprocess.run(

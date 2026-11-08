@@ -68,7 +68,7 @@ Constraints, all quoted from their rulings:
 
 ## Demand inputs — the supplier contract
 
-`moment_criticality` is demand-side under demand-side criticality contract, not a sixth weighted Risk Factor.
+`moment_criticality` is a demand-side input under Core L14, not a sixth weighted Risk Factor.
 Every used input declares the complete contract in
 [demand-supplier.md](demand-supplier.md) and
 [demand-input-contract.json](../schemas/demand-input-contract.json), referenced
@@ -183,8 +183,8 @@ Every member MUST verify the authenticated configuration and evidence before cou
 ]
 ```
 
-- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, or a sovereignty framework identifier;
-- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
+- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, a demand input key, or a sovereignty framework identifier;
+- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3; a `term` entry names a Risk Factor key or a demand input key;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
 The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) rides the #71/#83 schema gate; this definition is that gate's cargo.

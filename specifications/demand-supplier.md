@@ -112,11 +112,12 @@ The exact preimage includes one zero byte after the ASCII prefix.
 
 The descriptor deliberately excludes the supplied criticality value and final
 computed A: hashing either into the input needed to compute A would be circular.
-A later canonical authorization request MUST independently bind its final
-classified demand and the same resolved invocation fields. Where canonical request association is
-composed, construct both bindings from that single actual invocation; the
-preclassification digest does not replace the complete canonical request/proof digest,
-replay reservation or use-time checks. See [Core Section 6.6](../rfc-src/ktp-core.md#66-decision-contract) for the decision contract.
+If canonical request association is used, its authorization request MUST bind
+its final classified demand and the same resolved invocation fields. Construct
+both bindings from that single actual invocation; the preclassification digest
+does not replace that association's request/proof digest, replay reservation or
+use-time checks. This supplier contract does not require canonical request
+association. See the [Kinetic Envelope decision contract](kinetic-envelope.md#decision-contract).
 
 Digest matching admits a value only for evaluation of that exact operation.
 It is not a capability, replay reservation, dispatch promise or execution
@@ -125,8 +126,8 @@ receipt. Missing actual invocation data cannot be supplied by the value itself.
 ## 4. Restrictive evaluation and record
 
 After declaration, supplier, complete authentication, provenance, time and
-operation binding pass, consume the supplied value only on the demand or
-supervision side under [Core L14](../rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so). It MUST NOT enter R, change E_base or
+operation binding pass, consume the supplied value only on the demand
+side under [Core L14](../rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so). It MUST NOT enter R, change E_base or
 E_trust, lower A, lower existing supervision, remove constraints or reverse
 Soul/capacity/prior vetoes. No Context Signal subset is fabricated for it.
 
@@ -152,9 +153,9 @@ operation. Existing grants, proofs, readiness, replay and all vetoes remain due.
 Record the exact declaration/supplier/verification profile bindings, complete
 value evidence or its absence, provenance outcome, evaluation time and operation
 digest, accepted/unavailable status and restrictive reading separately from the
-observed scalar. Where Decision Geometry is composed, use its existing input,
-undefined-state, source/evidence and gate fields; do not invent a second result
-schema or weaken its record/carrier contract.
+observed scalar. If Decision Geometry is used, carry this evidence in its input, undefined-state,
+source/evidence and gate fields. Decision Geometry is optional for this contract;
+the evaluation record obligations above apply independently of that carrier.
 
 ## 5. Migration, vectors and evidence limits
 

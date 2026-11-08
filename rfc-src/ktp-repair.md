@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Repair Specification"
 abbrev: "KTP-REPAIR"
 docname: draft-perkins-ktp-repair-00
-date: 2026-10-29
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -245,7 +245,7 @@ The threats this document is written against, and where each is answered:
 - Fragment breach. A release that matches its decision only fragment by fragment. The act is judged whole (Section 4.2).
 - Waiting it out. Time, restart, fresh proof, new sponsor, the actor's ending. None is reconciliation (Section 4.1).
 - Manufactured breach. An adversary induces vetoes to flood the repair route. A Silent Veto is not a breach; the first entry requires the actor's own signed act; the second is priced against the claimant (Section 4.2).
-- Theatre. A complete record with nothing paid. Δ has a floor on hard entries, the ceiling is on standing and not the tier, and it lifts only by later acts (Section 4.4).
+- Theater. A complete record with nothing paid. Δ has a floor on hard entries, the ceiling is on standing and not the tier, and it lifts only by later acts (Section 4.4).
 - Holdout. An affected party declines forever. Attendance is voluntary and declining is not a veto; the record stays open to them (Section 4.5).
 - Hollow return. A decline is treated as closure. The harm is carried as declared or as unrepairable, and the record is not closed (Section 4.5).
 - Relentless barrage. Breaches arrive faster than repair. Seeking and not attending is a further breach; sponsorship closes above the declared count; the breach index raises the zone's heat so that fewer consequential acts are admitted; and a swarm whose breaches reproduce folds the repair queue below the declared capacity, which the measured reproduction and the validity of the declared criticality make visible (Section 5).

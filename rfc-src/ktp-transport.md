@@ -544,7 +544,7 @@ actual invocation into the complete canonical body; arbitrary transport
 headers, omitted defaults, decoded proof summaries or caller-supplied digests
 cannot change the evaluated request. The companion fixes preimages and failures
 across transports. The v1 sketches below lack that binding and are legacy
-examples pending native Transport contract, not a native v3 request schema.
+examples, not a native v3 request schema.
 
 gRPC service definition:
 
@@ -571,8 +571,8 @@ crossing a trust boundary MUST carry verified signed coverage of both exact
 request/proof digests and the evaluation context, supervision and tightened
 constraints required by the association companion. The legacy response sketches
 below do not provide that signed carrier and MUST NOT authorize external use.
-The Decision Geometry proposal Decision Geometry (specifications/decision-geometry.md) defines its separate carrier; no generic
-HTTP success flag or copied trust score replaces its required authentication.
+No generic HTTP success flag or copied trust score replaces the required
+carrier authentication.
 
 message AuthorizationResponse { string request_id = 1; AuthorizationResult result = 2;
 

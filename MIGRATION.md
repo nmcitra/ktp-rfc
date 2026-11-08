@@ -24,10 +24,10 @@ all v3 prerequisites. Keep explicitly enabled v2.1 handling separate, with no
 fallback around native checks. Preserve old signed history rather than rewriting
 its hashes. Decision use across a trust boundary remains disabled unless a
 reviewed signed carrier binds the complete association and evaluation context;
-Decision Geometry (specifications/decision-geometry.md) defines that separate carrier. Readiness keeps its own signed preimages:
+A separately reviewed carrier is required before that use. Readiness keeps its own signed preimages:
 construct and verify both contracts against the same actual invocation/proof.
 No exactly-once target effect, durable retry, queue, release-time freshness or
-effect-evidence claim is added; the consequential-action execution specification (specifications/consequential-action-execution-and-evidence.md) remain separate.
+effect-evidence claim is added; target-execution evidence remains separate.
 
 
 

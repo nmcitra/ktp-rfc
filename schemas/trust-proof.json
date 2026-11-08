@@ -491,8 +491,14 @@
                 "required": [
                   "kind"
                 ]
+              },
+              "subject_kind": {
+                "const": "software_agent"
               }
-            }
+            },
+            "required": [
+              "subject_kind"
+            ]
           },
           "then": {
             "properties": {
@@ -548,7 +554,7 @@
             },
             "properties": {
               "root_instrument": {
-                "not": {
+                "if": {
                   "properties": {
                     "kind": {
                       "const": "sponsorship_bond"
@@ -557,6 +563,13 @@
                   "required": [
                     "kind"
                   ]
+                },
+                "then": {
+                  "properties": {
+                    "sponsor_id": {
+                      "pattern": "^person:"
+                    }
+                  }
                 }
               },
               "applicable_ceilings": {

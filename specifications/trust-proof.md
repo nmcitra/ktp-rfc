@@ -107,10 +107,12 @@ The preserved v2 Risk Factors schema is not the five-input context schema.
 established subject context. Software agents require lineage, generation,
 advancement floor and the existing conditional sponsor. Person accounts MUST
 omit those agent-only fields and MUST NOT receive default agent generation or
-mass ceilings. Authenticated receiving-zone transfer ceilings still apply. Person standing contains only signed acts and terminator standing
-under Core; eligibility and capacity remain separate requirements. For a person,
-the root's `root_person` is the same account as `sub`; the terminator is its
-employer, licensing body or board. Identity and signed-act evidence MUST be
+mass ceilings. Authenticated receiving-zone transfer ceilings still apply. Person standing contains only signed acts and the selected attestation or
+person-sponsored bond under Core. E_trust sets the execution tier; operational
+E for the capacity check is authenticated separately by the reviewed adapter.
+Eligibility remains independent. An attestation's `root_person` is the same
+account as `sub`; a bond's is the sponsoring person, whose employer, licensing
+body or board terminates the chain. Identity and signed-act evidence MUST be
 independently authenticated; candidate labels cannot choose subject policy.
 For software agents, `sub` MUST identify the same lineage as the claim; any
 generation encoded in an independent or guarantor identifier MUST equal the

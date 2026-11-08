@@ -28,7 +28,7 @@ that its instrument exists, its signatures pass or its lifecycle is current.
 - `sponsorship_bond`: bond id and complete signed-bond digest, sponsor id,
   `bond_inputs` containing the authenticated sponsor E_base and stake percentage,
   `status`, `end_time`, terminator and chain length. The canonical software proof
-  permits this only for Sponsored generations 0–2. The sponsor MUST equal the
+  permits this for Sponsored generations 0–2, or for a person sponsored by another person. For software, the sponsor MUST equal the
   proof's sponsor, and the signed bond's sponsored subject MUST equal proof sub.
   Bond collateral/residual accounting does not become additional root credit.
 - `external_attestation`: attestation id and complete signed-instrument digest,
@@ -42,8 +42,10 @@ The External Root is the authenticated person behind an instrument. Each active
 projection carries `root_person`, identifying that person account. Behind the
 person is an institution: the closed `{kind, reference}` terminator has kind
 `employer`, `licensing_body` or `board` and an identifying URI. The person is
-never encoded as the terminator. For a person subject, `root_person` MUST equal
-the proof subject. A label or URI alone establishes neither identity nor the
+never encoded as the terminator. For a person subject under an attestation,
+`root_person` MUST equal the proof subject. Under a sponsorship bond it MUST
+equal the authenticated sponsoring person, and `sponsor_id` MUST identify that
+person. The signed bond's sponsored subject MUST equal the proof subject. A label or URI alone establishes neither identity nor the
 person-to-institution chain.
 
 Declared chain length is an integer from 1 through 12, matching the actual
@@ -54,8 +56,8 @@ are separate evidence and cannot replace accountability.
 The same canonical Trust Proof and root union serve software agents and persons.
 `subject_kind` MUST match independently authenticated subject context. Software
 agents retain lineage, generation and sponsor rules. Persons use the external
-attestation branch or a reasoned no-credit branch; their standing comes only
-from signed acts and their terminator's standing under Core. Eligibility and
+attestation branch, a live bond another person posts, or a reasoned no-credit
+branch. Standing comes from signed acts and the selected root under Core. Eligibility and
 capacity remain separate prerequisites. Agent generation, lineage,
 advancement floors and agent mass ceilings MUST NOT be defaulted for a person.
 A receiving-zone ceiling established by a federation agreement remains applicable
@@ -160,9 +162,10 @@ profile and authoritative status. Invalid, unavailable, expired, zero-exposure
 or for-cause candidates contribute no credit and cannot win. Compute admissible
 instrument strength under the existing Core/provider contract; never sum or
 otherwise combine attestations. Select the strongest single eligible instrument.
-For a person subject, each eligible instrument scores as its terminator's
-standing under Core; declared exposure over anchored capacity never scores or
-ranks a person's instruments. The person-standing suite's
+For a person subject, an eligible attestation scores as its terminator's
+standing, and a bond another person posts scores under Core's Sponsored row.
+Declared exposure over anchored capacity never scores or ranks a person's
+instruments. The person-standing suite's
 `PS13-concurrent-instruments-strongest-single` fixes this boundary.
 For an exact strength tie, select the lexicographically smallest complete
 instrument digest (all candidates use the independently selected digest

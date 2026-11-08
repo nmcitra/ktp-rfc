@@ -27,8 +27,9 @@ that its instrument exists, its signatures pass or its lifecycle is current.
   software agents below Operator until accountability is reestablished.
 - `sponsorship_bond`: bond id and complete signed-bond digest, sponsor id,
   `bond_inputs` containing the authenticated sponsor E_base and stake percentage,
-  `status`, `end_time`, terminator and chain length. The canonical software proof
-  permits this for Sponsored generations 0–2, or for a person sponsored by another person. For software, the sponsor MUST equal the
+  `status`, `end_time`, terminator and chain length. The canonical proof permits
+  this for Sponsored software generations 0–2, or for a person sponsored by
+  another person. For software, the sponsor MUST equal the
   proof's sponsor, and the signed bond's sponsored subject MUST equal proof sub.
   Bond collateral/residual accounting does not become additional root credit.
 - `external_attestation`: attestation id and complete signed-instrument digest,
@@ -43,7 +44,7 @@ projection carries `root_person`, identifying that person account. Behind the
 person is an institution: the closed `{kind, reference}` terminator has kind
 `employer`, `licensing_body` or `board` and an identifying URI. The person is
 never encoded as the terminator. For a person subject under an attestation,
-`root_person` MUST equal the proof subject. Under a sponsorship bond it MUST
+`root_person` MUST equal the proof subject. For a person subject under a sponsorship bond, it MUST
 equal the authenticated sponsoring person, and `sponsor_id` MUST identify that
 person. The signed bond's sponsored subject MUST equal the proof subject. A label or URI alone establishes neither identity nor the
 person-to-institution chain.

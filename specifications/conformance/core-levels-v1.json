@@ -1,0 +1,989 @@
+{
+  "suite": "core-levels-v1",
+  "status": "proposed",
+  "baseline": "v2.1.0",
+  "levels": [
+    "Basic",
+    "Standard",
+    "Full"
+  ],
+  "note": "Requirements for actual Core implementations, not executed runtime results. Same semantic profile, evidence, time and prior constraints at every level; all unstated prerequisites pass. given/expect_by_level are test notation, not wire fields. Capacity references resolve to the complete given/expect in capacity-gate-v1.json. Tier cases check classification only and grant no permission. No formula for A or E is defined.",
+  "vectors": [
+    {
+      "id": "C01-over-capacity-valid-profile",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C01-over-capacity-valid-profile"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "supervision": "silent_veto",
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "supervision": "silent_veto",
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "supervision": "silent_veto",
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C02-negative-profile-counterexample",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C02-negative-profile-counterexample"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "profileAccepted": false,
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "profileAccepted": false,
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "profileAccepted": false,
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C03-below-equality-default",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C03-below-equality-default"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "stable",
+          "executionPermitted": true,
+          "marginPresent": true
+        },
+        "Standard": {
+          "supervision": "stable",
+          "executionPermitted": true,
+          "marginPresent": true
+        },
+        "Full": {
+          "supervision": "stable",
+          "executionPermitted": true,
+          "marginPresent": true
+        }
+      }
+    },
+    {
+      "id": "C04-at-equality-default",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C04-at-equality-default"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "marginPresent": true
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "marginPresent": true
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "marginPresent": true
+        }
+      }
+    },
+    {
+      "id": "C05-above-equality-default",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C05-above-equality-default"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C06-zero-capacity-positive-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C06-zero-capacity-positive-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C07-zero-capacity-zero-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C07-zero-capacity-zero-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C08-missing-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C08-missing-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C09-missing-capacity",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C09-missing-capacity"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C10-negative-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C10-negative-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C11-negative-capacity",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C11-negative-capacity"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C12-nonfinite-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C12-nonfinite-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C13-nonfinite-capacity",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C13-nonfinite-capacity"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C14-positive-conservative-estimate",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C14-positive-conservative-estimate"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "minimumSupervision": "assisted",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        },
+        "Standard": {
+          "minimumSupervision": "assisted",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        },
+        "Full": {
+          "minimumSupervision": "assisted",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        }
+      }
+    },
+    {
+      "id": "C15-preexisting-veto",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C15-preexisting-veto"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        }
+      }
+    },
+    {
+      "id": "C16-unknown-capacity-over-demand",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C16-unknown-capacity-over-demand"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false,
+          "divisionPerformed": false,
+          "marginPresent": false
+        }
+      }
+    },
+    {
+      "id": "C17-unknown-capacity-existing-regulated",
+      "given": {
+        "suite": "capacity-gate-v1",
+        "case": "C17-unknown-capacity-existing-regulated"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "minimumSupervision": "regulated",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        },
+        "Standard": {
+          "minimumSupervision": "regulated",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        },
+        "Full": {
+          "minimumSupervision": "regulated",
+          "executionWithoutRequiredReview": false,
+          "marginPresent": true
+        }
+      }
+    },
+    {
+      "id": "soul-veto",
+      "given": {
+        "soul": 1,
+        "A": 1,
+        "E": 100
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "capacityEvaluated": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "capacityEvaluated": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "capacityEvaluated": false
+        }
+      }
+    },
+    {
+      "id": "soul-unknown",
+      "given": {
+        "soul": "unavailable",
+        "A": 1,
+        "E": 100
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false
+        },
+        "Standard": {
+          "executionPermitted": false
+        },
+        "Full": {
+          "executionPermitted": false
+        }
+      }
+    },
+    {
+      "id": "prior-veto",
+      "given": {
+        "soul": 0,
+        "prior_supervision": "silent_veto",
+        "A": 1,
+        "E": 100
+      },
+      "expect_by_level": {
+        "Basic": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        },
+        "Standard": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        },
+        "Full": {
+          "supervision": "silent_veto",
+          "executionPermitted": false
+        }
+      }
+    },
+    {
+      "id": "missing-factor",
+      "given": {
+        "weighted_input_count": 4,
+        "undefined_input_resolution": "none"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "executionPermitted": false,
+          "reduced_factor_fallback": false
+        },
+        "Standard": {
+          "executionPermitted": false,
+          "reduced_factor_fallback": false
+        },
+        "Full": {
+          "executionPermitted": false,
+          "reduced_factor_fallback": false
+        }
+      }
+    },
+    {
+      "id": "soul-not-weighted",
+      "given": {
+        "weighted_keys_include_soul": true
+      },
+      "expect_by_level": {
+        "Basic": {
+          "declarationAccepted": false
+        },
+        "Standard": {
+          "declarationAccepted": false
+        },
+        "Full": {
+          "declarationAccepted": false
+        }
+      }
+    },
+    {
+      "id": "legacy-identity",
+      "given": {
+        "profile": "legacy-v2.1-basic"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "nativeV3Accepted": false
+        },
+        "Standard": {
+          "nativeV3Accepted": false
+        },
+        "Full": {
+          "nativeV3Accepted": false
+        }
+      }
+    },
+    {
+      "id": "renamed-legacy",
+      "given": {
+        "profile": "native-v3",
+        "weighted_input_count": 3,
+        "soul_gate": false,
+        "result_type": "binary"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "nativeV3Accepted": false
+        },
+        "Standard": {
+          "nativeV3Accepted": false
+        },
+        "Full": {
+          "nativeV3Accepted": false
+        }
+      }
+    },
+    {
+      "id": "proof-over-lifetime",
+      "given": {
+        "canonical_otherwise_valid": true,
+        "exp_minus_iat": 11
+      },
+      "expect_by_level": {
+        "Basic": {
+          "proofAccepted": false
+        },
+        "Standard": {
+          "proofAccepted": false
+        },
+        "Full": {
+          "proofAccepted": false
+        }
+      }
+    },
+    {
+      "id": "proof-at-expiry",
+      "given": {
+        "canonical_otherwise_valid": true,
+        "exp_minus_iat": 10,
+        "now_equals_exp": true
+      },
+      "expect_by_level": {
+        "Basic": {
+          "proofAccepted": false
+        },
+        "Standard": {
+          "proofAccepted": false
+        },
+        "Full": {
+          "proofAccepted": false
+        }
+      }
+    },
+    {
+      "id": "tier-0",
+      "given": {
+        "effective_standing": 0
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Hibernation"
+        },
+        "Standard": {
+          "tier": "Hibernation"
+        },
+        "Full": {
+          "tier": "Hibernation"
+        }
+      }
+    },
+    {
+      "id": "tier-21.999",
+      "given": {
+        "effective_standing": 21.999
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Hibernation"
+        },
+        "Standard": {
+          "tier": "Hibernation"
+        },
+        "Full": {
+          "tier": "Hibernation"
+        }
+      }
+    },
+    {
+      "id": "tier-22",
+      "given": {
+        "effective_standing": 22
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Observer"
+        },
+        "Standard": {
+          "tier": "Observer"
+        },
+        "Full": {
+          "tier": "Observer"
+        }
+      }
+    },
+    {
+      "id": "tier-57.999",
+      "given": {
+        "effective_standing": 57.999
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Observer"
+        },
+        "Standard": {
+          "tier": "Observer"
+        },
+        "Full": {
+          "tier": "Observer"
+        }
+      }
+    },
+    {
+      "id": "tier-58",
+      "given": {
+        "effective_standing": 58
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Analyst"
+        },
+        "Standard": {
+          "tier": "Analyst"
+        },
+        "Full": {
+          "tier": "Analyst"
+        }
+      }
+    },
+    {
+      "id": "tier-71.999",
+      "given": {
+        "effective_standing": 71.999
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Analyst"
+        },
+        "Standard": {
+          "tier": "Analyst"
+        },
+        "Full": {
+          "tier": "Analyst"
+        }
+      }
+    },
+    {
+      "id": "tier-72",
+      "given": {
+        "effective_standing": 72
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Operator"
+        },
+        "Standard": {
+          "tier": "Operator"
+        },
+        "Full": {
+          "tier": "Operator"
+        }
+      }
+    },
+    {
+      "id": "tier-84.999",
+      "given": {
+        "effective_standing": 84.999
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Operator"
+        },
+        "Standard": {
+          "tier": "Operator"
+        },
+        "Full": {
+          "tier": "Operator"
+        }
+      }
+    },
+    {
+      "id": "tier-85",
+      "given": {
+        "effective_standing": 85
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Admin Mode"
+        },
+        "Standard": {
+          "tier": "Admin Mode"
+        },
+        "Full": {
+          "tier": "Admin Mode"
+        }
+      }
+    },
+    {
+      "id": "tier-100",
+      "given": {
+        "effective_standing": 100
+      },
+      "expect_by_level": {
+        "Basic": {
+          "tier": "Admin Mode"
+        },
+        "Standard": {
+          "tier": "Admin Mode"
+        },
+        "Full": {
+          "tier": "Admin Mode"
+        }
+      }
+    },
+    {
+      "id": "constraint-tighten",
+      "given": {
+        "core_result": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 5
+              }
+            ]
+          }
+        },
+        "consumer_proposal": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 4
+              }
+            ]
+          }
+        },
+        "constraint_profile_semantics": "max_calls is a non-negative integer ceiling; a larger maximum grants more authority"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 4
+                }
+              ]
+            }
+          }
+        },
+        "Standard": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 4
+                }
+              ]
+            }
+          }
+        },
+        "Full": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 4
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "constraint-equal",
+      "given": {
+        "core_result": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 5
+              }
+            ]
+          }
+        },
+        "consumer_proposal": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 5
+              }
+            ]
+          }
+        },
+        "constraint_profile_semantics": "max_calls is a non-negative integer ceiling; a larger maximum grants more authority"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 5
+                }
+              ]
+            }
+          }
+        },
+        "Standard": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 5
+                }
+              ]
+            }
+          }
+        },
+        "Full": {
+          "consumerAccepted": true,
+          "coreResultPreserved": true,
+          "consumer_result": {
+            "supervision": "stable",
+            "tightenedConstraints": {
+              "profile": "urn:ktp:test:constraints:core-levels-v1",
+              "ceilings": [
+                {
+                  "magnitude": "max_calls",
+                  "max": 5
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "constraint-relax",
+      "given": {
+        "core_result": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 5
+              }
+            ]
+          }
+        },
+        "consumer_proposal": {
+          "supervision": "stable",
+          "tightenedConstraints": {
+            "profile": "urn:ktp:test:constraints:core-levels-v1",
+            "ceilings": [
+              {
+                "magnitude": "max_calls",
+                "max": 6
+              }
+            ]
+          }
+        },
+        "constraint_profile_semantics": "max_calls is a non-negative integer ceiling; a larger maximum grants more authority"
+      },
+      "expect_by_level": {
+        "Basic": {
+          "consumerAccepted": false,
+          "coreResultPreserved": true,
+          "executionPermitted": false
+        },
+        "Standard": {
+          "consumerAccepted": false,
+          "coreResultPreserved": true,
+          "executionPermitted": false
+        },
+        "Full": {
+          "consumerAccepted": false,
+          "coreResultPreserved": true,
+          "executionPermitted": false
+        }
+      }
+    }
+  ]
+}

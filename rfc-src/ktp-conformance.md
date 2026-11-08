@@ -125,7 +125,7 @@ Trust Oracle:
 - Trust Score calculation (E_trust = E_base × (1 - R))
 - Trust Proof generation and signing
 - All five weighted Risk Factor inputs and independent Soul gate
-- Query every declared `soul_veto` framework for every action before aggregation; carry its authority's decision, with any veto or unanswered query reading S = 1. Data Provenance (KTP-SENSORS Section 4.2.6) is the minimum where no community or treaty constraint is in scope.
+- Query every declared `soul_veto` framework for every action before aggregation; carry its authority's decision, with any veto or unanswered query reading S = 1. Data Provenance / Lineage Sovereignty in [KTP-SENSORS](ktp-sensors.md#the-soul-veto) is the minimum where no community or treaty constraint is in scope.
 
 Risk Factors:
 

@@ -60,8 +60,8 @@ framework for every action before aggregation and carries the decision made by
 that framework's authority; the protocol carries the constraint and never
 authors it. Any veto or unanswered query reads S = 1. The Soul gate is
 independent of R, not of the Oracle. Where no community or treaty constraint
-is in scope, the minimum source is Data Provenance under KTP-SENSORS
-Section 4.2.6: trace data to its origin to determine whether other frameworks
+is in scope, the minimum source is Data Provenance / Lineage Sovereignty
+in KTP-SENSORS: trace data to its origin to determine whether other frameworks
 apply. See [deployment-profile.md](deployment-profile.md#the-soul-veto) and
 [KTP-SENSORS](../rfc-src/ktp-sensors.md).
 

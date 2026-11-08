@@ -2,6 +2,10 @@
 
 **Unreleased v3 PoR boundary migration (from v2.1.0):**
 Use the exact intervals in [KTP-IDENTITY] Section 5.2 (Friction Categories).
+GOODHART-003 now includes exact-boundary attestations: an attestation at exactly
+R = 0.5 counts toward E_base above 60, and one at exactly R = 0.7 counts
+toward E_base above 80. Apply these inclusive thresholds in v3 evaluations
+without rewriting signed historical records.
 Non-boundary categories are unchanged. At 0.5, 0.7, and 0.9 the upper category
 applies; at 0.3 CALM applies and an ordinary success earns no new attestation.
 Preserve every original signed historical record. For historical ordinary-success

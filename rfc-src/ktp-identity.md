@@ -1055,9 +1055,12 @@ before equality checks.
 For a sponsored subject, validate the Sponsorship Bond under Section 6
 (Sponsorship Bonds), including its signatures and applicable status. Its
 sponsor_id is the authoritative complete sponsor URI (agent or person). Its sponsored_id
-MUST equal the evaluated subject's canonical URI, and the sponsored
-Trust Proof's sponsor claim MUST equal that validated bond's sponsor_id. The
-proof's sub MUST equal the same evaluated subject. All these identifiers MUST
+MUST equal the evaluated subject's canonical URI. For a software subject,
+the Trust Proof's sponsor claim MUST equal that validated bond's sponsor_id.
+For a person subject, the proof's authenticated bond projection MUST bind
+the same sponsor and complete signed bond; do not add an agent-only sponsor
+claim, lineage or generation to represent it. The proof's sub MUST equal the
+same evaluated subject. All these identifiers MUST
 be valid canonical URIs for the actual independently authenticated subjects
 before byte equality is checked: an agent uses the Agent URI grammar above;
 a person uses a person: URI under the applicable identity contract. The subject's

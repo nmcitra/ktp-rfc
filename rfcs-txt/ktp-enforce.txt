@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Perkins
 Internet-Draft                                                   NMCITRA
-Intended status: Experimental                            14 October 2026
-Expires: 17 April 2027
+Intended status: Experimental                            8 November 2026
+Expires: 12 May 2027
 
 
      Kinetic Trust Protocol (KTP) - Enforcement Layer Specification
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 April 2027.
+   This Internet-Draft will expire on 12 May 2027.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 1]
+Perkins                    Expires 12 May 2027                  [Page 1]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
    and restrictions with respect to this document.  Code Components
@@ -74,7 +74,7 @@ Table of Contents
      3.2.  Component Roles . . . . . . . . . . . . . . . . . . . . .   9
    4.  Policy Enforcement Points (PEPs)  . . . . . . . . . . . . . .  10
      4.1.  PEP Requirements  . . . . . . . . . . . . . . . . . . . .  10
-     4.2.  PEP Deployment Patterns . . . . . . . . . . . . . . . . .  11
+     4.2.  PEP Deployment Patterns . . . . . . . . . . . . . . . . .  12
      4.3.  API Gateway Integration . . . . . . . . . . . . . . . . .  12
      4.4.  Service Mesh Integration  . . . . . . . . . . . . . . . .  14
      4.5.  IAM Provider Integration  . . . . . . . . . . . . . . . .  15
@@ -83,44 +83,44 @@ Table of Contents
      5.1.  Tier Definitions  . . . . . . . . . . . . . . . . . . . .  17
      5.2.  Capability Matrices . . . . . . . . . . . . . . . . . . .  20
      5.3.  Tier Transitions  . . . . . . . . . . . . . . . . . . . .  21
-     5.4.  Custom Tier Configuration . . . . . . . . . . . . . . . .  21
+     5.4.  Custom Tier Configuration . . . . . . . . . . . . . . . .  22
    6.  Action Risk Classification  . . . . . . . . . . . . . . . . .  22
      6.1.  Standard Action Classes . . . . . . . . . . . . . . . . .  22
      6.2.  Risk Score Assignment . . . . . . . . . . . . . . . . . .  23
      6.3.  Dynamic Risk Adjustment . . . . . . . . . . . . . . . . .  23
-   7.  Silent Veto Mechanics . . . . . . . . . . . . . . . . . . . .  23
+   7.  Silent Veto Mechanics . . . . . . . . . . . . . . . . . . . .  24
      7.1.  Veto Evaluation Order . . . . . . . . . . . . . . . . . .  24
-     7.2.  Veto Response Codes . . . . . . . . . . . . . . . . . . .  24
-     7.3.  Veto Notification . . . . . . . . . . . . . . . . . . . .  25
+     7.2.  Veto Response Codes . . . . . . . . . . . . . . . . . . .  25
+     7.3.  Veto Notification . . . . . . . . . . . . . . . . . . . .  26
    8.  Adaptive Dormancy . . . . . . . . . . . . . . . . . . . . . .  26
      8.1.  Dormancy Triggers . . . . . . . . . . . . . . . . . . . .  26
-     8.2.  Graceful Degradation  . . . . . . . . . . . . . . . . . .  26
+     8.2.  Graceful Degradation  . . . . . . . . . . . . . . . . . .  27
      8.3.  Recovery Procedures . . . . . . . . . . . . . . . . . . .  27
-     8.4.  Hibernation Mode  . . . . . . . . . . . . . . . . . . . .  27
-   9.  Mass Ceiling and Anti-Accumulation  . . . . . . . . . . . . .  28
-     9.1.  The Accumulation Problem  . . . . . . . . . . . . . . . .  28
+     8.4.  Hibernation Mode  . . . . . . . . . . . . . . . . . . . .  28
+   9.  Mass Ceiling and Anti-Accumulation  . . . . . . . . . . . . .  29
+     9.1.  The Accumulation Problem  . . . . . . . . . . . . . . . .  29
      9.2.  Mass Ceiling  . . . . . . . . . . . . . . . . . . . . . .  29
-     9.3.  Mitosis Protocol  . . . . . . . . . . . . . . . . . . . .  29
-     9.4.  Systemic Risk Assessment  . . . . . . . . . . . . . . . .  30
-     9.5.  Progressive Trust Taxation  . . . . . . . . . . . . . . .  31
+     9.3.  Mitosis Protocol  . . . . . . . . . . . . . . . . . . . .  30
+     9.4.  Systemic Risk Assessment  . . . . . . . . . . . . . . . .  31
+     9.5.  Progressive Trust Taxation  . . . . . . . . . . . . . . .  32
      9.6.  Anti-Accumulation in Federation . . . . . . . . . . . . .  32
-   10. Latency Requirements  . . . . . . . . . . . . . . . . . . . .  32
+   10. Latency Requirements  . . . . . . . . . . . . . . . . . . . .  33
    11. Security Considerations . . . . . . . . . . . . . . . . . . .  33
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 2]
+Perkins                    Expires 12 May 2027                  [Page 2]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  34
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  34
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  35
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  35
      12.2.  Informative References . . . . . . . . . . . . . . . . .  35
-   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  35
-     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  35
+   Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  36
+     A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  36
      A.2.  The Trust Tier thresholds . . . . . . . . . . . . . . . .  36
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  36
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  37
 
 1.  Introduction
 
@@ -165,9 +165,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 3]
+Perkins                    Expires 12 May 2027                  [Page 3]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
    1.  Silent Veto: Enforcement happens automatically, without human
@@ -205,7 +205,7 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    classes, defining what each tier is allowed to do.
 
    Effective Trust Score (E_trust): The current Trust Score after
-   environmental deflation, used to determine the agent's Trust Tier.
+   environmental deflation, used to determine the subject's Trust Tier.
 
    Hibernation Mode: The most restrictive operational state, where an
    agent awaits recovery and may emit a heartbeat only when that action
@@ -221,9 +221,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 4]
+Perkins                    Expires 12 May 2027                  [Page 4]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
    Silent Veto: The automatic denial of an action when A > E, executed
@@ -239,8 +239,8 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst
    Mode, Observer Mode, Hibernation) determined by E_trust thresholds,
-   for any subject of this specification.  Operation eligibility is a
-   separate requirement beside the tier, not a tier.
+   for any subject of this specification.  Operation eligibility and
+   operational capacity are separate requirements beside it, not tiers.
 
 3.  Architecture Overview
 
@@ -277,9 +277,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 5]
+Perkins                    Expires 12 May 2027                  [Page 5]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
    +------------------------------------------------------------------+
@@ -321,22 +321,24 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 3.1.  Enforcement Flow
 
-   The standard enforcement flow for every action follows.  Software-
-   agent tiers and readiness are not personal human scores.  Before
-   accepting human requests, supervision, or delegation, a deployment
-   MUST install the human_policy binding defined in specifications/
-   deployment-profile.md and the reviewed authorization adapter required
-   by specifications/human-eligibility.md.  Missing policy, an
-   unsupported human proof format, or an unauthenticated actor binding
-   MUST deny the affected request.  A generic JWT or a self-declared
-   human label is not a fallback.
+   The standard enforcement flow for every action follows.  A person's
+   Trust Tier derives from the zone's measure of the person's account
+   and is never a general score of the person; readiness applies to
+   software executors.  Before accepting human requests, supervision, or
+   delegation, a deployment MUST install the human_policy binding
+   defined in specifications/deployment-profile.md and the reviewed
+   authorization adapter required by specifications/human-
+   eligibility.md.  Missing policy, an unsupported human proof format,
+   or an unauthenticated actor binding MUST deny the affected request.
 
 
 
-Perkins                   Expires 17 April 2027                 [Page 6]
+Perkins                    Expires 12 May 2027                  [Page 6]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
+
+   A generic JWT or a self-declared human label is not a fallback.
 
    1.   The principal submits the actual action request with its
         ordinary proof and required prerequisite evidence.
@@ -368,10 +370,15 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    6.   For a software executor, the PEP obtains its verified E_trust
         and determines its Trust Tier.  For a human executor, the PEP
         obtains separately evidenced operational E from the reviewed
-        adapter.  E and A MUST describe this actor's actual operation on
-        the same declared scale.  Human eligibility, role, seniority,
-        and approval MUST NOT supply E or create an E_base, tier,
-        generation, or model field.
+        adapter, and determines the person's Trust Tier from the E_trust
+        in the person's verified Trust Proof; that E_trust never
+        supplies E.  E and A MUST describe this actor's actual operation
+        on the same declared scale.  Human eligibility, role, seniority,
+        and approval MUST NOT supply E or create a generation or model
+        field, and eligibility, role, and seniority MUST NOT create an
+        E_base or a tier.  A person's E_base is composed only under
+        [KTP-CORE] Section 5.1.1 (The External Root), where an approval
+        the person signed is one of the person's acts.
 
    7.   PEP looks up Action Risk (A) for requested action
 
@@ -380,22 +387,23 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
         A and E; unresolved or invalid numeric inputs, incomparable
         scales, and zero capacity produce a veto.
 
+
+
+Perkins                    Expires 12 May 2027                  [Page 7]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    9.   IF A > E: - supervision = silent_veto, reason TRUST_INSUFFICIENT
         (Silent Veto) - Log to Flight Recorder - STOP
 
-   10.  Verify the actual executor's current grants and restrictions.
-        For software, a failed Trust Tier restriction also denies.  For
-        a human, missing current operation-specific eligibility denies.
-
-
-
-Perkins                   Expires 17 April 2027                 [Page 7]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
-        Where a human delegates or supervises software, verify the
-        human's eligibility for that exact operation and the restrictive
+   10.  Verify the actual executor's current grants and restrictions.  A
+        failed Trust Tier restriction also denies, for software and for
+        a person alike, except for the acts in a person's ledger
+        ([KTP-CORE] Section 5.1.1 (The External Root)).  For a human,
+        missing current operation-specific eligibility denies.  Where a
+        human delegates or supervises software, verify the human's
+        eligibility for that exact operation and the restrictive
         intersection of every current delegation/grant with the
         executor's own authority.  No signature, score, or human
         eligibility transfers capability or relaxes a preceding veto.
@@ -432,23 +440,20 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    14.  Log success to Flight Recorder
 
+
+
+
+
+
+Perkins                    Expires 12 May 2027                  [Page 8]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    15.  Return the response under the applicable reviewed proof
         mechanism.  Any refreshed ordinary proof retains the ten-second
         limit and MUST NOT imply renewed eligibility, assessment, or
         permission for another action.
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                 [Page 8]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    Review MUST remain available under [KTP-HUMAN], [KTP-PRIVACY], and
    specifications/human-eligibility.md.  A reviewer may correct
@@ -462,12 +467,13 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    Trust Oracle:
 
-   *  Calculates software-agent E_trust from E_base and the Risk Factor
-      inputs
+   *  Calculates E_trust from E_base and the Risk Factor inputs, for
+      software agents and for persons
 
    *  Signs Trust Proofs
 
-   *  Maintains software-agent Proof of Resilience ledger
+   *  Maintains the Proof of Resilience ledger; a person's holds only
+      acts the person signed under stress
 
    *  Provides PDP functionality (may be distributed)
 
@@ -482,9 +488,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  Enforces the capacity veto (A > E denies), using the reviewed
       capacity binding for the actual actor
 
-   *  Enforces software Trust Tier restrictions, human operation
-      eligibility where applicable, and each actor's current grants and
-      prerequisites
+   *  Enforces Trust Tier restrictions for every subject, human
+      operation eligibility where applicable, and each actor's current
+      grants and prerequisites
 
    *  Logs all decisions to Flight Recorder
 
@@ -492,19 +498,19 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    *  Receives all enforcement decisions
 
+
+
+
+Perkins                    Expires 12 May 2027                  [Page 9]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    *  Stores immutable audit trail
 
    *  Provides forensic query interface
 
    *  See [KTP-AUDIT] for full specification
-
-
-
-
-Perkins                   Expires 17 April 2027                 [Page 9]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
 4.  Policy Enforcement Points (PEPs)
 
@@ -529,7 +535,8 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    5.   Evaluate Soul constraint before Trust Score
 
-   6.   Evaluate A <= E_trust for every action
+   6.   Evaluate A <= E for every action, with E as [KTP-CORE]
+        Section 4.1 (Definition) defines it for the actual actor
 
    7.   Enforce Trust Tier capability restrictions
 
@@ -547,20 +554,18 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    NOT authorize an action.  Continuing actions MUST refresh their
    proofs or cease ordinary operation through a previously declared
    bounded safe transition; the transition MUST NOT continue the
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 10]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    original task or authorize new discretionary actions.  Any
    independently authorized emergency action follows specifications/
    emergency-capability.md and remains subject to its Soul, capacity,
    audit, and policy-change controls.
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 10]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    PEPs MUST also establish the current readiness binding at execution
    and when the operation, resolved scope, or relevant subject state
@@ -602,6 +607,17 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    3.  Implement predictive warnings based on Trust Velocity
 
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 11]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
 4.2.  PEP Deployment Patterns
 
    PEPs can be deployed in several patterns depending on architecture:
@@ -610,13 +626,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
       All traffic enters through a single enforcement point at the
       network perimeter. Simple but creates a single point of failure.
-
-
-
-Perkins                   Expires 17 April 2027                [Page 11]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
       +--------+     +--------+     +------------------+
       | Agent  |---->| Gateway|---->| Internal Services|
@@ -657,22 +666,17 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    API Gateways are natural PEP deployment points as they already
    intercept and process all API traffic.
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 12]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    4.3.1.  Kong Integration
 
    Kong plugin configuration:
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 12]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
       plugins:
         - name: ktp-enforcement
@@ -709,6 +713,23 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    External authorization filter:
 
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 13]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
       http_filters:
         - name: envoy.filters.http.ext_authz
           typed_config:
@@ -721,14 +742,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
             with_request_body:
               max_request_bytes: 1024
               allow_partial_message: false
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 13]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
 4.4.  Service Mesh Integration
 
@@ -765,26 +778,17 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
               - operation:
                   paths: ["/*"]
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 14]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    4.4.2.  Linkerd Integration
 
    Linkerd integration via policy controller:
-
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 14]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
       apiVersion: policy.linkerd.io/v1beta1
       kind: AuthorizationPolicy
@@ -833,13 +837,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 15]
+Perkins                    Expires 12 May 2027                 [Page 15]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
       {
@@ -893,9 +893,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-Perkins                   Expires 17 April 2027                [Page 16]
+Perkins                    Expires 12 May 2027                 [Page 16]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
       +----------------------+-----+--------------------------------+
@@ -949,9 +949,9 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 
 
-Perkins                   Expires 17 April 2027                [Page 17]
+Perkins                    Expires 12 May 2027                 [Page 17]
 
-Internet-Draft                 KTP-ENFORCE                  October 2026
+Internet-Draft                 KTP-ENFORCE                 November 2026
 
 
    Permitted actions:
@@ -981,6 +981,12 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    *  Stable environmental conditions (R < 0.10)
 
+   For a person, the lineage requirement does not apply ([KTP-CORE]
+   Section 5.1.1 (The External Root)), nor does the zone Mass Ceiling
+   condition above, which bounds no person's own standing; the
+   threshold, Proof of Resilience, and stable-conditions requirements
+   do.
+
    5.1.2.  Operator Mode (E_trust >= 72)
 
    Standard operational capability for routine service management.
@@ -997,18 +1003,18 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    *  Modify non-sensitive data
 
+
+
+Perkins                    Expires 12 May 2027                 [Page 18]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    Restricted actions:
 
    *  Cannot deploy new code
 
    *  Cannot modify security settings
-
-
-
-Perkins                   Expires 17 April 2027                [Page 18]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    *  Cannot access credentials or keys
 
@@ -1052,19 +1058,19 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    *  Cannot read external data
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 19]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    *  Cannot call APIs
 
    *  Cannot perform any writes
 
    5.1.5.  Hibernation Mode (E_trust < 22)
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 19]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    Emergency survival mode when environmental conditions are severe.
 
@@ -1097,13 +1103,30 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    +---------------+----------------------------------+
 
    A tier permits action classes; it does not carry a numeric action-
-   risk cap of its own.  The numeric bound is the Zeroth Law: A <=
-   E_trust, evaluated per action against the agent's current score.  An
-   earlier revision carried a Max A column beside the classes — a second
-   numeric bound keyed to the tier thresholds, which drifted when the
-   thresholds moved and could only ever restate, more coarsely, what A
-   <= E_trust already enforces exactly.  One fact stated twice diverges;
-   the environment's bound is the bound.
+   risk cap of its own.  The numeric bound is the Zeroth Law: A <= E,
+   evaluated per action, with E as [KTP-CORE] Section 4.1 (Definition)
+   defines it for the actual actor.  An earlier revision carried a Max A
+   column beside the classes — a second numeric bound keyed to the tier
+   thresholds, which drifted when the thresholds moved and could only
+   ever restate, more coarsely, what the Zeroth Law already enforces
+   exactly.  One fact stated twice diverges; the environment's bound is
+   the bound.
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 20]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
+   For a person, the matrix restricts the actions the person executes;
+   it does not restrict the acts in the person's ledger (signing a bond,
+   an attestation, an approval, or a veto clear, or contesting a
+   decision), which [KTP-CORE] Section 5.1.1 (The External Root)
+   governs.
 
    Every listed class, including heartbeat, remains subject to current
    authorization and all preceding vetoes.  A tier name such as
@@ -1111,16 +1134,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    Separately authorized emergency capability MUST identify the exact
    permitted action and satisfy specifications/emergency-capability.md;
    ordinary proof expiration is unchanged.
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 20]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
 5.3.  Tier Transitions
 
@@ -1158,25 +1171,16 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    This creates a 4-point buffer zone that prevents rapid tier switching
    when E_trust fluctuates near boundaries.
 
+
+
+Perkins                    Expires 12 May 2027                 [Page 21]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
 5.4.  Custom Tier Configuration
 
    Implementations MAY define custom tiers for domain-specific needs:
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 21]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
       {
         "tiers": [
@@ -1205,6 +1209,31 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    The standard action classification taxonomy:
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 22]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    +----------------------+-----+--------------------------------------+
    | Action Class         | A   | Description                          |
    +----------------------+-----+--------------------------------------+
@@ -1225,14 +1254,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    | Admin (security)     | 90  | Modify security settings             |
    | Admin (infra)        | 95  | Modify infrastructure                |
    +----------------------+-----+--------------------------------------+
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 22]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
 6.2.  Risk Score Assignment
 
@@ -1261,6 +1282,14 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    The same action has different risk based on target:
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 23]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
       DELETE /api/users/test-account    A = 50 (test environment)
       DELETE /api/users/production      A = 85 (production data)
 
@@ -1282,14 +1311,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
 7.  Silent Veto Mechanics
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 23]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
 7.1.  Veto Evaluation Order
 
    Enforcement follows a strict evaluation order:
@@ -1302,14 +1323,28 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    2.  Soul Veto (Sovereignty Check) - S = 1? - If YES: supervision =
        silent_veto, reason SOVEREIGNTY_CONSTRAINT
 
-   3.  Trust Tier Eligibility - Is action class permitted for tier? - If
-       NO: supervision = silent_veto, reason TIER_RESTRICTION
+   3.  Trust Tier Eligibility - Is action class permitted for tier?
+       (Not applied to the acts in a person's ledger; see Section 5.2
+       (Capability Matrices).) - If NO: supervision = silent_veto,
+       reason TIER_RESTRICTION
 
-   4.  Zeroth Law (A <= E_trust) - Is A <= E_trust? - If NO: supervision
-       = silent_veto, reason TRUST_INSUFFICIENT
+   4.  Zeroth Law (A <= E) - Is A <= E? - If NO: supervision =
+       silent_veto, reason TRUST_INSUFFICIENT
 
    5.  Custom Policy (Optional) - Any additional policy constraints? -
        If violated: supervision = silent_veto, reason POLICY_VIOLATION
+
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 24]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
    6.  Scoped Readiness (Required) - Is the signed readiness decision
        current and matched to the complete ordinary proof, actual
@@ -1329,30 +1364,13 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    HTTP response codes for KTP enforcement:
 
-
-
-
-
-
-
-
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 24]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    +------+---------------------------+--------------------------------+
    | Code | KTP Error                 | Description                    |
    +------+---------------------------+--------------------------------+
    | 401  | MISSING_TRUST_PROOF       | No Trust Proof provided        |
    | 401  | INVALID_TRUST_PROOF       | Signature invalid or expired   |
    | 403  | SOVEREIGNTY_CONSTRAINT    | Soul veto (S = 1)              |
-   | 403  | TRUST_INSUFFICIENT        | A > E_trust (Silent Veto)      |
+   | 403  | TRUST_INSUFFICIENT        | A > E (Silent Veto)            |
    | 403  | TIER_RESTRICTION          | Action not permitted for tier  |
    | 403  | POLICY_VIOLATION          | Custom policy constraint       |
    | 429  | RATE_LIMITED              | Trust-based rate limit hit     |
@@ -1376,6 +1394,18 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
         "request_id": "req-uuid-12345"
       }
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 25]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
+   The example shows a software agent.  For a person, the details object
+   reports the operational E the capacity check used, never E_trust in
+   its place, and omits de_dt ([KTP-CORE] Section 8.3 (Veto Response)).
+
 7.3.  Veto Notification
 
    When a veto occurs, the PEP SHOULD notify relevant parties:
@@ -1393,14 +1423,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  Parse veto response to understand reason
 
    *  If TRUST_INSUFFICIENT: Reduce activity, wait for recovery
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 25]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    *  If SOVEREIGNTY_CONSTRAINT: Do not retry, seek remediation
 
@@ -1426,6 +1448,16 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    4.  Peer Signal: When peer agents report entering dormancy
 
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 26]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    Dormancy is NOT a failure state.  It is a survival strategy.  An
    agent in dormancy is conserving resources and protecting the
    environment from actions it can no longer safely perform.
@@ -1449,14 +1481,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    Degradation sequence example:
 
       E_trust drops from 80 to 68 (Operator -> Analyst)
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 26]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
       Agent actions:
       1. Stop pending write through the declared bounded safe transition
@@ -1483,6 +1507,13 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
       E_trust recovers from 68 to 80 (Analyst -> Operator)
 
+
+
+Perkins                    Expires 12 May 2027                 [Page 27]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
       Agent actions:
       1. Detect promotion in Trust Proof
       2. Wait 30 seconds to confirm stability
@@ -1505,14 +1536,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
       capability under specifications/emergency-capability.md
 
    *  Heartbeat interval increases to conserve resources
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 27]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
 
    *  Agent awaits external signal or Trust Score recovery
 
@@ -1539,6 +1562,14 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  E_trust >= 24 (the Observer floor of 22 plus the Section 5.3
       promotion buffer)
 
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 28]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
+
    *  Sustained for minimum 60 seconds
 
    *  No Soul veto active
@@ -1562,14 +1593,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    *  Critical role -> high dependency
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 28]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    This creates "too big to fail" agents:
 
    *  Their failure would cascade across the system
@@ -1590,6 +1613,18 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    agent may hold.
 
    Recommended ceilings by zone type:
+
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 29]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
    +------------+---------------+--------------------------------+
    | Zone Type  | Mass Ceiling  | Rationale                      |
@@ -1618,14 +1653,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    1.  Agent (or operator) initiates mitosis request
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 29]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    2.  Trust Oracle evaluates agent's responsibilities
 
    3.  Trust Oracle proposes division plan: - Which capabilities go to
@@ -1646,6 +1673,14 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    Trust is conserved but may have overhead losses (children start
    slightly lower than parent's allocation due to newness).
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 30]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
    Example:
 
@@ -1674,14 +1709,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
        depend on one agent?  Threshold: No agent should be on > 30% of
        critical paths
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 30]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    2.  Mass Concentration Index (MCI): What percentage of total zone
        trust is held by top N agents?  Threshold: Top 5 agents should
        hold < 40% of total trust
@@ -1699,6 +1726,17 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  Increase monitoring on concentrated agents
 
    *  Consider architectural changes to reduce dependency
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 31]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
 9.5.  Progressive Trust Taxation
 
@@ -1730,14 +1768,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    than an accident.  The section's purpose is to discourage
    accumulation, and the top tier is accumulation.  A zone that requires
    Admin Mode MUST NOT implement this section; a zone that implements it
-
-
-
-Perkins                   Expires 17 April 2027                [Page 31]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    has chosen distribution of responsibilities over apex capability, and
    its capability planning MUST proceed from Operator Mode as the
    highest attainable tier.
@@ -1754,6 +1784,15 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  Mitosis may span zones (child agents in different zones)
 
    Federation mass coordination:
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 32]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
       {
         "agent_id": "agent:guarantor:mega-service",
@@ -1786,14 +1825,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    | Total PEP overhead        | < 15 ms    |
    +---------------------------+------------+
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 32]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    To achieve these targets:
 
    1.  Cache Trust Oracle public keys locally
@@ -1811,6 +1842,13 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    11.1.  PEP Bypass
 
    Attackers may attempt to bypass PEPs entirely.
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 33]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
    Mitigations:
 
@@ -1842,14 +1880,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
 
    Mitigations:
 
-
-
-
-Perkins                   Expires 17 April 2027                [Page 33]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    *  Run PEPs in hardened containers
 
    *  Implement PEP integrity monitoring
@@ -1867,6 +1897,14 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    *  Implement rate limiting at PEP
 
    *  Scale PEPs horizontally
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 34]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
    *  Use caching to reduce Oracle load
 
@@ -1899,13 +1937,6 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
-
-
-Perkins                   Expires 17 April 2027                [Page 34]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -1919,6 +1950,17 @@ Internet-Draft                 KTP-ENFORCE                  October 2026
    [KTP-IDENTITY]
               Perkins, C., "Kinetic Trust Protocol - Vector Identity
               Specification", November 2025.
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 35]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
 Appendix A.  Changes from v1
 
@@ -1952,16 +1994,6 @@ A.1.  The lineage stage names
    narrative rather than as a maturity ladder.  Stage 3 is now named for
    what it can be held to rather than what it is freed of.
 
-
-
-
-
-
-Perkins                   Expires 17 April 2027                [Page 35]
-
-Internet-Draft                 KTP-ENFORCE                  October 2026
-
-
 A.2.  The Trust Tier thresholds
 
              +===============+===============+===============+
@@ -1977,6 +2009,14 @@ A.2.  The Trust Tier thresholds
              +---------------+---------------+---------------+
              | Hibernation   | E_trust < 50  | E_trust < 22  |
              +---------------+---------------+---------------+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 36]
+
+Internet-Draft                 KTP-ENFORCE                 November 2026
+
 
                                   Table 2
 
@@ -2013,4 +2053,20 @@ Author's Address
 
 
 
-Perkins                   Expires 17 April 2027                [Page 36]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perkins                    Expires 12 May 2027                 [Page 37]

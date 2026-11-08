@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
 abbrev: "KTP-ZONES"
-date: 2026-10-14
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -774,10 +774,10 @@ Governance document:
 
 Zone governance is subject to KTP itself (Article VII of the Constitution). This means:
 
-1. Zone administrators are agents within the zone
+1. Zone administrators are subjects within the zone, software agents or persons
 2. Administrator actions require Trust Proof
 3. Administrator actions are logged to Flight Recorder
-4. A <= E_trust applies to administrative actions
+4. A <= E applies to administrative actions
 5. Administrators cannot exempt themselves from the constraints
 
 This prevents governance hypocrisy where rules apply to others but not to the rule-makers.

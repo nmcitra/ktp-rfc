@@ -11,7 +11,7 @@ This section is marked DRAFT and invites expert debate.
 
 # Introduction
 
-Humans participate as operators, delegators, reviewers, and people affected by KTP decisions. Human authorization uses operation-specific eligibility under specifications/human-eligibility.md. A person does not receive a general Trust Score, resilience accumulator, or ranked tier. Eligibility for one operation says nothing about personal worth or entitlement to protection, explanation, and review.
+Humans participate as operators, delegators, reviewers, and people affected by KTP decisions. Human authorization uses operation-specific eligibility under specifications/human-eligibility.md. A person also has standing as an account in a zone, composed under [KTP-CORE] from the acts the person signed and the person's root instrument: the standing of the terminator behind the person, or a bond another person has posted on them. That standing, with its Trust Score, Trust Tier, and Proof of Resilience, is the zone's measure of the account, never a general score or rank for the person, and it never substitutes for eligibility or capacity. Eligibility for one operation says nothing about personal worth or entitlement to protection, explanation, and review.
 
 A human request MUST satisfy the current grant, qualification, scope, purpose, and safety requirements of the particular operation. Eligibility is an additional prerequisite, never permission by itself. The unconditional capacity gate and independent Soul veto remain binding. A qualified administrator cannot waive either.
 
@@ -61,9 +61,9 @@ The checkable profile and decision-body formats are schemas/human-eligibility-pr
 
 The deployment MUST define comparable demand and current capacity for the particular operation through its approved evaluation profile. Credentials or employment history MUST NOT be substituted for measured capacity or converted into a replacement human E_base. When adequate capacity evidence cannot be established, the dependent operation MUST remain unavailable; a fabricated score is not remediation.
 
-All existing input-validity, zero-capacity, A > E, threshold, sovereignty, grant, and Soul checks remain binding. Eligibility adds no numeric increment and MUST NOT reverse any prior veto. A <= E alone is never sufficient authorization. Software agents retain their own historical standing and current scoped readiness under specifications/operational-readiness.md.
+All existing input-validity, zero-capacity, A > E, threshold, sovereignty, grant, Trust Tier, and Soul checks remain binding. Eligibility adds no numeric increment and MUST NOT reverse any prior veto. A <= E alone is never sufficient authorization. Software agents retain their own historical standing and current scoped readiness under specifications/operational-readiness.md.
 
-Standing is a third requirement, separate from both. A person is a subject of [KTP-CORE] as an account in a zone, and the person's E_base is composed there from the acts the person signed under the protocol and from the standing of the terminator behind them. Eligibility, capacity, and standing are three requirements; none substitutes for another, and none of the evidence collected for eligibility enters standing unless the person signed it as an act under the protocol. A person's standing is the zone's measure of that account; it is not carried outside the protocol and it is not a general score for the person.
+Standing is a third requirement, separate from both. A person is a subject of [KTP-CORE] as an account in a zone, and the person's E_base is composed there from the acts the person signed under the protocol and from the person's root instrument, the standing of the terminator behind the person or a bond another person has posted on the person. Eligibility, capacity, and standing are three requirements: eligibility gates the operation; capacity gates each action, through A <= E with E the current capacity established above, never the person's E_trust; and standing sets the person's Trust Tier, which gates the classes of action the person may execute ([KTP-ENFORCE]). None substitutes for another, and none of the evidence collected for eligibility enters standing unless the person signed it as an act under the protocol. A person's standing is the zone's measure of that account; it is not carried outside the protocol and it is not a general score for the person.
 
 ## Sessions and Freshness
 
@@ -73,7 +73,7 @@ Current eligibility, delegated scope, and safety MUST be re-established at execu
 
 ## Retained Human Evidence
 
-Record the decision, the requirement results, the versioned policy and evidence bindings, and the information necessary to explain and review the decision. Protect person-specific evidence separately. Authorization records MUST NOT become career-long behavioral profiles, general resilience credit, employee rankings, or a basis for automatically promoting a person.
+Record the decision, the requirement results, the versioned policy and evidence bindings, and the information necessary to explain and review the decision. Protect person-specific evidence separately. Authorization records MUST NOT become career-long behavioral profiles, general resilience credit, employee rankings, or a basis for automatically promoting a person, in employment or in Trust Tier.
 
 Collection, access, disclosure, corrections, and erasure follow KTP-Privacy and specifications/privacy-evidence.md. Metadata and opaque identifiers can still identify people through linkage. Retention is purpose-specific, bounded, and reviewed. A person's trajectory under [KTP-CORE] is only the ledger of acts the person signed; these records are not part of it, and no default permanent record of a person beyond those signed acts is required.
 
@@ -93,7 +93,7 @@ For example, Alice may authorize a recovery agent to prepare a rollback plan for
 
 Active supervision requires the human's eligible and authorized approval of the exact proposed action before the agent continues through its remaining checks. Passive supervision monitors authorized operations. Exceptional supervision alerts an accountable human on defined events. In every model the agent retains its own restrictions.
 
-Human presence, co-signing, seniority, or reassurance MUST NOT add arbitrary E_base points, move the agent into the human's alleged tier, or relax a capacity veto. If A = 70 and established E = 65, the action is denied even with a supervisor's signature. A revised action or changed environment requires a fresh evaluation of the actual conditions.
+Human presence, co-signing, seniority, or reassurance MUST NOT add arbitrary E_base points, move the agent into the human's Trust Tier, or relax a capacity veto. If A = 70 and established E = 65, the action is denied even with a supervisor's signature. A revised action or changed environment requires a fresh evaluation of the actual conditions.
 
 Supervision responsibilities MUST identify monitoring scope, response authority, and conflict-of-interest safeguards. A reviewer or supervisor needs relevant competence and authority; a general human trust score is neither necessary nor sufficient.
 
@@ -125,7 +125,7 @@ Any change affecting emergency policy remains subject to its stronger amendment 
 
 ## Decision Explanation
 
-For each decision affecting a person, the system MUST provide an accessible explanation of the operation and scope, result, unmet requirements or safety constraint, evidence source and version, responsible authority, and review route. It MUST distinguish ineligibility from a capacity or Soul veto and avoid presenting a personal rank.
+For each decision affecting a person, the system MUST provide an accessible explanation of the operation and scope, result, unmet requirements or safety constraint, evidence source and version, responsible authority, and review route. It MUST distinguish ineligibility, a Trust Tier restriction, and a capacity or Soul veto, and avoid presenting a personal rank; a tier restriction names the zone's measure of the account, not a rank of the person.
 
 Sensitive evidence may require protected access or a suitable representative. A generic security label MUST NOT make the grounds of a decision impossible to challenge. Disclosures MUST protect other subjects and legitimate security interests while enabling meaningful review.
 
@@ -376,7 +376,7 @@ The Constitution frames constraints positively:
     support."
 ~~~
 
-For software agents, admissible historical evidence may contribute to standing, subject to current readiness and all other checks. For people, operation-specific eligibility replaces accumulated trust points; protection and access to review do not depend on earning permission.
+For software agents, admissible historical evidence may contribute to standing, subject to current readiness and all other checks. For people, standing comes only from the acts the person signed under the protocol and the person's root instrument ([KTP-CORE]), and operation-specific eligibility is a separate requirement beside it, not a replacement for it. Protection and access to review do not depend on earning permission.
 
 ### Constraints as Limitation
 

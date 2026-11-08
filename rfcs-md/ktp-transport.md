@@ -836,10 +836,10 @@ Authorization errors (AUTHZ_*):
 +--------------------------+------+--------------------------+
 | Code                     | HTTP | Description              |
 +--------------------------+------+--------------------------+
-| AUTHZ_INSUFFICIENT_TRUST | 403  | E_trust < action risk    |
+| AUTHZ_INSUFFICIENT_TRUST | 403  | A > E (capacity check)   |
 | AUTHZ_SOUL_VETO          | 403  | Soul constraint violated |
 | AUTHZ_TIER_INSUFFICIENT  | 403  | Tier too low for action  |
-| AUTHZ_HIBERNATING        | 403  | Agent in hibernation     |
+| AUTHZ_HIBERNATING        | 403  | Subject in hibernation   |
 +--------------------------+------+--------------------------+
 ~~~
 

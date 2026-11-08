@@ -4,7 +4,10 @@
 The old-to-new vocabulary mapping is in [KTP-IDENTITY] Section 9.2.3
 (Old-to-new vocabulary mapping). The identifier segment formerly called
 sponsor_id is now sponsor_ref; the bond field sponsor_id remains a complete
-sponsor Agent URI. Existing canonical example-form identifiers keep their bytes.
+sponsor URI (agent or person). Each endpoint must identify its actual authenticated
+subject: a canonical Agent URI for an agent, or a person: URI for a person under
+the applicable identity contract. The opaque sponsor_ref grammar is unchanged.
+Existing canonical example-form identifiers keep their bytes.
 Stop deriving sponsor identity from the embedded reference. Validate the bond
 and require exact equality of the evaluated subject, proof sub and bond
 sponsored_id, and separately of proof sponsor and bond sponsor_id.

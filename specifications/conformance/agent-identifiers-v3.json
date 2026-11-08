@@ -2,7 +2,7 @@
   "profile": "agent-identifiers-v3",
   "baseline": "v2.1.0",
   "evidence": "Modeled syntax and binding decisions, not cryptographic or runtime validation.",
-  "binding_preconditions": "Bonds and proofs are otherwise authenticated and applicable; null represents a missing claim.",
+  "binding_preconditions": "Bonds and proofs are otherwise authenticated and applicable; null represents a missing claim. Person identifiers in binding cases are independently authenticated canonical person: URIs under the applicable identity contract; these cases do not define a person identifier grammar or grant eligibility.",
   "parse_cases": [
     {
       "id": "sponsored",
@@ -215,6 +215,51 @@
       "bond_sponsor_id": "agent:guarantor:7gen:acme:1234",
       "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
       "proof_sponsor": null,
+      "expected_valid": false
+    },
+    {
+      "id": "person-sponsors-agent",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "person:robin",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "person:robin",
+      "expected_valid": true
+    },
+    {
+      "id": "person-sponsors-person",
+      "subject": "person:alex",
+      "bond_sponsored_id": "person:alex",
+      "bond_sponsor_id": "person:robin",
+      "proof_sub": "person:alex",
+      "proof_sponsor": "person:robin",
+      "expected_valid": true
+    },
+    {
+      "id": "person-subject-mismatch",
+      "subject": "person:alex",
+      "bond_sponsored_id": "person:other",
+      "bond_sponsor_id": "person:robin",
+      "proof_sub": "person:alex",
+      "proof_sponsor": "person:robin",
+      "expected_valid": false
+    },
+    {
+      "id": "person-sponsor-mismatch",
+      "subject": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsored_id": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "bond_sponsor_id": "person:robin",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "person:other",
+      "expected_valid": false
+    },
+    {
+      "id": "person-agent-substitution",
+      "subject": "person:alex",
+      "bond_sponsored_id": "person:alex",
+      "bond_sponsor_id": "person:robin",
+      "proof_sub": "agent:sponsored:acme-deploy:aria:7f8a9b2c",
+      "proof_sponsor": "person:robin",
       "expected_valid": false
     }
   ]

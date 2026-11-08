@@ -542,8 +542,8 @@ A Sponsorship Bond contains:
 | Field             | Type     | Description                       |
 +-------------------+----------+-----------------------------------+
 | bond_id           | string   | Unique identifier                 |
-| sponsor_id        | URI      | Complete sponsoring Agent URI     |
-| sponsored_id      | URI      | Complete sponsored Agent URI      |
+| sponsor_id        | URI      | Sponsor identifier (agent/person) |
+| sponsored_id      | URI      | New agent or person identifier    |
 | stake_percentage  | number   | Percentage of sponsor's E_base    |
 | stake_amount      | number   | Absolute E_base staked            |
 | residual_amount   | number   | Ancestral Liability, Section 6.4  |
@@ -1041,7 +1041,7 @@ before interpreting segment escapes; an encoded colon is segment data, never a
 separator. Do not recursively decode an escaped percent sign.
 
 The first sponsored segment is sponsor_ref, an opaque reference. It is not a
-complete sponsor Agent URI and MUST NOT establish sponsorship. A component MUST NOT
+complete sponsor URI (agent or person) and MUST NOT establish sponsorship. A component MUST NOT
 infer or look up authority by treating sponsor_ref as the sponsor identity.
 The second segment is agent_name; the last is unique_id. The corresponding
 segments in independent and guarantor forms are lineage_name/name and unique_id.
@@ -1054,11 +1054,16 @@ before equality checks.
 
 For a sponsored subject, validate the Sponsorship Bond under Section 6
 (Sponsorship Bonds), including its signatures and applicable status. Its
-sponsor_id is the authoritative complete sponsor Agent URI. Its sponsored_id
-MUST equal the evaluated subject's canonical Agent URI, and the sponsored
+sponsor_id is the authoritative complete sponsor URI (agent or person). Its sponsored_id
+MUST equal the evaluated subject's canonical URI, and the sponsored
 Trust Proof's sponsor claim MUST equal that validated bond's sponsor_id. The
 proof's sub MUST equal the same evaluated subject. All these identifiers MUST
-be valid canonical Agent URIs before byte equality is checked. Missing claims,
+be valid canonical URIs for the actual independently authenticated subjects
+before byte equality is checked: an agent uses the Agent URI grammar above;
+a person uses a person: URI under the applicable identity contract. The subject's
+kind MUST be established independently, not inferred from absent agent claims;
+a person MUST NOT be assigned an agent lineage or generation to pass validation.
+This binding rule does not expand sponsorship eligibility. Missing claims,
 invalid identifiers or any mismatch MUST fail sponsorship validation; do not
 repair the binding using sponsor_ref. Matching strings alone do not validate a
 bond, a proof signature, current authority, or phase eligibility.
@@ -1074,7 +1079,7 @@ storage implementation is standardized.
 | Old term | v3 term | Migration |
 |----------|----------------|-----------|
 | sponsor_id (identifier segment) | sponsor_ref | Opaque reference only; existing canonical example bytes remain valid. |
-| sponsor_id (Sponsorship Bond field) | sponsor_id | Unchanged field name; a complete sponsor Agent URI, authoritative only in a validated bond. |
+| sponsor_id (Sponsorship Bond field) | sponsor_id | Unchanged field name; a complete sponsor URI (agent or person), authoritative only in a validated bond. |
 
 This mapping changes the segment's name, not the signed bytes of existing
 canonical identifiers. See MIGRATION.md for noncanonical legacy identifiers
@@ -1082,7 +1087,7 @@ and bindings; old signed records MUST NOT be rewritten.
 
 ## Examples
 
-Newly spawned agent sponsored by "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
+Newly spawned agent with sponsor_ref "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
 
 Third-generation agent in the Acme lineage: agent:independent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
 

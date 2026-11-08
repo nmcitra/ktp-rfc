@@ -376,7 +376,7 @@ Extended Trust Proofs are bound to expected trajectory:
 ~~~
    {
      "proof_type": "extended",
-     "agent_id": "agent:7gen:voyager:mars-survey-7",
+     "agent_id": "agent:guarantor:7gen:voyager:mars-survey-7",
      "departure": {
        "oracle": "earth-primary",
        "timestamp": "2025-11-25T14:00:00Z",
@@ -450,7 +450,7 @@ Output:
 ~~~
    {
      "prediction_type": "trajectory_projection",
-     "agent_id": "agent:7gen:voyager:mars-survey-7",
+     "agent_id": "agent:guarantor:7gen:voyager:mars-survey-7",
      "projection_start": "2025-11-25T14:00:00Z",
      "projections": [
        {
@@ -489,11 +489,11 @@ In Celestial Trust, the Whakapapa Chain is the trajectory record that proves con
 ~~~
    {
      "whakapapa": {
-       "agent_id": "agent:7gen:voyager:mars-survey-7",
+       "agent_id": "agent:guarantor:7gen:voyager:mars-survey-7",
        "creation": {
          "timestamp": "2024-01-15T00:00:00Z",
          "oracle": "earth-jpl",
-         "sponsor": "agent:guarantor:jpl-mission-control",
+         "sponsor": "agent:guarantor:7gen:jpl:mission-control",
          "purpose": "Mars geological survey"
        },
        "lineage": [
@@ -501,7 +501,7 @@ In Celestial Trust, the Whakapapa Chain is the trajectory record that proves con
            "generation": 1,
            "period": "2024-01-15 to 2024-06-01",
            "domain": "earth-jpl-lab",
-           "sponsor": "jpl-mission-control",
+           "sponsor": "agent:guarantor:7gen:jpl:mission-control",
            "attestations": 1247,
            "resilience_events": 3
          },
@@ -577,7 +577,7 @@ Departure Attestation contents:
 ~~~
    {
      "attestation_type": "departure",
-     "agent_id": "agent:7gen:voyager:mars-survey-7",
+     "agent_id": "agent:guarantor:7gen:voyager:mars-survey-7",
      "departure_oracle": "earth-primary",
      "departure_time": "2025-11-25T14:00:00Z",
 ~~~

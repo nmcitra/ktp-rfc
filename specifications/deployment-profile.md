@@ -190,9 +190,11 @@ unanswered Soul framework yields query/unanswered and veto; later uncomputed
 terms are not fabricated. Preserve the exact three fields and four state names
 above; detailed causes/provenance remain outside these entries. This preserves per-layer evidence without inferring an adversary's intent.
 The field MUST appear whenever an undefined input resolved the outcome toward
-the more restrictive alternative. Carry it only in canonical Decision Geometry
-and its audit record, under their owning schemas; the closed TrustProof payload
-MUST NOT gain an `undefined_inputs` member.
+the more restrictive alternative. Preserve it in the evaluation record whether
+or not a separate carrier is used. If Decision Geometry is used, carry it in
+that record and its audit record under their applicable schemas. This contract
+does not require Decision Geometry or a Trust Proof carrier and does not add
+an `undefined_inputs` member to a Trust Proof payload.
 
 
 ## Conformance

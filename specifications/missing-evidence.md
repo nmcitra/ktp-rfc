@@ -165,8 +165,10 @@ failure and causal links stay in the associated evidence record. Canonical
 ordering, when serialized, is layer order feed, signal, term, query, then
 lexicographic input identifier within each layer.
 
-Carry these entries only in canonical Decision Geometry and the audit record,
-never as additional members of the closed TrustProof payload.
+The evaluation record MUST preserve these entries independently of any carrier.
+If Decision Geometry is used, carry them in that record and its audit record
+under the applicable schemas. This contract does not require Decision Geometry
+or a Trust Proof carrier, and does not add members to a Trust Proof payload.
 
 These entries support the attribution work following
 [Induced Conservatism](https://github.com/nmcitra/ktp-rfc/issues/146): a feed
@@ -204,6 +206,6 @@ For `weighted_average`, use the complete declared signal/collection slots and
 fixed weights defined in [Sensors Feed Aggregation](../rfc-src/ktp-sensors.md#feed-aggregation).
 Each slot contributes once. An independent backup supplies the same slot at the
 same weight; its configured source weight cannot change that weight. With slot
-weights 1 and 1, readings 0.2 and 0.4 yield 0.3 both before and after replacing
+weights 1 and 3, readings 0.2 and 0.4 yield 0.35 both before and after replacing
 the first source by a backup reading 0.2 whose configured weight is 0.5.
 Concurrent alternatives do not add a slot or change the denominator.

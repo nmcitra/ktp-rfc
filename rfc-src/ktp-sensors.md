@@ -976,8 +976,8 @@ are implementation concerns rather than alternate authorization behavior.
 
 See specifications/conformance/missing-evidence-v1.json for exact layer states,
 restrictive readings and attribution entries. The entries support the separate
-Induced Conservatism attribution work following Induced Conservatism contract, without claiming intent
-from a missing observation.
+attribution work described in [Induced Conservatism](https://github.com/nmcitra/ktp-rfc/issues/146),
+without claiming intent from a missing observation.
 
 6.3. Cross-Validation
 

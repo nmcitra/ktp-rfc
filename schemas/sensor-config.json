@@ -2,23 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/sensor-config.json",
   "title": "KTP Sensor Feed Configuration — Unreleased v3",
-  "description": "Active v3 sensor configuration. Missing evidence has no numeric failure fallback; independent alternatives fill declared fixed-weight slots under specifications/missing-evidence.md.",
+  "description": "Configuration schema for Context Signals sensor feeds. Its dimension is one of the five weighted inputs or the Soul veto; a demand input is not configured as a sensor factor. The published v2 schema, whose dimension enum included moment_criticality, is archived separately as sensor-config-legacy-v2.json.",
   "type": "object",
-  "required": [
-    "dimension",
-    "feeds"
-  ],
+  "required": ["dimension", "feeds"],
   "properties": {
     "dimension": {
       "type": "string",
-      "enum": [
-        "evidence_density",
-        "trust_trend",
-        "adversarial_pressure",
-        "update_resistance",
-        "attestation_coverage",
-        "soul"
-      ],
+      "enum": ["evidence_density", "trust_trend", "adversarial_pressure", "update_resistance", "attestation_coverage", "soul"],
       "description": "The Risk Factor this configuration applies to, or soul for the veto; a demand input such as moment_criticality is declared under KTP-CORE L14, never configured here"
     },
     "feeds": {
@@ -27,19 +17,13 @@
         "$ref": "#/$defs/feed"
       },
       "minItems": 1,
-      "description": "Configured feeds for a weighted Risk Factor or Soul veto."
+      "description": "Array of sensor feeds for this Risk Factor"
     },
     "aggregation": {
       "type": "string",
-      "enum": [
-        "weighted_average",
-        "any_veto",
-        "all_veto",
-        "max",
-        "min"
-      ],
+      "enum": ["weighted_average", "any_veto", "all_veto", "max", "min"],
       "default": "weighted_average",
-      "description": "Installed aggregation over complete declared slots; weighted_average uses fixed slot weights, including on substitution."
+      "description": "Installed aggregation over complete declared slots; weighted_average uses fixed slot weights, including on substitution (the soul veto must use any_veto)"
     },
     "aggregation_slots": {
       "type": "array",
@@ -78,11 +62,7 @@
   "$defs": {
     "feed": {
       "type": "object",
-      "required": [
-        "id",
-        "source",
-        "enabled"
-      ],
+      "required": ["id", "source", "enabled"],
       "properties": {
         "id": {
           "type": "string",
@@ -91,13 +71,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [
-            "physical",
-            "network",
-            "security",
-            "application",
-            "governance"
-          ],
+          "enum": ["physical", "network", "security", "application", "governance"],
           "description": "Category of sensor"
         },
         "source": {
@@ -112,7 +86,7 @@
           "type": "number",
           "minimum": 0,
           "default": 1.0,
-          "description": "Weight of this feed in aggregation (for weighted dimensions)"
+          "description": "Configured source weight. For weighted_average, the installed slot weight governs instead, including when this feed replaces another source; this feed weight MUST NOT change a slot weight or the fixed denominator."
         },
         "normalization": {
           "$ref": "#/$defs/normalization"
@@ -120,24 +94,16 @@
         "refresh_interval_ms": {
           "type": "integer",
           "anyOf": [
-            {
-              "const": 0
-            },
-            {
-              "minimum": 100
-            }
+            { "const": 0 },
+            { "minimum": 100 }
           ],
           "description": "How often to poll this source (milliseconds). 0 means the feed is not polled and is queried on demand at decision time, which is how the sovereignty feeds are configured."
         },
         "stale_threshold_ms": {
           "type": "integer",
           "anyOf": [
-            {
-              "const": 0
-            },
-            {
-              "minimum": 1000
-            }
+            { "const": 0 },
+            { "minimum": 1000 }
           ],
           "description": "How long before an observation is no longer current. Past this age the feed is UNAVAILABLE and ktp-sensors 6.2 governs; the last known value MUST NOT be substituted. 0 means no cached observation is ever current - the pairing for an on-demand feed. Where this is omitted it defaults to five times refresh_interval_ms (ktp-sensors 6.1)."
         },
@@ -160,18 +126,10 @@
           "minLength": 1
         }
       },
-      "not": {
-        "required": [
-          "default_on_failure"
-        ]
-      },
+      "not": { "required": ["default_on_failure"] },
       "dependentRequired": {
-        "independence_group": [
-          "independence_evidence"
-        ],
-        "independence_evidence": [
-          "independence_group"
-        ]
+        "independence_group": ["independence_evidence"],
+        "independence_evidence": ["independence_group"]
       }
     },
     "normalization": {
@@ -198,6 +156,8 @@
       }
     }
   },
+  "not": { "required": ["default_on_failure"] },
+  "additionalProperties": false,
   "examples": [
     {
       "dimension": "evidence_density",
@@ -266,6 +226,5 @@
       ],
       "aggregation": "any_veto"
     }
-  ],
-  "additionalProperties": false
+  ]
 }

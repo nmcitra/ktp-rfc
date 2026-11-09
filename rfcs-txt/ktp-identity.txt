@@ -91,7 +91,7 @@ Table of Contents
      6.2.  Bond Structure  . . . . . . . . . . . . . . . . . . . . .  20
      6.3.  Stake Mechanics . . . . . . . . . . . . . . . . . . . . .  20
      6.4.  Penalty and Release . . . . . . . . . . . . . . . . . . .  21
-     6.5.  Anti-Botnet Properties  . . . . . . . . . . . . . . . . .  23
+     6.5.  Anti-Botnet Properties  . . . . . . . . . . . . . . . . .  24
    7.  Identity Proofing Requirements  . . . . . . . . . . . . . . .  25
      7.1.  Identity Assurance Levels . . . . . . . . . . . . . . . .  25
      7.2.  Sponsor Identity Requirements . . . . . . . . . . . . . .  26
@@ -125,7 +125,9 @@ Internet-Draft                KTP-IDENTITY                September 2026
      10.4.  Privacy Considerations . . . . . . . . . . . . . . . . .  37
    11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  37
      11.1.  URI Scheme Registration  . . . . . . . . . . . . . . . .  38
-   12. Normative References  . . . . . . . . . . . . . . . . . . . .  38
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  38
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  38
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  38
    Appendix A.  Changes from v1  . . . . . . . . . . . . . . . . . .  38
      A.1.  The lineage stage names . . . . . . . . . . . . . . . . .  38
      A.2.  Lineage phase derives from generation . . . . . . . . . .  39
@@ -160,8 +162,6 @@ Internet-Draft                KTP-IDENTITY                September 2026
    Current systems commit the "Passport Fallacy": they assume that
    possession of a credential (passport, API key, certificate) proves
    identity.  This assumption is false because:
-
-
 
 
 
@@ -1079,6 +1079,11 @@ Internet-Draft                KTP-IDENTITY                September 2026
    Sponsorship Bonds break this cycle by allowing established agents to
    "lend" a portion of their trust to new agents.
 
+   A bond does not close a breach.  A breach attaches to the sponsored
+   agent's trajectory and is carried by agents spawned from it after the
+   breach; a root whose lineages carry unreconciled breaches above its
+   declared count MUST NOT open a bond, as [KTP-REPAIR] specifies.
+
 6.2.  Bond Structure
 
    A Sponsorship Bond contains:
@@ -1109,11 +1114,6 @@ Internet-Draft                KTP-IDENTITY                September 2026
 
    When a Sponsorship Bond is created:
 
-   1.  Sponsor's effective stake is reduced: sponsor_available_E_base =
-       sponsor_E_base - sum(effective_stake_contribution) over every
-       bond and residual the sponsor holds
-
-
 
 
 
@@ -1121,6 +1121,10 @@ Perkins                   Expires 11 March 2027                [Page 20]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   1.  Sponsor's effective stake is reduced: sponsor_available_E_base =
+       sponsor_E_base - sum(effective_stake_contribution) over every
+       bond and residual the sponsor holds
 
    2.  The bond's collateral half is fixed: collateral = stake_amount *
        0.5.  This is bond accounting, and it is what penalties under
@@ -1167,16 +1171,14 @@ Internet-Draft                KTP-IDENTITY                September 2026
    If the sponsored agent commits a violation (action that damages the
    system or violates policy), the sponsor is penalized:
 
-   penalty = violation_severity * stake_amount * penalty_rate
-
-
-
 
 
 Perkins                   Expires 11 March 2027                [Page 21]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   penalty = violation_severity * stake_amount * penalty_rate
 
    The penalty is deducted from the sponsor's E_base, potentially
    dropping them to a lower Trust Tier.
@@ -1219,12 +1221,10 @@ Internet-Draft                KTP-IDENTITY                September 2026
 
    ancestral_liability = 0.1^depth * stake_amount
 
-   where depth is lineage distance and a direct sponsor is at depth 1.
-   This is the floor the Section 8.2 taper holds at, and it is the dual
-   of the Ancestral Authority of Section 8.5: a lineage that carries an
-   ancestor's credit downward forever carries its liability with it.
-   Penalties under this section are assessed against the residual on the
-   same terms as against an active bond, scaled to the residual amount.
+
+
+
+
 
 
 
@@ -1233,6 +1233,13 @@ Perkins                   Expires 11 March 2027                [Page 22]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   where depth is lineage distance and a direct sponsor is at depth 1.
+   This is the floor the Section 8.2 taper holds at, and it is the dual
+   of the Ancestral Authority of Section 8.5: a lineage that carries an
+   ancestor's credit downward forever carries its liability with it.
+   Penalties under this section are assessed against the residual on the
+   same terms as against an active bond, scaled to the residual amount.
 
    The residual has no expiry.  The duration field of Section 6.2 binds
    staked capital only; a bond's declared duration MUST NOT be read as
@@ -1276,19 +1283,19 @@ Internet-Draft                KTP-IDENTITY                September 2026
    an exit.  Where no ancestor survives, the residual attaches to the
    lineage's External Root and MUST be recorded as so attached.
 
-6.5.  Anti-Botnet Properties
-
-   Sponsorship Bonds prevent "spray and pray" botnet attacks where an
-   attacker spawns thousands of malicious agents.
-
-   Attack scenario without bonds:
-
 
 
 Perkins                   Expires 11 March 2027                [Page 23]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+6.5.  Anti-Botnet Properties
+
+   Sponsorship Bonds prevent "spray and pray" botnet attacks where an
+   attacker spawns thousands of malicious agents.
+
+   Attack scenario without bonds:
 
    *  Attacker obtains one API key
 
@@ -1330,13 +1337,6 @@ Internet-Draft                KTP-IDENTITY                September 2026
 
    *  Concurrent bound is unchanged: at most 10 live bonds
 
-   *  Each matured descendant retains a residual of 0.1 * 8.7 = 0.87
-      against the sponsor's available E_base
-
-   *  After 100 matured descendants the attacker's available E_base is
-      exhausted, however well each behaved
-
-
 
 
 
@@ -1345,6 +1345,12 @@ Perkins                   Expires 11 March 2027                [Page 24]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   *  Each matured descendant retains a residual of 0.1 * 8.7 = 0.87
+      against the sponsor's available E_base
+
+   *  After 100 matured descendants the attacker's available E_base is
+      exhausted, however well each behaved
 
    An attacker cannot spawn its way out by waiting.  Sponsoring capacity
    is bounded at every moment by E_base, which is earned through Proof
@@ -1389,18 +1395,18 @@ Internet-Draft                KTP-IDENTITY                September 2026
       sponsorship restriction and E_base ceiling of 40 remain
       applicable; they are not human scores.
 
-   IAL2 - Remote or In-Person Proofing:
-
-   *  Identity evidence collected and validated
-
-   *  Remote: Government ID + biometric verification
-
 
 
 Perkins                   Expires 11 March 2027                [Page 25]
 
 Internet-Draft                KTP-IDENTITY                September 2026
 
+
+   IAL2 - Remote or In-Person Proofing:
+
+   *  Identity evidence collected and validated
+
+   *  Remote: Government ID + biometric verification
 
    *  In-person: Physical document inspection
 
@@ -1444,12 +1450,6 @@ Internet-Draft                KTP-IDENTITY                September 2026
    separate capacity and grant checks, and the applicable existing
    sponsorship/accountability requirements.  No human credential may be
    converted into an invented E_base balance to fund a bond.
-
-
-
-
-
-
 
 
 
@@ -2080,7 +2080,9 @@ Internet-Draft                KTP-IDENTITY                September 2026
    Vector Identity Contact: [TBD] Change controller: IETF References:
    This document
 
-12.  Normative References
+12.  References
+
+12.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2101,6 +2103,11 @@ Internet-Draft                KTP-IDENTITY                September 2026
    [KTP-PRIVACY]
               Perkins, C., "Kinetic Trust Protocol - Privacy", n.d..
 
+12.2.  Informative References
+
+   [KTP-REPAIR]
+              Perkins, C., "Kinetic Trust Protocol - Repair", n.d..
+
 Appendix A.  Changes from v1
 
    This appendix records what a v1 implementation must change to conform
@@ -2111,13 +2118,6 @@ A.1.  The lineage stage names
 
    The three lineage stages are renamed on the wire and in prose.
    Numeric protobuf values are unchanged, so only the symbol names move.
-
-
-
-
-
-
-
 
 
 

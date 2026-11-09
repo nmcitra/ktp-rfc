@@ -501,6 +501,8 @@ The Zeroth Law (A <= E) creates a catch-22 for new agents:
 
 Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.
 
+A bond does not close a breach. A breach attaches to the sponsored agent's trajectory and is carried by agents spawned from it after the breach; a root whose lineages carry unreconciled breaches above its declared count MUST NOT open a bond, as [KTP-REPAIR] specifies.
+
 ## Bond Structure
 
 A Sponsorship Bond contains:

@@ -446,6 +446,8 @@ In emergencies, E can be reduced immediately:
 
 # Dispute Resolution
 
+Dispute resolution is invoked by a party. Repair after a breach is required whether or not any party invokes anything, and is specified in [KTP-REPAIR]: the zone publishes the route by which reconciliation is sought with its profile, and where no party other than the zone is affected, the holder of E-setting authority stands as the affected party.
+
 ## Dispute Categories
 
 ~~~

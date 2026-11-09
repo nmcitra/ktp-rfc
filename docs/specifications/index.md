@@ -15,7 +15,7 @@ The KTP specification suite defines every aspect of the protocol—from cryptogr
 
     ---
 
-    27 Request for Comments documents covering every protocol component. Browse the source.
+    28 Request for Comments documents covering every protocol component. Browse the source.
 
     [:octicons-arrow-right-24: Browse RFCs](https://github.com/nmcitra/ktp-rfc/tree/main/rfcs-txt){ target="_blank" }
 
@@ -181,6 +181,7 @@ Different readers need different entry points. Select the journey that matches y
     |--------------|--------|-------------|
     | [KTP-Migration](../rfcs/ktp-migration.md) | :material-progress-clock:{ .draft } Draft | Version migration protocols |
     | [KTP-Recovery](../rfcs/ktp-recovery.md) | :material-progress-clock:{ .draft } Draft | Trust recovery after incidents |
+    | [KTP-Repair](../rfcs/ktp-repair.md) | :material-progress-clock:{ .draft } Draft | Breach, reconciliation, re-entry |
     | [KTP-Emergency](../rfcs/ktp-emergency.md) | :material-progress-clock:{ .draft } Draft | Emergency response procedures |
     | [KTP-Deprecation](../rfcs/ktp-deprecation.md) | :material-check-circle:{ .stable } Stable | Deprecation and sunset process |
     | [KTP-Legacy](../rfcs/ktp-legacy.md) | :material-progress-clock:{ .draft } Draft | Legacy system integration |

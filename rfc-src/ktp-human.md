@@ -25,6 +25,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   CONSTITUTION:
     title: "The KTP Constitution"
     author:
@@ -160,6 +164,8 @@ Any change affecting emergency policy remains subject to its stronger amendment 
 For each decision affecting a person, the system MUST provide an accessible explanation of the operation and scope, result, unmet requirements or safety constraint, evidence source and version, responsible authority, and review route. It MUST distinguish ineligibility from a capacity or Soul veto and avoid presenting a personal rank.
 
 Sensitive evidence may require protected access or a suitable representative. A generic security label MUST NOT make the grounds of a decision impossible to challenge. Disclosures MUST protect other subjects and legitimate security interests while enabling meaningful review.
+
+A person affected by another actor's breach is never required to attend its reconciliation; attendance is voluntary under {{KTP-REPAIR}}, and the review route in this section is not the reconciliation route.
 
 ## Meaningful Review
 

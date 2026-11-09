@@ -1,7 +1,7 @@
 # Kinetic Trust Protocol — Specifications
 
-The 27 KTP specifications. Five are formatted as Internet-Drafts and are also
-available as generated plain-text RFCs in `rfcs-txt/`; all 27 are rendered
+The 28 KTP specifications. Six are formatted as Internet-Drafts and are also
+available as generated plain-text RFCs in `rfcs-txt/`; all 28 are rendered
 here for reading on the documentation site.
 
 
@@ -27,6 +27,7 @@ here for reading on the documentation site.
 - [Kinetic Trust Protocol (KTP) - Model Provenance Specification](ktp-provenance.md)
 - [Kinetic Trust Protocol (KTP) - Recovery Specification](ktp-recovery.md)
 - [Kinetic Trust Protocol (KTP) - Relational Dynamics Specification](ktp-relational.md)
+- [Kinetic Trust Protocol (KTP) - Repair Specification](ktp-repair.md) *(Internet-Draft format)*
 - [Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification](ktp-sensors.md)
 - [Kinetic Trust Protocol (KTP) - Context Signals Specification](ktp-signals.md)
 - [Kinetic Trust Protocol (KTP) - Threat Model Specification](ktp-threat-model.md)

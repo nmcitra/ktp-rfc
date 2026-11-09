@@ -105,9 +105,12 @@ record_type: Type of record. One of:
 - tier_transition
 - soul_veto
 - attestation
+- reconciliation
 - system_event
 
 timestamp: ISO 8601 timestamp with millisecond precision. MUST be in UTC.
+
+A `reconciliation` record carries the fields [KTP-REPAIR] specifies and is chained and anchored like every other record; it persists by its anchor.
 
 ### Chain Integrity
 

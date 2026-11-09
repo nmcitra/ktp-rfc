@@ -102,6 +102,39 @@ Two defects in v1.0.x that you should treat as live until you migrate are in
 
 ---
 
+
+**Unreleased KTP-REPAIR migration:** A deployment adds five things. It records,
+for each actor, whether its trajectory is in Breach and the anchor of the breach
+record, by the three entries KTP-REPAIR enumerates; it treats no Silent Veto as
+a breach. It adds the `reconciliation` Flight Recorder record type with the
+fields KTP-REPAIR specifies, anchored like every other record, and refuses to
+re-establish readiness or re-enter a tier at or above the breach tier until one
+is anchored. It applies a ceiling on base standing at re-entry, declared per
+entry class in its published profile (at least one tenth on a hard entry,
+non-decreasing on repetition within a lineage), lifted only by acts recorded
+after the record; an implementation that capped the tier and left standing
+untouched has applied no cost and must change. It publishes the route by which
+reconciliation is sought, treats seeking as a signed act, and refuses a
+Sponsorship Bond to a root above its declared unreconciled count. It declares
+its repair capacity per aggregation window and its criticality, measures and
+publishes the reproduction of breaches from its own chain, and reports the
+breach index (criticality times utilization of the declared capacity) as a
+source feeding adversarial pressure, computed from the obligation and repair
+signals the catalogue already carries; undeclared capacity is unknown capacity
+and takes the supervision floor.
+It declares its three repair tiers with the contingency each permits, caps one
+lineage's share of arrival, computes capacity as the lesser of declared and
+demonstrated, leaves a tier only by the recovery predicate, and declares a
+repair emergency only under the emergency specification's custodians.
+It declares how an affected party's declaration of unrepaired harm raises Δ,
+requires the breaching party's acknowledgment on every record, and treats a
+record brought to anchor within the declared repairer interval as not
+demonstrating capacity.
+
+An implementation of Relational's repair process that began at "parties agree
+repair is needed" changes that phase: the breaching party seeks, the affected
+party may attend. Nothing else in Relational changes.
+
 ## 1. Wire-format breaks
 
 ### 1.1 The lineage enum

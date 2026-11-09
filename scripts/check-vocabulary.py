@@ -280,7 +280,7 @@ def scheme():
     SCOPE includes rfc-src/, which the retired-term scan does not. That is not
     a quiet re-ruling of #64, D: rfc-src/ did not exist as the authored source
     when that scope was set (#78/#108 made it one afterward). A scheme that
-    ships from the source the five Internet-Draft-formatted specifications are generated from has
+    ships from the source the six Internet-Draft-formatted specifications are generated from has
     shipped, whatever rfcs-md/ says, so the gate reads the source too.
 
     HISTORICAL alone is not enough to excuse the scheme, because "previously"

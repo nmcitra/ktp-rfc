@@ -127,6 +127,8 @@ For each decision affecting a person, the system MUST provide an accessible expl
 
 Sensitive evidence may require protected access or a suitable representative. A generic security label MUST NOT make the grounds of a decision impossible to challenge. Disclosures MUST protect other subjects and legitimate security interests while enabling meaningful review.
 
+A person affected by another actor's breach is never required to attend its reconciliation; attendance is voluntary under [KTP-REPAIR], and the review route in this section is not the reconciliation route.
+
 ## Meaningful Review
 
 A person MUST be able to challenge a specific fact, identity association, evidence scope or status, application of a requirement, or the legitimacy of the governing rule. Review access MUST NOT depend on the eligibility being challenged. The deployment MUST declare response and escalation deadlines, an accessible assistance route, reviewer competence and authority, and conflict-of-interest safeguards.

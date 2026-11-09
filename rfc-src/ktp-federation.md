@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Trust Federation Specification"
 abbrev: "KTP-FEDERATION"
-date: 2026-08-13
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -14,6 +14,19 @@ author:
 normative:
   RFC2119:
   RFC8174:
+informative:
+  KTP-CORE:
+    title: "Kinetic Trust Protocol (KTP) - Core Specification"
+    author:
+      - name: Chris Perkins
+  KTP-ZONES:
+    title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
+    author:
+      - name: Chris Perkins
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol (KTP) - Repair Specification"
+    author:
+      - name: Chris Perkins
 
 --- abstract
 
@@ -53,7 +66,7 @@ KTP Federation is built on these principles:
 
 1. Sovereignty: Each zone retains full sovereignty over its internal governance. Federation does not require policy harmonization.
 
-1. Reciprocity: Trust relationships are reciprocal by default. If Zone A trusts Zone B at factor 0.8, Zone B trusts Zone A at 0.8 unless explicitly negotiated otherwise.
+1. Direction: A trust factor is signed by the zone that receives, for one direction of crossing. Nothing is reciprocal by default; each direction is its own.
 
 1. Transitivity Limits: Trust is not infinitely transitive. If Zone A trusts Zone B, and Zone B trusts Zone C, Zone A does not automatically trust Zone C.
 
@@ -64,6 +77,14 @@ KTP Federation is built on these principles:
 ## Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}.
+
+## The Rule
+
+A federation moves decisions about the federation and never a zone's evaluation of an act, nor the policy under which it evaluates. The parties to a Federation Agreement MAY agree a trust factor, and a hub, a federation council, a mediator, or an arbitrator MAY admit or remove a member, invalidate an attestation, or impose a remedy under the agreement; a remedy falls on a zone's standing in the federation or on evidence, never on an act. A receiving zone applies no trust factor it did not sign. A foreign Trust Proof, clearance, or attestation is evidence that a receiving zone weighs under its own policy and is never that zone's evaluation; an agreement MUST NOT require a zone to accept one as such. A federation MAY require coordination of formats and versions; it MUST NOT require coordination of the inputs to a zone's evaluation. A sovereignty constraint attached to data or to a subject travels with it, and every zone enforces it as its own; a veto does not travel, and is made where the act executes. A zone's Silent Veto and Soul veto are its own. A clause that purports to delegate, waive, or override either is void and the agreement otherwise stands. Severance ends the severing zone's acceptance of the other and binds nothing within it, and the loss of a federation link MUST NOT stop a zone's evaluation of acts within it.
+
+A decision a federation moves carries the signature of the body that made it and names the party that answers for it; an unsigned federation decision binds no zone. A federation decision that changes a subject's standing in a zone is contestable under that zone's review route, with that route's deadlines, and the correction requires a fresh evaluation.
+
+Every section that follows is read under this one. Where a model, a process, or an example below describes a federation body acting, it acts within this section. {{KTP-CORE}} states where an act is measured: by the zone in which it executes, under that zone's policy.
 
 # Terminology
 
@@ -140,10 +161,12 @@ A central zone acts as trust anchor for multiple spoke zones.
 Characteristics:
 
 - One hub zone, multiple spoke zones
-- Spokes trust hub fully (factor 1.0)
-- Spokes trust each other via hub
+- Hub and each spoke sign their own inbound factor
+- Spokes reach each other through the hub's attestations
 - Hub has significant responsibility
 - Efficient for organizational hierarchies
+
+A hub agrees factors with its spokes and admits or removes members. It does not evaluate an act for a spoke, and a spoke applies no factor it did not sign (Section 1.4 (The Rule)).
 
 Structure:
 
@@ -385,7 +408,13 @@ If trust falls below floor despite decay protection, this indicates a relationsh
 
 ## Agreement Structure
 
-A Federation Agreement is a formal contract between zones:
+A Federation Agreement is the only instrument under which standing, evidence, or a subject crosses between zones; nothing outside it is a term. It MUST name each party by zone and by the terminator of its accountability chain, with the signing authority that answers for it, and MUST state when it takes effect and when it expires. For each direction of crossing it MUST state the trust factor the receiving zone signed, any factor per action class or substrate profile, the lowering policies and floor the receiving zone declares, and the lowest Enforcement Class it accepts. It MUST declare what crosses: which attestation types, whether trajectories, whether and on what terms a person's standing, whether cross-zone sponsorship is provided for, and that the breach records of agents and of sponsors cross as exposure. It MUST declare which sovereignty constraints each party enforces; data under a constraint a receiving party does not enforce MUST NOT cross. A person's reconciliation record never crosses. It MUST state the dispute route and its deadlines, the incident notification period, the notice period for leaving, and the causes for severance. It MUST NOT contain a clause that delegates, waives, or overrides a veto, that requires a party to accept a foreign evaluation as its own, that coordinates the inputs to a party's evaluation, that sets a factor above one or a factor the receiving zone did not sign, or that binds any act within the other zone; such a clause is void and the agreement otherwise stands.
+
+An amendment is a new version of the agreement, signed by both parties, taking effect only forward. A party acting alone MAY lower its applied factor under its declared policy, suspend or sever its own acceptance of the other, or let the agreement expire; it MAY do nothing else alone. Expiry ends both parties' acceptance; suspension and severance end the acting party's. No cache, session, or declaration extends authority beyond the signed agreement's claims. The existence of the agreement and each direction's factor MUST be visible to the subjects of both zones; the remainder MAY be confidential, under the scoped disclosure {{KTP-ZONES}} specifies.
+
+The chain terminator and the review route are those {{KTP-CORE}} specifies; the reconciliation record and the crossing of breach records as exposure are those {{KTP-REPAIR}} specifies.
+
+The structure below is an example of a Federation Agreement carrying the required cells:
 
 ~~~
    {
@@ -402,6 +431,7 @@ A Federation Agreement is a formal contract between zones:
          "zone_id": "zone-blue-corp-a",
          "legal_entity": "Corporation A Inc.",
          "jurisdiction": "US-DE",
+         "accountability_chain_terminator": "Corporation A Inc., Board of Directors",
          "signing_authority": "CISO",
          "signature": "sig:zone-a:abc123..."
        },
@@ -409,6 +439,7 @@ A Federation Agreement is a formal contract between zones:
          "zone_id": "zone-blue-corp-b",
          "legal_entity": "Corporation B Ltd.",
          "jurisdiction": "UK",
+         "accountability_chain_terminator": "Corporation B Ltd., Board of Directors",
          "signing_authority": "Head of Security",
          "signature": "sig:zone-b:def456..."
        }
@@ -417,19 +448,29 @@ A Federation Agreement is a formal contract between zones:
 
 ~~~
      "trust_terms": {
-       "base_trust_factor": 0.85,
-       "asymmetric": false,
-       "dynamic_adjustment": true,
-       "decay_rate": 0.99,
-       "floor": 0.5,
-       "ceiling": 0.95
+       "zone-blue-corp-a-to-zone-blue-corp-b": {
+         "factor": 0.85,
+         "signed_by": "zone-blue-corp-b",
+         "factor_by_action_class": { "consequential": 0.70 },
+         "lowering_policies": ["decay", "liveness"],
+         "decay_rate": 0.99,
+         "floor": 0.5,
+         "lowest_enforcement_class": "blue"
+       },
+       "zone-blue-corp-b-to-zone-blue-corp-a": {
+         "factor": 0.70,
+         "signed_by": "zone-blue-corp-a",
+         "lowering_policies": ["decay"],
+         "decay_rate": 0.99,
+         "floor": 0.4,
+         "lowest_enforcement_class": "blue"
+       }
      },
 ~~~
 
 ~~~
      "obligations": {
        "ktp_version": "1.0",
-       "min_zone_type": "blue",
        "flight_recorder": "required",
        "audit_access": "quarterly",
        "incident_notification": "24_hours",
@@ -439,15 +480,26 @@ A Federation Agreement is a formal contract between zones:
 
 ~~~
      "data_handling": {
-       "cross_zone_attestations": true,
+       "attestation_types": ["passage", "behavior", "exit", "crisis"],
        "trajectory_sharing": "on_request",
+       "persons": { "cross": true, "terms": "signed_acts_only" },
+       "cross_zone_sponsorship": true,
+       "breach_records": "exposure",
        "resilience_ledger_sync": "daily"
+     },
+~~~
+
+~~~
+     "sovereignty_constraints": {
+       "zone-blue-corp-a": ["us-de-privacy", "tk-labels"],
+       "zone-blue-corp-b": ["uk-gdpr", "tk-labels"]
      },
 ~~~
 
 ~~~
      "dispute_resolution": {
        "negotiation_period_days": 30,
+       "arbitration_deadline_days": 60,
        "mediation": "recommended",
        "arbitration": "JAMS",
        "arbitration_jurisdiction": "US-NY",
@@ -868,12 +920,14 @@ Triggers:
 Severance process:
 
 1. Emergency severance declared
-2. All cross-zone traffic immediately blocked
-3. In-flight operations terminated
-4. Agents in severed zone are isolated
+2. The severing zone stops accepting the other zone's proofs and attestations
+3. Cross-zone operations in flight end at the severing zone's gate
+4. Acts within the severed zone remain under that zone's own gate
 5. Federation is suspended (not terminated)
 6. Investigation begins
 7. Resolution determines if federation resumes
+
+Severance ends the severing zone's acceptance of the other and binds nothing within it. A zone whose link is severed continues to evaluate acts within it; the loss of a link MUST NOT stop that evaluation (Section 1.4 (The Rule)).
 
 Severance event (immediate broadcast):
 
@@ -885,8 +939,8 @@ Severance event (immediate broadcast):
      "severed_zone": "zone-blue-corp-b",
      "reason": "active_security_breach",
      "effective": "IMMEDIATE",
-     "agent_action": "All agents in severed zone should
-                     immediately cease operations",
+     "agent_action": "Cross-zone operations with zone-blue-corp-a
+                     are no longer accepted",
      "contact": "security@corp-a.example.com"
    }
 ~~~
@@ -964,7 +1018,7 @@ Arbitration process:
 3. Technical experts may be consulted
 4. Arbitrator issues binding decision
 5. Decision is published (redacted if necessary)
-6. Parties must comply
+6. Parties comply within the agreement
 
 Arbitration outcomes:
 
@@ -973,6 +1027,8 @@ Arbitration outcomes:
 - Compliance requirements
 - Financial remedies
 - Federation termination
+
+An award binds a zone's standing in the federation or the evidence before it. It does not direct a zone's evaluation of any act within it (Section 1.4 (The Rule)).
 
 # Federation Governance
 
@@ -983,7 +1039,7 @@ Large federations may establish governance bodies:
 Federation Council:
 
 - Representatives from member zones
-- Sets federation-wide policy
+- Sets federation-wide policy, within Section 1.4 (The Rule)
 - Approves new members
 - Resolves disputes
 
@@ -1005,14 +1061,14 @@ Audit Committee:
 
 Federated zones may coordinate policies:
 
-Mandatory coordination:
+Coordination a federation MAY require:
 
 - KTP protocol version
 - Trust Proof format
 - Attestation format
 - Security incident response
 
-Optional coordination:
+Coordination a federation MAY offer and MUST NOT require, because each is an input to a zone's evaluation (Section 1.4 (The Rule)):
 
 - Action risk classifications
 - Trust tier thresholds
@@ -1072,3 +1128,48 @@ Mitigations:
 - Trajectory chain verification
 - Cross-zone reputation aggregation
 - Hop limits on trust propagation
+
+## Agreement Laundering
+
+A party might write a delegation of its veto, or an obligation to accept a foreign evaluation, into the agreement itself, or plant such a clause to void the agreement later.
+
+Mitigations:
+
+- The clause is void and the agreement stands (Section 1.4 (The Rule))
+- Nothing outside the signed agreement is a term (Section 5.1 (Agreement Structure))
+
+## Hub Capture
+
+A compromised hub might attempt to reach every spoke's gate at once.
+
+Mitigations:
+
+- A hub agrees factors and admits members; it never evaluates for a spoke
+- Each spoke signs its own inbound factor and applies no other
+
+## Arbitration Override
+
+An award might attempt to direct a zone to permit an act.
+
+Mitigations:
+
+- An award binds standing in the federation or evidence, never an act
+- A changed attestation is changed evidence; each zone re-evaluates
+
+## Severance Reach
+
+A severing zone might attempt to direct acts inside the zone it severs, or a dependency on the link might stop the severed zone's own evaluation.
+
+Mitigations:
+
+- Severance ends the severing zone's acceptance and binds nothing within the other
+- Loss of a link MUST NOT stop a zone's evaluation of acts within it
+
+## The Unseen Downstream
+
+A subject's standing in a zone might change because two zones renegotiated, without the subject's knowledge or recourse.
+
+Mitigations:
+
+- The agreement's existence and each direction's factor are visible to both zones' subjects
+- A federation decision that changes a subject's standing is contestable under that zone's review route, with its deadlines

@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Capability Attenuation Specification"
 abbrev: "KTP-ATTENUATION"
-date: 2026-10-14
+date: 2026-10-28
 category: exp
 ipr: trust200902
 
@@ -410,6 +410,8 @@ Example demotions:
    -  Base Tier: Analyst    G=1: Observer   G=2: Observer  G=3: Observer
    -  Base Tier: Observer   G=1: Observer   G=2: Observer  G=3: Observer
 ~~~
+
+This demotion is temporary and environmental; it lifts as gravity falls. It is not the cost of a breach: standing lost at a breach is bounded by the ceiling of {{KTP-REPAIR}} Section 4.4 (The Cost) and returns only by acts recorded after reconciliation.
 
 ### Action Class Restriction
 

@@ -24,6 +24,7 @@ The Flight Recorder solves this by recording every Silent Veto with the same det
    "At 14:32:07, Agent X attempted action Y with risk 85.
     E_trust was 42 due to elevated adversarial_pressure (0.78) from active
     attack indicators. Silent Veto triggered. Action denied.
+    Execution observation: non_dispatch, bound to this decision.
     If this action had been permitted, blast radius would have
     included 47 downstream services."
 ~~~
@@ -213,7 +214,7 @@ trajectory_hash: Hash of agent's trajectory chain for verification
 
 ## Decision Outcome
 
-The decision outcome records what happened and why:
+The decision outcome records what was decided and why. Whether the action executed is attested by the execution observation bound to the decision, never by the decision itself ([KTP-CORE] Section 7.6 (Execution Observation)):
 
 ~~~
    "decision": {

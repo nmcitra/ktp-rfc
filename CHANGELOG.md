@@ -32,6 +32,24 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Recognition creates no term
+
+**Finding:** A federation could recognize one zone's local rule and then make
+adopting it a condition of membership, and nothing said the recognition was
+not already a term. A charter could amend away a class's standing to open an
+amendment or to object, and the amendment constraints did not name it.
+
+- KTP-FEDERATION's Policy Coordination gains the recognition rule: recognition
+  of a zone's local rule creates no term and no obligation on any zone, MUST
+  NOT be a condition of membership, becomes a term only by amendment under
+  Section 5.1, and an offered coordination is adopted by a zone's own act and
+  MAY be withdrawn by the same.
+- KTP-GOVERNANCE's Amendment Constraints gain a PROHIBITED row and the rule:
+  an amendment MUST NOT remove, from any class of participants, the standing to
+  open an amendment, to contest a refusal, or to object; one that does is void
+  and the charter stands.
+- Three vectors in `specifications/conformance/recognition-v1.json`.
+
 ### What crosses a federation link
 
 **Finding:** Federation multiplied a sending zone's E_base by a factor the

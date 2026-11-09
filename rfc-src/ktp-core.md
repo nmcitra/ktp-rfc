@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-28
+date: 2026-10-29
 category: exp
 ipr: trust200902
 
@@ -2019,6 +2019,19 @@ mission's duration.
 Converts to spec text when Section 7.5 names the Extended Trust Proof as an
 exception with its own cap, or {{KTP-CELESTIAL}} brings Class 0 within 10
 seconds.
+
+## L23. A number that is digested or compared has no single written form
+
+This specification does not yet fix how a number is written where its bytes
+are digested or compared: a value with no finite decimal expansion, such as
+one third of the hundred-point allocation, and a decimal with more significant
+digits than an IEEE 754 double holds, can each be written in more than one
+way, so two conformant implementations can produce different digests for the
+same value.
+
+Converts to spec text when Core states one written form for every number a
+digest or a comparison covers, and the published vectors carry their values
+in that form.
 
 # Security Considerations
 

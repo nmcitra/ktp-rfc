@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Core Specification"
 abbrev: "KTP-CORE"
 docname: draft-perkins-ktp-core-00
-date: 2026-10-27
+date: 2026-10-28
 category: exp
 ipr: trust200902
 
@@ -51,6 +51,14 @@ informative:
       - name: Chris Perkins
   KTP-FEDERATION:
     title: "Kinetic Trust Protocol - Trust Federation"
+    author:
+      - name: Chris Perkins
+  KTP-RECOVERY:
+    title: "Kinetic Trust Protocol - Recovery"
+    author:
+      - name: Chris Perkins
+  KTP-CELESTIAL:
+    title: "Kinetic Trust Protocol - Celestial Wayfinding Trust Mechanics"
     author:
       - name: Chris Perkins
 
@@ -1942,6 +1950,75 @@ Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
+
+## L17. The cryptographic floors have no single home
+
+This specification does not yet give its cryptographic floors a single home:
+the minimum TLS version, the minimum AES key size, and the point from which
+hybrid post-quantum signatures are required are each stated in more than one
+document, and the statements differ.
+
+Converts to spec text when one document states each floor and every other
+document cites it.
+
+## L18. A penalty or a debit does not always name the quantity it lands on
+
+This specification does not yet name, for every penalty and debit, the
+quantity it lands on: the sponsor penalty of {{KTP-IDENTITY}} is assessed
+against a bond's collateral in one place and deducted from the sponsor's Base
+Trust in another, and the foreign-zone penalty of {{KTP-RECOVERY}} and the
+attestor debit of Section 5.1 (Base Trust (E_base)) name no quantity at all.
+
+Converts to spec text when every penalty and debit in the set names its
+operand. The trust factor of {{KTP-FEDERATION}} already names its operand and
+is outside this limit.
+
+## L19. Quarantine begins below the Hibernation threshold
+
+This specification does not yet state how quarantine works under the current
+Hibernation threshold: {{KTP-ZONES}} admits a quarantined agent at a Trust
+Score of 20 and expects it to perform low-risk actions, while {{KTP-ENFORCE}}
+places every Trust Score below 22 in Hibernation, which permits a heartbeat
+only.
+
+Converts to spec text when quarantine's entry value and its permitted actions
+are restated against the Hibernation threshold.
+
+## L20. Admin Mode and the zone Mass Ceilings are not reconciled
+
+This specification does not yet state how infrastructure is modified in a zone
+whose Mass Ceiling is below 95: {{KTP-ENFORCE}} makes Admin Mode available
+only at a ceiling of 95 or more and recommends 92 for Blue zones and 90 for
+Cyan, so no software agent in such a zone can reach the Action Risk of 95 that
+Section 8.1 (Action Risk Classification) gives infrastructure modification.
+
+Converts to spec text when the recommended ceilings and the Admin Mode
+requirement are reconciled, or the set states that such a zone has no software
+administration.
+
+## L21. Two end conditions are stated for a sponsorship stake
+
+This specification does not yet state when a sponsorship stake ends: Section
+5.1 (Base Trust (E_base)) ends it at tether release, between the second and
+third generation, as the phase table of {{KTP-IDENTITY}} does, while the bond
+of {{KTP-IDENTITY}} closes only when the agent's intrinsic Base Trust reaches
+80, which the generation ceilings put out of reach before the sixth
+generation.
+
+Converts to spec text when one end condition is stated and the other text
+cites it.
+
+## L22. The celestial validity caps are not reconciled with the proof lifetime
+
+This specification does not yet state whether an Extended Trust Proof of
+{{KTP-CELESTIAL}} is a Trust Proof under Section 7.5 (Lifetime): that section
+allows at most 10 seconds, and {{KTP-CELESTIAL}} caps Class 0, where it says
+standard KTP applies, at 60 seconds and the farther classes at up to a
+mission's duration.
+
+Converts to spec text when Section 7.5 names the Extended Trust Proof as an
+exception with its own cap, or {{KTP-CELESTIAL}} brings Class 0 within 10
+seconds.
 
 # Security Considerations
 

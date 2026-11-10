@@ -32,6 +32,22 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Celestial's exponential degradation curve decays
+
+**Finding:** KTP-CELESTIAL's exponential degradation curve wrote its constant
+as `ln(0.5) / half_life`. That constant is negative, so the curve rose: an
+Extended Trust Proof gained e_trust the longer its agent went without
+verification, the reverse of the section's last paragraph and of the linear and
+step curves beside it. The line also called the curve "more conservative",
+which holds only for some half-lives and never at the end of validity, where
+the linear curve reaches zero and the exponential one does not. The defect is
+in every release since v1.0.0. Found by the corpus audit; recorded as SN-006.
+
+- Celestial, Degradation Curves: the constant is `ln(2) / half_life`, so
+  e_trust halves every half-life, and "(more conservative)" is removed.
+
+Class: Clarification. No MUST is added or altered.
+
 ### Induced Conservatism is a named threat (TM-D-005)
 
 **Proposed by @kimosmond-del** on #146 (2026-10-07). KTP-CORE's Security

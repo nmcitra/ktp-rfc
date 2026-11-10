@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Celestial Wayfinding Trust Mechanics for Interplanetary Communication"
 abbrev: "KTP-CELESTIAL"
-date: 2026-10-04
+date: 2026-11-09
 category: exp
 ipr: trust200902
 
@@ -417,7 +417,7 @@ Extended Trust Proofs degrade over time, reflecting increasing uncertainty:
 
 Linear Degradation: e_trust(t) = e_trust(0) * (1 - t/validity)
 
-Exponential Degradation (more conservative): e_trust(t) = e_trust(0) * e^(-k*t) where k = ln(0.5) / half_life
+Exponential Degradation: e_trust(t) = e_trust(0) * e^(-k*t) where k = ln(2) / half_life
 
 Step Degradation (tier-based): e_trust drops one tier at each threshold Operator -> Analyst at 50% validity Analyst -> Observer at 75% validity Observer -> Hibernation at 90% validity
 

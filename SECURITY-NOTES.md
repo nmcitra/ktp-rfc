@@ -265,3 +265,47 @@ Each citation is re-aimed and now carries the heading it means —
 holds the number to the heading in CI, so a future section insert fails the
 build instead of surviving two tags. Editorial; rides `main`.
 
+---
+
+## SN-006 — `ktp-celestial` publishes an exponential degradation curve that rises
+
+**Affects:** v1.0.0, v1.0.1 (`v1.0.1-provenance`), v2.0.0 (`v2.0.0`), v2.1.0 (`v2.1.0`)
+**Component:** `ktp-celestial`, Degradation Curves (§6.3 in v1.0.x): the "Exponential Degradation" line
+**Found:** 2026-11-09, by the corpus audit · **Corrected in:** the next release
+
+### What is wrong
+
+The exponential curve is `e_trust(t) = e_trust(0) * e^(-k*t)` with `k = ln(0.5)
+/ half_life`. ln 0.5 is negative, so k is negative and the curve rises: for a
+proof issued at e_trust 80 with a six-hour half-life, it computes 160 six hours
+later, off the 0 to 100 scale. The section's last paragraph states the
+opposite: "the longer an agent operates without verification, the more
+constrained its capabilities become." The linear and step curves beside it both
+fall.
+
+The same line calls the curve "(more conservative)". That holds only for some
+half-lives, and never at the end of a proof's validity: the linear curve
+reaches zero there and the exponential one never does. With a half-life of at
+least about 0.69 of the validity, the exponential curve sits above the linear
+one at every point after the start.
+
+### Why it matters
+
+An implementation that codes the line as written gives an Extended Trust Proof
+more e_trust the longer its agent is out of contact, which is the condition
+degradation exists to restrain. The exposure is limited to deployments that
+chose the exponential curve: the section recommends Step Degradation for Class
+2 and above and Linear for Class 1, and KTP-CELESTIAL is experimental.
+
+### What to do on v1.0.0 through v2.1.0
+
+Use `k = ln(2) / half_life`, so e_trust halves every half-life, or use the
+recommended curves. Do not treat the exponential curve as more conservative
+than the linear one.
+
+### How it is corrected
+
+The constant becomes `ln(2) / half_life` and "(more conservative)" is removed.
+A Clarification, since the section already required degradation; it rides the
+next release.
+

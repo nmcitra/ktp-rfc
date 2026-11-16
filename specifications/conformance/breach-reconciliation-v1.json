@@ -30,9 +30,9 @@
       },
       "expect": {
         "readinessEstablished": false,
-        "ceiling": null
+        "ceiling": 60
       },
-      "reason": "No reconciliation record is anchored: readiness is not re-established and no tier at or above the breach tier is re-entered."
+      "reason": "No reconciliation record is anchored: readiness is not re-established and no tier at or above the breach tier is re-entered. The ceiling already holds from the anchoring of the breach record: 80 reduced by the declared hard Δ (0.25) is 60."
     },
     {
       "id": "BR02-complete-record-permit-at-ceiling",
@@ -1785,6 +1785,98 @@
         "directorIsParty": false
       },
       "reason": "The party who owes reconciliation for an ended actor is the root that held authority over its lineage. A person who directed it under a grant without lineage-wide visibility, authority to refuse and power to stop its next act is not by that direction the party."
+    },
+    {
+      "id": "BR39-ceiling-holds-before-the-record",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "breach": {
+          "anchor": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "entry": "hard",
+          "standingAtBreach": 80,
+          "tierAtBreach": "Operator"
+        },
+        "reconciliation": null,
+        "actsOffered": {
+          "recordedAfterBreach": 500,
+          "standingUncapped": 88
+        }
+      },
+      "expect": {
+        "ceiling": 60,
+        "baseStanding": {
+          "max": 60
+        },
+        "readinessEstablished": false
+      },
+      "reason": "The ceiling holds from the anchoring of the breach record, not only at re-entry. Acts recorded after the breach and before any record do not raise base standing above 60; without the ceiling the actor would stand at 88 while the tier bar alone held it, which is a tier cap with standing untouched."
+    },
+    {
+      "id": "BR40-zone-containment-is-not-an-entry",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true
+        },
+        "zoneAct": {
+          "kind": "containment",
+          "anchor": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "priorAct": {
+          "withinSignedDecision": true,
+          "entryClass": null
+        }
+      },
+      "expect": {
+        "breachEntered": false
+      },
+      "reason": "A containment is the zone's act. The act that prompted it was within its signed decision and falls in no entry class, so no breach is entered."
+    },
+    {
+      "id": "BR41-profile-declares-zone-act-as-entry",
+      "given": {
+        "actor": "agent:a",
+        "lineage": "lineage:a",
+        "zone_id": "zone-a",
+        "profile": {
+          "delta": {
+            "hard": 0.25,
+            "soft": 0.1
+          },
+          "repairCapacityPerWindow": 4,
+          "unreconciledSponsorshipCount": 1,
+          "routePublished": true,
+          "declaredEntryClasses": [
+            {
+              "name": "contained-by-zone",
+              "actOf": "zone"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "profileConformant": false
+      },
+      "reason": "A declared entry class must name an act of the actor. A profile that names an act of the zone, or a refusal, as an entry class is non-conformant."
     }
   ]
 }

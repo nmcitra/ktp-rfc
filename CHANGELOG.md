@@ -79,8 +79,12 @@ than they can be repaired.
   repairer interval binds demonstrated capacity, not the breacher; the record
   stays open to the affected party in every tier; the chain anchors and the
   roots produce; residual harm reads undeclared where nothing was declared.
+  Third commit: the ceiling holds from the anchoring of the breach record,
+  as the proposal's "a breach lowers a ceiling on base standing" reads, and
+  not only at re-entry; an act of the zone (a containment, a suspension) is
+  not an entry, and a declared entry class names an act of the actor.
 - `specifications/conformance/breach-reconciliation-v1.json` publishes
-  forty-three boundary cases, including theater, holdout, the hollow return,
+  forty-six boundary cases, including theater, holdout, the hollow return,
   the barrage, the Silent Veto storm, the crisis landmark, a criticality
   invalid against measured reproduction, one lineage capped in arrival,
   capacity revised to demonstrated, and the tiers and what no tier may change. They define no formula.

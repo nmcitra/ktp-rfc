@@ -90,7 +90,7 @@ This document supplies the return arrow and the condition on it. After a breach,
 
 Repair is not conflict resolution. Conflict resolution is invoked when a party carries a grievance to it. Repair is required before re-entry whether or not anyone carried anything. The two coexist: a party may dispute a breach under {{KTP-GOVERNANCE}} and {{KTP-HUMAN}}, and the dispute's outcome is evidence for the record; the record is still required.
 
-Repair applies at three levels, and this document treats each: the actor whose act breached, whose standing is ceilinged until the record exists; the relationship the breach damaged, which the record names; and the rule under which breaches recur, which is itself in breach and is repaired by an amendment that cites the records that drove it.
+Repair applies at three levels, and this document treats each: the actor whose act breached, whose standing is ceilinged from the breach and lifted only by acts after the record; the relationship the breach damaged, which the record names; and the rule under which breaches recur, which is itself in breach and is repaired by an amendment that cites the records that drove it.
 
 # Requirements Language
 
@@ -98,13 +98,13 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 # Terminology
 
-Standing: The accumulated measure of the agent-environment relationship that {{KTP-CORE}} carries as Base Trust (E_base) and evaluates, with the environment's present condition, as the Effective Trust Score. Standing is the quantity a breach ceilings and reconciliation releases.
+Standing: The accumulated measure of the agent-environment relationship that {{KTP-CORE}} carries as Base Trust (E_base) and evaluates, with the environment's present condition, as the Effective Trust Score. Standing is the quantity a breach ceilings; reconciliation opens the way for later acts to lift the ceiling.
 
 Breach: The state an actor enters by its own act against the gate, as Section 4.2 (Entry) enumerates. A Silent Veto is not a breach. Breach is a state of the actor's trajectory, recorded in the zone's audit chain, not a state of the environment.
 
 Reconciliation Record: A Flight Recorder record, anchored in the zone's audit chain, that names the breach it closes, each party by the terminator of its accountability chain, the residual harm, and an independent verifier. Section 4.3 (The Record) specifies it.
 
-Re-entry Reduction (Δ): The declared fraction by which an actor's standing at the breach is reduced to set the ceiling at which the actor re-enters. Section 4.4 (The Cost) specifies it.
+Re-entry Reduction (Δ): The declared fraction by which an actor's standing at the breach is reduced to set the ceiling that holds from the breach and at which the actor re-enters. Section 4.4 (The Cost) specifies it.
 
 Breach Arrival (Z): The weighted count of breaches entering the zone's audit chain per aggregation window, whether or not any is reconciled.
 
@@ -130,7 +130,9 @@ Readiness is the readiness decision of {{KTP-CORE}} Section 7.4 (Operational Rea
 
 ## Entry
 
-An actor enters Breach by its own act, never by the gate's refusal. A consequential act executed, or presented for release, outside the signed decision it consumed or without one, is a breach. An attestation withdrawn for cause against the actor, or a finding of misattestation, is a breach. A deployment **MAY** declare further entry classes in its published profile; it **MUST** declare them for every actor alike and **MUST NOT** declare them for one. A Silent Veto is not a breach, and an action the environment could not bear carries no obligation to reconcile.
+An actor enters Breach by its own act, never by the gate's refusal. A consequential act executed, or presented for release, outside the signed decision it consumed or without one, is a breach. An attestation withdrawn for cause against the actor, or a finding of misattestation, is a breach. A deployment **MAY** declare further entry classes in its published profile; it **MUST** declare them for every actor alike and **MUST NOT** declare them for one. A declared entry class **MUST** name an act of the actor; a profile that names a refusal, or an act of the zone, as an entry class is non-conformant. A Silent Veto is not a breach, and an action the environment could not bear carries no obligation to reconcile.
+
+An act of the zone is not an entry. A containment, a suspension, a quarantine or a withdrawal of readiness is the zone's act; the act that prompted it is an entry only where it falls in an entry class. An attestation withdrawn for cause is an entry by the actor's act that gave the cause, not by the withdrawal.
 
 The first entry is an act whole: a release that matches its decision fragment by fragment and not as a whole is a breach of the actor. The second entry is already priced by {{KTP-CORE}} Section 5.1 (Base Trust (E_base)): a for-cause claim that does not survive scrutiny is misattestation and debits the claimant. The first two entries are hard entries. A profile-declared entry is a soft entry unless the profile declares it hard. A breach record is contestable under the review route and the response deadlines the set already declares; a correction changes the authoritative evidence and requires a fresh evaluation, and never revives what was superseded, as {{KTP-CORE}} states for every correction. A breach record that is wrong is fixed while it can still matter, not after.
 
@@ -142,9 +144,9 @@ The record also carries the breaching party's acknowledgment of the breach, by t
 
 ## The Cost
 
-A breach lowers a ceiling on standing. At re-entry the actor's base standing **MUST NOT** exceed its standing at the breach reduced by a declared fraction Δ, and the ceiling lifts only by acts recorded after the reconciliation record, under the ordinary rail. The deployment declares Δ in its published profile for each entry class. For a breach entered by the actor's act against a signed decision, or by withdrawal for cause or misattestation, Δ **MUST** be at least one tenth; a profile that declares less is non-conformant. For a repeated breach on the same lineage, Δ **MUST** be no less than the Δ applied to the one before. Re-entry restores the eligibility to earn standing and restores nothing else: an instrument withdrawn for cause stays withdrawn, the tier follows from the standing, and what was lost is earned again, not returned.
+A breach lowers a ceiling on standing. From the anchoring of the breach record, the actor's base standing **MUST NOT** exceed its standing at the breach reduced by a declared fraction Δ; the same bound holds at re-entry, and the ceiling lifts only by acts recorded after the reconciliation record, under the ordinary rail. The deployment declares Δ in its published profile for each entry class. For a breach entered by the actor's act against a signed decision, or by withdrawal for cause or misattestation, Δ **MUST** be at least one tenth; a profile that declares less is non-conformant. For a repeated breach on the same lineage, Δ **MUST** be no less than the Δ applied to the one before. Re-entry restores the eligibility to earn standing and restores nothing else: an instrument withdrawn for cause stays withdrawn, the tier follows from the standing, and what was lost is earned again, not returned.
 
-The ceiling is a term of the same kind as the generation ceiling of {{KTP-CORE}} Section 5.1 (Base Trust (E_base)): a bound on base standing, not a contribution to it, and not a tier. Because the tier is a readout of standing, no separate tier cap is required and none is specified; an implementation that caps the tier and leaves the standing untouched has applied no cost, because the ordinary rail restores the tier at the next evaluation.
+The ceiling is a term of the same kind as the generation ceiling of {{KTP-CORE}} Section 5.1 (Base Trust (E_base)): a bound on base standing, not a contribution to it, and not a tier. Because the tier is a readout of standing, no separate tier cap is required and none is specified; an implementation that caps the tier and leaves the standing untouched has applied no cost, because the ordinary rail restores the tier at the next evaluation. The bar on re-entering a tier at or above the tier at the breach (Section 4.1 (Standing)) holds in addition to the ceiling and does not replace it: between the breach and the record, both apply.
 
 ## Required, Not Invoked
 

@@ -133,7 +133,9 @@ signal/collection mapping MUST establish equivalent fixed slots and weights
 For each slot, select exactly one admissible complete current alternative in
 installed order. A backup fills the SAME slot at the SAME slot weight even if
 its own configured feed weight differs. Simultaneous alternatives MUST NOT be
-counted twice. Replacement additionally requires the independently established
+counted twice, including reuse of the same observation across different slots
+under primary, backup or alias feed IDs. A mapping permitting such reuse MUST
+be rejected before aggregation. Replacement additionally requires the independently established
 continuity conditions in Missing Evidence. A slot without sufficient current
 population is unknown; do not drop it or renormalize over available sources.
 The denominator MUST be finite and positive, and the result finite and in [0,1];

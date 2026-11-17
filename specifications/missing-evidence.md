@@ -96,6 +96,26 @@ MUST NOT be counted as separate independent support. Unknown or false claimed
 independence cannot justify continuity; the signal is unknown unless other
 admissible evidence satisfies its full rule.
 
+Independence is necessary but is not evidence of equivalent coverage. The
+approved population rule MUST establish that a backup measures the same signal,
+resource scope, population, normalization and evaluation interval as the slot
+it replaces. A cooler subset or a differently scoped observation MUST NOT fill
+the missing slot merely because it is current and independent. If equivalence
+cannot be established, the slot is unknown. A difference from the last current
+reading alone neither establishes nor disproves equivalence: the old reading
+is not current evidence and MUST NOT become a replacement value or an implicit
+universal deviation threshold. Any admissibility bounds required by the signal
+rule are installed before evaluation and apply to backups too.
+
+The same feed observation MUST NOT contribute to more than one aggregation
+slot in an evaluation, whether as a primary or as a backup. This prohibition
+also covers aliases of the same observation; distinct feed IDs do not create
+independent evidence. A mapping that permits this reuse MUST be rejected before
+aggregation, not resolved by evaluation-time slot order or a changed denominator.
+Distinct observations from one provider still require the established population
+and independence checks; a provider name alone establishes neither reuse nor
+independence.
+
 The configuration and population rule are fixed before evaluation; a candidate
 or failure cannot rewrite membership or label a dependency independent. Profile
 changes require independent approval, a new version/digest and new evidence;

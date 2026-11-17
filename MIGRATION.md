@@ -632,3 +632,9 @@ measurement. Increment configuration/profile versions and digests, reacquire
 current observations, and preserve historical v2.1 records under their original
 release. Do not rename old fallback numbers or cached data into current
 observations; legacy handling cannot weaken active missing-evidence rules.
+
+Backup continuity requires independently established equivalent coverage, not only
+a current source in another failure domain. Cooler subsets do not replace a
+missing population. Reject mappings that reuse one observation across slots,
+including primary/backup aliases. A changed reading alone is not evidence of
+invalidity and does not authorize replay of the last current value.

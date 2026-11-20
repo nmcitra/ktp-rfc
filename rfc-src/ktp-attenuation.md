@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Capability Attenuation Specification"
 abbrev: "KTP-ATTENUATION"
-date: 2026-10-28
+date: 2026-11-14
 category: exp
 ipr: trust200902
 
@@ -17,9 +17,9 @@ normative:
 
 --- abstract
 
-This document specifies Digital Gravity for the Kinetic Trust Protocol (KTP).  Digital Gravity is the enforcement mechanism that constrains agent autonomy based on environmental stability.  When the Zeroth Law (A ≤ E) is at risk of violation, Digital Gravity applies physical constraints—latency injection, time dilation, compute throttling, and network isolation—to restore equilibrium.
+This document specifies capability attenuation for the Kinetic Trust Protocol (KTP).  Capability attenuation is the enforcement mechanism that constrains agent autonomy based on environmental stability.  When the Zeroth Law (A ≤ E) is at risk of violation, capability attenuation applies physical constraints—latency injection, time dilation, compute throttling, network isolation, and capability reduction—to restore equilibrium.
 
-The specification covers the Zeroth Law calculation, gravity well mechanics, constraint types, response curves, and real-time enforcement requirements.
+The specification covers the Zeroth Law calculation, attenuation mechanics, constraint types, response curves, and real-time enforcement requirements.  The mechanism is also known as Digital Gravity, after the informative analogy in this document.
 
 --- middle
 
@@ -40,7 +40,9 @@ Where:
 
 When A approaches or exceeds E, something must give.  In traditional systems, this is handled by policy—access denied, request rejected, human escalation.  These mechanisms operate at human speed and fail when agents operate at machine speed.
 
-Digital Gravity replaces policy with structure.  Instead of deciding whether to allow an action, the environment applies physical constraints that make excessive autonomy impossible.  The agent doesn't hit a wall; it experiences increasing resistance, like moving through an increasingly dense medium.
+Capability attenuation replaces policy with structure.  Instead of deciding whether to allow an action, the environment applies physical constraints that make excessive autonomy impossible.  The agent doesn't hit a wall; it experiences increasing resistance, like moving through an increasingly dense medium.
+
+This document does not specify how delegated authority is narrowed from a delegator to a delegate.  That is specified in {{KTP-HUMAN}} Section 4.1 (Delegation).
 
 # The Gravity Analogy (Informative)
 
@@ -50,6 +52,8 @@ In Digital Gravity, risk curves the operational environment.  Agents don't decid
 
 This shift—from policy to structure—is fundamental.  Policy can be debated, circumvented, or ignored.  Structure cannot.
 
+The analogy gives this document its vocabulary.  Digital Gravity is the name of capability attenuation in the analogy.  Gravity, gravity well, and gravity intensity are the names this document uses for the constraint, the region where the constraint applies, and the strength of the constraint.
+
 # Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).
@@ -58,7 +62,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 
 Autonomy (A):  The risk level of an agent's attempted action, measured on a scale of 0-100.  Higher values indicate greater potential impact.
 
-Digital Gravity:  The enforcement mechanism that applies physical constraints to agents based on environmental conditions and action risk.
+Capability Attenuation:  The enforcement mechanism that applies physical constraints to agents based on environmental conditions and action risk.  Also known as Digital Gravity.
 
 Environmental Stability (E):  The environment's current capacity to absorb risk, derived from Context Signal measurements. E = E_base × (1 - R).
 
@@ -186,7 +190,7 @@ The Zeroth Law MUST be evaluated:
 
 Implementations MUST achieve sub-millisecond evaluation latency for the core A ≤ E calculation.
 
-# Gravity Well Mechanics
+# Attenuation Mechanics
 
 ## Gravity Well Definition
 
@@ -518,7 +522,7 @@ An unobserved Risk Factor term MUST use the conservative substitute 1.0 required
 
 Latency injection, queuing, and time dilation MUST NOT prolong ordinary authorization. Every ordinary Trust Proof MUST satisfy 0 < exp - iat <= 10 seconds and iat <= current_time < exp, and MUST be revalidated at execution. Future-issued or expired proofs and invalid or unverifiable timestamps or current time MUST fail closed under KTP-Core. An ongoing action that cannot refresh its proof MUST cease ordinary operation through its declared bounded safe transition. Any separately authorized emergency action follows `specifications/emergency-capability.md`, with no extension of the expired proof or permission widening during the outage.
 
-# Gravity Profiles
+# Attenuation Profiles
 
 ## Zone-Specific Profiles
 

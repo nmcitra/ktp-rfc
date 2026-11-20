@@ -39,6 +39,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-AUDIT:
     title: "Kinetic Trust Protocol - Flight Recorder Specification"
     author:
@@ -670,6 +674,8 @@ Tier Demotion (E_trust decreases):
 - In-flight operations may be interrupted
 - Agent should implement graceful capability shedding
 - Logged to Flight Recorder with context
+
+After a breach, the tier follows the ceiling on standing that {{KTP-REPAIR}} specifies: an actor whose standing is ceilinged at re-entry is promoted only as acts recorded after its reconciliation record lift the ceiling, and a tier cap applied with the standing untouched is no cost.
 
 Hysteresis (optional):
 

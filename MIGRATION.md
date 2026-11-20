@@ -606,3 +606,10 @@ the 3.0.0 migration guide when that version is tagged.
 | 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
 | Full: third-party certification | Full: independent reproduction of its specified test IDs |
 
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

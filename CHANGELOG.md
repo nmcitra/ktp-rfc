@@ -69,6 +69,48 @@ counts, and what a Full claim requires changes, so this requires a MAJOR
 release under `VERSIONING.md`. It remains unreleased; published tags are
 unchanged.
 
+### Celestial's exponential degradation curve decays
+
+**Finding:** KTP-CELESTIAL's exponential degradation curve wrote its constant
+as `ln(0.5) / half_life`. That constant is negative, so the curve rose: an
+Extended Trust Proof gained e_trust the longer its agent went without
+verification, the reverse of the section's last paragraph and of the linear and
+step curves beside it. The line also called the curve "more conservative",
+which holds only for some half-lives and never at the end of validity, where
+the linear curve reaches zero and the exponential one does not. The defect is
+in every release since v1.0.0. Found by the corpus audit; recorded as SN-006.
+
+- Celestial, Degradation Curves: the constant is `ln(2) / half_life`, so
+  e_trust halves every half-life, and "(more conservative)" is removed.
+
+Class: Clarification. No MUST is added or altered.
+
+### Induced Conservatism is a named threat (TM-D-005)
+
+**Proposed by @kimosmond-del** on #146 (2026-10-07). KTP-CORE's Security
+Considerations describe an attacker who raises R to deny service, but the
+threat model gave that attack no ID, actor, rating, attack tree or residual
+risk. Every fail-safe and fail-closed rule in the set is sound against an
+adversary who wants permission; to an adversary who wants denial, the same
+rules deliver the attack.
+
+- Threat Model, Threat Actors: the Conservatism Exploiter, an actor defined
+  by its goal rather than its capability.
+- Threat Model, Denial of Service: TM-D-005, Induced Conservatism. Fail-safe
+  mode is named as the delivery mechanism, not a mitigation.
+- Threat Model, Attack Trees: "Freeze the Zone".
+- Threat Model, Residual Risks, the top-risks table and the Threat Catalog:
+  TM-D-005 at HIGH.
+- Three corrections: TM-D-002's mitigations resolve unavailable feeds per
+  Sensors Section 6 (Sensor Quality and Validation) instead of using the last
+  known good value, which that section forbids; TM-TO-005's impact is HIGH, because unverifiable time
+  rejects every ordinary proof zone-wide under SR-012; SR-014's rationale
+  covers confidentiality and integrity, and points availability under induced
+  conservatism to TM-D-005.
+
+Class: Clarification (#146). The threat model names a threat the set already
+describes; no behavior changes and no conformant implementation changes.
+
 ### R is defined once; Risk Domains are an informative technique
 
 **Finding:** Sensors Section 2.3 and Core Section 5.2.1 defined the Risk

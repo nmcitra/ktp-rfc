@@ -587,6 +587,18 @@ asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
 
+## 4. Toward 3.0.0 (unreleased)
+
+### 4.1 The composition limit
+
+Core gains L15: composition across requests is not yet required, and no
+conformant implementation may present a per-request limit as a bound on the
+combined consequence of several requests. Nothing in the evaluation changes.
+What changes is a claim: an implementation that has said its per-request limits
+bound combined consequence stops saying so, or composes consequences across
+requests and says that under its own status label. The published case set is
+the test, cited by name and tag.
+
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
 half_life`, so an Extended Trust Proof's e_trust halves every half-life. One

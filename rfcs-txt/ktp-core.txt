@@ -69,8 +69,8 @@ Table of Contents
      1.2.  The Environment-Based Solution  . . . . . . . . . . . . .   5
      1.3.  Requirements Language . . . . . . . . . . . . . . . . . .   5
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   5
-   3.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .   7
-     3.1.  Architecture  . . . . . . . . . . . . . . . . . . . . . .   7
+   3.  Protocol Overview . . . . . . . . . . . . . . . . . . . . . .   8
+     3.1.  Architecture  . . . . . . . . . . . . . . . . . . . . . .   8
      3.2.  Flow  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
    4.  The Zeroth Law  . . . . . . . . . . . . . . . . . . . . . . .  10
      4.1.  Definition  . . . . . . . . . . . . . . . . . . . . . . .  10
@@ -293,6 +293,8 @@ Internet-Draft                  KTP-CORE                    October 2026
    Blue Zone: A network segment where KTP is enforced.  Agents within
    Blue Zones operate under environment-derived constraints.
 
+   Clearance: See specifications/hand-back.md.
+
    Context Tensor: Retired name for what is now split into Context
    Signals (the measurement catalogue) and the Risk Factors (six
    weighted inputs plus the Soul veto).  See Section 6.
@@ -306,8 +308,12 @@ Internet-Draft                  KTP-CORE                    October 2026
    It supplies E for that agent's capacity check.  Human operational E
    is established separately under the reviewed adapter.
 
+   Hand-Back: See specifications/hand-back.md.
+
    Kinetic Permission: Authorization that depends on real-time
    environmental state rather than static credentials.
+
+   Lease: See specifications/hand-back.md.
 
    Lineage: The evolutionary history of an agent, from Sponsored
    (dependent on sponsor) through Independent (building own mass) to
@@ -323,12 +329,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    successful transactions in high-friction environments.  See [KTP-
    IDENTITY].
 
-   Risk Factor (R): A normalized value (0-1) representing aggregated
-   environmental stress.  Derived from Context Signals.
-
-   Silent Veto: The automatic denial of an action when A > E_trust,
-   without requiring human intervention.
-
 
 
 
@@ -337,6 +337,12 @@ Perkins                   Expires 30 April 2027                 [Page 6]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+   Risk Factor (R): A normalized value (0-1) representing aggregated
+   environmental stress.  Derived from Context Signals.
+
+   Silent Veto: The automatic denial of an action when A > E_trust,
+   without requiring human intervention.
 
    Soul (Sovereignty Veto): The seventh named measurement, representing
    ethical, legal, and spiritual constraints of data or location.
@@ -379,12 +385,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    Zeroth Law: The foundational constraint A <= E: an agent's autonomy
    must never exceed the environment's stability.
 
-3.  Protocol Overview
-
-3.1.  Architecture
-
-   A KTP deployment consists of the following components:
-
 
 
 
@@ -393,6 +393,12 @@ Perkins                   Expires 30 April 2027                 [Page 7]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+3.  Protocol Overview
+
+3.1.  Architecture
+
+   A KTP deployment consists of the following components:
 
    +------------------------------------------------------------------+
    |                          TRUST ORACLE MESH                       |
@@ -437,18 +443,16 @@ Internet-Draft                  KTP-CORE                    October 2026
    specifications/oracle-consensus.md; a signing threshold does not
    establish a unique history.
 
-   Context Signal Sensors: A sensor array that measures environmental
-   reality across the catalogue's seven domains and feeds data to the
-   Trust Oracles.
-
-
-
 
 
 Perkins                   Expires 30 April 2027                 [Page 8]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+   Context Signal Sensors: A sensor array that measures environmental
+   reality across the catalogue's seven domains and feeds data to the
+   Trust Oracles.
 
    Policy Enforcement Points: Components that intercept agent requests,
    present Trust Proofs to the PDP, and enforce authorization decisions.
@@ -487,10 +491,6 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    8.  Response returned to agent with Trust Proof for potential
        forwarding to downstream services
-
-
-
-
 
 
 

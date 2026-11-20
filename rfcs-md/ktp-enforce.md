@@ -788,6 +788,8 @@ Response body format:
    }
 ~~~
 
+Where an implementation declares the hand-back (specifications/hand-back.md), the numeric fields of `details` MAY be omitted from the body the agent receives; they travel in the sealed bundle to the hand-back's recipient. Toward an identity that holds no standing in the zone, a PEP SHOULD return one code and one body whatever the credential's state.
+
 ## Veto Notification
 
 When a veto occurs, the PEP SHOULD notify relevant parties:

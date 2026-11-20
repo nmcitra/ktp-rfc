@@ -35,6 +35,8 @@ Emergency response embodies these principles:
 
 1. Learning: Every emergency is an opportunity to improve. Post-incident analysis is mandatory.
 
+The Recovery Path principle at the scale of one managed relation is specifications/hand-back.md: a stop cannot be expressed without its destination.
+
 # Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 (RFC 2119 and RFC 8174).

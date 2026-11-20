@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Enforcement Layer Specification"
 abbrev: "KTP-ENFORCE"
 docname: draft-perkins-ktp-enforce-00
-date: 2026-10-04
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -840,6 +840,8 @@ Response body format:
      "request_id": "req-uuid-12345"
    }
 ~~~
+
+Where an implementation declares the hand-back (specifications/hand-back.md), the numeric fields of `details` MAY be omitted from the body the agent receives; they travel in the sealed bundle to the hand-back's recipient. Toward an identity that holds no standing in the zone, a PEP SHOULD return one code and one body whatever the credential's state.
 
 ## Veto Notification
 

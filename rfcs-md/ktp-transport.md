@@ -831,6 +831,8 @@ Authentication errors (AUTH_*):
 +--------------+------+-------------------------+
 ~~~
 
+Toward an identity that holds no standing in the zone, a responder SHOULD return one AUTH code and one body whatever the credential's state; the four codes distinguish states for a subject the zone already knows (specifications/hand-back.md).
+
 ~~~
 Authorization errors (AUTHZ_*):
 +--------------------------+------+--------------------------+

@@ -137,6 +137,8 @@ Corrections MUST append an authenticated correction event, mark superseded evide
 
 A reviewer MUST NOT manually boost a score, substitute an unexplained approval, or override a valid safety check. Corrected evidence produces a fresh decision under the current approved rules. Challenges to those rules themselves MUST reach the designated governing authority.
 
+For a software agent in a managed relation, the destination of an adverse stop and the contest path it carries are specified in specifications/hand-back.md; the review this section requires is the recourse a person is owed under it.
+
 ## Alice's Correction Scenario
 
 Alice requests a rollback for a named production database. Her login and operation grant are valid, but the qualification registry attached another employee's expired certificate to her identity. The explanation identifies the mismatched qualification and review route.

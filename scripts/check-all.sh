@@ -23,6 +23,7 @@ step "Vocabulary";                       python3 scripts/check-vocabulary.py
 step "Parity (rfcs-md/ generation)";     python3 scripts/check-parity.py
 step "Repo hygiene";                     python3 scripts/check-repo-hygiene.py
 step "Section references";               python3 scripts/check-section-refs.py
+step "Title and abstract";               python3 scripts/check-title-abstract.py
 
 step "Conformance test dependencies"
 PY=python3

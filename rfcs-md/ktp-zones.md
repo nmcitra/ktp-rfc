@@ -656,6 +656,8 @@ Trust components that don't travel:
 - Local relationships
 - Zone-specific attestations (converted to Exit Attestation)
 
+A person's standing crosses a zone boundary only as the federation agreement provides. The receiving zone applies its directional trust factor and its zone-mass ceiling to a person's imported standing, as it does for an agent, and MAY admit a person at any standing from zero up to that ceiling. Where no agreement exists, no standing transfers. A person's standing in one zone says nothing about the person in another.
+
 ## Cross-Zone Movement
 
 When moving between zones:
@@ -733,10 +735,10 @@ Governance document:
 
 Zone governance is subject to KTP itself (Article VII of the Constitution). This means:
 
-1. Zone administrators are agents within the zone
+1. Zone administrators are subjects within the zone, software agents or persons
 2. Administrator actions require Trust Proof
 3. Administrator actions are logged to Flight Recorder
-4. A <= E_trust applies to administrative actions
+4. A <= E applies to administrative actions
 5. Administrators cannot exempt themselves from the constraints
 
 This prevents governance hypocrisy where rules apply to others but not to the rule-makers.

@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Vector Identity Specification"
 abbrev: "KTP-IDENTITY"
 docname: draft-perkins-ktp-identity-00
-date: 2026-09-07
+date: 2026-10-20
 category: exp
 ipr: trust200902
 
@@ -431,30 +431,39 @@ Attestations are NOT issued for routine operations under normal conditions. This
 
 Friction is categorized to enable meaningful comparison across different types of environmental stress:
 
-~~~
-+----------+-----------+-----------------------------------+
-| Category | R Range   | Description                       |
-+----------+-----------+-----------------------------------+
-| CALM     | 0.0 - 0.3 | Normal operations, no attestation |
-| ELEVATED | 0.3 - 0.5 | Moderate stress                   |
-| HIGH     | 0.5 - 0.7 | Significant stress                |
-| SEVERE   | 0.7 - 0.9 | Near-crisis conditions            |
-| CRISIS   | 0.9 - 1.0 | Critical conditions               |
-+----------+-----------+-----------------------------------+
-~~~
+| Category | Exact R interval | Description |
+|----------|------------------|-------------|
+| CALM | `0 <= R <= 0.3` | Normal operations, no ordinary-success attestation |
+| ELEVATED | `0.3 < R < 0.5` | Moderate stress |
+| HIGH | `0.5 <= R < 0.7` | Significant stress |
+| SEVERE | `0.7 <= R < 0.9` | Near-crisis conditions |
+| CRISIS | `0.9 <= R <= 1.0` | Critical conditions |
+
+The intervals are exhaustive and disjoint for finite R in [0, 1]. An
+out-of-range or non-finite R MUST be rejected. A declared friction_category
+MUST match the interval containing R; a mismatch MUST be rejected rather than
+silently relabeled. Ordinary successful actions are eligible for an attestation
+only when R > 0.3. CALM ordinary successes earn zero Resilience Score credit;
+this rule does not replace the separate graceful-degradation and recovery
+issuance conditions in Section 5.1 (Attestation Structure).
+
+The deterministic boundary cases in
+[PoR friction boundaries](../specifications/conformance/por-friction-boundaries-v3.json)
+fix category, ordinary-success eligibility, applicable multiplier, and
+Resilience Score contribution for action_risk = 0.4. Decimal values are exact;
+"below" and "above" use a declared test step of 0.000001, not a claim about
+machine floating-point adjacency. Every valid case also specifies a conflicting
+declared category that MUST be rejected. These are modeled decision vectors,
+not validation of friction measurement or a runtime conformance claim.
 
 Weight multipliers for Resilience Score:
 
-~~~
-+----------+--------+-----------------------------------+
-| Category | Weight | Rationale                         |
-+----------+--------+-----------------------------------+
-| ELEVATED | 1.0x   | Baseline for counted attestations |
-| HIGH     | 2.0x   | Notable achievement               |
-| SEVERE   | 5.0x   | Significant achievement           |
-| CRISIS   | 10.0x  | Exceptional achievement           |
-+----------+--------+-----------------------------------+
-~~~
+| Category | Weight | Rationale |
+|----------|--------|-----------|
+| ELEVATED | 1.0x | Baseline for counted attestations |
+| HIGH | 2.0x | Notable achievement |
+| SEVERE | 5.0x | Significant achievement |
+| CRISIS | 10.0x | Exceptional achievement |
 
 An agent that successfully completes one action during CRISIS conditions earns the same Resilience Score as an agent that completes ten actions during ELEVATED conditions.
 
@@ -498,7 +507,7 @@ Proof of Resilience explicitly values quality over quantity:
 Agent A:
 
 - 100,000 transactions
-- All under CALM conditions (R < 0.3)
+- All under CALM conditions (0 <= R <= 0.3)
 - 0 attestations
 - Resilience Score: 0
 - PoR contribution: 0

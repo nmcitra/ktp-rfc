@@ -1749,7 +1749,7 @@ KTP implements multiple countermeasures that make gaming expensive, detectable, 
 
 1. Behavioral Unpredictability (GOODHART-002) - Random weight variations within bounds - Unannounced emphasis shifts - Cannot optimize against unknown weights - Still deterministically verifiable after the fact
 
-1. Adversity Requirements (GOODHART-003) - E_base > 60 requires crisis-time attestations (R > 0.5) - E_base > 80 requires R > 0.7 attestations - Cannot manufacture crises without harming self - Zone-wide crisis verification required
+1. Adversity Requirements (GOODHART-003) - E_base > 60 requires crisis-time attestations (R at or above 0.5) - E_base > 80 requires attestations at R at or above 0.7 - Cannot manufacture crises without harming self - Zone-wide crisis verification required
 
 1. Peer Validation (GOODHART-004) - Co-transaction success rate (externally observed) - Sponsor reputation (cannot force good sponsors to stake) - Zone endorsements (cannot forge) - 10-20% of E_base from peer signals
 

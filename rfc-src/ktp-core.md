@@ -475,6 +475,22 @@ Unobservability is therefore checked at three layers, and a deployment MUST appl
 
 The layers do not collapse into one another. A signal may be unavailable while every feed populating it is healthy, which is why a feed-level rule alone is insufficient.
 
+The complete end-to-end rule is
+[Missing Evidence](../specifications/missing-evidence.md), with closed result
+shapes in schemas/evidence-state.json and deterministic cases in
+specifications/conformance/missing-evidence-v1.json. A feed is current or
+unavailable with reason, a signal populated or unknown, and a factor observable
+or unobservable. Unavailable/unknown/unobservable results carry no measured
+value; maximum factor stress is a separate restrictive decision reading.
+Only declared independent current redundancy satisfying the whole signal
+population rule preserves continuity. Any unknown required signal makes the
+factor unobservable; missing members and their weights MUST NOT be dropped or
+renormalized. There is no default_on_failure or estimator profile for this
+path. Record each evaluated missing layer separately in undefined_inputs,
+including failed feeds when a valid backup preserves the signal. Soul keeps
+its independent on-demand unanswered-query veto. This changes no A/E formula
+or the separate demand-side supplier contract.
+
 The multiplicative relationship between R and E_base (see Section 5.3) is critical. R is not subtracted from E_base; it deflates it. This means:
 
 - At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction) - At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction) - At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction) - At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)

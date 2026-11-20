@@ -81,7 +81,26 @@
             "minItems": 1,
             "uniqueItems": true,
             "items": { "$ref": "#/$defs/signal_id" }
+          },
+          "independence_evidence": {
+            "type": "string",
+            "format": "uri",
+            "minLength": 1,
+            "description": "Installed evidence/profile reference establishing independence under the relevant signal population rule; required semantically for claimed redundancy."
+          },
+          "independence_group": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Declared source/control/failure group for an independently redundant feed. Labels alone do not establish independence."
           }
+        },
+        "dependentRequired": {
+          "independence_group": [
+            "independence_evidence"
+          ],
+          "independence_evidence": [
+            "independence_group"
+          ]
         }
       }
     },

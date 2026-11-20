@@ -34,6 +34,8 @@ if ! python3 -c 'import jsonschema, cryptography, rfc8785' 2>/dev/null; then
   echo "using .venv/"
 fi
 
+step "Backup continuity regressions";     "$PY" scripts/test-backup-continuity.py
+
 step "Declarations";                     "$PY" scripts/check-declarations.py
 step "Tooling regressions";               "$PY" scripts/test-source-checks.py
 

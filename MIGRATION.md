@@ -625,3 +625,23 @@ unchanged at their v2 identifiers and are kept as
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
 
+### 4.2 Missing evidence and fixed aggregation slots
+
+Remove `default_on_failure` from active sensor configurations, including veto
+configurations, and the old fraction-of-feeds dimension fallback. Adopt the
+[explicit layer states](specifications/missing-evidence.md) and their per-layer
+`undefined_inputs` entries. Continuity requires declared independently current
+redundant evidence filling fixed-weight aggregation slots and satisfying the
+same signal's complete population rule;
+there is no estimator alternative. Any required unknown signal makes the
+factor unobservable with a separate maximum-stress decision reading, not a
+measurement. Increment configuration/profile versions and digests, reacquire
+current observations, and preserve historical v2.1 records under their original
+release. Do not rename old fallback numbers or cached data into current
+observations; legacy handling cannot weaken active missing-evidence rules.
+
+Backup continuity requires independently established equivalent coverage, not only
+a current source in another failure domain. Cooler subsets do not replace a
+missing population. Reject mappings that reuse one observation across slots,
+including primary/backup aliases. A changed reading alone is not evidence of
+invalidity and does not authorize replay of the last current value.

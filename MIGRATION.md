@@ -596,3 +596,10 @@ opens a breach record. No change to the Trust Proof. Vocabulary: *Execution
 Observation* is a new term with no predecessor; the record it names is the
 observation of specifications/consequential-action-execution-and-evidence.md
 or a declared equivalent.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

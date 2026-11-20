@@ -594,3 +594,10 @@ each is owed, the jurisdictions, and the limits of its authority. A profile
 without it is not a conformant v3 profile, and a zone without it makes no
 conformance claim. Zone Gateways deny acts on undeclared resources and standing
 to unentitled subjects. No wire change to the Trust Proof.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

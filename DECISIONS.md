@@ -209,3 +209,31 @@ Decision: Shape A, retire. Core Section 5.2 is the one definition of the
 Risk Factor; Sensors 2.3 keeps the node, neighborhood and global levels as an
 informative technique for one input, Conformance drops the Risk Domain
 requirements, and CT-S-002 is retired.
+
+### D-015 · L23: a number that is digested or compared has no single written form
+Published 2026-10-30 · Clarification · clock 2026-10-30 → floor 2026-11-06 · review-by 2026-11-13 · approved 2026-11-07
+Source: issue #211; PR #212
+Decision: Approved as proposed. L23 enters KTP-CORE's named limits with
+v3.0.0 and adds no requirement. PR #212 merges after #209 in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by Chris Perkins, from a gap @martherus found
+implementing the published vectors.
+
+### D-016 · Induced Conservatism named in the threat model: TM-D-005
+Published 2026-10-07 · Clarification · clock 2026-10-28 → floor 2026-11-04 · review-by 2026-11-11 · approved 2026-11-07
+Source: issue #146; PR #208
+Decision: Approved as proposed. KTP-THREAT-MODEL names Induced Conservatism
+as TM-D-005, and no conformant implementation changes. The first review window
+closed by mechanism on 2026-10-23 and the clock restarted on 2026-10-28.
+PR #208 merges with this record.
+Provenance: proposed by @kimosmond-del; carried into PR #208 by the maintainer.
+
+### D-017 · KTP-CELESTIAL's exponential degradation curve decays
+Published 2026-11-10 · Clarification · floor 2026-11-17 · review-by 2026-11-24 · approved 2026-11-18
+Source: issue #221; PR #222
+Decision: Approved as proposed. The exponential curve's constant is
+`ln(2) / half_life`, so e_trust halves every half-life, and "(more
+conservative)" is removed. The defect is in every release since v1.0.0 and is
+recorded as SN-006; no conformant implementation changes. PR #222 merges with
+this record.
+Provenance: proposed and carried into PR #222 by the maintainer.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run every gate CI runs, in the same order, from a clean checkout.
+# Run every gate CI runs, in the same order, from the tracked working tree.
 # This is the one command to run before opening a pull request.
 # Mirrors .github/workflows/rfc-sync.yml (job: gates) and repo-hygiene.yml.
 #
@@ -9,12 +9,19 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Default PR mode validates freshly rendered views without writing this checkout.
+# Release mode deliberately requires committed generated artifacts to match.
+case "${1:-}" in
+  "") exec python3 scripts/check-source.py ;;
+  --release) ;;
+  *) echo "Usage: scripts/check-all.sh [--release]" >&2; exit 2 ;;
+esac
+
 step() { printf '\n== %s\n' "$1"; }
 
 step "Vocabulary";                       python3 scripts/check-vocabulary.py
 step "Parity (rfcs-md/ generation)";     python3 scripts/check-parity.py
 step "Repo hygiene";                     python3 scripts/check-repo-hygiene.py
-step "Declarations";                     python3 scripts/check-declarations.py
 step "Section references";               python3 scripts/check-section-refs.py
 
 step "Conformance test dependencies"
@@ -26,6 +33,9 @@ if ! python3 -c 'import jsonschema, cryptography, rfc8785' 2>/dev/null; then
     || "$PY" -m pip install --quiet jsonschema==4.26.0 cryptography==50.0.1 rfc8785==0.1.4
   echo "using .venv/"
 fi
+
+step "Declarations";                     "$PY" scripts/check-declarations.py
+step "Tooling regressions";               "$PY" scripts/test-source-checks.py
 
 step "Capacity threshold regressions";   "$PY" scripts/test-envelope-thresholds.py
 step "Risk Factor weight regressions";   "$PY" scripts/test-risk-factor-weights.py

@@ -613,3 +613,10 @@ or withdrawn; a claim on a substrate the set carries no profile for waits for
 that profile to enter the set. No wire change. Vocabulary: *Substrate Profile*
 is a new term with no predecessor; the software-substrate execution profile
 (#124) is its first instance.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

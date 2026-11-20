@@ -301,14 +301,14 @@ Each API key maps to a KTP agent identity:
 ~~~
    {
      "api_key_hash": "sha256:xyz...",
-     "agent_id": "agent:service:payment-processor",
+     "agent_id": "agent:sponsored:payments:payment-processor:service01",
      "created": "2024-01-15T00:00:00Z",
      "owner": "team:payments",
      "ktp_binding": {
        "oracle": "https://oracle.example.com",
        "e_base": 65,
        "lineage": "sponsored",
-       "sponsor": "agent:guarantor:payments-team-lead"
+       "sponsor": "agent:guarantor:7gen:payments:team-lead"
      }
    }
 ~~~
@@ -378,7 +378,7 @@ X.509 certificates map to KTP agent identities:
    {
      "certificate_fingerprint": "sha256:abc...",
      "subject_dn": "CN=payment-service,O=Example,C=US",
-     "agent_id": "agent:service:payment-processor",
+     "agent_id": "agent:sponsored:payments:payment-processor:service01",
      "ktp_binding": {
        "oracle": "https://oracle.example.com",
        "e_base": 85,

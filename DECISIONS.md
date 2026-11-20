@@ -227,3 +227,13 @@ as TM-D-005, and no conformant implementation changes. The first review window
 closed by mechanism on 2026-10-23 and the clock restarted on 2026-10-28.
 PR #208 merges with this record.
 Provenance: proposed by @kimosmond-del; carried into PR #208 by the maintainer.
+
+### D-017 · KTP-CELESTIAL's exponential degradation curve decays
+Published 2026-11-10 · Clarification · floor 2026-11-17 · review-by 2026-11-24 · approved 2026-11-18
+Source: issue #221; PR #222
+Decision: Approved as proposed. The exponential curve's constant is
+`ln(2) / half_life`, so e_trust halves every half-life, and "(more
+conservative)" is removed. The defect is in every release since v1.0.0 and is
+recorded as SN-006; no conformant implementation changes. PR #222 merges with
+this record.
+Provenance: proposed and carried into PR #222 by the maintainer.

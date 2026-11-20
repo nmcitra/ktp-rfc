@@ -613,6 +613,18 @@ asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
 
+**Unreleased charter-amendment migration:** A deployment publishes, in its
+charter, the route by which a lineage bound by a rule opens the amendment
+process, the deadline by which the governing authority attends a filing, and,
+in its profile, the recurrence at which the route opens. Its amendment
+procedure gains three checks it did not have: that the amendment cites the
+records it answers and, for a constant, the measurements; that making it is
+evaluated as the governor's own act before it is in force; and that it touches
+nothing on the floor, which now names the route, the recurrence, a veto, and
+what no repair tier may change beside the immutable elements. An amendment in
+flight on the day this lands is evaluated under these checks at ratification.
+No wire change.
+
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
 half_life`, so an Extended Trust Proof's e_trust halves every half-life. One

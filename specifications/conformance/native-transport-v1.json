@@ -1,0 +1,406 @@
+{
+  "suite": "native-transport-v1",
+  "baseline": "v2.1.0",
+  "status": "proposed",
+  "note": "Modeled requirements for adapters, not observed network interoperability or authorization. given/expect are test notation, not a negotiation/wrapper schema. All expected executionPermissionEstablished values are false: artifact acceptance alone is never permission. Fixture keys from referenced suites are unsafe public test keys.",
+  "context": {
+    "release_pin": "fixture-native-v3-immutable",
+    "release_note": "Symbolic immutable native-v3 release for modeled selection only; no public tag or adoption claimed. Referenced artifacts retain their own explicit proposed-profile/v2.1.0 baseline context.",
+    "transport_profile": "ktp-json-jws-v1",
+    "authenticated_binding_installed": true,
+    "all_owning_contract_checks": "pass except where a case overrides them",
+    "override_rule": "given overrides context; selection replaces the complete selected tuple rather than merging missing members from defaults"
+  },
+  "references": {
+    "resolution": "artifact selects the complete named case and its trusted context in the referenced suite, not a new shortened wire body"
+  },
+  "vectors": [
+    {
+      "id": "base-proof-exact-bytes",
+      "given": {
+        "representation": "application/ktp-trust-proof+jwt",
+        "artifact": {
+          "suite": "specifications/conformance/trust-proof-v3.json",
+          "collection": "cases",
+          "id": "clear"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": true,
+        "executionPermissionEstablished": false,
+        "exactSignedBytesPreserved": true
+      }
+    },
+    {
+      "id": "base-request-json",
+      "given": {
+        "representation": "application/json",
+        "artifact": {
+          "suite": "specifications/conformance/request-binding-v1.json",
+          "collection": "cases",
+          "id": "valid"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": true,
+        "executionPermissionEstablished": false,
+        "owningContractRequired": true
+      }
+    },
+    {
+      "id": "base-boundary-carrier",
+      "given": {
+        "representation": "application/jose",
+        "artifact": {
+          "suite": "specifications/conformance/decision-geometry-v1.json",
+          "collection": "carrier_cases",
+          "id": "valid-carrier"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": true,
+        "executionPermissionEstablished": false,
+        "protectedPurposeRequired": true,
+        "completeAssociationChecksRequired": true
+      }
+    },
+    {
+      "id": "retired-factor-object",
+      "given": {
+        "legacy_payload": {
+          "type": "ContextTensor",
+          "mass": 0.1,
+          "velocity": 0.2,
+          "heat": 0.3,
+          "time": 0.4,
+          "inertia": 0.5,
+          "opacity": 0.6,
+          "soul": 0
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "legacyInterpretationOnly": true
+      }
+    },
+    {
+      "id": "enum-only-authorization",
+      "given": {
+        "response": {
+          "request_id": "req-1",
+          "result": "AUTHORIZATION_ALLOWED"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "normative result and signed association missing"
+      }
+    },
+    {
+      "id": "denied-enum-is-not-geometry",
+      "given": {
+        "response": {
+          "result": "DENIED"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "a conservative verb still is not the canonical artifact"
+      }
+    },
+    {
+      "id": "flat-proof-disagrees-with-jws",
+      "given": {
+        "proof": {
+          "suite": "specifications/conformance/trust-proof-v3.json",
+          "collection": "cases",
+          "id": "clear"
+        },
+        "flat_fields": {
+          "e_trust": 77
+        },
+        "presented_as": "native proof envelope"
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "rejectWholeEnvelope": true
+      }
+    },
+    {
+      "id": "flat-proof-even-with-matching-summary",
+      "given": {
+        "proof": {
+          "suite": "specifications/conformance/trust-proof-v3.json",
+          "collection": "cases",
+          "id": "clear"
+        },
+        "flat_fields": "copy decoded signed claims exactly",
+        "presented_as": "native proof envelope"
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "no native flat-proof dual authority envelope"
+      }
+    },
+    {
+      "id": "renamed-protobuf-not-migration",
+      "given": {
+        "package": "ktp.v3",
+        "authorization_result": "ALLOWED",
+        "six_factor_fields_renamed": true
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "freshIssuanceAndEvaluationRequired": true
+      }
+    },
+    {
+      "id": "bare-v1-ambiguous",
+      "given": {
+        "selection": {
+          "version": "v1"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "no semantic release or named profile"
+      }
+    },
+    {
+      "id": "api-route-does-not-select-semantics",
+      "given": {
+        "selection": {
+          "http_api_version": "v1",
+          "path": "/api/v1/authorize",
+          "content_type": "application/json"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "API and content type do not supply profile/release"
+      }
+    },
+    {
+      "id": "api-v1-with-native-selection",
+      "given": {
+        "http_api_version": "v1",
+        "artifact": {
+          "suite": "specifications/conformance/trust-proof-v3.json",
+          "collection": "cases",
+          "id": "clear"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": true,
+        "executionPermissionEstablished": false,
+        "apiVersionIndependent": true
+      }
+    },
+    {
+      "id": "legacy-websocket-subprotocol",
+      "given": {
+        "selection": {
+          "subprotocol": "ktp.v1"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "legacyInterpretationOnly": true
+      }
+    },
+    {
+      "id": "legacy-capability-list",
+      "given": {
+        "selection": {
+          "capabilities": [
+            "ktp-core-v1",
+            "ktp-federation-v1",
+            "ktp-celestial-v1"
+          ]
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "no named native transport profile"
+      }
+    },
+    {
+      "id": "unknown-transport-profile",
+      "given": {
+        "selection": {
+          "release_pin": "fixture-native-v3-immutable",
+          "transport_profile": "unknown-profile-v3"
+        }
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "fallbackPermitted": false
+      }
+    },
+    {
+      "id": "conflicting-artifact-version",
+      "given": {
+        "selected_artifact_contract": "ktp-trust-proof-v3",
+        "candidate_artifact_contract": "ktp-trust-proof-v1"
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "fallbackPermitted": false
+      }
+    },
+    {
+      "id": "unsupported-protobuf-request",
+      "given": {
+        "request_media_type": "application/x-protobuf",
+        "installed_alternative_profiles": []
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "httpStatus": 415,
+        "fallbackPermitted": false
+      }
+    },
+    {
+      "id": "unsupported-protobuf-response-only",
+      "given": {
+        "accept": [
+          "application/grpc+proto"
+        ],
+        "installed_alternative_profiles": []
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "httpStatus": 406,
+        "fallbackPermitted": false
+      }
+    },
+    {
+      "id": "failed-native-cannot-activate-legacy",
+      "given": {
+        "native_validation": "failed",
+        "legacy_adapter_explicitly_enabled": true
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "fallbackPermitted": false
+      }
+    },
+    {
+      "id": "unsigned-boundary-geometry",
+      "given": {
+        "boundary_crossing": true,
+        "artifact": {
+          "suite": "specifications/conformance/decision-geometry-v1.json",
+          "collection": "body_cases",
+          "id": "complete"
+        },
+        "representation": "application/json"
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "complete typed carrier required"
+      }
+    },
+    {
+      "id": "reserialized-proof-is-not-signed-bytes",
+      "given": {
+        "proof": {
+          "suite": "specifications/conformance/trust-proof-v3.json",
+          "collection": "cases",
+          "id": "clear"
+        },
+        "translation": "decode payload and sign/display a different message"
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "original exact compact JWS required"
+      }
+    },
+    {
+      "id": "future-protobuf-name-without-artifacts",
+      "given": {
+        "transport_profile": "hypothetical-protobuf-v1",
+        "machine_readable_artifact": false,
+        "mapping_vectors": false,
+        "named_builder": false
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "profile name alone is insufficient"
+      }
+    },
+    {
+      "id": "heartbeat-does-not-renew-proof",
+      "given": {
+        "expired_proof": true,
+        "recent_heartbeat": true
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "expiryExtended": false
+      }
+    },
+    {
+      "id": "legacy-route-isolated",
+      "given": {
+        "explicit_legacy_route": true,
+        "selected_legacy_release": "v2.1.0",
+        "native_attempt": false
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "legacyPathMayProceed": true,
+        "nativeLabelPermitted": false
+      }
+    },
+    {
+      "id": "migration-requires-fresh-evaluation",
+      "given": {
+        "historical_legacy_permission": "ALLOWED",
+        "new_native_fields_copied": true
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "freshIssuanceAndEvaluationRequired": true
+      }
+    },
+    {
+      "id": "missing-authenticated-api-mapping",
+      "given": {
+        "representation": "application/json",
+        "artifact": {
+          "suite": "specifications/conformance/request-binding-v1.json",
+          "collection": "cases",
+          "id": "valid"
+        },
+        "authenticated_binding_installed": false
+      },
+      "expect": {
+        "nativeArtifactAccepted": false,
+        "executionPermissionEstablished": false,
+        "reason": "plausible JSON request is insufficient without actual invocation/proof mapping"
+      }
+    }
+  ]
+}

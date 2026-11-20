@@ -565,6 +565,14 @@ stake_amount = sponsor_E_base * (stake_percentage / 100)
 
 ## Stake Mechanics
 
+Native proof projection of a live bond follows
+specifications/external-root.md and schemas/root-instrument.json. Its exact
+complete signed bond, sponsor and subject, authenticated input snapshot,
+current lifecycle, original expiry and outside accountability chain MUST be
+bound to the proof; a completed tether or residual liability alone is not a
+live root instrument. For-cause claims/findings remain in the authoritative
+lifecycle record; the smaller proof status does not infer an adjudication.
+
 When a Sponsorship Bond is created:
 
 1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds

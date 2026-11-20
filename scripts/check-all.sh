@@ -23,6 +23,7 @@ step "Vocabulary";                       python3 scripts/check-vocabulary.py
 step "Parity (rfcs-md/ generation)";     python3 scripts/check-parity.py
 step "Repo hygiene";                     python3 scripts/check-repo-hygiene.py
 step "Section references";               python3 scripts/check-section-refs.py
+step "Title and abstract";               python3 scripts/check-title-abstract.py
 
 step "Conformance test dependencies"
 PY=python3
@@ -46,6 +47,7 @@ step "Operational readiness regressions"; "$PY" scripts/test-readiness.py
 step "Human eligibility regressions";    "$PY" scripts/test-human-eligibility.py
 step "Software-substrate execution regressions"; "$PY" scripts/test-software-substrate-execution.py
 step "Privacy evidence regressions";     "$PY" scripts/test-privacy-evidence.py
+step "Consequential-action evidence regressions"; "$PY" scripts/test-consequential-action-evidence.py
 step "Catalogue tables";                 python3 scripts/gen-catalog-tables.py --check
 
 printf '\nAll gates green.\n'

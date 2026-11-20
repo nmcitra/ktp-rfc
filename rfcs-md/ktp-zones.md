@@ -311,6 +311,8 @@ Boundary enforcement:
 - Application-level: API gateway enforcement
 - Service-level: Service mesh policies
 
+A zone MUST declare its boundary in its deployment profile: the resources its authority covers, the subjects entitled to hold standing in it, the classes of party outside it that acts within it may affect and the review route each is owed, the jurisdictions it operates under, and the limits of its authority. A Zone Gateway MUST deny an act on a resource the declaration does not cover and MUST deny standing to a subject the declaration does not entitle, and a denial that affects a party outside the zone MUST record the review route the declaration names for that party. A zone MUST NOT act beyond the authority its declaration limits, and a zone that declares no boundary makes no conformance claim. An enclosed zone's declared resources MUST NOT exceed its enclosure's. The declaration is the `boundary` object of the deployment profile (specifications/deployment-profile.md); its vectors are specifications/conformance/zone-boundary-v1.json.
+
 ## Zone Gateway
 
 The Zone Gateway is a specialized PEP that controls zone ingress and egress.

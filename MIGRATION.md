@@ -613,6 +613,14 @@ asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
 
+**Unreleased boundary migration:** Every deployment profile adds the `boundary`
+object: the resources the zone's authority covers, the subjects entitled to
+hold standing, the outside parties its acts may affect with the review route
+each is owed, the jurisdictions, and the limits of its authority. A profile
+without it is not a conformant v3 profile, and a zone without it makes no
+conformance claim. Zone Gateways deny acts on undeclared resources and standing
+to unentitled subjects. No wire change to the Trust Proof.
+
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
 half_life`, so an Extended Trust Proof's e_trust halves every half-life. One

@@ -598,3 +598,10 @@ nothing on the floor, which now names the route, the recurrence, a veto, and
 what no repair tier may change beside the immutable elements. An amendment in
 flight on the day this lands is evaluated under these checks at ratification.
 No wire change.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

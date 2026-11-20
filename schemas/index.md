@@ -18,6 +18,8 @@ the source.
 | Root Instrument v1 (proposed) | [`root-instrument.json`](root-instrument.json) | Closed none/bond/attestation proof projection; signatures, lifecycle, lineage and strongest-single selection remain independent checks |
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Legacy Trust Proof v2 | [`trust-proof-legacy-v2.json`](trust-proof-legacy-v2.json) | Byte-preserved published schema for interpreting v2 proofs, whose context carries six inputs |
+| Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |
+| Request/Proof Association v1 (proposed) | [`request-proof-association.json`](request-proof-association.json) | Unsigned request/proof digest and JTI association; no standalone authorization or signed carrier |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |

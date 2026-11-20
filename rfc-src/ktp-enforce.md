@@ -161,9 +161,9 @@ The standard enforcement flow for every action follows. A person's Trust Tier de
 
 1. The PEP intercepts the request and authenticates principal type, identity, session, the actual executing actor, and the resolved request scope and parameters. Dispatch follows the authenticated executor; software executing for a human remains subject to software-agent requirements.
 
-1. PEP applies specifications/trust-proof.md Section 5 (Ordered verification and stable reasons), preserving the first stable reason. Any invalid proof, TP_VETO or TP_UNDETERMINED returns silent_veto and STOP. TP_CLEAR only permits the remaining checks; it is not action permission
+1. For ordinary software execution, PEP applies specifications/request-binding.md Section 7 (Ordered association failures), including the canonical Trust Proof verification at its defined stage. Construct the request from the authenticated actual invocation, bind the proof to the executor, verify delegation where requester and executor differ, and reserve the request ID under the authenticated replay domain. Any failed association, invalid proof, TP_VETO or TP_UNDETERMINED returns silent_veto and STOP, preserving the association and underlying proof reasons. RB_BOUND permits only the remaining checks. For direct human execution, the reviewed adapter MUST perform the canonical Trust Proof verification under specifications/trust-proof.md Section 5, including issuer, subject, audience, current time and gate checks, and bind that exact proof to the actual human request before the next step. This software request profile does not replace that adapter.
 
-1. The PEP verifies the proof's trusted issuer/key, applicable format, audience/session/request binding and replay conditions, then extracts the authenticated Soul constraint status. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
+1. The PEP extracts the authenticated Soul constraint status from the proof already verified by the software association step or the direct-human adapter in the preceding step. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
 
 1. IF S = 1: - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 
@@ -221,6 +221,8 @@ Flight Recorder:
 Every KTP-compliant PEP MUST:
 
 1. Intercept all agent requests before they reach protected resources
+
+1. For each ordinary software evaluation, verify the canonical request/proof association under specifications/request-binding.md. An unsigned association is no permission to cross a trust boundary; verify the approved signed carrier or deny. Retain all capacity, grant, readiness and use-time checks
 
 1. Require a valid Trust Proof for every ordinary request (no Trust Proof = deny by default); independently authorized emergency capability uses the separate path in `specifications/emergency-capability.md`
 

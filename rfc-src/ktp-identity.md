@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Vector Identity Specification"
 abbrev: "KTP-IDENTITY"
 docname: draft-perkins-ktp-identity-00
-date: 2026-09-07
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -26,6 +26,12 @@ normative:
       - name: Chris Perkins
   KTP-PRIVACY:
     title: "Kinetic Trust Protocol - Privacy"
+    author:
+      - name: Chris Perkins
+
+informative:
+  KTP-FEDERATION:
+    title: "Kinetic Trust Protocol (KTP) - Federation Specification"
     author:
       - name: Chris Perkins
 
@@ -900,7 +906,7 @@ Characteristics:
 - Can sponsor Sponsored agents.  This is the phase's defining capability and it is a liability rather than a benefit: sponsoring reduces the sponsor's available E_base for as long as the bond and its residual last, and exposes the sponsor to penalty for the sponsored agent's conduct (Section 6.3, Section 6.4)
 - Contributes to Ancestral Authority of descendants, and carries the matching Ancestral Liability for exactly as long (Section 8.5)
 - May receive preferential routing during network stress
-- Attestations carry higher weight in cross-zone federation
+- Attestations about it carry no weight of their own in another zone; a federated zone admits them under its own declared policy and at its own factor ({{KTP-FEDERATION}})
 
 Identifier format: agent:guarantor:\<generation>gen:\<name>:\<unique_id>
 

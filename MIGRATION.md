@@ -62,6 +62,19 @@ v2 deployment schema is archived as `schemas/deployment-profile-legacy-v2.json`.
 These are unreleased format/behavior changes; the historical instructions below
 continue to describe their named release only.
 
+**Unreleased consequential-action migration (D-012, #129 / #139):** Deployments
+opting into [the execution/evidence companion](specifications/consequential-action-execution-and-evidence.md)
+revalidate at release and preserve replay identity, request fingerprint,
+checkpoints and unresolved reservations across recovery. Declare aggregate
+budget units, scope, accounting and reconciliation; budget restrictions do not
+redefine E or widen the profile result. Adopt the signed evidence record and its
+five states. A denial without authenticated protected-path non-dispatch evidence
+is `unknown`; neither HTTP success nor a dispatch record proves an effect.
+Release held reservations only on authenticated non-dispatch, preserving uncertain
+state. An earlier implementation must not silently map `no_effect` to dispatch or
+release a reservation on it. D-012 is opt-in and does not itself change obligations
+for implementations that do not declare it; independent v3 requirements remain.
+
 **Unreleased trajectory-format migration:** The current draft additionally
 introduces `ktp-trajectory-v3`, independently of the historical release guide
 below. This does not publish a new release or move any tag. Implementers adopting

@@ -20,6 +20,10 @@ normative:
     title: "Kinetic Trust Protocol - Flight Recorder"
     author:
       - name: Chris Perkins
+  KTP-ZONES:
+    title: "Kinetic Trust Protocol - Blue Zone Specification"
+    author:
+      - name: Chris Perkins
   RFC2119:
   RFC8174:
 informative:
@@ -170,7 +174,7 @@ This section is informative. The Risk Factor is defined once, in {{KTP-CORE}} Se
 
 The problem the technique addresses is oscillation. Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If one sensor on one node reports a momentary spike, a brief CPU surge or a transient network blip, the input that sensor populates can move enough to carry R across the boundary and back, and the agent transitions Operator to Analyst to Operator, disrupting operations and creating audit noise.
 
-The technique reads one input at three sensing scopes, called Risk Domains, and aggregates the readings by the feed aggregation of Section 2.2: each scope is a feed of that input, with a feed weight, and the input's value is the weighted average of the three.
+The technique reads one input at three sensing scopes, called Risk Domains, and aggregates the readings by the feed aggregation of Section 2.2: each scope is a feed of that input, with a feed weight, and the input's value is the weighted average of the three. A ring in a nested deployment also carries its enclosure's exposure into its Risk Factor, the Enclosure Domain (2.3.6). The Enclosure Domain is not one of the three levels: it acts on the Risk Factor itself, and its requirements are normative.
 
 2.3.1.  The Three Scopes
 
@@ -352,6 +356,84 @@ Risk Domains complement but do not replace hysteresis at tier boundaries (see \[
 - Hysteresis: Smooth state transitions (prevent rapid tier changes)
 
 Together, they create stable system behavior without sacrificing responsiveness to genuine environmental changes.
+
+2.3.6.  The Enclosure Domain
+
+In a nested deployment ({{KTP-ZONES}} Section 3.7 (Nested Zones)), a ring's Risk Factor carries one input from outside the ring: the exposure of its enclosure. This subsection is normative. It acts on the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) defines it, not on the three levels above. It applies only to a ring of depth 1 or more; at depth 0 it is disabled and the ring's Risk Factor is that sum alone.
+
+Enclosure Domain:
+
+~~~
+   The zone that directly surrounds the ring.
+~~~
+
+~~~
+   Scope: The enclosure, as the ring's authorized Topology names it
+   Update frequency: Low (30-120 seconds)
+   Inputs: The enclosure's signed Risk Factor, attenuated per Class
+           Step; the ring's own Zone Gateway reading of the enclosure
+   Weight in R: none; it is not a weighted term (see below)
+~~~
+
+~~~
+   Enclosure readings are exposure, not local condition. An
+   enclosure under attack raises the risk inside the ring it
+   surrounds. An enclosure reporting calm does not lower it.
+~~~
+
+The Enclosure Domain is not a term of the Risk Factor's sum and takes no share of its weights, which still sum to 1.0. It acts on the ring's Risk Factor as a floor:
+
+- The result MUST NOT be lower than the ring's contemporaneous Risk Factor computed without it.
+- With other inputs fixed, increasing enclosure risk MUST NOT decrease the result.
+- The ring's own Zone Gateway reading of the enclosure MUST be an input, and an enclosure's report MUST NOT overwrite a higher reading.
+- The enclosure's signed Risk Factor is attenuated only across a Class Step, by the profile's attenuation per step; between rings of equal Enforcement Class it is not attenuated.
+- How far the enclosure's exposure reaches into the ring is a reach between 0 and 1, declared in the deployment profile. At depth 1 or more the reach MUST be greater than 0; the domain is disabled only at depth 0, where there is no enclosure ({{KTP-ZONES}} Section 3.7 (Nested Zones)).
+- The Enclosure Domain takes part in every evaluation for agents resident in the ring, not only at ingress.
+
+Reference form (informative). Let L be the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) computes it, before this domain, P the enclosure's signed Risk Factor, a the attenuation across the boundary (1.0 where there is no Class Step), G the ring's own Zone Gateway reading of the enclosure, and w the reach. Then:
+
+~~~
+   H = max(a × P, G)
+   R = L + w × max(0, H - L)
+~~~
+
+This form satisfies every requirement above: R is never below L, never above 1, and rises with P and G. A profile MAY use another form that satisfies them; the conformance vectors, not this form, are the test.
+
+Scenario 4: Enclosure Heat
+
+~~~
+   The ring's own Risk Factor is L = 0.22. Its enclosure is one
+   Class Step out and signs
+   P = 0.80. Attenuation a = 0.50, so a x P = 0.40.
+   The ring's gateway reads the enclosure at G = 0.30.
+   Reach w = 0.50.
+~~~
+
+~~~
+   H = max(0.40, 0.30) = 0.40
+   R = 0.22 + 0.50 x (0.40 - 0.22) = 0.31
+~~~
+
+~~~
+   Result: the ring's R rises from 0.22 to 0.31 with nothing wrong
+   inside it. If the enclosure instead signs P = 0.05 and the
+   gateway reads G = 0.10, then H = 0.10 is below L and R stays
+   at 0.22: calm from outside never lowers the ring's own measure.
+~~~
+
+The deployment profile declares it, in an `enclosure` object:
+
+~~~
+   {
+     "enclosure": {
+       "reach": 0.50,
+       "attenuation_per_class_step": 0.50,
+       "update_interval_ms": 60000
+     }
+   }
+~~~
+
+The reference attenuation of 0.5 per Class Step is experimental. It is a parameter of this domain, not the propagation decay of KTP-FEDERATION.
 
 # The Six Weighted Inputs
 

@@ -118,6 +118,79 @@
           "type": "string",
           "description": "Blue Zone identifier where proof was issued"
         },
+        "ingress_path": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "zone_id",
+              "oracle_kid",
+              "sub",
+              "cnf_jkt",
+              "aud",
+              "prev",
+              "topology_epoch",
+              "iat",
+              "exp",
+              "admission_id",
+              "sig"
+            ],
+            "properties": {
+              "zone_id": {
+                "type": "string",
+                "description": "Issuer: the ring whose Trust Oracle admitted the agent"
+              },
+              "oracle_kid": {
+                "type": "string",
+                "description": "Issuer: key identifier of the Trust Oracle key that signed this receipt"
+              },
+              "sub": {
+                "type": "string",
+                "format": "uri",
+                "description": "Subject: the admitted agent"
+              },
+              "cnf_jkt": {
+                "type": "string",
+                "description": "Subject: thumbprint of the agent's proof-of-possession key"
+              },
+              "aud": {
+                "type": "string",
+                "description": "Audience: zone identifier of the next ring inward"
+              },
+              "prev": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Digest of the preceding receipt in the path; null for the outermost receipt"
+              },
+              "topology_epoch": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Topology Epoch under which the admission was granted"
+              },
+              "iat": {
+                "type": "integer",
+                "description": "Issued at (Unix timestamp)"
+              },
+              "exp": {
+                "type": "integer",
+                "description": "Expires at (Unix timestamp)"
+              },
+              "admission_id": {
+                "type": "string",
+                "description": "Fresh identifier of the admission this receipt attests"
+              },
+              "sig": {
+                "type": "string",
+                "description": "Signature by the issuing Trust Oracle over every other member of this receipt"
+              }
+            }
+          },
+          "description": "Ingress Receipts of the presenting ring's enclosures, outermost first (KTP-ZONES Section 6.6 (Ingress Path)). Required at a ring of depth 1 or more; its absence never means depth 0, which comes from the authorized Topology. Removed or reduced at egress under KTP-ZONES Section 7.4 (Egress Shaping). JSON Schema checks shape only: it does not verify signatures, bindings to the ingress session, or ancestry against the Topology."
+        },
         "oracle_quorum": {
           "type": "string",
           "pattern": "^[0-9]+-of-[0-9]+$",

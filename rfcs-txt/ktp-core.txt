@@ -83,14 +83,14 @@ Table of Contents
        5.1.4.  Base Trust Calculation  . . . . . . . . . . . . . . .  16
      5.2.  Risk Factor (R) . . . . . . . . . . . . . . . . . . . . .  18
        5.2.1.  Risk Domains  . . . . . . . . . . . . . . . . . . . .  19
-     5.3.  Effective Trust Score (E_trust) . . . . . . . . . . . . .  19
+     5.3.  Effective Trust Score (E_trust) . . . . . . . . . . . . .  20
      5.4.  Trust Velocity (dE/dt)  . . . . . . . . . . . . . . . . .  20
      5.5.  Trust Score Integrity (Anti-Goodhart Measures)  . . . . .  21
        5.5.1.  The Goodhart Threat Model . . . . . . . . . . . . . .  21
-       5.5.2.  Multi-Dimensional Scoring . . . . . . . . . . . . . .  21
+       5.5.2.  Multi-Dimensional Scoring . . . . . . . . . . . . . .  22
        5.5.3.  Behavioral Unpredictability . . . . . . . . . . . . .  22
        5.5.4.  Adversity Requirements  . . . . . . . . . . . . . . .  22
-       5.5.5.  Peer Validation . . . . . . . . . . . . . . . . . . .  22
+       5.5.5.  Peer Validation . . . . . . . . . . . . . . . . . . .  23
        5.5.6.  Temporal Consistency  . . . . . . . . . . . . . . . .  23
        5.5.7.  Cross-Zone Correlation  . . . . . . . . . . . . . . .  23
        5.5.8.  Human-in-the-Loop Sampling  . . . . . . . . . . . . .  24
@@ -1050,12 +1050,12 @@ Internet-Draft                  KTP-CORE                    October 2026
    weights of Section 6.5 (Domain Weights); and a deployment that does
    not use it is not less conformant for that.
 
-5.3.  Effective Trust Score (E_trust)
+   In a nested deployment, a ring's Risk Factor also carries its
+   enclosure's exposure, the Enclosure Domain.  It acts on Section 5.2's
+   sum as a floor: it can raise R and never lower it below the value
+   that sum produces.  See [KTP-SENSORS] Section 2.3 and [KTP-ZONES]
+   Section 3.7 (Nested Zones).
 
-   The Effective Trust Score is the value used to evaluate the Zeroth
-   Law. It is calculated as:
-
-      E_trust = E_base * (1 - R)
 
 
 
@@ -1065,6 +1065,13 @@ Perkins                   Expires 30 April 2027                [Page 19]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+5.3.  Effective Trust Score (E_trust)
+
+   The Effective Trust Score is the value used to evaluate the Zeroth
+   Law. It is calculated as:
+
+      E_trust = E_base * (1 - R)
 
    This is the core equation of KTP.  It unifies agent history (E_base)
    with environmental reality (R) into a single scalar value that
@@ -1104,6 +1111,17 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    Trust Velocity provides critical predictive information:
 
+
+
+
+
+
+
+Perkins                   Expires 30 April 2027                [Page 20]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    *  dE/dt > 0: Conditions improving, capabilities expanding - dE/dt =
       0: Stable conditions - dE/dt < 0: Conditions degrading,
       capabilities contracting - dE/dt << 0: Rapid degradation,
@@ -1113,14 +1131,6 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    1.  Pre-emptively deny actions that would succeed now but likely fail
        mid-execution due to degrading conditions
-
-
-
-
-Perkins                   Expires 30 April 2027                [Page 20]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    2.  Warn agents to reduce activity in anticipation of contraction
 
@@ -1160,6 +1170,14 @@ Internet-Draft                  KTP-CORE                    October 2026
    The fundamental challenge: Any observable signal used to calculate
    trust can potentially be faked.  The question is cost.
 
+
+
+
+Perkins                   Expires 30 April 2027                [Page 21]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
 5.5.2.  Multi-Dimensional Scoring
 
    GOODHART-001: Trust Score MUST derive from multiple independent
@@ -1168,15 +1186,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    Required signal diversity: - At least 3 independent data sources for
    E_base - At least 4 sensor dimensions for R - Cross-validation
    between sources - Anomaly detection on source agreement
-
-
-
-
-
-Perkins                   Expires 30 April 2027                [Page 21]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Rationale: Gaming one dimension is easier than gaming all dimensions
    consistently.  Inconsistency between dimensions is itself a signal of
@@ -1218,6 +1227,13 @@ Internet-Draft                  KTP-CORE                    October 2026
       requires attestations under R > 0.7 - E_base > 90 requires
       attestations under CRISIS conditions
 
+
+
+Perkins                   Expires 30 April 2027                [Page 22]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
    This cannot be gamed by self-inflicted crises because: - Attestations
    require Oracle signature - Oracle only signs if crisis is zone-wide
    (not agent-local) - Manufactured crises harm the manufacturing agent
@@ -1226,13 +1242,6 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    GOODHART-004: E_base calculation SHOULD incorporate peer signals that
    the agent cannot directly control.
-
-
-
-Perkins                   Expires 30 April 2027                [Page 22]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    Peer signals include: - Co-transaction success rate (how often do
    transactions with this agent succeed for the counterparty?) - Sponsor
@@ -1274,21 +1283,19 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    *  Anomaly rates by agent category - Attestation patterns
 
-   Detection: If an agent's behavior in Zone A differs significantly
-   from its behavior in Zone B, both zones are alerted.  Context may
-   explain the difference; gaming may also explain it.
-
-   Privacy: Only aggregate statistics cross zone boundaries.  Individual
-   agent data does not.
-
-
-
 
 
 Perkins                   Expires 30 April 2027                [Page 23]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+   Detection: If an agent's behavior in Zone A differs significantly
+   from its behavior in Zone B, both zones are alerted.  Context may
+   explain the difference; gaming may also explain it.
+
+   Privacy: Only aggregate statistics cross zone boundaries.  Individual
+   agent data does not.
 
 5.5.8.  Human-in-the-Loop Sampling
 
@@ -1331,13 +1338,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    audit trails for investigation - Raise the cost of attack above the
    benefit
 
-   WHAT WE CANNOT DO: - Distinguish perfect mimicry from genuine
-   trustworthiness - Prevent nation-state-level sustained deception -
-   Guarantee the Trust Score reflects true trustworthiness
-
-   The Trust Score is a proxy.  All proxies are imperfect.  The goal is
-   a proxy where gaming is harder than genuine trustworthy behavior.
-
 
 
 
@@ -1345,6 +1345,13 @@ Perkins                   Expires 30 April 2027                [Page 24]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+   WHAT WE CANNOT DO: - Distinguish perfect mimicry from genuine
+   trustworthiness - Prevent nation-state-level sustained deception -
+   Guarantee the Trust Score reflects true trustworthiness
+
+   The Trust Score is a proxy.  All proxies are imperfect.  The goal is
+   a proxy where gaming is harder than genuine trustworthy behavior.
 
    See [KTP-PROBLEMS] Problem #21 for ongoing research into this
    challenge.
@@ -1388,19 +1395,18 @@ Internet-Draft                  KTP-CORE                    October 2026
       Measures the speed and direction of data flow - how fast the
       system is moving.
 
-      Sensors:
-      - Transaction rates per second
-      - Link saturation (percentage of bandwidth used)
-      - Packet velocity and throughput
-      - Queue depth (pending messages)
-
-
 
 
 Perkins                   Expires 30 April 2027                [Page 25]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+      Sensors:
+      - Transaction rates per second
+      - Link saturation (percentage of bandwidth used)
+      - Packet velocity and throughput
+      - Queue depth (pending messages)
 
       Interpretation:
       - Low trust_trend: Idle system, excess capacity
@@ -1445,18 +1451,18 @@ Internet-Draft                  KTP-CORE                    October 2026
       - Business hours (peak vs. off-peak)
       - Mission criticality timers
 
-      Interpretation:
-      - Low moment_criticality: Low-criticality period (maintenance
-        window, 3am)
-      - High moment_criticality: High-criticality period (production,
-        live event)
-
 
 
 Perkins                   Expires 30 April 2027                [Page 26]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+      Interpretation:
+      - Low moment_criticality: Low-criticality period (maintenance
+        window, 3am)
+      - High moment_criticality: High-criticality period (production,
+        live event)
 
       Impact: A failure during "Kickoff" has infinitely higher gravity
       than a failure at 3:00 AM. Time dilates the risk tolerance -
@@ -1499,12 +1505,6 @@ Internet-Draft                  KTP-CORE                    October 2026
       Analogy (informative): Observer (O) — Frame of Reference /
       Observer Effect
 
-      Measures who is watching - the stakes based on the population
-      present and their sensitivity.
-
-
-
-
 
 
 
@@ -1513,6 +1513,9 @@ Perkins                   Expires 30 April 2027                [Page 27]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+      Measures who is watching - the stakes based on the population
+      present and their sensitivity.
 
       Sensors:
       - VIP presence (executives, regulators, media)
@@ -1555,13 +1558,10 @@ Internet-Draft                  KTP-CORE                    October 2026
       - soul = 0: No sovereignty constraints apply
       - soul = 1: Sovereignty constraint violated, action forbidden
 
-      Impact: This acts as a Boolean Veto or a hard limit. It
-      represents the "Spirit" of the data or location. If the Soul
-      constraint is violated, the action becomes impossible
-      (Probability = 0). No amount of Trust Score can
-      overcome a Soul veto.
 
-      See Section 6.2 for Soul Veto mechanics.
+
+
+
 
 
 
@@ -1569,6 +1569,14 @@ Perkins                   Expires 30 April 2027                [Page 28]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+      Impact: This acts as a Boolean Veto or a hard limit. It
+      represents the "Spirit" of the data or location. If the Soul
+      constraint is violated, the action becomes impossible
+      (Probability = 0). No amount of Trust Score can
+      overcome a Soul veto.
+
+      See Section 6.2 for Soul Veto mechanics.
 
 6.2.  The Soul Veto
 
@@ -1610,6 +1618,14 @@ Internet-Draft                  KTP-CORE                    October 2026
 
    1.  OCAP/CARE Principles:
 
+
+
+
+Perkins                   Expires 30 April 2027                [Page 29]
+
+Internet-Draft                  KTP-CORE                    October 2026
+
+
       For Indigenous data, the OCAP principles (Ownership, Control,
       Access, Possession) and CARE principles (Collective benefit,
       Authority to control, Responsibility, Ethics) may require:
@@ -1618,13 +1634,6 @@ Internet-Draft                  KTP-CORE                    October 2026
       - Specific handling protocols
 
       If an agent action would violate OCAP/CARE, S = 1.
-
-
-
-Perkins                   Expires 30 April 2027                [Page 29]
-
-Internet-Draft                  KTP-CORE                    October 2026
-
 
    1.  Sacred Land Geofences:
 
@@ -1666,21 +1675,16 @@ Internet-Draft                  KTP-CORE                    October 2026
                  forbidden by sovereignty constraint"
       }
 
-   Note that e_trust and e_required are provided for transparency, but
-   the denial is not due to insufficient trust - it is due to an
-   immutable constraint that exists independent of trust.
-
-
-
-
-
-
 
 
 Perkins                   Expires 30 April 2027                [Page 30]
 
 Internet-Draft                  KTP-CORE                    October 2026
 
+
+   Note that e_trust and e_required are provided for transparency, but
+   the denial is not due to insufficient trust - it is due to an
+   immutable constraint that exists independent of trust.
 
 6.3.  The Carriage Interface for Normative Content
 
@@ -1725,10 +1729,6 @@ Internet-Draft                  KTP-CORE                    October 2026
    be clamped to 1.
 
    Example normalization thresholds:
-
-
-
-
 
 
 

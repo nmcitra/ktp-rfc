@@ -32,6 +32,16 @@ recorded when found rather than held for the release that corrects them), and
 
 ## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, and human eligibility
 
+### Software-substrate execution profile (D-009)
+
+**Finding (#124 / #131):** The envelope anticipated software substrates without
+fixing their demand magnitudes, capacity-condition observations or exact
+consumption-decision binding. The opt-in `software-substrate-execution-v1`
+companion supplies those declarations and a separately signed decision bound to
+the actual invocation, ordinary proof, readiness, evidence and current state.
+The schema, deterministic contract/schema fixtures and CI runner accompany it;
+A/E computation remains implementation-defined. See MIGRATION.md for adoption.
+
 ### Celestial's exponential degradation curve decays
 
 **Finding:** KTP-CELESTIAL's exponential degradation curve wrote its constant
@@ -106,6 +116,17 @@ Class: MINOR (#144), on the D-006 precedent. The set contradicted itself,
 Core's form was always the contract, and the change moves an implementation
 that followed the other copy. No MUST is added or altered. The migration
 entry gives the old-to-new mapping.
+
+### Consequential-action execution and evidence (D-012)
+
+**Finding (#129 / #139):** A signed consumption decision alone does not establish
+release-time validity, replay continuity, aggregate budget safety or target effects.
+The opt-in companion adds release revalidation, durable request identity,
+conservative shared reservations and authenticated reconciliation. Its signed
+correlation record distinguishes withheld, dispatched, effect confirmed, no effect
+and unknown; only authenticated non-dispatch releases a held reservation. The
+schema, modeled contract/schema fixtures and CI runner do not certify a runtime.
+See MIGRATION.md for adoption after the software-substrate profile.
 
 ### Operation-specific human eligibility and privacy evidence
 

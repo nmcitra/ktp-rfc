@@ -68,6 +68,23 @@ declared constant had to answer any measurement.
 - New suite `specifications/conformance/charter-amendment-v1.json`, eighteen
   vectors, AM01 to AM18.
 
+### The bounds of a delegation are the ones it states
+
+KTP-HUMAN requires a delegation to bind its operation, resources and
+parameters, and forbids dividing an operation to evade a cumulative limit.
+Neither sentence said what an enforcement point does when it is handed an
+instruction in words and no stated limit, when a stated limit is not a usable
+number, or over what a cumulative limit is counted. KTP-CORE Section 6.8
+already answers the first two for every input: an undefined input does not
+resolve toward permission. Four sentences in Delegation and two in No Safety
+Override now say so for a delegation's bounds: a bound the delegation does not
+state is undefined, a numeric limit that is not finite and non-negative is
+undefined, text that accompanies a request is not the delegation, and a
+cumulative limit runs across every request under the delegation.
+Clarification: no MUST is added, and no conformant implementation changes.
+Found by the corpus audit, after an adapter written to the public decision
+table read a limit out of an instruction that refused it.
+
 ### Software-substrate execution profile (D-009)
 
 **Finding (#124 / #131):** The envelope anticipated software substrates without

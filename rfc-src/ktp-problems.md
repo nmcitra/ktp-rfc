@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Open Problems and Anticipated Critiques"
 abbrev: "KTP-PROBLEMS"
 docname: draft-perkins-ktp-problems-00
-date: 2026-11-16
+date: 2026-11-20
 category: exp
 ipr: trust200902
 
@@ -15,6 +15,18 @@ author:
 normative:
   RFC2119:
   RFC8174:
+
+informative:
+  KTP-CORE:
+    title: "Kinetic Trust Protocol - Core Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
+  KTP-IDENTITY:
+    title: "Kinetic Trust Protocol - Vector Identity Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
 
 --- abstract
 

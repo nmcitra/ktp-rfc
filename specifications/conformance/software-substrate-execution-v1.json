@@ -1,0 +1,4281 @@
+{
+  "profile": "software-substrate-execution-v1",
+  "ktpReleaseBaseline": "unreleased main; intended v3.0.0",
+  "status": "unreleased",
+  "note": "Modeled deterministic consumption-contract vectors, in the ROS2 request/expect form. candidateEnvelope supplies an already evaluated envelope fixture, not an A/E computation formula. Except for the signed cryptographic fixtures, trustedFixtures represent supplied verification/status outcomes and do not claim cryptographic verification or real measurement. Unless stage is observation_freshness, every vector begins with all other required contracts satisfied. observation_freshness cases exercise only the freshness predicate and make no full-action or authorization assertion. decision is a derived vector reading, never a new wire result enum. tighter outcomes are permitted for monotonic pairs; S33 withholds the oversized request; S34 preserves the supervision floor and ceilings. Runtime implementations and real signature/current-state acquisition are external; vector/schema checks are prerequisites, never runtime certification. The trustedFixtures flags are supplied assumptions, and passing those cases does not establish the runtime contract. conditions supplies the governing observed values of repairPathVerified and supervisionAvailable.",
+  "timeNotation": "Vector times and ages are integer milliseconds aligned to whole Unix seconds, the declared fixture resolution; decision wire timestamps are Unix seconds. Freshness equality is stale. S22/S51/S52 test the observation-freshness predicate independently, with no consumption decision. S39 tests decision expiry while the observation is fresh. Diagnostic expected fields are not new decision wire members.",
+  "normativeExpectations": [
+    "decision",
+    "supervision",
+    "tightenedAtMost",
+    "undefinedRecorded",
+    "identicalResultRequired",
+    "autonomyDemandNotLessThanCompared",
+    "environmentalCapacityNotGreaterThanCompared",
+    "compareTo",
+    "decisionNotLooserThan",
+    "supervisionAtLeast",
+    "repeatCount",
+    "observationFresh",
+    "decisionUnexpired",
+    "cryptographicChecks"
+  ],
+  "vectors": [
+    {
+      "id": "S01-current-bound-action",
+      "note": "All installed checks satisfied; modeled envelope result permits this exact bounded candidate.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        },
+        "repeatCount": 2,
+        "identicalResultRequired": true
+      }
+    },
+    {
+      "id": "S02-existing-supervision-floor",
+      "note": "A stable result cannot lower an existing regulated floor.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "regulated",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "escalate",
+        "supervision": "regulated",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        }
+      }
+    },
+    {
+      "id": "S03-existing-ceiling",
+      "note": "The requested 256 bytes exceed the existing 128-byte ceiling; do not forward the original operation.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 256,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 256,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 128,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S04-earlier-veto",
+      "note": "Earlier Soul/capacity/ordinary result veto cannot be cleared.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "silent_veto",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "supervision": "silent_veto"
+      }
+    },
+    {
+      "id": "S05-destination-substitution",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "authorityClassMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "substituted-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.kNPr6-uOPY6tBds4viEthjVW18Q6tJmdI9hREXHvu6Y2k-B50tHOEKYg0fA3nevWDr0_DUxMCPgZWcekvAqv2A"
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": false,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
+    },
+    {
+      "id": "S06-class-substitution",
+      "note": "The required authorityClassMatches condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": false,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S07-request-substitution",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "authorityClassMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "substituted-request",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.Dn6uJ-lb0frw-TZVjJr1B0PVmv4fbrtJ3FycuXXIyWEtIALGOlbmiFHPgIfLFTAQRETsATlT6ebXIP93wgGwxA"
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": false,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
+    },
+    {
+      "id": "S08-proof-substitution",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "authorityClassMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6Im90aGVyLWFjdG9yIn0.z2hhETPFSMjL5SXCAkLN9t51yCyt3nD-Fhr8OcsDn50AVxVnUJN7yaWPBdsmDPY3DoF2eCDxSaWLmEXouzLiCA",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.qm_M6LPUsC1DL8zyiW1qnpa_dcxP80wDLN6a1SnPtw8TcEtfcFc8MB3jgWp9j6N-g7FS5cDxQbYoTqTImvUmNg"
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": true,
+          "proofDigestMatches": false
+        }
+      },
+      "stage": "signature_binding"
+    },
+    {
+      "id": "S09-profile-substitution",
+      "note": "The required profileMatches condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": false,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S10-policy-substitution",
+      "note": "The required policyMatches condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": false,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S11-evidence-substitution",
+      "note": "The required evidenceMatches condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": false,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S12-unverified-signature",
+      "note": "Signature-and-binding stage: independently report the specified cryptographicChecks using the published test key, actual RFC 8785 request object and complete signed test-proof bytes. Generic rejection alone is insufficient. All other prerequisites are supplied assumptions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "authorityClassMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.EXTem25aFT58Za7Y28nTR9JjU7TD7w4lZA1XjZNf7-YDP50_gs0BLuh7V4j6AxiofZl6D29bFmSflttcUCKzyg"
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": false
+        }
+      },
+      "stage": "signature_binding"
+    },
+    {
+      "id": "S13-missing-prerequisite",
+      "note": "The required prerequisitesCurrent condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": false,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S14-stale-epoch",
+      "note": "The required epochCurrent condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": false,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S15-source-unauthenticated",
+      "note": "The required sourceAuthenticated condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": false,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S16-source-unhealthy",
+      "note": "The required sourceHealthy condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": false,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S17-sequence-rollback",
+      "note": "The required sequenceCurrent condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": false,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S18-untrusted-time",
+      "note": "The required trustedTime condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": false,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S19-mixed-scale",
+      "note": "The required scaleMatches condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": false
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S20-restart-continuity-lost",
+      "note": "The required restrictionContinuity condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": false,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S21-no-ordinary-permission",
+      "note": "The required ordinaryAuthorization condition is false; withholding is terminal for the original action.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": false,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S22-freshness-equality",
+      "note": "Independently test the observation-freshness predicate at exact deadline equality; no consumption decision is supplied or authorized.",
+      "request": {
+        "softwareContext": {
+          "nowMs": 101000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 2000
+        }
+      },
+      "expect": {
+        "observationFresh": false
+      },
+      "stage": "observation_freshness"
+    },
+    {
+      "id": "S23-future-observation",
+      "note": "A future observation cannot establish required current conditions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 101000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S24-proof-expiry-equality",
+      "note": "Use exactly at the ordinary proof expiration is refused.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 100000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S25-proof-over-ten-seconds",
+      "note": "An eleven-second ordinary proof is invalid, even when otherwise current.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 110000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S26-revoked",
+      "note": "Known revocation terminates use before signed expiration.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": true,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S27-refresh-unresolved-restriction",
+      "note": "The input begins with an unresolved restriction; this vector checks that a refreshed proof cannot override it, not that a two-step history preserves it.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 100000,
+          "proofExpiresAtMs": 110000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": true,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S28-capacity-unknown-conservative",
+      "note": "A usable conservative envelope remains unknown and retains at least assisted supervision.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": false,
+            "supervision": "assisted",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "escalate",
+        "supervision": "assisted",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        }
+      }
+    },
+    {
+      "id": "S29-capacity-veto",
+      "note": "Existing envelope capacity veto is preserved without adding a formula.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0,
+            "capacityKnown": true,
+            "supervision": "silent_veto",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "supervision": "silent_veto"
+      }
+    },
+    {
+      "id": "S30-unknown-effect-bound",
+      "note": "Unknown effect bound is not measured zero.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": null,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S31-negative-magnitude",
+      "note": "Negative effect bounds are rejected.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": -1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S32-boolean-magnitude",
+      "note": "A boolean is not a count.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": true
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S33-demand-monotonic",
+      "note": "Increasing only effectBytes must not decrease A or loosen an existing result.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 2048,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.4,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "regulated",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "compareTo": "S02-existing-supervision-floor",
+        "autonomyDemandNotLessThanCompared": true,
+        "decisionNotLooserThan": "escalate",
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S34-capacity-monotonic",
+      "note": "Increasing only resourcePressure must not increase E or loosen an existing result.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.8,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0.8,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "regulated",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        },
+        "compareTo": "S02-existing-supervision-floor",
+        "environmentalCapacityNotGreaterThanCompared": true,
+        "decisionNotLooserThan": "escalate",
+        "supervisionAtLeast": "regulated"
+      }
+    },
+    {
+      "id": "S35-repair-path-unverified",
+      "note": "Modeled withholding result for this repair action when the repair path is unverified; this does not assert a live repair, target effect, or human supervision.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "repair",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": false,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "repairDependentClasses": [
+            "repair"
+          ]
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S36-supervision-unavailable-stable",
+      "note": "Stable does not require an available supervisor; all independent prerequisites remain satisfied.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": false
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable"
+      }
+    },
+    {
+      "id": "S37-repair-capacity-monotonic",
+      "note": "Only the authenticated capacity-condition value repairPathVerified worsens from true to false; E cannot rise and the result cannot loosen. Other establishment/status fixtures stay satisfied. Modeled inputs are not cryptographic or live availability evidence.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": false,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0.8,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "compareTo": "S01-current-bound-action",
+        "environmentalCapacityNotGreaterThanCompared": true,
+        "decisionNotLooserThan": "allow",
+        "supervisionAtLeast": "stable",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        }
+      }
+    },
+    {
+      "id": "S38-supervision-capacity-monotonic",
+      "note": "The authenticated supervision condition worsens; the supplied modeled E falls and the result cannot loosen. Stable remains eligible.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": false
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0.8,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "compareTo": "S01-current-bound-action",
+        "environmentalCapacityNotGreaterThanCompared": true,
+        "decisionNotLooserThan": "allow",
+        "supervisionAtLeast": "stable",
+        "tightenedAtMost": {
+          "effectBytes": 1024,
+          "affectedObjects": 1,
+          "fanoutTargets": 1
+        }
+      }
+    },
+    {
+      "id": "S39-decision-expiry-equality",
+      "note": "Decision expires at equality while the observation is still fresh. Independently report observationFresh and decisionUnexpired; the final deny alone does not satisfy this vector.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 101000,
+          "observedAtMs": 100000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "observationFresh": true,
+        "decisionUnexpired": false
+      }
+    },
+    {
+      "id": "S40-repair-path-verified",
+      "note": "Positive control for the declared repair-dependent class.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "repair",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "repairDependentClasses": [
+            "repair"
+          ]
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable"
+      }
+    },
+    {
+      "id": "S41-assisted-supervision-baseline",
+      "note": "Known-capacity assisted baseline.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "assisted",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "escalate",
+        "supervision": "assisted"
+      }
+    },
+    {
+      "id": "S42-assisted-supervision-unavailable",
+      "note": "Unavailable supervision vetoes an otherwise assisted result.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": false
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 0.8,
+            "capacityKnown": true,
+            "supervision": "assisted",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "supervision": "silent_veto",
+        "compareTo": "S41-assisted-supervision-baseline"
+      }
+    },
+    {
+      "id": "S43-pressure-out-of-domain",
+      "note": "Pressure outside the declared domain is undefined.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 1.5,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S44-condition-missing",
+      "note": "A required condition is missing.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S45-condition-null",
+      "note": "A required condition is null.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": null,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S46-magnitude-missing",
+      "note": "A required magnitude is missing.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S47-magnitude-extra",
+      "note": "An undeclared magnitude is rejected.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1,
+            "unrecognized": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S48-ceiling-exceeds-request",
+      "note": "The candidate ceiling exceeds the requested bound.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 2048,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny"
+      }
+    },
+    {
+      "id": "S49-novelty-domain-undeclared",
+      "note": "No validated novelty domain is declared.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "noveltyDomainDeclared": false,
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S50-event-only-invalidation-silent",
+      "note": "Silence from an event-only source is not current status.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true,
+            "eventOnlyInvalidation": true,
+            "invalidationCurrentStatusAvailable": false
+          }
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S51-resigned-stale-observation",
+      "note": "Re-signing at evaluation time does not change the original observation-freshness deadline; this tests the predicate, not a full consumption decision.",
+      "request": {
+        "softwareContext": {
+          "nowMs": 100000,
+          "observedAtMs": 97000,
+          "maxAgeMs": 3000,
+          "observationResignedAtMs": 100000
+        }
+      },
+      "expect": {
+        "observationFresh": false
+      },
+      "stage": "observation_freshness"
+    },
+    {
+      "id": "S52-observation-at-evaluation",
+      "note": "Positive observation-freshness control: an observation at evaluation time is fresh. This predicate result alone authorizes nothing.",
+      "request": {
+        "softwareContext": {
+          "nowMs": 100000,
+          "observedAtMs": 100000,
+          "maxAgeMs": 3000
+        }
+      },
+      "expect": {
+        "observationFresh": true
+      },
+      "stage": "observation_freshness"
+    },
+    {
+      "id": "S53-verified-signature-and-binding",
+      "note": "Positive control for the signature-and-binding stage; ordinary authorization and noncryptographic prerequisites are supplied assumptions.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "authorityClassMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "cryptographicInputs": {
+            "actualRequestBinding": {
+              "request_id": "test-request-id",
+              "actor_id": "test-actor-id",
+              "workload_id": "test-workload-id",
+              "authority_class": "test-authority-class",
+              "operation_id": "test-operation-id",
+              "resource_id": "test-resource-id",
+              "enforcement_destination": "test-enforcement-destination",
+              "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ordinaryProof": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6InRlc3Qtb3JkaW5hcnktcHJvb2YifQ.eyJhdWQiOiJmaXh0dXJlIiwiZXhwIjoxMDksInN1YiI6InRlc3QtYWN0b3ItaWQifQ.SKxOXF2iXuLfknDevbJKR2oic3T3BIYKm_zSlZF3bFRXw7N6Wg0fPov3SwqBwQEM06GBABJqCiI45I54Btz2pw",
+            "signedDecision": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZpeHR1cmUtb25seSIsInR5cCI6Imt0cC1zb2Z0d2FyZS1zdWJzdHJhdGUtZGVjaXNpb24tdjEifQ.eyJhcnRpZmFjdF90eXBlIjoia3RwLXNvZnR3YXJlLXN1YnN0cmF0ZS1kZWNpc2lvbi12MSIsImNvbnN1bXB0aW9uX2Vwb2NoIjoxLCJldmFsdWF0ZWRfYXQiOjEwMCwiZXZpZGVuY2VfZGlnZXN0Ijoic2hhMjU2OmRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGQiLCJleHBpcmVzX2F0IjoxMDEsImlzc3Vlcl9pZCI6InRlc3QtaXNzdWVyIiwicHJlcmVxdWlzaXRlX2RpZ2VzdHMiOlsic2hhMjU2OmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmYiXSwicHJvb2ZfZGlnZXN0Ijoic2hhMjU2OjY4YmZkZTBlN2QyMjdmMWU3MzUxMDAyNjM1YzU4MDczY2NjNzBhMWFlMDYyMTdkNmNkYjBmZmNiZjlkMzYzYTgiLCJyZXF1ZXN0X2JpbmRpbmciOnsiYWN0b3JfaWQiOiJ0ZXN0LWFjdG9yLWlkIiwiYXV0aG9yaXR5X2NsYXNzIjoidGVzdC1hdXRob3JpdHktY2xhc3MiLCJlbmZvcmNlbWVudF9kZXN0aW5hdGlvbiI6InRlc3QtZW5mb3JjZW1lbnQtZGVzdGluYXRpb24iLCJleGVjdXRpb25fcHJvZmlsZV9kaWdlc3QiOiJzaGEyNTY6YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIsImlkZW50aXR5X3Nlc3Npb25fZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJvcGVyYXRpb25faWQiOiJ0ZXN0LW9wZXJhdGlvbi1pZCIsInBhcmFtZXRlcnNfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJwb2xpY3lfZGlnZXN0Ijoic2hhMjU2OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEiLCJyZXF1ZXN0X2lkIjoidGVzdC1yZXF1ZXN0LWlkIiwicmVzb3VyY2VfaWQiOiJ0ZXN0LXJlc291cmNlLWlkIiwid29ya2xvYWRfaWQiOiJ0ZXN0LXdvcmtsb2FkLWlkIn0sInJlcXVlc3RfZGlnZXN0Ijoic2hhMjU2OjBlYmIyOGRjNjNlMWExOWM2OTgwNTM4ZmZhYmE5ZGFlYTU3OGZiMTZlMjEwNjI0ZGQ5NTcyNzQwZTFmMDBjZTAiLCJyZXN1bHQiOnsiYXV0b25vbXlEZW1hbmQiOjAuMiwiY2FwYWNpdHlLbm93biI6dHJ1ZSwiZW52aXJvbm1lbnRhbENhcGFjaXR5IjoxLCJtYXJnaW4iOjAuOCwicmF0aW9uYWxlIjpbIk1vZGVsZWQgc2hhcGUgZml4dHVyZTsgbm90IHNpZ25lZCBhdXRob3JpdHkuIl0sInJlcGFpclBhdGhWZXJpZmllZCI6dHJ1ZSwic3VwZXJ2aXNpb24iOiJzdGFibGUiLCJzdXBlcnZpc2lvbkF2YWlsYWJsZSI6dHJ1ZSwidGlnaHRlbmVkQ29uc3RyYWludHMiOnsiY2VpbGluZ3MiOlt7Im1hZ25pdHVkZSI6ImVmZmVjdEJ5dGVzIiwibWF4IjoxMDI0fSx7Im1hZ25pdHVkZSI6ImFmZmVjdGVkT2JqZWN0cyIsIm1heCI6MX0seyJtYWduaXR1ZGUiOiJmYW5vdXRUYXJnZXRzIiwibWF4IjoxfV0sInByb2ZpbGUiOiJzb2Z0d2FyZS1zdWJzdHJhdGUtZXhlY3V0aW9uLXYxIn19fQ.Td6n7BfUCD3zRaHS_dTLi5s6UPONxWa_eDfGXMQIB6YrzB5KyYTlziiflPHXjDOFPpe8pj6GgUv1UuvhIGDgJA"
+          }
+        }
+      },
+      "expect": {
+        "decision": "allow",
+        "supervision": "stable",
+        "cryptographicChecks": {
+          "proofSignatureValid": true,
+          "decisionSignatureValid": true,
+          "requestBindingMatches": true,
+          "proofDigestMatches": true
+        }
+      },
+      "stage": "signature_binding"
+    }
+  ],
+  "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature or an ordinary proof. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged. Schema acceptance does not imply temporal, binding, token-representation or cryptographic acceptance.",
+  "schemaFixture": {
+    "artifact_type": "ktp-software-substrate-decision-v1",
+    "request_binding": {
+      "request_id": "test-request-id",
+      "actor_id": "test-actor-id",
+      "workload_id": "test-workload-id",
+      "authority_class": "test-authority-class",
+      "operation_id": "test-operation-id",
+      "resource_id": "test-resource-id",
+      "enforcement_destination": "test-enforcement-destination",
+      "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "identity_session_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "execution_profile_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "policy_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "request_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "proof_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "evidence_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "prerequisite_digests": [
+      "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ],
+    "consumption_epoch": 1,
+    "evaluated_at": 100,
+    "expires_at": 101,
+    "issuer_id": "test-issuer",
+    "result": {
+      "autonomyDemand": 0.2,
+      "environmentalCapacity": 1,
+      "margin": 0.8,
+      "capacityKnown": true,
+      "repairPathVerified": true,
+      "supervisionAvailable": true,
+      "tightenedConstraints": {
+        "profile": "software-substrate-execution-v1",
+        "ceilings": [
+          {
+            "magnitude": "effectBytes",
+            "max": 1024
+          },
+          {
+            "magnitude": "affectedObjects",
+            "max": 1
+          },
+          {
+            "magnitude": "fanoutTargets",
+            "max": 1
+          }
+        ]
+      },
+      "supervision": "stable",
+      "rationale": [
+        "Modeled shape fixture; not signed authority."
+      ]
+    },
+    "signature": "YQ.Yg.Yw"
+  },
+  "schemaVectors": [
+    {
+      "id": "J01-shape",
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J02-extra-root",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J03-extra-request",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "request_binding",
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J04-extra-result",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J05-empty-destination",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "request_binding",
+          "enforcement_destination"
+        ],
+        "operation": "set",
+        "value": ""
+      }
+    },
+    {
+      "id": "J06-wildcard-class",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "request_binding",
+          "authority_class"
+        ],
+        "operation": "set",
+        "value": "*"
+      }
+    },
+    {
+      "id": "J07-missing-proof",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "proof_digest"
+        ],
+        "operation": "remove",
+        "value": null
+      }
+    },
+    {
+      "id": "J08-bad-digest",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "proof_digest"
+        ],
+        "operation": "set",
+        "value": "sha256:abc"
+      }
+    },
+    {
+      "id": "J09-negative-epoch",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "consumption_epoch"
+        ],
+        "operation": "set",
+        "value": -1
+      }
+    },
+    {
+      "id": "J10-boolean-time",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "evaluated_at"
+        ],
+        "operation": "set",
+        "value": true
+      }
+    },
+    {
+      "id": "J11-unknown-magnitude",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "ceilings",
+          0,
+          "magnitude"
+        ],
+        "operation": "set",
+        "value": "other"
+      }
+    },
+    {
+      "id": "J12-duplicate-magnitude",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "ceilings",
+          1,
+          "magnitude"
+        ],
+        "operation": "set",
+        "value": "effectBytes"
+      }
+    },
+    {
+      "id": "J13-fractional-count",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "ceilings",
+          0,
+          "max"
+        ],
+        "operation": "set",
+        "value": 1.5
+      }
+    },
+    {
+      "id": "J14-negative-demand",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "autonomyDemand"
+        ],
+        "operation": "set",
+        "value": -1
+      }
+    },
+    {
+      "id": "J15-unsigned-shape",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "signature"
+        ],
+        "operation": "set",
+        "value": ""
+      }
+    },
+    {
+      "id": "J16-trailing-newline-destination",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "request_binding",
+          "enforcement_destination"
+        ],
+        "operation": "set",
+        "value": "target\n"
+      }
+    },
+    {
+      "id": "J17-unknown-supervision",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "supervision"
+        ],
+        "operation": "set",
+        "value": "allow"
+      }
+    },
+    {
+      "id": "J18-extra-constraint",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J19-extra-ceiling",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "ceilings",
+          0,
+          "extra"
+        ],
+        "operation": "set",
+        "value": 1
+      }
+    },
+    {
+      "id": "J20-unsafe-count",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "tightenedConstraints",
+          "ceilings",
+          0,
+          "max"
+        ],
+        "operation": "set",
+        "value": 9007199254740992
+      }
+    },
+    {
+      "id": "J21-missing-repair-path-verified",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "repairPathVerified"
+        ],
+        "operation": "remove",
+        "value": null
+      }
+    },
+    {
+      "id": "J22-string-repair-path-verified",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "repairPathVerified"
+        ],
+        "operation": "set",
+        "value": "true"
+      }
+    },
+    {
+      "id": "J23-missing-supervision-available",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "supervisionAvailable"
+        ],
+        "operation": "remove",
+        "value": null
+      }
+    },
+    {
+      "id": "J24-string-supervision-available",
+      "expect": {
+        "schemaValid": false
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "supervisionAvailable"
+        ],
+        "operation": "set",
+        "value": "true"
+      }
+    },
+    {
+      "id": "J25-false-repair-path-verified",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "repairPathVerified"
+        ],
+        "operation": "set",
+        "value": false
+      }
+    },
+    {
+      "id": "J26-false-supervision-available",
+      "expect": {
+        "schemaValid": true
+      },
+      "mutation": {
+        "path": [
+          "result",
+          "supervisionAvailable"
+        ],
+        "operation": "set",
+        "value": false
+      }
+    },
+    {
+      "id": "J27-unknown-capacity-stable",
+      "mutation": {
+        "path": [
+          "result",
+          "capacityKnown"
+        ],
+        "operation": "set",
+        "value": false
+      },
+      "expect": {
+        "schemaValid": false
+      }
+    },
+    {
+      "id": "J28-unavailable-supervision-regulated",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "supervisionAvailable"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "regulated"
+        }
+      ],
+      "expect": {
+        "schemaValid": false
+      }
+    },
+    {
+      "id": "J29-unknown-capacity-assisted",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "capacityKnown"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "assisted"
+        }
+      ],
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J30-unavailable-supervision-veto",
+      "mutations": [
+        {
+          "path": [
+            "result",
+            "supervisionAvailable"
+          ],
+          "operation": "set",
+          "value": false
+        },
+        {
+          "path": [
+            "result",
+            "supervision"
+          ],
+          "operation": "set",
+          "value": "silent_veto"
+        }
+      ],
+      "expect": {
+        "schemaValid": true
+      }
+    },
+    {
+      "id": "J31-policy-code-allowed",
+      "mutation": {
+        "path": [
+          "result",
+          "policyCode"
+        ],
+        "operation": "set",
+        "value": "KINETIC_CAPACITY_EXCEEDED"
+      },
+      "expect": {
+        "schemaValid": true
+      }
+    }
+  ],
+  "cryptographicFixtureNote": "These cases exercise a signature-and-binding stage using ES256 and the published fixture-only public key. ordinaryProof is an opaque, complete signed test artifact, not a schema-valid KTP Trust Proof. ordinaryAuthorization and other required prerequisite/status checks remain explicitly supplied assumptions. cryptographicChecks are independent normative diagnostic outcomes, not new wire members; neither a generic deny nor those assumptions substitute for the required signature and binding checks. S53 is the positive stage control. The fixture key has no authority and no private key is published.",
+  "fixturePublicKeyPem": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvHC5Zsgu0e996snvXmgcUXd53Et+\nY9ih8wMMfR6mzdB4jistd1jRniRmWyihSJLXFsps98AhSxu0i0m2fa1VuQ==\n-----END PUBLIC KEY-----\n"
+}

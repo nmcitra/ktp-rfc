@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Human Integration Humans, Agents, and System Ethics"
 abbrev: "KTP-HUMAN"
-date: 2026-09-07
+date: 2026-11-14
 category: exp
 ipr: trust200902
 
@@ -115,6 +115,8 @@ Collection, access, disclosure, corrections, and erasure follow KTP-Privacy and 
 
 A delegation MUST bind the authenticated delegator and executing actor, the source grant, exact operation, resources, parameters, purpose, zone, validity interval, and current revocation state. Its authority is the intersection of current delegator grants and every applicable delegation restriction. Neither a valid delegation nor a human signature expands that intersection.
 
+The bounds of a delegation are the bounds that the delegation states. A parameter or limit that the delegation does not state is an undefined input under {{KTP-CORE}} Section 6.8 (Undefined Inputs). A numeric limit that is not a finite, non-negative number is also an undefined input. Text that accompanies a request is not a statement of the delegation, and an amount, resource, or limit read from such text is not bound by the delegation.
+
 Each link of a supported delegation chain MUST be independently validated, current, scoped, and revocable. Changing the delegator's relevant grant or qualification invalidates dependent authority. A downstream delegate MUST NOT widen actions, resources, purposes, time bounds, or subdelegation rights. Unsupported chains MUST fail closed.
 
 The software delegate MUST independently satisfy its own grant, standing, readiness, capacity, Soul, and other enforcement checks. Delegation MUST NOT transfer a human's qualification to a bot, mint standing, change lineage, or confer a human principal type.
@@ -139,7 +141,7 @@ The retained record SHOULD distinguish the delegation decision, the executing ac
 
 An administrator, supervisor, or reviewer MUST NOT waive a valid capacity or Soul veto. Correcting erroneous evidence and challenging the legitimacy of a rule remain available. A corrected fact or properly adopted rule change leads to a fresh evaluation rather than an exception for the original denied request.
 
-Safe responses can include reducing the requested scope, establishing reversibility, restoring capacity, repairing invalid evidence, or using an independently authorized alternative. Each proposed alternative requires its own checks. Dividing an operation into smaller requests MUST NOT evade cumulative resource or effect limits.
+Safe responses can include reducing the requested scope, establishing reversibility, restoring capacity, repairing invalid evidence, or using an independently authorized alternative. Each proposed alternative requires its own checks. Dividing an operation into smaller requests MUST NOT evade cumulative resource or effect limits. A cumulative limit that applies to a delegation is evaluated across every request made under that delegation. A request is not evaluated as if it were the first.
 
 ## Emergency Procedures
 

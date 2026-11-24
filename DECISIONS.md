@@ -237,3 +237,15 @@ conservative)" is removed. The defect is in every release since v1.0.0 and is
 recorded as SN-006; no conformant implementation changes. PR #222 merges with
 this record.
 Provenance: proposed and carried into PR #222 by the maintainer.
+
+### D-018 · A delegation's bounds are the ones it states
+Published 2026-11-14 · Clarification · floor 2026-11-21 · review-by 2026-11-28 · approved 2026-11-24
+Source: issue #223; PR #224
+Decision: Approved as proposed. In KTP-HUMAN, a parameter or limit that a
+delegation does not state, or a numeric limit that is not a finite,
+non-negative number, is an undefined input under KTP-CORE Section 6.8, and
+text that accompanies a request is not a statement of the delegation. A
+cumulative limit is evaluated across every request made under the
+delegation. No conformant implementation changes. PR #224 merges with this
+record.
+Provenance: proposed and carried into PR #224 by the maintainer.

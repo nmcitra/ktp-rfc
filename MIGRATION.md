@@ -1,13 +1,26 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
+opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
+use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
+the suffix versions the identifier, not the KTP release. Install the declared
+magnitudes, conditions, observation sources, supervision/repair requirements,
+digest preimages and continuity state. Bind a separately signed consumption
+decision to the complete ordinary proof, actual request and mandatory software
+readiness decision; wire evaluation/expiration times are integer Unix seconds.
+Experimental or unversioned artifacts do not become conforming by renaming them.
+Implementations not declaring this profile gain no obligations from D-009 alone;
+independent v3 requirements still apply. The vectors specify contract expectations,
+not a runtime conformance claim.
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
-Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the
+Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the
 weights of Core Section 6.5; node, neighborhood, and global as levels of R →
 sensing scopes of one input, configured as that input's feeds and aggregated
 by Sensors Section 2.2; a `risk_domains` configuration block → no declaration
 beyond feeds; CT-S-002 → retired. Where every scope computed the same
-six-input sum with the same factor weights and nothing was clamped per scope,
+five-input sum with the same factor weights and nothing was clamped per scope,
 the composite and Section 5.2's sum are the same number, because the two
 weighted sums commute: such an implementation changes where it aggregates, not
 what it reports. One that used different factor weights per scope picks one
@@ -40,6 +53,45 @@ revocation and accepted-version floors, or render old authority unusable if the
 required state cannot be retained/reconstructed under applicable rules. No
 permanent personal archive or automatic clean-slate enrollment is introduced.
 
+**Unreleased person-standing migration:** A person is a subject of KTP-Core as
+an account in a zone. Old → new: the External Root was a term in the E_base
+composition supplied by an instrument → it is the person behind the instrument,
+with an employer, a licensing body or a board as the terminator behind them;
+trajectory had three shapes, all software agents → a fourth shape, a person's
+signed acts; the human E_base was a six-term weighted sum (v2.1.0) and then no
+score at all (unreleased) → a person's E_base is composed under Core Section
+5.1 from signed acts and the person's root instrument (the terminator's
+standing, or a bond another person posts); a human sponsor's bond staked no
+personal balance → it stakes the person's own standing (a stake, not the v2.1.0
+score inheritance), and a person may sponsor a person, the bond ending at its
+closure; administrators were scored in the threat model and unscored in Core →
+scored, under Core; standing portability was for agents only → persons too, by
+the same federation factor and ceiling, only where an agreement exists; the
+eligibility contract (above) had removed a person's Trust Tier → a person's
+E_trust sets one again, and it restricts the classes of action the person
+executes as a software agent's does, while a person's capacity check still
+compares A with the operational E the reviewed adapter authenticates, never
+with E_trust; the subject's kind was implied by which claims a proof carried →
+it is declared on the proof, and the root projection names the person and the
+institutional terminator. Eligibility (above) stays a separate requirement.
+Legacy general human scores still do not convert into anything.
+
+**Unreleased L11 direction-rule migration:** An implementation that carries
+norm content through the carriage interface must add three things. It records
+the no-norm result for each evaluation, what this specification produces with
+no norm content applied, so that a void or unverifiable adjudication token has a
+value to fall back to and so that no result with norm content applied can be
+more permissive than it. It verifies an adjudication token's bindings, by
+digest, to the action, actor, grant, evidence, zone, topology epoch and time it
+judged, against the current evaluation, and treats any mismatch, failed
+signature or expiry as absence, never as a denial beyond the gate the declared
+schema already required. It records which rail raised each increment of
+supervision, so that the normative rail can release only its own increment and
+never below the environment's level. A favorable verdict is a prerequisite for
+the gate it answers and is not evidence of capacity; implementations that let a
+verdict lower supervision or raise capacity stop conforming. The token payload
+is `schemas/adjudication-token.json`.
+
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and
 [operational readiness contract](specifications/operational-readiness.md).
@@ -61,6 +113,19 @@ existing amendment process; this migration is no waiver. The original published
 v2 deployment schema is archived as `schemas/deployment-profile-legacy-v2.json`.
 These are unreleased format/behavior changes; the historical instructions below
 continue to describe their named release only.
+
+**Unreleased consequential-action migration (D-012, #129 / #139):** Deployments
+opting into [the execution/evidence companion](specifications/consequential-action-execution-and-evidence.md)
+revalidate at release and preserve replay identity, request fingerprint,
+checkpoints and unresolved reservations across recovery. Declare aggregate
+budget units, scope, accounting and reconciliation; budget restrictions do not
+redefine E or widen the profile result. Adopt the signed evidence record and its
+five states. A denial without authenticated protected-path non-dispatch evidence
+is `unknown`; neither HTTP success nor a dispatch record proves an effect.
+Release held reservations only on authenticated non-dispatch, preserving uncertain
+state. An earlier implementation must not silently map `no_effect` to dispatch or
+release a reservation on it. D-012 is opt-in and does not itself change obligations
+for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally
 introduces `ktp-trajectory-v3`, independently of the historical release guide
@@ -586,6 +651,58 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+## 4. Unreleased v3 changes
+
+### 4.1 `moment_criticality` leaves the Risk Factor
+
+The criticality of the moment is no longer a weighted term in `R`. It is a
+demand-side input: it raises the demand an action presents (`A`) and never
+lowers `R` or raises `E`. Section 2.10 above described the v2 state, in which
+the value was supplied by the action request; that state is replaced.
+
+| v2.1.0 | v3 |
+|---|---|
+| `moment_criticality`, a weighted Risk Factor input | `moment_criticality`, a demand input declared under `demand_inputs` |
+| six weights summing to 1.0 | five weights summing to 1.0, renormalized proportionally to two decimals with the rounding residual on the largest remaining weight |
+| supplied by the action request's context | supplied by a declared party that is not the requester |
+| `risk_factors.moment_criticality` required on the wire | absent from `risk_factors`; carried nowhere in the Trust Proof |
+
+An implementation computes `R` over five inputs, declares a supplier for the
+demand input in the deployment profile, and reads an absent, stale,
+unverifiable or differently bound value as the most critical moment.
+
+Three schemas change shape, so they take v3 identifiers:
+`https://kinetic-trust-protocol.net/specs/schemas/v3/risk-factors.json`;
+`https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json`, whose
+`context` is that object; and
+`https://kinetic-trust-protocol.net/specs/schemas/v3/sensor-config.json`, whose
+`dimension` no longer lists `moment_criticality`. The published v2 files stay
+unchanged at their v2 identifiers and are kept as
+`schemas/risk-factors-legacy-v2.json`, `schemas/trust-proof-legacy-v2.json` and
+`schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
+still validates against the schema it was issued under.
+
+
+---
+
+# Toward 3.0.0 (unreleased)
+
+Entries here pair each v2.1.0 term with its unreleased replacement. They move into
+the 3.0.0 migration guide when that version is tagged.
+
+## Conformance claims (#163)
+
+| v2.1.0 | 3.0.0 |
+|---|---|
+| Certification | Conformance Claim, carrying a Status Label |
+| Self-Certification | a claim labelled `tested` |
+| Third-Party Certification | a claim labelled `independently reproduced` |
+| certification body, registry, revocation | none; a withdrawn claim is marked, never deleted |
+| "conforms to … self-certified on" | "claims … : <label>, <n> of <m> specified test IDs passed, <k> proposed test IDs not run; evidence at <URL>" |
+| 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
+| Full: third-party certification | Full: independent reproduction of its specified test IDs |
+
 
 ## 4. Toward 3.0.0 (unreleased)
 

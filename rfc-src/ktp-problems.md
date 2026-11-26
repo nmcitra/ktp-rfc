@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Open Problems and Anticipated Critiques"
 abbrev: "KTP-PROBLEMS"
 docname: draft-perkins-ktp-problems-00
-date: 2026-10-27
+date: 2026-11-20
 category: exp
 ipr: trust200902
 
@@ -15,6 +15,18 @@ author:
 normative:
   RFC2119:
   RFC8174:
+
+informative:
+  KTP-CORE:
+    title: "Kinetic Trust Protocol - Core Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
+  KTP-IDENTITY:
+    title: "Kinetic Trust Protocol - Vector Identity Specification"
+    author:
+      - name: Chris Perkins
+    date: 2025-11
 
 --- abstract
 
@@ -78,7 +90,7 @@ The seven original problems plus additional identified issues:
 | 6  | Standard Oil Monopoly        | Governance     | EXTERNAL   |
 | 7  | Legal Black Box              | Law            | EXTERNAL   |
 | 8  | Quantum Cliff                | Cryptography   | BOUNDED    |
-| 9  | Agent Collusion              | Game Theory    | MITIGATED  |
+| 9  | Agent Collusion              | Game Theory    | MITIGATED* |
 | 10 | Jurisdictional Fragmentation | Law/Policy     | EXTERNAL   |
 | 11 | Time Oracle Attack           | Security       | MITIGATED  |
 | 12 | Cultural Trust Relativism    | Sociology      | OPEN       |
@@ -88,6 +100,8 @@ The seven original problems plus additional identified issues:
 ~~~
 
 - Problem 3 marked with asterisk: The technical mitigation exists, but the ethical question of acceptable tradeoffs remains EXTERNAL.
+
+- Problem 9 marked with asterisk: Oracle co-signature ({{KTP-IDENTITY}}, Co-Signature Requirements) and the declared peer share ({{KTP-CORE}}, Peer Signals) are specified; the velocity and graph analysis in its response are described here and not required by any document in the set. {{KTP-CORE}} GOODHART-006 recommends that federated zones share behavioral statistics to detect gaming.
 
 ======================================================================== PROBLEM 1: THE HEISENBERG PENALTY (OBSERVER EFFECT) ========================================================================
 
@@ -977,14 +991,14 @@ Reference implementation establishes baseline that proprietary implementations m
 
 C. CONFORMANCE TESTING
 
-KTP-CONFORMANCE defines certification requirements:
+KTP-CONFORMANCE defines status-labelled conformance claims:
 
-- Public test suites anyone can run
-- Self-certification allowed for Level 1-2
-- Third-party certification required for Level 3
+- Public test cases anyone can run
+- A claim is the implementer's own statement, carrying one of four status labels: proposed, specified, tested, independently reproduced
+- Level 3 requires independent reproduction of its specified test IDs
 - Interoperability plugfests (virtual and in-person)
 
-No vendor controls certification—it's based on passing published tests against published specifications.
+No vendor, and no body, certifies conformance—a claim is worth exactly the published runs it names against published specifications.
 
 D. STANDARDS BODY SUBMISSION
 
@@ -1241,9 +1255,9 @@ CURRENT RESPONSE:
 
 1. Attestation value depends on attester's E_base—low-trust agents cannot boost each other significantly
 
-1. Velocity analysis detects unusual attestation patterns
+1. Velocity analysis detects unusual attestation patterns (described here; no document in the set requires it)
 
-1. Graph analysis identifies attestation cliques
+1. Graph analysis identifies attestation cliques (described here; no document in the set requires it)
 
 Mathematical constraint:
 
@@ -1546,7 +1560,7 @@ TECHNICAL BARRIERS:
 
 1. Capability Limitation (Architectural) - Some things KTP CANNOT do by design - Cannot correlate across zones without federation - Cannot identify humans from agent behavior - Cannot build social graphs
 
-1. Explicit Prohibition (Specification) - Prohibited uses enumerated in KTP-PRIVACY §6.2.3 - Implementations supporting prohibited uses are NON-CONFORMANT - Cannot use KTP branding/certification
+1. Explicit Prohibition (Specification) - Prohibited uses enumerated in KTP-PRIVACY §6.2.3 - Implementations supporting prohibited uses are NON-CONFORMANT - Cannot claim KTP conformance
 
 1. Change Control - New purposes require Privacy Impact Assessment - 30-day public notice - Technical Committee approval - Implementation review
 
@@ -1880,7 +1894,7 @@ Reference: KTP-PRIVACY §10.6, §11.5; KTP-GOVERNANCE §3.1.5
 | 6  | Standard Oil Monopoly     | EXTERNAL   | Governance/community |
 | 7  | Legal Black Box           | EXTERNAL   | Legal precedent      |
 | 8  | Quantum Cliff             | BOUNDED    | PQC standardization  |
-| 9  | Agent Collusion           | MITIGATED  | Graph analysis       |
+| 9  | Agent Collusion           | MITIGATED* | Graph analysis       |
 | 10 | Jurisdictional Fragment.  | EXTERNAL   | International law    |
 | 11 | Time Oracle Attack        | MITIGATED  | Time source security |
 | 12 | Cultural Trust Relativism | OPEN       | Anthropology/ethics  |

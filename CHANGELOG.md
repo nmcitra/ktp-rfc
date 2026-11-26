@@ -73,6 +73,49 @@ lighter zone inside a harder one, stops conforming, so this requires a MAJOR
 release under `VERSIONING.md`. It remains unreleased; published tags are
 unchanged.
 
+### The bounds of a delegation are the ones it states
+
+KTP-HUMAN requires a delegation to bind its operation, resources and
+parameters, and forbids dividing an operation to evade a cumulative limit.
+Neither sentence said what an enforcement point does when it is handed an
+instruction in words and no stated limit, when a stated limit is not a usable
+number, or over what a cumulative limit is counted. KTP-CORE Section 6.8
+already answers the first two for every input: an undefined input does not
+resolve toward permission. Four sentences in Delegation and two in No Safety
+Override now say so for a delegation's bounds: a bound the delegation does not
+state is undefined, a numeric limit that is not finite and non-negative is
+undefined, text that accompanies a request is not the delegation, and a
+cumulative limit runs across every request under the delegation.
+Clarification: no MUST is added, and no conformant implementation changes.
+Found by the corpus audit, after an adapter written to the public decision
+table read a limit out of an instruction that refused it.
+
+### Software-substrate execution profile (D-009)
+
+**Finding (#124 / #131):** The envelope anticipated software substrates without
+fixing their demand magnitudes, capacity-condition observations or exact
+consumption-decision binding. The opt-in `software-substrate-execution-v1`
+companion supplies those declarations and a separately signed decision bound to
+the actual invocation, ordinary proof, readiness, evidence and current state.
+The schema, deterministic contract/schema fixtures and CI runner accompany it;
+A/E computation remains implementation-defined. See MIGRATION.md for adoption.
+
+### Celestial's exponential degradation curve decays
+
+**Finding:** KTP-CELESTIAL's exponential degradation curve wrote its constant
+as `ln(0.5) / half_life`. That constant is negative, so the curve rose: an
+Extended Trust Proof gained e_trust the longer its agent went without
+verification, the reverse of the section's last paragraph and of the linear and
+step curves beside it. The line also called the curve "more conservative",
+which holds only for some half-lives and never at the end of validity, where
+the linear curve reaches zero and the exponential one does not. The defect is
+in every release since v1.0.0. Found by the corpus audit; recorded as SN-006.
+
+- Celestial, Degradation Curves: the constant is `ln(2) / half_life`, so
+  e_trust halves every half-life, and "(more conservative)" is removed.
+
+Class: Clarification. No MUST is added or altered.
+
 ### Induced Conservatism is a named threat (TM-D-005)
 
 **Proposed by @kimosmond-del** on #146 (2026-10-07). KTP-CORE's Security
@@ -131,6 +174,17 @@ Class: MINOR (#144), on the D-006 precedent. The set contradicted itself,
 Core's form was always the contract, and the change moves an implementation
 that followed the other copy. No MUST is added or altered. The migration
 entry gives the old-to-new mapping.
+
+### Consequential-action execution and evidence (D-012)
+
+**Finding (#129 / #139):** A signed consumption decision alone does not establish
+release-time validity, replay continuity, aggregate budget safety or target effects.
+The opt-in companion adds release revalidation, durable request identity,
+conservative shared reservations and authenticated reconciliation. Its signed
+correlation record distinguishes withheld, dispatched, effect confirmed, no effect
+and unknown; only authenticated non-dispatch releases a held reservation. The
+schema, modeled contract/schema fixtures and CI runner do not certify a runtime.
+See MIGRATION.md for adoption after the software-substrate profile.
 
 ### Operation-specific human eligibility and privacy evidence
 

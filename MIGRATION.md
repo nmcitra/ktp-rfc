@@ -1,5 +1,18 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
+opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
+use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
+the suffix versions the identifier, not the KTP release. Install the declared
+magnitudes, conditions, observation sources, supervision/repair requirements,
+digest preimages and continuity state. Bind a separately signed consumption
+decision to the complete ordinary proof, actual request and mandatory software
+readiness decision; wire evaluation/expiration times are integer Unix seconds.
+Experimental or unversioned artifacts do not become conforming by renaming them.
+Implementations not declaring this profile gain no obligations from D-009 alone;
+independent v3 requirements still apply. The vectors specify contract expectations,
+not a runtime conformance claim.
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the six inputs, Core Section 5.2, with the
@@ -61,6 +74,19 @@ existing amendment process; this migration is no waiver. The original published
 v2 deployment schema is archived as `schemas/deployment-profile-legacy-v2.json`.
 These are unreleased format/behavior changes; the historical instructions below
 continue to describe their named release only.
+
+**Unreleased consequential-action migration (D-012, #129 / #139):** Deployments
+opting into [the execution/evidence companion](specifications/consequential-action-execution-and-evidence.md)
+revalidate at release and preserve replay identity, request fingerprint,
+checkpoints and unresolved reservations across recovery. Declare aggregate
+budget units, scope, accounting and reconciliation; budget restrictions do not
+redefine E or widen the profile result. Adopt the signed evidence record and its
+five states. A denial without authenticated protected-path non-dispatch evidence
+is `unknown`; neither HTTP success nor a dispatch record proves an effect.
+Release held reservations only on authenticated non-dispatch, preserving uncertain
+state. An earlier implementation must not silently map `no_effect` to dispatch or
+release a reservation on it. D-012 is opt-in and does not itself change obligations
+for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally
 introduces `ktp-trajectory-v3`, independently of the historical release guide
@@ -586,3 +612,10 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

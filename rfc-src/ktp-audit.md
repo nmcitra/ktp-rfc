@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Flight Recorder Specification"
 abbrev: "KTP-AUDIT"
-date: 2026-10-04
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -154,7 +154,6 @@ The environmental snapshot captures the complete Risk Factor input state at deci
        "evidence_density": 0.45,
        "trust_trend": 0.78,
        "adversarial_pressure": 0.82,
-       "moment_criticality": 0.30,
        "update_resistance": 0.25,
        "attestation_coverage": 0.15
      },
@@ -280,7 +279,7 @@ reason: KTP error code when supervision is silent_veto
 
 evaluation: Step-by-step evaluation trace
 
-gap: Difference between A and E_trust (how far from threshold)
+gap: Difference between A and the E the capacity check used (how far from threshold; a software agent's E_trust, a person's operational E, \[KTP-CORE] Section 4.1 (Definition))
 
 The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from supervision and tightened_constraints per \[KTP-CORE] Section 6.7 (Aggregation Algorithm) and is not stored; the record carries the result the verb is read from.
 
@@ -958,7 +957,6 @@ ML export format:
        "evidence_density": 0.45,
        "trust_trend": 0.78,
        "adversarial_pressure": 0.82,
-       "moment_criticality": 0.30,
        "update_resistance": 0.25,
        "attestation_coverage": 0.15,
        "action_risk": 85,

@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
-"""Regression gate for the six deployment Risk Factor weights (F04).
+"""Regression gate for the five deployment Risk Factor weights (F04).
 
 Runs the real declaration checker, its CLI, and the Draft 2020-12 schema.
 Install jsonschema==4.26.0, then run:
     python3 scripts/test-risk-factor-weights.py
 
-The schema checks each weight and the six-factor shape. The declaration
+The schema checks each weight and the five-factor shape. The declaration
 checker additionally requires the exact sum of Fraction(str(weight)) to be
 one, using the numeric values produced by the existing JSON parser. These
 tests do not claim to preserve original JSON number tokens. The arithmetic
 tests check the published weighted-risk formula, not a runtime authorizer.
+
+It also pins the v3 identifiers of the Risk Factors and Trust Proof schemas
+and the byte-preserved v2 files their v2 identifiers still name, and checks
+that the demand-input vectors' R and E_trust are exact on their own inputs.
 """
 
 import copy
+import hashlib
 import importlib.util
 import itertools
 import json
@@ -24,8 +29,10 @@ import tempfile
 import unittest
 from fractions import Fraction
 from pathlib import Path
+from urllib.parse import urljoin
 
 from jsonschema import Draft202012Validator
+from referencing import Registry, Resource
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -86,21 +93,20 @@ def published_profiles():
     return profiles
 
 
-# name, all six weights, checker valid. All values in this table are strict
+# name, all five weights, checker valid. All values in this table are strict
 # finite JSON numbers in (0, 1], so the schema intentionally accepts them.
 SUM_CASES = [
     ("embedded-example", BASE_WEIGHTS, True),
-    ("skewed-valid", [0.95, 0.01, 0.01, 0.01, 0.01, 0.01], True),
-    ("decimal-valid", [0.1, 0.2, 0.3, 0.15, 0.15, 0.1], True),
-    ("original-small-total", [0.01] * 6, False),
-    ("all-maximum", [1] * 6, False),
+    ("skewed-valid", [0.96, 0.01, 0.01, 0.01, 0.01], True),
+    ("decimal-valid", [0.1, 0.2, 0.3, 0.25, 0.15], True),
+    ("original-small-total", [0.01] * 5, False),
+    ("all-maximum", [1] * 5, False),
     ("near-unit-deficit", [math.nextafter(BASE_WEIGHTS[0], 0)]
      + BASE_WEIGHTS[1:], False),
     ("near-unit-excess", [math.nextafter(BASE_WEIGHTS[0], math.inf)]
      + BASE_WEIGHTS[1:], False),
-    ("six-rounded-sixths", [0.16666666666666666] * 6, False),
-    ("balanced-rounded-sixths", [0.16666666666666666] * 5
-     + [0.1666666666666667], True),
+    ("five-rounded-fifths", [0.2] * 5, True),
+    ("five-rounded-thirds", [0.3333333333333333] * 3 + [0.0000000000000001] * 2, False),
 ]
 
 
@@ -215,7 +221,7 @@ class RiskFactorWeightTests(unittest.TestCase):
                                   "DECLARATIONS INVALID", result.stdout)
             # Exercise exponent overflow through the CLI's existing parser.
             path.write_text(json.dumps(profile_with(BASE_WEIGHTS)).replace(
-                '"weight": 0.25', '"weight": 1e400', 1))
+                f'"weight": {BASE_WEIGHTS[0]}', '"weight": 1e400', 1))
             result = subprocess.run(
                 [sys.executable, str(CHECKER_PATH), "--profile", str(path)],
                 capture_output=True, text=True, check=False)
@@ -246,6 +252,150 @@ class RiskFactorWeightTests(unittest.TestCase):
                         for base in (Fraction(0), Fraction(50), Fraction(100)):
                             self.assertLessEqual(base * (1 - increased_risk),
                                                  base * (1 - risk))
+
+
+
+class RiskFactorsSchemaIdentityTests(unittest.TestCase):
+    """The five-input objects take v3 identifiers; the published v2 bytes stay
+    where citations of the v2 identifiers land."""
+
+    LEGACY = {
+        "risk-factors-legacy-v2.json": (
+            "a2f497489b94e727398278794389e6fbae0a44c851f19a1e5d1daafc1daa16e0",
+            "/v2/risk-factors.json"),
+        "trust-proof-legacy-v2.json": (
+            "41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0",
+            "/v2/trust-proof.json"),
+        "sensor-config-legacy-v2.json": (
+            "a9f70585fc9ba85334f972dc8dbccb9dfa0446cb18ce3d8b79cadf5d59f3ad22",
+            "/v2/sensor-config.json"),
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        cls.schemas = {path.name: json.loads(path.read_text())
+                       for path in sorted((ROOT / "schemas").glob("*.json"))}
+        cls.registry = Registry().with_resources(
+            (schema["$id"], Resource.from_contents(schema))
+            for schema in cls.schemas.values())
+        cls.five = cls.schemas["risk-factors.json"]["examples"][0]
+        cls.six = cls.schemas["risk-factors-legacy-v2.json"]["examples"][0]
+
+    def risk_factors_ref(self, name):
+        """Resolve the one reference a schema makes to a Risk Factors object."""
+        found = []
+
+        def walk(node):
+            if isinstance(node, dict):
+                ref = node.get("$ref")
+                if isinstance(ref, str) and ref.endswith("risk-factors.json"):
+                    found.append(ref)
+                for value in node.values():
+                    walk(value)
+            elif isinstance(node, list):
+                for value in node:
+                    walk(value)
+
+        walk(self.schemas[name])
+        self.assertEqual(1, len(found), name)
+        return urljoin(self.schemas[name]["$id"], found[0])
+
+    def accepts(self, ref, instance):
+        validator = Draft202012Validator({"$ref": ref}, registry=self.registry)
+        return validator.is_valid(instance)
+
+    def test_legacy_files_are_the_published_bytes(self):
+        for name, (digest, suffix) in self.LEGACY.items():
+            with self.subTest(schema=name):
+                data = (ROOT / "schemas" / name).read_bytes()
+                self.assertEqual(digest, hashlib.sha256(data).hexdigest())
+                self.assertTrue(json.loads(data)["$id"].endswith(suffix))
+
+    def test_active_schemas_carry_v3_identifiers(self):
+        risk = self.schemas["risk-factors.json"]
+        self.assertTrue(risk["$id"].endswith("/v3/risk-factors.json"))
+        self.assertEqual(sorted(FACTORS), sorted(risk["required"]))
+        self.assertTrue(self.schemas["trust-proof.json"]["$id"]
+                        .endswith("/v3/trust-proof.json"))
+        sensors = self.schemas["sensor-config.json"]
+        self.assertTrue(sensors["$id"].endswith("/v3/sensor-config.json"))
+        self.assertEqual(sorted(FACTORS + ["soul"]),
+                         sorted(sensors["properties"]["dimension"]["enum"]))
+
+    def test_each_reference_resolves_to_its_own_version(self):
+        cases = {
+            "trust-proof.json": "five",
+            "transaction-record.json": "five",
+            "trust-proof-legacy-v2.json": "six",
+            "transaction-record-legacy-v2.json": "six",
+        }
+        for name, shape in cases.items():
+            with self.subTest(schema=name):
+                ref = self.risk_factors_ref(name)
+                self.assertEqual(shape == "five", self.accepts(ref, self.five))
+                self.assertEqual(shape == "six", self.accepts(ref, self.six))
+
+    # The preserved v2 bytes are what v2.1.0 published, defects included.
+    PUBLISHED_EXAMPLE_DEFECTS = {
+        "trust-proof-legacy-v2.json": "v2.1.0 published resilience_hash examples "
+                                      "with 60 hex digits against a 64-digit pattern",
+    }
+
+    def references(self, node):
+        if isinstance(node, dict):
+            if isinstance(node.get("$ref"), str):
+                yield node["$ref"]
+            for value in node.values():
+                yield from self.references(value)
+        elif isinstance(node, list):
+            for value in node:
+                yield from self.references(value)
+
+    def test_every_reference_resolves(self):
+        for name, schema in self.schemas.items():
+            resolver = self.registry.resolver(base_uri=schema["$id"])
+            for ref in self.references(schema):
+                with self.subTest(schema=name, ref=ref):
+                    resolver.lookup(ref)
+
+    def test_every_example_validates(self):
+        for name, schema in self.schemas.items():
+            if name in self.PUBLISHED_EXAMPLE_DEFECTS:
+                continue
+            validator = Draft202012Validator(schema, registry=self.registry)
+            for index, example in enumerate(schema.get("examples", [])):
+                with self.subTest(schema=name, example=index):
+                    self.assertEqual([], [error.message for error in
+                                          validator.iter_errors(example)])
+
+
+
+class DemandVectorArithmeticTests(unittest.TestCase):
+    """The demand-input vectors that show R and E_trust carry exactly what
+    Core's formulas give on their own inputs, with nothing rounded."""
+
+    @classmethod
+    def setUpClass(cls):
+        path = ROOT / "specifications/conformance/demand-input-v1.json"
+        suite = json.loads(path.read_text(), parse_float=Fraction)
+        cls.vectors = {vector["id"].split("-")[0]: vector
+                       for vector in suite["vectors"]}
+
+    def test_kickoff_risk_and_trust_are_exact(self):
+        given = self.vectors["DI10"]["given"]
+        expect = self.vectors["DI10"]["expect"]
+        risk = sum(given["weights"][name] * given["normalized_inputs"][name]
+                   for name in FACTORS)
+        self.assertEqual(sorted(FACTORS), sorted(given["weights"]))
+        self.assertEqual(risk, expect["R"])
+        self.assertEqual(given["E_base"] * (1 - risk), expect["E_trust"])
+
+    def test_declared_supplier_case_matches_the_kickoff(self):
+        given = self.vectors["DI01"]["given"]
+        expect = self.vectors["DI01"]["expect"]
+        self.assertEqual(self.vectors["DI10"]["expect"]["R"], given["R"])
+        self.assertEqual(given["R"], expect["R"])
+        self.assertEqual(given["E_base"] * (1 - given["R"]), expect["E_trust"])
 
 
 if __name__ == "__main__":

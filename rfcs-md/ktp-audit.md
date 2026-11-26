@@ -253,7 +253,7 @@ reason: KTP error code when supervision is silent_veto
 
 evaluation: Step-by-step evaluation trace
 
-gap: Difference between A and E_trust (how far from threshold)
+gap: Difference between A and the E the capacity check used (how far from threshold; a software agent's E_trust, a person's operational E, [KTP-CORE] Section 4.1 (Definition))
 
 The decision verb (ALLOW, SHAPE, DEAUTOMATE, VETO) is derived from supervision and tightened_constraints per [KTP-CORE] Section 6.7 (Aggregation Algorithm) and is not stored; the record carries the result the verb is read from.
 

@@ -235,33 +235,44 @@ Agreement example:
 
 ## Hierarchical Federation
 
-Retired. Earlier versions of this specification defined a tree of zones in which a parent zone trusted all its descendants at factor 1.0 and a child zone trusted its parent at factor 1.0. That trust rule is retired, and with it parent, child, descendant, sibling and common ancestor as terms for relationships between zones.
+Tree structure with inheritance of trust relationships.
 
-A symmetric factor of 1.0 credits standing earned under weaker enforcement as if it had been earned under the receiving zone's own, and it conflicts with the class-factor deflation that [KTP-ZONES] applies at ingress. An organizational tree is a deployment shape, not a trust relation.
+Characteristics:
 
-Requirements:
+- Parent-child zone relationships
+- Trust inherited down hierarchy
+- Children can have additional peer relationships
+- Natural for organizational structures
 
-1. An organizational relationship between zones MUST NOT imply full trust.
-2. Each receiving zone MUST apply an explicitly established, directional trust factor, as Section 4 (Trust Factor Calculation) specifies.
-3. Any Enforcement Class ceiling on that factor is defined by the applicable profile.
-
-Where enforcement nests, the relationship is containment, and [KTP-ZONES] Section 3.7 (Nested Zones) specifies it as rings. Where it does not, the relationship is peer federation under the bilateral, hub or mesh model.
-
-Migration:
+Structure:
 
 ~~~
-+-----------------+---------------------------+--------------------------+
-| Earlier         | Where enforcement nests   | Where it does not        |
-+-----------------+---------------------------+--------------------------+
-| parent          | enclosure                 | peer, directional factor |
-| child           | ring                      | peer, directional factor |
-| descendant      | inner ring                | peer, directional factor |
-| sibling         | peer ring, same enclosure | peer, directional factor |
-| common ancestor | nearest shared enclosure  | no equivalent            |
-+-----------------+---------------------------+--------------------------+
+                 +----------+
+                 |   Root   |
+                 +----------+
+                /            \
+        +------+              +------+
+        |Tier 1|              |Tier 1|
+        +------+              +------+
+       /        \            /        \
+   +----+    +----+      +----+    +----+
+   |Tier|    |Tier|      |Tier|    |Tier|
+   | 2  |    | 2  |      | 2  |    | 2  |
+   +----+    +----+      +----+    +----+
 ~~~
 
-Government hierarchies, multinational corporations and franchise networks are deployed as rings where enforcement nests, and as bilateral, hub or mesh federations where it does not.
+Trust rules:
+
+- Parent trusts all descendants at factor 1.0
+- Child trusts parent at factor 1.0
+- Siblings trust each other at parent's discretion
+- Cross-branch trust calculated via common ancestor
+
+Use cases:
+
+- Government hierarchies
+- Multi-national corporations
+- Franchise networks
 
 # Trust Factor Calculation
 
@@ -289,6 +300,8 @@ Example calculation:
    Zone A to Zone B trust factor = 0.8
    E_base in Zone B = 85 * 0.8 = 68
 ~~~
+
+The same calculation applies to a person's standing, and only where a federation agreement exists. A person's standing crosses a federation link as the agreement provides: the receiving zone applies its directional trust factor and its zone-mass ceiling, and MAY admit the person at any standing from zero up to that ceiling. An agreement MAY set the factor for persons separately from the factor for agents. Where no agreement exists, no standing transfers, and a person's standing in one zone says nothing about the person in another.
 
 ## Dynamic Trust Factor
 

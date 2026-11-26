@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Enforcement Layer Specification"
 abbrev: "KTP-ENFORCE"
 docname: draft-perkins-ktp-enforce-00
-date: 2026-10-04
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -96,7 +96,7 @@ Adaptive Dormancy: The progressive reduction of agent capabilities as environmen
 
 Capability Matrix: A mapping of Trust Tiers to permitted action classes, defining what each tier is allowed to do.
 
-Effective Trust Score (E_trust): The current Trust Score after environmental deflation, used to determine the agent's Trust Tier.
+Effective Trust Score (E_trust): The current Trust Score after environmental deflation, used to determine the subject's Trust Tier.
 
 Hibernation Mode: The most restrictive operational state, where an agent awaits recovery and may emit a heartbeat only when that action is independently authorized under the requirements below.
 
@@ -104,11 +104,11 @@ Policy Decision Point (PDP): The logical component that evaluates Trust Proofs a
 
 Policy Enforcement Point (PEP): A component that intercepts agent requests and enforces PDP decisions by allowing, denying, or modifying actions.
 
-Silent Veto: The automatic denial of an action when A > E, executed without requiring human intervention. E is software-agent E_trust or separately evidenced human operational capacity under the reviewed adapter. A correctly evaluated veto cannot be overridden; explanation, review, and factual correction remain available.
+Silent Veto: The automatic denial of an action when A > E, executed without requiring human intervention, for any subject of this specification. A correctly evaluated veto cannot be overridden; explanation, review, and factual correction remain available. For a person, operation eligibility and operational capacity remain separate requirements beside standing, under the reviewed adapter.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), taking precedence over Trust Score evaluation.
 
-Trust Tier: A software-agent capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds. Human operation eligibility is not a personal tier.
+Trust Tier: A capability level (Admin Mode, Operator Mode, Analyst Mode, Observer Mode, Hibernation) determined by E_trust thresholds, for any subject of this specification. Operation eligibility and operational capacity are separate requirements beside it, not tiers.
 
 # Architecture Overview
 
@@ -155,7 +155,7 @@ Figure 1: Enforcement Layer Architecture
 
 ## Enforcement Flow
 
-The standard enforcement flow for every action follows. Software-agent tiers and readiness are not personal human scores. Before accepting human requests, supervision, or delegation, a deployment MUST install the human_policy binding defined in specifications/deployment-profile.md and the reviewed authorization adapter required by specifications/human-eligibility.md. Missing policy, an unsupported human proof format, or an unauthenticated actor binding MUST deny the affected request. A generic JWT or a self-declared human label is not a fallback.
+The standard enforcement flow for every action follows. A person's Trust Tier derives from the zone's measure of the person's account and is never a general score of the person; readiness applies to software executors. Before accepting human requests, supervision, or delegation, a deployment MUST install the human_policy binding defined in specifications/deployment-profile.md and the reviewed authorization adapter required by specifications/human-eligibility.md. Missing policy, an unsupported human proof format, or an unauthenticated actor binding MUST deny the affected request. A generic JWT or a self-declared human label is not a fallback.
 
 1. The principal submits the actual action request with its ordinary proof and required prerequisite evidence.
 
@@ -167,7 +167,7 @@ The standard enforcement flow for every action follows. Software-agent tiers and
 
 1. IF S = 1: - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 
-1. For a software executor, the PEP obtains its verified E_trust and determines its Trust Tier. For a human executor, the PEP obtains separately evidenced operational E from the reviewed adapter. E and A MUST describe this actor's actual operation on the same declared scale. Human eligibility, role, seniority, and approval MUST NOT supply E or create an E_base, tier, generation, or model field.
+1. For a software executor, the PEP obtains its verified E_trust and determines its Trust Tier. For a human executor, the PEP obtains separately evidenced operational E from the reviewed adapter, and determines the person's Trust Tier from the E_trust in the person's verified Trust Proof; that E_trust never supplies E. E and A MUST describe this actor's actual operation on the same declared scale. Human eligibility, role, seniority, and approval MUST NOT supply E or create a generation or model field, and eligibility, role, and seniority MUST NOT create an E_base or a tier. A person's E_base is composed only under {{KTP-CORE}} Section 5.1.1 (The External Root), where an approval the person signed is one of the person's acts.
 
 1. PEP looks up Action Risk (A) for requested action
 
@@ -175,7 +175,7 @@ The standard enforcement flow for every action follows. Software-agent tiers and
 
 1. IF A > E: - supervision = silent_veto, reason TRUST_INSUFFICIENT (Silent Veto) - Log to Flight Recorder - STOP
 
-1. Verify the actual executor's current grants and restrictions. For software, a failed Trust Tier restriction also denies. For a human, missing current operation-specific eligibility denies. Where a human delegates or supervises software, verify the human's eligibility for that exact operation and the restrictive intersection of every current delegation/grant with the executor's own authority. No signature, score, or human eligibility transfers capability or relaxes a preceding veto.
+1. Verify the actual executor's current grants and restrictions. A failed Trust Tier restriction also denies, for software and for a person alike, except for the acts in a person's ledger ({{KTP-CORE}} Section 5.1.1 (The External Root)). For a human, missing current operation-specific eligibility denies. Where a human delegates or supervises software, verify the human's eligibility for that exact operation and the restrictive intersection of every current delegation/grant with the executor's own authority. No signature, score, or human eligibility transfers capability or relaxes a preceding veto.
 
 1. Evaluate the decision result - supervision and tightenedConstraints - per {{KTP-CORE}} Section 6.7 (Aggregation Algorithm). If it is silent_veto, log the denial and STOP. Otherwise, the action may proceed only under the tightened envelope and after the returned supervision requirements are satisfied. Profile thresholds and supervision MUST NOT relax a preceding veto.
 
@@ -193,9 +193,9 @@ Review MUST remain available under {{KTP-HUMAN}}, {{KTP-PRIVACY}}, and specifica
 
 Trust Oracle:
 
-- Calculates software-agent E_trust from E_base and the Risk Factor inputs
+- Calculates E_trust from E_base and the Risk Factor inputs, for software agents and for persons
 - Signs Trust Proofs
-- Maintains software-agent Proof of Resilience ledger
+- Maintains the Proof of Resilience ledger; a person's holds only acts the person signed under stress
 - Provides PDP functionality (may be distributed)
 
 Policy Enforcement Point (PEP):
@@ -204,7 +204,7 @@ Policy Enforcement Point (PEP):
 - Validates Trust Proof signatures
 - Enforces Soul Veto
 - Enforces the capacity veto (A > E denies), using the reviewed capacity binding for the actual actor
-- Enforces software Trust Tier restrictions, human operation eligibility where applicable, and each actor's current grants and prerequisites
+- Enforces Trust Tier restrictions for every subject, human operation eligibility where applicable, and each actor's current grants and prerequisites
 - Logs all decisions to Flight Recorder
 
 Flight Recorder:
@@ -230,7 +230,7 @@ Every KTP-compliant PEP MUST:
 
 1. Evaluate Soul constraint before Trust Score
 
-1. Evaluate A <= E_trust for every action
+1. Evaluate A <= E for every action, with E as {{KTP-CORE}} Section 4.1 (Definition) defines it for the actual actor
 
 1. Enforce Trust Tier capability restrictions
 
@@ -568,6 +568,8 @@ Requirements:
 - Extensive Proof of Resilience
 - Stable environmental conditions (R < 0.10)
 
+For a person, the lineage requirement does not apply ({{KTP-CORE}} Section 5.1.1 (The External Root)), nor does the zone Mass Ceiling condition above, which bounds no person's own standing; the threshold, Proof of Resilience, and stable-conditions requirements do.
+
 5.1.2. Operator Mode (E_trust >= 72)
 
 Standard operational capability for routine service management.
@@ -649,7 +651,9 @@ The Capability Matrix maps Trust Tiers to permitted action classes:
 +---------------+----------------------------------+
 ~~~
 
-A tier permits action classes; it does not carry a numeric action-risk cap of its own. The numeric bound is the Zeroth Law: A <= E_trust, evaluated per action against the agent's current score. An earlier revision carried a Max A column beside the classes — a second numeric bound keyed to the tier thresholds, which drifted when the thresholds moved and could only ever restate, more coarsely, what A <= E_trust already enforces exactly. One fact stated twice diverges; the environment's bound is the bound.
+A tier permits action classes; it does not carry a numeric action-risk cap of its own. The numeric bound is the Zeroth Law: A <= E, evaluated per action, with E as {{KTP-CORE}} Section 4.1 (Definition) defines it for the actual actor. An earlier revision carried a Max A column beside the classes — a second numeric bound keyed to the tier thresholds, which drifted when the thresholds moved and could only ever restate, more coarsely, what the Zeroth Law already enforces exactly. One fact stated twice diverges; the environment's bound is the bound.
+
+For a person, the matrix restricts the actions the person executes; it does not restrict the acts in the person's ledger (signing a bond, an attestation, an approval, or a veto clear, or contesting a decision), which {{KTP-CORE}} Section 5.1.1 (The External Root) governs.
 
 Every listed class, including heartbeat, remains subject to current authorization and all preceding vetoes. A tier name such as Hibernation or Emergency Responder grants no standing exception. Separately authorized emergency capability MUST identify the exact permitted action and satisfy `specifications/emergency-capability.md`; ordinary proof expiration is unchanged.
 
@@ -791,9 +795,9 @@ Enforcement follows a strict evaluation order:
 
 1. Soul Veto (Sovereignty Check) - S = 1? - If YES: supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT
 
-1. Trust Tier Eligibility - Is action class permitted for tier? - If NO: supervision = silent_veto, reason TIER_RESTRICTION
+1. Trust Tier Eligibility - Is action class permitted for tier? (Not applied to the acts in a person's ledger; see Section 5.2 (Capability Matrices).) - If NO: supervision = silent_veto, reason TIER_RESTRICTION
 
-1. Zeroth Law (A <= E_trust) - Is A <= E_trust? - If NO: supervision = silent_veto, reason TRUST_INSUFFICIENT
+1. Zeroth Law (A <= E) - Is A <= E? - If NO: supervision = silent_veto, reason TRUST_INSUFFICIENT
 
 1. Custom Policy (Optional) - Any additional policy constraints? - If violated: supervision = silent_veto, reason POLICY_VIOLATION
 
@@ -814,7 +818,7 @@ HTTP response codes for KTP enforcement:
 | 401  | MISSING_TRUST_PROOF       | No Trust Proof provided        |
 | 401  | INVALID_TRUST_PROOF       | Signature invalid or expired   |
 | 403  | SOVEREIGNTY_CONSTRAINT    | Soul veto (S = 1)              |
-| 403  | TRUST_INSUFFICIENT        | A > E_trust (Silent Veto)      |
+| 403  | TRUST_INSUFFICIENT        | A > E (Silent Veto)            |
 | 403  | TIER_RESTRICTION          | Action not permitted for tier  |
 | 403  | POLICY_VIOLATION          | Custom policy constraint       |
 | 429  | RATE_LIMITED              | Trust-based rate limit hit     |
@@ -840,6 +844,8 @@ Response body format:
      "request_id": "req-uuid-12345"
    }
 ~~~
+
+The example shows a software agent. For a person, the details object reports the operational E the capacity check used, never E_trust in its place, and omits de_dt ({{KTP-CORE}} Section 8.3 (Veto Response)).
 
 ## Veto Notification
 

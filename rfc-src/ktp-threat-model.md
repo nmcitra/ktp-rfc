@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Threat Model Specification"
 abbrev: "KTP-THREAT-MODEL"
-date: 2026-09-07
+date: 2026-10-28
 category: exp
 ipr: trust200902
 
@@ -209,7 +209,7 @@ ASSET: Sponsorship Bonds Description: Records of agent sponsorship relationships
 
 ASSET: Trust Scores Description: Current E_base and E_trust for all agents Location: Trust Oracle (computed), cached at PEPs Sensitivity: HIGH Compromise Impact: Grant unearned trust, deny legitimate trust Protection: Computation integrity, cache validation
 
-ASSET: Risk Factor Input State Description: Current environmental readings (the six weighted inputs and the Soul veto) Location: Trust Oracle Sensitivity: MEDIUM Compromise Impact: Manipulate Risk Factor calculation Protection: Sensor diversity, outlier detection
+ASSET: Risk Factor Input State Description: Current environmental readings (the five weighted inputs and the Soul veto) Location: Trust Oracle Sensitivity: MEDIUM Compromise Impact: Manipulate Risk Factor calculation Protection: Sensor diversity, outlier detection
 
 ASSET: Zone Configuration Description: Zone policies, thresholds, weights Location: Trust Oracle configuration Sensitivity: HIGH Compromise Impact: Weaken security policies Protection: Configuration signing, audit, access control
 
@@ -252,6 +252,12 @@ ACTOR: State Intelligence Service Motivation: Espionage, sabotage, strategic adv
 ACTOR: State-Sponsored Group Motivation: Economic espionage, political disruption Capabilities: Advanced persistent threat (APT) techniques Resources: State backing, long-term commitment Targets: Economic targets, political targets Risk Level: HIGH (persistent and capable)
 
 Note: KTP cannot fully prevent nation-state attacks but can increase cost and reduce blast radius.
+
+## Actors Defined by Goal
+
+ACTOR: Conservatism Exploiter. Motivation: disruption, extortion, competitive sabotage, cover for a parallel operation. Capabilities: traffic generation against public endpoints; suppression or delay of feeds, registries or time sources; control of at most one Oracle, sensor or peer agent. Resources: low to moderate. Targets: the fail-safe and fail-closed rules themselves. Risk Level: HIGH (its cheapest path needs no compromise; it succeeds when mitigations work as designed).
+
+Note: this actor is defined by its goal, not its capability. Any actor above may adopt that goal.
 
 # STRIDE Analysis
 
@@ -623,7 +629,7 @@ Impact: MEDIUM - Context Signals become unreliable - Trust Scores potentially in
 
 Likelihood: MEDIUM - Sensors distributed, large attack surface
 
-Mitigations: - Sensor authentication (KTP-SENSORS §6) - Rate limiting per sensor - Aggregator capacity planning - Graceful degradation (use last known good) - Fail-safe to conservative Trust Scores
+Mitigations: - Sensor authentication (KTP-SENSORS §6) - Rate limiting per sensor - Aggregator capacity planning - Unavailable feeds resolved per KTP-SENSORS §6 (Sensor Quality and Validation) - Fail-safe to conservative Trust Scores
 
 Residual Risk: MEDIUM - Coordinated attack can still impact - Fail- safe limits security impact
 
@@ -664,6 +670,24 @@ Mitigations: - Rate limiting on federation gateway - Multiple federation paths -
 Residual Risk: LOW - Zones can operate independently - Cross-zone actions fail safe
 
 References: KTP-FEDERATION
+
+### TM-D-005: Induced Conservatism
+
+Description: Adversary manufactures uncertainty, dispute or stress so that fail-safe and fail-closed rules deny, deautomate or hibernate legitimate action. The attack succeeds when KTP behaves as specified.
+
+Attack Vector: 1. Truthful stress: drive externally reachable Context Signals (failed auth, WAF blocks, scans, traffic volume, queue depth) with unauthenticated traffic. 2. Absence: suppress, delay or partition feeds, aggregators, Soul registries, time sources or Oracle members so inputs become undefined and resolve restrictively. 3. Dispute: control one Oracle, feed or peer agent and report an extreme value that an extremum-selection rule adopts. 4. Persistence: pulse any of the above with a period shorter than the recovery tail (hysteresis, staged promotion, Hibernation exit, circuit-breaker reset).
+
+Preconditions: (1) network reachability only; (2) network position or a component outage; (3) one compromised Oracle, feed or agent; (4) any of the above.
+
+Impact: HIGH to CRITICAL. Zone-wide loss of Admin and Operator capability; Observer or Hibernation for most agents. The separately authorized emergency path may fail alongside, because it shares inputs and trusted time. Agent circuit breakers may latch. Manufactured stress can also be harvested as Proof of Resilience by a confederate agent (TM-E-001; *Bypass Zeroth Law* node 1.1.2).
+
+Likelihood: HIGH for vector 1 (no compromise required); MEDIUM for vectors 2 and 3.
+
+Mitigations: None in the current set. Fail-safe mode is not a mitigation for this threat; it is the delivery mechanism. Proposed bounds (SR-017 to SR-022): see IC-B and IC-C.
+
+Residual Risk: HIGH. A real, large attack will still restrict the zone after any bound, and that is intended.
+
+References: KTP-CORE *Undefined Inputs*, *Consensus*, *Security Considerations*; KTP-SENSORS §6–7; KTP-ENFORCE *Adaptive Dormancy*; KTP-EMERGENCY *Circuit Breakers*; KTP-RECOVERY; Ptacek and Newsham, "Insertion, Evasion, and Denial of Service: Eluding Network Intrusion Detection" (1998), as prior statement of the threat in network security.
 
 ## Elevation of Privilege
 
@@ -761,7 +785,7 @@ TM-TO-003: Oracle Configuration Attack Threat: Modify Oracle security parameters
 
 TM-TO-004: Oracle State Corruption Threat: Corrupt in-memory Trust Score state Attack: Memory corruption exploit, race condition Impact: HIGH - incorrect Trust Scores Mitigation: Memory safety, state validation, consensus Risk: LOW
 
-TM-TO-005: Oracle Time Manipulation Threat: Manipulate Oracle's time source Attack: NTP attack, GPS spoofing Impact: MEDIUM - timestamp manipulation Mitigation: Multiple time sources, Roughtime Risk: MEDIUM
+TM-TO-005: Oracle Time Manipulation Threat: Manipulate Oracle's time source Attack: NTP attack, GPS spoofing Impact: HIGH - timestamp manipulation; zone-wide proof rejection under SR-012; see TM-D-005 Mitigation: Multiple time sources, Roughtime Risk: MEDIUM
 
 ~~~
 Summary:
@@ -772,7 +796,7 @@ Summary:
 | TM-TO-002 | HIGH     | DEPENDS    | VARIES | Reviewed BFT     |
 | TM-TO-003 | HIGH     | MEDIUM     | MEDIUM | Signing, audit   |
 | TM-TO-004 | HIGH     | LOW        | LOW    | Validation       |
-| TM-TO-005 | MEDIUM   | MEDIUM     | MEDIUM | Multiple sources |
+| TM-TO-005 | HIGH     | MEDIUM     | MEDIUM | Multiple sources |
 +-----------+----------+------------+--------+------------------+
 ~~~
 
@@ -852,18 +876,39 @@ TM-FED-002: Trust Factor Manipulation Threat: Artificially inflate foreign zone 
 
 TM-FED-003: Federation Partition Threat: Isolate zones from each other Attack: Network attack, DNS hijacking Impact: MEDIUM - federation disruption Mitigation: Multiple paths, independent operation Risk: MEDIUM
 
-TM-FED-004: Cross-Zone Attack Escalation Threat: Use federation to attack multiple zones Attack: Compromise one zone, propagate via federation Impact: HIGH - multi-zone compromise Mitigation: Trust Factor limits blast radius Risk: LOW
+TM-FED-004: Cross-Zone Attack Escalation Threat: Use federation to attack multiple zones Attack: Compromise one zone, propagate via federation Impact: HIGH - multi-zone compromise Mitigation: Trust Factor limits blast radius; nested deployments additionally apply the failure rules of KTP-ZONES invariant 4 Risk: LOW
+
+TM-FED-005: Depth Spoofing Threat: Claim a depth or ancestry not traversed Attack: Forged Ingress Receipts, or genuine receipts from Oracles that are not in fact nested Impact: HIGH - admission to an inner ring without crossing its enclosures Mitigation: Receipts bound to issuer, subject, audience, preceding receipt, Topology Epoch and admission; ancestry verified against the authenticated Topology, not registry membership Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-006: Calm Injection Threat: An enclosure reports a low Risk Factor to lull a ring Attack: Compromised or misconfigured enclosure Oracle Impact: MEDIUM - enclosure surcharge suppressed Mitigation: The floor of KTP-ZONES invariant 1; the ring's own gateway reading of the enclosure; audit. The floor does not establish that a measurement is true Risk: MEDIUM
+
+TM-FED-007: Ring Bypass Threat: Reach an inner ring without passing an enclosure's gateway Attack: A legitimate receipt chain presented over a route that skipped a gateway, or an exposed management interface Impact: HIGH - inner-ring access outside enforcement Mitigation: Every data, management and control-plane route passes an enforcing gateway (KTP-ZONES invariant 4); receipts bound to the admission Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-008: Enclosure Heat Poisoning Threat: An enclosure signs falsely high risk to suppress legitimate operation inside a ring Attack: Compromised enclosure Oracle Impact: MEDIUM - degraded operation inside the ring Mitigation: Bounded reach; signed, attributable reports; the ring's independent gateway reading; Recursive Constraint over the enclosure's governance. The floor holds against false calm, not false heat Risk: MEDIUM
+
+TM-FED-009: Topology Tampering Threat: Publish a false Topology so a ring believes it is outermost, or believes an attacker's zone is its enclosure Attack: Compromise of the Topology publication channel, or a stale epoch held back from one ring Impact: HIGH - every receipt check passes against the false map Mitigation: Topology changes authenticated under Zone Governance; Topology Epoch bound into every receipt; Recursive Constraint over the publisher Risk: UNASSESSED until the mechanism is implemented
+
+TM-FED-010: Enclosure Availability Denial Threat: Deny new ingress to every ring inside an enclosure Attack: Denial of service against one enclosure's Trust Oracle (TM-D-001), which fail-closed ingress turns into a stack-wide denial Impact: MEDIUM - no new admissions inside the enclosure; resident agents continue under the ring's degraded-operation rules Mitigation: Trust Oracle mesh redundancy in every enclosure; degraded-operation rules for residents. The residual is accepted by design: ingress without evidence does not open Risk: MEDIUM
+
+TM-FED-011: Inner-Zone Inference Threat: Reconstruct a confidential ring's conditions from claims in an outward proof or an Exit Attestation Attack: Read the six inputs, trust velocity, volatility or Trust Score statistics that egress shaping left in place Impact: MEDIUM - ring conditions disclosed to any holder of the proof Mitigation: Egress Shaping restates or omits every claim that carries the ring's conditions (KTP-ZONES Section 7.4); confidential rings omit Trust Score statistics from Exit Attestations Risk: LOW
 
 ~~~
 Summary:
-+------------+--------+------------+--------+---------------+
-| Threat     | Impact | Likelihood | Risk   | Mitigation    |
-+------------+--------+------------+--------+---------------+
-| TM-FED-001 | HIGH   | LOW        | LOW    | Verification  |
-| TM-FED-002 | MEDIUM | MEDIUM     | MEDIUM | Limits, audit |
-| TM-FED-003 | MEDIUM | MEDIUM     | MEDIUM | Redundancy    |
-| TM-FED-004 | HIGH   | LOW        | LOW    | Trust Factor  |
-+------------+--------+------------+--------+---------------+
++------------+--------+------------+------------+------------------------+
+| Threat     | Impact | Likelihood | Risk       | Mitigation             |
++------------+--------+------------+------------+------------------------+
+| TM-FED-001 | HIGH   | LOW        | LOW        | Verification           |
+| TM-FED-002 | MEDIUM | MEDIUM     | MEDIUM     | Limits, audit          |
+| TM-FED-003 | MEDIUM | MEDIUM     | MEDIUM     | Redundancy             |
+| TM-FED-004 | HIGH   | LOW        | LOW        | Trust Factor           |
+| TM-FED-005 | HIGH   | UNASSESSED | UNASSESSED | Bound receipts         |
+| TM-FED-006 | MEDIUM | MEDIUM     | MEDIUM     | Floor, own reading     |
+| TM-FED-007 | HIGH   | UNASSESSED | UNASSESSED | Gateway containment    |
+| TM-FED-008 | MEDIUM | MEDIUM     | MEDIUM     | Bounded reach          |
+| TM-FED-009 | HIGH   | UNASSESSED | UNASSESSED | Authenticated Topology |
+| TM-FED-010 | MEDIUM | MEDIUM     | MEDIUM     | Oracle redundancy      |
+| TM-FED-011 | MEDIUM | LOW        | LOW        | Egress Shaping         |
++------------+--------+------------+------------+------------------------+
 ~~~
 
 # Attack Trees
@@ -900,6 +945,40 @@ OR ├── \[1] Prevent record creation │   OR │   ├── \[1.1] DoS Fl
 
 Minimum Difficulty Path: \[1.1] or \[4] Mitigation Focus: Buffering, record completeness
 
+## Freeze the Zone
+
+~~~
+Goal: Hold legitimate agents below the tier their work requires
+      (or in Hibernation), without obtaining any permission.
+
+OR ├── [1] Raise R truthfully (no compromise)
+   │     ├── [1.1] Flood public endpoints → trust_trend ↑
+   │     └── [1.2] Fail auth / trip WAF / scan → adversarial_pressure ↑
+   │     Difficulty: LOW
+   │
+   ├── [2] Make inputs undefined (→ 1.0 / veto)
+   │     OR ├── [2.1] Suppress ≥ 50% of a dimension's feeds
+   │        ├── [2.2] Take out a non-redundant aggregator (→ R = 1.0)
+   │        ├── [2.3] Make a Soul registry unresponsive (veto in its scope)
+   │        └── [2.4] Attack the time source
+   │     Difficulty: LOW–MEDIUM
+   │
+   ├── [3] Win a dispute with one extreme value
+   │     OR ├── [3.1] One Byzantine Oracle reports E_trust ≈ 0 (min rule)
+   │        ├── [3.2] One spoofed feed reports stress 1.0 (max rule)
+   │        └── [3.3] One agent broadcasts dormancy (peer trigger)
+   │     Difficulty: MEDIUM (a single compromise)
+   │
+   └── [4] Make it stick (AND with any of 1–3)
+         ├── Pulse shorter than the recovery tail
+         └── Trip agent circuits that need a manual reset
+         Difficulty: LOW once 1–3 are achieved
+
+Minimum Difficulty Path: [1] combined with [4]
+Most Concerning Path: [3.1]
+Mitigation Focus: scope, fault-bounded selection, declared ceilings, recovery bounds (IC-B, IC-C)
+~~~
+
 # Risk Assessment
 
 ## Risk Matrix
@@ -928,6 +1007,8 @@ Top risks by residual risk (after mitigation):
 +---------------------+--------+------------+---------------+
 | Threat              | Impact | Likelihood | Residual Risk |
 +---------------------+--------+------------+---------------+
+| TM-D-005 Induced    | HIGH   | HIGH       | HIGH          |
+| Conservatism        |        |            |               |
 | TM-E-001 Score      | HIGH   | MEDIUM     | MEDIUM        |
 | manipulation        |        |            |               |
 | TM-SEN-003 Baseline | HIGH   | MEDIUM     | MEDIUM        |
@@ -985,6 +1066,14 @@ Residual because: - Drift detection has limits - Very slow changes may evade det
 
 Acceptance: External anchors, cross-zone correlation, and periodic rebaselining from known-good states limit exposure.
 
+### Induced Conservatism
+
+Description: Adversary uses fail-safe rules to deny legitimate action (TM-D-005).
+
+Residual because: The set currently bounds neither the scope, the leverage nor the persistence of a restriction caused by an undefined, disputed or externally driven input.
+
+Acceptance: Not yet accepted. Proposed bounds in IC-B and IC-C. A legitimately severe environment will still restrict the zone after any bound, and that restriction is intended.
+
 # Security Requirements
 
 Based on threat analysis, implementations MUST meet these security requirements:
@@ -1015,7 +1104,7 @@ SR-012: Short Proof Lifetime Ordinary Trust Proofs MUST satisfy 0 < exp - iat <=
 
 SR-013: Rate Limiting All endpoints MUST implement rate limiting. Rationale: Limits DoS impact (TM-D-*)
 
-SR-014: Fail-Safe Mode Loss of Oracle MUST result in fail-safe (deny uncertain). Rationale: Security not degraded by availability attack
+SR-014: Fail-Safe Mode Loss of Oracle MUST result in fail-safe (deny uncertain). Rationale: Confidentiality and integrity are not degraded by an availability attack. Availability under induced conservatism: see TM-D-005.
 
 SR-015: Soul Immutability Soul constraints MUST NOT be modifiable through normal config. Rationale: Prevents sovereignty bypass (TM-E-004)
 
@@ -1107,14 +1196,15 @@ Information Disclosure Threats:
 
 ~~~
 Denial of Service Threats:
-+----------+---------------------+--------+-----------+
-| ID       | Name                | Risk   | Reference |
-+----------+---------------------+--------+-----------+
-| TM-D-001 | Trust Oracle DoS    | MEDIUM | §5.5.1    |
-| TM-D-002 | Sensor Flooding     | MEDIUM | §5.5.2    |
-| TM-D-003 | Flight Recorder DoS | MEDIUM | §5.5.3    |
-| TM-D-004 | Federation DoS      | LOW    | §5.5.4    |
-+----------+---------------------+--------+-----------+
++----------+----------------------+--------+-----------+
+| ID       | Name                 | Risk   | Reference |
++----------+----------------------+--------+-----------+
+| TM-D-001 | Trust Oracle DoS     | MEDIUM | §5.5.1    |
+| TM-D-002 | Sensor Flooding      | MEDIUM | §5.5.2    |
+| TM-D-003 | Flight Recorder DoS  | MEDIUM | §5.5.3    |
+| TM-D-004 | Federation DoS       | LOW    | §5.5.4    |
+| TM-D-005 | Induced Conservatism | HIGH   | §5.5.5    |
++----------+----------------------+--------+-----------+
 ~~~
 
 ~~~

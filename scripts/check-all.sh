@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run every gate CI runs, in the same order, from a clean checkout.
+# Run every gate CI runs, in the same order, from the tracked working tree.
 # This is the one command to run before opening a pull request.
 # Mirrors .github/workflows/rfc-sync.yml (job: gates) and repo-hygiene.yml.
 #
@@ -9,13 +9,21 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Default PR mode validates freshly rendered views without writing this checkout.
+# Release mode deliberately requires committed generated artifacts to match.
+case "${1:-}" in
+  "") exec python3 scripts/check-source.py ;;
+  --release) ;;
+  *) echo "Usage: scripts/check-all.sh [--release]" >&2; exit 2 ;;
+esac
+
 step() { printf '\n== %s\n' "$1"; }
 
 step "Vocabulary";                       python3 scripts/check-vocabulary.py
 step "Parity (rfcs-md/ generation)";     python3 scripts/check-parity.py
 step "Repo hygiene";                     python3 scripts/check-repo-hygiene.py
-step "Declarations";                     python3 scripts/check-declarations.py
 step "Section references";               python3 scripts/check-section-refs.py
+step "Title and abstract";               python3 scripts/check-title-abstract.py
 
 step "Conformance test dependencies"
 PY=python3
@@ -27,6 +35,9 @@ if ! python3 -c 'import jsonschema, cryptography, rfc8785' 2>/dev/null; then
   echo "using .venv/"
 fi
 
+step "Declarations";                     "$PY" scripts/check-declarations.py
+step "Tooling regressions";               "$PY" scripts/test-source-checks.py
+
 step "Capacity threshold regressions";   "$PY" scripts/test-envelope-thresholds.py
 step "Risk Factor weight regressions";   "$PY" scripts/test-risk-factor-weights.py
 step "Emergency policy regressions";     "$PY" scripts/test-emergency-policy.py
@@ -34,7 +45,9 @@ step "Oracle consensus regressions";     "$PY" scripts/test-oracle-consensus.py
 step "Trajectory signature regressions"; "$PY" scripts/test-trajectory-signatures.py
 step "Operational readiness regressions"; "$PY" scripts/test-readiness.py
 step "Human eligibility regressions";    "$PY" scripts/test-human-eligibility.py
+step "Software-substrate execution regressions"; "$PY" scripts/test-software-substrate-execution.py
 step "Privacy evidence regressions";     "$PY" scripts/test-privacy-evidence.py
+step "Consequential-action evidence regressions"; "$PY" scripts/test-consequential-action-evidence.py
 step "Catalogue tables";                 python3 scripts/gen-catalog-tables.py --check
 
 printf '\nAll gates green.\n'

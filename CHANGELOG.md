@@ -30,7 +30,312 @@ recorded when found rather than held for the release that corrects them), and
 
 ---
 
-## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, and the L11 direction rule
+## Unreleased — capacity, risk, emergency authorization, Oracle consensus, trajectory signatures, readiness, human eligibility, nested zones, persons as subjects, the demand-side criticality input, conformance claims, and the L11 direction rule
+
+### Nested zones
+
+**Finding:** the set had no account of one zone inside another. Hierarchical
+Federation's trust rule, under which a parent and child zone trust each other
+at factor 1.0, conflicted with the class-factor deflation that Zones applies at
+ingress once a harder zone sat inside a lighter one; an implementer could not
+do both. Proposed in #159.
+
+- Zones defines nested zones as rings, with enclosure, depth, Class Step,
+  Ingress Receipt, Ingress Path and Topology. Four rings, one per Enforcement
+  Class, is the RECOMMENDED profile; an ancestry path holds at most six rings.
+  Seven invariants govern a nested deployment, and Enforcement Class is
+  non-decreasing inward.
+- Sensors adds the Enclosure Domain, a floor on a ring's Risk Factor that can
+  raise it and never lower it below the ring's own value under Core Section
+  5.2. It is disabled at depth 0, and at depth 1 or more a ring declares a
+  reach greater than 0. An informative reference form is given; the
+  requirements, not the form, are normative.
+- The Trust Proof gains an optional `ingress_path` claim, required at a ring
+  of depth 1 or more, holding bound Ingress Receipts. Zones specifies egress
+  shaping so that an outward proof does not reveal a ring's Risk Factor.
+- Federation retires the Hierarchical Federation trust rule, and with it
+  parent, child, descendant, sibling and common ancestor as terms for
+  relationships between zones. A migration map gives enclosure and ring
+  where enforcement nests, and peers with a directional factor where it does
+  not.
+- The threat model adds TM-FED-005 Depth Spoofing, TM-FED-006 Calm
+  Injection, TM-FED-007 Ring Bypass, TM-FED-008 Enclosure Heat Poisoning,
+  TM-FED-009 Topology Tampering, TM-FED-010 Enclosure Availability Denial
+  and TM-FED-011 Inner-Zone Inference, and extends TM-FED-004's mitigation.
+- The boundary cases are published as `specifications/conformance/
+  nested-zones-v1.json`: sixteen vectors covering enclosure heat (both
+  outcomes), calm, the ring's own reading, attenuation per class step,
+  depth 0, fail-closed ingress, receipt bindings, egress shaping and
+  invalid declarations and topologies.
+
+A conformant implementation that relied on hierarchical inheritance, or on a
+lighter zone inside a harder one, stops conforming, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
+
+### A person is a subject; the External Root is a person
+
+**Finding:** the accountability chain behind every agent ended at an
+instrument nobody stood behind. Core said the chain terminates at a named
+human, a legal entity or an attestation, then forbade that human a score or a
+trajectory; the threat model's SR-011 required administrators to have Trust
+Scores and be subject to A ≤ E. Both could not hold. Proposed in #162.
+
+- Core: a person is a subject of the specification, as an account in a zone.
+  A person's trajectory is the ledger of acts they signed under the protocol
+  and nothing else. A person's E_base is composed under Section 5.1 from
+  those acts and the person's root instrument (the standing of the
+  terminator behind the person, or a bond another person has posted on the
+  person), under the same shares and ceilings as any subject; generation,
+  lineage stage, mass ceilings and mitosis do not apply and are not
+  defaulted. Proof of Resilience is earned only by acts signed under stress.
+- Core: a person's Trust Score is the zone's measure of that account. It
+  bears on what the person may do in that zone and on nothing else, must not
+  be used as a general score or rank outside the protocol, and must not be
+  presented as a property of the person. Standing is never a prerequisite
+  for explanation, correction or review.
+- Core: the chain behind an agent ends at a person, and behind the person at
+  an employer, a licensing body or a board. Persons stand behind the
+  attestation branch of the root instrument; that branch is not locked to any
+  lineage stage.
+- What a person's standing does: a person's E_trust sets the person's Trust
+  Tier, and the tier restricts the classes of action the person executes, as
+  it does a software agent's. It does not restrict the acts in the person's
+  ledger: signing stays governed by eligibility and the capacity check, and a
+  contest by the contest route. A person's capacity check compares A with the
+  operational E the reviewed adapter authenticates, never with E_trust. For a
+  person, Admin Mode's lineage requirement does not apply. KTP-HUMAN states
+  what each of the three requirements gates (eligibility the operation,
+  capacity each action, and standing, through the Trust Tier, the classes of
+  action), and a person's explanation distinguishes a Trust Tier restriction
+  from ineligibility and from a capacity or Soul veto.
+- Where the Silent Veto, the capacity check, the veto record or the required
+  contents of a denial named E_trust for any subject, it now names E, which
+  Core Section 4.1 defines for each actor: Core's Terminology and Sections 4.2,
+  5.3, 8, 8.2 and 8.3 (in 8.3, Trust Velocity is now reported for a software
+  agent only); Enforce's PEP requirements, Capability Matrices, veto order and
+  response codes; Conformance's Zeroth Law requirements; Audit's gap field;
+  Transport's error table; Governance's governor E; Zones' administrators; the
+  migration guide's OAuth and SAML steps; and the constitution's Articles I, IV
+  and VII. The example denial bodies in Core and Enforce show a software agent
+  and now say what a person's denial reports. Where other text still states the
+  check in terms of E_trust, Core Section 5.1.1 says a person's check uses the
+  operational E. The constitution's Zeroth Law, Silent Veto and prohibitions
+  name persons beside agents.
+- Sponsorship, reusing the tether: a person's bond on an agent stakes the
+  person's own standing, under the same stake mechanics as any sponsor's
+  (Identity). A person may sponsor a person: the bond fills the sponsored
+  person's root instrument, scored as a Sponsored agent's bond is, and with no
+  generation it ends at its closure, never at a generation step (Core Section
+  5.1.1; Identity Section 6). The sponsor of a person is a person. A bond on a
+  person is limited as a bond on a Sponsored agent is (at most 20 staked from
+  an IAL2 sponsor, 50 from IAL3), and Identity's penalty, termination and
+  liability rules read for the sponsored person. For a person, the
+  trajectory-length ceiling counts the acts the person signed. The
+  constitution's Article III Section 5(d) now says that ending a sponsorship
+  runs the bond to its declared end and that the sponsor's liability survives
+  it.
+- Texts that still forbade a person standing, or scoped it to software agents,
+  now read for persons: Core Sections 4.1 and 4.2 and the Trust Oracle's
+  duties; Enforce's enforcement flow and component roles; KTP-HUMAN;
+  KTP-IDENTITY, including its IAL ceilings, which apply to a person as Core
+  says; KTP-PRIVACY's first principle; KTP-INFORMATION; Conformance's
+  human-eligibility requirements; and the human-eligibility contract. The
+  migration guide's UserInfo extension says a person's values stay one zone's
+  measure, not an attribute of the person.
+- Conformance: `specifications/conformance/person-standing-v1.json`, eighteen
+  vectors fixing what enters a person's standing, where it bears, how it
+  crosses a zone boundary, which E a person's capacity check uses, what the
+  tier does not restrict, and how a person stakes and is sponsored. They do not
+  define a formula for E_base or R.
+- Zones and Federation: a person's standing crosses a federation link only as
+  the agreement provides, through the receiving zone's directional trust
+  factor and zone-mass ceiling, from zero up to that ceiling. Nothing
+  transfers where no agreement exists.
+- Identity's lineage sentence takes @martherus's wording from #201.
+  Eligibility and capacity remain separate requirements beside standing.
+  Privacy's behavioral-data rules, including BEHAVIOR-002, are untouched:
+  signed acts are not behavioral data.
+- Core: a Trust Proof declares its subject's kind, software agent or person,
+  never inferred from absent claims; the root projection names the person and
+  the terminator by kind (employer, licensing body, board) and reference; the
+  person is never the terminator; persons are identified by `person:` URIs.
+  The serialization and the terminator vocabulary were proposed by
+  @martherus on #201 and are adopted here so the decision and its encoding
+  share an owner. The schema encoding rides #157.
+
+This alters sentences that reached `main` in the consolidation block recorded
+as D-010, after that block's approval. A conformant implementation that treats
+the External Root as an instrument with nobody behind it, that implements
+the earlier six-term human score, or that does not restrict what a person
+executes by the person's Trust Tier, stops conforming, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
+
+### The bounds of a delegation are the ones it states
+
+KTP-HUMAN requires a delegation to bind its operation, resources and
+parameters, and forbids dividing an operation to evade a cumulative limit.
+Neither sentence said what an enforcement point does when it is handed an
+instruction in words and no stated limit, when a stated limit is not a usable
+number, or over what a cumulative limit is counted. KTP-CORE Section 6.8
+already answers the first two for every input: an undefined input does not
+resolve toward permission. Four sentences in Delegation and two in No Safety
+Override now say so for a delegation's bounds: a bound the delegation does not
+state is undefined, a numeric limit that is not finite and non-negative is
+undefined, text that accompanies a request is not the delegation, and a
+cumulative limit runs across every request under the delegation.
+Clarification: no MUST is added, and no conformant implementation changes.
+Found by the corpus audit, after an adapter written to the public decision
+table read a limit out of an instruction that refused it.
+
+### Software-substrate execution profile (D-009)
+
+**Finding (#124 / #131):** The envelope anticipated software substrates without
+fixing their demand magnitudes, capacity-condition observations or exact
+consumption-decision binding. The opt-in `software-substrate-execution-v1`
+companion supplies those declarations and a separately signed decision bound to
+the actual invocation, ordinary proof, readiness, evidence and current state.
+The schema, deterministic contract/schema fixtures and CI runner accompany it;
+A/E computation remains implementation-defined. See MIGRATION.md for adoption.
+
+### `moment_criticality` leaves the Risk Factor
+
+**Finding:** the carriage interface named `moment_criticality` as the standing
+supplied input and L14 said the action request supplies it, while the same
+value was a weighted term in `R`. A request that reports a quiet moment lowers
+`R` and widens what passes `A <= E`; the party the protocol constrains supplied
+the number that loosened the constraint. Proposed in #161.
+
+- Core aggregates five weighted inputs. `moment_criticality` is described as a
+  demand input: `A` is non-decreasing in it, a profile that fixes its own
+  magnitudes gives it no ceiling, it enters only as L11 permits, and L14 is
+  rewritten as the rule for a demand input. The carriage interface no longer
+  names a standing supplied instance.
+- L14 states the supplier rule: an externally supplied input enters only on
+  the demand or supervision side, is never supplied by the requester or a
+  party acting for it, and its supplier is declared.
+- Every published weight profile renormalizes proportionally to two
+  decimals, with the rounding residual on the largest remaining weight, and
+  sums to exactly 1.00. The rule is stated once so it applies the next time an
+  input enters or leaves.
+- Sensors adds a third contribution type, "demand" (raises `A` only), and
+  moves the `moment_criticality` section to the end of its chapter as a demand
+  input. A demand input is not configured as a sensor factor; its feed table
+  stays as an informative description of how a supplier derives the value.
+- The deployment profile gains a `demand_inputs` declaration (supplier, unit,
+  source per input). `risk-factors.json`, `deployment-profile.json`,
+  `trust-proof.json` and `sensor-config.json` follow; the declaration checker
+  and the weight regression gate check five factors and the new declaration.
+- `risk-factors.json`, `trust-proof.json` and `sensor-config.json` take v3
+  identifiers, and the published v2 files are kept byte for byte as
+  `risk-factors-legacy-v2.json`, `trust-proof-legacy-v2.json` and
+  `sensor-config-legacy-v2.json`, as `deployment-profile.json` and
+  `transaction-record.json` were; `moment_criticality` leaves the sensor
+  configuration's `dimension` enum, because a demand input is not a sensor
+  factor. The first draft rewrote the v2 Risk Factors
+  schema in place, so one published identifier named two schemas: a validator
+  that fetched it from its published address rejected every five-input
+  context, and the preserved v2 transaction record, which refers to it,
+  changed meaning. Found by @martherus while implementing the vectors.
+- The signed trajectory fixture is regenerated from the repository's own test
+  keys over the five-input Risk Factors object.
+- `specifications/conformance/demand-input-v1.json` (11 vectors) fixes the
+  declaration and evaluation boundaries: a declared supplier's value raises
+  `A` only; a requester or a party acting for it as supplier is refused; a
+  missing declaration, a stale value and a differently bound value read as
+  the most critical moment; six-factor and non-summing profiles are
+  invalid; the renormalization rule reproduces the Stadium profile; the
+  kickoff example still vetoes.
+- The vectors and Core's worked examples carry exact values. The first draft
+  rounded each term to three places, so the kickoff example read R = 0.540
+  and E_trust = 43.70 where Core's formulas give 0.53975 and 43.72375, and
+  an implementation that computed exactly failed the vectors. The weight
+  regression gate now recomputes them. Found by @martherus.
+
+A conformant implementation that aggregates six inputs, or that accepts the
+criticality value from the action request, stops conforming, so this requires
+a MAJOR release under `VERSIONING.md`. It remains unreleased; published tags
+are unchanged.
+
+### Conformance is claimed, not certified
+
+**Finding:** the conformance document promised certification it could not
+perform. Of its 87 named test IDs, 84 had no inputs, outputs or pass criteria,
+so "pass 100% of required tests" could not be executed; no certification body
+was ever authorized, so Full could not be reached; and the set's own limit L2
+says nothing certifies itself from inside. Proposed in #163.
+
+- KTP-CONFORMANCE is retitled "Conformance Requirements: Levels, Testing, and
+  Claims". Certification, Self-Certification and Third-Party Certification
+  leave its terminology; Status Label, Conformance Claim and Independent Party
+  enter.
+- The Certification Process section becomes Claim Status: four labels
+  (proposed, specified, tested, independently reproduced), earned only by
+  published evidence; making a claim; independent reproduction; keeping a
+  claim current. A withdrawn claim is marked, never deleted.
+- Independence is the nine-relationship test, assessed at the date of the
+  run, stated in the document's own words; the maintainer's own runs are never
+  independent.
+- Full requires independent reproduction of its specified test IDs. No party
+  meets the independence test today, and the text says so.
+- Every test ID is labelled in place: five are specified (TO-B-005 and
+  FAIL-001 by outage-safety-v1, TO-S-005 and TO-F-002 by oracle-consensus-v1,
+  PEP-B-002 by capacity-gate-v1); 82 are proposed and cannot be counted
+  toward a claim.
+- The claim format carries the label and the run counts; the example's
+  numbers are true at this version.
+- The level table's Standard Oracle mesh row reads "4+ nodes", matching the
+  requirement text it had contradicted (a clarification riding this change).
+- KTP-PROBLEMS' summary of certification, CONTRIBUTING's evidence vocabulary,
+  and KTP-CRYPTO's FIPS heading (a homonym) are brought into line.
+
+A published claim in the v2.1.0 format must be restated with a label and
+counts, and what a Full claim requires changes, so this requires a MAJOR
+release under `VERSIONING.md`. It remains unreleased; published tags are
+unchanged.
+
+### Celestial's exponential degradation curve decays
+
+**Finding:** KTP-CELESTIAL's exponential degradation curve wrote its constant
+as `ln(0.5) / half_life`. That constant is negative, so the curve rose: an
+Extended Trust Proof gained e_trust the longer its agent went without
+verification, the reverse of the section's last paragraph and of the linear and
+step curves beside it. The line also called the curve "more conservative",
+which holds only for some half-lives and never at the end of validity, where
+the linear curve reaches zero and the exponential one does not. The defect is
+in every release since v1.0.0. Found by the corpus audit; recorded as SN-006.
+
+- Celestial, Degradation Curves: the constant is `ln(2) / half_life`, so
+  e_trust halves every half-life, and "(more conservative)" is removed.
+
+Class: Clarification. No MUST is added or altered.
+
+### Induced Conservatism is a named threat (TM-D-005)
+
+**Proposed by @kimosmond-del** on #146 (2026-10-07). KTP-CORE's Security
+Considerations describe an attacker who raises R to deny service, but the
+threat model gave that attack no ID, actor, rating, attack tree or residual
+risk. Every fail-safe and fail-closed rule in the set is sound against an
+adversary who wants permission; to an adversary who wants denial, the same
+rules deliver the attack.
+
+- Threat Model, Threat Actors: the Conservatism Exploiter, an actor defined
+  by its goal rather than its capability.
+- Threat Model, Denial of Service: TM-D-005, Induced Conservatism. Fail-safe
+  mode is named as the delivery mechanism, not a mitigation.
+- Threat Model, Attack Trees: "Freeze the Zone".
+- Threat Model, Residual Risks, the top-risks table and the Threat Catalog:
+  TM-D-005 at HIGH.
+- Three corrections: TM-D-002's mitigations resolve unavailable feeds per
+  Sensors Section 6 (Sensor Quality and Validation) instead of using the last
+  known good value, which that section forbids; TM-TO-005's impact is HIGH, because unverifiable time
+  rejects every ordinary proof zone-wide under SR-012; SR-014's rationale
+  covers confidentiality and integrity, and points availability under induced
+  conservatism to TM-D-005.
+
+Class: Clarification (#146). The threat model names a threat the set already
+describes; no behavior changes and no conformant implementation changes.
 
 ### The L11 direction rule for normative content
 
@@ -98,6 +403,17 @@ Class: MINOR (#144), on the D-006 precedent. The set contradicted itself,
 Core's form was always the contract, and the change moves an implementation
 that followed the other copy. No MUST is added or altered. The migration
 entry gives the old-to-new mapping.
+
+### Consequential-action execution and evidence (D-012)
+
+**Finding (#129 / #139):** A signed consumption decision alone does not establish
+release-time validity, replay continuity, aggregate budget safety or target effects.
+The opt-in companion adds release revalidation, durable request identity,
+conservative shared reservations and authenticated reconciliation. Its signed
+correlation record distinguishes withheld, dispatched, effect confirmed, no effect
+and unknown; only authenticated non-dispatch releases a held reservation. The
+schema, modeled contract/schema fixtures and CI runner do not certify a runtime.
+See MIGRATION.md for adoption after the software-substrate profile.
 
 ### Operation-specific human eligibility and privacy evidence
 

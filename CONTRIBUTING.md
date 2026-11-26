@@ -17,11 +17,11 @@ Read these before you write anything. They are the difference between a contribu
 5. **KTP names its terms.** Don't rename a protocol term to match your implementation's vocabulary. `scripts/check-vocabulary.py` is the authority on retired terms; the ones people most often reach for:
    - "Context Tensor" is retired. The catalogue is **Context Signals**; the scoring layer is the **Risk Factors**.
    - "God Mode" is retired. The top tier is **Admin Mode**.
-   - The single-letter risk keys are retired. The JSON key is the name: `evidence_density`, `trust_trend`, `adversarial_pressure`, `moment_criticality`, `update_resistance`, `attestation_coverage`, and the `soul` veto, which is never a weighted key.
+   - The single-letter risk keys are retired. The JSON key is the name: `evidence_density`, `trust_trend`, `adversarial_pressure`, `update_resistance`, `attestation_coverage`, and the `soul` veto, which is never a weighted key. `moment_criticality` is a demand input declared under `demand_inputs`, not a Risk Factor.
    - Physics words (mass, heat, momentum) survive only on lines marked *Analogy (informative)*.
    - "Internet" and "Web" are proper nouns.
 
-6. **State the evidence limit.** Every claim says whether it is modeled, observed, or validated. Declaration checks, schema checks, and vector runs are prerequisites; they are never runtime certification, and a proposal must not present them as one.
+6. **State the evidence limit.** Every claim carries one of the four status labels: proposed, specified, tested, independently reproduced. Declaration checks, schema checks, and vector runs are prerequisites; they are never a `tested` claim for an enforcement requirement, and a proposal must not present them as one.
 
 7. **Provenance is recorded, not transferred.** Say who proposed it, who edited the text, who built it first, and whose implementation is the reference. The first implementer is recorded permanently. The specification stays governed by [`DECISIONS.md`](DECISIONS.md).
 
@@ -53,6 +53,19 @@ Read these before you write anything. They are the difference between a contribu
    scripts/check-all.sh
    ```
    That is the same sequence CI runs. Green locally, then open the PR.
+
+   This source-PR command copies tracked working files into a temporary tree,
+   regenerates `rfcs-md/` there, and checks the fresh render along with the
+   sources, declarations, schemas, and conformance tests. Local edits and staged
+   additions are included; untracked additions must be staged first. It leaves
+   the checkout and committed generated documents unchanged, as required by
+   the source-only schedule in #182.
+
+   Before a release tag, the maintainer regenerates the release documents once
+   and runs `scripts/check-all.sh --release`. That mode retains strict parity
+   with the committed Markdown artifacts; `scripts/check-parity.py` also
+   remains a strict standalone parity check. The separate text-generation
+   check still requires the kramdown/xml2rfc toolchain.
 
 4. **One PR per decision.** The PR names its issue and its entry in [`DECISIONS.md`](DECISIONS.md). A PR that carries two decisions gets split.
 

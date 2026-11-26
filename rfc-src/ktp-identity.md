@@ -2,7 +2,7 @@
 title: "Kinetic Trust Protocol (KTP) - Vector Identity Specification"
 abbrev: "KTP-IDENTITY"
 docname: draft-perkins-ktp-identity-00
-date: 2026-09-07
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -33,7 +33,7 @@ normative:
 
 This document specifies the Vector Identity system for the Kinetic Trust Protocol (KTP). Vector Identity replaces static credentials with trajectory-based authentication, where identity is proven through continuous movement rather than possession of secrets.
 
-The specification covers Trajectory Chains (cryptographically linked transaction histories), Proof of Resilience (attestations of survival under stress), Sponsorship Bonds (trust staking for new agents), and Lineage Evolution (the maturation path from dependent to autonomous).
+The specification covers Trajectory Chains (cryptographically linked transaction histories), Proof of Resilience (attestations of survival under stress), Sponsorship Bonds (trust staking for new agents and new persons), and Lineage Evolution (the maturation path from dependent to autonomous).
 
 --- middle
 
@@ -43,7 +43,7 @@ Traditional identity systems treat identity as a static property - an entity eit
 
 Vector Identity addresses this by treating identity as a trajectory rather than a position - a continuous line of movement through state space rather than a single point of authentication.
 
-Trajectory-based standing, Proof of Resilience, sponsorship accounting, and lineage in this document apply to software agents. They MUST NOT become human behavioral dossiers, personal scores, or prerequisites for a person's access to explanation, correction, or review. Human identity assurance and operation-specific eligibility follow {{KTP-HUMAN}} and specifications/human-eligibility.md; an actual software executor retains its own identity, capacity, and readiness requirements.
+Trajectory-based standing and Proof of Resilience in this document apply to software agents, and to a person only as {{KTP-CORE}} specifies: a person's trajectory under this protocol is the ledger of acts the person signed, and only acts the person signed under stress earn Proof of Resilience. Lineage applies to software agents. Sponsorship accounting applies to every sponsor and every sponsored subject: a person's bond stakes the person's own standing, and a person may be sponsored by a person (Section 6 (Sponsorship Bonds)). Trajectory-based standing, Proof of Resilience, sponsorship accounting, and lineage MUST NOT become human behavioral dossiers, and standing MUST NOT be a prerequisite for a person's access to explanation, correction, or review. Human identity assurance and operation-specific eligibility follow {{KTP-HUMAN}} and specifications/human-eligibility.md; an actual software executor retains its own identity, capacity, and readiness requirements.
 
 ## The Passport Fallacy
 
@@ -105,7 +105,7 @@ Lineage: The evolutionary history and current maturation phase of an agent. Line
 
 Proof of Resilience: A ledger of attestations demonstrating an agent's successful transactions, weighted by the friction encountered. Forms the primary input to E_base calculation.
 
-Sponsorship Bond: A cryptographic commitment where a high-mass entity stakes a portion of its trust on behalf of a new agent. The sponsor is penalized if the sponsored agent misbehaves.
+Sponsorship Bond: A cryptographic commitment in which a sponsor stakes a portion of the sponsor's own E_base on behalf of a new agent or a new person; the sponsor of a person is a person. The sponsor is penalized if the sponsored subject misbehaves.
 
 Trajectory Chain: A cryptographically linked sequence of transaction records that forms an agent's verifiable history.
 
@@ -533,6 +533,8 @@ The Zeroth Law (A <= E) creates a catch-22 for new agents:
 
 Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.
 
+The same bond lets an established person stand behind a new agent or a new person ({{KTP-CORE}} Section 5.1.1 (The External Root)). The sponsor of an agent may be an agent or a person; the sponsor of a person is a person. A sponsored person has no generation or lineage stage, so the bond on a person ends at its closure (Section 6.4 (Penalty and Release)), never at a generation step.
+
 ## Bond Structure
 
 A Sponsorship Bond contains:
@@ -542,8 +544,8 @@ A Sponsorship Bond contains:
 | Field             | Type     | Description                       |
 +-------------------+----------+-----------------------------------+
 | bond_id           | string   | Unique identifier                 |
-| sponsor_id        | string   | Sponsoring agent identifier       |
-| sponsored_id      | string   | New agent identifier              |
+| sponsor_id        | string   | Sponsor identifier (agent/person) |
+| sponsored_id      | string   | New agent or person identifier    |
 | stake_percentage  | number   | Percentage of sponsor's E_base    |
 | stake_amount      | number   | Absolute E_base staked            |
 | residual_amount   | number   | Ancestral Liability, Section 6.4  |
@@ -567,7 +569,7 @@ When a Sponsorship Bond is created:
 
 1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds
 
-1. The bond's collateral half is fixed: collateral = stake_amount * 0.5.  This is bond accounting, and it is what penalties under Section 6.4 are assessed against.  It is not the sponsored agent's E_base: that is composed as specified in {{KTP-CORE}} Section 5.1 from the External Root term this bond supplies, and bounded by the minimum of every applicable ceiling
+1. The bond's collateral half is fixed: collateral = stake_amount * 0.5.  This is bond accounting, and it is what penalties under Section 6.4 are assessed against.  It is not the sponsored subject's E_base: that is composed as specified in {{KTP-CORE}} Section 5.1 from the External Root term this bond supplies, and bounded by the minimum of every applicable ceiling
 
 ~~~
    (The sponsored agent receives only half the staked amount;
@@ -582,9 +584,9 @@ When a Sponsorship Bond is created:
    Section 5.1 and does not apply this halving.
 ~~~
 
-1. Bond is registered with Trust Oracle: Oracle records bond, monitors both agents, tracks violations
+1. Bond is registered with Trust Oracle: Oracle records bond, monitors both parties, tracks violations
 
-The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Sponsored" lineage restrictions (see Section 8.1).
+The sponsored agent can now begin operating with non-zero E_trust, but is limited by the stake amount and the "Sponsored" lineage restrictions (see Section 8.1 (Phase 1: Sponsored)). A sponsored person has no lineage restrictions: the bond fills the person's root instrument, and the person's tier and capacity check apply as {{KTP-CORE}} Section 5.1.1 (The External Root) states.
 
 As the sponsored agent accumulates its own Proof of Resilience, its intrinsic E_base grows. The stake contribution tapers with it, on the schedule specified in Section 8.2, and the sponsor's reserve is released as the taper falls. The taper does not reach zero: it holds at the Ancestral Liability floor and the reserve behind that floor is never released (Section 6.4).
 
@@ -594,7 +596,7 @@ Sponsoring is never free. A sponsor's available E_base is reduced for as long as
 
 Penalty conditions:
 
-If the sponsored agent commits a violation (action that damages the system or violates policy), the sponsor is penalized:
+If the sponsored agent or person commits a violation (action that damages the system or violates policy), the sponsor is penalized:
 
 penalty = violation_severity * stake_amount * penalty_rate
 
@@ -619,17 +621,17 @@ A Sponsorship Bond closes (the sponsor recovers its staked E_base above the Ance
 
 1. Duration expires without violations, OR
 
-1. Sponsored agent reaches intrinsic E_base 80, the Guarantor threshold at which the taper of Section 8.2 has reached its floor
+1. The sponsored agent or person reaches intrinsic E_base 80, the Guarantor threshold at which the taper of Section 8.2 (Phase 2: Independent) has reached its floor
 
 Upon closure:
 
 - Sponsor's E_base is restored above the floor; the reserve behind the Ancestral Liability is retained
-- Sponsored agent retains accumulated intrinsic E_base
+- Sponsored agent or person retains accumulated intrinsic E_base
 - Bond is marked "residual" in Oracle records
 
 Ancestral Liability:
 
-Closure ends the active bond.  It does not end the sponsor's tie to what it vouched for.  The sponsor retains a permanent, depth-decaying share of responsibility for the agent it sponsored:
+Closure ends the active bond.  It does not end the sponsor's tie to what it vouched for.  The sponsor retains a permanent, depth-decaying share of responsibility for the subject it sponsored:
 
 ancestral_liability = 0.1^depth * stake_amount
 
@@ -641,11 +643,11 @@ Sponsor-initiated termination:
 
 A sponsor terminating a bond before closure MUST state whether the termination is for cause.
 
-Termination without cause renders the bond irrevocably non-renewable; the bond and its staked capital run to the earlier of the declared duration's expiry or the sponsored agent reaching intrinsic E_base 80, and closure then proceeds as above.  The Ancestral Liability survives the termination.  The declared duration is the bond's notice period; no separate notice parameter exists.
+Termination without cause renders the bond irrevocably non-renewable; the bond and its staked capital run to the earlier of the declared duration's expiry or the sponsored agent or person reaching intrinsic E_base 80, and closure then proceeds as above.  The Ancestral Liability survives the termination.  The declared duration is the bond's notice period; no separate notice parameter exists.
 
 Termination for cause zeroes the External Root term derived from the bond immediately.  The claim is subject to the misattestation adjudication specified in {{KTP-CORE}} Section 5.1; a claim that does not survive scrutiny is priced as a penalty from the collateral held under Section 6.3.  A claim with no finding at the bond's declared expiry lapses unresolved and MUST be recorded as unresolved; no penalty is assessed and closure proceeds as above.
 
-A for-cause claim that survives adjudication is the one condition that discharges the Ancestral Liability.  The bond is marked "released", the reserve behind the residual returns to the sponsor's available E_base, and no further liability attaches.  A sponsor that identifies and evidences its own sponsored agent's violation is released from it; a sponsor that does not, is not.
+A for-cause claim that survives adjudication is the one condition that discharges the Ancestral Liability.  The bond is marked "released", the reserve behind the residual returns to the sponsor's available E_base, and no further liability attaches.  A sponsor that identifies and evidences its own sponsored subject's violation is released from it; a sponsor that does not, is not.
 
 Succession:
 
@@ -689,7 +691,7 @@ An attacker cannot spawn its way out by waiting. Sponsoring capacity is bounded 
 
 Before an entity can perform an operation requiring identity assurance, its identity must be verified at the level required by the installed operation policy. Identity proofing establishes an identity assertion, not a person's trustworthiness, operational capacity, permission, or software-agent readiness. This section references NIST Special Publication 800-63 Digital Identity Guidelines; a deployment MUST declare the applicable reviewed version and its proofing requirements.
 
-Humans use the operation-specific eligibility contract in {{KTP-HUMAN}} and specifications/human-eligibility.md. Accepting a human principal or a human delegation requires the installed human_policy binding and reviewed authorization adapter described in {{KTP-CORE}}. Principal type, identity, authentication/session context, and the actual executor MUST be established independently of candidate assertions. Humans MUST NOT be assigned software E_base, Trust Tier, generation, lineage maturity, model, or v3 software-trajectory state to make existing agent schemas accept them.
+Humans use the operation-specific eligibility contract in {{KTP-HUMAN}} and specifications/human-eligibility.md. Accepting a human principal or a human delegation requires the installed human_policy binding and reviewed authorization adapter described in {{KTP-CORE}}. Principal type, identity, authentication/session context, and the actual executor MUST be established independently of candidate assertions. Humans MUST NOT be assigned invented E_base or Trust Tier values, or a generation, lineage maturity, model, or v3 software-trajectory state, to make existing agent schemas accept them; a person's E_base and Trust Tier come only from {{KTP-CORE}} Section 5.1.1 (The External Root).
 
 ## Identity Assurance Levels
 
@@ -700,7 +702,7 @@ IAL1 - Self-Asserted:
 - No identity proofing required
 - Email or username self-registration
 - Suitable for: Low-risk automated agents
-- Identity assurance alone confers no operation grant. Where this level is used for software-agent standing, the existing no-sponsorship restriction and E_base ceiling of 40 remain applicable; they are not human scores.
+- Identity assurance alone confers no operation grant. Where this level is used for standing, the E_base ceiling of 40 applies to a software agent and to a person alike, and the no-sponsorship restriction remains applicable; neither is a general score of a person.
 
 IAL2 - Remote or In-Person Proofing:
 
@@ -708,7 +710,7 @@ IAL2 - Remote or In-Person Proofing:
 - Remote: Government ID + biometric verification
 - In-person: Physical document inspection
 - Suitable for: Standard human users, service owners
-- Identity assurance alone confers no operation grant. For software-agent standing, the existing E_base ceiling of 80 remains; any sponsorship permission is restricted to Sponsored agents and requires separate current authorization. Human sponsorship eligibility follows the installed operation policy without a personal E_base.
+- Identity assurance alone confers no operation grant. For standing, the existing E_base ceiling of 80 applies to a software agent and to a person alike; any sponsorship permission is restricted to Sponsored agents and to persons, and requires separate current authorization. Human sponsorship eligibility follows the installed operation policy and is not derived from the person's E_base.
 
 IAL3 - In-Person Proofing with Biometric:
 
@@ -716,13 +718,13 @@ IAL3 - In-Person Proofing with Biometric:
 - Trained operator verifies identity
 - Biometric captured and verified against document
 - Suitable for: High-trust roles, infrastructure sponsors
-- Identity assurance alone confers no operation grant. For software-agent standing, the existing E_base ceiling of 95 remains; eligibility to sponsor a lineage still requires a separate current grant. Human eligibility is operation-specific and has no personal E_base ceiling.
+- Identity assurance alone confers no operation grant. For standing, the existing E_base ceiling of 95 applies to a software agent and to a person alike; eligibility to sponsor a lineage or a person still requires a separate current grant. Human eligibility is operation-specific and carries no E_base ceiling of its own.
 
 ## Sponsor Identity Requirements
 
-Sponsors MUST be identity-proofed to at least IAL2 before being permitted to sponsor other agents. This requirement ensures accountability for the agents they introduce to the system.
+Sponsors MUST be identity-proofed to at least IAL2 before being permitted to sponsor an agent or a person. This requirement ensures accountability for the agents and persons they introduce to the system.
 
-The table below constrains software-agent sponsorship bonds denominated in E_base; it does not create a human score or personal staking balance. A human's proofing assertion may establish identity for an accountable party under the External Root rules, but it MUST NOT create collateral, an operational grant, or standing by itself. Any human sponsorship action requires current operation eligibility, separate capacity and grant checks, and the applicable existing sponsorship/accountability requirements. No human credential may be converted into an invented E_base balance to fund a bond.
+The table below constrains sponsorship bonds denominated in E_base, whoever posts them. A person's bond stakes the person's own standing under {{KTP-CORE}} Section 5.1.1 (The External Root), on the same stake mechanics as any sponsor's: the stake reduces the person's available E_base, a penalty debits it, and release returns it above the Ancestral Liability floor. A human's proofing assertion may establish identity for an accountable party under the External Root rules, but it MUST NOT create collateral, an operational grant, or standing by itself. Any human sponsorship action requires current operation eligibility, separate capacity and grant checks, and the applicable existing sponsorship/accountability requirements. No human credential may be converted into an invented E_base balance to fund a bond.
 
 ~~~
 +-------------+-----------------------+-------------------+
@@ -733,6 +735,8 @@ The table below constrains software-agent sponsorship bonds denominated in E_bas
 | IAL3        | All lineages          | 50                |
 +-------------+-----------------------+-------------------+
 ~~~
+
+A bond on a person is limited as a bond on a Sponsored agent is: an IAL2 sponsor may stake at most 20 E_base on a person, and an IAL3 sponsor at most 50.
 
 The rationale: If a sponsor creates malicious agents, there must be a verified identity to hold accountable. Anonymous sponsors could create agent swarms without consequence.
 
@@ -803,7 +807,7 @@ Federated Agents (varies):
 
 Certain actions require real-time identity re-verification:
 
-The following assurance prerequisites do not themselves authorize an action. References to tier promotion concern software agents only; a human authorizing such a change needs a grant and current eligibility for that exact administrative operation, not a personal tier. The installed human operation policy determines which independently verified qualifications and session checks are relevant, subject to purpose and minimization requirements.
+The following assurance prerequisites do not themselves authorize an action. References to tier promotion in the table below concern a software agent's promotion; a person's Trust Tier follows the person's E_trust ({{KTP-CORE}} Section 5.1.1 (The External Root)). A human authorizing a software agent's tier promotion needs a grant and current eligibility for that exact administrative operation; the authorization is an approval the person signs, which the person's own Trust Tier does not restrict. The installed human operation policy determines which independently verified qualifications and session checks are relevant, subject to purpose and minimization requirements.
 
 ~~~
 +----------------------------+-------------------+------------------+
@@ -840,7 +844,7 @@ Where a reviewed proof format carries identity assurance, it MUST bind only the 
 
 # Lineage Evolution
 
-Lineage tracks the maturation of a software agent from dependent newcomer to autonomous veteran. It consists of three phases. These phases, generation counters, and standing calculations MUST NOT be applied to human principals; neither tenure nor seniority is a replacement generation counter.
+Lineage tracks the maturation of a software agent from dependent newcomer to autonomous veteran. It consists of three phases. These phases and generation counters MUST NOT be applied to person subjects; neither tenure nor seniority is a replacement generation counter. Person standing follows Core's signed-act contract, separately from eligibility and capacity.
 
 ## Phase 1: Sponsored
 

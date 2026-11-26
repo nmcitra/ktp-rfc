@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Context Signal Sensor Specification"
 abbrev: "KTP-SENSORS"
-date: 2026-10-27
+date: 2026-10-30
 category: exp
 ipr: trust200902
 
@@ -18,6 +18,10 @@ normative:
       - name: Chris Perkins
   KTP-AUDIT:
     title: "Kinetic Trust Protocol - Flight Recorder"
+    author:
+      - name: Chris Perkins
+  KTP-ZONES:
+    title: "Kinetic Trust Protocol - Blue Zone Specification"
     author:
       - name: Chris Perkins
   RFC2119:
@@ -46,7 +50,7 @@ The specification covers sensor types, normalization algorithms, domain-specific
 
 # Introduction
 
-Context Signals are the sensory nervous system of the Kinetic Trust Protocol. They measure environmental reality across seven inputs, providing the data needed to calculate the Risk Factor and evaluate sovereignty constraints.
+Context Signals are the sensory nervous system of the Kinetic Trust Protocol. They measure environmental reality across six inputs, providing the data needed to calculate the Risk Factor and evaluate sovereignty constraints.
 
 This document provides detailed specifications for:
 
@@ -71,19 +75,21 @@ The sensor framework follows two levels of modularity:
 Level 1 - Framework Modularity:
 
 ~~~
-   The seven inputs defined in this specification represent the
+   The six inputs defined in this specification represent the
    core measurement space. However, the architecture supports
    extension for domain-specific requirements.
 ~~~
 
 ~~~
    New dimensions MUST specify:
-   - Unique identifier (a name, not conflicting with the six
-     named inputs or soul)
+   - Unique identifier (a name, not conflicting with the five
+     named inputs, soul, or moment_criticality)
    - Physics equivalent (conceptual grounding)
-   - Contribution type: "weighted" (contributes to R) or "veto"
-     (independent constraint like Soul)
-   - Sensor feed specifications
+   - Contribution type: "weighted" (contributes to R), "veto"
+     (independent constraint like Soul), or "demand" (raises A
+     only, like moment_criticality; see [KTP-CORE] L14)
+   - Sensor feed specifications (for a demand type, the supplier
+     declaration [KTP-CORE] L14 requires instead)
    - Normalization rules
    - Recommended domain weights (if weighted type)
 ~~~
@@ -106,7 +112,7 @@ This modularity allows KTP to adapt to diverse deployment contexts while maintai
 
 ## Feed Aggregation
 
-For the six weighted inputs, feeds are aggregated using weighted average:
+For the five weighted inputs, feeds are aggregated using weighted average:
 
 ~~~
    dimension_value = sum(feed_weight[i] * feed_value[i]) /
@@ -166,11 +172,11 @@ Both feeds above declare a stale_threshold_ms of four to five times their refres
 
 ## Risk Domains (Node, Neighborhood, Global)
 
-This section is informative. The Risk Factor is defined once, in {{KTP-CORE}} Section 5.2 (Risk Factor (R)), as the weighted sum of the six inputs with the weights of {{KTP-CORE}} Section 6.5 (Domain Weights). Nothing in this section defines R, and no weight named here is a weight of that sum. This section describes one technique for keeping a single input steady against local noise before the input enters the Risk Factor.
+This section is informative. The Risk Factor is defined once, in {{KTP-CORE}} Section 5.2 (Risk Factor (R)), as the weighted sum of the five inputs with the weights of {{KTP-CORE}} Section 6.5 (Domain Weights). Nothing in this section defines R, and no weight named here is a weight of that sum. This section describes one technique for keeping a single input steady against local noise before the input enters the Risk Factor.
 
 The problem the technique addresses is oscillation. Consider an agent operating near the Operator/Analyst tier boundary (E_trust ≈ 72). If one sensor on one node reports a momentary spike, a brief CPU surge or a transient network blip, the input that sensor populates can move enough to carry R across the boundary and back, and the agent transitions Operator to Analyst to Operator, disrupting operations and creating audit noise.
 
-The technique reads one input at three sensing scopes, called Risk Domains, and aggregates the readings by the feed aggregation of Section 2.2: each scope is a feed of that input, with a feed weight, and the input's value is the weighted average of the three.
+The technique reads one input at three sensing scopes, called Risk Domains, and aggregates the readings by the feed aggregation of Section 2.2: each scope is a feed of that input, with a feed weight, and the input's value is the weighted average of the three. A ring in a nested deployment also carries its enclosure's exposure into its Risk Factor, the Enclosure Domain (2.3.6). The Enclosure Domain is not one of the three levels: it acts on the Risk Factor itself, and its requirements are normative.
 
 2.3.1.  The Three Scopes
 
@@ -241,7 +247,7 @@ The value one input takes is the weighted average of its scope feeds, by Section
 
 Where w_node + w_neighborhood + w_global = 1.0 and s is the value of one input in \[0, 1].
 
-The example weights give the neighborhood scope primary influence, which provides stability while remaining responsive. They are feed weights of one input. They are not the weights of {{KTP-CORE}} Section 5.2 (Risk Factor (R)), which apply to the six inputs after each has taken its value, and the sum above is not R.
+The example weights give the neighborhood scope primary influence, which provides stability while remaining responsive. They are feed weights of one input. They are not the weights of {{KTP-CORE}} Section 5.2 (Risk Factor (R)), which apply to the five inputs after each has taken its value, and the sum above is not R.
 
 2.3.3.  Anti-Oscillation Mechanics
 
@@ -353,7 +359,85 @@ Risk Domains complement but do not replace hysteresis at tier boundaries (see \[
 
 Together, they create stable system behavior without sacrificing responsiveness to genuine environmental changes.
 
-# The Six Weighted Inputs
+2.3.6.  The Enclosure Domain
+
+In a nested deployment ({{KTP-ZONES}} Section 3.7 (Nested Zones)), a ring's Risk Factor carries one input from outside the ring: the exposure of its enclosure. This subsection is normative. It acts on the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) defines it, not on the three levels above. It applies only to a ring of depth 1 or more; at depth 0 it is disabled and the ring's Risk Factor is that sum alone.
+
+Enclosure Domain:
+
+~~~
+   The zone that directly surrounds the ring.
+~~~
+
+~~~
+   Scope: The enclosure, as the ring's authorized Topology names it
+   Update frequency: Low (30-120 seconds)
+   Inputs: The enclosure's signed Risk Factor, attenuated per Class
+           Step; the ring's own Zone Gateway reading of the enclosure
+   Weight in R: none; it is not a weighted term (see below)
+~~~
+
+~~~
+   Enclosure readings are exposure, not local condition. An
+   enclosure under attack raises the risk inside the ring it
+   surrounds. An enclosure reporting calm does not lower it.
+~~~
+
+The Enclosure Domain is not a term of the Risk Factor's sum and takes no share of its weights, which still sum to 1.0. It acts on the ring's Risk Factor as a floor:
+
+- The result MUST NOT be lower than the ring's contemporaneous Risk Factor computed without it.
+- With other inputs fixed, increasing enclosure risk MUST NOT decrease the result.
+- The ring's own Zone Gateway reading of the enclosure MUST be an input, and an enclosure's report MUST NOT overwrite a higher reading.
+- The enclosure's signed Risk Factor is attenuated only across a Class Step, by the profile's attenuation per step; between rings of equal Enforcement Class it is not attenuated.
+- How far the enclosure's exposure reaches into the ring is a reach between 0 and 1, declared in the deployment profile. At depth 1 or more the reach MUST be greater than 0; the domain is disabled only at depth 0, where there is no enclosure ({{KTP-ZONES}} Section 3.7 (Nested Zones)).
+- The Enclosure Domain takes part in every evaluation for agents resident in the ring, not only at ingress.
+
+Reference form (informative). Let L be the ring's Risk Factor as {{KTP-CORE}} Section 5.2 (Risk Factor (R)) computes it, before this domain, P the enclosure's signed Risk Factor, a the attenuation across the boundary (1.0 where there is no Class Step), G the ring's own Zone Gateway reading of the enclosure, and w the reach. Then:
+
+~~~
+   H = max(a × P, G)
+   R = L + w × max(0, H - L)
+~~~
+
+This form satisfies every requirement above: R is never below L, never above 1, and rises with P and G. A profile MAY use another form that satisfies them; the conformance vectors, not this form, are the test.
+
+Scenario 4: Enclosure Heat
+
+~~~
+   The ring's own Risk Factor is L = 0.22. Its enclosure is one
+   Class Step out and signs
+   P = 0.80. Attenuation a = 0.50, so a x P = 0.40.
+   The ring's gateway reads the enclosure at G = 0.30.
+   Reach w = 0.50.
+~~~
+
+~~~
+   H = max(0.40, 0.30) = 0.40
+   R = 0.22 + 0.50 x (0.40 - 0.22) = 0.31
+~~~
+
+~~~
+   Result: the ring's R rises from 0.22 to 0.31 with nothing wrong
+   inside it. If the enclosure instead signs P = 0.05 and the
+   gateway reads G = 0.10, then H = 0.10 is below L and R stays
+   at 0.22: calm from outside never lowers the ring's own measure.
+~~~
+
+The deployment profile declares it, in an `enclosure` object:
+
+~~~
+   {
+     "enclosure": {
+       "reach": 0.50,
+       "attenuation_per_class_step": 0.50,
+       "update_interval_ms": 60000
+     }
+   }
+~~~
+
+The reference attenuation of 0.5 per Class Step is experimental. It is a parameter of this domain, not the propagation decay of KTP-FEDERATION.
+
+# The Five Weighted Inputs, and One Demand Input
 
 ## evidence_density
 
@@ -520,59 +604,6 @@ Example Calculation (Under Attack):
    H = (0.500 + 0.200 + 0.300 + 0.750) / 4 = 0.438
 ~~~
 
-## moment_criticality
-
-Analogy (informative): Temporal Mechanics / Phase
-
-Concept: The criticality of the current moment relative to an event horizon. A failure during "Kickoff" has infinitely higher gravity than a failure at 3:00 AM. Time dilates risk tolerance.
-
-Impact on Trust: Near event horizons (go-live, kickoff, earnings call), the same action costs more trust. The system becomes more conservative as critical moments approach.
-
-Sensor Feeds:
-
-~~~
-+------------------+------------------------------------------+
-| Feed             | Description                              |
-+------------------+------------------------------------------+
-| Event Countdown  | Minutes to scheduled event               |
-| Business Hours   | Current position in business cycle       |
-| Maintenance Win  | Whether in scheduled maintenance         |
-| Mission Phase    | rehearsal / pre-prod / live / post       |
-| Quarter End      | Days to financial close                  |
-| Deadline Timer   | Time to contractual SLA deadline         |
-+------------------+------------------------------------------+
-~~~
-
-Normalization:
-
-~~~
-+------------------+----------+----------+----------+
-| Feed             | s_min    | s_max    | Invert   |
-+------------------+----------+----------+----------+
-| Event countdown  | 72 hrs   | 0 hrs    | Yes      |
-| Business hours   | off-peak | peak     | No       |
-| Maintenance      | in maint | not maint| Yes      |
-| Mission phase    | 0        | 3        | No       |
-+------------------+----------+----------+----------+
-~~~
-
-Note: Time is typically inverted—72 hours out = low stress, 0 hours (event starting) = maximum stress.
-
-Refresh Interval: 60 seconds (time is predictable)
-
-Example Calculation (30 minutes to kickoff):
-
-~~~
-   Event countdown = 0.5 hrs → (72-0.5)/72 inverted = 0.993
-   Mission phase = 3 (live) → 3/3 = 1.000
-   Business hours = peak → 1.000
-~~~
-
-~~~
-   With equal weights:
-   T = (0.993 + 1.000 + 1.000) / 3 = 0.998
-~~~
-
 ## update_resistance
 
 Analogy (informative): Inertial Mass
@@ -680,6 +711,67 @@ Example Calculation (Earnings Call):
    O = (0.500 + 1.000 + 0.850) / 3 = 0.783
 ~~~
 
+## moment_criticality (demand side, not weighted)
+
+moment_criticality is not a weighted input and does not contribute to R. It
+describes the act proposed against the environment, not the environment, so it
+is on the A side of A <= E. A deployment that uses it declares it as a
+demand input under [KTP-CORE] L14, and it enters only as
+[KTP-CORE] L11 permits an externally supplied input. It is not configured as a
+sensor factor. The table below is informative: it describes how a supplier can
+derive the value from the deployment's own schedules, never from the request.
+
+Analogy (informative): Temporal Mechanics / Phase
+
+Concept: The criticality of the current moment relative to an event horizon. A failure during "Kickoff" has infinitely higher gravity than a failure at 3:00 AM. Time dilates risk tolerance.
+
+Impact on demand: Near event horizons (go-live, kickoff, earnings call), the same action presents more demand. The system becomes more conservative as critical moments approach, and never less conservative because a moment is quiet.
+
+Supplier derivation (informative):
+
+~~~
++------------------+------------------------------------------+
+| Feed             | Description                              |
++------------------+------------------------------------------+
+| Event Countdown  | Minutes to scheduled event               |
+| Business Hours   | Current position in business cycle       |
+| Maintenance Win  | Whether in scheduled maintenance         |
+| Mission Phase    | rehearsal / pre-prod / live / post       |
+| Quarter End      | Days to financial close                  |
+| Deadline Timer   | Time to contractual SLA deadline         |
++------------------+------------------------------------------+
+~~~
+
+Normalization:
+
+~~~
++------------------+----------+----------+----------+
+| Feed             | s_min    | s_max    | Invert   |
++------------------+----------+----------+----------+
+| Event countdown  | 72 hrs   | 0 hrs    | Yes      |
+| Business hours   | off-peak | peak     | No       |
+| Maintenance      | in maint | not maint| Yes      |
+| Mission phase    | 0        | 3        | No       |
++------------------+----------+----------+----------+
+~~~
+
+Note: Time is typically inverted—72 hours out = low stress, 0 hours (event starting) = maximum stress.
+
+Refresh Interval: 60 seconds (time is predictable)
+
+Example Calculation (30 minutes to kickoff):
+
+~~~
+   Event countdown = 0.5 hrs → (72-0.5)/72 inverted = 0.993
+   Mission phase = 3 (live) → 3/3 = 1.000
+   Business hours = peak → 1.000
+~~~
+
+~~~
+   With equal weights:
+   moment_criticality = (0.993 + 1.000 + 1.000) / 3 = 0.998
+~~~
+
 # The Soul Veto
 
 ## Overview
@@ -688,7 +780,7 @@ Analogy (informative): The Cosmological Constant / Immutable Law
 
 Concept: The ethical, legal, and spiritual constraints of the physical location or data lineage. Soul represents constraints that exist independent of operational conditions—they are the "Spirit" of the data or place.
 
-Unlike the six weighted dimensions, Soul operates as a binary veto:
+Unlike the five weighted dimensions, Soul operates as a binary veto:
 
 ~~~
    S = 0: No sovereignty constraints violated, action may proceed
@@ -853,23 +945,23 @@ Recommended Implementation:
 
 # Domain Weight Profiles
 
-Different deployment domains weight the six weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
+Different deployment domains weight the five weighted dimensions differently. Soul is not weighted—it always acts as an independent veto.
 
-Weights MUST sum to 1.0 across the six named inputs and satisfy the finite, positive-weight requirements of \[KTP-CORE] Section 6.5 (Domain Weights). Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
+Weights MUST sum to 1.0 across the five named inputs and satisfy the finite, positive-weight requirements of \[KTP-CORE] Section 6.5 (Domain Weights). Validate each configured or reconfigured set before use; an invalid set MUST be rejected without silently rescaling it. These factor weights are separate from per-feed aggregation weights.
 
 5.1. Pre-defined Profiles
 
-Stadium/Event Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05 Rationale: Physical density and momentum dominate; events have hard deadlines.
+Stadium/Event Network: evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06 Rationale: Physical density and momentum dominate; events have hard deadlines.
 
-Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05 Rationale: Speed is critical; adversarial pressure high; market hours create temporal constraints.
+Financial Trading: evidence_density=0.06, trust_trend=0.38, adversarial_pressure=0.31, update_resistance=0.19, attestation_coverage=0.06 Rationale: Speed is critical; adversarial pressure high. Market hours raise demand through moment_criticality, not R.
 
-Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
+Healthcare: evidence_density=0.12, trust_trend=0.18, adversarial_pressure=0.28, update_resistance=0.24, attestation_coverage=0.18 Rationale: Patient safety (inertia) paramount; regulatory observation (observer) significant; attacks can be fatal.
 
-Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
+Cloud Infrastructure: evidence_density=0.06, trust_trend=0.28, adversarial_pressure=0.32, update_resistance=0.28, attestation_coverage=0.06 Rationale: Adversarial pressure and topology (inertia) dominate; physical presence less relevant.
 
-Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
+Indigenous Data Repository: evidence_density=0.11, trust_trend=0.11, adversarial_pressure=0.22, update_resistance=0.17, attestation_coverage=0.39 Rationale: High Observer weight reflects community oversight importance; Soul veto always active for labeled data.
 
-Government/Military: evidence_density=0.15, trust_trend=0.15, adversarial_pressure=0.30, moment_criticality=0.15, update_resistance=0.15, attestation_coverage=0.10 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
+Government/Military: evidence_density=0.18, trust_trend=0.18, adversarial_pressure=0.34, update_resistance=0.18, attestation_coverage=0.12 Rationale: Adversarial pressure highest priority; balanced across other dimensions.
 
 5.2. Custom Profiles
 
@@ -880,12 +972,11 @@ Implementations MUST allow custom weight configuration. Configuration schema:
      "profile_id": "custom-retail",
      "name": "Retail Point of Sale",
      "weights": {
-       "evidence_density": 0.20,
-       "trust_trend": 0.20,
-       "adversarial_pressure": 0.25,
-       "moment_criticality": 0.15,
-       "update_resistance": 0.10,
-       "attestation_coverage": 0.10
+       "evidence_density": 0.24,
+       "trust_trend": 0.24,
+       "adversarial_pressure": 0.28,
+       "update_resistance": 0.12,
+       "attestation_coverage": 0.12
      },
      "soul_enabled": true,
      "soul_feeds": ["tk_labels", "geofence"],

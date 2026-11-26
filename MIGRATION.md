@@ -1,5 +1,18 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
+opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
+use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
+the suffix versions the identifier, not the KTP release. Install the declared
+magnitudes, conditions, observation sources, supervision/repair requirements,
+digest preimages and continuity state. Bind a separately signed consumption
+decision to the complete ordinary proof, actual request and mandatory software
+readiness decision; wire evaluation/expiration times are integer Unix seconds.
+Experimental or unversioned artifacts do not become conforming by renaming them.
+Implementations not declaring this profile gain no obligations from D-009 alone;
+independent v3 requirements still apply. The vectors specify contract expectations,
+not a runtime conformance claim.
+
 **Unreleased Risk Domains migration:** R has one definition. Old → new: a
 Risk Factor computed as the node/neighborhood/global composite of Sensors
 Section 2.3 → the weighted sum of the five inputs, Core Section 5.2, with the
@@ -39,6 +52,29 @@ Declare reconstruction limits after keys or records are gone. Preserve effective
 revocation and accepted-version floors, or render old authority unusable if the
 required state cannot be retained/reconstructed under applicable rules. No
 permanent personal archive or automatic clean-slate enrollment is introduced.
+
+**Unreleased person-standing migration:** A person is a subject of KTP-Core as
+an account in a zone. Old → new: the External Root was a term in the E_base
+composition supplied by an instrument → it is the person behind the instrument,
+with an employer, a licensing body or a board as the terminator behind them;
+trajectory had three shapes, all software agents → a fourth shape, a person's
+signed acts; the human E_base was a six-term weighted sum (v2.1.0) and then no
+score at all (unreleased) → a person's E_base is composed under Core Section
+5.1 from signed acts and the person's root instrument (the terminator's
+standing, or a bond another person posts); a human sponsor's bond staked no
+personal balance → it stakes the person's own standing (a stake, not the v2.1.0
+score inheritance), and a person may sponsor a person, the bond ending at its
+closure; administrators were scored in the threat model and unscored in Core →
+scored, under Core; standing portability was for agents only → persons too, by
+the same federation factor and ceiling, only where an agreement exists; the
+eligibility contract (above) had removed a person's Trust Tier → a person's
+E_trust sets one again, and it restricts the classes of action the person
+executes as a software agent's does, while a person's capacity check still
+compares A with the operational E the reviewed adapter authenticates, never
+with E_trust; the subject's kind was implied by which claims a proof carried →
+it is declared on the proof, and the root projection names the person and the
+institutional terminator. Eligibility (above) stays a separate requirement.
+Legacy general human scores still do not convert into anything.
 
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and

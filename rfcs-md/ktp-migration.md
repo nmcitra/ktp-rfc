@@ -173,7 +173,7 @@ Request arrives with OAuth token:
 
 1. Validate OAuth token signature and expiration
 2. Extract KTP claims (if present)
-3. If KTP claims present: a. Verify Trust Proof signature against known Oracle b. Check Trust Proof expiration c. Evaluate A <= E_trust for requested action d. If KTP denies, return 403 with KTP error
+3. If KTP claims present: a. Verify Trust Proof signature against known Oracle b. Check Trust Proof expiration c. Evaluate A <= E for requested action (E_trust for a software agent; for a person, the operational E the reviewed adapter authenticates) d. If KTP denies, return 403 with KTP error
 4. If KTP claims absent: a. Evaluate OAuth scopes per legacy logic b. Optionally query Trust Oracle for real-time proof
 
 This approach allows gradual enforcement:
@@ -214,6 +214,8 @@ KTP-Extended UserInfo Response:
      }
    }
 ~~~
+
+For a person, these values are one zone's measure of the account (KTP-Core, The External Root): they are released to a relying party only for that zone's decisions and are never presented as an attribute of the person, and a person's response omits trajectory_url.
 
 ## SAML 2.0 Integration
 
@@ -258,7 +260,7 @@ SPs can enforce KTP constraints on SAML-authenticated sessions:
 1. Validate SAML Assertion per standard SAML processing
 2. Extract KTP attributes from AttributeStatement
 3. Verify embedded Trust Proof against known Oracle
-4. For each request during session: a. Evaluate A <= E_trust b. Enforce tier-appropriate constraints
+4. For each request during session: a. Evaluate A <= E (E_trust for a software agent; for a person, the operational E the reviewed adapter authenticates) b. Enforce tier-appropriate constraints
 5. Optionally refresh Trust Proof periodically during session
 
 ## API Key Integration

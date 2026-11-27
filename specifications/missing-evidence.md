@@ -1,6 +1,6 @@
 # Missing Evidence: Feed, Signal and Factor
 
-**Proposed, unreleased missing-evidence contract.**
+**Status: unreleased normative companion.**
 
 The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 

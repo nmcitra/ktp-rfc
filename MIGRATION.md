@@ -724,6 +724,18 @@ dropped must evaluate without it. Every federation decision is signed by the
 body that made it, and a subject whose standing a federation decision changed
 has the zone's review route.
 
+**Unreleased charter-amendment migration:** A deployment publishes, in its
+charter, the route by which a lineage bound by a rule opens the amendment
+process, the deadline by which the governing authority attends a filing, and,
+in its profile, the recurrence at which the route opens. Its amendment
+procedure gains three checks it did not have: that the amendment cites the
+records it answers and, for a constant, the measurements; that making it is
+evaluated as the governor's own act before it is in force; and that it touches
+nothing on the floor, which now names the route, the recurrence, a veto, and
+what no repair tier may change beside the immutable elements. An amendment in
+flight on the day this lands is evaluated under these checks at ratification.
+No wire change.
+
 ## 4. Unreleased v3 changes
 
 ### 4.1 `moment_criticality` leaves the Risk Factor

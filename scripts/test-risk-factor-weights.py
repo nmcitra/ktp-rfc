@@ -150,6 +150,26 @@ class RiskFactorWeightTests(unittest.TestCase):
     def test_schema_definition(self):
         Draft202012Validator.check_schema(SCHEMA)
 
+    def test_schemas_name_exactly_the_five_weighted_inputs(self):
+        # A member a merge puts back is optional, so every published profile
+        # still validates against it. The shape itself is pinned here.
+        block = SCHEMA["properties"]["risk_factors"]
+        self.assertEqual(block["required"], FACTORS)
+        self.assertEqual(sorted(block["properties"]), sorted(FACTORS))
+        self.assertIs(block["additionalProperties"], False)
+        payload = json.loads((ROOT / "schemas/risk-factors.json").read_text())
+        self.assertEqual(sorted(payload["required"]), sorted(FACTORS))
+        self.assertEqual(sorted(payload["properties"]), sorted(FACTORS))
+        self.assertIs(payload["additionalProperties"], False)
+
+    def test_a_demand_input_is_not_a_weighted_input(self):
+        for name in DECLARATIONS.DEMAND_INPUTS:
+            with self.subTest(input=name):
+                profile = profile_with(SUM_CASES[0][1])
+                profile["risk_factors"][name] = copy.deepcopy(
+                    profile["risk_factors"][FACTORS[0]])
+                self.assertTrue(list(VALIDATOR.iter_errors(profile)))
+
     def test_exact_sum_contract(self):
         for name, weights, expected_valid in SUM_CASES:
             with self.subTest(case=name):

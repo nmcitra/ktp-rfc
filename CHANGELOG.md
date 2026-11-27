@@ -242,6 +242,75 @@ under `VERSIONING.md`, with a Vocabulary rider for the terms Breach,
 Reconciliation Record and Re-entry Reduction. It remains unreleased; published
 tags are unchanged.
 
+### The federation rule
+
+**Finding:** Federation ran to a thousand lines with one normative keyword
+outside its boilerplate. Its arbitration was "final and enforceable", its
+severance isolated agents inside the other zone, and its hub trusted its
+spokes at a factor nobody signed. Nothing said what a federation may move and
+what it may never touch.
+
+- Federation gains Section 1.4 (The Rule): a federation moves decisions about
+  the federation and never a zone's evaluation of an act, nor the policy under
+  which it evaluates. A foreign proof, clearance, or attestation is evidence
+  the receiving zone weighs; an agreement MUST NOT require a zone to accept
+  one as its own evaluation. A clause that delegates, waives, or overrides a
+  veto is void and the agreement stands. Severance binds nothing within the
+  other zone, and the loss of a link MUST NOT stop a zone's own evaluation.
+- A federation decision carries the signature of the body that made it and
+  names who answers; unsigned, it binds no zone. One that changes a subject's
+  standing is contestable under that zone's review route.
+- The Federation Agreement gains required cells (parties by terminator and
+  signing authority, per-direction factor signed by the receiver, what
+  crosses, which sovereignty constraints each party enforces, the dispute
+  route and its deadlines) and forbidden cells. Nothing outside the signed
+  agreement is a term. Amendment is by both parties and prospective; a party
+  alone may only lower, suspend, sever, or let expire. The agreement's
+  existence and each direction's factor are visible to both zones' subjects.
+- Reciprocity by default is gone: a factor is signed by the zone that
+  receives, for one direction. The hub signs nothing for a spoke.
+- `specifications/conformance/federation-v1.json`: sixteen vectors, FD01 to
+  FD16.
+
+This adds MUSTs and so requires a MAJOR release under `VERSIONING.md`. It
+remains unreleased; published tags are unchanged.
+
+### Who may open an amendment, and what it cannot reach
+
+**Finding:** Governance's amendment process could be opened only by the
+council. The lineages a rule binds got a notice and a comment period, and the
+section that said what an amendment may not touch stopped at four elements.
+Nothing said how an amendment binds against acts in flight, whether making one
+is itself an act under the recursive constraint, or whether a change to a
+declared constant had to answer any measurement.
+
+- Governance gains Section 11.4 (Who May Open an Amendment): a zone MUST
+  publish the route by which a lineage bound by a rule opens the amendment
+  process, and MUST declare the recurrence at which it opens. A bound lineage
+  MAY seek a rule's repair by that route once the recurrence is met; the
+  filing cites the records and is the proposal of step 1 without the
+  council-support threshold. The governing authority is the party in breach
+  and MUST attend: open the notice period or publish a contestable refusal
+  within the charter's deadline. A filing that cites no record is not a seek;
+  an unbound lineage has no standing. The council's thresholds are unchanged.
+- Governance gains Section 11.5 (How an Amendment Binds, and What It Cannot
+  Reach): an amendment MUST cite the records it answers, and a change to a
+  declared constant MUST cite the measurements; one that cites nothing is not
+  valid. An amendment binds forward at the first evaluation after
+  ratification, re-evaluates nothing, and creates no retroactive breach.
+  Making one is a consequential act of the governing authority under the
+  recursive constraint, and an amendment the governor's E does not support is
+  not made, whatever the vote. No amendment reaches the immutable elements,
+  the route's existence and publication, the declared recurrence, a veto, or
+  what no repair tier may change; one that touches them is void and the
+  charter stands.
+- Transparency gains two rows: the route and the declared recurrence are
+  publicly accessible; amendments are published with the records they cite.
+- Four threats added to Security Considerations: the barrage, the rule
+  drifting while acts close, amendment as bypass, the vote above the gate.
+- New suite `specifications/conformance/charter-amendment-v1.json`, eighteen
+  vectors, AM01 to AM18.
+
 ### The bounds of a delegation are the ones it states
 
 KTP-HUMAN requires a delegation to bind its operation, resources and

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v2/trust-proof.json",
-  "title": "KTP Trust Proof",
-  "description": "Signed token carrying Trust Score and environmental context for the Kinetic Trust Protocol",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json",
+  "title": "KTP Trust Proof — Unreleased v3",
+  "description": "Signed token carrying Trust Score and environmental context for the Kinetic Trust Protocol. Its context is the five-input v3 Risk Factors object. The published v2 schema is archived separately as trust-proof-legacy-v2.json.",
   "type": "object",
   "required": [
     "iss",
@@ -71,7 +71,7 @@
           "type": "number",
           "minimum": 0,
           "maximum": 1,
-          "description": "Aggregated environmental risk computed from the six weighted Risk Factor inputs"
+          "description": "Aggregated environmental risk computed from the five weighted Risk Factor inputs"
         },
         "de_dt": {
           "type": "number",
@@ -84,10 +84,10 @@
         },
         "context": {
           "$ref": "risk-factors.json",
-          "description": "The six weighted Risk Factor inputs (Soul is carried separately as a veto, not a term)"
+          "description": "The five weighted Risk Factor inputs (Soul is carried separately as a veto, not a term; moment_criticality is a demand input and is not carried here)"
         },
         "soul": {
-          "$ref": "soul-constraint.json",
+          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v2/soul-constraint.json",
           "description": "Sovereignty constraint evaluation"
         },
         "lineage": {
@@ -117,6 +117,79 @@
         "zone": {
           "type": "string",
           "description": "Blue Zone identifier where proof was issued"
+        },
+        "ingress_path": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "zone_id",
+              "oracle_kid",
+              "sub",
+              "cnf_jkt",
+              "aud",
+              "prev",
+              "topology_epoch",
+              "iat",
+              "exp",
+              "admission_id",
+              "sig"
+            ],
+            "properties": {
+              "zone_id": {
+                "type": "string",
+                "description": "Issuer: the ring whose Trust Oracle admitted the agent"
+              },
+              "oracle_kid": {
+                "type": "string",
+                "description": "Issuer: key identifier of the Trust Oracle key that signed this receipt"
+              },
+              "sub": {
+                "type": "string",
+                "format": "uri",
+                "description": "Subject: the admitted agent"
+              },
+              "cnf_jkt": {
+                "type": "string",
+                "description": "Subject: thumbprint of the agent's proof-of-possession key"
+              },
+              "aud": {
+                "type": "string",
+                "description": "Audience: zone identifier of the next ring inward"
+              },
+              "prev": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Digest of the preceding receipt in the path; null for the outermost receipt"
+              },
+              "topology_epoch": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Topology Epoch under which the admission was granted"
+              },
+              "iat": {
+                "type": "integer",
+                "description": "Issued at (Unix timestamp)"
+              },
+              "exp": {
+                "type": "integer",
+                "description": "Expires at (Unix timestamp)"
+              },
+              "admission_id": {
+                "type": "string",
+                "description": "Fresh identifier of the admission this receipt attests"
+              },
+              "sig": {
+                "type": "string",
+                "description": "Signature by the issuing Trust Oracle over every other member of this receipt"
+              }
+            }
+          },
+          "description": "Ingress Receipts of the presenting ring's enclosures, outermost first (KTP-ZONES Section 6.6 (Ingress Path)). Required at a ring of depth 1 or more; its absence never means depth 0, which comes from the authorized Topology. Removed or reduced at egress under KTP-ZONES Section 7.4 (Egress Shaping). JSON Schema checks shape only: it does not verify signatures, bindings to the ingress session, or ancestry against the Topology."
         },
         "oracle_quorum": {
           "type": "string",
@@ -234,7 +307,6 @@
           "evidence_density": 0.875,
           "trust_trend": 0.92,
           "adversarial_pressure": 0.02,
-          "moment_criticality": 1.0,
           "update_resistance": 0.1,
           "attestation_coverage": 0.04
         },
@@ -246,7 +318,7 @@
         },
         "lineage": "guarantor",
         "generation": 7,
-        "resilience_hash": "sha256:abc123def456789012345678901234567890123456789012345678901234",
+        "resilience_hash": "sha256:abc123def4567890123456789012345678901234567890123456789012345678",
         "zone": "zone-blue-prod-01",
         "oracle_quorum": "3-of-5",
         "peer_share": 0,
@@ -288,7 +360,6 @@
           "evidence_density": 0.1,
           "trust_trend": 0.15,
           "adversarial_pressure": 0.05,
-          "moment_criticality": 0.2,
           "update_resistance": 0.08,
           "attestation_coverage": 0.1
         },
@@ -304,7 +375,7 @@
         "lineage": "sponsored",
         "generation": 2,
         "sponsor": "agent:guarantor:7gen:optimized:a1b2c3d4",
-        "resilience_hash": "sha256:fedcba987654321098765432109876543210987654321098765432109876",
+        "resilience_hash": "sha256:fedcba9876543210987654321098765432109876543210987654321098765432",
         "zone": "zone-blue-research",
         "oracle_quorum": "2-of-3",
         "peer_share": 0,

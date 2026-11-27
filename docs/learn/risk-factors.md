@@ -1322,7 +1322,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
 
     ### How It Works
 
-    Soul is the **constitutional veto layer**. Unlike the six weighted inputs (which contribute weighted values to trust calculations), Soul operates as a binary gate. If a Soul constraint is violated, the action is forbidden—regardless of how high the trust score is.
+    Soul is the **constitutional veto layer**. Unlike the five weighted inputs (which contribute weighted values to trust calculations), Soul operates as a binary gate. If a Soul constraint is violated, the action is forbidden—regardless of how high the trust score is.
 
     Soul encodes immutable constraints: jurisdictional requirements, consent state, Indigenous data sovereignty (TK Labels, OCAP/CARE), sacred land protections, and governance vetoes. These are the laws of the digital universe that cannot be negotiated away for operational convenience.
 
@@ -1343,7 +1343,7 @@ Each dimension has a distinct signal signature and behavioral effect. Click any 
         **Soul violations are absolute.** There is no gradual degradation, no warning tier—just immediate denial. Recovery requires explicit governance action to change the underlying constraint, not just improved behavior.
 
     <div class="dimension-interacts" markdown>
-    **Interacts with:** [attestation_coverage](#__tabbed_2_6) (Soul constraints require explicit attestation), [all six weighted inputs](#__tabbed_2_1) (Soul overrides any numerical trust calculation)
+    **Interacts with:** [attestation_coverage](#__tabbed_2_6) (Soul constraints require explicit attestation), [all five weighted inputs](#__tabbed_2_1) (Soul overrides any numerical trust calculation)
     </div>
 
     <div class="dimension-links" markdown>

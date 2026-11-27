@@ -21,7 +21,7 @@ Read these before you write anything. They are the difference between a contribu
    - Physics words (mass, heat, momentum) survive only on lines marked *Analogy (informative)*.
    - "Internet" and "Web" are proper nouns.
 
-6. **State the evidence limit.** Every claim says whether it is modeled, observed, or validated. Declaration checks, schema checks, and vector runs are prerequisites; they are never runtime certification, and a proposal must not present them as one.
+6. **State the evidence limit.** Every claim carries one of the four status labels: proposed, specified, tested, independently reproduced. Declaration checks, schema checks, and vector runs are prerequisites; they are never a `tested` claim for an enforcement requirement, and a proposal must not present them as one.
 
 7. **Provenance is recorded, not transferred.** Say who proposed it, who edited the text, who built it first, and whose implementation is the reference. The first implementer is recorded permanently. The specification stays governed by [`DECISIONS.md`](DECISIONS.md).
 

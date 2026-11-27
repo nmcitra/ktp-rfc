@@ -183,6 +183,22 @@ it is declared on the proof, and the root projection names the person and the
 institutional terminator. Eligibility (above) stays a separate requirement.
 Legacy general human scores still do not convert into anything.
 
+**Unreleased L11 direction-rule migration:** An implementation that carries
+norm content through the carriage interface must add three things. It records
+the no-norm result for each evaluation, what this specification produces with
+no norm content applied, so that a void or unverifiable adjudication token has a
+value to fall back to and so that no result with norm content applied can be
+more permissive than it. It verifies an adjudication token's bindings, by
+digest, to the action, actor, grant, evidence, zone, topology epoch and time it
+judged, against the current evaluation, and treats any mismatch, failed
+signature or expiry as absence, never as a denial beyond the gate the declared
+schema already required. It records which rail raised each increment of
+supervision, so that the normative rail can release only its own increment and
+never below the environment's level. A favorable verdict is a prerequisite for
+the gate it answers and is not evidence of capacity; implementations that let a
+verdict lower supervision or raise capacity stop conforming. The token payload
+is `schemas/adjudication-token.json`.
+
 **Unreleased readiness migration:** Implementers adopting the current draft
 must additionally install the v3 deployment profile and
 [operational readiness contract](specifications/operational-readiness.md).
@@ -214,8 +230,8 @@ redefine E or widen the profile result. Adopt the signed evidence record and its
 five states. A denial without authenticated protected-path non-dispatch evidence
 is `unknown`; neither HTTP success nor a dispatch record proves an effect.
 Release held reservations only on authenticated non-dispatch, preserving uncertain
-state. An earlier implementation must not silently map `no_effect` to dispatch or
-release a reservation on it. D-012 is opt-in and does not itself change obligations
+state. An implementation must not map `no_effect` to dispatch or release a
+reservation on it. D-012 is opt-in and does not itself change obligations
 for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally
@@ -743,13 +759,6 @@ asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
 
-**Unreleased Celestial degradation migration:** An implementation that offers
-KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
-half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
-coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
-e_trust with time out of contact; its curve now falls. The linear and step
-curves are unchanged. No wire change.
-
 ## 4. Unreleased v3 changes
 
 ### 4.1 `moment_criticality` leaves the Risk Factor
@@ -781,3 +790,42 @@ unchanged at their v2 identifiers and are kept as
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
 
+
+---
+
+# Toward 3.0.0 (unreleased)
+
+Entries here pair each v2.1.0 term with its unreleased replacement. They move into
+the 3.0.0 migration guide when that version is tagged.
+
+## Conformance claims (#163)
+
+| v2.1.0 | 3.0.0 |
+|---|---|
+| Certification | Conformance Claim, carrying a Status Label |
+| Self-Certification | a claim labelled `tested` |
+| Third-Party Certification | a claim labelled `independently reproduced` |
+| certification body, registry, revocation | none; a withdrawn claim is marked, never deleted |
+| "conforms to … self-certified on" | "claims … : <label>, <n> of <m> specified test IDs passed, <k> proposed test IDs not run; evidence at <URL>" |
+| 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
+| Full: third-party certification | Full: independent reproduction of its specified test IDs |
+
+
+## 4. Toward 3.0.0 (unreleased)
+
+### 4.1 The composition limit
+
+Core gains L15: composition across requests is not yet required, and no
+conformant implementation may present a per-request limit as a bound on the
+combined consequence of several requests. Nothing in the evaluation changes.
+What changes is a claim: an implementation that has said its per-request limits
+bound combined consequence stops saying so, or composes consequences across
+requests and says that under its own status label. The published case set is
+the test, cited by name and tag.
+
+**Unreleased Celestial degradation migration:** An implementation that offers
+KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
+half_life`, so an Extended Trust Proof's e_trust halves every half-life. One
+coded to the text of v1.0.0 through v2.1.0, `ln(0.5) / half_life`, raised
+e_trust with time out of contact; its curve now falls. The linear and step
+curves are unchanged. No wire change.

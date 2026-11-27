@@ -1,6 +1,6 @@
 # Component Conformance Profiles
 
-**Proposed, unreleased component-profiles-v1 contract.**
+**Status: unreleased normative companion.**
 
 The key words MUST, MUST NOT, REQUIRED, SHOULD and MAY have BCP 14 meanings.
 

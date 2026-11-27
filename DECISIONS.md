@@ -169,6 +169,7 @@ Decision: Approved as proposed. The software-substrate execution profile enters
 `specifications/` with v3.0.0; PR #131 merges in the order the v3.0.0 release
 proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
+Corrected before release in PR #233: three out-of-domain vectors, S54 to S56.
 
 ### D-010 · The consolidation block
 Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06 · approved 2026-10-23
@@ -193,6 +194,9 @@ Decision: Approved as proposed. The consequential-action execution and
 evidence specification, its schema and its vectors enter the set with v3.0.0;
 PR #139 merges in the order the v3.0.0 release proposal states.
 Provenance: proposed by Mike Storm; KAG as the reference implementation.
+Corrected before release in PR #233: thirteen schema vector ids numbered J12 to
+J24, the fingerprint digest's schema member named, and MIGRATION's `no_effect`
+sentence.
 
 ### D-013 · Three Risk Factor formulas no longer weight the Soul veto
 Published 2026-10-05 · Clarification · clock 2026-10-05 → floor 2026-10-12 · review-by 2026-10-19 · approved 2026-10-14
@@ -249,3 +253,166 @@ cumulative limit is evaluated across every request made under the
 delegation. No conformant implementation changes. PR #224 merges with this
 record.
 Provenance: proposed and carried into PR #224 by the maintainer.
+
+### D-019 · Nested zones: rings, enclosure depth, and the Enclosure Domain
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #159; PR #160
+Decision: Approved as proposed. KTP-ZONES defines nested zones as rings with
+an enclosure depth, an ingress path and egress shaping. KTP-SENSORS adds the
+Enclosure Domain, and KTP-FEDERATION retires Hierarchical Federation. *Parent*
+and *child* leave the zone vocabulary, with the migration notes a vocabulary
+change requires. PR #160 merges with this record.
+Provenance: proposed and carried into PR #160 by the maintainer.
+
+### D-020 · A person is a subject of the protocol; the External Root is a person
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #162; PR #165
+Decision: Approved as amended on 2026-11-08. A person is a subject of the
+protocol as an account in a zone. A person's standing is composed from the
+acts the person signed and bears on nothing outside the protocol. Behind every
+root instrument stands a person, and behind the person an employer, a
+licensing body or a board. People sponsor people, and persons stake on agents.
+The vocabulary mapping is in MIGRATION. PR #165 merges with this record.
+Provenance: proposed and carried into PR #165 by the maintainer.
+
+### D-021 · `moment_criticality` leaves the Risk Factor
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #161; PR #164
+Decision: Approved as proposed. The Risk Factor aggregates five weighted
+inputs. `moment_criticality` becomes a declared demand-side input that raises A
+only and never enters R, and an absent or stale value reads as the most
+critical moment. L14 states the rule for a demand input. The weight profiles
+and worked examples are renormalized over five inputs. PR #164 merges with
+this record.
+Provenance: proposed and carried into PR #164 by the maintainer.
+
+### D-022 · Conformance is claimed, not certified
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #163; PR #166
+Decision: Approved as proposed. In KTP-CONFORMANCE, Status Label, Conformance
+Claim and Independent Party replace Certification, Self-Certification and
+Third-Party Certification. Claim Status replaces the Certification Process,
+and the maintainer's own runs are never independent. The old-to-new mapping is
+in MIGRATION. The Standard Oracle-mesh row reads four nodes, as its
+requirement already did. PR #166 merges with this record.
+Provenance: proposed and carried into PR #166 by the maintainer.
+
+### D-023 · L11: normative content restricts and never widens
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #167; PR #168
+Decision: Approved as proposed. Under KTP-CORE L11, norm content restricts
+and never widens any outcome the specification orders. A favorable verdict
+satisfies only the gate it answers, for the whole action and the actor it
+adjudicated. A rail releases only the increment it raised, and never below the
+level derived from the environment. The adjudication token schema and its vectors enter the set. PR #168 merges with
+this record.
+Provenance: proposed and carried into PR #168 by the maintainer.
+
+### D-024 · L15: composition across requests is not yet required
+Published 2026-10-13 · MAJOR · floor 2026-11-26 · review-by 2027-01-09 · approved 2026-11-26
+Source: issue #169; PR #170
+Decision: Approved as proposed. KTP-CORE L15 states that evaluation runs one
+request at a time and that nothing yet bounds the combined consequence of a
+split across requests. A per-request limit MUST NOT be presented as a bound on
+combined consequence. PR #170 merges with this record.
+Provenance: proposed and carried into PR #170 by the maintainer.
+
+### D-025 · Every Proof of Resilience friction boundary is exact
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #150; PR #193
+Decision: Approved as proposed. KTP-IDENTITY places each friction boundary in
+exactly one interval, from CALM (0 ≤ R ≤ 0.3) to CRISIS (0.9 ≤ R ≤ 1.0). An R
+that is out of range or not finite is rejected, and so is a declared category
+that does not match its interval. GOODHART-003's thresholds become inclusive.
+The friction-boundary vectors enter the set. PR #193 merges in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #193.
+
+### D-026 · A sponsor reference is not a sponsor's Agent URI
+Published 2026-10-10 · Vocabulary · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #149; PR #194
+Decision: Approved as proposed. KTP-IDENTITY gives the Agent identifier a
+grammar and byte equality. The sponsored identifier's first segment becomes
+`sponsor_ref`, an opaque reference that MUST NOT establish sponsorship.
+Sponsorship binds only through a complete sponsor URI, of an agent or a
+person. The old-to-new mapping is in KTP-IDENTITY and MIGRATION. PR #194 merges
+in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #194.
+
+### D-027 · One canonical v3 Trust Proof
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #151; PR #195
+Decision: Approved as proposed. The Trust Proof specification, its schema and
+its vectors enter the set as the one definition of the v3 Trust Proof: the
+media type `application/ktp-trust-proof+jwt`, a header of `alg`, `kid` and
+`typ` only, a lifetime of at most ten seconds, size limits, the gate states
+`clear`, `veto` and `undetermined`, and ordered verification stages with
+stable reasons. KTP-CORE points to it in place of its own claim list. PR #195
+merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #195.
+
+### D-028 · External Root variants and their projection into the proof
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #157; PR #201
+Decision: Approved as proposed. The External Root specification, the
+root-instrument schema and their vectors enter the set. A Trust Proof declares
+whether its subject is a software agent or a person, and a root instrument's
+projection names the person behind it and the terminator. A subject with no
+root credit has its E_base capped at 70 and carries the
+`external_root_missing` ceiling. This carries D-020 into the proof. PR #201
+merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #201.
+
+### D-029 · An ordinary request is bound to its Trust Proof evidence
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #152; PR #196
+Decision: Approved as proposed. The request-binding specification, its two
+schemas and its vectors enter the set. Ordinary software authorization MUST
+use the canonical request binding, and the PEP takes Soul status from the
+proof that the association step verified. PR #196 merges in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #196.
+
+### D-030 · A canonical Decision Geometry record
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #153; PR #197
+Decision: Approved as proposed. The Decision Geometry specification, its
+record and carrier schemas and its vectors enter the set. Decision Geometry is
+the portable, deterministic evaluation record. It is distinct from Flight
+Recorder storage, from a Trajectory Chain record and from the execution
+outcome. A consumer MAY tighten a result and MUST NOT lower a veto. PR #197
+merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #197.
+
+### D-031 · Native v3 retires the stale v1 Transport wire definitions
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #156; PR #200
+Decision: Approved as proposed. Native v3 transport MUST support the
+`ktp-json-jws-v1` base profile of the native-transport specification, which
+enters the set with its vectors. KTP-TRANSPORT's v1 encoding block is removed.
+PR #200 merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #200.
+
+### D-032 · A per-operation demand supplier contract
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #147; PR #202
+Decision: Approved as proposed. The demand-supplier specification, its
+schemas and its vectors enter the set. A deployment that uses
+`moment_criticality` declares its supplier, who is neither the requester nor a
+party acting for it, with the supplier's profile, source, unit, range,
+freshness and verification profile; an undeclared input that an operation
+requires reads as unavailable. KTP-CORE L14 is converted by this contract. PR #202 merges in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #202.
+
+### D-033 · One missing-evidence contract, from feed to Risk Factor
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-26
+Source: issue #148; PR #203
+Decision: Approved as proposed, with the backup-continuity requirements added
+to PR #203 on 2026-11-17. The missing-evidence specification, the
+evidence-state schema and their vectors enter the set. Missing members and
+their weights are not dropped. Slots and weights are fixed before evaluation,
+with a finite, positive denominator. A backup fills a slot only with coverage
+established as independent and equivalent, and one observation never fills
+two slots. PR #203 merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #203.

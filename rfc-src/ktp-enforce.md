@@ -39,6 +39,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-AUDIT:
     title: "Kinetic Trust Protocol - Flight Recorder Specification"
     author:
@@ -161,9 +165,9 @@ The standard enforcement flow for every action follows. A person's Trust Tier de
 
 1. The PEP intercepts the request and authenticates principal type, identity, session, the actual executing actor, and the resolved request scope and parameters. Dispatch follows the authenticated executor; software executing for a human remains subject to software-agent requirements.
 
-1. PEP validates Trust Proof signature and lifetime: 0 < exp - iat <= 10 seconds and iat <= current_time < exp; invalid or unverifiable timestamps or current time, or any failed check, return silent_veto with reason INVALID_TRUST_PROOF and STOP
+1. For ordinary software execution, PEP applies specifications/request-binding.md Section 7 (Ordered association failures), including the canonical Trust Proof verification at its defined stage. Construct the request from the authenticated actual invocation, bind the proof to the executor, verify delegation where requester and executor differ, and reserve the request ID under the authenticated replay domain. Any failed association, invalid proof, TP_VETO or TP_UNDETERMINED returns silent_veto and STOP, preserving the association and underlying proof reasons. RB_BOUND permits only the remaining checks. For direct human execution, the reviewed adapter MUST perform the canonical Trust Proof verification under specifications/trust-proof.md Section 5, including issuer, subject, audience, current time and gate checks, and bind that exact proof to the actual human request before the next step. This software request profile does not replace that adapter.
 
-1. The PEP verifies the proof's trusted issuer/key, applicable format, audience/session/request binding and replay conditions, then extracts the authenticated Soul constraint status. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
+1. The PEP extracts the authenticated Soul constraint status from the proof already verified by the software association step or the direct-human adapter in the preceding step. For human integration, the reviewed adapter MUST additionally authenticate and bind the complete human eligibility decision body to that proof, exact request, authenticated actor, installed human/deployment profiles, and current evidence epoch/status. The body is an unsigned prerequisite, not an authorization token or replacement proof.
 
 1. IF S = 1: - supervision = silent_veto, reason SOVEREIGNTY_CONSTRAINT - Log to Flight Recorder - STOP
 
@@ -222,6 +226,8 @@ Every KTP-compliant PEP MUST:
 
 1. Intercept all agent requests before they reach protected resources
 
+1. For each ordinary software evaluation, verify the canonical request/proof association under specifications/request-binding.md. An unsigned association is no permission to cross a trust boundary; verify the approved signed carrier or deny. Retain all capacity, grant, readiness and use-time checks
+
 1. Require a valid Trust Proof for every ordinary request (no Trust Proof = deny by default); independently authorized emergency capability uses the separate path in `specifications/emergency-capability.md`
 
 1. Validate Trust Proof signature against known Trust Oracle keys
@@ -239,6 +245,13 @@ Every KTP-compliant PEP MUST:
 1. Return appropriate error responses with KTP headers
 
 1. Support Trust Proof refresh/forwarding for downstream services
+
+Native proof validation MUST follow
+[Canonical Trust Proof Contract](../specifications/trust-proof.md), including
+closed claims, trusted issuer/audience/key-role bindings and ordered reasons.
+The local INVALID_TRUST_PROOF envelope MAY wrap its stable failure reason;
+it MUST NOT discard that reason from the authenticated audit record or treat
+an authenticated veto/undetermined assertion as a clear gate.
 
 An existing session, queued action, low-risk classification, unavailable Oracle, or enclosing token lifetime MUST NOT extend an ordinary Trust Proof. PEPs MUST revalidate the proof at execution and MUST NOT restore or prolong expired authority after clock rollback. If current validity cannot be established, the proof MUST NOT authorize an action. Continuing actions MUST refresh their proofs or cease ordinary operation through a previously declared bounded safe transition; the transition MUST NOT continue the original task or authorize new discretionary actions. Any independently authorized emergency action follows `specifications/emergency-capability.md` and remains subject to its Soul, capacity, audit, and policy-change controls.
 
@@ -674,6 +687,8 @@ Tier Demotion (E_trust decreases):
 - In-flight operations may be interrupted
 - Agent should implement graceful capability shedding
 - Logged to Flight Recorder with context
+
+After a breach, the tier follows the ceiling on standing that {{KTP-REPAIR}} specifies: an actor whose standing is ceilinged at re-entry is promoted only as acts recorded after its reconciliation record lift the ceiling, and a tier cap applied with the standing untouched is no cost.
 
 Hysteresis (optional):
 

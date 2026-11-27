@@ -15,8 +15,13 @@ the source.
 |---|---|---|
 | Risk Factors v3 (unreleased) | [`risk-factors.json`](risk-factors.json) | The five weighted inputs and the Soul veto, as one scored object |
 | Legacy Risk Factors v2 | [`risk-factors-legacy-v2.json`](risk-factors-legacy-v2.json) | Byte-preserved published schema with six weighted inputs, for interpreting v2 proofs and records |
-| Trust Proof v3 (unreleased) | [`trust-proof.json`](trust-proof.json) | The token an agent presents, and the claims it must carry; its context is the five-input object |
+| Root Instrument v1 (proposed) | [`root-instrument.json`](root-instrument.json) | Closed none/bond/attestation proof projection; signatures, lifecycle, lineage and strongest-single selection remain independent checks |
+| Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Legacy Trust Proof v2 | [`trust-proof-legacy-v2.json`](trust-proof-legacy-v2.json) | Byte-preserved published schema for interpreting v2 proofs, whose context carries six inputs |
+| Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |
+| Request/Proof Association v1 (proposed) | [`request-proof-association.json`](request-proof-association.json) | Unsigned request/proof digest and JTI association; no standalone authorization or signed carrier |
+| Decision Geometry v1 (proposed) | [`decision-geometry.json`](decision-geometry.json) | Closed portable deterministic evaluation; inputs, undefined states, gates, supervision and tightened constraints; not a permit or execution outcome |
+| Decision Geometry Carrier v1 (proposed) | [`decision-geometry-carrier.json`](decision-geometry-carrier.json) | Complete payload of the purpose-typed signed boundary carrier; no independent execution authority |
 | Demand Input Contract v1 (proposed) | [`demand-input-contract.json`](demand-input-contract.json) | Closed independently supplied demand declaration; no factor weight or Context Signals |
 | Demand Operation v1 (proposed) | [`demand-operation.json`](demand-operation.json) | Exact actual invocation before criticality and final demand calculation |
 | Demand Input Value v1 (proposed) | [`demand-input-value.json`](demand-input-value.json) | Authoritative value payload bound to supplier/profiles, time, provenance and actual operation; authentication remains separate |
@@ -31,7 +36,7 @@ the source.
 | Sensor Configuration v3 (unreleased) | [`sensor-config.json`](sensor-config.json) | A feed's identity, refresh and failure behavior; its dimension is one of the five weighted inputs or the veto |
 | Legacy Sensor Configuration v2 | [`sensor-config-legacy-v2.json`](sensor-config-legacy-v2.json) | Byte-preserved published schema, whose dimension enum includes moment_criticality, for interpreting v2 configurations |
 | Soul Constraint | [`soul-constraint.json`](soul-constraint.json) | The veto: present or absent, never a seventh weight |
-| Transaction Record v3 (unreleased) | [`transaction-record.json`](transaction-record.json) | Complete canonical record and staged JWS envelopes; signatures and authenticated head evidence require separate verification |
+| Transaction Record v3 (unreleased) | [`transaction-record.json`](transaction-record.json) | Trajectory Chain record, not Decision Geometry; complete canonical transition and staged JWS envelopes, with separate signature/head verification |
 | Legacy Transaction Record v2 | [`transaction-record-legacy-v2.json`](transaction-record-legacy-v2.json) | Byte-preserved historical schema for archive interpretation; not a v3 authority acceptance path |
 | Sponsorship Bond | [`sponsorship-bond.json`](sponsorship-bond.json) | What a guarantor stakes, and on whom |
 | Adjudication Token (unreleased) | [`adjudication-token.json`](adjudication-token.json) | The normative rail's verdict on a declared gate, bound by digest to the action, actor, grant, evidence, zone and epoch it judged; favorable or not, nothing else |

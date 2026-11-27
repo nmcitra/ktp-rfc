@@ -167,7 +167,7 @@ Every member MUST verify the authenticated configuration and evidence before cou
 - `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
-The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) rides the #71/#83 schema gate; this definition is that gate's cargo.
+The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Native v3 portable carriage is defined by [Decision Geometry](decision-geometry.md) and schemas/decision-geometry.json, not transaction-record.json. The closed Trust Proof does not acquire an undeclared undefined_inputs claim; its gate state remains the canonical proof contract's assertion. Historical/product audit formats retain their own provenance and cannot be relabeled as native geometry.
 
 ## Conformance
 

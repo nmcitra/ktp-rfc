@@ -48,6 +48,7 @@ DOMAINS = ["world", "information", "time", "soul", "relational", "body",
            "meta"]
 PROFILE_SCHEMA = json.loads((ROOT / "schemas/deployment-profile.json").read_text())
 FACTORS = PROFILE_SCHEMA["properties"]["risk_factors"]["required"]
+DEMAND_INPUTS = list(PROFILE_SCHEMA["properties"]["demand_inputs"]["properties"])
 
 
 EXAMPLE = {

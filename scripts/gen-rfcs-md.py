@@ -5,7 +5,7 @@ rfc-src/ is kramdown-rfc SOURCE, not something meant to be read raw: it
 carries a front-matter block (title, docname, category, author, the
 normative/informative reference table) and three bare section markers
 (--- abstract / --- middle / --- back) that the kramdown-rfc + xml2rfc
-toolchain consumes to build the five Internet-Draft-formatted specifications. Neither
+toolchain consumes to build the six Internet-Draft-formatted specifications. Neither
 GitHub's file viewer nor MkDocs strips this — browse rfc-src/ktp-core.md
 directly and the front matter renders as a garbled text dump, and the
 markers render as stray "--- abstract" lines in the middle of the page.
@@ -31,7 +31,7 @@ What the strip does:
   - --- middle .. --- back (or EOF if no --- back) is the body
   - --- back .. EOF, if present, is appended after the body
   - {{TOKEN}} citations -> [TOKEN] — matches the bracket form
-    xml2rfc's own .txt output already uses for the five I-D-formatted specs
+    xml2rfc's own .txt output already uses for the six I-D-formatted specs
   - kramdown's markdown-link-escaping (\\[ \\]) -> plain brackets;
     needed only inside the kramdown-rfc toolchain, not for a commonmark
     renderer
@@ -84,8 +84,8 @@ def render(text, name):
 
 INDEX_HEADER = """# Kinetic Trust Protocol — Specifications
 
-The 27 KTP specifications. Five are formatted as Internet-Drafts and are also
-available as generated plain-text RFCs in `rfcs-txt/`; all 27 are rendered
+The 28 KTP specifications. Six are formatted as Internet-Drafts and are also
+available as generated plain-text RFCs in `rfcs-txt/`; all 28 are rendered
 here for reading on the documentation site.
 
 """
@@ -93,7 +93,7 @@ here for reading on the documentation site.
 
 def build_index(names):
     filed = {"ktp-core", "ktp-identity", "ktp-problems", "ktp-enforce",
-             "ktp-conformance"}
+             "ktp-conformance", "ktp-repair"}
     lines = [INDEX_HEADER]
     for name in names:
         text = open(os.path.join(SRC, f"{name}.md"), encoding="utf-8").read()

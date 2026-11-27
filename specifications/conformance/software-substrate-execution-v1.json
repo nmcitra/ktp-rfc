@@ -3749,6 +3749,222 @@
         }
       },
       "stage": "signature_binding"
+    },
+    {
+      "id": "S54-novelty-out-of-domain",
+      "note": "Novelty below the declared domain is undefined.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10,
+            "irreversibility": 0.1,
+            "novelty": -0.1,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S55-latency-not-integer",
+      "note": "A latency that is not a safe integer is outside the declared domain and undefined.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": 10.5,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
+    },
+    {
+      "id": "S56-latency-not-number",
+      "note": "A latency that is not a number is outside the declared domain and undefined.",
+      "request": {
+        "resource": "software:///test-object",
+        "action": "replace",
+        "softwareContext": {
+          "magnitudes": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "conditions": {
+            "resourcePressure": 0.1,
+            "controlLatencyMs": true,
+            "irreversibility": 0.1,
+            "novelty": 0,
+            "repairPathVerified": true,
+            "supervisionAvailable": true
+          },
+          "nowMs": 100000,
+          "observedAtMs": 99000,
+          "maxAgeMs": 3000,
+          "proofIssuedAtMs": 99000,
+          "proofExpiresAtMs": 109000,
+          "decisionExpiresAtMs": 101000,
+          "candidateEnvelope": {
+            "autonomyDemand": 0.2,
+            "environmentalCapacity": 1,
+            "capacityKnown": true,
+            "supervision": "stable",
+            "ceilings": {
+              "effectBytes": 1024,
+              "affectedObjects": 1,
+              "fanoutTargets": 1
+            }
+          },
+          "existingSupervision": "stable",
+          "existingCeilings": {
+            "effectBytes": 1024,
+            "affectedObjects": 1,
+            "fanoutTargets": 1
+          },
+          "trustedFixtures": {
+            "ordinaryAuthorization": true,
+            "signatureVerified": true,
+            "requestMatches": true,
+            "destinationMatches": true,
+            "authorityClassMatches": true,
+            "proofMatches": true,
+            "profileMatches": true,
+            "policyMatches": true,
+            "evidenceMatches": true,
+            "prerequisitesCurrent": true,
+            "epochCurrent": true,
+            "sourceAuthenticated": true,
+            "sourceHealthy": true,
+            "sequenceCurrent": true,
+            "trustedTime": true,
+            "restrictionContinuity": true,
+            "unresolvedRestriction": false,
+            "revoked": false,
+            "scaleMatches": true
+          },
+          "conservativeEstimateDeclared": false
+        }
+      },
+      "expect": {
+        "decision": "deny",
+        "undefinedRecorded": true
+      }
     }
   ],
   "schemaFixtureNote": "Synthetic shape-only fixture. Digest strings and JWS segments are placeholders, not verified digests, a valid signature or an ordinary proof. It must never be used as authority. schemaVectors apply each isolated mutation to a fresh copy; omitted mutation means unchanged. Schema acceptance does not imply temporal, binding, token-representation or cryptographic acceptance.",

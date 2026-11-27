@@ -1,6 +1,6 @@
 # Native JSON/JWS Transport
 
-**Proposed, unreleased ktp-json-jws-v1 transport contract.**
+**Status: unreleased normative companion.**
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and
 "MAY" are interpreted as described in BCP 14 (RFC 2119 and RFC 8174).

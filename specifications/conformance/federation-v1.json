@@ -1,0 +1,462 @@
+{
+  "suite": "federation-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-FEDERATION Section 1.4 (The Rule) and Section 5.1 (Agreement Structure)",
+  "note": "Normative downstream requirements for the federation rule and the Federation Agreement. This repository contains no gateway, Oracle or federation runtime: these vectors fix the decisions a conformant deployment produces at the boundaries KTP-FEDERATION names and define no formula. given/expect are test notation, not wire fields; an agreement shown in `given` is the signed Federation Agreement for the case, and a clause is shown by its effect. Digests and signatures are placeholders of the correct shape. All other applicable checks pass unless a vector states otherwise.",
+  "vectors": [
+    {
+      "id": "FD01-veto-delegation-clause-void",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "clauses": [
+            {
+              "id": "c7",
+              "effect": "zone-b accepts zone-a Silent Veto decisions as its own"
+            }
+          ]
+        },
+        "act": {
+          "zone": "zone-b",
+          "A": 40,
+          "E_trust": 70
+        }
+      },
+      "expect": {
+        "clause": "c7",
+        "clauseVoid": true,
+        "agreementStands": true,
+        "decision": "PERMIT",
+        "decidedBy": "zone-b"
+      },
+      "reason": "A clause that delegates, waives, or overrides a veto is void and the agreement otherwise stands; the act is evaluated by the zone in which it executes."
+    },
+    {
+      "id": "FD02-foreign-proof-without-local-evaluation",
+      "given": {
+        "receivingZone": "zone-b",
+        "foreignProof": {
+          "issuer": "zone-a",
+          "e_trust": 80,
+          "valid": true
+        },
+        "localEvaluation": null,
+        "act": {
+          "zone": "zone-b",
+          "A": 60
+        }
+      },
+      "expect": {
+        "decision": "DENY",
+        "reason": "no local evaluation"
+      },
+      "reason": "A foreign Trust Proof is evidence the receiving zone weighs under its own policy and is never that zone's evaluation; no act executes on a foreign clearance alone."
+    },
+    {
+      "id": "FD03-arbitration-award-directing-permit",
+      "given": {
+        "award": {
+          "arbitrator": "arb-1",
+          "signed": true,
+          "terms": [
+            "zone-b permits agent:x data_write on resource:r"
+          ]
+        },
+        "act": {
+          "zone": "zone-b",
+          "actor": "agent:x",
+          "A": 75,
+          "E_trust": 50
+        }
+      },
+      "expect": {
+        "awardBindsAct": false,
+        "decision": "DENY",
+        "decidedBy": "zone-b"
+      },
+      "reason": "An award binds a zone's standing in the federation or evidence, never an act; the local evaluation governs and A exceeds E."
+    },
+    {
+      "id": "FD04-severance-local-act-continues",
+      "given": {
+        "severance": {
+          "severingZone": "zone-a",
+          "severedZone": "zone-b",
+          "effective": "IMMEDIATE"
+        },
+        "acts": [
+          {
+            "zone": "zone-b",
+            "actor": "agent:y",
+            "A": 30,
+            "E_trust": 70,
+            "crossZone": false
+          },
+          {
+            "zone": "zone-b",
+            "actor": "agent:y",
+            "A": 30,
+            "E_trust": 70,
+            "crossZone": true,
+            "target": "zone-a"
+          }
+        ]
+      },
+      "expect": {
+        "decisions": [
+          "PERMIT",
+          "DENY"
+        ]
+      },
+      "reason": "Severance ends the severing zone's acceptance of the other and binds nothing within it; the act inside zone-b proceeds under zone-b's gate and the cross-zone act is no longer accepted by zone-a."
+    },
+    {
+      "id": "FD05-link-loss-does-not-stop-evaluation",
+      "given": {
+        "receivingZone": "zone-b",
+        "federationLink": {
+          "peer": "zone-a",
+          "status": "unreachable",
+          "missedHeartbeats": 9
+        },
+        "act": {
+          "zone": "zone-b",
+          "actor": "agent:local",
+          "A": 20,
+          "E_trust": 65,
+          "crossZone": false
+        }
+      },
+      "expect": {
+        "decision": "PERMIT",
+        "evaluated": true
+      },
+      "reason": "The loss of a federation link MUST NOT stop a zone's evaluation of acts within it."
+    },
+    {
+      "id": "FD06-unsigned-federation-decision-binds-nothing",
+      "given": {
+        "decision": {
+          "type": "trust_factor_change",
+          "from": "hub",
+          "signature": null,
+          "newFactor": 0.4,
+          "direction": "zone-a-to-zone-b"
+        },
+        "signedFactor": {
+          "direction": "zone-a-to-zone-b",
+          "value": 0.85,
+          "signedBy": "zone-b"
+        }
+      },
+      "expect": {
+        "appliedFactor": 0.85,
+        "decisionBinds": false
+      },
+      "reason": "A decision a federation moves carries the signature of the body that made it; an unsigned federation decision binds no zone."
+    },
+    {
+      "id": "FD07-standing-change-contestable",
+      "given": {
+        "decision": {
+          "type": "trust_factor_change",
+          "signedBy": "zone-b",
+          "direction": "zone-a-to-zone-b",
+          "old": 0.85,
+          "new": 0.6
+        },
+        "subject": {
+          "id": "agent:x",
+          "standingInZoneB": {
+            "before": 68,
+            "after": 48
+          }
+        },
+        "reviewRoute": {
+          "zone": "zone-b",
+          "published": true,
+          "responseDeadline": "P14D"
+        }
+      },
+      "expect": {
+        "contestable": true,
+        "routeZone": "zone-b",
+        "deadline": "P14D",
+        "correctionRequiresFreshEvaluation": true
+      },
+      "reason": "A federation decision that changes a subject's standing in a zone is contestable under that zone's review route, with that route's deadlines."
+    },
+    {
+      "id": "FD08-side-letter-is-not-a-term",
+      "given": {
+        "agreement": {
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "directions": {
+            "zone-a-to-zone-b": 0.7
+          }
+        },
+        "sideLetter": {
+          "signedBy": [
+            "zone-a"
+          ],
+          "effect": "zone-b applies factor 0.95 to zone-a subjects"
+        }
+      },
+      "expect": {
+        "appliedFactor": 0.7,
+        "sideLetterIsTerm": false
+      },
+      "reason": "Nothing outside the signed Federation Agreement is a term."
+    },
+    {
+      "id": "FD09-unilateral-amendment-raising-factor",
+      "given": {
+        "agreement": {
+          "version": "1.0",
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "directions": {
+            "zone-a-to-zone-b": 0.7
+          }
+        },
+        "amendment": {
+          "version": "1.1",
+          "signedBy": [
+            "zone-a"
+          ],
+          "directions": {
+            "zone-a-to-zone-b": 0.9
+          }
+        }
+      },
+      "expect": {
+        "activeVersion": "1.0",
+        "appliedFactor": 0.7
+      },
+      "reason": "An amendment is a new version signed by both parties; a party acting alone may lower, suspend, sever, or let expire, and nothing else."
+    },
+    {
+      "id": "FD10-person-standing-crosses-only-as-provided",
+      "given": {
+        "agreement": {
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "crosses": {
+            "attestationTypes": [
+              "passage",
+              "exit"
+            ],
+            "trajectories": false,
+            "personStanding": null
+          }
+        },
+        "crossing": {
+          "subject": "person:p1",
+          "kind": "standing",
+          "from": "zone-a",
+          "to": "zone-b"
+        }
+      },
+      "expect": {
+        "crossingAccepted": false
+      },
+      "reason": "Whether and on what terms a person's standing crosses is a required cell; absent it, a person's standing does not cross."
+    },
+    {
+      "id": "FD11-sovereignty-constraint-not-enforced-by-receiver",
+      "given": {
+        "agreement": {
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "sovereigntyEnforced": {
+            "zone-a": [
+              "tk-label:attribution",
+              "consent-state"
+            ],
+            "zone-b": [
+              "consent-state"
+            ]
+          }
+        },
+        "crossing": {
+          "kind": "data",
+          "constraints": [
+            "tk-label:attribution"
+          ],
+          "from": "zone-a",
+          "to": "zone-b"
+        }
+      },
+      "expect": {
+        "crossingAccepted": false
+      },
+      "reason": "Data under a sovereignty constraint a receiving party does not enforce MUST NOT cross."
+    },
+    {
+      "id": "FD12-expired-agreement-cached-proof",
+      "given": {
+        "agreement": {
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "expires": "2026-10-01T00:00:00Z"
+        },
+        "now": "2026-10-02T00:00:00Z",
+        "cachedForeignProof": {
+          "issuer": "zone-a",
+          "exp": "2026-10-02T00:00:05Z"
+        },
+        "act": {
+          "zone": "zone-b",
+          "A": 30,
+          "crossZone": true,
+          "from": "zone-a"
+        }
+      },
+      "expect": {
+        "decision": "DENY",
+        "agreementActive": false
+      },
+      "reason": "Expiry ends both parties' acceptance; no cache, session, or declaration extends authority beyond the signed agreement's claims."
+    },
+    {
+      "id": "FD13-missing-required-cell",
+      "given": {
+        "agreement": {
+          "parties": [
+            {
+              "zone": "zone-a",
+              "terminator": "org:a",
+              "signingAuthority": "CISO"
+            },
+            {
+              "zone": "zone-b",
+              "terminator": null,
+              "signingAuthority": null
+            }
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "effective": "2026-10-01T00:00:00Z"
+        }
+      },
+      "expect": {
+        "agreementActive": false,
+        "missing": [
+          "parties[1].terminator",
+          "parties[1].signingAuthority"
+        ]
+      },
+      "reason": "The agreement MUST name each party by the terminator of its accountability chain, with the signing authority that answers for it; an agreement missing a required cell does not take effect."
+    },
+    {
+      "id": "FD14-hub-template-factor-unsigned-by-spoke",
+      "given": {
+        "hubTemplate": {
+          "signedBy": [
+            "hub"
+          ],
+          "directions": {
+            "zone-a-to-spoke-2": 0.9
+          }
+        },
+        "spoke2Signed": {
+          "directions": {}
+        },
+        "crossing": {
+          "subject": "agent:x",
+          "attestedBaseTrust": 80,
+          "from": "zone-a",
+          "to": "spoke-2"
+        }
+      },
+      "expect": {
+        "appliedFactor": null,
+        "treatedAs": "unfederated",
+        "routes": [
+          "sponsorship",
+          "quarantine"
+        ]
+      },
+      "reason": "A receiving zone applies no trust factor it did not sign; a subject arriving on a direction the receiver never signed is unfederated and takes the sponsorship or quarantine route."
+    },
+    {
+      "id": "FD15-visibility-of-relationship-and-factor",
+      "given": {
+        "agreement": {
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "directions": {
+            "zone-a-to-zone-b": 0.7,
+            "zone-b-to-zone-a": 0.5
+          },
+          "confidential": [
+            "dispute_resolution",
+            "incident_notification"
+          ]
+        },
+        "reader": {
+          "subject": "agent:x",
+          "zone": "zone-b"
+        }
+      },
+      "expect": {
+        "visible": {
+          "exists": true,
+          "directions": {
+            "zone-a-to-zone-b": 0.7,
+            "zone-b-to-zone-a": 0.5
+          }
+        },
+        "confidentialWithheld": true
+      },
+      "reason": "The existence of the agreement and each direction's factor MUST be visible to the subjects of both zones; the remainder MAY be confidential under scoped disclosure."
+    },
+    {
+      "id": "FD16-evaluation-input-coordination-not-required",
+      "given": {
+        "federationPolicy": {
+          "requires": [
+            "trust_proof_format",
+            "ktp_version"
+          ],
+          "offers": [
+            "trust_tier_thresholds"
+          ]
+        },
+        "zone": "zone-b",
+        "localTierThresholds": {
+          "operator": 88
+        }
+      },
+      "expect": {
+        "conformant": true,
+        "zoneThresholdsApplied": {
+          "operator": 88
+        }
+      },
+      "reason": "A federation MAY require coordination of formats and versions and MUST NOT require coordination of the inputs to a zone's evaluation; the zone's own thresholds apply."
+    }
+  ]
+}

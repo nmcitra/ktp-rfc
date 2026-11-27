@@ -1,5 +1,52 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased v3 PoR boundary migration (from v2.1.0):**
+Use the exact intervals in [KTP-IDENTITY] Section 5.2 (Friction Categories).
+GOODHART-003 now includes exact-boundary attestations: an attestation at exactly
+R = 0.5 counts toward E_base above 60, and one at exactly R = 0.7 counts
+toward E_base above 80. Apply these inclusive thresholds in v3 evaluations
+without rewriting signed historical records.
+Non-boundary categories are unchanged. At 0.5, 0.7, and 0.9 the upper category
+applies; at 0.3 CALM applies and an ordinary success earns no new attestation.
+Preserve every original signed historical record. For historical ordinary-success
+attestations at exactly R = 0.3, a deployment MUST explicitly declare either
+(a) grandfathered credit evaluated only under an identified, tagged v2
+calculation profile, or (b) zero credit in its v3 evaluation. Grandfathered
+credit MUST NOT be represented as credit earned under the v3 intervals. If the
+tagged profile and prior credit cannot be established, v3 credit is zero.
+Record the migration choice, affected records, prior profile and credit where
+known, and resulting credit with authenticated authority and provenance in an
+appended migration record. Do not modify signed history or silently change its
+category. Reevaluate other exact-boundary records under the declared calculation
+profile and record any credit change with the same provenance. The vectors
+specify new ordinary successes, not retroactive issuance or automatic changes
+to graceful-degradation or recovery attestations.
+
+**Unreleased v3 sponsored-identifier migration (from v2.1.0):**
+The old-to-new vocabulary mapping is in [KTP-IDENTITY] Section 9.2.3
+(Old-to-new vocabulary mapping). The identifier segment formerly called
+sponsor_id is now sponsor_ref; the bond field sponsor_id remains a complete
+sponsor URI (agent or person). Each endpoint must identify its actual authenticated
+subject: a canonical Agent URI for an agent, or a person: URI for a person under
+the applicable identity contract. The opaque sponsor_ref grammar is unchanged.
+Existing canonical example-form identifiers keep their bytes.
+Stop deriving sponsor identity from the embedded reference. Validate the bond
+and require exact equality of the evaluated subject, proof sub and bond
+sponsored_id, and separately of proof sponsor and bond sponsor_id.
+
+Preserve all legacy signed identifiers, bonds, proofs and trajectory records.
+Do not normalize or rename their bytes in place. A legacy identifier outside
+the v3 grammar cannot be presented as a v3 identifier. If moving
+such a subject to v3, obtain a newly authenticated canonical identity
+binding and a newly signed bond and proof referencing it under the applicable
+identity and trajectory migration process. Explicitly record the old/new
+identity relationship and the authority for it; the mapping alone grants no
+sponsorship or carried standing. Retain the old artifacts as legacy history.
+Never infer a complete sponsor URI from a historical segment to manufacture a
+new bond. An absent or unverifiable migration binding fails closed for v3
+sponsorship. Verification under an identified tagged v2 release remains
+verification under that release, not v3 sponsorship.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
@@ -123,8 +170,8 @@ redefine E or widen the profile result. Adopt the signed evidence record and its
 five states. A denial without authenticated protected-path non-dispatch evidence
 is `unknown`; neither HTTP success nor a dispatch record proves an effect.
 Release held reservations only on authenticated non-dispatch, preserving uncertain
-state. An earlier implementation must not silently map `no_effect` to dispatch or
-release a reservation on it. D-012 is opt-in and does not itself change obligations
+state. An implementation must not map `no_effect` to dispatch or release a
+reservation on it. D-012 is opt-in and does not itself change obligations
 for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally
@@ -166,6 +213,39 @@ Two defects in v1.0.x that you should treat as live until you migrate are in
 [`SECURITY-NOTES.md`](SECURITY-NOTES.md).
 
 ---
+
+
+**Unreleased KTP-REPAIR migration:** A deployment adds five things. It records,
+for each actor, whether its trajectory is in Breach and the anchor of the breach
+record, by the three entries KTP-REPAIR enumerates; it treats no Silent Veto as
+a breach. It adds the `reconciliation` Flight Recorder record type with the
+fields KTP-REPAIR specifies, anchored like every other record, and refuses to
+re-establish readiness or re-enter a tier at or above the breach tier until one
+is anchored. It applies a ceiling on base standing at re-entry, declared per
+entry class in its published profile (at least one tenth on a hard entry,
+non-decreasing on repetition within a lineage), lifted only by acts recorded
+after the record; an implementation that capped the tier and left standing
+untouched has applied no cost and must change. It publishes the route by which
+reconciliation is sought, treats seeking as a signed act, and refuses a
+Sponsorship Bond to a root above its declared unreconciled count. It declares
+its repair capacity per aggregation window and its criticality, measures and
+publishes the reproduction of breaches from its own chain, and reports the
+breach index (criticality times utilization of the declared capacity) as a
+source feeding adversarial pressure, computed from the obligation and repair
+signals the catalogue already carries; undeclared capacity is unknown capacity
+and takes the supervision floor.
+It declares its three repair tiers with the contingency each permits, caps one
+lineage's share of arrival, computes capacity as the lesser of declared and
+demonstrated, leaves a tier only by the recovery predicate, and declares a
+repair emergency only under the emergency specification's custodians.
+It declares how an affected party's declaration of unrepaired harm raises Δ,
+requires the breaching party's acknowledgment on every record, and treats a
+record brought to anchor within the declared repairer interval as not
+demonstrating capacity.
+
+An implementation of Relational's repair process that began at "parties agree
+repair is needed" changes that phase: the breaching party seeks, the affected
+party may attend. Nothing else in Relational changes.
 
 ## 1. Wire-format breaks
 
@@ -651,6 +731,35 @@ kramdown-rfc markdown. Only five ship a `.txt` — `ktp-core`, `ktp-identity`,
 asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
+
+**Unreleased federation-rule migration:** A federated deployment checks its
+agreements against the required and forbidden cells. A clause that delegates
+a veto, requires acceptance of a foreign evaluation, coordinates evaluation
+inputs, sets a factor above one or one the receiver did not sign, or binds an
+act inside the other zone is void on the day the rule lands; the agreement
+stands without it. A factor the deployment applied because the other side
+applied the same one is not signed and is not applied: each direction is
+re-signed by the zone that receives. A hub stops issuing evaluations for its
+spokes and stops setting their inbound factors. Arbitration awards that
+directed a zone to permit an act are reread as awards on standing in the
+federation or on evidence. Severance procedures that isolated or directed
+agents inside the other zone are rewritten to end the severing zone's own
+acceptance. A deployment whose evaluation stopped when a federation link
+dropped must evaluate without it. Every federation decision is signed by the
+body that made it, and a subject whose standing a federation decision changed
+has the zone's review route.
+
+**Unreleased charter-amendment migration:** A deployment publishes, in its
+charter, the route by which a lineage bound by a rule opens the amendment
+process, the deadline by which the governing authority attends a filing, and,
+in its profile, the recurrence at which the route opens. Its amendment
+procedure gains three checks it did not have: that the amendment cites the
+records it answers and, for a constant, the measurements; that making it is
+evaluated as the governor's own act before it is in force; and that it touches
+nothing on the floor, which now names the route, the recurrence, a veto, and
+what no repair tier may change beside the immutable elements. An amendment in
+flight on the day this lands is evaluated under these checks at ratification.
+No wire change.
 
 **Unreleased boundary migration:** Every deployment profile adds the `boundary`
 object: the resources the zone's authority covers, the subjects entitled to

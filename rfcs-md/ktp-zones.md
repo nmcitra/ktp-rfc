@@ -109,7 +109,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 70
 3. Full trajectory chain verification
 4. Guarantor lineage required (generation 7+)
-5. Continuous environmental sensing (all seven Risk Factor inputs)
+5. Continuous environmental sensing (all five weighted inputs and the Soul veto)
 6. Soul veto always active
 7. Threshold-signed Trust Proofs (minimum 3-of-5)
 8. Flight Recorder with cryptographic chaining
@@ -141,7 +141,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 50
 3. Trajectory chain verification (sampling)
 4. Independent or Guarantor lineage (generation 3+)
-5. Environmental sensing (five of the six weighted inputs)
+5. Environmental sensing (all five weighted inputs)
 6. Soul veto active for labeled data
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder required
@@ -173,7 +173,7 @@ Requirements:
 2. Minimum agent mass: E_base >= 30 OR sponsored
 3. Lightweight trajectory (last transaction only)
 4. Any lineage permitted
-5. Environmental sensing (three of the six weighted inputs)
+5. Environmental sensing (three of the five weighted inputs)
 6. Soul veto optional
 7. Trust Proofs signed by zone Oracle
 8. Flight Recorder recommended
@@ -310,8 +310,6 @@ Boundary enforcement:
 - Network-level: Firewall rules, routing policies
 - Application-level: API gateway enforcement
 - Service-level: Service mesh policies
-
-A zone MUST declare its boundary in its deployment profile: the resources its authority covers, the subjects entitled to hold standing in it, the classes of party outside it that acts within it may affect and the review route each is owed, the jurisdictions it operates under, and the limits of its authority. A Zone Gateway MUST deny an act on a resource the declaration does not cover and MUST deny standing to a subject the declaration does not entitle, and a denial that affects a party outside the zone MUST record the review route the declaration names for that party. A zone MUST NOT act beyond the authority its declaration limits, and a zone that declares no boundary makes no conformance claim. An enclosed zone's declared resources MUST NOT exceed its enclosure's. The declaration is the `boundary` object of the deployment profile (specifications/deployment-profile.md); its vectors are specifications/conformance/zone-boundary-v1.json.
 
 ## Zone Gateway
 

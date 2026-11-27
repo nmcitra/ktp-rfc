@@ -852,11 +852,11 @@ Recovery keys SHOULD be geographically distributed and held by different organiz
 
 ## HSM Requirements
 
-### Certification Requirements
+### FIPS Validation Requirements
 
 ~~~
 +---------+---------------------------------------------+
-| Level   | Minimum Certification                       |
+| Level   | Minimum validation                          |
 +---------+---------------------------------------------+
 | Level 1 | None (HSM optional)                         |
 | Level 2 | FIPS 140-2 Level 2                          |
@@ -939,6 +939,7 @@ Payload: { "iss": "zone:alpha", "sub": "agent:guarantor:7gen:optimized:a1b2c3d4"
        "evidence_density": 0.12,
        "trust_trend": 0.08,
        "adversarial_pressure": 0.22,
+       "moment_criticality": 0.05,
        "update_resistance": 0.18,
        "attestation_coverage": 0.10,
        "soul": 0

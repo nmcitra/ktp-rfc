@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Governance Specification"
 abbrev: "KTP-GOVERNANCE"
-date: 2026-10-14
+date: 2026-11-08
 category: exp
 ipr: trust200902
 
@@ -93,7 +93,7 @@ Governor actions have autonomy (A):
 
 Governors have environmental stability (E):
 
-- E = E_base * (1 - R)
+- E = E_base * (1 - R) for a governing system; for a person, the operational E the reviewed adapter authenticates (KTP-Core Section 4.1 (Definition))
 
 - Where R reflects governance context risk
 

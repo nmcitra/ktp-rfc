@@ -958,14 +958,14 @@ Reference implementation establishes baseline that proprietary implementations m
 
 C. CONFORMANCE TESTING
 
-KTP-CONFORMANCE defines certification requirements:
+KTP-CONFORMANCE defines status-labelled conformance claims:
 
-- Public test suites anyone can run
-- Self-certification allowed for Level 1-2
-- Third-party certification required for Level 3
+- Public test cases anyone can run
+- A claim is the implementer's own statement, carrying one of four status labels: proposed, specified, tested, independently reproduced
+- Level 3 requires independent reproduction of its specified test IDs
 - Interoperability plugfests (virtual and in-person)
 
-No vendor controls certification—it's based on passing published tests against published specifications.
+No vendor, and no body, certifies conformance—a claim is worth exactly the published runs it names against published specifications.
 
 D. STANDARDS BODY SUBMISSION
 
@@ -1527,7 +1527,7 @@ TECHNICAL BARRIERS:
 
 1. Capability Limitation (Architectural) - Some things KTP CANNOT do by design - Cannot correlate across zones without federation - Cannot identify humans from agent behavior - Cannot build social graphs
 
-1. Explicit Prohibition (Specification) - Prohibited uses enumerated in KTP-PRIVACY §6.2.3 - Implementations supporting prohibited uses are NON-CONFORMANT - Cannot use KTP branding/certification
+1. Explicit Prohibition (Specification) - Prohibited uses enumerated in KTP-PRIVACY §6.2.3 - Implementations supporting prohibited uses are NON-CONFORMANT - Cannot claim KTP conformance
 
 1. Change Control - New purposes require Privacy Impact Assessment - 30-day public notice - Technical Committee approval - Implementation review
 

@@ -91,23 +91,24 @@ across seven domains, canonical as JSON in [`catalog/`](catalog/):
 | `time` | 275 | `meta` | 17 |
 | `soul` | 252 | **total** | **1,644** |
 
-**Risk Factors** — the scoring layer that turns measurements into `R`. Six
-weighted inputs, named by their JSON keys:
+**Risk Factors** — the scoring layer that turns measurements into `R`. Five
+weighted inputs and one demand input, named by their JSON keys:
 
 | Key | What it carries |
 |---|---|
 | `evidence_density` | Weight of presence in the environment: occupancy, electromagnetic interference, spatial congestion |
 | `trust_trend` | Rate and direction of change in standing |
 | `adversarial_pressure` | Measured adversarial stress |
-| `moment_criticality` | Criticality of the moment or phase — cutovers, deadlines, protected periods |
+| `moment_criticality` | Criticality of the moment or phase — cutovers, deadlines, protected periods. A demand input: it raises `A` and is not a weight in `R` |
 | `update_resistance` | Topological importance of the asset: how hard it is to move or stop, and how much depends on it |
 | `attestation_coverage` | How much of the agent's activity is witnessed and attestable |
 
 Plus the **Soul veto** — `soul` is not a seventh weighted input. It is
 evaluated before aggregation, and a violated sovereignty constraint forbids the
 action regardless of `E_trust`. This is where Traditional Knowledge Labels,
-OCAP® and CARE, and sacred-land constraints bind. Six weighted inputs and a
-veto, never seven weights.
+OCAP® and CARE, and sacred-land constraints bind. Five weighted inputs and a
+veto, never six weights; the criticality of the moment is a demand input, not a
+weight.
 
 ## The specifications
 
@@ -200,7 +201,7 @@ never moved — but v2 text uses these names only.
 | `divergent` | `independent` | Same |
 | `persistent` | `guarantor` | Same |
 | God Mode *(retired)* | **Admin Mode** | `TRUST_TIER_ADMIN`, OpenAPI `admin` |
-| Single-letter input symbols | The JSON key **is** the name | `risk_factors`, six named keys, `soul` as veto |
+| Single-letter input symbols | The JSON key **is** the name | `risk_factors`, five named keys, `soul` as veto, `moment_criticality` a demand input |
 
 [`MIGRATION.md`](MIGRATION.md) sorts every change into wire-format breaks,
 behavior breaks, and prose changes. [`CHANGELOG.md`](CHANGELOG.md) records what

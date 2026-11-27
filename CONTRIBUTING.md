@@ -17,11 +17,11 @@ Read these before you write anything. They are the difference between a contribu
 5. **KTP names its terms.** Don't rename a protocol term to match your implementation's vocabulary. `scripts/check-vocabulary.py` is the authority on retired terms; the ones people most often reach for:
    - "Context Tensor" is retired. The catalogue is **Context Signals**; the scoring layer is the **Risk Factors**.
    - "God Mode" is retired. The top tier is **Admin Mode**.
-   - The single-letter risk keys are retired. The JSON key is the name: `evidence_density`, `trust_trend`, `adversarial_pressure`, `moment_criticality`, `update_resistance`, `attestation_coverage`, and the `soul` veto, which is never a weighted key.
+   - The single-letter risk keys are retired. The JSON key is the name: `evidence_density`, `trust_trend`, `adversarial_pressure`, `update_resistance`, `attestation_coverage`, and the `soul` veto, which is never a weighted key. `moment_criticality` is a demand input declared under `demand_inputs`, not a Risk Factor.
    - Physics words (mass, heat, momentum) survive only on lines marked *Analogy (informative)*.
    - "Internet" and "Web" are proper nouns.
 
-6. **State the evidence limit.** Every claim says whether it is modeled, observed, or validated. Declaration checks, schema checks, and vector runs are prerequisites; they are never runtime certification, and a proposal must not present them as one.
+6. **State the evidence limit.** Every claim carries one of the four status labels: proposed, specified, tested, independently reproduced. Declaration checks, schema checks, and vector runs are prerequisites; they are never a `tested` claim for an enforcement requirement, and a proposal must not present them as one.
 
 7. **Provenance is recorded, not transferred.** Say who proposed it, who edited the text, who built it first, and whose implementation is the reference. The first implementer is recorded permanently. The specification stays governed by [`DECISIONS.md`](DECISIONS.md).
 

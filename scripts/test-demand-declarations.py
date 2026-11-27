@@ -15,6 +15,17 @@ class DemandDeclarations(unittest.TestCase):
         Draft202012Validator(D.PROFILE_SCHEMA, format_checker=FormatChecker()).validate(D.EXAMPLE)
         self.assertEqual(D.check(D.EXAMPLE), [])
 
+    def test_each_section_the_schema_requires_is_reported_when_missing(self):
+        for key in D.PROFILE_SCHEMA["required"]:
+            with self.subTest(section=key):
+                profile = copy.deepcopy(D.EXAMPLE)
+                del profile[key]
+                try:
+                    fails = D.check(profile)
+                except (KeyError, TypeError, AttributeError):
+                    continue  # a later check could not run without it: also a refusal
+                self.assertIn(f"shape: required section '{key}' missing", fails)
+
     @unittest.skipUnless("supplier_profile" in D.PROFILE_SCHEMA.get("$defs", {}).get("demand_input", {}).get("required", []), "supplier contract not present in this schema")
     def test_supplier_metadata_rejected_when_missing_or_invalid(self):
         mutations = [

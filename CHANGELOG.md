@@ -327,8 +327,10 @@ meaning a vector could check.
   zone that declares no boundary makes no conformance claim; an enclosed zone's
   declared resources MUST NOT exceed its enclosure's.
 - `schemas/deployment-profile.json` gains the required `boundary` object;
-  `specifications/deployment-profile.md` documents it; the declarations gate's
-  embedded example carries one.
+  `specifications/deployment-profile.md` documents it. The example profile the
+  declarations gate checks, `/deployment_profile` in
+  `specifications/conformance/demand-supplier-v1.json`, carries one, and the gate
+  reads its required sections from the schema.
 - Five vectors in `specifications/conformance/zone-boundary-v1.json`.
 
 ### The bounds of a delegation are the ones it states

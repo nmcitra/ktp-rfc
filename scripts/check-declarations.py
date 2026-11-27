@@ -187,9 +187,9 @@ def check(profile):
     ids, synthetic, alias_sets = load_catalogue()
 
     # 1 · shape
-    for key in ["profile_id", "version", "risk_factors", "soul_veto",
-                "peer_share", "external_root", "standing_policy",
-                "boundary"]:
+    # The schema's own required list, so a section the schema adds is checked
+    # here without a second list to keep in step.
+    for key in PROFILE_SCHEMA["required"]:
         if key not in profile:
             fails.append(f"shape: required section '{key}' missing")
     declared_rf = profile.get("risk_factors", {})

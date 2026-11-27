@@ -29,6 +29,12 @@ normative:
     author:
       - name: Chris Perkins
 
+informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
+
 --- abstract
 
 This document specifies the Vector Identity system for the Kinetic Trust Protocol (KTP). Vector Identity replaces static credentials with trajectory-based authentication, where identity is proven through continuous movement rather than possession of secrets.
@@ -541,6 +547,8 @@ The Zeroth Law (A <= E) creates a catch-22 for new agents:
 - Therefore, new agents cannot do anything
 
 Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.
+
+A bond does not close a breach. A breach attaches to the sponsored agent's trajectory and is carried by agents spawned from it after the breach; a root whose lineages carry unreconciled breaches above its declared count MUST NOT open a bond, as {{KTP-REPAIR}} specifies.
 
 The same bond lets an established person stand behind a new agent or a new person ({{KTP-CORE}} Section 5.1.1 (The External Root)). The sponsor of an agent may be an agent or a person; the sponsor of a person is a person. A sponsored person has no generation or lineage stage, so the bond on a person ends at its closure (Section 6.4 (Penalty and Release)), never at a generation step.
 

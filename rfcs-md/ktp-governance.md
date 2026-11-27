@@ -75,7 +75,7 @@ Governor actions have autonomy (A):
 
 Governors have environmental stability (E):
 
-- E = E_base * (1 - R)
+- E = E_base * (1 - R) for a governing system; for a person, the operational E the reviewed adapter authenticates (KTP-Core Section 4.1 (Definition))
 
 - Where R reflects governance context risk
 

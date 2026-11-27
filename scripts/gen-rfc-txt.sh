@@ -1,5 +1,5 @@
 #!/bin/sh
-# gen-rfc-txt.sh — generate the five Internet-Draft-formatted specifications from rfc-src/.
+# gen-rfc-txt.sh — generate the six Internet-Draft-formatted specifications from rfc-src/.
 #
 # Only the I-D-formatted set gets a .txt (#78 decision 3): generating one asserts
 # Internet-Draft status, so the other 22 rfc-src sources render as markdown
@@ -21,7 +21,7 @@ set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 KRAMDOWN="${KRAMDOWN_RFC:-$HOME/.gem/ruby/4.0.0/bin/kramdown-rfc}"
 XML2RFC="$ROOT/venv/bin/xml2rfc"
-FILED="ktp-core ktp-identity ktp-problems ktp-enforce ktp-conformance"
+FILED="ktp-core ktp-identity ktp-problems ktp-enforce ktp-conformance ktp-repair"
 
 MODE="generate"
 [ "$1" = "--check" ] && MODE="check"
@@ -52,6 +52,6 @@ if [ "$MODE" = "check" ]; then
       RC=1
     fi
   done
-  [ $RC -eq 0 ] && echo "rfcs-txt/ in step with rfc-src/ (five I-D-formatted specs)"
+  [ $RC -eq 0 ] && echo "rfcs-txt/ in step with rfc-src/ (six I-D-formatted specs)"
   exit $RC
 fi

@@ -53,6 +53,10 @@ informative:
     title: "Kinetic Trust Protocol - Trust Federation"
     author:
       - name: Chris Perkins
+  KTP-CONFORMANCE:
+    title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
+    author:
+      - name: Chris Perkins
 
 --- abstract
 
@@ -98,7 +102,7 @@ Instead of asking "Does this agent have permission?", KTP asks "Can this environ
 
 The environment becomes the final authority. Just as friction vetoes a sprinter's attempt to run on ice, environmental constraints veto an agent's attempt to act beyond the system's current capacity.
 
-Software-agent standing, Proof of Resilience, lineage, and tiers in this document MUST NOT be converted into a general score or rank for people. Human participation follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
+A person is a subject of this document as an account in a zone, and a person's standing under it is composed from the acts the person signed under it and from the person's root instrument (Section 5.1.1 (The External Root)). That standing bears on what the person may do under this protocol, and on nothing else: it MUST NOT be used as a general score or rank for people outside the protocol. Human participation also follows {{KTP-HUMAN}} and specifications/human-eligibility.md: eligibility is specific to an operation, and current operational capacity is a separate requirement. Every actual executing actor remains subject to Soul, the unconditional capacity veto, applicable grants, and all tighter constraints.
 
 ## Requirements Language
 
@@ -112,35 +116,39 @@ Action Risk (A): A numeric value (0-100) representing the intrinsic risk of a re
 
 Adaptive Dormancy: The progressive reduction of agent capabilities as environmental conditions degrade. Agents "hibernate" rather than fail.
 
-Base Trust (E_base): A numeric value (0-100) representing a software agent's intrinsic capability, derived from its Proof of Resilience and lineage. It is not a human score.
+Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic capability. For a software agent it is derived from its Proof of Resilience and lineage; for a person it is composed from the acts the person signed under this protocol and from the person's root instrument (Section 5.1.1 (The External Root)). It is one zone's measure of its subject, never a general score for a person.
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
-Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (six weighted inputs plus the Soul veto). See Section 6.
+Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
-Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
+Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for a software agent's capacity check. A person's operational E is established separately under the reviewed adapter, and eligibility is a separate requirement ({{KTP-HUMAN}}).
+
+External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 
+Person: A human subject of this specification, as an account in a zone. A person's trajectory is the ledger of acts they signed under the protocol; nothing else about the person enters it.
+
 Policy Decision Point (PDP): A component that evaluates Trust Proofs and makes authorization decisions based on A <= E.
 
 Policy Enforcement Point (PEP): A component that enforces PDP decisions by allowing, blocking, or throttling agent actions.
 
-Proof of Resilience: A cryptographically signed ledger of an agent's successful transactions in high-friction environments. See \[KTP-IDENTITY].
+Proof of Resilience: A cryptographically signed ledger of a subject's successful acts in high-friction environments. See \[KTP-IDENTITY].
 
 Risk Factor (R): A normalized value (0-1) representing aggregated environmental stress. Derived from Context Signals.
 
-Silent Veto: The automatic denial of an action when A > E_trust, without requiring human intervention.
+Silent Veto: The automatic denial of an action when A > E, without requiring human intervention.
 
-Soul (Sovereignty Veto): The seventh named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the six weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
+Soul (Sovereignty Veto): The sixth named measurement, representing ethical, legal, and spiritual constraints of data or location. Unlike the five weighted inputs, Soul acts as a binary veto rather than a weighted contributor to the Risk Factor.
 
 Soul Veto: The automatic denial of an action when sovereignty constraints are violated (S = 1), regardless of Trust Score. Takes precedence over the standard Silent Veto evaluation.
 
-Sponsorship Bond: A cryptographic commitment where a high-mass entity stakes trust on behalf of a new, low-mass agent.
+Sponsorship Bond: A cryptographic commitment in which a sponsor stakes part of the sponsor's own E_base on behalf of a new agent or a new person; the sponsor of a person is a person. See {{KTP-IDENTITY}}.
 
 Trajectory Chain: A cryptographically linked chain of agent transactions, where each link includes agent signature, environment attestation, and previous state hash. See {{KTP-IDENTITY}}.
 
@@ -158,7 +166,7 @@ Trust Velocity (dE/dt): The rate of change of the Trust Score over time. Rapid n
 
 Vector Identity: Identity represented as a trajectory (position + momentum) rather than a static credential (a "verb" rather than a "noun").
 
-Zeroth Law: The foundational constraint A <= E: an agent's autonomy must never exceed the environment's stability.
+Zeroth Law: The foundational constraint A <= E: an actor's autonomy must never exceed the environment's stability.
 
 # Protocol Overview
 
@@ -292,7 +300,7 @@ Where:
    calculated from agent history and environmental conditions.
 ~~~
 
-For a human actor, an independently approved operational-capacity evaluation MUST establish comparable A and E for the actual request. Eligibility, a professional credential, a role, or a person's approval MUST NOT be substituted for E. The evaluation MUST bind its evidence, measurement profile, scope, and freshness; unresolved or incomparable capacity MUST deny the affected action. No personal E_base, tier, generation, or resilience accumulator is required or permitted as a substitute.
+For a human actor, an independently approved operational-capacity evaluation MUST establish comparable A and E for the actual request. Eligibility, a professional credential, a role, or a person's approval MUST NOT be substituted for E. The evaluation MUST bind its evidence, measurement profile, scope, and freshness; unresolved or incomparable capacity MUST deny the affected action. A person's standing, E_trust, and Trust Tier (Section 5.1.1 (The External Root)) are neither required for this evaluation nor permitted as a substitute for it, and the evaluation creates none of them.
 
 The inequality MUST be evaluated for every authorization request. It is not a policy that can be overridden by human intervention or emergency procedures. It is a physical constraint, analogous to the constraint that prevents a person from running faster than their muscles allow.
 
@@ -304,19 +312,19 @@ Enforcement of the Zeroth Law is cryptographic, not administrative.
 
 For software agents, the Trust Proof token contains: - The current E_trust value - The Trust Oracle's signature over E_trust - The timestamp of calculation
 
-The PEP: - Verifies the Trust Oracle's signature - Checks that the Trust Proof has not expired - Looks up the Action Risk (A) for the requested operation - Evaluates A <= E_trust
+The PEP: - Verifies the Trust Oracle's signature - Checks that the Trust Proof has not expired - Looks up the Action Risk (A) for the requested operation - Evaluates A <= E, with E as Section 4.1 (Definition) defines it for the actual actor
 
-If the Trust Proof signature is invalid, the action MUST be denied. If the Trust Proof has expired, a new Trust Proof MUST be obtained. If A > E_trust, the action MUST be denied (Silent Veto).
+If the Trust Proof signature is invalid, the action MUST be denied. If the Trust Proof has expired, a new Trust Proof MUST be obtained. If A > E, the action MUST be denied (Silent Veto).
 
-A human deployment MUST provide the reviewed authorization adapter and authenticated operation/capacity binding specified below. The same signature, current-evidence, ordinary-proof lifetime, sovereignty, and capacity requirements apply; human eligibility is not a replacement proof or a bypass.
+A human deployment MUST provide the reviewed authorization adapter and authenticated operation/capacity binding specified below. The same signature, current-evidence, ordinary-proof lifetime, sovereignty, and capacity requirements apply; human eligibility is not a replacement proof or a bypass. For a person, E is the operational E that binding authenticates, never the E_trust in the person's Trust Proof; that E_trust sets the person's Trust Tier ({{KTP-ENFORCE}}).
 
-There is no "emergency override" mechanism. A different, genuinely lower-demand action, a corrected factual assessment, or changed capacity or environmental conditions requires a fresh evaluation. Relabeling the same action, changing a score by fiat, or receiving human approval MUST NOT relax a veto. Software-agent standing may grow through the established evidence process; that process does not create personal trust points for a human.
+There is no "emergency override" mechanism. A different, genuinely lower-demand action, a corrected factual assessment, or changed capacity or environmental conditions requires a fresh evaluation. Relabeling the same action, changing a score by fiat, or receiving human approval MUST NOT relax a veto. Standing may grow through the established evidence process, a person's as Section 5.1.1 (The External Root) states, and it never substitutes for a person's eligibility or capacity.
 
 This design is intentional. In an emergency, the natural human instinct is to override safety controls. This instinct is often catastrophically wrong. By removing the override capability, KTP forces systems to operate within their actual capacity, even when humans wish they could exceed it.
 
 # Trust Score Calculation
 
-The E_base composition, historical standing, behavioral signals, and tier calculations in this section apply to software agents. They MUST NOT be applied to human principals, including human sponsors and reviewers. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below.
+The E_base composition, historical standing, and tier calculations in this section apply to software agents and to persons. For a person they apply with the person's inputs: the acts the person signed under this protocol and the person's root instrument, the standing of the terminator behind the person or a live bond another person has posted on the person, and nothing else (see *The External Root* below). Behavioral signals are inputs for software agents only. Human operation eligibility and separately evidenced capacity use the installed human policy and reviewed adapter described below; they are requirements beside standing, not substitutes for it.
 
 ## Base Trust (E_base)
 
@@ -327,7 +335,7 @@ E_base is a hundred-point allocation. The shares MUST sum to 100, and each term 
 | Component | Share | Description |
 |-----------|-------|-------------|
 | Proof of Resilience | 70 | Historical performance, especially under stress |
-| External Root | 30 | The party currently accountable for the agent |
+| External Root | 30 | The party currently accountable for the subject |
 | Peer Signals | declared | Observations by other agents, where implemented |
 
 - An agent with 10,000 transactions during crises has higher E_base than one with 100,000 transactions in calm conditions. Survival under adversity matters more than volume.
@@ -342,7 +350,7 @@ Historical standing is not evidence that today's code, model, configuration, too
 
 E_base MUST include a term derived from a party that is externally accountable, exposed to loss, and able to revoke. No composition of E_base may consist entirely of terms the subject measures about itself.
 
-The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a physical-presence attestation, a legal entity, or a named human. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
+The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a person, and behind that person an employer, a licensing body, or a board. The person is the External Root; the institution is the terminator. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
 
 The instrument occupying this term changes with lineage stage. The share does not.
 
@@ -357,7 +365,7 @@ An agent past Sponsored holding no unexpired, unrevoked attestation computes thi
 
 An attestation MUST declare the attestor's exposure and the capacity it anchors. Exposure counts toward this term only insofar as it is irrecoverable and non-transferable: exposure that cannot be shed by abandoning the attestor's identity. The declaration MUST name the exposure's class — a named human's professional or legal liability; a license whose revocation attaches to its holder; posted non-recoverable collateral; a legal entity's declared irrecoverable assets. The class list is open; additions compose under the same cannot-be-shed test. An attestation declaring no exposure computes as zero. A declared exposure found not to exist, or found to be transferable, is misattestation.
 
-An agent MAY hold concurrent attestations from distinct attestors. Where it does, this term is computed from the strongest single instrument. An anchor MUST NOT be a combination of attestors: instrument scores are never summed or otherwise aggregated across attestors. Concurrency is redundancy — a second attestation is a hedge against the withdrawal of the first, not an addition to it.
+A subject MAY hold concurrent attestations from distinct attestors. Where it does, this term is computed from the strongest single instrument. An anchor MUST NOT be a combination of attestors: instrument scores are never summed or otherwise aggregated across attestors. Concurrency is redundancy — a second attestation is a hedge against the withdrawal of the first, not an addition to it.
 
 Attestations carry a validity period and MUST be renewed or replaced on expiry. An attestor withdrawing an attestation MUST state whether the withdrawal is for cause. Withdrawal for cause zeroes the instrument immediately. Withdrawal without cause renders the attestation irrevocably non-renewable; the instrument holds until the attestation's declared expiry, then computes as zero. The validity period the attestor declared at issuance is the notice period — no separate notice parameter exists. A for-cause claim that does not survive scrutiny is misattestation. A decline in the attestor's own standing does not zero the term; a finding of misattestation invalidates the attestation and debits the attestor.
 
@@ -366,6 +374,18 @@ The deployment MUST declare the adjudicator for findings of misattestation, incl
 A for-cause claim with no finding at the attestation's expiry lapses unresolved and MUST be recorded as unresolved. No debit is assessed on lapse; an unresolved claim does not become sustained or rejected by lapse of time. The instrument computes as zero in every branch — adjudication decides only whether the attestor is debited.
 
 The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
+
+Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage. A person may also stand behind a subject with a sponsorship bond ({{KTP-IDENTITY}} Section 6 (Sponsorship Bonds)), on an agent or on another person; a person's bond stakes the person's own standing, under the same mechanics as any sponsor's.
+
+A person's trajectory is the ledger of acts they signed under this protocol: bonds posted, attestations issued, approvals, veto clears, decisions contested. Nothing else about a person enters the protocol. A person's E_base is composed under this section from those signed acts and from the person's root instrument, under the same shares and the same ceilings that apply to any subject; the trajectory-length ceiling counts the acts the person signed. A bond the person posts is one of those acts: its stake reduces the person's available E_base, and a penalty under it debits the person's E_base ({{KTP-IDENTITY}} Section 6.4 (Penalty and Release)). A person's root instrument is the standing of the terminator behind the person, or a live sponsorship bond another person has posted on them; under concurrent instruments the strongest single one counts. A person has no generation, so a bond on a person is never released at a generation step: it ends at its closure ({{KTP-IDENTITY}} Section 6.4 (Penalty and Release)), and the person's root instrument is then the terminator's standing, a new bond, or none. Concepts that belong to software agents — generation, lineage stage, mass ceilings on a subject's own standing, mitosis — do not apply to a person and MUST NOT be defaulted. A zone's mass ceiling still bounds a person's imported standing, as {{KTP-ZONES}} states. Proof of Resilience applies to a person only through acts they signed under stress; nothing else earns it. Trust Tiers and the Silent Veto apply to a person's actions under the protocol. The person's E_trust in the zone sets the person's Trust Tier, and the tier restricts the classes of action the person may execute as it does for a software agent ({{KTP-ENFORCE}}). The tier does not restrict the acts that make up the person's ledger: signing a bond, an attestation, an approval, or a veto clear is governed by the person's eligibility for it and by the capacity check, and a bond also by {{KTP-IDENTITY}} Section 6 (Sponsorship Bonds), and a contest is governed as the paragraph on contest below states. The person's capacity check compares A with the operational E the reviewed adapter authenticates (Sections 4.1 (Definition) and 8.2 (Veto Trigger)), never with E_trust. Where this set states the capacity check in terms of E_trust, for a person it uses that operational E.
+
+A Trust Proof declares which kind of subject it describes, a software agent or a person. The kind is declared, never inferred from which claims are absent. A root instrument's projection names the person behind it, and names the terminator by kind — employer, licensing body, or board — and by an identifying reference. The person is never recorded as the terminator. For a person subject, the person named behind the root is the subject, or, under a sponsorship bond, the sponsoring person; either way the chain terminates at an employer, a licensing body, or a board. A person is identified by a URI in the `person:` scheme. The trust-proof schema carries the subject's kind; the root-instrument projection carries the person and the terminator.
+
+A person's Trust Score is the measure of the zone that computes it. It bears on what the person may do in that zone, and on nothing else. It MUST NOT be used as a general score or rank for people outside the protocol, and it MUST NOT be presented as a property of the person rather than of the zone's measure. A person's standing in one zone says nothing about the person in another; it crosses a federation link only as the federation agreement provides ({{KTP-FEDERATION}}, {{KTP-ZONES}}).
+
+A person MAY contest a decision on their standing by whatever route this set gives any subject. Nothing in this section narrows that route, and standing is never a prerequisite for explanation, correction, or review.
+
+The boundary cases for a person's standing are published in specifications/conformance/person-standing-v1.json. They fix what enters a person's standing, where it bears, how it crosses a zone boundary, which E a person's capacity check uses, what the tier does not restrict, and how a person stakes and is sponsored. They do not define a formula for E_base or R.
 
 ### Peer Signals
 
@@ -426,11 +446,18 @@ Maturity raises a ceiling. It does not contribute standing. An agent that has ad
 
        (Sponsor_E_base × stake_percentage / 100) / 50 × 100   (Sponsored)
        min(100, 100 × declared_exposure / anchored_capacity)  (Independent, Guarantor)
+       the terminator's standing                              (person, attestation)
        0                                                      (no valid instrument)
 
        stake_percentage is in percent-points (1-50). Under
-       concurrent attestations, Root_score is the maximum of
+       concurrent instruments, Root_score is the maximum of
        the individual instrument scores, never a sum.
+       For a person, an attestation scores as its
+       terminator's standing, and a sponsorship bond
+       another person posts scores as the Sponsored
+       row does; declared exposure over anchored
+       capacity never scores or ranks a person's
+       instruments.
 
      Peer_score = 0-100, as specified in Peer Validation.
 
@@ -439,20 +466,20 @@ Maturity raises a ceiling. It does not contribute standing. An agent that has ad
        100 (generation 7+)
 ~~~
 
-E_base MUST be recalculated when new Proof of Resilience attestations are received, when agent generation advances, when sponsorship terms change, when an external attestation is issued, renewed, withdrawn, or expires, and when a for-cause claim is adjudicated.
+E_base MUST be recalculated when new Proof of Resilience attestations are received, when agent generation advances, when sponsorship terms change or a sponsorship bond closes, when an external attestation is issued, renewed, withdrawn, or expires, and when a for-cause claim is adjudicated.
 
 E_base SHOULD be cached for performance, with a maximum cache lifetime of 60 seconds.
 
 ## Risk Factor (R)
 
-The Risk Factor represents aggregated environmental stress. It is calculated from the six weighted Risk Factor inputs (see Section 6) using domain-specific weights.
+The Risk Factor represents aggregated environmental stress. It is calculated from the five weighted Risk Factor inputs (see Section 6) using domain-specific weights.
 
 The calculation:
 
 ~~~
    R = sum(w_i * s_i) for i in
        {evidence_density, trust_trend, adversarial_pressure,
-        moment_criticality, update_resistance, attestation_coverage}
+        update_resistance, attestation_coverage}
 ~~~
 
 Where: w_i = Domain-specific weight for dimension i s_i = Normalized sensor value for dimension i (0 to 1) sum(w_i) = 1.0 (weights must sum to 1)
@@ -485,9 +512,11 @@ This design ensures that environmental risk has veto power over agent capability
 
 The Risk Factor is defined once, in Section 5.2 above, and nowhere else in this set. Keeping one input steady against local sensor noise before it enters that sum is a matter of feed configuration. {{KTP-SENSORS}} Section 2.3 describes, informatively, reading an input at three sensing scopes, Node, Neighborhood, and Global, and aggregating the readings by the feed aggregation of {{KTP-SENSORS}} Section 2.2. The technique yields the value of one input. It does not yield R; its weights are feed weights of that input, not the weights of Section 6.5 (Domain Weights); and a deployment that does not use it is not less conformant for that.
 
+In a nested deployment, a ring's Risk Factor also carries its enclosure's exposure, the Enclosure Domain. It acts on Section 5.2's sum as a floor: it can raise R and never lower it below the value that sum produces. See {{KTP-SENSORS}} Section 2.3 and {{KTP-ZONES}} Section 3.7 (Nested Zones).
+
 ## Effective Trust Score (E_trust)
 
-The Effective Trust Score is the value used to evaluate the Zeroth Law. It is calculated as:
+The Effective Trust Score sets every subject's Trust Tier, and for a software agent it is also the E against which the Zeroth Law is evaluated (for a person, see Section 5.1.1 (The External Root)). It is calculated as:
 
 ~~~
    E_trust = E_base * (1 - R)
@@ -653,9 +682,9 @@ See \[KTP-PROBLEMS] Problem #21 for ongoing research into this challenge.
 
 # Risk Factors
 
-The Risk Factors are seven named measurements of the environment that drive the Risk Factor calculation. Six contribute weighted values to the Risk Factor (R), while the seventh (Soul) acts as an independent veto mechanism.
+The Risk Factors are six named measurements of the environment that drive the Risk Factor calculation. Five contribute weighted values to the Risk Factor (R), while the sixth (Soul) acts as an independent veto mechanism. The criticality of the moment is not among them; it is a property of the proposed act and is described after the list.
 
-## The Seven Dimensions
+## The Six Dimensions
 
 1. evidence_density
 
@@ -752,41 +781,6 @@ The Risk Factors are seven named measurements of the environment that drive the 
    structural integrity of trust degrades; sustained highs trigger the "Cool-Down"
    cycle (Freezing agents to Observer Mode).
 ~~~
-
-1. moment_criticality
-
-~~~
-   Analogy (informative): Time (T) — Temporal Mechanics / Phase
-~~~
-
-~~~
-   Measures the criticality of the current moment relative to an
-   event horizon - where in a temporal cycle the system is.
-~~~
-
-~~~
-   Sensors:
-   - Event schedules (e.g., "5 minutes to Kickoff")
-   - Maintenance windows (scheduled downtime)
-   - Business hours (peak vs. off-peak)
-   - Mission criticality timers
-~~~
-
-~~~
-   Interpretation:
-   - Low moment_criticality: Low-criticality period (maintenance
-     window, 3am)
-   - High moment_criticality: High-criticality period (production,
-     live event)
-~~~
-
-~~~
-   Impact: A failure during "Kickoff" has infinitely higher gravity
-   than a failure at 3:00 AM. Time dilates the risk tolerance -
-   the same action costs more trust near event horizons.
-~~~
-
-Provenance: moment_criticality is externally supplied. Six of the seven inputs are aggregations over declared subsets of the Context Signals catalogue; this one is supplied by the action request's context and declared as such. The asymmetry is stated here rather than papered over: no catalogue domain measures what the agent is trying to do, because a task domain would measure A while every existing domain measures E, and the other side of A <= E cannot be appended to the catalogue casually. Until such a domain exists, a deployment MUST declare the source supplying this input.
 
 1. update_resistance
 
@@ -899,9 +893,26 @@ Provenance: moment_criticality is externally supplied. Six of the seven inputs a
    See Section 6.2 for Soul Veto mechanics.
 ~~~
 
+The criticality of the moment is not among these dimensions.
+moment_criticality measures the criticality of the current moment relative to
+an event horizon: where in a temporal cycle the proposed act falls. Its sources
+are event schedules, maintenance windows, business hours, and mission
+criticality timers. A failure at kickoff has higher consequence than the same
+failure at 3:00 AM.
+
+It is not a Risk Factor and does not enter R. Every Risk Factor measures the
+environment, the E side of A <= E; criticality relative to an event horizon is a
+property of the act proposed against the environment, so it is on the A side. A
+deployment that accounts for it declares it as a demand input: A is
+non-decreasing in it, as {{KINETIC-ENVELOPE}} requires of a declared
+autonomy-demand magnitude, and where the declared profile fixes its own
+magnitudes and their ceilings the input can only raise A and carries no
+ceiling of its own. It enters only as L11 permits an externally supplied
+input. L14 states the declaration it requires.
+
 ## The Soul Veto
 
-The Soul input operates differently from the six weighted inputs. While those six contribute weighted values to the Risk Factor (R), Soul acts as an independent constraint that can veto any action regardless of Trust Score.
+The Soul input operates differently from the five weighted inputs. While those five contribute weighted values to the Risk Factor (R), Soul acts as an independent constraint that can veto any action regardless of Trust Score.
 
 The Soul evaluation is:
 
@@ -1009,11 +1020,11 @@ Normative content — authored judgments about what ought to happen, whose dispu
 
 1. A veto. The Soul constraint above: externally supplied, authority-adjudicated, carried but never authored here, and evaluated before aggregation.
 
-1. A supplied input. A declared, externally provided signal — moment_criticality is the standing instance — whose source the deployment MUST declare.
+1. A supplied input. A declared, externally provided signal whose source the deployment MUST declare.
 
 1. A gate. An adjudication token evaluated against a declared external schema.
 
-Norm content MUST NOT rewrite the aggregation. A normative judgment that scales capacity rather than gating it has crossed into the measurement layer, and the crossing is the failure this interface exists to prevent. The prudence judgments this series computes from the environment ({{KTP-ENFORCE}}'s graduated outcomes) are not normative content and do not pass through this interface: their disputes resolve by measurement.
+Norm content MUST NOT rewrite the aggregation. A normative judgment that scales capacity rather than gating it has crossed into the measurement layer, and the crossing is the failure this interface exists to prevent. The prudence judgments this series computes from the environment ({{KTP-ENFORCE}}'s graduated outcomes) are not normative content and do not pass through this interface: their disputes resolve by measurement. L11 states the direction in which each of the three shapes may act.
 
 ## Normalization
 
@@ -1038,32 +1049,33 @@ Example normalization thresholds:
 | evidence_density     | CO2 (ppm)  | 400   | 2000      |
 | trust_trend          | Link %     | 0     | 100       |
 | adversarial_pressure | WAF blocks | 0     | 10000/min |
-| moment_criticality   | Hours out  | 72    | 0         |
 | update_resistance    | Dep count  | 0     | 500       |
 | attestation_coverage | VIP count  | 0     | 50        |
 | Soul       | N/A        | Binary (0 or 1)         |
 +------------+------------+------------+------------+
 ~~~
 
-Note: Time is inverted (72 hours out = 0 stress, 0 hours = 1 stress) Note: Soul is not normalized - it is a binary veto (see Section 6.2)
+Note: Soul is not normalized - it is a binary veto (see Section 6.2)
 
 ## Domain Weights
 
-Different deployment domains weight the six weighted inputs differently. Each of the six factor weights MUST be a finite number greater than zero and at most one, and the weights MUST sum to 1.0. Boolean and non-numeric values are invalid. Soul is not weighted - it operates as an independent constraint.
+Different deployment domains weight the five weighted inputs differently. Each of the five factor weights MUST be a finite number greater than zero and at most one, and the weights MUST sum to 1.0. Boolean and non-numeric values are invalid. Soul is not weighted - it operates as an independent constraint.
 
-The complete weight declaration MUST be validated before computing R and after every reconfiguration. An invalid declaration MUST be rejected; an implementation MUST NOT silently rescale the weights or fill a missing weight with a default. The deployment-profile declaration checker evaluates the sum exactly over the decimal representations of parsed numeric values, as described in specifications/deployment-profile.md. Per-feed aggregation weights are separate from these six factor weights.
+The complete weight declaration MUST be validated before computing R and after every reconfiguration. An invalid declaration MUST be rejected; an implementation MUST NOT silently rescale the weights or fill a missing weight with a default. The deployment-profile declaration checker evaluates the sum exactly over the decimal representations of parsed numeric values, as described in specifications/deployment-profile.md. Per-feed aggregation weights are separate from these five factor weights.
 
 Example domain profiles:
 
-Stadium Network: evidence_density=0.25, trust_trend=0.25, adversarial_pressure=0.20, moment_criticality=0.15, update_resistance=0.10, attestation_coverage=0.05
+Stadium Network: evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06
 
-Financial Trading: evidence_density=0.05, trust_trend=0.30, adversarial_pressure=0.25, moment_criticality=0.20, update_resistance=0.15, attestation_coverage=0.05
+Financial Trading: evidence_density=0.06, trust_trend=0.38, adversarial_pressure=0.31, update_resistance=0.19, attestation_coverage=0.06
 
-Healthcare: evidence_density=0.10, trust_trend=0.15, adversarial_pressure=0.25, moment_criticality=0.15, update_resistance=0.20, attestation_coverage=0.15
+Healthcare: evidence_density=0.12, trust_trend=0.18, adversarial_pressure=0.28, update_resistance=0.24, attestation_coverage=0.18
 
-Cloud Infrastructure: evidence_density=0.05, trust_trend=0.25, adversarial_pressure=0.30, moment_criticality=0.10, update_resistance=0.25, attestation_coverage=0.05
+Cloud Infrastructure: evidence_density=0.06, trust_trend=0.28, adversarial_pressure=0.32, update_resistance=0.28, attestation_coverage=0.06
 
-Indigenous Data Repository: evidence_density=0.10, trust_trend=0.10, adversarial_pressure=0.20, moment_criticality=0.10, update_resistance=0.15, attestation_coverage=0.35 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
+Indigenous Data Repository: evidence_density=0.11, trust_trend=0.11, adversarial_pressure=0.22, update_resistance=0.17, attestation_coverage=0.39 (Note: High Observer weight reflects community oversight; Soul veto always active for TK-labeled data)
+
+When a weighted input leaves R, every published profile renormalizes proportionally to two decimals, and the rounding residual goes to the largest remaining weight. The profiles above are the v2.1.0 profiles under that rule.
 
 Implementations MUST allow configuration of domain weights. Implementations SHOULD provide pre-defined profiles for common domains.
 
@@ -1074,7 +1086,7 @@ The Risk Factor architecture is designed to be modular at two levels:
 1. Framework-Level Modularity:
 
 ~~~
-   The framework itself is extensible. The seven inputs defined in
+   The framework itself is extensible. The six inputs defined in
    this specification represent the core measurement space, but
    implementations MAY define additional inputs for domain-specific
    requirements.
@@ -1084,8 +1096,9 @@ The Risk Factor architecture is designed to be modular at two levels:
    Additional inputs MUST:
    - Be clearly documented with the quantity measured, its units,
      and its measurement procedure
-   - Specify whether they contribute to R (weighted) or act as
-     independent constraints (like Soul)
+   - Specify whether they contribute to R (weighted), act as
+     independent constraints (like Soul), or raise demand on the
+     A side (like moment_criticality, L14)
    - Define normalization rules
    - Register with the Trust Oracle
 ~~~
@@ -1147,7 +1160,7 @@ Feed Configuration Example:
 
 The "aggregation" field for Soul MUST be "any_veto" - if any enabled feed returns a veto, the Soul input vetoes.
 
-For the six weighted inputs, typical aggregation is "weighted_average" of enabled feeds.
+For the five weighted inputs, typical aggregation is "weighted_average" of enabled feeds.
 
 ## Aggregation Algorithm
 
@@ -1165,8 +1178,8 @@ Step 1: Soul Veto Check (MUST be first)
 Step 2: Risk Factor Calculation
 
 ~~~
-   R = (w_M * M) + (w_P * P) + (w_H * H) +
-       (w_T * T) + (w_I * I) + (w_O * O)
+   R = sum(w_i * s_i) over the five weighted inputs
+       (Section 5.2)
 ~~~
 
 Step 3: Trust Score Deflation
@@ -1242,7 +1255,6 @@ Sensor values SHOULD be refreshed at intervals appropriate to their rate of chan
 | evidence_density     | 30-60 seconds       |
 | trust_trend          | 1-5 seconds         |
 | adversarial_pressure | 1-5 seconds         |
-| moment_criticality   | 60 seconds          |
 | update_resistance    | 300 seconds         |
 | attestation_coverage | 30 seconds          |
 | Soul       | On-demand (per action) |
@@ -1265,9 +1277,9 @@ Silence and absence do not separate. A channel that returns nothing and a channe
 
 The Trust Proof is a signed token that travels with each request, carrying the current Trust Score and environmental context.
 
-The standing-bearing claims and examples in this section describe software agents. They do not define a human proof format. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
+A Trust Proof describes a software agent or a person and declares which, as Section 5.1.1 (The External Root) states. For a person, its standing-bearing claims carry only the person's standing in the zone, from the acts the person signed and the person's root instrument (Section 5.1.1 (The External Root)), and never eligibility. The examples in this section describe software agents. Accepting human requests or human delegations requires an installed deployment human_policy binding with mode operation-eligibility-v1, profile_id, version, and digest, plus a reviewed authorization adapter under specifications/human-eligibility.md. Without that adapter and policy, the integration MUST reject the affected request; it MUST NOT fabricate human E_base, tier, lineage, generation, model, or v3 software-trajectory state to satisfy an existing schema.
 
-The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the proof format, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
+The human eligibility decision schema defines an UNSIGNED prerequisite body, not a JWT, signature format, or authorization token. The adapter MUST authenticate and bind the complete body to the exact actual request, the fully verified ordinary proof, authenticated principal and executing actor, installed human and deployment profiles, and current evidence epoch/status. It MUST define and test the body's authentication, trusted issuer/key and role binding, audience/session/request binding, replay controls, and current operational-capacity evidence before accepting humans. A generic JWT, a caller-supplied actor type, or a body whose result says eligible MUST NOT satisfy those obligations. All ordinary proofs retain the existing maximum ten-second lifetime and stronger Crypto requirements; this specification supplies no compatibility fallback around them.
 
 ## Token Format
 
@@ -1318,11 +1330,10 @@ KTP claims (in "ktp" object):
 ~~~
 
 ~~~
-   risk_factors: Object containing the six normalized inputs
+   risk_factors: Object containing the five normalized inputs
      adversarial_pressure (0-1)
      attestation_coverage (0-1)
      evidence_density (0-1)
-     moment_criticality (0-1)
      trust_trend (0-1)
      update_resistance (0-1)
 ~~~
@@ -1339,7 +1350,7 @@ KTP claims (in "ktp" object):
    lineage: Agent lineage stage ("sponsored", "independent",
             "guarantor")
    generation: Agent generation number (0+)
-   sponsor: Sponsor agent identifier (if sponsored)
+   sponsor: Sponsor identifier, an agent or a person (if sponsored)
    resilience_hash: Hash of current Proof of Resilience ledger
 ~~~
 
@@ -1362,7 +1373,6 @@ Example Trust Proof payload (no sovereignty constraint):
          "evidence_density": 0.875,
          "trust_trend": 0.920,
          "adversarial_pressure": 0.020,
-         "moment_criticality": 1.000,
          "update_resistance": 0.100,
          "attestation_coverage": 0.040
        },
@@ -1398,7 +1408,6 @@ Example Trust Proof payload (sovereignty constraint active):
          "evidence_density": 0.100,
          "trust_trend": 0.150,
          "adversarial_pressure": 0.010,
-         "moment_criticality": 0.200,
          "update_resistance": 0.050,
          "attestation_coverage": 0.020
        },
@@ -1431,7 +1440,7 @@ Signature verification failure MUST result in action denial.
 
 ## Operational Readiness for the Requested Action
 
-The PEP MUST authenticate both the requesting principal and the actor actually executing the operation. Dispatch MUST use independently authenticated principal type and execution context, not a request label. A human actor requires current operation-specific eligibility and separately evidenced capacity under the installed human policy and reviewed adapter. Evidence correction, grant revocation, profile replacement, or epoch change MUST invalidate superseded dependent decisions; stale proofs, restored state, or a legacy human score MUST NOT recover authority.
+The PEP MUST authenticate both the requesting principal and the actor actually executing the operation. Dispatch MUST use independently authenticated principal type and execution context, not a request label. A human actor requires current operation-specific eligibility and separately evidenced capacity under the installed human policy and reviewed adapter, and a Trust Tier that permits the class of the action the person executes (Section 5.1.1 (The External Root)). Evidence correction, grant revocation, profile replacement, or epoch change MUST invalidate superseded dependent decisions; stale proofs, restored state, or a legacy human score MUST NOT recover authority.
 
 A human delegator or supervisor does not turn a software executor into a human actor. The PEP MUST verify the human's current eligibility for the exact delegation or supervisory operation and every applicable restriction along the delegation chain, in addition to the software executor's own grants, capacity, and readiness. Neither co-signing nor delegated permission transfers personal standing or assessment evidence. Missing authenticated actor binding or required human policy MUST deny the affected operation.
 
@@ -1461,7 +1470,7 @@ The ten-second maximum applies to every zone and conformance level. An existing 
 
 # Silent Veto Mechanism
 
-The Silent Veto is the automatic denial of an action when A > E_trust. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
+The Silent Veto is the automatic denial of an action when A > E. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
 
 ## Action Risk Classification
 
@@ -1492,7 +1501,7 @@ Implementations MAY define additional action classes. Implementations MUST allow
 The veto evaluation is performed at the PEP:
 
 ~~~
-   IF A > E_trust THEN
+   IF A > E THEN
      trigger Silent Veto
    ELSE
      continue through Section 6.7 (Aggregation Algorithm) and the remaining checks
@@ -1511,7 +1520,7 @@ When a Silent Veto is triggered, the PEP MUST:
 
 1. Deny the action immediately
 
-1. Return an error response to the agent including: - Error code indicating Trust-based denial - Current E_trust value - Required E_trust for the action (A) - Trust Velocity (dE/dt) for predictive purposes
+1. Return an error response to the requester including: - Error code indicating Trust-based denial - Current E value, the one the capacity check used (Section 4.1 (Definition)) - Required E for the action (A) - For a software agent, Trust Velocity (dE/dt) for predictive purposes
 
 1. Log the denial to the Flight Recorder with full Decision Geometry
 
@@ -1534,6 +1543,8 @@ Recommended HTTP response:
    }
 ~~~
 
+The example shows a software agent. For a person, the response reports the operational E the capacity check used, never E_trust in its place, and omits de_dt (Section 5.1.1 (The External Root)).
+
 The "retry_after" field MAY contain an estimated time (in seconds) until conditions might permit the action, based on Trust Velocity projections. If conditions are degrading (dE/dt < 0), this field SHOULD be null.
 
 # Trust Oracle
@@ -1544,7 +1555,7 @@ The Trust Oracle is the authoritative source of Trust Scores and Trust Proofs wi
 
 The Trust Oracle:
 
-1. Ingests sensor data from the Context Signal sensors 2. Maintains the Proof of Resilience ledger for all agents 3. Calculates E_base for each agent 4. Calculates R from the Risk Factor inputs 5. Calculates E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private key 7. Issues Attestations of Passage for successful transactions 8. Publishes its public key for Trust Proof verification
+1. Ingests sensor data from the Context Signal sensors 2. Maintains the Proof of Resilience ledger for every subject 3. Calculates E_base for each subject 4. Calculates R from the Risk Factor inputs 5. Calculates E_trust = E_base * (1 - R) 6. Signs Trust Proofs with its private key 7. Issues Attestations of Passage for successful transactions 8. Publishes its public key for Trust Proof verification
 
 ## Distribution
 
@@ -1566,7 +1577,7 @@ Oracle meshes MUST use the reviewed, named and versioned consensus protocol requ
 
 When multiple Oracles are active, they MUST agree on:
 
-1. Current sensor values (within tolerance) 2. Agent E_base values (must match exactly) 3. Calculated R and E_trust (within tolerance)
+1. Current sensor values (within tolerance) 2. Subject E_base values (must match exactly) 3. Calculated R and E_trust (within tolerance)
 
 Tolerance for sensor values: 5% relative difference Tolerance for E_trust: 2 points absolute difference
 
@@ -1623,7 +1634,9 @@ Admissibility verdicts are invariant under re-description — packet level,
 syscall level, API level, agent level — only because action risk attaches to
 governed-world state transitions rather than to description events, and
 composition merges causal action contracts before evaluating risk. That algebra
-is discharged. The theorem it yields is conditional on **faithful description**:
+is discharged; the aggregation in Section 6.7 does not yet perform the
+composition, and L15 states that limit. The theorem it yields is conditional on
+**faithful description**:
 a proof, per description level, that the level's events implement the claimed
 consequence semantics.
 
@@ -1832,7 +1845,7 @@ are supplied by the system the norms constrain has no base case, which is L2
 applied a second time. Honest parties may legitimately diverge on its answers
 at any parameter setting; its failures are capture and illegitimacy, and they
 are corrected by governance, not by measurement. Its content lives in a
-declared external schema (the co-authored normative profile); this
+declared external schema (the external normative profile); this
 specification carries only the interface.
 
 The carriage interface admits norm content in exactly three shapes: a **veto**
@@ -1846,7 +1859,57 @@ fail-closed behavior on an undefined demand term — **MUST** reference a
 declared external schema for norm content, and **MUST NOT** present
 conformance as evidence that the norms in force are adequate.
 
-Converts further when the co-authored profile lands and the two documents
+**Direction.** Norm content restricts and never widens. For any evaluation,
+the result with norm content applied **MUST NOT** be more permissive than the
+result this specification produces with none applied, on any outcome this
+specification orders: it **MUST NOT** permit what that result denies, set
+supervision below it, widen what it leaves executable, raise the capacity it
+measured, or lower the demand it measured. This holds for every shape norm
+content takes, for every source that produces it, and for any number of them
+applied together, so that no combination of judgments widens what one alone
+could not.
+
+**A favorable verdict.** A favorable adjudication satisfies the gate it answers
+and nothing else. It is not evidence of capacity, it does not stand in for any
+other check this specification makes, and it does not lower any result those
+checks produce. It answers only the action, whole, and the actor it
+adjudicated: a verdict on part of an action, on a different action, or for a
+different actor answers nothing here, and no number of favorable verdicts adds
+up to a verdict on an action none of them judged.
+
+**Release.** Where the normative rail raises supervision, it **MAY** later
+release only the increment it raised, through its declared accountable process,
+as an act signed by the party that raised it. It **MUST NOT** release
+supervision below the level this specification derives from the environment,
+and it **MUST NOT** release what another rail raised. A release applies to the
+one action and the one actor it names. It does not pool across actions,
+transfer between actors, or carry from one evaluation to the next.
+
+**Importance.** A judgment that an action matters, its urgency, value,
+priority, mission, benefit, or the harm it would avoid, is norm content,
+whoever makes it and however it is measured. It **MAY** be the reason an action
+is attempted, and it **MAY** raise the demand the action presents or the
+supervision it requires. It **MUST NOT** be the reason an environmental limit
+is not applied, or applied less strictly, to that action or to any other. The
+importance of many actions together is a judgment about the many; it changes
+nothing about the limit that applies to each.
+
+**Binding.** An adjudication token **MUST** be bound, by digest, to the action
+it adjudicated, the actor, the grant in force, the evidence it judged, the zone
+and topology epoch in which it was issued, and its time of issue and expiry.
+Any change to any of these voids it. A void token, or one whose binding cannot
+be verified, is absent, and the evaluation proceeds as if no norm content had
+been applied. After any such change, execution requires a fresh evaluation
+under this specification and a fresh adjudication; neither rail's earlier
+result survives it.
+
+The token's bound fields are the payload in schemas/adjudication-token.json.
+The boundary cases for these rules are published in
+specifications/conformance/adjudication-token-v1.json. They fix decision
+requirements at those boundaries and do not define a formula for A, E or
+supervision.
+
+Converts further when the external normative profile lands and the two documents
 cross-reference; the prudence-rail naming paragraph is spec text now.
 
 ## L12. The privacy marker has no stated rule
@@ -1914,34 +1977,84 @@ Converts to spec text when either a scale constant is fitted to the tier table,
 or the tier table is reduced to the tiers a declared regime can enter, with the
 ceiling term made to bind or removed.
 
-## L14. One Risk Factor is externally supplied, and the specification says so
+## L14. The criticality of the moment is a demand-side input, and the specification says so
 
-This specification does not claim that all seven Risk Factors share a
-provenance. Six are named aggregations over declared subsets of Context Signals.
-`moment_criticality` is not: it is supplied by the action request. The asymmetry
-is declared at the site of use rather than left to be inferred from the
-catalogue's silence.
+This specification does not claim that the criticality of the moment is a
+measurement of the environment. Every Risk Factor is a named aggregation over a
+declared subset of Context Signals. `moment_criticality` is not a Risk Factor and
+does not enter R: it is an externally supplied input on the demand side, under
+the supplied-input rule of L11. The asymmetry is declared at the site of
+use rather than left to be inferred from the catalogue's silence.
 
 The reason it cannot be repaired by adding signals is that the quantity is on
 the other side of the relation. Every domain in the catalogue measures E;
 criticality relative to an event horizon is a property of the act proposed
 against the environment, not of the environment, and so it measures A. A
 catalogue that has only ever held one side of A <= E has nothing for this
-Risk Factor to aggregate, and that is a fact about the object, not an omission
-in the authoring.
+input to aggregate, and that is a fact about the object, not an omission in the
+authoring.
 
 A conformant implementation **MUST** declare, at the site of use, that an
-externally supplied Risk Factor input is externally supplied, together with the
+externally supplied demand input is externally supplied, together with the
 supplying party and the unit convention in force. It **MUST NOT** present the
 value as signal-derived, **MUST NOT** claim a declared Context Signal subset
 underneath it, and **MUST NOT** compare the value across deployments that have
 not declared a common convention. Absent input **MUST** fail closed on the same
-rule as any other undefined term.
+rule as any other undefined demand term: it reads as the most critical moment,
+not the least.
+
+An externally supplied input enters only on the demand or supervision side. It
+**MUST NOT** be supplied by the requester or by a party acting for it, and the
+deployment **MUST** declare its supplier. The supplier is ordinarily the
+deployment's own event calendar, maintenance schedule or mission-phase feed. A
+demand input is not configured as a sensor factor; KTP-SENSORS describes,
+informatively, how a supplier can derive its value from those schedules.
+
+The declaration and evaluation boundary cases for a demand input are published
+in specifications/conformance/demand-input-v1.json. They fix decision
+requirements at those boundaries and do not define a formula for A, R or E.
 
 Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
+
+## L15. Composition across requests is not yet required
+
+This specification does not claim that a limit holds across requests. The
+aggregation algorithm (Section 6.7) evaluates one request: A for that request,
+against E at that moment. It has no step that combines the consequences of
+separate requests. A consequence split across tools, agents, routes, time, or
+the identities of one beneficiary can therefore pass every per-request
+evaluation while the combined consequence exceeds what any single request would
+be permitted. L3 states the algebra that composes causal action contracts before
+evaluating risk; this version does not require an implementation to perform it.
+
+A conformant implementation **MUST NOT** present a per-request limit as a bound
+on the combined consequence of several requests. An implementation that does
+compose consequences across requests **MAY** say so, and the claim carries its
+own status label under {{KTP-CONFORMANCE}}.
+
+Test definitions for this limit are published as cases that read the governed
+world, not the decision record: a consequence split across tools, agents, time,
+and the identities of one beneficiary; two agents committing concurrently
+against one remainder; a retry under a new key after a lost acknowledgement;
+and declared joint operations and time-separated requests that fit, which must
+still pass, so that refusing every split fails. Cases: consequence-boundary-attack-set
+in https://github.com/nmcitra/ktp-cases at tag v0.1.0.
+
+The per-agent Mass Ceiling and the Mitosis Protocol in {{KTP-ENFORCE}} bound one
+agent and do not bound a lineage's combined consequence; a ceiling summed over a
+lineage is among what would convert this limit.
+
+
+Converts to spec text when the aggregation composes, before evaluating risk,
+every request that shares a declared consequence measure and window, across
+tools, agents, routes, time, and the identities that resolve to one
+beneficiary, against one atomic reservation of the remaining budget; when a
+reservation is released only on authenticated evidence that nothing was
+dispatched; when a declared joint operation shares that reservation rather than
+being refused; and when those cases are run.
 
 # Security Considerations
 
@@ -2079,21 +2192,23 @@ Scenario: A deployment agent attempts to push a code update to the ticketing sys
 
 Sensor values: CO2: 1800 ppm Link saturation: 92% WAF blocks: 200/min Time to kickoff: 5 minutes Dependency count: 50 VIP count: 2
 
-Normalization: M = (1800 - 400) / 1600 = 0.875 P = 92 / 100 = 0.920 H = 200 / 10000 = 0.020 T = 1 - (0.083 / 72) = 0.999 ≈ 1.000 I = 50 / 500 = 0.100 O = 2 / 50 = 0.040
+Normalization: evidence_density = (1800 - 400) / 1600 = 0.875 trust_trend = 92 / 100 = 0.920 adversarial_pressure = 200 / 10000 = 0.020 update_resistance = 50 / 500 = 0.100 attestation_coverage = 2 / 50 = 0.040
 
-Domain weights (stadium): w_M=0.30, w_P=0.25, w_H=0.20, w_T=0.15, w_I=0.05, w_O=0.05
+Domain weights (Stadium Network profile, Section 6.4): evidence_density=0.29, trust_trend=0.29, adversarial_pressure=0.24, update_resistance=0.12, attestation_coverage=0.06
 
-Risk calculation: R = (0.30 * 0.875) + (0.25 * 0.920) + (0.20 * 0.020) + (0.15 * 1.000) + (0.05 * 0.100) + (0.05 * 0.040) R = 0.263 + 0.230 + 0.004 + 0.150 + 0.005 + 0.002 R = 0.654
+Risk calculation: R = (0.29 * 0.875) + (0.29 * 0.920) + (0.24 * 0.020) + (0.12 * 0.100) + (0.06 * 0.040) R = 0.25375 + 0.26680 + 0.00480 + 0.01200 + 0.00240 R = 0.53975
 
 Agent E_base: 95 (highly trusted deployment agent)
 
-E_trust calculation: E_trust = 95 * (1 - 0.654) = 95 * 0.346 = 32.87
+E_trust calculation: E_trust = 95 * (1 - 0.53975) = 95 * 0.46025 = 43.72375
 
 Action requested: Deploy code (A = 50)
 
-Zeroth Law evaluation: A <= E_trust ? 50 <= 32.87 ? FALSE
+Zeroth Law evaluation: A <= E_trust ? 50 <= 43.72375 ? FALSE
 
 Result: Silent Veto. Deployment denied.
+
+The five minutes to kickoff do not enter R. Where the deployment declares moment_criticality as a demand input (L14), kickoff raises A for this request, which can only strengthen the veto.
 
 A.2.  Same Agent, Calm Conditions
 
@@ -2101,17 +2216,17 @@ Same agent, but during a maintenance window:
 
 Sensor values: CO2: 450 ppm Link saturation: 12% WAF blocks: 5/min Time to event: 48 hours Dependency count: 50 VIP count: 0
 
-Normalization: M = (450 - 400) / 1600 = 0.031 P = 12 / 100 = 0.120 H = 5 / 10000 = 0.001 T = 1 - (48 / 72) = 0.333 I = 50 / 500 = 0.100 O = 0 / 50 = 0.000
+Normalization: evidence_density = (450 - 400) / 1600 = 0.03125 trust_trend = 12 / 100 = 0.120 adversarial_pressure = 5 / 10000 = 0.0005 update_resistance = 50 / 500 = 0.100 attestation_coverage = 0 / 50 = 0.000
 
-Risk calculation: R = (0.30 * 0.031) + (0.25 * 0.120) + (0.20 * 0.001) + (0.15 * 0.333) + (0.05 * 0.100) + (0.05 * 0.000) R = 0.009 + 0.030 + 0.000 + 0.050 + 0.005 + 0.000 R = 0.094
+Risk calculation: R = (0.29 * 0.03125) + (0.29 * 0.120) + (0.24 * 0.0005) + (0.12 * 0.100) + (0.06 * 0.000) R = 0.0090625 + 0.0348000 + 0.0001200 + 0.0120000 + 0.0000000 R = 0.0559825
 
-E_trust calculation: E_trust = 95 * (1 - 0.094) = 95 * 0.906 = 86.07
+E_trust calculation: E_trust = 95 * (1 - 0.0559825) = 95 * 0.9440175 = 89.6816625
 
 Action requested: Deploy code (A = 50)
 
-Zeroth Law evaluation: A <= E_trust ? 50 <= 86.07 ? TRUE
+Zeroth Law evaluation: A <= E_trust ? 50 <= 89.6816625 ? TRUE
 
-Result: Action permitted.
+Result: Action permitted. The maintenance window is not a reason to permit: it does not lower R, and a demand input may only raise A.
 
 # JSON Schemas
 
@@ -2119,8 +2234,8 @@ B.1.  Trust Proof Schema
 
 The canonical schema is the published file, not this appendix.
 
-Location: https://kinetic-trust-protocol.net/specs/schemas/v2/trust-proof.json
+Location: https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json
 
-SHA-256 of the canonical file at the time this document was produced: 41d5dd2506893094d41e21193cf95eed396dc99b8d32d7264f50ea1a7972d4e0
+SHA-256 of the canonical file at the time this document was produced: 34faa5f2d51ced455aa92f90c3e00353cf209d9a81518d5c9fb14d7589106c32
 
-The published file carries the v2 claims (the declared peer share, applicable ceilings, advancement floor, and root instrument) and references the risk-factors schema.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.
+The file carries the v2 claims (the declared peer share, applicable ceilings, advancement floor, and root instrument) and references the v3 risk-factors schema, so its context is the five weighted inputs.  The published v2 file is unchanged at its v2 location and is kept in the repository as trust-proof-legacy-v2.json.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.

@@ -44,7 +44,7 @@ def apply_mutation(value, mutation):
 class SoftwareSubstrateExecutionTests(unittest.TestCase):
     def test_capacity_input_pairs_are_isolated(self):
         vectors = {v["id"]: v for v in SUITE["vectors"]}
-        self.assertEqual(len(vectors), 53)
+        self.assertEqual(len(vectors), 56)
         self.assertEqual(len(vectors), len(SUITE["vectors"]))
         baseline = vectors["S01-current-bound-action"]
         for name, field in (

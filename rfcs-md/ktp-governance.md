@@ -75,7 +75,7 @@ Governor actions have autonomy (A):
 
 Governors have environmental stability (E):
 
-- E = E_base * (1 - R)
+- E = E_base * (1 - R) for a governing system; for a person, the operational E the reviewed adapter authenticates (KTP-Core Section 4.1 (Definition))
 
 - Where R reflects governance context risk
 
@@ -710,11 +710,8 @@ Some amendments are constrained or prohibited:
    | Change dispute process        | Requires external review    |
    | Reduce governor accountability| Requires 90% approval       |
    | Increase E_base limits        | Requires impact assessment  |
-   | Remove standing to object     | PROHIBITED                  |
    +-------------------------------+-----------------------------+
 ~~~
-
-An amendment MUST NOT remove, from any class of participants, the standing to open an amendment, to contest a refusal, or to object within the ratification period's objection window. A charter clause or amendment that does so is void and the charter otherwise stands.
 
 # Transparency Requirements
 

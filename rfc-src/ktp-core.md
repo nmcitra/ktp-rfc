@@ -53,6 +53,10 @@ informative:
     title: "Kinetic Trust Protocol - Trust Federation"
     author:
       - name: Chris Perkins
+  KTP-CONFORMANCE:
+    title: "Kinetic Trust Protocol (KTP) - Conformance Requirements Levels, Testing, and Certification"
+    author:
+      - name: Chris Perkins
 
 --- abstract
 
@@ -520,6 +524,8 @@ This design ensures that environmental risk has veto power over agent capability
 ### Risk Domains
 
 The Risk Factor is defined once, in Section 5.2 above, and nowhere else in this set. Keeping one input steady against local sensor noise before it enters that sum is a matter of feed configuration. {{KTP-SENSORS}} Section 2.3 describes, informatively, reading an input at three sensing scopes, Node, Neighborhood, and Global, and aggregating the readings by the feed aggregation of {{KTP-SENSORS}} Section 2.2. The technique yields the value of one input. It does not yield R; its weights are feed weights of that input, not the weights of Section 6.5 (Domain Weights); and a deployment that does not use it is not less conformant for that.
+
+In a nested deployment, a ring's Risk Factor also carries its enclosure's exposure, the Enclosure Domain. It acts on Section 5.2's sum as a floor: it can raise R and never lower it below the value that sum produces. See {{KTP-SENSORS}} Section 2.3 and {{KTP-ZONES}} Section 3.7 (Nested Zones).
 
 ## Effective Trust Score (E_trust)
 
@@ -1525,7 +1531,9 @@ Admissibility verdicts are invariant under re-description — packet level,
 syscall level, API level, agent level — only because action risk attaches to
 governed-world state transitions rather than to description events, and
 composition merges causal action contracts before evaluating risk. That algebra
-is discharged. The theorem it yields is conditional on **faithful description**:
+is discharged; the aggregation in Section 6.7 does not yet perform the
+composition, and L15 states that limit. The theorem it yields is conditional on
+**faithful description**:
 a proof, per description level, that the level's events implement the claimed
 consequence semantics.
 
@@ -1748,6 +1756,56 @@ fail-closed behavior on an undefined demand term — **MUST** reference a
 declared external schema for norm content, and **MUST NOT** present
 conformance as evidence that the norms in force are adequate.
 
+**Direction.** Norm content restricts and never widens. For any evaluation,
+the result with norm content applied **MUST NOT** be more permissive than the
+result this specification produces with none applied, on any outcome this
+specification orders: it **MUST NOT** permit what that result denies, set
+supervision below it, widen what it leaves executable, raise the capacity it
+measured, or lower the demand it measured. This holds for every shape norm
+content takes, for every source that produces it, and for any number of them
+applied together, so that no combination of judgments widens what one alone
+could not.
+
+**A favorable verdict.** A favorable adjudication satisfies the gate it answers
+and nothing else. It is not evidence of capacity, it does not stand in for any
+other check this specification makes, and it does not lower any result those
+checks produce. It answers only the action, whole, and the actor it
+adjudicated: a verdict on part of an action, on a different action, or for a
+different actor answers nothing here, and no number of favorable verdicts adds
+up to a verdict on an action none of them judged.
+
+**Release.** Where the normative rail raises supervision, it **MAY** later
+release only the increment it raised, through its declared accountable process,
+as an act signed by the party that raised it. It **MUST NOT** release
+supervision below the level this specification derives from the environment,
+and it **MUST NOT** release what another rail raised. A release applies to the
+one action and the one actor it names. It does not pool across actions,
+transfer between actors, or carry from one evaluation to the next.
+
+**Importance.** A judgment that an action matters, its urgency, value,
+priority, mission, benefit, or the harm it would avoid, is norm content,
+whoever makes it and however it is measured. It **MAY** be the reason an action
+is attempted, and it **MAY** raise the demand the action presents or the
+supervision it requires. It **MUST NOT** be the reason an environmental limit
+is not applied, or applied less strictly, to that action or to any other. The
+importance of many actions together is a judgment about the many; it changes
+nothing about the limit that applies to each.
+
+**Binding.** An adjudication token **MUST** be bound, by digest, to the action
+it adjudicated, the actor, the grant in force, the evidence it judged, the zone
+and topology epoch in which it was issued, and its time of issue and expiry.
+Any change to any of these voids it. A void token, or one whose binding cannot
+be verified, is absent, and the evaluation proceeds as if no norm content had
+been applied. After any such change, execution requires a fresh evaluation
+under this specification and a fresh adjudication; neither rail's earlier
+result survives it.
+
+The token's bound fields are the payload in schemas/adjudication-token.json.
+The boundary cases for these rules are published in
+specifications/conformance/adjudication-token-v1.json. They fix decision
+requirements at those boundaries and do not define a formula for A, E or
+supervision.
+
 Converts further when the external normative profile lands and the two documents
 cross-reference; the prudence-rail naming paragraph is spec text now.
 
@@ -1857,6 +1915,43 @@ Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
+
+## L15. Composition across requests is not yet required
+
+This specification does not claim that a limit holds across requests. The
+aggregation algorithm (Section 6.7) evaluates one request: A for that request,
+against E at that moment. It has no step that combines the consequences of
+separate requests. A consequence split across tools, agents, routes, time, or
+the identities of one beneficiary can therefore pass every per-request
+evaluation while the combined consequence exceeds what any single request would
+be permitted. L3 states the algebra that composes causal action contracts before
+evaluating risk; this version does not require an implementation to perform it.
+
+A conformant implementation **MUST NOT** present a per-request limit as a bound
+on the combined consequence of several requests. An implementation that does
+compose consequences across requests **MAY** say so, and the claim carries its
+own status label under {{KTP-CONFORMANCE}}.
+
+Test definitions for this limit are published as cases that read the governed
+world, not the decision record: a consequence split across tools, agents, time,
+and the identities of one beneficiary; two agents committing concurrently
+against one remainder; a retry under a new key after a lost acknowledgement;
+and declared joint operations and time-separated requests that fit, which must
+still pass, so that refusing every split fails. Cases: consequence-boundary-attack-set
+in https://github.com/nmcitra/ktp-cases at tag v0.1.0.
+
+The per-agent Mass Ceiling and the Mitosis Protocol in {{KTP-ENFORCE}} bound one
+agent and do not bound a lineage's combined consequence; a ceiling summed over a
+lineage is among what would convert this limit.
+
+
+Converts to spec text when the aggregation composes, before evaluating risk,
+every request that shares a declared consequence measure and window, across
+tools, agents, routes, time, and the identities that resolve to one
+beneficiary, against one atomic reservation of the remaining budget; when a
+reservation is released only on authenticated evidence that nothing was
+dispatched; when a declared joint operation shares that reservation rather than
+being refused; and when those cases are run.
 
 # Security Considerations
 
@@ -2049,9 +2144,9 @@ The canonical schema is the published file, not this appendix.
 
 Location: https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json
 
-SHA-256 of the canonical file at the time this document was produced: cf98e703433904a76fc0ff69bfe837bedd94cc0633cac812ebf85cc7e1c2e896
+SHA-256 of the canonical file at the time this document was produced: e8989538f4587f6b70e59a69f3b7ef682abe662b15d94329b62e342f98afb3d9
 
-The file carries the proposed closed v3 claims and explicit gate/version
+The file carries the unreleased closed v3 claims and explicit gate/version
 contract, with fixed absolute references to the existing Risk Factor and Soul
 schemas. The canonical companion defines conditions JSON Schema cannot check.
 The released v2.1.0 artifact remains available at its immutable tag; a legacy

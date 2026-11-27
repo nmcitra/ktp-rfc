@@ -1,6 +1,6 @@
 # Ordinary Request and Trust Proof Association
 
-**Proposed, unreleased request-binding-v1 normative companion.**
+**Status: unreleased normative companion.**
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", and
 "MAY" are interpreted as described in BCP 14 (RFC 2119 and RFC 8174).

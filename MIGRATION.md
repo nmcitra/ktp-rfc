@@ -46,6 +46,7 @@ Never infer a complete sponsor URI from a historical segment to manufacture a
 new bond. An absent or unverifiable migration binding fails closed for v3
 sponsorship. Verification under an identified tagged v2 release remains
 verification under that release, not v3 sponsorship.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;

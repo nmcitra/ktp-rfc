@@ -30,6 +30,10 @@ normative:
       - name: Chris Perkins
 
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-FEDERATION:
     title: "Kinetic Trust Protocol (KTP) - Federation Specification"
     author:
@@ -437,30 +441,39 @@ Attestations are NOT issued for routine operations under normal conditions. This
 
 Friction is categorized to enable meaningful comparison across different types of environmental stress:
 
-~~~
-+----------+-----------+-----------------------------------+
-| Category | R Range   | Description                       |
-+----------+-----------+-----------------------------------+
-| CALM     | 0.0 - 0.3 | Normal operations, no attestation |
-| ELEVATED | 0.3 - 0.5 | Moderate stress                   |
-| HIGH     | 0.5 - 0.7 | Significant stress                |
-| SEVERE   | 0.7 - 0.9 | Near-crisis conditions            |
-| CRISIS   | 0.9 - 1.0 | Critical conditions               |
-+----------+-----------+-----------------------------------+
-~~~
+| Category | Exact R interval | Description |
+|----------|------------------|-------------|
+| CALM | `0 <= R <= 0.3` | Normal operations, no ordinary-success attestation |
+| ELEVATED | `0.3 < R < 0.5` | Moderate stress |
+| HIGH | `0.5 <= R < 0.7` | Significant stress |
+| SEVERE | `0.7 <= R < 0.9` | Near-crisis conditions |
+| CRISIS | `0.9 <= R <= 1.0` | Critical conditions |
+
+The intervals are exhaustive and disjoint for finite R in [0, 1]. An
+out-of-range or non-finite R MUST be rejected. A declared friction_category
+MUST match the interval containing R; a mismatch MUST be rejected rather than
+silently relabeled. Ordinary successful actions are eligible for an attestation
+only when R > 0.3. CALM ordinary successes earn zero Resilience Score credit;
+this rule does not replace the separate graceful-degradation and recovery
+issuance conditions in Section 5.1 (Attestation Structure).
+
+The deterministic boundary cases in
+[PoR friction boundaries](../specifications/conformance/por-friction-boundaries-v3.json)
+fix category, ordinary-success eligibility, applicable multiplier, and
+Resilience Score contribution for action_risk = 0.4. Decimal values are exact;
+"below" and "above" use a declared test step of 0.000001, not a claim about
+machine floating-point adjacency. Every valid case also specifies a conflicting
+declared category that MUST be rejected. These are modeled decision vectors,
+not validation of friction measurement or a runtime conformance claim.
 
 Weight multipliers for Resilience Score:
 
-~~~
-+----------+--------+-----------------------------------+
-| Category | Weight | Rationale                         |
-+----------+--------+-----------------------------------+
-| ELEVATED | 1.0x   | Baseline for counted attestations |
-| HIGH     | 2.0x   | Notable achievement               |
-| SEVERE   | 5.0x   | Significant achievement           |
-| CRISIS   | 10.0x  | Exceptional achievement           |
-+----------+--------+-----------------------------------+
-~~~
+| Category | Weight | Rationale |
+|----------|--------|-----------|
+| ELEVATED | 1.0x | Baseline for counted attestations |
+| HIGH | 2.0x | Notable achievement |
+| SEVERE | 5.0x | Significant achievement |
+| CRISIS | 10.0x | Exceptional achievement |
 
 An agent that successfully completes one action during CRISIS conditions earns the same Resilience Score as an agent that completes ten actions during ELEVATED conditions.
 
@@ -504,7 +517,7 @@ Proof of Resilience explicitly values quality over quantity:
 Agent A:
 
 - 100,000 transactions
-- All under CALM conditions (R < 0.3)
+- All under CALM conditions (0 <= R <= 0.3)
 - 0 attestations
 - Resilience Score: 0
 - PoR contribution: 0
@@ -539,6 +552,8 @@ The Zeroth Law (A <= E) creates a catch-22 for new agents:
 
 Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.
 
+A bond does not close a breach. A breach attaches to the sponsored agent's trajectory and is carried by agents spawned from it after the breach; a root whose lineages carry unreconciled breaches above its declared count MUST NOT open a bond, as {{KTP-REPAIR}} specifies.
+
 The same bond lets an established person stand behind a new agent or a new person ({{KTP-CORE}} Section 5.1.1 (The External Root)). The sponsor of an agent may be an agent or a person; the sponsor of a person is a person. A sponsored person has no generation or lineage stage, so the bond on a person ends at its closure (Section 6.4 (Penalty and Release)), never at a generation step.
 
 ## Bond Structure
@@ -550,8 +565,8 @@ A Sponsorship Bond contains:
 | Field             | Type     | Description                       |
 +-------------------+----------+-----------------------------------+
 | bond_id           | string   | Unique identifier                 |
-| sponsor_id        | string   | Sponsor identifier (agent/person) |
-| sponsored_id      | string   | New agent or person identifier    |
+| sponsor_id        | URI      | Sponsor identifier (agent/person) |
+| sponsored_id      | URI      | New agent or person identifier    |
 | stake_percentage  | number   | Percentage of sponsor's E_base    |
 | stake_amount      | number   | Absolute E_base staked            |
 | residual_amount   | number   | Ancestral Liability, Section 6.4  |
@@ -866,7 +881,7 @@ Characteristics:
 
 Purpose: The Sponsored phase protects the system from unproven agents while allowing them to build history. Sponsors provide economic accountability; if they spawn bad agents, they suffer real consequences.
 
-Identifier format: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
+Identifier format: agent:sponsored:\<sponsor_ref>:\<agent_name>:\<unique_id>
 
 Example: agent:sponsored:acme-deploy:aria:7f8a9b2c
 
@@ -1010,21 +1025,103 @@ Components:
 
 ## Lineage Encoding
 
-Sponsored agents: agent:sponsored:\<sponsor_id>:\<agent_name>:\<unique_id>
+Sponsored agents: agent:sponsored:\<sponsor_ref>:\<agent_name>:\<unique_id>
 
 Independent agents: agent:independent:\<N>gen:\<lineage_name>:\<unique_id>
 
 Guarantor agents: agent:guarantor:\<N>gen:\<name>:\<unique_id>
 
+### Canonical grammar and equality
+
+The v3 identifier grammar is ABNF (RFC 5234). Literal scheme, lineage,
+and generation suffix bytes are case-sensitive; the %s notation below
+fixes that spelling. ALPHA and DIGIT are the RFC 5234 core rules.
+
+~~~
+agent-id    = sponsored / independent / guarantor
+sponsored   = %s"agent:sponsored:" segment ":" segment ":" segment
+independent = %s"agent:independent:" generation ":" segment ":" segment
+guarantor   = %s"agent:guarantor:" generation ":" segment ":" segment
+generation  = ("0" / (%x31-39 *DIGIT)) %s"gen"
+segment     = 1*segment-char ; 1..255 ASCII wire octets; see length constraint below
+segment-char = unreserved / pct-encoded
+unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+pct-encoded = "%" upper-hex upper-hex
+upper-hex   = DIGIT / %x41-46
+~~~
+
+The %s literal notation is defined by RFC 7405. In addition to the ABNF,
+each segment, including generation, MUST contain at most 255 ASCII wire
+octets; percent triplets count as three octets, not one segment-char.
+A parser MUST reject a segment exceeding this encoded length limit. Empty segments, extra delimiters, and query or fragment
+suffixes MUST be rejected. The grammar fixes identifier syntax, not eligibility
+for a phase; the generation and Lineage Evolution requirements still apply.
+
+Percent encoding represents only printable ASCII octets (0x20 through 0x7E).
+Unreserved octets MUST appear literally, never percent-encoded. Every other
+allowed octet MUST be encoded with uppercase hexadecimal digits. A parser MUST
+reject noncanonical spellings, malformed escapes, raw reserved characters,
+control octets and non-ASCII octets. Split the wire identifier on literal colons
+before interpreting segment escapes; an encoded colon is segment data, never a
+separator. Do not recursively decode an escaped percent sign.
+
+The first sponsored segment is sponsor_ref, an opaque reference. It is not a
+complete sponsor URI (agent or person) and MUST NOT establish sponsorship. A component MUST NOT
+infer or look up authority by treating sponsor_ref as the sponsor identity.
+The second segment is agent_name; the last is unique_id. The corresponding
+segments in independent and guarantor forms are lineage_name/name and unique_id.
+Names and opaque references are case-sensitive. Two valid canonical Agent URIs
+are equal only when all their ASCII wire bytes are equal. Verifiers MUST NOT
+case-fold, decode and re-encode, normalize, trim, or repair signed identifiers
+before equality checks.
+
+### Sponsorship binding
+
+For a sponsored subject, validate the Sponsorship Bond under Section 6
+(Sponsorship Bonds), including its signatures and applicable status. Its
+sponsor_id is the authoritative complete sponsor URI (agent or person). Its sponsored_id
+MUST equal the evaluated subject's canonical URI. For a software subject,
+the Trust Proof's sponsor claim MUST equal that validated bond's sponsor_id.
+For a person subject, the proof's authenticated bond projection MUST bind
+the same sponsor and complete signed bond; do not add an agent-only sponsor
+claim, lineage or generation to represent it. The proof's sub MUST equal the
+same evaluated subject. All these identifiers MUST
+be valid canonical URIs for the actual independently authenticated subjects
+before byte equality is checked: an agent uses the Agent URI grammar above;
+a person uses a person: URI under the applicable identity contract. The subject's
+kind MUST be established independently, not inferred from absent agent claims;
+a person MUST NOT be assigned an agent lineage or generation to pass validation.
+This binding rule does not expand sponsorship eligibility. Missing claims,
+invalid identifiers or any mismatch MUST fail sponsorship validation; do not
+repair the binding using sponsor_ref. Matching strings alone do not validate a
+bond, a proof signature, current authority, or phase eligibility.
+
+Deterministic parse and binding decisions are published in
+[sponsored identifier vectors](../specifications/conformance/agent-identifiers-v3.json).
+The binding vectors assume otherwise authenticated, applicable bonds and proofs;
+they do not replace cryptographic verification. No registry, lookup service or
+storage implementation is standardized.
+
+### Old-to-new vocabulary mapping
+
+| Old term | v3 term | Migration |
+|----------|----------------|-----------|
+| sponsor_id (identifier segment) | sponsor_ref | Opaque reference only; existing canonical example bytes remain valid. |
+| sponsor_id (Sponsorship Bond field) | sponsor_id | Unchanged field name; a complete sponsor URI (agent or person), authoritative only in a validated bond. |
+
+This mapping changes the segment's name, not the signed bytes of existing
+canonical identifiers. See MIGRATION.md for noncanonical legacy identifiers
+and bindings; old signed records MUST NOT be rewritten.
+
 ## Examples
 
-Newly spawned agent sponsored by "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
+Newly spawned agent with sponsor_ref "acme-deploy": agent:sponsored:acme-deploy:aria:7f8a9b2c-1234-5678-9abc-def012345678
 
 Third-generation agent in the Acme lineage: agent:independent:3gen:acme-line:8e9f0a1b-2345-6789-abcd-ef0123456789
 
 Seventh-generation autonomous agent: agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890
 
-Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde- f01234567890"
+Full Trust Proof "sub" claim: "sub": "agent:guarantor:7gen:optimized:9f0a1b2c-3456-789a-bcde-f01234567890"
 
 # Security Considerations
 

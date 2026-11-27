@@ -620,7 +620,7 @@ GOODHART-003: E_base MUST include demonstrated performance under adversity, not 
 
 Proof of Resilience already requires crisis-time attestations. This section strengthens that requirement:
 
-- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R > 0.5 - E_base > 80 requires attestations under R > 0.7 - E_base > 90 requires attestations under CRISIS conditions
+- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R >= 0.5 - E_base > 80 requires attestations under R >= 0.7 - E_base > 90 requires attestations under CRISIS conditions
 
 This cannot be gamed by self-inflicted crises because: - Attestations require Oracle signature - Oracle only signs if crisis is zone-wide (not agent-local) - Manufactured crises harm the manufacturing agent
 
@@ -2065,6 +2065,23 @@ beneficiary, against one atomic reservation of the remaining budget; when a
 reservation is released only on authenticated evidence that nothing was
 dispatched; when a declared joint operation shares that reservation rather than
 being refused; and when those cases are run.
+
+## L16. Reconciliation binds re-entry and the rule, not yet the mechanism of amendment or the boundary
+
+{{KTP-REPAIR}} states what a reconciliation record is, what it gates, and that a
+recurring breach pattern puts the rule itself in repair. This specification
+does not state the mechanism by which an amendment is made and ratified inside
+a zone, and does not state how a breach carried into another zone under a
+Federation Agreement is reconciled there. The lineage-summed bound on sponsorship under
+unreconciled breach that {{KTP-REPAIR}} specifies is the first of the
+lineage-summed bounds this specification has named as owed; the mass ceiling
+summed over a lineage is not yet among them.
+
+A conformant implementation **MUST NOT** present per-zone reconciliation as
+reconciliation across a federation.
+
+Converts to spec text when the collective-choice material states the amendment
+mechanism and Federation's agreement text states cross-zone reconciliation.
 
 # Security Considerations
 

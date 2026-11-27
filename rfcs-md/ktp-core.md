@@ -65,8 +65,6 @@ Data Sovereignty: The principle that data is subject to the laws, customs, and g
 
 Effective Trust Score (E_trust): The software agent's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for that agent's capacity check. Human operational E is established separately under the reviewed adapter.
 
-Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
-
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
@@ -1404,10 +1402,6 @@ If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a
 
 The ten-second maximum applies to every zone and conformance level. An existing session, cached proof, queued refresh, surrounding token, or emergency declaration MUST NOT extend ordinary authorization. Separately authorized safety or recovery actions follow specifications/emergency-capability.md. That capability is disabled unless an approved policy is pinned; it does not replace an expired proof or override a sovereignty, capacity, or prior veto. Changes to emergency authority are governed by the companion's protected amendment process, including during recovery.
 
-## Execution Observation
-
-A decision record attests the decision. Whether a consequential action ran is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/conformance/execution-observation-v1.json fixes or an equivalent the deployment profile declares. An observation of dispatch establishes that the action was sent, not that it had an effect; a confirmed effect is a further state of the observation record, and specifications/consequential-action-execution-and-evidence.md defines the states of that record. A consequential decision with no bound observation is unverified, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as [KTP-REPAIR] specifies. An observation of dispatch for which no decision exists, on a route that carries no enforcement point, is a bypass on the same terms, recorded against the zone's declared enforcement level.
-
 # Silent Veto Mechanism
 
 The Silent Veto is the automatic denial of an action when A > E_trust. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
@@ -1891,6 +1885,23 @@ Converts to spec text when the task-side domain lands, giving this quantity
 signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
+
+## L16. Reconciliation binds re-entry and the rule, not yet the mechanism of amendment or the boundary
+
+[KTP-REPAIR] states what a reconciliation record is, what it gates, and that a
+recurring breach pattern puts the rule itself in repair. This specification
+does not state the mechanism by which an amendment is made and ratified inside
+a zone, and does not state how a breach carried into another zone under a
+Federation Agreement is reconciled there. The lineage-summed bound on sponsorship under
+unreconciled breach that [KTP-REPAIR] specifies is the first of the
+lineage-summed bounds this specification has named as owed; the mass ceiling
+summed over a lineage is not yet among them.
+
+A conformant implementation **MUST NOT** present per-zone reconciliation as
+reconciliation across a federation.
+
+Converts to spec text when the collective-choice material states the amendment
+mechanism and Federation's agreement text states cross-zone reconciliation.
 
 # Security Considerations
 

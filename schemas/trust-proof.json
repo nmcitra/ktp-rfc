@@ -188,60 +188,6 @@
           "description": "Blue Zone identifier where proof was issued",
           "minLength": 1
         },
-        "oracle_quorum": {
-          "type": "string",
-          "pattern": "^[0-9]+-of-[0-9]+$",
-          "description": "Cryptographic signing threshold (e.g., '3-of-5'), not the Oracle consensus decision quorum or evidence of a unique committed history. Mesh issuers and honest signers must verify the applicable committed standing under specifications/oracle-consensus.md. JSON Schema does not verify signatures, membership epochs, commit evidence, or runtime consensus."
-        },
-        "peer_share": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 100,
-          "description": "Declared peer-signal share (w_p) in points; 0 where peer validation is not implemented. E_base MUST be evaluated against the declared share."
-        },
-        "applicable_ceilings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": [
-              "ceiling",
-              "value"
-            ],
-            "properties": {
-              "ceiling": {
-                "type": "string",
-                "description": "Which ceiling: generation, trajectory, adversity, ial, zone_mass, or a further declared ceiling",
-                "minLength": 1
-              },
-              "value": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100
-              }
-            },
-            "additionalProperties": false
-          },
-          "description": "Every ceiling applicable to this evaluation; E_base is bounded by their minimum. A ceiling absent here was not applied.",
-          "minItems": 1
-        },
-        "advancement_floor": {
-          "type": "number",
-          "minimum": 0,
-          "description": "Declared per-generation Resilience floor. A deployment whose environment produces no attestable friction declares 0, and a relying party can see the lineage advanced on time alone."
-        },
-        "root_instrument": {
-          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v3/root-instrument.json"
-        },
-        "version": {
-          "const": "ktp-trust-proof-v3"
-        },
-        "gate_state": {
-          "enum": [
-            "clear",
-            "veto",
-            "undetermined"
-          ]
-        },
         "ingress_path": {
           "type": "array",
           "maxItems": 5,
@@ -315,6 +261,60 @@
           },
           "description": "Standard claim coordinated with KTP-ZONES Sections 6.6 (Ingress Path) and 7.4 (Egress Shaping). At most five bound receipts, outermost first; required at positive authorized topology depth and absent at depth zero. Shape alone does not verify signatures, topology, possession or session binding. See specifications/trust-proof.md.",
           "minItems": 1
+        },
+        "oracle_quorum": {
+          "type": "string",
+          "pattern": "^[0-9]+-of-[0-9]+$",
+          "description": "Cryptographic signing threshold (e.g., '3-of-5'), not the Oracle consensus decision quorum or evidence of a unique committed history. Mesh issuers and honest signers must verify the applicable committed standing under specifications/oracle-consensus.md. JSON Schema does not verify signatures, membership epochs, commit evidence, or runtime consensus."
+        },
+        "peer_share": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Declared peer-signal share (w_p) in points; 0 where peer validation is not implemented. E_base MUST be evaluated against the declared share."
+        },
+        "applicable_ceilings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "ceiling",
+              "value"
+            ],
+            "properties": {
+              "ceiling": {
+                "type": "string",
+                "description": "Which ceiling: generation, trajectory, adversity, ial, zone_mass, or a further declared ceiling",
+                "minLength": 1
+              },
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            },
+            "additionalProperties": false
+          },
+          "description": "Every ceiling applicable to this evaluation; E_base is bounded by their minimum. A ceiling absent here was not applied.",
+          "minItems": 1
+        },
+        "advancement_floor": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Declared per-generation Resilience floor. A deployment whose environment produces no attestable friction declares 0, and a relying party can see the lineage advanced on time alone."
+        },
+        "root_instrument": {
+          "$ref": "https://kinetic-trust-protocol.net/specs/schemas/v3/root-instrument.json"
+        },
+        "version": {
+          "const": "ktp-trust-proof-v3"
+        },
+        "gate_state": {
+          "enum": [
+            "clear",
+            "veto",
+            "undetermined"
+          ]
         },
         "subject_kind": {
           "enum": [

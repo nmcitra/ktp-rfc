@@ -1,6 +1,6 @@
 # One Core, Three Conformance Levels
 
-**Proposed, unreleased native-v3 common Core contract.**
+**Status: unreleased normative companion.**
 
 The key words MUST, MUST NOT, SHOULD and MAY have their BCP 14 meanings.
 

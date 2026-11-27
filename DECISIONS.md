@@ -169,6 +169,7 @@ Decision: Approved as proposed. The software-substrate execution profile enters
 `specifications/` with v3.0.0; PR #131 merges in the order the v3.0.0 release
 proposal states.
 Provenance: proposed by Mike Storm; built first as KIL.
+Corrected before release in PR #233: three out-of-domain vectors, S54 to S56.
 
 ### D-010 · The consolidation block
 Published 2026-09-09 · class MAJOR · clock 2026-09-09 → floor 2026-10-23 → review-by 2026-12-06 · approved 2026-10-23
@@ -193,6 +194,9 @@ Decision: Approved as proposed. The consequential-action execution and
 evidence specification, its schema and its vectors enter the set with v3.0.0;
 PR #139 merges in the order the v3.0.0 release proposal states.
 Provenance: proposed by Mike Storm; KAG as the reference implementation.
+Corrected before release in PR #233: thirteen schema vector ids numbered J12 to
+J24, the fingerprint digest's schema member named, and MIGRATION's `no_effect`
+sentence.
 
 ### D-013 · Three Risk Factor formulas no longer weight the Soul veto
 Published 2026-10-05 · Clarification · clock 2026-10-05 → floor 2026-10-12 · review-by 2026-10-19 · approved 2026-10-14

@@ -123,8 +123,8 @@ redefine E or widen the profile result. Adopt the signed evidence record and its
 five states. A denial without authenticated protected-path non-dispatch evidence
 is `unknown`; neither HTTP success nor a dispatch record proves an effect.
 Release held reservations only on authenticated non-dispatch, preserving uncertain
-state. An earlier implementation must not silently map `no_effect` to dispatch or
-release a reservation on it. D-012 is opt-in and does not itself change obligations
+state. An implementation must not map `no_effect` to dispatch or release a
+reservation on it. D-012 is opt-in and does not itself change obligations
 for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally

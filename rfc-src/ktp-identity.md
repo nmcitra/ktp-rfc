@@ -29,6 +29,12 @@ normative:
     author:
       - name: Chris Perkins
 
+informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
+
 --- abstract
 
 This document specifies the Vector Identity system for the Kinetic Trust Protocol (KTP). Vector Identity replaces static credentials with trajectory-based authentication, where identity is proven through continuous movement rather than possession of secrets.
@@ -431,30 +437,39 @@ Attestations are NOT issued for routine operations under normal conditions. This
 
 Friction is categorized to enable meaningful comparison across different types of environmental stress:
 
-~~~
-+----------+-----------+-----------------------------------+
-| Category | R Range   | Description                       |
-+----------+-----------+-----------------------------------+
-| CALM     | 0.0 - 0.3 | Normal operations, no attestation |
-| ELEVATED | 0.3 - 0.5 | Moderate stress                   |
-| HIGH     | 0.5 - 0.7 | Significant stress                |
-| SEVERE   | 0.7 - 0.9 | Near-crisis conditions            |
-| CRISIS   | 0.9 - 1.0 | Critical conditions               |
-+----------+-----------+-----------------------------------+
-~~~
+| Category | Exact R interval | Description |
+|----------|------------------|-------------|
+| CALM | `0 <= R <= 0.3` | Normal operations, no ordinary-success attestation |
+| ELEVATED | `0.3 < R < 0.5` | Moderate stress |
+| HIGH | `0.5 <= R < 0.7` | Significant stress |
+| SEVERE | `0.7 <= R < 0.9` | Near-crisis conditions |
+| CRISIS | `0.9 <= R <= 1.0` | Critical conditions |
+
+The intervals are exhaustive and disjoint for finite R in [0, 1]. An
+out-of-range or non-finite R MUST be rejected. A declared friction_category
+MUST match the interval containing R; a mismatch MUST be rejected rather than
+silently relabeled. Ordinary successful actions are eligible for an attestation
+only when R > 0.3. CALM ordinary successes earn zero Resilience Score credit;
+this rule does not replace the separate graceful-degradation and recovery
+issuance conditions in Section 5.1 (Attestation Structure).
+
+The deterministic boundary cases in
+[PoR friction boundaries](../specifications/conformance/por-friction-boundaries-v3.json)
+fix category, ordinary-success eligibility, applicable multiplier, and
+Resilience Score contribution for action_risk = 0.4. Decimal values are exact;
+"below" and "above" use a declared test step of 0.000001, not a claim about
+machine floating-point adjacency. Every valid case also specifies a conflicting
+declared category that MUST be rejected. These are modeled decision vectors,
+not validation of friction measurement or a runtime conformance claim.
 
 Weight multipliers for Resilience Score:
 
-~~~
-+----------+--------+-----------------------------------+
-| Category | Weight | Rationale                         |
-+----------+--------+-----------------------------------+
-| ELEVATED | 1.0x   | Baseline for counted attestations |
-| HIGH     | 2.0x   | Notable achievement               |
-| SEVERE   | 5.0x   | Significant achievement           |
-| CRISIS   | 10.0x  | Exceptional achievement           |
-+----------+--------+-----------------------------------+
-~~~
+| Category | Weight | Rationale |
+|----------|--------|-----------|
+| ELEVATED | 1.0x | Baseline for counted attestations |
+| HIGH | 2.0x | Notable achievement |
+| SEVERE | 5.0x | Significant achievement |
+| CRISIS | 10.0x | Exceptional achievement |
 
 An agent that successfully completes one action during CRISIS conditions earns the same Resilience Score as an agent that completes ten actions during ELEVATED conditions.
 
@@ -498,7 +513,7 @@ Proof of Resilience explicitly values quality over quantity:
 Agent A:
 
 - 100,000 transactions
-- All under CALM conditions (R < 0.3)
+- All under CALM conditions (0 <= R <= 0.3)
 - 0 attestations
 - Resilience Score: 0
 - PoR contribution: 0
@@ -532,6 +547,8 @@ The Zeroth Law (A <= E) creates a catch-22 for new agents:
 - Therefore, new agents cannot do anything
 
 Sponsorship Bonds break this cycle by allowing established agents to "lend" a portion of their trust to new agents.
+
+A bond does not close a breach. A breach attaches to the sponsored agent's trajectory and is carried by agents spawned from it after the breach; a root whose lineages carry unreconciled breaches above its declared count MUST NOT open a bond, as {{KTP-REPAIR}} specifies.
 
 The same bond lets an established person stand behind a new agent or a new person ({{KTP-CORE}} Section 5.1.1 (The External Root)). The sponsor of an agent may be an agent or a person; the sponsor of a person is a person. A sponsored person has no generation or lineage stage, so the bond on a person ends at its closure (Section 6.4 (Penalty and Release)), never at a generation step.
 

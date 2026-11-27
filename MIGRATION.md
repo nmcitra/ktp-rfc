@@ -47,6 +47,29 @@ new bond. An absent or unverifiable migration binding fails closed for v3
 sponsorship. Verification under an identified tagged v2 release remains
 verification under that release, not v3 sponsorship.
 
+**Unreleased canonical v3 Trust Proof migration (v2.1.0 baseline):**
+Adopt [Canonical Trust Proof Contract](specifications/trust-proof.md) and the
+v3 trust-proof schema together. Change Core's old ktp+jwt type/media subtype to
+ktp-trust-proof+jwt; use the one closed payload, explicit version and gate
+state, required audience and conditional claims at every conformance level.
+Old copied Basic/Standard/Full or Crypto payload shapes are not native v3.
+ES256 is the base capability; other algorithms require an installed named
+profile, with Ed25519 identified as EdDSA and exact key/curve/role binding.
+Maintain stronger selected Crypto requirements and Oracle committed-state checks.
+
+Select an authenticated issuer/verifier cutover, key/profile bindings and
+accepted-format floor; do not let a candidate token select legacy mode. Proofs
+are ephemeral: issue fresh v3 proofs at cutover, retaining the ten-second cap,
+zero skew and exact expiry check. Do not re-sign or relabel old tokens as native
+v3 evidence. If needed, operate an explicitly enabled, isolated v2.1 adapter
+using the immutable tagged v2.1.0 schema and artifact rules; adapter output is
+legacy and cannot bypass v3 checks or revive expired authority. Preserve signed
+history unchanged. Invalid proof, valid veto, and valid undetermined results
+must remain distinguishable; none grants execution. Coordinate the standard
+ingress_path claim and receipt verification with KTP-ZONES Sections 6.6
+(Ingress Path) and 7.4 (Egress Shaping); an unavailable receipt verifier
+cannot cause a nested proof to be accepted.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;

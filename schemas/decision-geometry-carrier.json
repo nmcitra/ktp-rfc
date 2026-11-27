@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/decision-geometry-v1/decision-geometry-carrier.json",
+  "title": "KTP Decision Geometry signed-carrier payload v1 (proposed)",
+  "description": "Complete JCS payload inside a purpose-typed compact JWS. This is the signed payload schema, not a signature field or independent permission. Current signature/role, association, proof, freshness, profile and restriction checks remain required.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "carrier_version",
+    "geometry_digest",
+    "geometry",
+    "expires_at"
+  ],
+  "properties": {
+    "carrier_version": {
+      "const": "decision-geometry-carrier-v1"
+    },
+    "geometry_digest": {
+      "type": "string",
+      "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+    },
+    "geometry": {
+      "$ref": "https://kinetic-trust-protocol.net/specs/schemas/decision-geometry-v1/decision-geometry.json"
+    },
+    "expires_at": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  }
+}

@@ -852,11 +852,11 @@ Recovery keys SHOULD be geographically distributed and held by different organiz
 
 ## HSM Requirements
 
-### Certification Requirements
+### FIPS Validation Requirements
 
 ~~~
 +---------+---------------------------------------------+
-| Level   | Minimum Certification                       |
+| Level   | Minimum validation                          |
 +---------+---------------------------------------------+
 | Level 1 | None (HSM optional)                         |
 | Level 2 | FIPS 140-2 Level 2                          |

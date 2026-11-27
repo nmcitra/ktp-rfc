@@ -149,7 +149,7 @@ R ranges from 0.0-1.0 based on environmental conditions:
 
 R is derived from the six domain risks:
 
-The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as [KTP-CORE] Section 6.7 (Aggregation Algorithm) specifies, from the six named Risk Factors at the weights the deployment profile declares.
+The weighted form that stood here, with a Soul term inside the sum, was retired at v2.0.0: Soul is evaluated before aggregation and is never a term in it. The Risk Factor is computed as [KTP-CORE] Section 6.7 (Aggregation Algorithm) specifies, from the five weighted Risk Factors at the weights the deployment profile declares.
 
 Weights MUST sum to 1.0.  Zone operators MAY adjust weights based on operational context.
 
@@ -392,8 +392,6 @@ Example demotions:
    -  Base Tier: Analyst    G=1: Observer   G=2: Observer  G=3: Observer
    -  Base Tier: Observer   G=1: Observer   G=2: Observer  G=3: Observer
 ~~~
-
-This demotion is temporary and environmental; it lifts as gravity falls. It is not the cost of a breach: standing lost at a breach is bounded by the ceiling of [KTP-REPAIR] Section 4.4 (The Cost) and returns only by acts recorded after reconciliation.
 
 ### Action Class Restriction
 

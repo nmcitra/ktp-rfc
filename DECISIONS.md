@@ -416,3 +416,41 @@ with a finite, positive denominator. A backup fills a slot only with coverage
 established as independent and equivalent, and one observation never fills
 two slots. PR #203 merges in the order the v3.0.0 release proposal states.
 Provenance: proposed by @martherus, who wrote PR #203.
+
+### D-034 · KTP-REPAIR: standing lost at a breach does not return without reconciliation
+Published 2026-10-14 · MAJOR · floor 2026-11-27 · review-by 2027-01-10 · approved 2026-11-27
+Source: issue #171; PR #172
+Decision: Approved as proposed. KTP-REPAIR enters the set as its twenty-eighth
+document. An actor in Breach does not regain readiness or re-enter a tier at
+or above the breach tier until a `reconciliation` record is anchored. Re-entry
+carries a ceiling on base standing that only acts recorded after the record
+lift. KTP-CORE gains L16, which names the mechanism of amendment and
+cross-zone reconciliation as owed. The breach-reconciliation vectors enter the
+set, three terms enter the vocabulary, and MIGRATION states what a deployment
+adds. PR #172 merges with this record.
+Provenance: proposed and carried into PR #172 by the maintainer.
+
+### D-035 · Federation: the rule, and the Federation Agreement as the only instrument
+Published 2026-10-14 · MAJOR · floor 2026-11-27 · review-by 2027-01-10 · approved 2026-11-27
+Source: issue #173; PR #174
+Decision: Approved as proposed. A federation moves decisions about the
+federation and never a zone's evaluation of an act, nor the policy under which
+it evaluates. A foreign Trust Proof, clearance or attestation is evidence that
+a receiving zone weighs under its own policy. A clause that delegates, waives
+or overrides a zone's Silent Veto or Soul veto is void, and the agreement
+otherwise stands. A trust factor is signed by the zone that receives, for one
+direction of crossing. The federation vectors enter the set. PR #174 merges
+with this record.
+Provenance: proposed and carried into PR #174 by the maintainer.
+
+### D-036 · Governance: who may open an amendment, and what it cannot reach
+Published 2026-10-14 · MAJOR · floor 2026-11-27 · review-by 2027-01-10 · approved 2026-11-27
+Source: issue #175; PR #176
+Decision: Approved as proposed. A lineage bound by a rule may open that
+rule's amendment through the published route, and the authority attends by
+notice or by a refusal that can be contested. An amendment binds forward from
+the next evaluation and makes no past act a breach. No amendment reaches the
+immutable elements, the route and its recurrence, a veto, or what no repair
+tier may change; one that does is void and the charter stands. The
+charter-amendment vectors enter the set. PR #176 merges with this record.
+Provenance: proposed and carried into PR #176 by the maintainer.

@@ -1566,9 +1566,7 @@ Admissibility verdicts are invariant under re-description — packet level,
 syscall level, API level, agent level — only because action risk attaches to
 governed-world state transitions rather than to description events, and
 composition merges causal action contracts before evaluating risk. That algebra
-is discharged; the aggregation in Section 6.7 does not yet perform the
-composition, and L15 states that limit. The theorem it yields is conditional on
-**faithful description**:
+is discharged. The theorem it yields is conditional on **faithful description**:
 a proof, per description level, that the level's events implement the claimed
 consequence semantics.
 
@@ -1888,42 +1886,22 @@ signals to aggregate and stating the supplier, the units, and the verification
 path a verifier walks. That domain is carried as a v2.1 obligation; until it
 lands, the declaration is the whole of the treatment.
 
-## L15. Composition across requests is not yet required
+## L16. Reconciliation binds re-entry and the rule, not yet the mechanism of amendment or the boundary
 
-This specification does not claim that a limit holds across requests. The
-aggregation algorithm (Section 6.7) evaluates one request: A for that request,
-against E at that moment. It has no step that combines the consequences of
-separate requests. A consequence split across tools, agents, routes, time, or
-the identities of one beneficiary can therefore pass every per-request
-evaluation while the combined consequence exceeds what any single request would
-be permitted. L3 states the algebra that composes causal action contracts before
-evaluating risk; this version does not require an implementation to perform it.
+[KTP-REPAIR] states what a reconciliation record is, what it gates, and that a
+recurring breach pattern puts the rule itself in repair. This specification
+does not state the mechanism by which an amendment is made and ratified inside
+a zone, and does not state how a breach carried into another zone under a
+Federation Agreement is reconciled there. The lineage-summed bound on sponsorship under
+unreconciled breach that [KTP-REPAIR] specifies is the first of the
+lineage-summed bounds this specification has named as owed; the mass ceiling
+summed over a lineage is not yet among them.
 
-A conformant implementation **MUST NOT** present a per-request limit as a bound
-on the combined consequence of several requests. An implementation that does
-compose consequences across requests **MAY** say so, and the claim carries its
-own status label under [KTP-CONFORMANCE].
+A conformant implementation **MUST NOT** present per-zone reconciliation as
+reconciliation across a federation.
 
-Test definitions for this limit are published as cases that read the governed
-world, not the decision record: a consequence split across tools, agents, time,
-and the identities of one beneficiary; two agents committing concurrently
-against one remainder; a retry under a new key after a lost acknowledgement;
-and declared joint operations and time-separated requests that fit, which must
-still pass, so that refusing every split fails. Cases: consequence-boundary-attack-set
-in https://github.com/nmcitra/ktp-cases at tag v0.1.0.
-
-The per-agent Mass Ceiling and the Mitosis Protocol in [KTP-ENFORCE] bound one
-agent and do not bound a lineage's combined consequence; a ceiling summed over a
-lineage is among what would convert this limit.
-
-
-Converts to spec text when the aggregation composes, before evaluating risk,
-every request that shares a declared consequence measure and window, across
-tools, agents, routes, time, and the identities that resolve to one
-beneficiary, against one atomic reservation of the remaining budget; when a
-reservation is released only on authenticated evidence that nothing was
-dispatched; when a declared joint operation shares that reservation rather than
-being refused; and when those cases are run.
+Converts to spec text when the collective-choice material states the amendment
+mechanism and Federation's agreement text states cross-zone reconciliation.
 
 # Security Considerations
 

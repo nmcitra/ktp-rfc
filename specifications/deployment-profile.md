@@ -27,7 +27,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | section | declares | required |
 |---|---|---|
 | `risk_factors` | which Context Signals feed each of the five Risk Factors, by what aggregation, at what weight | yes |
-| `demand_inputs` | each externally supplied demand input (such as `moment_criticality`): its supplying party, unit convention, and source, per `[KTP-CORE]` L14 | yes, per demand input used |
+| `demand_inputs` | each externally supplied demand input: its closed supplier/profile, source, unit/range, freshness and verification contract under [demand-supplier.md](demand-supplier.md); no signals, aggregation or weight | yes, per demand input used |
 | `soul_veto` | the sovereignty frameworks queried before aggregation | yes |
 | `feeds` | which signals each configured feed populates | yes, where feeds are configured |
 | `aliases` | which member of each populated alias set this deployment populates | yes, per populated set |
@@ -65,6 +65,26 @@ Constraints, all quoted from their rulings:
 ### The Soul veto
 
 `soul_veto` declares the sovereignty frameworks queried per `[KTP-SENSORS]` §4.3. It is not a weighted term: a sufficiently good score must not be able to outvote a sovereignty constraint (#83). If ANY framework returns veto, S = 1; if ANY query is UNDETERMINED — unreachable, error, timeout, or empty — S = 1, one branch, no separation (`ktp-sensors` §4.3, per #105). Only an answering framework returns a clearance.
+
+## Demand inputs — the supplier contract
+
+`moment_criticality` is a demand-side input under Core L14, not a sixth weighted Risk Factor.
+Every used input declares the complete contract in
+[demand-supplier.md](demand-supplier.md) and
+[demand-input-contract.json](../schemas/demand-input-contract.json), referenced
+by this deployment schema. The authoritative value is the closed
+[demand-input-value-v1](../schemas/demand-input-value.json) payload obtained or
+corroborated through the declared source, not a requester-provided scalar.
+Its supplier/profile, full deployment digest, unit, observed/issued times,
+authenticated provenance and exact preclassification operation binding must
+all match independently trusted evaluation context. A missing or invalid value
+reads as the most critical moment without becoming a fabricated observation.
+No supplier formula or extra Context Signal aggregation is standardized here.
+
+Declaration changes increment this profile's version and digest. Old values
+cannot choose the old profile or an alternative source after current validation
+fails. Supplier independence and actual evidence freshness remain runtime
+obligations; the closed shape alone establishes neither.
 
 ## Feeds — how the wire reaches the catalogue
 
@@ -177,8 +197,8 @@ Every member MUST verify the authenticated configuration and evidence before cou
 ]
 ```
 
-- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, or a sovereignty framework identifier;
-- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
+- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, a demand input key, or a sovereignty framework identifier;
+- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3; a `term` entry names a Risk Factor key or a demand input key;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
 The field MUST include every evaluated undefined layer under
@@ -196,6 +216,10 @@ that record and its audit record under their applicable schemas. This contract
 does not require Decision Geometry or a Trust Proof carrier and does not add
 an `undefined_inputs` member to a Trust Proof payload.
 
+Native v3 portable carriage is defined by [Decision Geometry](decision-geometry.md)
+and schemas/decision-geometry.json, not transaction-record.json. The Trust Proof's gate state
+remains the canonical proof contract's assertion. Historical/product audit
+formats retain their own provenance and cannot be relabeled as native geometry.
 
 ## Conformance
 

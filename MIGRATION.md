@@ -167,6 +167,17 @@ ingress_path claim and receipt verification with KTP-ZONES Sections 6.6
 (Ingress Path) and 7.4 (Egress Shaping); an unavailable receipt verifier
 cannot cause a nested proof to be accepted.
 
+**Unreleased demand supplier migration:**
+Follow [Core L14](rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so)'s five-factor/demand-side migration, then replace the smaller demand
+row with the complete [supplier contract](specifications/demand-supplier.md).
+Increment the installed profile version and digest; reacquire independently
+authenticated supplier values with current provenance, observation time and
+exact preclassification operation binding. Do not rename an old catalogue
+signal, request scalar or stale signed value into new evidence. Unavailable
+values read restrictively as the most critical moment, without fabricating an
+observation or changing R. Historical profiles and bytes retain their release
+meaning; no active fallback to the old declaration is permitted.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;

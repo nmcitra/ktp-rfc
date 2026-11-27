@@ -22,6 +22,9 @@ the source.
 | Request/Proof Association v1 (proposed) | [`request-proof-association.json`](request-proof-association.json) | Unsigned request/proof digest and JTI association; no standalone authorization or signed carrier |
 | Decision Geometry v1 (proposed) | [`decision-geometry.json`](decision-geometry.json) | Closed portable deterministic evaluation; inputs, undefined states, gates, supervision and tightened constraints; not a permit or execution outcome |
 | Decision Geometry Carrier v1 (proposed) | [`decision-geometry-carrier.json`](decision-geometry-carrier.json) | Complete payload of the purpose-typed signed boundary carrier; no independent execution authority |
+| Demand Input Contract v1 (proposed) | [`demand-input-contract.json`](demand-input-contract.json) | Closed independently supplied demand declaration; no factor weight or Context Signals |
+| Demand Operation v1 (proposed) | [`demand-operation.json`](demand-operation.json) | Exact actual invocation before criticality and final demand calculation |
+| Demand Input Value v1 (proposed) | [`demand-input-value.json`](demand-input-value.json) | Authoritative value payload bound to supplier/profiles, time, provenance and actual operation; authentication remains separate |
 | Consequential-action evidence (unreleased) | [`consequential-action-evidence.json`](consequential-action-evidence.json) | Correlation shape for request, consumed decision, reservation and observation; authentication and target effects require independent verification |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |

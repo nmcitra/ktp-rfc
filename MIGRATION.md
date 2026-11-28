@@ -1,5 +1,18 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Proposed, unreleased native-v3 conformance-level migration (v2.1.0 baseline):**
+Basic, Standard and Full remain three conformance levels, each adding deployment
+assurance to the same Core. A v2.1.0 Basic deployment with three weighted inputs,
+no Soul gate and a sixty-second proof retains the identity `legacy-v2.1-basic`;
+it MUST NOT claim native-v3 Basic by changing its label. Native-v3 Basic requires
+all five weighted inputs, the independent Soul gate, Core standing and result
+semantics, and the same canonical proof with a ten-second maximum lifetime as
+every other level. Follow the complete
+[migration mapping](specifications/core-conformance.md#immutable-baseline-and-migration-mapping)
+before making a native claim. Preserve historical signed bytes and their release
+meaning; any explicitly authorized legacy verifier remains separate, with no
+automatic fallback from native-v3 verification.
+
 **Unreleased v3 PoR boundary migration (from v2.1.0):**
 Use the exact intervals in [KTP-IDENTITY] Section 5.2 (Friction Categories).
 GOODHART-003 now includes exact-boundary attestations: an attestation at exactly
@@ -72,7 +85,6 @@ the JSON/JWS base without that mapping. See
 Replay protection changes from SHOULD to MUST: implement request-ID reservation,
 replay-domain uniqueness and issuer/JTI collision checks under
 [request-binding.md, Replay-domain uniqueness and collisions](specifications/request-binding.md#6-replay-domain-uniqueness-and-collisions).
-
 
 **Unreleased Portable Decision Geometry migration:**
 Retain historical v2.1 records in their original formats, with their original

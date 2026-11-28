@@ -47,6 +47,137 @@ new bond. An absent or unverifiable migration binding fails closed for v3
 sponsorship. Verification under an identified tagged v2 release remains
 verification under that release, not v3 sponsorship.
 
+**Native Transport migration (v2.1.0 baseline):**
+The old protobuf package, abbreviated OpenAPI, flat proof/JWS envelope and
+authorization enum remain legacy at the immutable
+[v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md).
+Preserve original bytes and provenance. Native v3 uses the
+[JSON/JWS base profile](specifications/native-transport.md), exact canonical
+proofs, complete ordinary requests/associations and signed Decision Geometry
+carriers across boundaries. Do not mechanically rename old messages or infer
+missing gates/constraints from an old permission verb.
+
+An explicitly enabled legacy adapter remains isolated and cannot be selected
+after native validation fails. Reissue and reevaluate under the installed
+native release/profile and current invocation, keys, time and prerequisites.
+HTTP `/api/v1` and `/v1` routing can remain independently versioned; old `ktp.v1`
+stream/package and capability tokens cannot negotiate native semantics. A future
+protobuf/OpenAPI alternative needs its own versioned complete artifacts,
+builder and interoperability vectors before recommendation or use.
+
+CBOR is demoted from an optional native encoding to a separately versioned
+mapping for proof, ordinary-request and decision artifacts; it cannot replace
+the JSON/JWS base without that mapping. See
+[native-transport.md, Retired alternatives and future profiles](specifications/native-transport.md#3-retired-alternatives-and-future-profiles).
+Replay protection changes from SHOULD to MUST: implement request-ID reservation,
+replay-domain uniqueness and issuer/JTI collision checks under
+[request-binding.md, Replay-domain uniqueness and collisions](specifications/request-binding.md#6-replay-domain-uniqueness-and-collisions).
+
+
+**Unreleased Portable Decision Geometry migration:**
+Retain historical v2.1 records in their original formats, with their original
+signatures and provenance. They remain historical records; do not invent missing
+inputs, profile/source evidence, undefined-state metadata, associations, margin
+or gates to relabel them decision-geometry-v1. Use fresh evaluations under the
+installed profile and [canonical body/carrier](specifications/decision-geometry.md)
+for the new format. Preserve exact request/proof association preimages from
+[Request Binding](specifications/request-binding.md). Keep original producer geometry immutable if a consumer tightens it.
+
+Move product chain/storage/retention/query/enforcement/notification metadata and
+counterfactual projections outside the portable body; no ALLOW/DENY/VETO enum or
+execution outcome belongs there. transaction-record.json stays a Trajectory
+Chain record; do not transform it into pre-action evaluation evidence. Across
+trust boundaries, authorize evaluator-role keys and verify complete typed carrier,
+geometry digest, actual request/proof/profile, current validity and all existing
+replay/grant/readiness constraints. Archived validity cannot restore current
+permission, and a signed geometry does not prove dispatch or non-dispatch.
+
+
+**Ordinary request/proof migration (v2.1.0 baseline):**
+Adopt [request-binding-v1](specifications/request-binding.md) alongside the
+canonical v3 Trust Proof. Build a fresh complete canonical request from the
+authenticated actual invocation, explicit requester/executor, resolved resource
+and parameters, installed classifier and replay context. Recompute the exact
+domain-separated request and complete-proof digests; a subject/JTI/session match
+or historical project-owned action hash cannot substitute. Do not insert a
+request hash into the closed state proof or relabel an old proof/request pair.
+
+The former instruction to track Trust Proof JTIs to prevent reuse is replaced:
+one verified proof MAY serve distinct requests inside its ten-second validity
+window. Replay is guarded by `(replay_domain, request_id)`; each verified
+`(issuer, jti)` MUST still identify exactly one complete proof digest. Existing
+implementations must change both state keys and collision checks, not disable
+replay protection or extend proof lifetime.
+
+Install authenticated active replay-domain bindings and accepted-domain floors,
+with atomic request-ID reservations and issuer/JTI collision checks. Missing
+or lost required state fails closed; do not restore legacy cached permissions.
+Reissue/reevaluate pending legacy requests under fresh native request IDs and
+all v3 prerequisites. Keep explicitly enabled v2.1 handling separate, with no
+fallback around native checks. Preserve old signed history rather than rewriting
+its hashes. Decision use across a trust boundary remains disabled unless a
+reviewed signed carrier binds the complete association and evaluation context;
+A separately reviewed carrier is required before that use. Readiness keeps its own signed preimages:
+construct and verify both contracts against the same actual invocation/proof.
+No exactly-once target effect, durable retry, queue, release-time freshness or
+effect-evidence claim is added; target-execution evidence remains separate.
+
+
+
+
+**Unreleased Closed External Root migration:**
+Preserve published v2.1 proof bytes and signatures under their original release.
+A nullable property bag, missing discriminator/reason or credit-bearing none
+is not a native proof projection. Reissue from authoritative complete signed
+bonds/attestations and current lifecycle/profile evidence under
+[external-root-v1](specifications/external-root.md). Do not infer issuer,
+terminator, exposure, cause/finding or expiry from a copied score. No root
+credit implies base trust at most 70 for any subject plus every tighter ceiling;
+missing evidence cannot mint an anchor. The separate person decision owns
+subject eligibility. Explicit legacy handling stays isolated with no native
+fallback. Canonical Trust Proof fixtures use the closed projection. Consumers
+MUST preserve those exact signed bytes rather than substituting an equivalent
+ECDSA signature; digest associations bind the complete proof bytes.
+Persons may carry a live bond another person posts, without invented lineage
+or generation. Their execution tier uses E_trust; their capacity check uses the
+reviewed adapter's operational E. Count signed acts for the trajectory-length
+ceiling. A person bond ends at closure, never a generation transition.
+
+
+**Unreleased canonical v3 Trust Proof migration (v2.1.0 baseline):**
+Adopt [Canonical Trust Proof Contract](specifications/trust-proof.md) and the
+v3 trust-proof schema together. Change Core's old ktp+jwt type/media subtype to
+ktp-trust-proof+jwt; use the one closed payload, explicit version and gate
+state, required audience and conditional claims at every conformance level.
+Old copied Basic/Standard/Full or Crypto payload shapes are not native v3.
+ES256 is the base capability; other algorithms require an installed named
+profile, with Ed25519 identified as EdDSA and exact key/curve/role binding.
+Maintain stronger selected Crypto requirements and Oracle committed-state checks.
+
+Select an authenticated issuer/verifier cutover, key/profile bindings and
+accepted-format floor; do not let a candidate token select legacy mode. Proofs
+are ephemeral: issue fresh v3 proofs at cutover, retaining the ten-second cap,
+zero skew and exact expiry check. Do not re-sign or relabel old tokens as native
+v3 evidence. If needed, operate an explicitly enabled, isolated v2.1 adapter
+using the immutable tagged v2.1.0 schema and artifact rules; adapter output is
+legacy and cannot bypass v3 checks or revive expired authority. Preserve signed
+history unchanged. Invalid proof, valid veto, and valid undetermined results
+must remain distinguishable; none grants execution. Coordinate the standard
+ingress_path claim and receipt verification with KTP-ZONES Sections 6.6
+(Ingress Path) and 7.4 (Egress Shaping); an unavailable receipt verifier
+cannot cause a nested proof to be accepted.
+
+**Unreleased demand supplier migration:**
+Follow [Core L14](rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so)'s five-factor/demand-side migration, then replace the smaller demand
+row with the complete [supplier contract](specifications/demand-supplier.md).
+Increment the installed profile version and digest; reacquire independently
+authenticated supplier values with current provenance, observation time and
+exact preclassification operation binding. Do not rename an old catalogue
+signal, request scalar or stale signed value into new evidence. Unavailable
+values read restrictively as the most critical moment, without fabricating an
+observation or changing R. Historical profiles and bytes retain their release
+meaning; no active fallback to the old declaration is permitted.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
@@ -792,6 +923,26 @@ unchanged at their v2 identifiers and are kept as
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
 
+### 4.2 Missing evidence and fixed aggregation slots
+
+Remove `default_on_failure` from active sensor configurations, including veto
+configurations, and the old fraction-of-feeds dimension fallback. Adopt the
+[explicit layer states](specifications/missing-evidence.md) and their per-layer
+`undefined_inputs` entries. Continuity requires declared independently current
+redundant evidence filling fixed-weight aggregation slots and satisfying the
+same signal's complete population rule;
+there is no estimator alternative. Any required unknown signal makes the
+factor unobservable with a separate maximum-stress decision reading, not a
+measurement. Increment configuration/profile versions and digests, reacquire
+current observations, and preserve historical v2.1 records under their original
+release. Do not rename old fallback numbers or cached data into current
+observations; legacy handling cannot weaken active missing-evidence rules.
+
+Backup continuity requires independently established equivalent coverage, not only
+a current source in another failure domain. Cooler subsets do not replace a
+missing population. Reject mappings that reuse one observation across slots,
+including primary/backup aliases. A changed reading alone is not evidence of
+invalidity and does not authorize replay of the last current value.
 
 ---
 

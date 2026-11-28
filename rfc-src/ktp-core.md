@@ -33,6 +33,10 @@ normative:
     author:
       - name: Chris Perkins
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-SENSORS:
     title: "Kinetic Trust Protocol - Context Signal Sensors"
     author:
@@ -120,15 +124,23 @@ Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic 
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
+Clearance: See specifications/hand-back.md.
+
 Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
 Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for a software agent's capacity check. A person's operational E is established separately under the reviewed adapter, and eligibility is a separate requirement ({{KTP-HUMAN}}).
 
+Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
+
 External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
+Hand-Back: See specifications/hand-back.md.
+
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
+
+Lease: See specifications/hand-back.md.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 
@@ -515,6 +527,22 @@ Unobservability is therefore checked at three layers, and a deployment MUST appl
 
 The layers do not collapse into one another. A signal may be unavailable while every feed populating it is healthy, which is why a feed-level rule alone is insufficient.
 
+The complete end-to-end rule is
+[Missing Evidence](../specifications/missing-evidence.md), with closed result
+shapes in schemas/evidence-state.json and deterministic cases in
+specifications/conformance/missing-evidence-v1.json. A feed is current or
+unavailable with reason, a signal populated or unknown, and a factor observable
+or unobservable. Unavailable/unknown/unobservable results carry no measured
+value; maximum factor stress is a separate restrictive decision reading.
+Only declared independent current redundancy satisfying the whole signal
+population rule preserves continuity. Any unknown required signal makes the
+factor unobservable; missing members and their weights MUST NOT be dropped or
+renormalized. There is no default_on_failure or estimator profile for this
+path. Record each evaluated missing layer separately in undefined_inputs,
+including failed feeds when a valid backup preserves the signal. Soul keeps
+its independent on-demand unanswered-query veto. This changes no A/E formula
+or the separate demand-side supplier contract.
+
 The multiplicative relationship between R and E_base (see Section 5.3) is critical. R is not subtracted from E_base; it deflates it. This means:
 
 - At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction) - At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction) - At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction) - At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)
@@ -627,7 +655,7 @@ GOODHART-003: E_base MUST include demonstrated performance under adversity, not 
 
 Proof of Resilience already requires crisis-time attestations. This section strengthens that requirement:
 
-- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R > 0.5 - E_base > 80 requires attestations under R > 0.7 - E_base > 90 requires attestations under CRISIS conditions
+- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R >= 0.5 - E_base > 80 requires attestations under R >= 0.7 - E_base > 90 requires attestations under CRISIS conditions
 
 This cannot be gamed by self-inflicted crises because: - Attestations require Oracle signature - Oracle only signs if crisis is zone-wide (not agent-local) - Manufactured crises harm the manufacturing agent
 
@@ -1365,6 +1393,10 @@ If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a
 
 The ten-second maximum applies to every zone and conformance level. An existing session, cached proof, queued refresh, surrounding token, or emergency declaration MUST NOT extend ordinary authorization. Separately authorized safety or recovery actions follow specifications/emergency-capability.md. That capability is disabled unless an approved policy is pinned; it does not replace an expired proof or override a sovereignty, capacity, or prior veto. Changes to emergency authority are governed by the companion's protected amendment process, including during recovery.
 
+## Execution Observation
+
+A decision record attests the decision. Whether a consequential action ran is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/conformance/execution-observation-v1.json fixes or an equivalent the deployment profile declares. An observation of dispatch establishes that the action was sent, not that it had an effect; a confirmed effect is a further state of the observation record, and specifications/consequential-action-execution-and-evidence.md defines the states of that record. A consequential decision with no bound observation is unverified, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as {{KTP-REPAIR}} specifies. An observation of dispatch for which no decision exists, on a route that carries no enforcement point, is a bypass on the same terms, recorded against the zone's declared enforcement level.
+
 # Silent Veto Mechanism
 
 The Silent Veto is the automatic denial of an action when A > E. It is "silent" because it requires no human intervention - the environment itself enforces the constraint.
@@ -1907,14 +1939,30 @@ deployment's own event calendar, maintenance schedule or mission-phase feed. A
 demand input is not configured as a sensor factor; KTP-SENSORS describes,
 informatively, how a supplier can derive its value from those schedules.
 
-The declaration and evaluation boundary cases for a demand input are published
-in specifications/conformance/demand-input-v1.json. They fix decision
-requirements at those boundaries and do not define a formula for A, R or E.
+Converted in v3.0.0 by the per-operation demand supplier contract (#147), which states the supplier, the unit and the verification path.
 
-Converts to spec text when the task-side domain lands, giving this quantity
-signals to aggregate and stating the supplier, the units, and the verification
-path a verifier walks. That domain is carried as a v2.1 obligation; until it
-lands, the declaration is the whole of the treatment.
+The complete declaration and per-operation value contract is
+[Per-operation Demand Supplier Contract](../specifications/demand-supplier.md).
+The deployment schema references its closed supplier declaration: unit/range,
+supplier and verification profiles, source, observation-based freshness and
+canonical authoritative value location. The value binds authenticated supplier
+and provenance, observed/issued times, the installed deployment digest and the
+exact actual preclassification operation. No signals, aggregation or weight
+belongs to this demand declaration. The five signal factors remain unchanged.
+
+Missing, stale, unverifiable, requester-supplied or differently bound values
+remain unavailable and read as the most critical moment, never as a calm zero
+or a fabricated catalogue observation. That reading enters only the demand or
+supervision side and cannot lower A or reverse an earlier veto. No formula for
+producing criticality or A is added. A fresh signature cannot refresh an old
+observation; supplier independence and authoritative provenance require actual
+verification rather than a schema or supplied identifier.
+
+The original boundary vectors in specifications/conformance/demand-input-v1.json
+are complemented by specifications/conformance/demand-supplier-v1.json, which
+fixes full schema, signature, freshness, provenance and exact-binding cases.
+The profile and value shapes do not claim that supplier authenticity, calibration
+or implementation interoperability has been established.
 
 ## L15. Composition across requests is not yet required
 
@@ -1952,6 +2000,23 @@ beneficiary, against one atomic reservation of the remaining budget; when a
 reservation is released only on authenticated evidence that nothing was
 dispatched; when a declared joint operation shares that reservation rather than
 being refused; and when those cases are run.
+
+## L16. Reconciliation binds re-entry and the rule, not yet the mechanism of amendment or the boundary
+
+{{KTP-REPAIR}} states what a reconciliation record is, what it gates, and that a
+recurring breach pattern puts the rule itself in repair. This specification
+does not state the mechanism by which an amendment is made and ratified inside
+a zone, and does not state how a breach carried into another zone under a
+Federation Agreement is reconciled there. The lineage-summed bound on sponsorship under
+unreconciled breach that {{KTP-REPAIR}} specifies is the first of the
+lineage-summed bounds this specification has named as owed; the mass ceiling
+summed over a lineage is not yet among them.
+
+A conformant implementation **MUST NOT** present per-zone reconciliation as
+reconciliation across a federation.
+
+Converts to spec text when the collective-choice material states the amendment
+mechanism and Federation's agreement text states cross-zone reconciliation.
 
 # Security Considerations
 

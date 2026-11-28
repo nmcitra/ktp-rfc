@@ -222,7 +222,7 @@ Use cases:
 Ingress requirements:
 
 - Valid Trust Proof from federated zone OR
-- Sponsorship from zone-resident agent
+- Sponsorship from a zone-resident sponsor, or from a sponsor in another zone where a Federation Agreement provides for it ({{KTP-FEDERATION}})
 - E_base >= 50 OR sponsored
 - Basic trajectory verification
 - Soul constraint check
@@ -420,6 +420,8 @@ Boundary enforcement:
 - Network-level: Firewall rules, routing policies
 - Application-level: API gateway enforcement
 - Service-level: Service mesh policies
+
+A zone MUST declare its boundary in its deployment profile: the resources its authority covers, the subjects entitled to hold standing in it, the classes of party outside it that acts within it may affect and the review route each is owed, the jurisdictions it operates under, and the limits of its authority. A Zone Gateway MUST deny an act on a resource the declaration does not cover and MUST deny standing to a subject the declaration does not entitle, and a denial that affects a party outside the zone MUST record the review route the declaration names for that party. A zone MUST NOT act beyond the authority its declaration limits, and a zone that declares no boundary makes no conformance claim. An enclosed zone's declared resources MUST NOT exceed its enclosure's. The declaration is the `boundary` object of the deployment profile (specifications/deployment-profile.md); its vectors are specifications/conformance/zone-boundary-v1.json.
 
 ## Zone Gateway
 
@@ -669,7 +671,7 @@ Example:
 
 Agents with insufficient mass can enter via sponsorship:
 
-1. Agent requests sponsorship from zone-resident sponsor
+1. Agent requests sponsorship from a zone-resident sponsor (or a cross-zone sponsor, where a Federation Agreement provides for it; {{KTP-FEDERATION}})
 2. Sponsor evaluates agent's trajectory and purpose
 3. Sponsor issues Sponsorship Bond
 4. Zone Gateway validates bond
@@ -681,8 +683,8 @@ Sponsorship bond at ingress:
 ~~~
    {
      "bond_type": "ingress_sponsorship",
-     "sponsor_id": "agent:guarantor:corp:sponsor123",
-     "sponsored_id": "agent:external:unknown:newagent",
+     "sponsor_id": "agent:guarantor:7gen:corp:sponsor123",
+     "sponsored_id": "agent:sponsored:ingress:newagent:entry01",
      "zone_id": "zone-blue-prod-01",
      "stake_percentage": 15,
      "duration": "PT24H",

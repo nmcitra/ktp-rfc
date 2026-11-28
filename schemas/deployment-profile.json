@@ -11,7 +11,8 @@
     "soul_veto",
     "peer_share",
     "external_root",
-    "standing_policy"
+    "standing_policy",
+    "boundary"
   ],
   "additionalProperties": false,
   "properties": {
@@ -60,14 +61,6 @@
         }
       }
     },
-    "demand_inputs": {
-      "type": "object",
-      "description": "Each externally supplied demand input the deployment uses: its supplying party, unit convention and source ([KTP-CORE] L14). A demand input raises the demand an action presents (A) and never enters R. An absent, stale, unverifiable or differently bound value reads as the most critical moment. Declared for each demand input the deployment uses; a deployment that uses none omits this object.",
-      "additionalProperties": false,
-      "properties": {
-        "moment_criticality": { "$ref": "#/$defs/demand_input" }
-      }
-    },
     "feeds": {
       "type": "object",
       "description": "The wire-to-catalogue mapping (#106): which catalogue signals each configured feed populates. Keys are feed ids as configured in [KTP-SENSORS] 2.2 / sensor-config.json. Stays in configuration; does not ride the wire.",
@@ -81,7 +74,26 @@
             "minItems": 1,
             "uniqueItems": true,
             "items": { "$ref": "#/$defs/signal_id" }
+          },
+          "independence_evidence": {
+            "type": "string",
+            "format": "uri",
+            "minLength": 1,
+            "description": "Installed evidence/profile reference establishing independence under the relevant signal population rule; required semantically for claimed redundancy."
+          },
+          "independence_group": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Declared source/control/failure group for an independently redundant feed. Labels alone do not establish independence."
           }
+        },
+        "dependentRequired": {
+          "independence_group": [
+            "independence_evidence"
+          ],
+          "independence_evidence": [
+            "independence_group"
+          ]
         }
       }
     },
@@ -303,6 +315,281 @@
         "m_veto": { "type": "number", "minimum": 0 },
         "m_allow": { "type": "number", "exclusiveMinimum": 0 }
       }
+    },
+    "demand_inputs": {
+      "type": "object",
+      "description": "Optional demand-side activation under Core L14; every input used requires the closed supplier contract of specifications/demand-supplier.md. moment_criticality is never a weighted factor or Context Signal aggregation. Missing, stale or invalid values read as the most critical moment under the installed demand convention.",
+      "additionalProperties": false,
+      "properties": {
+        "moment_criticality": {
+          "$ref": "#/$defs/demand_input"
+        }
+      }
+    },
+    "hand_back": {
+      "type": "object",
+      "required": [
+        "default_endpoint",
+        "recipients",
+        "classes",
+        "decision_review",
+        "ledger"
+      ],
+      "additionalProperties": false,
+      "description": "Declared by an implementation that claims the hand-back capability (specifications/hand-back.md). Absent otherwise.",
+      "properties": {
+        "default_endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The hand-back endpoint a template-less refusal resolves to when the mint request names no channel."
+        },
+        "recipients": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "recipient",
+              "capacity_binding"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "recipient": {
+                "type": "string",
+                "minLength": 1
+              },
+              "capacity_binding": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "description": "Per recipient: the reviewed capacity binding through which KTP-ENFORCE evidences that recipient's human operational capacity. Delivery to a recipient whose capacity is exhausted parks the hand-back (specifications/hand-back.md, Section 4.1)."
+        },
+        "classes": {
+          "type": "object",
+          "required": [
+            "logistics",
+            "coordination",
+            "relational"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "logistics": {
+              "type": "object",
+              "required": [
+                "reissue_min_seconds",
+                "escalation_cap",
+                "window_seconds",
+                "ack_sla_seconds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "reissue_min_seconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "escalation_cap": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "window_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "ack_sla_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "coordination": {
+              "type": "object",
+              "required": [
+                "reissue_min_seconds",
+                "escalation_cap",
+                "window_seconds",
+                "ack_sla_seconds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "reissue_min_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "escalation_cap": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "window_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "ack_sla_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "relational": {
+              "type": "object",
+              "required": [
+                "reissue_min_seconds",
+                "escalation_cap",
+                "window_seconds",
+                "ack_sla_seconds"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "reissue_min_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "escalation_cap": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "window_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "ack_sla_seconds": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "description": "Per consequence class: the minimum reissue_not_before, the escalation cap, the hysteresis window, and the acknowledgment ceiling. The minimum is greater than zero for Coordination and Relational."
+        },
+        "decision_review": {
+          "type": "object",
+          "required": [
+            "sampling_rate",
+            "triggers",
+            "uniform_approval_threshold"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sampling_rate": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "triggers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "uniform_approval_threshold": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "description": "The exogenous schedule of decision meaningfulness: sampling rate, outcome triggers, and the run of uniform approvals that is a finding."
+        },
+        "ledger": {
+          "type": "object",
+          "required": [
+            "owner",
+            "retention_days"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "owner": {
+              "type": "string",
+              "minLength": 1
+            },
+            "retention_days": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "hostile_facing_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Surfaces on which the zone declares full wire silence toward unmanaged traffic."
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "required": [
+        "resources",
+        "entitled_subjects",
+        "affected_outside",
+        "jurisdictions",
+        "authority_limits"
+      ],
+      "additionalProperties": false,
+      "description": "The zone's declared boundary (ktp-zones, Zone Boundary): what is inside, who is entitled, who outside is affected and the review route each is owed, the jurisdictions, and the limits of the zone's authority. A zone that declares no boundary makes no conformance claim.",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "The resources the zone's authority covers, by identifier or by a pattern the deployment resolves literally. A Zone Gateway MUST deny an act on a resource the declaration does not cover."
+        },
+        "entitled_subjects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "The classes of subject entitled to hold standing in the zone. A Zone Gateway MUST deny standing to a subject the declaration does not entitle."
+        },
+        "affected_outside": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "class",
+              "review_route"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "class": {
+                "type": "string",
+                "minLength": 1
+              },
+              "review_route": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "description": "The classes of party outside the zone that acts within it may affect, each with the review route it is owed. A denial that affects a party of a declared class MUST record that route."
+        },
+        "jurisdictions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "The jurisdictions the zone operates under."
+        },
+        "authority_limits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "What the zone may not do. A zone MUST NOT act beyond the authority its declaration limits."
+        }
+      }
     }
   },
   "$defs": {
@@ -315,17 +602,6 @@
       "type": "string",
       "pattern": "^(world|information|time|soul|relational|body|meta)\\.[a-z0-9_]+\\.[a-z0-9_]+$",
       "description": "A Context Signal ID, domain.group.name, resolved against catalog/*.json."
-    },
-    "demand_input": {
-      "type": "object",
-      "required": ["supplier", "unit", "source"],
-      "additionalProperties": false,
-      "properties": {
-        "supplier": { "type": "string", "minLength": 1, "description": "The declared party that supplies the value. Never the requester or a party acting for the requester ([KTP-CORE] L14); ordinarily the deployment's own event calendar, maintenance schedule or mission-phase feed." },
-        "unit": { "type": "string", "minLength": 1, "description": "The unit convention in force for the value. Values are not comparable across deployments that have not declared a common convention." },
-        "range": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" }, "description": "The accepted inclusive range of the value, low then high. Optional." },
-        "source": { "type": "string", "minLength": 1, "description": "Where the value is read from: the feed, system or record in which the supplier publishes it." }
-      }
     },
     "factor": {
       "type": "object",
@@ -360,6 +636,108 @@
           "exclusiveMinimum": 0,
           "maximum": 1,
           "description": "The factor's finite weight w_i in R = sum(w_i * s_i), strictly greater than 0 and at most 1. The five factor weights must sum to 1, checked by scripts/check-declarations.py; an invalid declaration is rejected, never silently rescaled. This does not constrain per-feed aggregation weights."
+        }
+      }
+    },
+    "demand_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supplier",
+        "supplier_profile",
+        "unit",
+        "range",
+        "source",
+        "freshness",
+        "verification_profile",
+        "authoritative_location"
+      ],
+      "properties": {
+        "supplier": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "supplier_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "digest"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+            }
+          }
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "range": {
+          "const": [
+            0,
+            1
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "freshness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "clock",
+            "basis",
+            "max_age_seconds"
+          ],
+          "properties": {
+            "clock": {
+              "const": "authenticated-utc"
+            },
+            "basis": {
+              "const": "observed_at"
+            },
+            "max_age_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "verification_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "digest"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uri",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha(256:[0-9a-f]{64}|384:[0-9a-f]{96})$"
+            }
+          }
+        },
+        "authoritative_location": {
+          "const": "demand-input-value-v1"
         }
       }
     }

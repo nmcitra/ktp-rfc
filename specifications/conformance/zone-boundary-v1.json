@@ -1,0 +1,168 @@
+{
+  "suite": "zone-boundary-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-ZONES Section 4.2 (Zone Boundary) and the `boundary` object of specifications/deployment-profile.md",
+  "note": "Normative downstream requirements for the declared boundary: what is inside, who is entitled, who outside is affected, and where the zone's authority stops. This repository contains no gateway or Oracle: these vectors fix the decisions a conformant Zone Gateway produces at the boundary and define no formula. given/expect are test notation, not wire fields; a `boundary` shown in `given` is the zone's declared boundary object. All other applicable checks pass unless a vector states otherwise.",
+  "vectors": [
+    {
+      "id": "ZB01-act-on-undeclared-resource-is-denied",
+      "given": {
+        "boundary": {
+          "resources": [
+            "svc:example/ledger"
+          ],
+          "entitled_subjects": [
+            "sponsored-agent",
+            "guarantor"
+          ],
+          "affected_outside": [
+            {
+              "class": "customer-of-record",
+              "review_route": "https://example.com/review"
+            }
+          ],
+          "jurisdictions": [
+            "US-NM"
+          ],
+          "authority_limits": [
+            "no act on a resource outside the declared set"
+          ]
+        },
+        "act": {
+          "subject": "agent-1",
+          "subjectClass": "sponsored-agent",
+          "resource": "svc:example/payroll"
+        }
+      },
+      "expect": {
+        "decision": "DENY",
+        "reason": "resource outside the declared boundary",
+        "evaluatedFurther": false
+      },
+      "reason": "A Zone Gateway MUST deny an act on a resource the declaration does not cover."
+    },
+    {
+      "id": "ZB02-unentitled-subject-is-denied-and-the-review-route-recorded",
+      "given": {
+        "boundary": {
+          "resources": [
+            "svc:example/ledger"
+          ],
+          "entitled_subjects": [
+            "sponsored-agent",
+            "guarantor"
+          ],
+          "affected_outside": [
+            {
+              "class": "customer-of-record",
+              "review_route": "https://example.com/review"
+            }
+          ],
+          "jurisdictions": [
+            "US-NM"
+          ],
+          "authority_limits": [
+            "no act on a resource outside the declared set"
+          ]
+        },
+        "ingress": {
+          "subject": "person-7",
+          "subjectClass": "person"
+        },
+        "affects": {
+          "class": "customer-of-record"
+        }
+      },
+      "expect": {
+        "standing": "DENY",
+        "reason": "subject class not entitled",
+        "reviewRouteRecorded": "https://example.com/review"
+      },
+      "reason": "A Zone Gateway MUST deny standing to a subject the declaration does not entitle, and a denial that affects a party outside the zone MUST record the review route the declaration names for that party."
+    },
+    {
+      "id": "ZB03-act-within-the-boundary-is-evaluated-normally",
+      "given": {
+        "boundary": {
+          "resources": [
+            "svc:example/ledger"
+          ],
+          "entitled_subjects": [
+            "sponsored-agent",
+            "guarantor"
+          ],
+          "affected_outside": [
+            {
+              "class": "customer-of-record",
+              "review_route": "https://example.com/review"
+            }
+          ],
+          "jurisdictions": [
+            "US-NM"
+          ],
+          "authority_limits": [
+            "no act on a resource outside the declared set"
+          ]
+        },
+        "act": {
+          "subject": "agent-1",
+          "subjectClass": "sponsored-agent",
+          "resource": "svc:example/ledger"
+        }
+      },
+      "expect": {
+        "boundaryDenial": false,
+        "evaluatedFurther": true
+      },
+      "reason": "The boundary denies only what it does not cover; an act within it proceeds to the ordinary evaluation."
+    },
+    {
+      "id": "ZB04-no-boundary-no-claim",
+      "given": {
+        "profile": {
+          "profile_id": "example-no-boundary",
+          "version": 1,
+          "boundary": null
+        },
+        "claim": {
+          "level": "Basic"
+        }
+      },
+      "expect": {
+        "profileValid": false,
+        "claimAccepted": false,
+        "reason": "a zone that declares no boundary makes no conformance claim"
+      },
+      "reason": "A zone that declares no boundary makes no conformance claim; the profile schema requires the `boundary` object."
+    },
+    {
+      "id": "ZB05-enclosed-zone-resources-within-its-enclosure",
+      "given": {
+        "enclosure": {
+          "zone": "zone-outer",
+          "boundary": {
+            "resources": [
+              "svc:example/ledger",
+              "svc:example/reports"
+            ]
+          }
+        },
+        "enclosed": {
+          "zone": "zone-inner",
+          "depth": 1,
+          "boundary": {
+            "resources": [
+              "svc:example/ledger",
+              "svc:example/payroll"
+            ]
+          }
+        }
+      },
+      "expect": {
+        "enclosedDeclarationValid": false,
+        "reason": "svc:example/payroll is not within the enclosure's declared resources"
+      },
+      "reason": "An enclosed zone's declared resources MUST NOT exceed its enclosure's; what is inside the inner ring is inside the outer one."
+    }
+  ]
+}

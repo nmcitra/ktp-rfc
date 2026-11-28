@@ -902,6 +902,14 @@ Observation* is a new term with no predecessor; the record it names is the
 observation of specifications/consequential-action-execution-and-evidence.md
 or a declared equivalent.
 
+**Unreleased boundary migration:** Every deployment profile adds the `boundary`
+object: the resources the zone's authority covers, the subjects entitled to
+hold standing, the outside parties its acts may affect with the review route
+each is owed, the jurisdictions, and the limits of its authority. A profile
+without it is not a conformant v3 profile, and a zone without it makes no
+conformance claim. Zone Gateways deny acts on undeclared resources and standing
+to unentitled subjects. No wire change to the Trust Proof.
+
 ## 4. Unreleased v3 changes
 
 ### 4.1 `moment_criticality` leaves the Risk Factor

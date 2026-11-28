@@ -396,6 +396,28 @@ it.
   observation line.
 - Three vectors in `specifications/conformance/execution-observation-v1.json`.
 
+### The boundary is declared
+
+**Finding:** The zone boundary was a perimeter with a gateway on it. Nothing
+declared what was inside it, who was entitled to stand in it, who outside it
+an act could reach, or where the zone's authority stopped, so "outside" had no
+meaning a vector could check.
+
+- KTP-ZONES's Zone Boundary gains the declaration: a zone MUST declare its
+  boundary in its deployment profile (resources, entitled subjects, affected
+  outside parties with the review route each is owed, jurisdictions, authority
+  limits); a Zone Gateway MUST deny an act on an undeclared resource and
+  standing to an unentitled subject, recording the review route when a denial
+  affects an outsider; a zone MUST NOT act beyond its declared authority; a
+  zone that declares no boundary makes no conformance claim; an enclosed zone's
+  declared resources MUST NOT exceed its enclosure's.
+- `schemas/deployment-profile.json` gains the required `boundary` object;
+  `specifications/deployment-profile.md` documents it. The example profile the
+  declarations gate checks, `/deployment_profile` in
+  `specifications/conformance/demand-supplier-v1.json`, carries one, and the gate
+  reads its required sections from the schema.
+- Five vectors in `specifications/conformance/zone-boundary-v1.json`.
+
 ### The bounds of a delegation are the ones it states
 
 KTP-HUMAN requires a delegation to bind its operation, resources and

@@ -36,6 +36,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | `peer_share` | the peer-signal share of `E_base`, in points | yes (0 where not implemented) |
 | `external_root` | the hop bound and the misattestation adjudicator | yes |
 | `hand_back` | the default hand-back endpoint, each recipient's capacity binding, per-class reissue minimum, escalation cap, window and acknowledgment ceiling, the decision-review schedule, the hysteresis ledger's owner and retention, and any hostile-facing surfaces | required by an implementation that claims the hand-back capability; absent otherwise |
+| `boundary` | the resources the zone's authority covers, the subjects entitled to hold standing, the outside parties its acts may affect with the review route each is owed, the jurisdictions, and the limits of its authority | yes; a zone that declares no boundary makes no conformance claim |
 | `human_policy` | operation-specific human profile ID, version and canonical digest | required before accepting humans or human-origin delegation; omission disables that path |
 | `standing_policy` | the history-with-scoped-readiness mode and exact readiness profile ID, version, and digest | yes in the active v3 profile; `standing_decay_rate` is rejected |
 | `envelope_thresholds` | finite supervision thresholds `0 <= m_veto < m_allow` | optional; absent retains the existing zero-margin veto |
@@ -137,6 +138,18 @@ The attestation-level declarations — terminator, chain length, exposure and it
 ## Hand-back
 
 Declared only by an implementation that claims the hand-back capability (`hand-back.md`). The section holds every parameter that specification requires to be declared and states no number for: `default_endpoint`; `recipients` (`recipient`, and the `capacity_binding` through which KTP-ENFORCE evidences that recipient's human operational capacity); per consequence class `reissue_min_seconds` (greater than zero for Coordination and Relational), `escalation_cap`, `window_seconds`, `ack_sla_seconds`; `decision_review` (`sampling_rate`, `triggers`, `uniform_approval_threshold`); `ledger` (`owner`, `retention_days`); `hostile_facing_surfaces`.
+
+## Boundary
+
+The zone's boundary, as `[KTP-ZONES]` Zone Boundary requires it declared. Five cells, all required:
+
+- `resources` — what the zone's authority covers, by identifier or by a pattern the deployment resolves literally. *A Zone Gateway MUST deny an act on a resource the declaration does not cover.*
+- `entitled_subjects` — the classes of subject entitled to hold standing in the zone. *A Zone Gateway MUST deny standing to a subject the declaration does not entitle.*
+- `affected_outside` — the classes of party outside the zone that acts within it may affect, each with the review route it is owed. *A denial that affects a party outside the zone MUST record the review route the declaration names for that party.*
+- `jurisdictions` — the jurisdictions the zone operates under.
+- `authority_limits` — what the zone may not do. *A zone MUST NOT act beyond the authority its declaration limits.*
+
+A profile with no `boundary` is not a conformant v3 profile, and a zone that declares no boundary makes no conformance claim. The vectors are `conformance/zone-boundary-v1.json`.
 
 ## Historical standing and scoped readiness
 

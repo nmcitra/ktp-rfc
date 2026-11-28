@@ -454,3 +454,111 @@ immutable elements, the route and its recurrence, a veto, or what no repair
 tier may change; one that does is void and the charter stands. The
 charter-amendment vectors enter the set. PR #176 merges with this record.
 Provenance: proposed and carried into PR #176 by the maintainer.
+
+### D-037 · v3.0.0 "Ostrom": the release set, the vocabulary directions, and the merge order
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #182; PR #209; PR #210
+Decision: Approved as proposed. v3.0.0 is titled "Ostrom" and is organized
+by nine principles; the tag waits until each has its requirement and its
+vector in the set. A decision rides the release when it is published as its
+own proposal, its floor has cleared and its PR is green; one whose floor does
+not clear before the tag enters the next release or is named as a limit. The
+vocabulary directions of the proposal's Section 2.1 and its old-to-new mapping
+are adopted: each term has one home, and every other document refers to it.
+Texts merge in the order the proposal's Section 3 states, on `main`; where the
+proposal says `release/v3.0.0` it means `main` until the tag. The six
+contradictions the proposal names as limits are not ruled: PR #209 states them
+in KTP-CORE as L17 to L22. PR #210 adds the pointer from KTP-ATTENUATION to
+KTP-REPAIR. The freeze is 2026-12-01 and the tag is planned for 2026-12-10;
+the date is a plan and the list is the finish line. PRs #209 and #210 merge
+with this record.
+Provenance: proposed by the maintainer.
+
+### D-038 · Federation: the factor's operand, cross-zone sponsorship, and what crosses a link
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #177; PR #178
+Decision: Approved as proposed. A trust factor is the receiving zone's measure
+of the sending zone's measure. It is signed per direction, applies to attested
+Base Trust, is never above one, and leaves the receiver's own Risk Factor in
+place. A cross-zone sponsor keeps its reserve at home, and an unrecorded bond
+is void. Forward Propagation, Backward Propagation and Trust Path are retired,
+with the mapping in MIGRATION. PR #178 merges with this record.
+Provenance: proposed and carried into PR #178 by the maintainer.
+
+### D-039 · A conformance claim names the substrate profile it is made under
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #183; PR #184
+Decision: Approved as proposed. A conformance claim MUST name the substrate
+profile it is made under, by the profile's versioned identifier, and the
+level's specified test IDs run under that profile. A claim that names none
+MUST NOT be made. *Substrate Profile* enters the vocabulary, with the
+software-substrate execution profile (D-009) as the first. PR #184 merges
+with this record.
+Provenance: proposed and carried into PR #184 by the maintainer.
+
+### D-040 · Recognition creates no term; no amendment removes a class's standing to object
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #185; PR #186
+Decision: Approved as proposed. Recognition of a zone's local rule, by a
+federation or by another zone, creates no term and no obligation on any zone,
+and is never a condition of membership; a local rule becomes a term of a
+Federation Agreement only by amendment. No amendment removes from any class of
+participants the standing to open an amendment, to contest a refusal or to
+object within the objection window; a clause that does is void and the charter
+otherwise stands. PR #186 merges with this record.
+Provenance: proposed and carried into PR #186 by the maintainer.
+
+### D-041 · The hand-back: no silent abandonment
+Published 2026-10-15 · Vocabulary · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #191; PR #192
+Decision: Approved as proposed. A stop inside a managed relation cannot be
+expressed without its destination: the hand-back is registered at grant and
+resolved at stop, and a denial that leaves the human party no recipient, no
+contest path and no repair path is a conformance failure. The obligations bind
+implementations that declare the capability. The hand-back specification, its
+schema and its vectors enter the set. Nine terms enter the vocabulary, with
+the mapping in MIGRATION. The proposal was filed MINOR and ran the Vocabulary
+clock, the longer of its two classes. PR #192 merges with this record.
+Provenance: proposed and carried into PR #192 by the maintainer.
+
+### D-042 · Whether a consequential action ran is attested where it executes
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #187; PR #188
+Decision: Approved as proposed. KTP-CORE gains Section 7.6, Execution
+Observation: a decision record attests the decision, and whether the action
+ran is attested where it executes and bound to the decision. KTP-AUDIT's
+Decision Outcome points at the bound observation. *Execution Observation*
+enters the vocabulary, and the execution-observation vectors enter the set.
+PR #188 merges with this record.
+Provenance: proposed and carried into PR #188 by the maintainer.
+
+### D-043 · A zone declares its boundary
+Published 2026-10-15 · MAJOR · floor 2026-11-28 · review-by 2027-01-11 · approved 2026-11-28
+Source: issue #189; PR #190
+Decision: Approved as proposed. A deployment profile MUST carry a `boundary`:
+the resources the zone's authority covers, the subjects entitled to standing,
+the outside parties its acts may affect with the review route each is owed,
+its jurisdictions, and the limits of its authority. A zone that declares no
+boundary makes no conformance claim. The zone-boundary vectors enter the set.
+PR #190 merges with this record.
+Provenance: proposed and carried into PR #190 by the maintainer.
+
+### D-044 · One Core contract across conformance levels
+Published 2026-10-10 · MAJOR · floor 2026-11-23 · review-by 2027-01-06 · approved 2026-11-28
+Source: issue #154; PR #198
+Decision: Approved as proposed. Every native-v3 conformance level implements
+the same Core semantic contract. A level MAY tighten assurance or shorten
+proof lifetimes and MUST NOT extend Core's maximum. The core-conformance
+specification and its vectors enter the set. PR #198 merges in the order the
+v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #198.
+
+### D-045 · Component-scoped conformance profiles and claims
+Published 2026-10-31 · MINOR · floor 2026-11-21 · review-by 2026-12-12 · approved 2026-11-28
+Source: issue #155; PR #199
+Decision: Approved as proposed. The component-conformance specification, the
+component-claim schema, seven profiles and their vectors enter the set. A
+library or a proof verifier claims the component profile it implements and
+MUST NOT claim a deployment level. The first review window was restarted on
+2026-10-31. PR #199 merges in the order the v3.0.0 release proposal states.
+Provenance: proposed by @martherus, who wrote PR #199.

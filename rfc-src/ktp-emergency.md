@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Emergency Response Specification"
 abbrev: "KTP-EMERGENCY"
-date: 2026-09-06
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -52,6 +52,8 @@ Emergency response embodies these principles:
 1. Recovery Path: Every emergency state must have a defined path back to normal operation.
 
 1. Learning: Every emergency is an opportunity to improve. Post-incident analysis is mandatory.
+
+The Recovery Path principle at the scale of one managed relation is specifications/hand-back.md: a stop cannot be expressed without its destination.
 
 # Requirements Language
 

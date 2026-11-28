@@ -18,6 +18,7 @@ the source.
 | Root Instrument v1 (proposed) | [`root-instrument.json`](root-instrument.json) | Closed none/bond/attestation proof projection; signatures, lifecycle, lineage and strongest-single selection remain independent checks |
 | Trust Proof v3 (proposed) | [`trust-proof.json`](trust-proof.json) | Closed canonical Oracle standing assertion; ordered verification and semantics in specifications/trust-proof.md |
 | Legacy Trust Proof v2 | [`trust-proof-legacy-v2.json`](trust-proof-legacy-v2.json) | Byte-preserved published schema for interpreting v2 proofs, whose context carries six inputs |
+| Evidence State v1 (proposed) | [`evidence-state.json`](evidence-state.json) | Closed per-layer current/unavailable, populated/unknown and observable/unobservable outcomes; restrictive stress is not a measurement |
 | Ordinary Request Binding v1 (proposed) | [`request-binding.json`](request-binding.json) | Closed complete ordinary request; requester/executor, demand profile, parameters and replay domain |
 | Request/Proof Association v1 (proposed) | [`request-proof-association.json`](request-proof-association.json) | Unsigned request/proof digest and JTI association; no standalone authorization or signed carrier |
 | Decision Geometry v1 (proposed) | [`decision-geometry.json`](decision-geometry.json) | Closed portable deterministic evaluation; inputs, undefined states, gates, supervision and tightened constraints; not a permit or execution outcome |
@@ -28,6 +29,8 @@ the source.
 | Consequential-action evidence (unreleased) | [`consequential-action-evidence.json`](consequential-action-evidence.json) | Correlation shape for request, consumed decision, reservation and observation; authentication and target effects require independent verification |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
+| Hand-Back (unreleased) | [`hand-back.json`](hand-back.json) | The typed destination of an adverse stop inside a managed relation: recipient, recourse, repair, reissue bound, sealed context |
+| Hand-Back (unreleased) | [`hand-back.json`](hand-back.json) | The typed destination of an adverse stop inside a managed relation: recipient, recourse, repair, reissue bound, sealed context |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |
 | Readiness Attestation v1 (unreleased) | [`readiness-attestation.json`](readiness-attestation.json) | Complete signed assessment, subject configuration, scope, challenge and observations |
 | Readiness Decision v1 (unreleased) | [`readiness-decision.json`](readiness-decision.json) | Signed binding of actual request and complete ordinary proof to current readiness evidence |

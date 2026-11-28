@@ -124,15 +124,23 @@ Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic 
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
+Clearance: See specifications/hand-back.md.
+
 Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
 
 Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for a software agent's capacity check. A person's operational E is established separately under the reviewed adapter, and eligibility is a separate requirement ({{KTP-HUMAN}}).
 
+Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
+
 External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
+Hand-Back: See specifications/hand-back.md.
+
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
+
+Lease: See specifications/hand-back.md.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 
@@ -518,6 +526,22 @@ Unobservability is therefore checked at three layers, and a deployment MUST appl
 3. The TERM, above - the Risk Factor the signals aggregate into.
 
 The layers do not collapse into one another. A signal may be unavailable while every feed populating it is healthy, which is why a feed-level rule alone is insufficient.
+
+The complete end-to-end rule is
+[Missing Evidence](../specifications/missing-evidence.md), with closed result
+shapes in schemas/evidence-state.json and deterministic cases in
+specifications/conformance/missing-evidence-v1.json. A feed is current or
+unavailable with reason, a signal populated or unknown, and a factor observable
+or unobservable. Unavailable/unknown/unobservable results carry no measured
+value; maximum factor stress is a separate restrictive decision reading.
+Only declared independent current redundancy satisfying the whole signal
+population rule preserves continuity. Any unknown required signal makes the
+factor unobservable; missing members and their weights MUST NOT be dropped or
+renormalized. There is no default_on_failure or estimator profile for this
+path. Record each evaluated missing layer separately in undefined_inputs,
+including failed feeds when a valid backup preserves the signal. Soul keeps
+its independent on-demand unanswered-query veto. This changes no A/E formula
+or the separate demand-side supplier contract.
 
 The multiplicative relationship between R and E_base (see Section 5.3) is critical. R is not subtracted from E_base; it deflates it. This means:
 
@@ -1368,6 +1392,10 @@ Trust Proofs MUST NOT be cached beyond their expiration.
 If an action takes longer than the Trust Proof lifetime, the agent MUST obtain a new Trust Proof before continuing. Otherwise it MUST cease protected execution through its previously declared bounded safe transition; this is not permission to finish arbitrary work. This may result in mid-action denial if conditions have degraded.
 
 The ten-second maximum applies to every zone and conformance level. An existing session, cached proof, queued refresh, surrounding token, or emergency declaration MUST NOT extend ordinary authorization. Separately authorized safety or recovery actions follow specifications/emergency-capability.md. That capability is disabled unless an approved policy is pinned; it does not replace an expired proof or override a sovereignty, capacity, or prior veto. Changes to emergency authority are governed by the companion's protected amendment process, including during recovery.
+
+## Execution Observation
+
+A decision record attests the decision. Whether a consequential action ran is attested only by an execution observation made at the execution boundary and bound to the decision it answers, in the form specifications/conformance/execution-observation-v1.json fixes or an equivalent the deployment profile declares. An observation of dispatch establishes that the action was sent, not that it had an effect; a confirmed effect is a further state of the observation record, and specifications/consequential-action-execution-and-evidence.md defines the states of that record. A consequential decision with no bound observation is unverified, and MUST NOT be reported, in any record or claim, as an action that did not execute. A denial with a bound observation of dispatch is a bypass of the enforcement boundary: a conformance failure that MUST be recorded as such and that opens a breach record as {{KTP-REPAIR}} specifies. An observation of dispatch for which no decision exists, on a route that carries no enforcement point, is a bypass on the same terms, recorded against the zone's declared enforcement level.
 
 # Silent Veto Mechanism
 

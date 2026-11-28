@@ -35,6 +35,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | `label_sets` | the label set behind each categorical signal and denominator predicate | yes, per aggregated categorical signal |
 | `peer_share` | the peer-signal share of `E_base`, in points | yes (0 where not implemented) |
 | `external_root` | the hop bound and the misattestation adjudicator | yes |
+| `hand_back` | the default hand-back endpoint, each recipient's capacity binding, per-class reissue minimum, escalation cap, window and acknowledgment ceiling, the decision-review schedule, the hysteresis ledger's owner and retention, and any hostile-facing surfaces | required by an implementation that claims the hand-back capability; absent otherwise |
 | `boundary` | the resources the zone's authority covers, the subjects entitled to hold standing, the outside parties its acts may affect with the review route each is owed, the jurisdictions, and the limits of its authority | yes; a zone that declares no boundary makes no conformance claim |
 | `human_policy` | operation-specific human profile ID, version and canonical digest | required before accepting humans or human-origin delegation; omission disables that path |
 | `standing_policy` | the history-with-scoped-readiness mode and exact readiness profile ID, version, and digest | yes in the active v3 profile; `standing_decay_rate` is rejected |
@@ -91,7 +92,21 @@ obligations; the closed shape alone establishes neither.
 
 The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,644 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
 
-`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is available when at least one feed declared to populate it is AVAILABLE under `[KTP-SENSORS]` §6.1; a signal none of whose declared feeds is available reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
+`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is populated only when current declared observations under `[KTP-SENSORS]` §6.1 satisfy its complete population rule, including independently established redundancy where a failed source is replaced. A signal with no sufficient declared current population reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
+
+A feed's AVAILABLE state is necessary but not sufficient to populate a signal:
+the complete catalogue population/denominator/normalization rule must hold.
+[Missing Evidence](missing-evidence.md) fixes the end-to-end transition.
+For claimed independent redundant alternatives, feeds entries additionally
+carry paired independence_group and independence_evidence declarations. They
+identify the installed source/control/failure domain and its independence
+assessment reference; labels alone do not establish independence. A replacement
+must have a distinct independently established failure domain from the failed
+feed and satisfy the complete same signal rule. There is no estimator profile
+or numeric fallback. Every required signal must be populated; an unknown one
+makes its factor unobservable with decision_stress 1.0, never a fabricated
+measurement or rescaled subset. The evidence-state schema names the separate
+result branches without asserting live source trust.
 
 The mapping **stays in configuration and does not ride the wire** — the same bind-don't-carry answer #72 ruled for the measurement envelope, applied to a declaration that is stable per deployment rather than per observation.
 
@@ -119,6 +134,10 @@ Two deployment-level declarations from `ktp-core` §5.1:
 - `adjudicator` — *the deployment MUST declare the adjudicator for findings of misattestation, including for-cause withdrawal claims. The adjudicator MUST be neither the attestor nor the subject agent.*
 
 The attestation-level declarations — terminator, chain length, exposure and its class, anchored capacity, instrument status — ride the attestation and the Trust Proof, not the profile. Their schema carriage rides the #71/#83 schema gate and is listed under *Owed to this surface* below.
+
+## Hand-back
+
+Declared only by an implementation that claims the hand-back capability (`hand-back.md`). The section holds every parameter that specification requires to be declared and states no number for: `default_endpoint`; `recipients` (`recipient`, and the `capacity_binding` through which KTP-ENFORCE evidences that recipient's human operational capacity); per consequence class `reissue_min_seconds` (greater than zero for Coordination and Relational), `escalation_cap`, `window_seconds`, `ack_sla_seconds`; `decision_review` (`sampling_rate`, `triggers`, `uniform_approval_threshold`); `ledger` (`owner`, `retention_days`); `hostile_facing_surfaces`.
 
 ## Boundary
 
@@ -200,7 +219,25 @@ Every member MUST verify the authenticated configuration and evidence before cou
 - `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3; a `term` entry names a Risk Factor key or a demand input key;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
-The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Native v3 portable carriage is defined by [Decision Geometry](decision-geometry.md) and schemas/decision-geometry.json, not transaction-record.json. The closed Trust Proof does not acquire an undeclared undefined_inputs claim; its gate state remains the canonical proof contract's assertion. Historical/product audit formats retain their own provenance and cannot be relabeled as native geometry.
+The field MUST include every evaluated undefined layer under
+[missing-evidence.md](missing-evidence.md), even a failed feed whose independent
+backup preserves signal population. Unknown signals and unobservable terms
+receive their own entries; a successful backup does not invent those entries.
+An empty denominator yields signal/term entries without a failed feed. An
+unanswered Soul framework yields query/unanswered and veto; later uncomputed
+terms are not fabricated. Preserve the exact three fields and four state names
+above; detailed causes/provenance remain outside these entries. This preserves per-layer evidence without inferring an adversary's intent.
+The field MUST appear whenever an undefined input resolved the outcome toward
+the more restrictive alternative. Preserve it in the evaluation record whether
+or not a separate carrier is used. If Decision Geometry is used, carry it in
+that record and its audit record under their applicable schemas. This contract
+does not require Decision Geometry or a Trust Proof carrier and does not add
+an `undefined_inputs` member to a Trust Proof payload.
+
+Native v3 portable carriage is defined by [Decision Geometry](decision-geometry.md)
+and schemas/decision-geometry.json, not transaction-record.json. The Trust Proof's gate state
+remains the canonical proof contract's assertion. Historical/product audit
+formats retain their own provenance and cannot be relabeled as native geometry.
 
 ## Conformance
 

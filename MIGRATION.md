@@ -976,6 +976,23 @@ bound combined consequence stops saying so, or composes consequences across
 requests and says that under its own status label. The published case set is
 the test, cited by name and tag.
 
+**Unreleased federation-crossing migration:** A federated deployment applies
+each signed factor to the Base Trust the sending zone attests, not to the
+foreign proof's E_trust, and computes its own Risk Factor; a gateway that
+copied a foreign E_trust through the factor changes its arithmetic. Any
+implementation of the forward or backward propagation formulas stops writing
+deltas into another zone's measure: it exports breach records and withdrawn
+attestations as exposure to every zone the subject has reached, exports a
+record that a reconciliation was anchored to the same zones, and admits
+positive attestations under a policy it declares. A zone attests for a subject
+only the standing earned within it, so a deployment keeps what it admitted at
+ingress apart from what the subject earned after. The terms *Forward
+Propagation*, *Backward Propagation* and *Trust Path* are retired; the mapping
+is in KTP-FEDERATION Section 7.4. A deployment that
+sponsors across a link records every such bond in the sponsor's home zone or
+the bond is void. No wire change to the Trust Proof; the trust-proof exchange
+response gains the attested and local quantities as shown in Transport.
+
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
 half_life`, so an Extended Trust Proof's e_trust halves every half-life. One

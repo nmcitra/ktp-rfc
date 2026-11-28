@@ -33,6 +33,10 @@ normative:
     author:
       - name: Chris Perkins
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-SENSORS:
     title: "Kinetic Trust Protocol - Context Signal Sensors"
     author:
@@ -358,7 +362,7 @@ E_base MUST include a term derived from a party that is externally accountable, 
 
 The attesting party's own accountability MUST terminate, through a finite and declared chain, at a root outside the agent-trust graph — a person, and behind that person an employer, a licensing body, or a board. The person is the External Root; the institution is the terminator. A cycle of agents attesting for one another does not satisfy this requirement. The attestation MUST declare the chain's terminator and the chain's length, and the length MUST NOT exceed the deployment's declared hop bound, which MUST NOT exceed 12. An attestation whose terminator or chain length is undeclared, or whose chain exceeds the hop bound, computes this term as zero.
 
-The instrument occupying this term changes with lineage stage. The share does not.
+For software agents, the instrument occupying this term changes with lineage stage. The share does not. Persons use signed acts and the standing of their institutional terminator under the same Core shares; agent lineage and generation are not defaulted.
 
 | Stage | Instrument | The attestor is exposed to |
 |-------|------------|----------------------------|
@@ -379,7 +383,20 @@ The deployment MUST declare the adjudicator for findings of misattestation, incl
 
 A for-cause claim with no finding at the attestation's expiry lapses unresolved and MUST be recorded as unresolved. No debit is assessed on lapse; an unresolved claim does not become sustained or rejected by lapse of time. The instrument computes as zero in every branch — adjudication decides only whether the attestor is debited.
 
-The Trust Proof MUST carry the instrument's status — current, or non-renewable following a withdrawal without cause — and the instrument's end time. The trust-proof schema carries these in the root_instrument claim, together with the declared exposure, capacity, terminator, and chain length.
+The Trust Proof MUST carry the closed root_instrument projection in
+[Closed External Root Projection](../specifications/external-root.md) and
+schemas/root-instrument.json, referenced by the canonical Trust Proof schema.
+The selected live bond or attestation carries its exact signed-instrument digest,
+issuer binding, inputs, bounded outside terminator chain, current or
+non_renewable status and original end time. A no-credit projection uses kind
+none, status none and a required established reason; it MUST NOT carry
+credit-bearing fields or imply an optional rootless design. Its root term is
+zero, base trust for any subject is capped at 70 alongside every tighter ceiling, and
+the subject remains below Operator until someone stands behind them again.
+Detailed claims/findings remain in the owning lifecycle/evaluation record.
+Person subjects use the same canonical proof and attestation branch under Core;
+eligibility and capacity remain separate prerequisites. The accountability
+chain is not the nested-zone enclosure chain.
 
 Behind every instrument stands a person. The accountability chain behind an agent ends at a person, and behind the person at an employer, a licensing body, or a board, which is the chain's terminator. A person is a subject of this specification, as an account in a zone. The attestation branch of the root instrument is the one a person stands behind; the lineage rule for that branch is this paragraph, and it is not locked to agents of any lineage stage. A person may also stand behind a subject with a sponsorship bond ({{KTP-IDENTITY}} Section 6 (Sponsorship Bonds)), on an agent or on another person; a person's bond stakes the person's own standing, under the same mechanics as any sponsor's.
 
@@ -508,6 +525,22 @@ Unobservability is therefore checked at three layers, and a deployment MUST appl
 
 The layers do not collapse into one another. A signal may be unavailable while every feed populating it is healthy, which is why a feed-level rule alone is insufficient.
 
+The complete end-to-end rule is
+[Missing Evidence](../specifications/missing-evidence.md), with closed result
+shapes in schemas/evidence-state.json and deterministic cases in
+specifications/conformance/missing-evidence-v1.json. A feed is current or
+unavailable with reason, a signal populated or unknown, and a factor observable
+or unobservable. Unavailable/unknown/unobservable results carry no measured
+value; maximum factor stress is a separate restrictive decision reading.
+Only declared independent current redundancy satisfying the whole signal
+population rule preserves continuity. Any unknown required signal makes the
+factor unobservable; missing members and their weights MUST NOT be dropped or
+renormalized. There is no default_on_failure or estimator profile for this
+path. Record each evaluated missing layer separately in undefined_inputs,
+including failed feeds when a valid backup preserves the signal. Soul keeps
+its independent on-demand unanswered-query veto. This changes no A/E formula
+or the separate demand-side supplier contract.
+
 The multiplicative relationship between R and E_base (see Section 5.3) is critical. R is not subtracted from E_base; it deflates it. This means:
 
 - At R = 0.1 (10% stress): E_trust = E_base * 0.90 (10% reduction) - At R = 0.5 (50% stress): E_trust = E_base * 0.50 (50% reduction) - At R = 0.9 (90% stress): E_trust = E_base * 0.10 (90% reduction) - At R = 1.0 (total crisis): E_trust = 0 (all actions blocked)
@@ -620,7 +653,7 @@ GOODHART-003: E_base MUST include demonstrated performance under adversity, not 
 
 Proof of Resilience already requires crisis-time attestations. This section strengthens that requirement:
 
-- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R > 0.5 - E_base > 80 requires attestations under R > 0.7 - E_base > 90 requires attestations under CRISIS conditions
+- Agents with no adversity exposure are capped at E_base = 60 - E_base > 60 requires attestations under R >= 0.5 - E_base > 80 requires attestations under R >= 0.7 - E_base > 90 requires attestations under CRISIS conditions
 
 This cannot be gamed by self-inflicted crises because: - Attestations require Oracle signature - Oracle only signs if crisis is zone-wide (not agent-local) - Manufactured crises harm the manufacturing agent
 
@@ -1273,6 +1306,13 @@ Implementations MAY cache aggregated R values for up to 100ms to reduce computat
 
 ## Undefined Inputs
 
+The canonical portable evaluation record is
+[Decision Geometry](../specifications/decision-geometry.md), carrying the
+released undefined_inputs shape, evaluated input provenance, ordered gates,
+supervision and tightenedConstraints. It is not transaction-record.json or
+proof of an execution outcome. Unreached capacity and margin are absent after
+an early stop; a downstream record MUST NOT fabricate a passing measurement.
+
 An input that is absent, unanswered, stale beyond its declared refresh, or otherwise undefined MUST NOT resolve toward permission. It resolves toward the more restrictive outcome available at that decision point, and the undefined state MUST be recorded on the decision record. Substituting a measured value for an undefined one - including zero - is prohibited (Section 5.2).
 
 "Toward permission" is the operative phrase. Failing closed does not mean denying on every unknown. Where a decision point offers a graded outcome - the supervision ladder of Section 6.7 (Aggregation Algorithm) - an undefined input clamps the result to a more supervised level, per {{KINETIC-ENVELOPE}}: an unknown environment reads as low capacity, not high. Denial is the terminal case, reached only where no more restrictive outcome short of denial exists at that decision point. The Soul veto (Section 6.2) is a decision point with exactly that shape - its outcomes are veto and no veto - so an undefined sovereignty input resolves to the veto ({{KTP-SENSORS}} Section 4.3).
@@ -1289,160 +1329,35 @@ The human eligibility decision schema defines an UNSIGNED prerequisite body, not
 
 ## Token Format
 
-The Trust Proof extends JSON Web Token (JWT) as defined in RFC 7519. It uses the standard JWT structure:
-
-~~~
-   Header.Payload.Signature
-~~~
-
-The header MUST include:
-
-~~~
-   {
-     "alg": "ES256",
-     "typ": "ktp+jwt",
-     "kid": "oracle-key-id"
-   }
-~~~
-
-The "alg" field specifies the signature algorithm. Implementations MUST support ES256 (ECDSA with P-256 and SHA-256). Implementations MAY support additional algorithms.
-
-The "typ" field MUST be "ktp+jwt" to distinguish KTP Trust Proofs from standard JWTs.
-
-The "kid" field identifies the Trust Oracle signing key, enabling key rotation and multi-Oracle deployments.
+Native v3 Trust Proofs MUST follow the envelope, explicit artifact version and
+closed schema in [Canonical Trust Proof Contract](../specifications/trust-proof.md),
+Sections 2–3. The exact protected type is `ktp-trust-proof+jwt`; the media type
+is `application/ktp-trust-proof+jwt`. ES256 is the base interoperability
+capability; stronger selected cryptographic profiles remain binding.
 
 ## Claims
 
-The payload contains standard JWT claims plus KTP-specific claims in the "ktp" namespace.
-
-Standard claims:
-
-~~~
-   iss (Issuer): The Trust Oracle identifier (URI)
-   sub (Subject): The agent identifier (URI)
-   iat (Issued At): Unix timestamp of Trust Proof generation
-   exp (Expiration): Unix timestamp of Trust Proof expiration
-   jti (JWT ID): Unique identifier for this Trust Proof
-~~~
-
-KTP claims (in "ktp" object):
-
-~~~
-   e_base: Base Trust score (0-100)
-   e_trust: Effective Trust score (0-100)
-   r: Risk Factor (0-1)
-   de_dt: Trust Velocity (change per second)
-   sigma: Trust Volatility (standard deviation)
-~~~
-
-~~~
-   risk_factors: Object containing the five normalized inputs
-     adversarial_pressure (0-1)
-     attestation_coverage (0-1)
-     evidence_density (0-1)
-     trust_trend (0-1)
-     update_resistance (0-1)
-~~~
-
-~~~
-   soul: Object containing sovereignty evaluation
-     s: Soul veto status (0 = clear, 1 = veto)
-     constraint_type: Type of constraint if s=1 (null if s=0)
-     constraint_id: Identifier of triggering constraint
-     authority: URI of sovereignty authority
-~~~
-
-~~~
-   lineage: Agent lineage stage ("sponsored", "independent",
-            "guarantor")
-   generation: Agent generation number (0+)
-   sponsor: Sponsor identifier, an agent or a person (if sponsored)
-   resilience_hash: Hash of current Proof of Resilience ledger
-~~~
-
-Example Trust Proof payload (no sovereignty constraint):
-
-~~~
-   {
-     "iss": "https://oracle.example.com",
-     "sub": "agent:7gen:optimized:a1b2c3d4",
-     "iat": 1699900000,
-     "exp": 1699900010,
-     "jti": "tp-uuid-12345",
-     "ktp": {
-       "e_base": 87,
-       "e_trust": 42,
-       "r": 0.517,
-       "de_dt": -2.3,
-       "sigma": 0.15,
-       "context": {
-         "evidence_density": 0.875,
-         "trust_trend": 0.920,
-         "adversarial_pressure": 0.020,
-         "update_resistance": 0.100,
-         "attestation_coverage": 0.040
-       },
-       "soul": {
-         "soul": 0,
-         "constraint_type": null,
-         "constraint_id": null,
-         "authority": null
-       },
-       "lineage": "guarantor",
-       "generation": 7,
-       "resilience_hash": "sha256:abc123def456..."
-     }
-   }
-~~~
-
-Example Trust Proof payload (sovereignty constraint active):
-
-~~~
-   {
-     "iss": "https://oracle.example.com",
-     "sub": "agent:7gen:optimized:a1b2c3d4",
-     "iat": 1699900000,
-     "exp": 1699900010,
-     "jti": "tp-uuid-12346",
-     "ktp": {
-       "e_base": 95,
-       "e_trust": 90,
-       "r": 0.053,
-       "de_dt": 0.1,
-       "sigma": 0.02,
-       "context": {
-         "evidence_density": 0.100,
-         "trust_trend": 0.150,
-         "adversarial_pressure": 0.010,
-         "update_resistance": 0.050,
-         "attestation_coverage": 0.020
-       },
-       "soul": {
-         "soul": 1,
-         "constraint_type": "tk_label",
-         "constraint_id": "TK-NC-001",
-         "authority": "https://localcontexts.org/label/tk-nc/"
-       },
-       "lineage": "guarantor",
-       "generation": 7,
-       "resilience_hash": "sha256:abc123def456..."
-     }
-   }
-~~~
-
-Note: In the second example, despite high E_trust (90) and low R (0.053), the Soul veto (s=1) will cause any action to be denied that violates the TK Non-Commercial label.
+The [v3 schema](../schemas/trust-proof.json) is the single claim authority.
+Required, optional and conditional members, the three gate states and extension
+processing are specified in the canonical contract, Section 3. Complete signed
+clear, veto and undetermined examples live in its
+[conformance vectors](../specifications/conformance/trust-proof-v3.json), not
+in a second hand-maintained payload here. A proof is standing evidence;
+its possession and even a clear gate do not authorize an action.
 
 ## Signature
 
-The Trust Proof MUST be signed by the Trust Oracle using the algorithm specified in the header.
+The Trust Proof MUST be signed and verified under the independently selected
+key, role and algorithm bindings of the canonical contract, Sections 2 and 5.
+The untrusted header cannot select a more permissive cryptographic profile.
 
 For distributed Trust Oracle deployments, the signature MAY be a threshold signature requiring k-of-n Oracles to sign.
 
 Issuers and honest threshold signers in an Oracle mesh MUST derive the proof's standing, including E_base and its trajectory basis, from verified committed state under specifications/oracle-consensus.md. Single-node proof issuance MAY remain available where the deployment's signing requirements permit it, but MUST NOT turn an uncommitted local proposal into authoritative standing. Signature validity or signing-threshold metadata alone does not prove consensus or freshness of that standing. The selected protocol MUST define how issuers establish applicable committed state, and consumers relying on mesh agreement MUST verify its required evidence and binding to the proof's result. Proof lifetime, current environmental evaluation, and all authorization constraints remain binding.
 
-Implementations MUST verify: 1. The signature is valid for the payload 2. The signing key is a known, trusted Oracle key 3. The signing key has not been revoked
-
-Signature verification failure MUST result in action denial.
+Implementations MUST apply the complete ordered validation and stable reasons
+in the canonical contract, Section 5. Signature validity alone is insufficient;
+only TP_CLEAR permits the remaining action checks to proceed.
 
 ## Operational Readiness for the Requested Action
 
@@ -1464,7 +1379,9 @@ Readiness is checked as an additional prerequisite; it never turns a failed earl
 
 Trust Proofs are intentionally short-lived to ensure they reflect current environmental conditions.
 
-The claims MUST establish 0 < exp - iat <= 10 seconds. A verifier MUST establish iat <= current_time < exp; at current_time = exp the proof is expired. If a timestamp or current time is invalid or unverifiable, the proof MUST NOT authorize an action. Clock rollback MUST NOT restore or prolong expired authority.
+The canonical contract, Section 4, defines the single lifetime, optional nbf,
+clock-skew and exact expiry contract. Every level retains its ten-second
+maximum; unverifiable time and rollback MUST NOT restore authority.
 
 Implementations SHOULD use shorter lifetimes (1-5 seconds) in high- volatility environments.
 
@@ -2016,14 +1933,30 @@ deployment's own event calendar, maintenance schedule or mission-phase feed. A
 demand input is not configured as a sensor factor; KTP-SENSORS describes,
 informatively, how a supplier can derive its value from those schedules.
 
-The declaration and evaluation boundary cases for a demand input are published
-in specifications/conformance/demand-input-v1.json. They fix decision
-requirements at those boundaries and do not define a formula for A, R or E.
+Converted in v3.0.0 by the per-operation demand supplier contract (#147), which states the supplier, the unit and the verification path.
 
-Converts to spec text when the task-side domain lands, giving this quantity
-signals to aggregate and stating the supplier, the units, and the verification
-path a verifier walks. That domain is carried as a v2.1 obligation; until it
-lands, the declaration is the whole of the treatment.
+The complete declaration and per-operation value contract is
+[Per-operation Demand Supplier Contract](../specifications/demand-supplier.md).
+The deployment schema references its closed supplier declaration: unit/range,
+supplier and verification profiles, source, observation-based freshness and
+canonical authoritative value location. The value binds authenticated supplier
+and provenance, observed/issued times, the installed deployment digest and the
+exact actual preclassification operation. No signals, aggregation or weight
+belongs to this demand declaration. The five signal factors remain unchanged.
+
+Missing, stale, unverifiable, requester-supplied or differently bound values
+remain unavailable and read as the most critical moment, never as a calm zero
+or a fabricated catalogue observation. That reading enters only the demand or
+supervision side and cannot lower A or reverse an earlier veto. No formula for
+producing criticality or A is added. A fresh signature cannot refresh an old
+observation; supplier independence and authoritative provenance require actual
+verification rather than a schema or supplied identifier.
+
+The original boundary vectors in specifications/conformance/demand-input-v1.json
+are complemented by specifications/conformance/demand-supplier-v1.json, which
+fixes full schema, signature, freshness, provenance and exact-binding cases.
+The profile and value shapes do not claim that supplier authenticity, calibration
+or implementation interoperability has been established.
 
 ## L15. Composition across requests is not yet required
 
@@ -2062,6 +1995,23 @@ reservation is released only on authenticated evidence that nothing was
 dispatched; when a declared joint operation shares that reservation rather than
 being refused; and when those cases are run.
 
+## L16. Reconciliation binds re-entry and the rule, not yet the mechanism of amendment or the boundary
+
+{{KTP-REPAIR}} states what a reconciliation record is, what it gates, and that a
+recurring breach pattern puts the rule itself in repair. This specification
+does not state the mechanism by which an amendment is made and ratified inside
+a zone, and does not state how a breach carried into another zone under a
+Federation Agreement is reconciled there. The lineage-summed bound on sponsorship under
+unreconciled breach that {{KTP-REPAIR}} specifies is the first of the
+lineage-summed bounds this specification has named as owed; the mass ceiling
+summed over a lineage is not yet among them.
+
+A conformant implementation **MUST NOT** present per-zone reconciliation as
+reconciliation across a federation.
+
+Converts to spec text when the collective-choice material states the amendment
+mechanism and Federation's agreement text states cross-zone reconciliation.
+
 # Security Considerations
 
 This section addresses security considerations for KTP implementations.
@@ -2082,9 +2032,20 @@ Mitigations: - Use multiple independent sensors per dimension - Cross-validate s
 
 Attackers may capture and replay Trust Proofs.
 
-Mitigations: - Short Trust Proof lifetime (max 10 seconds) - Include action hash in Trust Proof - Track Trust Proof JTIs to prevent reuse
+Ordinary software authorization MUST use
+[Ordinary Request and Trust Proof Association](../specifications/request-binding.md).
+Its versioned canonical request digest covers the actual requester, executor,
+operation, resource, complete parameters, classified demand and profile, audience,
+request ID and replay domain. The association binds the complete signed proof
+and its jti at evaluation time; no action-hash claim is added to the state proof.
 
-- Bind Trust Proof to TLS session
+A proof may supply current evidence to distinct requests during its valid
+window. Request IDs are reserved uniquely in authenticated replay domains;
+JTI alone is not permission or a per-request consumption token. Matching TLS
+sessions, subject strings or copied hashes do not replace the canonical binding.
+Decisions crossing a trust boundary require the reviewed signed carrier coverage
+specified by that companion; unavailable carriage fails closed. None of this
+claims target idempotency, exactly-once execution or release-time freshness.
 
 ## Trajectory Forgery
 
@@ -2114,7 +2075,7 @@ Claim Name: ktp Claim Description: Kinetic Trust Protocol data Change Controller
 
 ## Media Type Registration
 
-Type name: application Subtype name: ktp+jwt Required parameters: None Optional parameters: None Encoding considerations: binary (JWT is Base64url-encoded) Security considerations: See Section 10 Interoperability considerations: None Published specification: This document Applications which use this media type: KTP implementations Fragment identifier considerations: None Restrictions on usage: None Additional information: None Person to contact for further information: \[TBD] Intended usage: COMMON Author/Change controller: IETF
+Type name: application Subtype name: ktp-trust-proof+jwt Required parameters: None Optional parameters: None Encoding considerations: binary (JWT is Base64url-encoded) Security considerations: See Section 10 Interoperability considerations: None Published specification: This document Applications which use this media type: KTP implementations Fragment identifier considerations: None Restrictions on usage: None Additional information: None Person to contact for further information: \[TBD] Intended usage: COMMON Author/Change controller: IETF
 
 ## URI Scheme Registration
 
@@ -2242,6 +2203,10 @@ The canonical schema is the published file, not this appendix.
 
 Location: https://kinetic-trust-protocol.net/specs/schemas/v3/trust-proof.json
 
-SHA-256 of the canonical file at the time this document was produced: 34faa5f2d51ced455aa92f90c3e00353cf209d9a81518d5c9fb14d7589106c32
+SHA-256 of the canonical file at the time this document was produced: e8989538f4587f6b70e59a69f3b7ef682abe662b15d94329b62e342f98afb3d9
 
-The file carries the v2 claims (the declared peer share, applicable ceilings, advancement floor, and root instrument) and references the v3 risk-factors schema, so its context is the five weighted inputs.  The published v2 file is unchanged at its v2 location and is kept in the repository as trust-proof-legacy-v2.json.  This appendix previously carried a hand-copied inline schema; hand copies of a schema drift, and this document's did — the copy disagreed with the published file in four ways while nobody could validate either.  A reference plus a hash cannot drift silently: a mismatch is detectable, an edit to the file changes the hash, and the appendix stops being a second authority.
+The file carries the unreleased closed v3 claims and explicit gate/version
+contract, with fixed absolute references to the existing Risk Factor and Soul
+schemas. The canonical companion defines conditions JSON Schema cannot check.
+The released v2.1.0 artifact remains available at its immutable tag; a legacy
+adapter is not native v3. This appendix is a reference, not a second schema.

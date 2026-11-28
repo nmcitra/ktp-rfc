@@ -222,7 +222,7 @@ Use cases:
 Ingress requirements:
 
 - Valid Trust Proof from federated zone OR
-- Sponsorship from zone-resident agent
+- Sponsorship from a zone-resident sponsor, or from a sponsor in another zone where a Federation Agreement provides for it ({{KTP-FEDERATION}})
 - E_base >= 50 OR sponsored
 - Basic trajectory verification
 - Soul constraint check
@@ -669,7 +669,7 @@ Example:
 
 Agents with insufficient mass can enter via sponsorship:
 
-1. Agent requests sponsorship from zone-resident sponsor
+1. Agent requests sponsorship from a zone-resident sponsor (or a cross-zone sponsor, where a Federation Agreement provides for it; {{KTP-FEDERATION}})
 2. Sponsor evaluates agent's trajectory and purpose
 3. Sponsor issues Sponsorship Bond
 4. Zone Gateway validates bond
@@ -681,8 +681,8 @@ Sponsorship bond at ingress:
 ~~~
    {
      "bond_type": "ingress_sponsorship",
-     "sponsor_id": "agent:guarantor:corp:sponsor123",
-     "sponsored_id": "agent:external:unknown:newagent",
+     "sponsor_id": "agent:guarantor:7gen:corp:sponsor123",
+     "sponsored_id": "agent:sponsored:ingress:newagent:entry01",
      "zone_id": "zone-blue-prod-01",
      "stake_percentage": 15,
      "duration": "PT24H",

@@ -27,7 +27,7 @@ The active, unreleased schema identifier is `https://kinetic-trust-protocol.net/
 | section | declares | required |
 |---|---|---|
 | `risk_factors` | which Context Signals feed each of the five Risk Factors, by what aggregation, at what weight | yes |
-| `demand_inputs` | each externally supplied demand input (such as `moment_criticality`): its supplying party, unit convention, and source, per `[KTP-CORE]` L14 | yes, per demand input used |
+| `demand_inputs` | each externally supplied demand input: its closed supplier/profile, source, unit/range, freshness and verification contract under [demand-supplier.md](demand-supplier.md); no signals, aggregation or weight | yes, per demand input used |
 | `soul_veto` | the sovereignty frameworks queried before aggregation | yes |
 | `feeds` | which signals each configured feed populates | yes, where feeds are configured |
 | `aliases` | which member of each populated alias set this deployment populates | yes, per populated set |
@@ -67,11 +67,45 @@ Constraints, all quoted from their rulings:
 
 `soul_veto` declares the sovereignty frameworks queried per `[KTP-SENSORS]` §4.3. It is not a weighted term: a sufficiently good score must not be able to outvote a sovereignty constraint (#83). If ANY framework returns veto, S = 1; if ANY query is UNDETERMINED — unreachable, error, timeout, or empty — S = 1, one branch, no separation (`ktp-sensors` §4.3, per #105). Only an answering framework returns a clearance.
 
+## Demand inputs — the supplier contract
+
+`moment_criticality` is a demand-side input under Core L14, not a sixth weighted Risk Factor.
+Every used input declares the complete contract in
+[demand-supplier.md](demand-supplier.md) and
+[demand-input-contract.json](../schemas/demand-input-contract.json), referenced
+by this deployment schema. The authoritative value is the closed
+[demand-input-value-v1](../schemas/demand-input-value.json) payload obtained or
+corroborated through the declared source, not a requester-provided scalar.
+Its supplier/profile, full deployment digest, unit, observed/issued times,
+authenticated provenance and exact preclassification operation binding must
+all match independently trusted evaluation context. A missing or invalid value
+reads as the most critical moment without becoming a fabricated observation.
+No supplier formula or extra Context Signal aggregation is standardized here.
+
+Declaration changes increment this profile's version and digest. Old values
+cannot choose the old profile or an alternative source after current validation
+fails. Supplier independence and actual evidence freshness remain runtime
+obligations; the closed shape alone establishes neither.
+
 ## Feeds — how the wire reaches the catalogue
 
 The wire and the catalogue name different objects: `[KTP-SENSORS]` §2.2 configures **feeds**, `[KTP-TRANSPORT]` §9.2/§9.3 carry feed readings, and the catalogue names 1,644 **signals**. One feed can populate many signals; one signal can be fed by many feeds. Until the correspondence is declared, the three-layer missing-data rule (`ktp-core` §5.2: feed · signal · term, which do not collapse) is written across a mapping that does not exist — *a signal can be unavailable while every feed populating it is healthy*, and nothing could compute which (#106, opened by #60 and #72).
 
-`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is available when at least one feed declared to populate it is AVAILABLE under `[KTP-SENSORS]` §6.1; a signal none of whose declared feeds is available reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
+`feeds` declares it: each entry keys a feed `id` — the join key is the feed's `id` in `[KTP-SENSORS]` §2.2 / `sensor-config.json` — and lists the catalogue signal IDs it `populates`. A signal is populated only when current declared observations under `[KTP-SENSORS]` §6.1 satisfy its complete population rule, including independently established redundancy where a failed source is replaced. A signal with no sufficient declared current population reports **unknown, not zero** (`catalog/index.md` §4, sixth clause). This mapping is also the input to coverage measurement (#62).
+
+A feed's AVAILABLE state is necessary but not sufficient to populate a signal:
+the complete catalogue population/denominator/normalization rule must hold.
+[Missing Evidence](missing-evidence.md) fixes the end-to-end transition.
+For claimed independent redundant alternatives, feeds entries additionally
+carry paired independence_group and independence_evidence declarations. They
+identify the installed source/control/failure domain and its independence
+assessment reference; labels alone do not establish independence. A replacement
+must have a distinct independently established failure domain from the failed
+feed and satisfy the complete same signal rule. There is no estimator profile
+or numeric fallback. Every required signal must be populated; an unknown one
+makes its factor unobservable with decision_stress 1.0, never a fabricated
+measurement or rescaled subset. The evidence-state schema names the separate
+result branches without asserting live source trust.
 
 The mapping **stays in configuration and does not ride the wire** — the same bind-don't-carry answer #72 ruled for the measurement envelope, applied to a declaration that is stable per deployment rather than per observation.
 
@@ -168,11 +202,29 @@ Every member MUST verify the authenticated configuration and evidence before cou
 ]
 ```
 
-- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, or a sovereignty framework identifier;
-- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3;
+- `input` — the identifier of what was undefined: a feed `id`, a catalogue signal ID, a Risk Factor key, a demand input key, or a sovereignty framework identifier;
+- `layer` — `feed` | `signal` | `term` | `query`, the three layers of `ktp-core` §5.2 plus the sovereignty query of `ktp-sensors` §4.3; a `term` entry names a Risk Factor key or a demand input key;
 - `state` — `absent` | `unanswered` | `stale` | `undefined`, the four conditions `ktp-core` §6.8 (Undefined Inputs) enumerates.
 
-The field MUST appear on any decision record where an undefined input resolved the outcome toward the more restrictive alternative. Schema carriage on the decision-record artifacts (`trust-proof.json`, the audit record) rides the #71/#83 schema gate; this definition is that gate's cargo.
+The field MUST include every evaluated undefined layer under
+[missing-evidence.md](missing-evidence.md), even a failed feed whose independent
+backup preserves signal population. Unknown signals and unobservable terms
+receive their own entries; a successful backup does not invent those entries.
+An empty denominator yields signal/term entries without a failed feed. An
+unanswered Soul framework yields query/unanswered and veto; later uncomputed
+terms are not fabricated. Preserve the exact three fields and four state names
+above; detailed causes/provenance remain outside these entries. This preserves per-layer evidence without inferring an adversary's intent.
+The field MUST appear whenever an undefined input resolved the outcome toward
+the more restrictive alternative. Preserve it in the evaluation record whether
+or not a separate carrier is used. If Decision Geometry is used, carry it in
+that record and its audit record under their applicable schemas. This contract
+does not require Decision Geometry or a Trust Proof carrier and does not add
+an `undefined_inputs` member to a Trust Proof payload.
+
+Native v3 portable carriage is defined by [Decision Geometry](decision-geometry.md)
+and schemas/decision-geometry.json, not transaction-record.json. The Trust Proof's gate state
+remains the canonical proof contract's assertion. Historical/product audit
+formats retain their own provenance and cannot be relabeled as native geometry.
 
 ## Conformance
 

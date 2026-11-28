@@ -1,5 +1,183 @@
 # Migrating from v1.0.1 to v2.0.0
 
+**Unreleased v3 PoR boundary migration (from v2.1.0):**
+Use the exact intervals in [KTP-IDENTITY] Section 5.2 (Friction Categories).
+GOODHART-003 now includes exact-boundary attestations: an attestation at exactly
+R = 0.5 counts toward E_base above 60, and one at exactly R = 0.7 counts
+toward E_base above 80. Apply these inclusive thresholds in v3 evaluations
+without rewriting signed historical records.
+Non-boundary categories are unchanged. At 0.5, 0.7, and 0.9 the upper category
+applies; at 0.3 CALM applies and an ordinary success earns no new attestation.
+Preserve every original signed historical record. For historical ordinary-success
+attestations at exactly R = 0.3, a deployment MUST explicitly declare either
+(a) grandfathered credit evaluated only under an identified, tagged v2
+calculation profile, or (b) zero credit in its v3 evaluation. Grandfathered
+credit MUST NOT be represented as credit earned under the v3 intervals. If the
+tagged profile and prior credit cannot be established, v3 credit is zero.
+Record the migration choice, affected records, prior profile and credit where
+known, and resulting credit with authenticated authority and provenance in an
+appended migration record. Do not modify signed history or silently change its
+category. Reevaluate other exact-boundary records under the declared calculation
+profile and record any credit change with the same provenance. The vectors
+specify new ordinary successes, not retroactive issuance or automatic changes
+to graceful-degradation or recovery attestations.
+
+**Unreleased v3 sponsored-identifier migration (from v2.1.0):**
+The old-to-new vocabulary mapping is in [KTP-IDENTITY] Section 9.2.3
+(Old-to-new vocabulary mapping). The identifier segment formerly called
+sponsor_id is now sponsor_ref; the bond field sponsor_id remains a complete
+sponsor URI (agent or person). Each endpoint must identify its actual authenticated
+subject: a canonical Agent URI for an agent, or a person: URI for a person under
+the applicable identity contract. The opaque sponsor_ref grammar is unchanged.
+Existing canonical example-form identifiers keep their bytes.
+Stop deriving sponsor identity from the embedded reference. Validate the bond
+and require exact equality of the evaluated subject, proof sub and bond
+sponsored_id, and separately of proof sponsor and bond sponsor_id.
+
+Preserve all legacy signed identifiers, bonds, proofs and trajectory records.
+Do not normalize or rename their bytes in place. A legacy identifier outside
+the v3 grammar cannot be presented as a v3 identifier. If moving
+such a subject to v3, obtain a newly authenticated canonical identity
+binding and a newly signed bond and proof referencing it under the applicable
+identity and trajectory migration process. Explicitly record the old/new
+identity relationship and the authority for it; the mapping alone grants no
+sponsorship or carried standing. Retain the old artifacts as legacy history.
+Never infer a complete sponsor URI from a historical segment to manufacture a
+new bond. An absent or unverifiable migration binding fails closed for v3
+sponsorship. Verification under an identified tagged v2 release remains
+verification under that release, not v3 sponsorship.
+
+**Native Transport migration (v2.1.0 baseline):**
+The old protobuf package, abbreviated OpenAPI, flat proof/JWS envelope and
+authorization enum remain legacy at the immutable
+[v2.1.0 Transport source](https://github.com/nmcitra/ktp-rfc/blob/v2.1.0/rfc-src/ktp-transport.md).
+Preserve original bytes and provenance. Native v3 uses the
+[JSON/JWS base profile](specifications/native-transport.md), exact canonical
+proofs, complete ordinary requests/associations and signed Decision Geometry
+carriers across boundaries. Do not mechanically rename old messages or infer
+missing gates/constraints from an old permission verb.
+
+An explicitly enabled legacy adapter remains isolated and cannot be selected
+after native validation fails. Reissue and reevaluate under the installed
+native release/profile and current invocation, keys, time and prerequisites.
+HTTP `/api/v1` and `/v1` routing can remain independently versioned; old `ktp.v1`
+stream/package and capability tokens cannot negotiate native semantics. A future
+protobuf/OpenAPI alternative needs its own versioned complete artifacts,
+builder and interoperability vectors before recommendation or use.
+
+CBOR is demoted from an optional native encoding to a separately versioned
+mapping for proof, ordinary-request and decision artifacts; it cannot replace
+the JSON/JWS base without that mapping. See
+[native-transport.md, Retired alternatives and future profiles](specifications/native-transport.md#3-retired-alternatives-and-future-profiles).
+Replay protection changes from SHOULD to MUST: implement request-ID reservation,
+replay-domain uniqueness and issuer/JTI collision checks under
+[request-binding.md, Replay-domain uniqueness and collisions](specifications/request-binding.md#6-replay-domain-uniqueness-and-collisions).
+
+
+**Unreleased Portable Decision Geometry migration:**
+Retain historical v2.1 records in their original formats, with their original
+signatures and provenance. They remain historical records; do not invent missing
+inputs, profile/source evidence, undefined-state metadata, associations, margin
+or gates to relabel them decision-geometry-v1. Use fresh evaluations under the
+installed profile and [canonical body/carrier](specifications/decision-geometry.md)
+for the new format. Preserve exact request/proof association preimages from
+[Request Binding](specifications/request-binding.md). Keep original producer geometry immutable if a consumer tightens it.
+
+Move product chain/storage/retention/query/enforcement/notification metadata and
+counterfactual projections outside the portable body; no ALLOW/DENY/VETO enum or
+execution outcome belongs there. transaction-record.json stays a Trajectory
+Chain record; do not transform it into pre-action evaluation evidence. Across
+trust boundaries, authorize evaluator-role keys and verify complete typed carrier,
+geometry digest, actual request/proof/profile, current validity and all existing
+replay/grant/readiness constraints. Archived validity cannot restore current
+permission, and a signed geometry does not prove dispatch or non-dispatch.
+
+
+**Ordinary request/proof migration (v2.1.0 baseline):**
+Adopt [request-binding-v1](specifications/request-binding.md) alongside the
+canonical v3 Trust Proof. Build a fresh complete canonical request from the
+authenticated actual invocation, explicit requester/executor, resolved resource
+and parameters, installed classifier and replay context. Recompute the exact
+domain-separated request and complete-proof digests; a subject/JTI/session match
+or historical project-owned action hash cannot substitute. Do not insert a
+request hash into the closed state proof or relabel an old proof/request pair.
+
+The former instruction to track Trust Proof JTIs to prevent reuse is replaced:
+one verified proof MAY serve distinct requests inside its ten-second validity
+window. Replay is guarded by `(replay_domain, request_id)`; each verified
+`(issuer, jti)` MUST still identify exactly one complete proof digest. Existing
+implementations must change both state keys and collision checks, not disable
+replay protection or extend proof lifetime.
+
+Install authenticated active replay-domain bindings and accepted-domain floors,
+with atomic request-ID reservations and issuer/JTI collision checks. Missing
+or lost required state fails closed; do not restore legacy cached permissions.
+Reissue/reevaluate pending legacy requests under fresh native request IDs and
+all v3 prerequisites. Keep explicitly enabled v2.1 handling separate, with no
+fallback around native checks. Preserve old signed history rather than rewriting
+its hashes. Decision use across a trust boundary remains disabled unless a
+reviewed signed carrier binds the complete association and evaluation context;
+A separately reviewed carrier is required before that use. Readiness keeps its own signed preimages:
+construct and verify both contracts against the same actual invocation/proof.
+No exactly-once target effect, durable retry, queue, release-time freshness or
+effect-evidence claim is added; target-execution evidence remains separate.
+
+
+
+
+**Unreleased Closed External Root migration:**
+Preserve published v2.1 proof bytes and signatures under their original release.
+A nullable property bag, missing discriminator/reason or credit-bearing none
+is not a native proof projection. Reissue from authoritative complete signed
+bonds/attestations and current lifecycle/profile evidence under
+[external-root-v1](specifications/external-root.md). Do not infer issuer,
+terminator, exposure, cause/finding or expiry from a copied score. No root
+credit implies base trust at most 70 for any subject plus every tighter ceiling;
+missing evidence cannot mint an anchor. The separate person decision owns
+subject eligibility. Explicit legacy handling stays isolated with no native
+fallback. Canonical Trust Proof fixtures use the closed projection. Consumers
+MUST preserve those exact signed bytes rather than substituting an equivalent
+ECDSA signature; digest associations bind the complete proof bytes.
+Persons may carry a live bond another person posts, without invented lineage
+or generation. Their execution tier uses E_trust; their capacity check uses the
+reviewed adapter's operational E. Count signed acts for the trajectory-length
+ceiling. A person bond ends at closure, never a generation transition.
+
+
+**Unreleased canonical v3 Trust Proof migration (v2.1.0 baseline):**
+Adopt [Canonical Trust Proof Contract](specifications/trust-proof.md) and the
+v3 trust-proof schema together. Change Core's old ktp+jwt type/media subtype to
+ktp-trust-proof+jwt; use the one closed payload, explicit version and gate
+state, required audience and conditional claims at every conformance level.
+Old copied Basic/Standard/Full or Crypto payload shapes are not native v3.
+ES256 is the base capability; other algorithms require an installed named
+profile, with Ed25519 identified as EdDSA and exact key/curve/role binding.
+Maintain stronger selected Crypto requirements and Oracle committed-state checks.
+
+Select an authenticated issuer/verifier cutover, key/profile bindings and
+accepted-format floor; do not let a candidate token select legacy mode. Proofs
+are ephemeral: issue fresh v3 proofs at cutover, retaining the ten-second cap,
+zero skew and exact expiry check. Do not re-sign or relabel old tokens as native
+v3 evidence. If needed, operate an explicitly enabled, isolated v2.1 adapter
+using the immutable tagged v2.1.0 schema and artifact rules; adapter output is
+legacy and cannot bypass v3 checks or revive expired authority. Preserve signed
+history unchanged. Invalid proof, valid veto, and valid undetermined results
+must remain distinguishable; none grants execution. Coordinate the standard
+ingress_path claim and receipt verification with KTP-ZONES Sections 6.6
+(Ingress Path) and 7.4 (Egress Shaping); an unavailable receipt verifier
+cannot cause a nested proof to be accepted.
+
+**Unreleased demand supplier migration:**
+Follow [Core L14](rfc-src/ktp-core.md#l14-the-criticality-of-the-moment-is-a-demand-side-input-and-the-specification-says-so)'s five-factor/demand-side migration, then replace the smaller demand
+row with the complete [supplier contract](specifications/demand-supplier.md).
+Increment the installed profile version and digest; reacquire independently
+authenticated supplier values with current provenance, observation time and
+exact preclassification operation binding. Do not rename an old catalogue
+signal, request scalar or stale signed value into new evidence. Unavailable
+values read restrictively as the most critical moment, without fabricating an
+observation or changing R. Historical profiles and bytes retain their release
+meaning; no active fallback to the old declaration is permitted.
+
 **Unreleased software-substrate migration (D-009, #124 / #131):** Implementations
 opting into [the software-substrate profile](specifications/software-substrate-execution-profile.md)
 use `software-substrate-execution-v1` and `ktp-software-substrate-decision-v1`;
@@ -123,8 +301,8 @@ redefine E or widen the profile result. Adopt the signed evidence record and its
 five states. A denial without authenticated protected-path non-dispatch evidence
 is `unknown`; neither HTTP success nor a dispatch record proves an effect.
 Release held reservations only on authenticated non-dispatch, preserving uncertain
-state. An earlier implementation must not silently map `no_effect` to dispatch or
-release a reservation on it. D-012 is opt-in and does not itself change obligations
+state. An implementation must not map `no_effect` to dispatch or release a
+reservation on it. D-012 is opt-in and does not itself change obligations
 for implementations that do not declare it; independent v3 requirements remain.
 
 **Unreleased trajectory-format migration:** The current draft additionally
@@ -166,6 +344,39 @@ Two defects in v1.0.x that you should treat as live until you migrate are in
 [`SECURITY-NOTES.md`](SECURITY-NOTES.md).
 
 ---
+
+
+**Unreleased KTP-REPAIR migration:** A deployment adds five things. It records,
+for each actor, whether its trajectory is in Breach and the anchor of the breach
+record, by the three entries KTP-REPAIR enumerates; it treats no Silent Veto as
+a breach. It adds the `reconciliation` Flight Recorder record type with the
+fields KTP-REPAIR specifies, anchored like every other record, and refuses to
+re-establish readiness or re-enter a tier at or above the breach tier until one
+is anchored. It applies a ceiling on base standing at re-entry, declared per
+entry class in its published profile (at least one tenth on a hard entry,
+non-decreasing on repetition within a lineage), lifted only by acts recorded
+after the record; an implementation that capped the tier and left standing
+untouched has applied no cost and must change. It publishes the route by which
+reconciliation is sought, treats seeking as a signed act, and refuses a
+Sponsorship Bond to a root above its declared unreconciled count. It declares
+its repair capacity per aggregation window and its criticality, measures and
+publishes the reproduction of breaches from its own chain, and reports the
+breach index (criticality times utilization of the declared capacity) as a
+source feeding adversarial pressure, computed from the obligation and repair
+signals the catalogue already carries; undeclared capacity is unknown capacity
+and takes the supervision floor.
+It declares its three repair tiers with the contingency each permits, caps one
+lineage's share of arrival, computes capacity as the lesser of declared and
+demonstrated, leaves a tier only by the recovery predicate, and declares a
+repair emergency only under the emergency specification's custodians.
+It declares how an affected party's declaration of unrepaired harm raises Δ,
+requires the breaching party's acknowledgment on every record, and treats a
+record brought to anchor within the declared repairer interval as not
+demonstrating capacity.
+
+An implementation of Relational's repair process that began at "parties agree
+repair is needed" changes that phase: the breaching party seeks, the affected
+party may attend. Nothing else in Relational changes.
 
 ## 1. Wire-format breaks
 
@@ -652,6 +863,53 @@ asserts Internet-Draft status, which the other 22 disclaim. The 22 render as
 markdown. The summary layer in `rfcs/` is unchanged and **no published URL
 moves**.
 
+**Unreleased federation-rule migration:** A federated deployment checks its
+agreements against the required and forbidden cells. A clause that delegates
+a veto, requires acceptance of a foreign evaluation, coordinates evaluation
+inputs, sets a factor above one or one the receiver did not sign, or binds an
+act inside the other zone is void on the day the rule lands; the agreement
+stands without it. A factor the deployment applied because the other side
+applied the same one is not signed and is not applied: each direction is
+re-signed by the zone that receives. A hub stops issuing evaluations for its
+spokes and stops setting their inbound factors. Arbitration awards that
+directed a zone to permit an act are reread as awards on standing in the
+federation or on evidence. Severance procedures that isolated or directed
+agents inside the other zone are rewritten to end the severing zone's own
+acceptance. A deployment whose evaluation stopped when a federation link
+dropped must evaluate without it. Every federation decision is signed by the
+body that made it, and a subject whose standing a federation decision changed
+has the zone's review route.
+
+**Unreleased charter-amendment migration:** A deployment publishes, in its
+charter, the route by which a lineage bound by a rule opens the amendment
+process, the deadline by which the governing authority attends a filing, and,
+in its profile, the recurrence at which the route opens. Its amendment
+procedure gains three checks it did not have: that the amendment cites the
+records it answers and, for a constant, the measurements; that making it is
+evaluated as the governor's own act before it is in force; and that it touches
+nothing on the floor, which now names the route, the recurrence, a veto, and
+what no repair tier may change beside the immutable elements. An amendment in
+flight on the day this lands is evaluated under these checks at ratification.
+No wire change.
+
+**Unreleased execution-observation migration:** A deployment that reported a
+denial as "not executed" reports it as unverified until an execution
+observation bound to the decision says otherwise. A recorder that carried an
+executed flag on the decision record moves it to the bound observation. A
+monitor that saw a denied action dispatch records a conformance failure and
+opens a breach record. No change to the Trust Proof. Vocabulary: *Execution
+Observation* is a new term with no predecessor; the record it names is the
+observation of specifications/consequential-action-execution-and-evidence.md
+or a declared equivalent.
+
+**Unreleased boundary migration:** Every deployment profile adds the `boundary`
+object: the resources the zone's authority covers, the subjects entitled to
+hold standing, the outside parties its acts may affect with the review route
+each is owed, the jurisdictions, and the limits of its authority. A profile
+without it is not a conformant v3 profile, and a zone without it makes no
+conformance claim. Zone Gateways deny acts on undeclared resources and standing
+to unentitled subjects. No wire change to the Trust Proof.
+
 ## 4. Unreleased v3 changes
 
 ### 4.1 `moment_criticality` leaves the Risk Factor
@@ -683,6 +941,26 @@ unchanged at their v2 identifiers and are kept as
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
 
+### 4.2 Missing evidence and fixed aggregation slots
+
+Remove `default_on_failure` from active sensor configurations, including veto
+configurations, and the old fraction-of-feeds dimension fallback. Adopt the
+[explicit layer states](specifications/missing-evidence.md) and their per-layer
+`undefined_inputs` entries. Continuity requires declared independently current
+redundant evidence filling fixed-weight aggregation slots and satisfying the
+same signal's complete population rule;
+there is no estimator alternative. Any required unknown signal makes the
+factor unobservable with a separate maximum-stress decision reading, not a
+measurement. Increment configuration/profile versions and digests, reacquire
+current observations, and preserve historical v2.1 records under their original
+release. Do not rename old fallback numbers or cached data into current
+observations; legacy handling cannot weaken active missing-evidence rules.
+
+Backup continuity requires independently established equivalent coverage, not only
+a current source in another failure domain. Cooler subsets do not replace a
+missing population. Reject mappings that reuse one observation across slots,
+including primary/backup aliases. A changed reading alone is not evidence of
+invalidity and does not authorize replay of the last current value.
 
 ---
 
@@ -703,6 +981,13 @@ the 3.0.0 migration guide when that version is tagged.
 | 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
 | Full: third-party certification | Full: independent reproduction of its specified test IDs |
 
+**Unreleased substrate-profile migration:** A conformance claim adds the
+substrate profile it is made under, by its versioned identifier, after the
+level. A published claim that names no substrate profile is restated with one
+or withdrawn; a claim on a substrate the set carries no profile for waits for
+that profile to enter the set. No wire change. Vocabulary: *Substrate Profile*
+is a new term with no predecessor; the software-substrate execution profile
+(#124) is its first instance.
 
 ## 4. Toward 3.0.0 (unreleased)
 
@@ -715,6 +1000,38 @@ What changes is a claim: an implementation that has said its per-request limits
 bound combined consequence stops saying so, or composes consequences across
 requests and says that under its own status label. The published case set is
 the test, cited by name and tag.
+
+**Unreleased federation-crossing migration:** A federated deployment applies
+each signed factor to the Base Trust the sending zone attests, not to the
+foreign proof's E_trust, and computes its own Risk Factor; a gateway that
+copied a foreign E_trust through the factor changes its arithmetic. Any
+implementation of the forward or backward propagation formulas stops writing
+deltas into another zone's measure: it exports breach records and withdrawn
+attestations as exposure to every zone the subject has reached, exports a
+record that a reconciliation was anchored to the same zones, and admits
+positive attestations under a policy it declares. A zone attests for a subject
+only the standing earned within it, so a deployment keeps what it admitted at
+ingress apart from what the subject earned after. The terms *Forward
+Propagation*, *Backward Propagation* and *Trust Path* are retired; the mapping
+is in KTP-FEDERATION Section 7.4. A deployment that
+sponsors across a link records every such bond in the sponsor's home zone or
+the bond is void. No wire change to the Trust Proof; the trust-proof exchange
+response gains the attested and local quantities as shown in Transport.
+
+**Unreleased recognition migration:** A federation that conditions membership
+on a recognized local rule removes the condition or carries the rule into the
+agreement by amendment. A charter whose amendments have narrowed any class's
+standing to open, contest, or object restores it; the narrowing clauses are
+void. No wire change.
+
+**Unreleased hand-back migration:** Nothing changes for an implementation that
+does not declare the hand-back. A declarer adds the `hand_back` section to its
+deployment profile, naming each recipient's capacity binding, registers a hand-back template for each (subject,
+consequence class) before minting, and answers identities with no standing
+with one code and one body. Vocabulary: Hand-Back, Clearance, Lease,
+Consequence Class, Managed Identity, Unmanaged Identity, Delegator, Recourse
+and Hysteresis Ledger are new terms with no predecessors; `specifications/hand-back.md`
+is their home.
 
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /

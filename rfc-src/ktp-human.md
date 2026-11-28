@@ -25,6 +25,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-ENFORCE:
     title: "Kinetic Trust Protocol - Enforcement Layer"
     author:
@@ -170,6 +174,8 @@ For each decision affecting a person, the system MUST provide an accessible expl
 
 Sensitive evidence may require protected access or a suitable representative. A generic security label MUST NOT make the grounds of a decision impossible to challenge. Disclosures MUST protect other subjects and legitimate security interests while enabling meaningful review.
 
+A person affected by another actor's breach is never required to attend its reconciliation; attendance is voluntary under {{KTP-REPAIR}}, and the review route in this section is not the reconciliation route.
+
 ## Meaningful Review
 
 A person MUST be able to challenge a specific fact, identity association, evidence scope or status, application of a requirement, or the legitimacy of the governing rule. Review access MUST NOT depend on the eligibility being challenged. The deployment MUST declare response and escalation deadlines, an accessible assistance route, reviewer competence and authority, and conflict-of-interest safeguards.
@@ -179,6 +185,8 @@ The reviewer MUST have power to investigate and correct an individual case, incl
 Corrections MUST append an authenticated correction event, mark superseded evidence as unusable for future decisions, update the current evidence state and epoch, invalidate dependent cached decisions, and propagate to affected authorized recipients. The original signed bytes MUST NOT be rewritten. A retained record of the error is not permission to keep treating it as true.
 
 A reviewer MUST NOT manually boost a score, substitute an unexplained approval, or override a valid safety check. Corrected evidence produces a fresh decision under the current approved rules. Challenges to those rules themselves MUST reach the designated governing authority.
+
+For a software agent in a managed relation, the destination of an adverse stop and the contest path it carries are specified in specifications/hand-back.md; the review this section requires is the recourse a person is owed under it.
 
 ## Alice's Correction Scenario
 

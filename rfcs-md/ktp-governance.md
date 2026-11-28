@@ -75,7 +75,7 @@ Governor actions have autonomy (A):
 
 Governors have environmental stability (E):
 
-- E = E_base * (1 - R) for a governing system; for a person, the operational E the reviewed adapter authenticates (KTP-Core Section 4.1 (Definition))
+- E = E_base * (1 - R)
 
 - Where R reflects governance context risk
 
@@ -445,6 +445,8 @@ In emergencies, E can be reduced immediately:
 { "emergency_e_reduction": { "reduction_id": "eer-2025-12-03-001", "authorized_by": "gov:alice.smith", "authorization_time": "2025-12-03T14:00:00Z", "original_e_base": 60, "reduced_e_base": 30, "reduction_percentage": 50, "reason": "mass_compromise_detected", "evidence": "INC-2025-12-03-001", "duration_hours": 4, "auto_restore_time": "2025-12-03T18:00:00Z", "review_required": true, "review_deadline": "2025-12-04T14:00:00Z" } }
 
 # Dispute Resolution
+
+Dispute resolution is invoked by a party. Repair after a breach is required whether or not any party invokes anything, and is specified in [KTP-REPAIR]: the zone publishes the route by which reconciliation is sought with its profile, and where no party other than the zone is affected, the holder of E-setting authority stands as the affected party.
 
 ## Dispute Categories
 

@@ -39,6 +39,10 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol - Repair"
+    author:
+      - name: Chris Perkins
   KTP-AUDIT:
     title: "Kinetic Trust Protocol - Flight Recorder Specification"
     author:
@@ -684,6 +688,8 @@ Tier Demotion (E_trust decreases):
 - Agent should implement graceful capability shedding
 - Logged to Flight Recorder with context
 
+After a breach, the tier follows the ceiling on standing that {{KTP-REPAIR}} specifies: an actor whose standing is ceilinged at re-entry is promoted only as acts recorded after its reconciliation record lift the ceiling, and a tier cap applied with the standing untouched is no cost.
+
 Hysteresis (optional):
 
 To prevent oscillation at tier boundaries, implementations MAY implement hysteresis:
@@ -855,6 +861,8 @@ Response body format:
 ~~~
 
 The example shows a software agent. For a person, the details object reports the operational E the capacity check used, never E_trust in its place, and omits de_dt ({{KTP-CORE}} Section 8.3 (Veto Response)).
+
+Where an implementation declares the hand-back (specifications/hand-back.md), the numeric fields of `details` MAY be omitted from the body the agent receives; they travel in the sealed bundle to the hand-back's recipient. Toward an identity that holds no standing in the zone, a PEP SHOULD return one code and one body whatever the credential's state.
 
 ## Veto Notification
 

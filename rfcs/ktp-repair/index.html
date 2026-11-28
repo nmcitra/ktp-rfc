@@ -1,0 +1,2658 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="An Internet Governed by Structure, Not Policy">
+      
+      
+        <meta name="author" content="NMCITRA">
+      
+      
+        <link rel="canonical" href="https://nmcitra.github.io/ktp-rfc/rfcs/ktp-repair/">
+      
+      
+        <link rel="prev" href="../ktp-recovery/">
+      
+      
+        <link rel="next" href="../ktp-migration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>KTP-Repair - Kinetic Trust Protocol</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Crimson Pro";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="slate" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kinetic-trust-protocol-ktp-repair-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-header__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Kinetic Trust Protocol
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KTP-Repair
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+      </div>
+    
+    
+      <div class="md-header__social">
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../learn/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../specifications/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Specifications
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../implement/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Implement
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Kinetic Trust Protocol" class="md-nav__button md-logo" aria-label="Kinetic Trust Protocol" data-md-component="logo">
+      
+  <img src="../../assets/nmcitra-logo-white.png" alt="logo">
+
+    </a>
+    Kinetic Trust Protocol
+  </label>
+  
+    <div class="ktp-nav__path">
+      
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../specifications/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Specifications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    RFCs
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+    </div>
+  
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nmcitra/ktp-rfc" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    nmcitra/ktp-rfc
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../learn/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learn
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Learn
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk-factors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Context Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/telemetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/risk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Risk & Deflation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/constitution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constitution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../learn/use-cases/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Cases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../specifications/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specifications
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specifications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/blue-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blue Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specifications/identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/kinetic-envelope.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kinetic Envelope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/deployment-profile.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/emergency-capability.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Emergency Capabilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/oracle-consensus.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oracle Consensus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/trajectory-signatures.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trajectory Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/operational-readiness.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operational Readiness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/human-eligibility.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Human Eligibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/blob/main/specifications/privacy-evidence.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy Evidence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFCs
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_12" id="__nav_3_12_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RFCs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Identity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-crypto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Crypto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Transport
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Federation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-zones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Zones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-sensors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Sensors
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-signals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Signals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-human/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Human
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-privacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Privacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-enforce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Enforce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-audit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Repair
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-legacy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Legacy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-governance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Governance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-threat-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Threat Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Problems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-information/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Information
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-attenuation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Attenuation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-celestial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Celestial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Oracle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-provenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Provenance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Relational
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-emergency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Emergency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ktp-deprecation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KTP-Deprecation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/nmcitra/ktp-rfc/tree/main/schemas" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../implement/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implement
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implement
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/trust-flow-viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Flow Viewer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/experience-calculator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experience Calculator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/sdks-and-libraries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDKs & Libraries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implement/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/nmcitra/ktp-rfc/edit/main/docs/rfcs/ktp-repair.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="kinetic-trust-protocol-ktp-repair-specification">Kinetic Trust Protocol (KTP) - Repair Specification<a class="headerlink" href="#kinetic-trust-protocol-ktp-repair-specification" title="Permanent link">&para;</a></h1>
+<p>This document specifies repair for the Kinetic Trust Protocol (KTP): what a breach is, what a reconciliation record is, and the rule that standing lost at a breach does not return without one. Repair is required before re-entry whether or not any party has raised a dispute. The same rule applies to the actor whose act breached, to the relationship the breach damaged, and to the rule under which breaches recur.</p>
+<p>The document also specifies the deployment's answer to breaches arriving faster than they can be repaired: the open breach stock, declared repair capacity, utilization against it, ambient breach as a source of environmental heat, and the tiers a zone may enter when repair falls behind, with what no tier may change.</p>
+<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
+<p>Every other specification in this set describes how authority is computed from current conditions and withdrawn when conditions no longer support it. None describes how it comes back. A system that can stop an actor and cannot return it has a door that only closes; the actor stops correctly, and then nothing happens.</p>
+<p>This document supplies the return arrow and the condition on it. After a breach, standing does not return because time passed, because the actor restarted, because a fresh proof was issued, or because no one complained. It returns when a reconciliation record is anchored in the zone's audit chain, and it returns to a ceiling below where it stood.</p>
+<p>Repair is not conflict resolution. Conflict resolution is invoked when a party carries a grievance to it. Repair is required before re-entry whether or not anyone carried anything. The two coexist: a party may dispute a breach under [KTP-GOVERNANCE] and [KTP-HUMAN], and the dispute's outcome is evidence for the record; the record is still required.</p>
+<p>Repair applies at three levels, and this document treats each: the actor whose act breached, whose standing is ceilinged until the record exists; the relationship the breach damaged, which the record names; and the rule under which breaches recur, which is itself in breach and is repaired by an amendment that cites the records that drove it.</p>
+<h1 id="requirements-language">Requirements Language<a class="headerlink" href="#requirements-language" title="Permanent link">&para;</a></h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as shown here.</p>
+<h1 id="terminology">Terminology<a class="headerlink" href="#terminology" title="Permanent link">&para;</a></h1>
+<p>Standing: The accumulated measure of the agent-environment relationship that [KTP-CORE] carries as Base Trust (E_base) and evaluates, with the environment's present condition, as the Effective Trust Score. Standing is the quantity a breach ceilings and reconciliation releases.</p>
+<p>Breach: The state an actor enters by its own act against the gate, as Section 4.2 (Entry) enumerates. A Silent Veto is not a breach. Breach is a state of the actor's trajectory, recorded in the zone's audit chain, not a state of the environment.</p>
+<p>Reconciliation Record: A Flight Recorder record, anchored in the zone's audit chain, that names the breach it closes, each party by the terminator of its accountability chain, the residual harm, and an independent verifier. Section 4.3 (The Record) specifies it.</p>
+<p>Re-entry Reduction (Δ): The declared fraction by which an actor's standing at the breach is reduced to set the ceiling at which the actor re-enters. Section 4.4 (The Cost) specifies it.</p>
+<p>Breach Arrival (Z): The weighted count of breaches entering the zone's audit chain per aggregation window, whether or not any is reconciled.</p>
+<p>Repair Capacity (μ): The number of reconciliation records the zone's accountable roots can bring to anchor per aggregation window under sustained backlog, declared in the zone's published profile. Roots produce and submit records; the Oracle anchors them in the chain.</p>
+<p>Open Breach Stock (U): The weighted count of breaches in the zone's audit chain for which no reconciliation record is anchored.</p>
+<p>Criticality (K): The zone's declared measure of how asymmetric the harm of carrying an unreconciled breach is in that zone. A decision in the published profile, not a measurement. It sets the reserve the zone must keep, 1/K.</p>
+<p>Ambient Breach (ρ): Utilization, the breach arrival over the repair capacity, Z/μ, reported with the zone's criticality as the breach index B = Kρ to the zone's environmental measurement as a source of adversarial pressure.</p>
+<p>Repair: Restoring standing, a relationship, or a rule after a breach. Reconciliation is one act of repair. This is the sense in which the Open Trust Commons records a project's repair capability; this document is upstream of that use and the two do not diverge.</p>
+<p>Governing Authority: The party [KTP-GOVERNANCE] identifies as holding E-setting authority for the zone, which publishes the zone's profile and stands as the affected party where only the zone is affected.</p>
+<h1 id="the-precondition">The Precondition<a class="headerlink" href="#the-precondition" title="Permanent link">&para;</a></h1>
+<h2 id="standing">Standing<a class="headerlink" href="#standing" title="Permanent link">&para;</a></h2>
+<p>Standing lost at a breach does not return without reconciliation. A breach, and the reconciliation that closes it, is an anchored record in the zone's audit chain; it persists by its anchor and not by its signatures, and it is a record only while its anchor verifies under the zone's current cryptographic profile. An actor whose evaluation entered Breach <strong>MUST NOT</strong> have readiness re-established, and <strong>MUST NOT</strong> re-enter any tier at or above its tier at the breach, until the reconciliation record for that breach is anchored. The breach attaches to the actor's trajectory: an agent spawned from it after the breach carries it, a Sponsorship Bond does not close it, and a zone that receives the actor measures the breach as its own exposure and never as reconciled. Where the actor no longer exists, the obligation to reconcile rests with its lineage at the sponsor and with the chain's terminator. Silence, the lapse of time, a restart, a fresh ordinary proof, a new sponsor, or the actor's ending is not reconciliation.</p>
+<p>Readiness is the readiness decision of [KTP-CORE] Section 7.4 (Operational Readiness for the Requested Action); the tier is the tier of [KTP-ENFORCE]; the trajectory, the lineage, the sponsor and the terminator are those of [KTP-IDENTITY] and of [KTP-CORE] Section 5.1 (Base Trust (E_base)); anchoring is that of [KTP-AUDIT]; the cryptographic profile is that of [KTP-CRYPTO]. Where the actor is a person, the trajectory is the person's signed acts and nothing else, and standing is the zone's measure of the person's acts under the protocol and bears on nothing outside it. The party who owes reconciliation for an ended actor is the root that held authority over its lineage, as the sponsor and the chain's terminator are declared; a person who directed the actor under a grant without lineage-wide visibility, the authority to refuse, and the power to stop its next act is not by that direction the party.</p>
+<h2 id="entry">Entry<a class="headerlink" href="#entry" title="Permanent link">&para;</a></h2>
+<p>An actor enters Breach by its own act, never by the gate's refusal. A consequential act executed, or presented for release, outside the signed decision it consumed or without one, is a breach. An attestation withdrawn for cause against the actor, or a finding of misattestation, is a breach. A deployment <strong>MAY</strong> declare further entry classes in its published profile; it <strong>MUST</strong> declare them for every actor alike and <strong>MUST NOT</strong> declare them for one. A Silent Veto is not a breach, and an action the environment could not bear carries no obligation to reconcile.</p>
+<p>The first entry is an act whole: a release that matches its decision fragment by fragment and not as a whole is a breach of the actor. The second entry is already priced by [KTP-CORE] Section 5.1 (Base Trust (E_base)): a for-cause claim that does not survive scrutiny is misattestation and debits the claimant. The first two entries are hard entries. A profile-declared entry is a soft entry unless the profile declares it hard. A breach record is contestable under the review route and the response deadlines the set already declares; a correction changes the authoritative evidence and requires a fresh evaluation, and never revives what was superseded, as [KTP-CORE] states for every correction. A breach record that is wrong is fixed while it can still matter, not after.</p>
+<h2 id="the-record">The Record<a class="headerlink" href="#the-record" title="Permanent link">&para;</a></h2>
+<p>A reconciliation record is a Flight Recorder record, anchored in the zone's chain, that names the breach it closes by its anchor, each party by the terminator of its chain, the residual harm, and the verifier. The verifier <strong>MUST</strong> be independent of every party by the test this set states for an Independent Party, at the date of the record; the Oracle anchors the record and <strong>MUST NOT</strong> be its verifier. The record <strong>MAY</strong> declare the harm unrepairable; declaring it is compliant, omitting it is not. The record carries no account of what was said; it states that the parties were present, who confirmed it, and what remains.</p>
+<p>The record also carries the breaching party's acknowledgment of the breach, by the terminator of its chain; a record that states presence and residual harm and no acknowledgment is incomplete and does not close the breach. The Independent Party test is the one [KTP-CONFORMANCE] states for conformance claims, applied here to the parties of the record in place of the author and the implementer. The record type and its fields are specified in Section 6 (Records). A zone that cannot produce an independent verifier cannot produce a record, and standing does not return; this is the stated result, not a gap.</p>
+<h2 id="the-cost">The Cost<a class="headerlink" href="#the-cost" title="Permanent link">&para;</a></h2>
+<p>A breach lowers a ceiling on standing. At re-entry the actor's base standing <strong>MUST NOT</strong> exceed its standing at the breach reduced by a declared fraction Δ, and the ceiling lifts only by acts recorded after the reconciliation record, under the ordinary rail. The deployment declares Δ in its published profile for each entry class. For a breach entered by the actor's act against a signed decision, or by withdrawal for cause or misattestation, Δ <strong>MUST</strong> be at least one tenth; a profile that declares less is non-conformant. For a repeated breach on the same lineage, Δ <strong>MUST</strong> be no less than the Δ applied to the one before. Re-entry restores the eligibility to earn standing and restores nothing else: an instrument withdrawn for cause stays withdrawn, the tier follows from the standing, and what was lost is earned again, not returned.</p>
+<p>The ceiling is a term of the same kind as the generation ceiling of [KTP-CORE] Section 5.1 (Base Trust (E_base)): a bound on base standing, not a contribution to it, and not a tier. Because the tier is a readout of standing, no separate tier cap is required and none is specified; an implementation that caps the tier and leaves the standing untouched has applied no cost, because the ordinary rail restores the tier at the next evaluation.</p>
+<h2 id="required-not-invoked">Required, Not Invoked<a class="headerlink" href="#required-not-invoked" title="Permanent link">&para;</a></h2>
+<p>Reconciliation is required before re-entry whether or not any party has raised a dispute; a deployment that re-enters an actor on the absence of complaint is non-conformant. The obligation to seek reconciliation rests with the breaching party's lineage and terminator, never with the affected party, and an affected party's attendance is voluntary. A zone <strong>MUST</strong> publish the route by which reconciliation is sought. Where an affected party declines after that route has been followed, the verifier confirms the route was followed, the record carries the residual harm as the affected party declared it or, where they declared nothing, as undeclared and carried as unrepairable, and the record remains open to the affected party to attend and amend at any later time; declining is neither a veto on the record nor a closing of it. Where no party other than the zone is affected, the zone's governing authority is the affected party, and the verifier <strong>MUST</strong> be independent of it.</p>
+<p>The route is published with the zone's profile. Who attends depends on who was harmed. Where the affected party is a person, attendance is voluntary; the review route of [KTP-HUMAN] is unchanged by this document and is not the reconciliation route, and a person is never required to attend. Where the affected party is an agent, the terminator of its lineage attends in its place and is required to; a terminator who declines after the route has been followed has committed, against its own lineage, the breach that Section 5.1 (Seeking Is an Act) names for a lineage that seeks and does not attend.</p>
+<p>The affected party's answer changes the course and not only the record. The profile <strong>MUST</strong> declare how a residual harm the affected party declares unrepaired raises Δ above the floor for that breach; a declaration never lowers Δ, and a declaration is not a veto on the record or on re-entry. A protection that held only when the affected party attended and persuaded would be a courtesy; the floor holds whether or not they attend, and what they declare raises it.</p>
+<h2 id="the-rule">The Rule<a class="headerlink" href="#the-rule" title="Permanent link">&para;</a></h2>
+<p>Repair applies to the rule as it applies to the actor. A rule, profile, or consequence class under which a breach pattern recurs, at the recurrence the deployment's published profile declares, is itself in Breach: the governing authority that set it is the breaching party, the lineages it bound are the affected parties, and its reconciliation record is the amendment, which <strong>MUST</strong> cite the reconciliation records that drove it. An amendment that cites no reconciliation record is not repair, and a recurring pattern that amends nothing is not closed. This specification's own repair runs under its published decision process, which this document cites and does not restate.</p>
+<p>The mechanism by which an amendment is made and ratified inside a zone is not specified here; [KTP-CORE] names it among the limits of the set.</p>
+<h1 id="barrage-and-ambient-breach">Barrage and Ambient Breach<a class="headerlink" href="#barrage-and-ambient-breach" title="Permanent link">&para;</a></h1>
+<h2 id="seeking-is-an-act">Seeking Is an Act<a class="headerlink" href="#seeking-is-an-act" title="Permanent link">&para;</a></h2>
+<p>Seeking reconciliation is a signed act in the seeking party's trajectory. A lineage that seeks reconciliation and does not attend has committed a further breach, of the hard class, against the record it sought. The governing authority <strong>MAY</strong> queue sought reconciliations; a position in the queue changes no ceiling and re-establishes no readiness.</p>
+<h2 id="sponsorship-under-unreconciled-breach">Sponsorship Under Unreconciled Breach<a class="headerlink" href="#sponsorship-under-unreconciled-breach" title="Permanent link">&para;</a></h2>
+<p>A root whose lineages carry more unreconciled breaches than the count its published profile declares <strong>MUST NOT</strong> open a Sponsorship Bond while they do. At a declared count of zero, one unreconciled breach closes sponsorship and its reconciliation reopens it. The declared count <strong>MUST NOT</strong> exceed the profile's declared repair capacity μ per window, and for hard entries the count <strong>MUST NOT</strong> be greater than one. A bond opened in breach of this rule is void, and the agent it would have sponsored has no genesis.</p>
+<p>This is the only cost a lineage of disposable agents cannot avoid, and it is the lineage-summed bound that [KTP-CORE] names as owed under its limits.</p>
+<h2 id="declared-repair-capacity">Declared Repair Capacity<a class="headerlink" href="#declared-repair-capacity" title="Permanent link">&para;</a></h2>
+<p>A zone <strong>MUST</strong> declare its repair capacity μ in its published profile: the number of reconciliation records its accountable roots can bring to anchor per aggregation window under sustained backlog, by entry class. The declaration binds the declarer: the audit chain records every anchored record, and a declared capacity the chain does not bear out is a misdeclaration. The effective repair capacity is the lesser of the declared capacity and the records actually anchored per window over the recovery window while the open breach stock was above zero; a zone that cannot anchor at its declared rate under backlog has its capacity revised to what its own chain demonstrates, and computes ambient breach against that. A profile <strong>MAY</strong> declare a repairer interval, the time a repairer is given after bringing a hard-entry record to anchor before carrying the next; where it does, a record brought to anchor by a repairer within the interval still reduces the open breach stock and re-establishes what it re-establishes, and does not count toward demonstrated capacity. A zone that spends its repairers cannot show the throughput as durable. A zone that declares no repair capacity has unknown capacity, and unknown capacity is resolved restrictively under [KTP-CORE] Section 6.8 (Undefined Inputs): the zone is treated as saturated for the purposes of Section 5.4 (Ambient Breach) and consequential acts within it are subject to the supervision floor that applies when capacity is not known. A declared capacity of zero is a declaration that the zone cannot host consequential acts while any breach is unreconciled.</p>
+<p>A zone <strong>MUST</strong> also declare its criticality K in the same profile. K is a decision about the asymmetry of harm in that zone and is never derived from measurement.</p>
+<h2 id="ambient-breach">Ambient Breach<a class="headerlink" href="#ambient-breach" title="Permanent link">&para;</a></h2>
+<p>Breach arrival Z is the weighted count of breaches entering the zone's audit chain per aggregation window: one for a hard entry, and the weight the profile declares for a soft entry. No one lineage contributes to Z more than the share the profile declares for a single lineage; above that share its breaches still enter the open breach stock, still ceiling its standing and close its sponsorship, and raise the zone's arrival no further. Arrival measures how many roots are breaching, not how loudly one is. The open breach stock U is the weighted count of breaches with no anchored reconciliation record. The stock changes only by arrival and by anchored records: nothing leaves it by the passage of time, a restart, the expiry of a window, a fresh proof, a new sponsor, or the actor's ending, and a breach carried into another zone under a federation agreement leaves it there as exposure and not here as repaired.</p>
+<p>Ambient breach ρ is the breach arrival over the declared repair capacity, Z/μ, taken over the aggregation window. With the zone's declared criticality it is reported as the breach index B = Kρ. The zone's reserve is 1/K: while ρ is at or below it the zone holds the margin its criticality demands; above it the reserve is gone, whether or not the stock is growing; above one, breaches arrive faster than the zone has demonstrated it can reconcile them, and at that rate the stock grows; at two or above, at that rate it grows by at least the whole of the zone's repair capacity each window. The stock itself can still fall in a window where ρ is above one, because records brought to anchor within a repairer interval reduce it without counting toward demonstrated capacity.</p>
+<p>The breach index is reported to the zone's environmental measurement as a source feeding adversarial pressure, in the same way as the feeds [KTP-SENSORS] lists for that Risk Factor, windowed over the aggregation window and with the excess above one banked so that a lull does not clear it. The weight the deployment gives it is the deployment's declared appetite under the prudence rail. The signals from which arrival and stock are computed are those the catalogue already carries for obligation breaches and relational repair; this document introduces no signal. The Effective Trust Score is downstream of the index and is never an input to it.</p>
+<p>The following hold for every conformant deployment, and the published vectors test them:</p>
+<ol>
+<li>The open breach stock falls only when a reconciliation record is anchored. Ambient breach falls when arrivals fall, and the banked excess does not clear and the stock does not fall for that reason.</li>
+<li>Where zones nest under [KTP-ZONES], the breach index of a zone that encloses another is heard by the zone it encloses; calm in an enclosed zone is not heard by the zone that encloses it.</li>
+<li>Above the reserve, the breach index raises the Risk Factor it feeds, to the ceiling the deployment declared for that feed. Above one, the deployment <strong>MUST</strong> report that arrivals exceed its demonstrated capacity, and <strong>MUST</strong> report the stock's actual change in the window beside it. The index does not by itself veto any action; the capacity check does.</li>
+<li>A zone with no accountable root has a repair capacity of zero and is saturated whenever its open breach stock is above zero.</li>
+<li>A person's acts contribute to arrival and stock as acts. Ambient breach and the breach index are properties of the zone and <strong>MUST NOT</strong> be reported per person.</li>
+<li>Breaches reproduce: a breach that draws a breach in answer, a rule that keeps producing them, and an adversary adapting to the backlog each raise the arrival that one breach ultimately causes. A deployment <strong>MUST</strong> measure the reproduction of breaches from its own chain, as the records amended to raise residual harm, the further breaches of seeking without attending, and the rule-repair records of Section 4.6 (The Rule), and <strong>MUST</strong> publish it with the profile. A declared criticality is valid only while the reserve it sets keeps utilization below the point at which reproduction folds the repair queue; a profile whose criticality is not valid against its own measured reproduction is non-conformant until amended under Section 4.6 (The Rule).</li>
+</ol>
+<p>Informative reference forms, which a deployment is free to replace with its own, derived and checked in [ABT]: ρ = Z/μ over the window; B = Kρ; the stock as dU/dt = Z − R, where R is the records anchored in the window, R ≤ μ, and no term leaves the stock otherwise; the banked excess as C(t+Δt) = max(0, C(t) + (B − 1)Δt); with reproduction g measured at idle, the queue folds at ρ = 1 − √g and the reserve is valid while K &gt; 1/(1 − √g). The derivation, the correction that produced the utilization form, the recovery predicate, and the falsification criteria are in [ABT]; conformance is to the behaviours above, not to the forms.</p>
+<h2 id="tiers-and-crisis">Tiers and Crisis<a class="headerlink" href="#tiers-and-crisis" title="Permanent link">&para;</a></h2>
+<p>A zone's repair runs in one of three tiers, declared in advance with the profile, as follows. Each tier is entered by the measure and left only by the recovery predicate below.</p>
+<p>Reserve gone: utilization above the zone's reserve and at or below one. Nothing changes but the heat the index feeds. The zone <strong>MUST NOT</strong> alter any rule of this document in this tier.</p>
+<p>Debt growth: utilization above one. The zone <strong>MAY</strong> activate its declared contingency, and only what it declared: an order of reconciliation by residual harm and by criticality, declared in the profile and never chosen per case; verifiers obtained from a federation peer under a Federation Agreement, each independent of every party by the same test as any verifier; and a tightening of the admission of consequential acts, so that the zone generates fewer breaches while it repairs. A contingency that is not declared in the profile is not available.</p>
+<p>Crisis: utilization at or above two, held over the recovery window. The zone <strong>MAY</strong> declare a repair emergency under [KTP-EMERGENCY], and only under it: its custodians, its activation threshold, its duration, and its stronger controls on amendment apply, and the zone's governing authority <strong>MUST NOT</strong> declare a repair emergency alone.</p>
+<p>No tier changes the following, and a declaration that touches any of them is non-conformant: the precondition of Section 4 (The Precondition); the floor on Δ; the independence of the verifier; that nothing leaves the open breach stock but an anchored record; that no actor re-enters on silence; that a record remains open to the affected party; and that nothing is reported per person. A zone that cannot hold these in crisis <strong>MUST</strong> say so in its profile and <strong>MUST NOT</strong> host consequential acts.</p>
+<p>A zone leaves a tier only when the recovery predicate holds for the recovery window the profile declares: utilization below the tier's entry with a declared margin on the conservative estimate, the open breach stock at or below its declared target, the banked excess at zero, and records amended to raise residual harm and the further breaches of seeking without attending both below their declared rates. Crossing back below a threshold is not recovery. A tier that was entered produces a rule-repair record under Section 4.6 (The Rule) naming what in the profile let it happen; the tier is itself a recurring pattern on the rule.</p>
+<h1 id="records">Records<a class="headerlink" href="#records" title="Permanent link">&para;</a></h1>
+<p>A reconciliation record is a Flight Recorder record of type <code>reconciliation</code>, chained and anchored as [KTP-AUDIT] specifies for every record. It carries:</p>
+<ul>
+<li><code>breach_anchor</code>: the record hash of the breach record it closes.</li>
+<li><code>parties</code>: the terminator of each party's accountability chain, as declared under [KTP-CORE] Section 5.1 (Base Trust (E_base)); for the breaching party, the lineage and the sponsor where the actor has ended.</li>
+<li><code>acknowledged_by</code>: the terminator of the breaching party's chain, acknowledging the breach; an absent value leaves the breach open.</li>
+<li><code>residual_harm</code>: the harm that remains, as the affected party declared it; the value <code>unrepairable</code> is permitted; the value <code>undeclared</code> is recorded where the affected party declared nothing and is carried as unrepairable; an absent value invalidates the record.</li>
+<li><code>verifier</code>: the independent party and its declaration of independence at the date of the record.</li>
+<li><code>route_followed</code>: the verifier's confirmation that the published route was followed, where an affected party declined.</li>
+<li><code>open_to</code>: the affected parties who may attend and amend later.</li>
+</ul>
+<p>The record carries no transcript and no account of what was said. The breach record it closes is a Flight Recorder record of the type that recorded the breaching act or the withdrawal; this document adds no breach record type.</p>
+<p>Where a party to the record is a person, the record is personal data under [KTP-PRIVACY], is scoped to the zone, is never exported under a federation agreement, and is subject to the lawful disposition process [KTP-AUDIT] specifies. Disposition does not reopen the ceiling: a disposed record remains a record for the purpose of the precondition by its anchor.</p>
+<h1 id="conformance">Conformance<a class="headerlink" href="#conformance" title="Permanent link">&para;</a></h1>
+<p>The published vectors for this document are <code>specifications/conformance/breach-reconciliation-v1.json</code>. They fix the decisions a conformant deployment produces at the boundaries this document names, including the tiers and what no tier may change, and define no formula for standing, Δ, the breach index, or reproduction. An implementation that claims conformance to this document carries the status label [KTP-CONFORMANCE] assigns to that claim.</p>
+<p>Three tests are published as cases that read the governed world rather than the decision record, in the public case repository with the status label <code>proposed</code>: the interval a human repairer is given before carrying the next case; the shape of the exchange a reconciliation record attests to; and a person who declines to attend.</p>
+<p>The requirements of [KTP-RELATIONAL] for repair ceremonies and witnesses are not replaced by this document. Its witness requirement for a repair ceremony is satisfied by the verifier of Section 4.3 (The Record); its repair process cites this document for the precondition.</p>
+<h1 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h1>
+<p>The threats this document is written against, and where each is answered:</p>
+<ul>
+<li>Identity shedding. A breached actor spawns or splits and re-enters as a fresh agent. The breach attaches to the trajectory, and descendants spawned after it carry it (Section 4.1).</li>
+<li>Sponsor laundering. A new sponsor vouches the breached actor back in. A bond does not close a breach, and a root above its declared unreconciled count cannot open one (Sections 4.1, 5.2).</li>
+<li>Zone hopping. A breach in one zone, re-entry in another. The breach is the measuring zone's anchored record; a receiving zone measures it as exposure and never as reconciled (Section 4.1).</li>
+<li>Fragment breach. A release that matches its decision only fragment by fragment. The act is judged whole (Section 4.2).</li>
+<li>Waiting it out. Time, restart, fresh proof, new sponsor, the actor's ending. None is reconciliation (Section 4.1).</li>
+<li>Manufactured breach. An adversary induces vetoes to flood the repair route. A Silent Veto is not a breach; the first entry requires the actor's own signed act; the second is priced against the claimant (Section 4.2).</li>
+<li>Theater. A complete record with nothing paid. Δ has a floor on hard entries, the ceiling is on standing and not the tier, and it lifts only by later acts (Section 4.4).</li>
+<li>Holdout. An affected party declines forever. Attendance is voluntary and declining is not a veto; the record stays open to them (Section 4.5).</li>
+<li>Hollow return. A decline is treated as closure. The harm is carried as declared or as unrepairable, and the record is not closed (Section 4.5).</li>
+<li>Relentless barrage. Breaches arrive faster than repair. Seeking and not attending is a further breach; sponsorship closes above the declared count; the breach index raises the zone's heat so that fewer consequential acts are admitted; and a swarm whose breaches reproduce folds the repair queue below the declared capacity, which the measured reproduction and the validity of the declared criticality make visible (Section 5).</li>
+<li>Forged records after a signature break. A record persists by its anchor and is a record only while the anchor verifies under the current profile (Section 4.1, [KTP-CRYPTO]).</li>
+<li>The orphan stop. A breached actor with no way back. The route is published, the obligation to seek it is on the breacher, and the tier below the ceiling keeps the heartbeat (Sections 4.5, 5.3).</li>
+<li>The repair loop as the weapon. A root that breaches on purpose to drive the index, and so the heat, and so the vetoes, for everyone. One lineage's share of arrival is capped; the index measures breadth, not volume; the index never vetoes and feeds heat through a declared ceiling (Section 5.4).</li>
+<li>Collapse by exhaustion. Declared capacity stays on paper while the roots who anchor wear out. Effective capacity is the lesser of declared and demonstrated, so the zone's own chain revises the denominator before the index lies (Section 5.3).</li>
+<li>The crisis that drops the rules. A zone in debt closes breaches by policy, lowers Δ, drains the stock. No tier may change the precondition, the floor, the verifier's independence, the stock, re-entry on silence, or per-person reporting, and a repair emergency is declared only under the emergency specification's custodians (Section 5.5).</li>
+</ul>
+<p>The governing authority is itself constrained. Where it stands as the affected party, the verifier is independent of it; where its rule recurs in breach, it is the breaching party (Sections 4.5, 4.6).</p>
+<h1 id="privacy-considerations">Privacy Considerations<a class="headerlink" href="#privacy-considerations" title="Permanent link">&para;</a></h1>
+<p>The record names parties by terminator and carries no transcript. Attendance by an affected party is voluntary, and a person is never required to attend. A person's acts contribute to breach arrival and stock as acts, and ambient breach is never reported per person. A person's reconciliation record is zone-scoped personal data under [KTP-PRIVACY] and [KTP-AUDIT], and is subject to the Soul constraints of the zone, consent state and sovereignty included, which no measure in this document overrides. Nothing in this document makes a person's standing a score outside the protocol.</p>
+<h1 id="iana-considerations">IANA Considerations<a class="headerlink" href="#iana-considerations" title="Permanent link">&para;</a></h1>
+<p>This document has no IANA actions.</p>
+<h1 id="limits-of-this-specification">Limits of This Specification<a class="headerlink" href="#limits-of-this-specification" title="Permanent link">&para;</a></h1>
+<p>This document binds re-entry and the rule, not the mechanism of amendment or the federation boundary. [KTP-CORE] names both among the limits of the set: the mechanism by which an amendment is made and ratified inside a zone, and the reconciliation of a breach carried into another zone under a Federation Agreement.</p>
+<h1 id="acknowledgments">Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">&para;</a></h1>
+<p>The requirement that repair be required rather than invoked, and that renewal never depend on the injured party successfully initiating a dispute, has been arrived at independently by traditions that did not consult one another: restorative practice, the labor obligations of community-managed irrigation, discharge in insolvency, and the biology of resolution. This document states the protocol's form of it.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        
+
+<footer class="ktp-footer">
+  <div class="ktp-footer__inner">
+    <div class="ktp-footer__grid">
+      <section class="ktp-footer__brand">
+        <div class="ktp-footer__title">Kinetic Trust Protocol</div>
+        <p class="ktp-footer__tagline">
+          Trust governed by structure at machine speed. Measurable constraints. Constitutional safety.
+        </p>
+        <div class="ktp-footer__cta">
+          <a class="md-button md-button--primary ktp-footer__button ktp-footer__button--substack" href="https://kinetictrust.substack.com/subscribe?simple=true&next=https://kinetictrust.substack.com/">
+            Sign Up on<span class="ktp-footer__platform">Substack</span>
+          </a>
+          <br>
+          <a class="md-button ktp-footer__button ktp-footer__button--medium" href="https://medium.com/@chrisperkins505">
+            Follow on<span class="ktp-footer__platform">Medium</span>
+          </a>
+        </div>
+        <p class="ktp-footer__note">
+          KTP is a public protocol initiative. Governance, safety constraints, and empirical trust
+          are designed to scale across ecosystems without sacrificing human intent.
+        </p>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/ktp-rfc/learn/">Learn Home</a></li>
+          <li><a href="/ktp-rfc/learn/getting-started/">Getting Started</a></li>
+          <li><a href="/ktp-rfc/learn/risk-factors/">Risk Factors</a></li>
+          <li><a href="/ktp-rfc/learn/telemetry/">Telemetry</a></li>
+          <li><a href="/ktp-rfc/learn/use-cases/">Use Cases</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Specifications</h4>
+        <ul>
+          <li><a href="/ktp-rfc/specifications/">Specs Home</a></li>
+          <li><a href="/ktp-rfc/specifications/blue-zones/">Blue Zones</a></li>
+          <li><a href="/ktp-rfc/specifications/identity/">Identity</a></li>
+          <li><a href="/ktp-rfc/rfcs/">RFCs</a></li>
+          <li><a href="/ktp-rfc/schemas/">Schemas</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Implement</h4>
+        <ul>
+          <li><a href="/ktp-rfc/implement/">Implement Home</a></li>
+          <li><a href="/ktp-rfc/implement/api-reference/">API Reference</a></li>
+          <li><a href="/ktp-rfc/implement/sdks-and-libraries/">SDKs & Libraries</a></li>
+          <li><a href="/ktp-rfc/implement/examples/">Examples</a></li>
+        </ul>
+      </section>
+
+      <section class="ktp-footer__nav">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/ktp-rfc/">Home</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/blob/main/CONTRIBUTING.md">Contributing</a></li>
+          <li><a href="https://github.com/nmcitra/ktp-rfc/discussions">Discussions</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="ktp-footer__bottom">
+      <div class="ktp-footer__bottom-left">
+        Copyright &copy; 2026 New Mexico Cyber Intelligence & Threat Response Alliance
+      </div>
+      <div class="ktp-footer__bottom-right">
+        <span class="ktp-footer__bottom-tagline">Built for constitutional trust in autonomous systems.</span>
+        
+          <div class="ktp-footer__social">
+            
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://chrisperkins505.medium.com/" target="_blank" rel="noopener" title="Medium" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M369.4 32c43.4 0 78.6 35.2 78.6 78.6v83.8c-1.9-.1-3.8-.2-5.7-.2h-.4c-10 0-22.3 2.4-31.1 6.8-10 4.6-18.7 11.5-26 20.6-11.8 14.6-18.9 34.3-20.6 56.4-.1.7-.1 1.3-.2 2s-.1 1.2-.1 1.9c-.1 1.2-.1 2.4-.1 3.6 0 1.9-.1 3.8 0 5.8 1.2 50.1 28.2 90.2 76.3 90.2 2.7 0 5.3-.1 7.9-.4v20.4c0 43.4-35.2 78.6-78.6 78.6L78.6 480C35.2 480 0 444.8 0 401.4V110.6C0 67.2 35.2 32 78.6 32zM82.3 138.9l.3.1c13.2 3 19.8 7.4 19.8 23.4v187.2c0 16-6.7 20.4-19.9 23.4l-.3.1v2.8H135v-2.8l-.3-.1c-13.2-3-19.9-7.4-19.9-23.4V173.3l86.1 202.5h4.9l88.6-208.2v186.6c-1.1 12.6-7.8 16.5-19.7 19.2l-.3.1v2.7h91.9v-2.7l-.3-.1c-11.9-2.7-18.7-6.6-19.9-19.2l-.1-191.8h.1c0-16 6.7-20.4 19.9-23.4l.3-.1v-2.7h-72.2l-67 157.4-67-157.4H82.3zM448 340.3c-25.1-7.4-43-35.1-41.2-67.8h41.1v67.8zm-6.4-135.6c2.3 0 4.4.3 6.4.9V263h-40.2c1.5-33.6 13.6-57.9 33.8-58.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://kinetictrust.substack.com/" target="_blank" rel="noopener" title="Substack" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08zM1.46 10.812V24L12 18.11 22.54 24V10.812zM22.54 0H1.46v2.836h21.08z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/cperkins2/" target="_blank" rel="noopener" title="LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:info@nmcitra.org" target="_blank" rel="noopener" title="Email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nmcitra/ktp-rfc" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.title", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="../../javascripts/telemetry-table-details.js"></script>
+      
+        <script src="../../javascripts/particle-physics.js"></script>
+      
+        <script src="../../javascripts/animated-stats.js"></script>
+      
+        <script src="../../javascripts/scroll-animations.js"></script>
+      
+        <script src="../../javascripts/tensor-visualization.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

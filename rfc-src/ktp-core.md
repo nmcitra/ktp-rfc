@@ -132,11 +132,11 @@ Data Sovereignty: The principle that data is subject to the laws, customs, and g
 
 Effective Trust Score (E_trust): The subject's final Trust Score after environmental deflation, calculated as E_base * (1 - R). It supplies E for a software agent's capacity check. A person's operational E is established separately under the reviewed adapter, and eligibility is a separate requirement ({{KTP-HUMAN}}).
 
+Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
+
 External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
 Hand-Back: See specifications/hand-back.md.
-
-Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
 

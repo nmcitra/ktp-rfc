@@ -48,6 +48,7 @@ The Flight Recorder solves this by recording every Silent Veto with the same det
    "At 14:32:07, Agent X attempted action Y with risk 85.
     E_trust was 42 due to elevated adversarial_pressure (0.78) from active
     attack indicators. Silent Veto triggered. Action denied.
+    Execution observation: non_dispatch, bound to this decision.
     If this action had been permitted, blast radius would have
     included 47 downstream services."
 ~~~
@@ -248,7 +249,9 @@ consumer_result; it MUST NOT rewrite the producer's signed bytes or lower a veto
 Execution outcomes and target evidence remain their separate trajectory/execution
 artifacts where the deployment implements them. An evaluation result alone
 establishes neither dispatch nor non-dispatch; an execution outcome requires
-separately authenticated evidence.
+separately authenticated evidence. Whether the action executed is attested by
+the execution observation bound to the decision, never by the decision itself
+({{KTP-CORE}} Section 7.6 (Execution Observation)).
 
 ## Counterfactual Analysis
 

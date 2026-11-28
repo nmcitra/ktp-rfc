@@ -892,6 +892,16 @@ what no repair tier may change beside the immutable elements. An amendment in
 flight on the day this lands is evaluated under these checks at ratification.
 No wire change.
 
+**Unreleased execution-observation migration:** A deployment that reported a
+denial as "not executed" reports it as unverified until an execution
+observation bound to the decision says otherwise. A recorder that carried an
+executed flag on the decision record moves it to the bound observation. A
+monitor that saw a denied action dispatch records a conformance failure and
+opens a breach record. No change to the Trust Proof. Vocabulary: *Execution
+Observation* is a new term with no predecessor; the record it names is the
+observation of specifications/consequential-action-execution-and-evidence.md
+or a declared equivalent.
+
 ## 4. Unreleased v3 changes
 
 ### 4.1 `moment_criticality` leaves the Risk Factor

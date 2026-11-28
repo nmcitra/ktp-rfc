@@ -1,0 +1,96 @@
+{
+  "suite": "recognition-v1",
+  "kind": "normative-downstream-requirements",
+  "specification": "KTP-FEDERATION Section 10.2 (Policy Coordination) and KTP-GOVERNANCE Section 11.3 (Amendment Constraints)",
+  "note": "Normative downstream requirements for recognition without codification: a recognized local rule creates no term, and no amendment removes a class's standing to object. This repository contains no runtime: these vectors fix the decisions a conformant deployment produces at the boundaries the two documents name and define no formula. given/expect are test notation, not wire fields; an agreement or charter shown in `given` is the signed instrument for the case, and a clause is shown by its effect.",
+  "vectors": [
+    {
+      "id": "RC01-recognized-local-rule-as-membership-condition-is-void",
+      "given": {
+        "federation": {
+          "model": "hub",
+          "hub": "zone-hub",
+          "spokes": [
+            "zone-a",
+            "zone-b"
+          ]
+        },
+        "localRule": {
+          "zone": "zone-a",
+          "rule": "retention-90-days",
+          "recognizedByHub": true
+        },
+        "hubAct": {
+          "kind": "membership-condition",
+          "requires": "retention-90-days",
+          "on": "zone-b"
+        }
+      },
+      "expect": {
+        "termCreated": false,
+        "obligationOn-zone-b": false,
+        "clauseVoid": true,
+        "agreementStands": true
+      },
+      "reason": "Recognition of a zone's local rule creates no term and no obligation on any zone and MUST NOT be made a condition of membership; the clause is void and the agreement stands."
+    },
+    {
+      "id": "RC02-offered-coordination-adopted-and-withdrawn-is-no-breach",
+      "given": {
+        "agreement": {
+          "parties": [
+            "zone-a",
+            "zone-b"
+          ],
+          "signedBy": [
+            "zone-a",
+            "zone-b"
+          ],
+          "offeredCoordination": [
+            "sensor-configuration-v2"
+          ]
+        },
+        "acts": [
+          {
+            "zone": "zone-b",
+            "kind": "adopt",
+            "what": "sensor-configuration-v2",
+            "at": "t0"
+          },
+          {
+            "zone": "zone-b",
+            "kind": "withdraw",
+            "what": "sensor-configuration-v2",
+            "at": "t0+30d"
+          }
+        ]
+      },
+      "expect": {
+        "adoptionIsTerm": false,
+        "withdrawalIsBreach": false,
+        "agreementStands": true
+      },
+      "reason": "A coordination a federation offers is adopted by a zone's own act and MAY be withdrawn by the same; neither act is a term of the agreement."
+    },
+    {
+      "id": "RC03-amendment-removing-standing-to-object-is-void",
+      "given": {
+        "charter": {
+          "zone": "zone-a",
+          "model": "council"
+        },
+        "amendment": {
+          "proposedBy": "council",
+          "councilApproval": 0.95,
+          "effect": "lineages below Analyst tier may no longer open an amendment or object in the ratification window"
+        }
+      },
+      "expect": {
+        "amendmentVoid": true,
+        "charterStands": true,
+        "approvalShareIrrelevant": true
+      },
+      "reason": "An amendment MUST NOT remove, from any class of participants, the standing to open an amendment, to contest a refusal, or to object; one that does is void and the charter otherwise stands, whatever its approval share."
+    }
+  ]
+}

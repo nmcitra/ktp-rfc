@@ -1,7 +1,7 @@
 ---
 title: "Kinetic Trust Protocol (KTP) - Trust Federation Specification"
 abbrev: "KTP-FEDERATION"
-date: 2026-10-12
+date: 2026-10-14
 category: exp
 ipr: trust200902
 
@@ -15,8 +15,16 @@ normative:
   RFC2119:
   RFC8174:
 informative:
+  KTP-CORE:
+    title: "Kinetic Trust Protocol (KTP) - Core Specification"
+    author:
+      - name: Chris Perkins
   KTP-ZONES:
-    title: "Kinetic Trust Protocol - Blue Zone Specification"
+    title: "Kinetic Trust Protocol (KTP) - Blue Zone Specification"
+    author:
+      - name: Chris Perkins
+  KTP-REPAIR:
+    title: "Kinetic Trust Protocol (KTP) - Repair Specification"
     author:
       - name: Chris Perkins
 
@@ -58,7 +66,7 @@ KTP Federation is built on these principles:
 
 1. Sovereignty: Each zone retains full sovereignty over its internal governance. Federation does not require policy harmonization.
 
-1. Reciprocity: Trust relationships are reciprocal by default. If Zone A trusts Zone B at factor 0.8, Zone B trusts Zone A at 0.8 unless explicitly negotiated otherwise.
+1. Direction: A trust factor is signed by the zone that receives, for one direction of crossing. Nothing is reciprocal by default; each direction is its own.
 
 1. Transitivity Limits: Trust is not infinitely transitive. If Zone A trusts Zone B, and Zone B trusts Zone C, Zone A does not automatically trust Zone C.
 
@@ -69,6 +77,14 @@ KTP Federation is built on these principles:
 ## Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}.
+
+## The Rule
+
+A federation moves decisions about the federation and never a zone's evaluation of an act, nor the policy under which it evaluates. The parties to a Federation Agreement MAY agree a trust factor, and a hub, a federation council, a mediator, or an arbitrator MAY admit or remove a member, invalidate an attestation, or impose a remedy under the agreement; a remedy falls on a zone's standing in the federation or on evidence, never on an act. A receiving zone applies no trust factor it did not sign. A foreign Trust Proof, clearance, or attestation is evidence that a receiving zone weighs under its own policy and is never that zone's evaluation; an agreement MUST NOT require a zone to accept one as such. A federation MAY require coordination of formats and versions; it MUST NOT require coordination of the inputs to a zone's evaluation. A sovereignty constraint attached to data or to a subject travels with it, and every zone enforces it as its own; a veto does not travel, and is made where the act executes. A zone's Silent Veto and Soul veto are its own. A clause that purports to delegate, waive, or override either is void and the agreement otherwise stands. Severance ends the severing zone's acceptance of the other and binds nothing within it, and the loss of a federation link MUST NOT stop a zone's evaluation of acts within it.
+
+A decision a federation moves carries the signature of the body that made it and names the party that answers for it; an unsigned federation decision binds no zone. A federation decision that changes a subject's standing in a zone is contestable under that zone's review route, with that route's deadlines, and the correction requires a fresh evaluation.
+
+Every section that follows is read under this one. Where a model, a process, or an example below describes a federation body acting, it acts within this section. {{KTP-CORE}} states where an act is measured: by the zone in which it executes, under that zone's policy.
 
 # Terminology
 
@@ -82,13 +98,13 @@ Federation Hub: A zone that serves as a central trust anchor for multiple spoke 
 
 Federation Mesh: A network of zones with many-to-many trust relationships.
 
-Forward Propagation: The process by which positive trust events in one zone increase an agent's reputation in federated zones.
+Forward Propagation: Retired. The name given to a positive event in one zone increasing a subject's standing in another. What crosses is a record the receiving zone weighs under its own policy; see Section 6.5 (Attestations as Evidence) and the migration mapping in Section 7.4 (What Crosses).
 
-Backward Propagation: The process by which negative trust events in one zone decrease an agent's reputation in previously visited zones.
+Backward Propagation: Retired. The name given to a negative event in one zone lowering a subject's standing in another. A breach record crosses as exposure that the receiving zone evaluates itself; see Section 6.5 (Attestations as Evidence) and Section 7.4 (What Crosses).
 
-Trust Factor: A multiplier (0.0 to 1.0) applied to an agent's E_base when crossing from one zone to another.
+Trust Factor: A receiving zone's measure of a sending zone's measure: a number from zero to one, established in the Federation Agreement for one direction of crossing, signed by the zone that receives, and applied at ingress to the Base Trust (E_base) the sending zone attests for the subject. See Section 4.5 (The Factor).
 
-Trust Path: The chain of federated zones through which trust is calculated for a multi-hop agent journey.
+Trust Path: Retired. The name given to the chain of federated zones along which factors were multiplied for a multi-hop journey. An attestation crosses one link, and a zone attests only the standing a subject earned within it; see Section 6.5 (Attestations as Evidence) and the migration mapping in Section 7.4 (What Crosses).
 
 # Federation Models
 
@@ -145,10 +161,12 @@ A central zone acts as trust anchor for multiple spoke zones.
 Characteristics:
 
 - One hub zone, multiple spoke zones
-- Spokes trust hub fully (factor 1.0)
-- Spokes trust each other via hub
+- Hub and each spoke sign their own inbound factor
+- Spokes reach each other through the hub's attestations
 - Hub has significant responsibility
 - Efficient for organizational hierarchies
+
+A hub agrees factors with its spokes and admits or removes members. It does not evaluate an act for a spoke, and a spoke applies no factor it did not sign (Section 1.4 (The Rule)).
 
 Structure:
 
@@ -223,6 +241,8 @@ Trust calculation requires path finding:
 - Direct path: Use direct trust factor
 - Multi-hop path: Multiply factors along path
 - Multiple paths: Use highest trust path
+
+The path calculation above is informative and describes no crossing this document permits. An attestation crosses one link, a zone attests only the standing a subject earned within it, and a receiving zone applies the factor it signed for the zone it receives from; a route through a third zone carries nothing the direct link would not (Section 6.5 (Attestations as Evidence)).
 
 Use cases:
 
@@ -337,7 +357,7 @@ Where behavior_modifier is calculated from:
                            + (positive_events * bonus)
 ~~~
 
-Clamped to range \[0.5 * base, 1.0 * base] to prevent extreme swings.
+Clamped to range \[0.5 * base, 1.0 * base] to prevent extreme swings. A behavior modifier is a lowering policy under Section 4.5 (The Factor): it lowers the applied factor and never raises it above the signed factor.
 
 ## Trust Factor Decay
 
@@ -375,13 +395,25 @@ Typical floors:
 - Hub: 0.8 (maintain organizational trust)
 - Mesh: 0.3 (maintain basic connectivity)
 
-If trust falls below floor despite decay protection, this indicates a relationship problem requiring human intervention.
+If trust falls below floor despite decay protection, this indicates a relationship problem requiring human intervention. A floor is declared by the receiving zone and MUST NOT exceed the signed factor (Section 4.5 (The Factor)).
+
+## The Factor
+
+A trust factor is a receiving zone's measure of a sending zone's measure. It is a number from zero to one, established in the Federation Agreement for one direction of crossing and signed by the zone that receives, and the receiving zone applies it at ingress to the Base Trust (E_base) the sending zone attests for the subject. The receiving zone computes its Risk Factor itself; nothing it imports carries the sending zone's Risk Factor with it. A receiving zone MUST NOT apply a factor it did not sign and MUST NOT apply a factor greater than one. Where the applicable profile sets an Enforcement Class ceiling on the factor, the applied factor is the lesser of the signed factor and the ceiling; a class factor and a federation factor are one factor, never two. An agreement MAY establish the factor per action class or per substrate profile; absent that, one factor applies to every crossing in that direction. A factor is not reciprocal: each direction is its own. A receiving zone MAY lower its applied factor under a policy the agreement declares, by the behavior of the sending zone's subjects, by decay, or by loss of liveness, and MUST NOT raise it above the signed factor by any such policy; a change to the signed factor is a decision the federation moves. A person's standing crosses only as the agreement provides, as {{KTP-CORE}} states.
+
+The calculations in this section are examples of the lowering policies a receiving zone MAY declare under this subsection. Each lowers the applied factor; none raises it above the signed factor; the receiving zone's Risk Factor is never among their inputs.
 
 # Federation Agreements
 
 ## Agreement Structure
 
-A Federation Agreement is a formal contract between zones:
+A Federation Agreement is the only instrument under which standing, evidence, or a subject crosses between zones; nothing outside it is a term. It MUST name each party by zone and by the terminator of its accountability chain, with the signing authority that answers for it, and MUST state when it takes effect and when it expires. For each direction of crossing it MUST state the trust factor the receiving zone signed, any factor per action class or substrate profile, the lowering policies and floor the receiving zone declares, and the lowest Enforcement Class it accepts. It MUST declare what crosses: which attestation types, whether trajectories, whether and on what terms a person's standing, whether cross-zone sponsorship is provided for, and that the breach records of agents and of sponsors cross as exposure. It MUST declare which sovereignty constraints each party enforces; data under a constraint a receiving party does not enforce MUST NOT cross. A person's reconciliation record never crosses. It MUST state the dispute route and its deadlines, the incident notification period, the notice period for leaving, and the causes for severance. It MUST NOT contain a clause that delegates, waives, or overrides a veto, that requires a party to accept a foreign evaluation as its own, that coordinates the inputs to a party's evaluation, that sets a factor above one or a factor the receiving zone did not sign, or that binds any act within the other zone; such a clause is void and the agreement otherwise stands.
+
+An amendment is a new version of the agreement, signed by both parties, taking effect only forward. A party acting alone MAY lower its applied factor under its declared policy, suspend or sever its own acceptance of the other, or let the agreement expire; it MAY do nothing else alone. Expiry ends both parties' acceptance; suspension and severance end the acting party's. No cache, session, or declaration extends authority beyond the signed agreement's claims. The existence of the agreement and each direction's factor MUST be visible to the subjects of both zones; the remainder MAY be confidential, under the scoped disclosure {{KTP-ZONES}} specifies.
+
+The chain terminator and the review route are those {{KTP-CORE}} specifies; the reconciliation record and the crossing of breach records as exposure are those {{KTP-REPAIR}} specifies.
+
+The structure below is an example of a Federation Agreement carrying the required cells:
 
 ~~~
    {
@@ -398,6 +430,7 @@ A Federation Agreement is a formal contract between zones:
          "zone_id": "zone-blue-corp-a",
          "legal_entity": "Corporation A Inc.",
          "jurisdiction": "US-DE",
+         "accountability_chain_terminator": "Corporation A Inc., Board of Directors",
          "signing_authority": "CISO",
          "signature": "sig:zone-a:abc123..."
        },
@@ -405,6 +438,7 @@ A Federation Agreement is a formal contract between zones:
          "zone_id": "zone-blue-corp-b",
          "legal_entity": "Corporation B Ltd.",
          "jurisdiction": "UK",
+         "accountability_chain_terminator": "Corporation B Ltd., Board of Directors",
          "signing_authority": "Head of Security",
          "signature": "sig:zone-b:def456..."
        }
@@ -413,19 +447,29 @@ A Federation Agreement is a formal contract between zones:
 
 ~~~
      "trust_terms": {
-       "base_trust_factor": 0.85,
-       "asymmetric": false,
-       "dynamic_adjustment": true,
-       "decay_rate": 0.99,
-       "floor": 0.5,
-       "ceiling": 0.95
+       "zone-blue-corp-a-to-zone-blue-corp-b": {
+         "factor": 0.85,
+         "signed_by": "zone-blue-corp-b",
+         "factor_by_action_class": { "consequential": 0.70 },
+         "lowering_policies": ["decay", "liveness"],
+         "decay_rate": 0.99,
+         "floor": 0.5,
+         "lowest_enforcement_class": "blue"
+       },
+       "zone-blue-corp-b-to-zone-blue-corp-a": {
+         "factor": 0.70,
+         "signed_by": "zone-blue-corp-a",
+         "lowering_policies": ["decay"],
+         "decay_rate": 0.99,
+         "floor": 0.4,
+         "lowest_enforcement_class": "blue"
+       }
      },
 ~~~
 
 ~~~
      "obligations": {
        "ktp_version": "1.0",
-       "min_zone_type": "blue",
        "flight_recorder": "required",
        "audit_access": "quarterly",
        "incident_notification": "24_hours",
@@ -435,15 +479,26 @@ A Federation Agreement is a formal contract between zones:
 
 ~~~
      "data_handling": {
-       "cross_zone_attestations": true,
+       "attestation_types": ["passage", "behavior", "exit", "crisis"],
        "trajectory_sharing": "on_request",
+       "persons": { "cross": true, "terms": "signed_acts_only" },
+       "cross_zone_sponsorship": true,
+       "breach_records": "exposure",
        "resilience_ledger_sync": "daily"
+     },
+~~~
+
+~~~
+     "sovereignty_constraints": {
+       "zone-blue-corp-a": ["us-de-privacy", "tk-labels"],
+       "zone-blue-corp-b": ["uk-gdpr", "tk-labels"]
      },
 ~~~
 
 ~~~
      "dispute_resolution": {
        "negotiation_period_days": 30,
+       "arbitration_deadline_days": 60,
        "mediation": "recommended",
        "arbitration": "JAMS",
        "arbitration_jurisdiction": "US-NY",
@@ -559,6 +614,12 @@ State transitions:
                           +--> Terminated
 ~~~
 
+## Cross-Zone Sponsorship
+
+The sponsorship bond at ingress that {{KTP-ZONES}} describes is issued by a sponsor resident in the receiving zone. This subsection is the case where the sponsor is not.
+
+A sponsor MAY vouch for a subject entering a zone other than the sponsor's own where the Federation Agreement provides for it. The bond is anchored in the receiving zone's audit chain and attested to the sponsor's zone; the sponsor's zone holds the reserve, and reduces the sponsor's available standing by the stake as {{KTP-IDENTITY}} specifies for every bond the sponsor holds. A bond the sponsor's zone has not recorded is void. The receiving zone receives the collateral at its own measure of the sponsor: the sponsor's attested Base Trust through the trust factor for that direction, under any Enforcement Class ceiling. A sponsor that is not itself admissible to the receiving zone at that measure MUST NOT sponsor there, and a sponsored subject's standing in the receiving zone MUST NOT exceed the sponsor's own. On a violation the receiving zone withdraws the lent standing by its own evaluation, and the sponsor's zone assesses the penalty on the receiving zone's attestation; neither waits on the other. A bond ends at the earliest of its duration, the agreement, or severance; the standing the subject earned in the receiving zone is that zone's measure and remains. An agreement that provides for cross-zone sponsorship MUST export the sponsor's breach records to the receiving zone as exposure, as {{KTP-REPAIR}} specifies; a root above its declared unreconciled count in any zone where its lineages have breached MUST NOT open a bond in any zone. A person's standing crosses only as the agreement provides, as {{KTP-CORE}} states.
+
 # Cross-Zone Attestations
 
 ## Attestation Types
@@ -636,6 +697,8 @@ Co-signature format:
    }
 ~~~
 
+The weights above are examples of a receiving zone's declared policy. A co-signature counts only from a zone that witnessed the act; an attestation's weight in any zone is that zone's own, at its own factor, and carries into no further zone (Section 6.5 (Attestations as Evidence)).
+
 ## Attestation Verification
 
 To verify a cross-zone attestation:
@@ -656,6 +719,8 @@ Where co_sign_bonus:
 - 1 signature: 1.0
 - 2 signatures: 1.2
 - 3+ signatures: 1.5
+
+The weight calculation is an example of a receiving zone's declared policy. The weight is the receiving zone's, computed at its own factor for each signing zone, and a signature by a zone that did not witness the act contributes nothing to it (Section 6.5 (Attestations as Evidence)).
 
 ## Attestation Chain
 
@@ -679,6 +744,10 @@ The attestation chain provides:
 - Verifiable behavior record
 - Input for Proof of Resilience
 - Evidence for dispute resolution
+
+## Attestations as Evidence
+
+What crosses between zones is a record, never a measure. An attestation is signed by the Trust Oracle of each zone that witnessed the act it attests; a signature by a zone that did not witness it adds nothing. A receiving zone MUST verify each signature against the registry before admitting an attestation, MUST admit it only from a zone with which it holds a Federation Agreement and only at its own factor for that zone, and weighs it under its own policy as evidence in its own measure of the subject. An attestation crosses one link; what a zone passes on is its own attestation of its own measure. A zone attests for a subject only the standing the subject earned by acts within it; standing the zone admitted at ingress from another zone is that zone's to weigh and crosses no further. A breach record, and a record of an attestation withdrawn for cause, MUST cross to every zone whose agreement covers the subject, as exposure and never as reconciled, as {{KTP-REPAIR}} specifies. A zone's agreement covers a subject that holds standing in that zone admitted under it, that holds or has opened a bond there, or about whom that zone has admitted an attestation; no record crosses to a zone the subject has not reached. A positive attestation MAY be admitted under the receiving zone's declared policy; the sending zone never writes it into the receiving zone's measure. A Silent Veto, including a Soul veto, is not an event and crosses as nothing; the constraint that caused it travels with the data. No event in one zone changes a subject's standing in another except through that zone's own evaluation of the evidence. An attestation about a person crosses only as the agreement provides and only as an act the person signed under this protocol; a person's reconciliation record never crosses. When the reconciliation record for a breach is anchored, a record that it was anchored, carrying the anchor of the breach and the anchor of the reconciliation and nothing else, MUST cross to every zone the breach record reached, under the terms the breach record crossed under, for an agent and for a person alike. That record is not the reconciliation record; the receiving zone weighs it under its own policy as evidence and never as the closure of its own exposure. The terms Forward Propagation and Backward Propagation are retired; the asymmetry they named is this section's rule.
 
 # Trust Propagation
 
@@ -718,7 +787,6 @@ Propagation trigger:
 
 - Agent commits policy violation
 - Agent causes security incident
-- Agent receives Soul veto
 
 Propagation formula:
 
@@ -758,6 +826,20 @@ These limits ensure that:
 - Local events have local primacy
 - Federation provides benefit without dominance
 - Gaming through federation is difficult
+
+## What Crosses
+
+The triggers, formulas, and limits in this section are informative. The formulas describe how a receiving zone MAY weigh a record it has admitted under Section 6.5 (Attestations as Evidence); none of them writes a delta into another zone's measure, and a zone that receives a delta rather than a record admits nothing. A breach record MUST cross as exposure; a positive attestation MAY be admitted under the receiving zone's declared policy. That is the asymmetry the retired terms named.
+
+Migration for the retired terms:
+
+| Term on v2.1.0 | In this version |
+|---|---|
+| Forward Propagation | a positive attestation admitted under the receiving zone's declared policy (Section 6.5 (Attestations as Evidence)) |
+| Backward Propagation | a breach record, or a record of an attestation withdrawn for cause, crossing as exposure (Section 6.5 (Attestations as Evidence); {{KTP-REPAIR}}) |
+| propagation_factor, recency_factor | parameters of a receiving zone's declared policy; informative |
+| Hop Limit, Decay per Hop, Daily Cap | one link (Section 6.5); the rest are a receiving zone's declared policy |
+| Trust Path | retired; one link, and a zone attests only the standing a subject earned within it (Section 6.5 (Attestations as Evidence)) |
 
 # Federation Events
 
@@ -832,7 +914,9 @@ When trust factors are adjusted:
 3. Change is announced to affected zones
 4. Grace period for agent adjustment (optional)
 5. New factor takes effect
-6. Agents' cross-zone E_base is recalculated
+6. Agents' cross-zone E_base is recalculated at their next ingress
+
+A change to the signed factor is a decision the federation moves. It carries the signature of the body that made it, names the party that answers for it (Section 1.4 (The Rule)), and takes effect prospectively at the first ingress after its effective time; nothing already admitted is re-measured by the change.
 
 Change event broadcast:
 
@@ -864,12 +948,14 @@ Triggers:
 Severance process:
 
 1. Emergency severance declared
-2. All cross-zone traffic immediately blocked
-3. In-flight operations terminated
-4. Agents in severed zone are isolated
+2. The severing zone stops accepting the other zone's proofs and attestations
+3. Cross-zone operations in flight end at the severing zone's gate
+4. Acts within the severed zone remain under that zone's own gate
 5. Federation is suspended (not terminated)
 6. Investigation begins
 7. Resolution determines if federation resumes
+
+Severance ends the severing zone's acceptance of the other and binds nothing within it. A zone whose link is severed continues to evaluate acts within it; the loss of a link MUST NOT stop that evaluation (Section 1.4 (The Rule)).
 
 Severance event (immediate broadcast):
 
@@ -881,8 +967,8 @@ Severance event (immediate broadcast):
      "severed_zone": "zone-blue-corp-b",
      "reason": "active_security_breach",
      "effective": "IMMEDIATE",
-     "agent_action": "All agents in severed zone should
-                     immediately cease operations",
+     "agent_action": "Cross-zone operations with zone-blue-corp-a
+                     are no longer accepted",
      "contact": "security@corp-a.example.com"
    }
 ~~~
@@ -960,7 +1046,7 @@ Arbitration process:
 3. Technical experts may be consulted
 4. Arbitrator issues binding decision
 5. Decision is published (redacted if necessary)
-6. Parties must comply
+6. Parties comply within the agreement
 
 Arbitration outcomes:
 
@@ -969,6 +1055,8 @@ Arbitration outcomes:
 - Compliance requirements
 - Financial remedies
 - Federation termination
+
+An award binds a zone's standing in the federation or the evidence before it. It does not direct a zone's evaluation of any act within it (Section 1.4 (The Rule)).
 
 # Federation Governance
 
@@ -979,7 +1067,7 @@ Large federations may establish governance bodies:
 Federation Council:
 
 - Representatives from member zones
-- Sets federation-wide policy
+- Sets federation-wide policy, within Section 1.4 (The Rule)
 - Approves new members
 - Resolves disputes
 
@@ -1001,19 +1089,21 @@ Audit Committee:
 
 Federated zones may coordinate policies:
 
-Mandatory coordination:
+Coordination a federation MAY require:
 
 - KTP protocol version
 - Trust Proof format
 - Attestation format
 - Security incident response
 
-Optional coordination:
+Coordination a federation MAY offer and MUST NOT require, because each is an input to a zone's evaluation (Section 1.4 (The Rule)):
 
 - Action risk classifications
 - Trust tier thresholds
 - Sensor configurations
 - Retention policies
+
+Recognition of a zone's local rule, by a federation or by another zone, creates no term and no obligation on any zone, and MUST NOT be made a condition of membership. A local rule becomes a term of a Federation Agreement only by amendment under Section 5.1 (Agreement Structure), and a coordination a federation offers is adopted by a zone's own act and MAY be withdrawn by the same.
 
 ## Standards Evolution
 
@@ -1064,7 +1154,96 @@ Agents might zone-hop to launder bad reputation.
 
 Mitigations:
 
-- Backward propagation of negative events
+- A breach record crosses as exposure to every zone whose agreement covers the subject, and rides the home zone's attestation at the next ingress (Section 6.5 (Attestations as Evidence))
 - Trajectory chain verification
-- Cross-zone reputation aggregation
-- Hop limits on trust propagation
+- A zone attests only the standing a subject earned within it; a route through a third zone carries nothing (Section 6.5 (Attestations as Evidence))
+
+## Agreement Laundering
+
+A party might write a delegation of its veto, or an obligation to accept a foreign evaluation, into the agreement itself, or plant such a clause to void the agreement later.
+
+Mitigations:
+
+- The clause is void and the agreement stands (Section 1.4 (The Rule))
+- Nothing outside the signed agreement is a term (Section 5.1 (Agreement Structure))
+
+## Hub Capture
+
+A compromised hub might attempt to reach every spoke's gate at once.
+
+Mitigations:
+
+- A hub agrees factors and admits members; it never evaluates for a spoke
+- Each spoke signs its own inbound factor and applies no other
+
+## Arbitration Override
+
+An award might attempt to direct a zone to permit an act.
+
+Mitigations:
+
+- An award binds standing in the federation or evidence, never an act
+- A changed attestation is changed evidence; each zone re-evaluates
+
+## Severance Reach
+
+A severing zone might attempt to direct acts inside the zone it severs, or a dependency on the link might stop the severed zone's own evaluation.
+
+Mitigations:
+
+- Severance ends the severing zone's acceptance and binds nothing within the other
+- Loss of a link MUST NOT stop a zone's evaluation of acts within it
+
+## The Unseen Downstream
+
+A subject's standing in a zone might change because two zones renegotiated, without the subject's knowledge or recourse.
+
+Mitigations:
+
+- The agreement's existence and each direction's factor are visible to both zones' subjects
+- A federation decision that changes a subject's standing is contestable under that zone's review route, with its deadlines
+
+## The Measure That Travels
+
+A sending zone might present its subject's E_trust, or its own Risk Factor, as the quantity the receiving zone should apply the factor to, so that the sender's weather becomes the receiver's.
+
+Mitigations:
+
+- The factor applies to attested Base Trust; the receiving zone computes its Risk Factor itself (Section 4.5 (The Factor))
+- A foreign proof's E_trust is evidence, never the local quantity
+
+## Propagation by Arithmetic
+
+A zone might write a delta into a federated zone's measure of a subject, as the retired propagation formulas described, so that an event in one zone changes standing in another without that zone's evaluation.
+
+Mitigations:
+
+- What crosses is a record; a zone that receives a delta admits nothing (Section 7.4 (What Crosses))
+- No event in one zone changes a subject's standing in another except through that zone's own evaluation of the evidence (Section 6.5 (Attestations as Evidence))
+
+## The Unrecorded Bond
+
+A sponsor might post bonds into several zones without its home zone recording them, so that the one reserve backs many bonds.
+
+Mitigations:
+
+- A bond the sponsor's zone has not recorded is void; the reserve is held at home and every bond draws on it (Section 5.4 (Cross-Zone Sponsorship))
+
+## Sponsorship Laundering by Zone
+
+A sponsor with unreconciled breaches in one zone might sponsor into another where its record is unknown.
+
+Mitigations:
+
+- A sponsor's breach records cross as exposure to every zone its bonds reach; a root above its declared unreconciled count in any zone MUST NOT open a bond in any zone (Section 5.4 (Cross-Zone Sponsorship); {{KTP-REPAIR}})
+
+- A sponsor must be admissible to the receiving zone at that zone's measure before it may sponsor there
+
+## The Highest Path
+
+A subject might route through an intermediary zone whose factor is generous on both sides, so that standing arrives in a zone that signed a lower factor for its origin, or none.
+
+Mitigations:
+
+- A zone attests only the standing a subject earned by acts within it; standing admitted from another zone crosses no further (Section 6.5 (Attestations as Evidence))
+- An attestation crosses one link; the path calculation in Section 3.3 (Mesh Federation) is informative

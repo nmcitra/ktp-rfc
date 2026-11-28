@@ -124,6 +124,8 @@ Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic 
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
+Clearance: See specifications/hand-back.md.
+
 Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
@@ -132,9 +134,13 @@ Effective Trust Score (E_trust): The subject's final Trust Score after environme
 
 External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
+Hand-Back: See specifications/hand-back.md.
+
 Execution Observation: A record made at the execution boundary, bound to the decision it answers, of whether a consequential action was dispatched. It attests what the decision record never does, that the action was or was not sent; a dispatch is not an effect, and an effect needs its own evidence. See Section 7.6 (Execution Observation).
 
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
+
+Lease: See specifications/hand-back.md.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 
@@ -520,6 +526,22 @@ Unobservability is therefore checked at three layers, and a deployment MUST appl
 3. The TERM, above - the Risk Factor the signals aggregate into.
 
 The layers do not collapse into one another. A signal may be unavailable while every feed populating it is healthy, which is why a feed-level rule alone is insufficient.
+
+The complete end-to-end rule is
+[Missing Evidence](../specifications/missing-evidence.md), with closed result
+shapes in schemas/evidence-state.json and deterministic cases in
+specifications/conformance/missing-evidence-v1.json. A feed is current or
+unavailable with reason, a signal populated or unknown, and a factor observable
+or unobservable. Unavailable/unknown/unobservable results carry no measured
+value; maximum factor stress is a separate restrictive decision reading.
+Only declared independent current redundancy satisfying the whole signal
+population rule preserves continuity. Any unknown required signal makes the
+factor unobservable; missing members and their weights MUST NOT be dropped or
+renormalized. There is no default_on_failure or estimator profile for this
+path. Record each evaluated missing layer separately in undefined_inputs,
+including failed feeds when a valid backup preserves the signal. Soul keeps
+its independent on-demand unanswered-query veto. This changes no A/E formula
+or the separate demand-side supplier contract.
 
 The multiplicative relationship between R and E_base (see Section 5.3) is critical. R is not subtracted from E_base; it deflates it. This means:
 

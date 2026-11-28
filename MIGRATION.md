@@ -933,6 +933,26 @@ unchanged at their v2 identifiers and are kept as
 `schemas/sensor-config-legacy-v2.json`, so a v2 proof, record or configuration
 still validates against the schema it was issued under.
 
+### 4.2 Missing evidence and fixed aggregation slots
+
+Remove `default_on_failure` from active sensor configurations, including veto
+configurations, and the old fraction-of-feeds dimension fallback. Adopt the
+[explicit layer states](specifications/missing-evidence.md) and their per-layer
+`undefined_inputs` entries. Continuity requires declared independently current
+redundant evidence filling fixed-weight aggregation slots and satisfying the
+same signal's complete population rule;
+there is no estimator alternative. Any required unknown signal makes the
+factor unobservable with a separate maximum-stress decision reading, not a
+measurement. Increment configuration/profile versions and digests, reacquire
+current observations, and preserve historical v2.1 records under their original
+release. Do not rename old fallback numbers or cached data into current
+observations; legacy handling cannot weaken active missing-evidence rules.
+
+Backup continuity requires independently established equivalent coverage, not only
+a current source in another failure domain. Cooler subsets do not replace a
+missing population. Reject mappings that reuse one observation across slots,
+including primary/backup aliases. A changed reading alone is not evidence of
+invalidity and does not authorize replay of the last current value.
 
 ---
 
@@ -953,6 +973,13 @@ the 3.0.0 migration guide when that version is tagged.
 | 87 test IDs, unlabelled | 5 `specified`, 82 `proposed`; a proposed ID cannot be counted toward a claim |
 | Full: third-party certification | Full: independent reproduction of its specified test IDs |
 
+**Unreleased substrate-profile migration:** A conformance claim adds the
+substrate profile it is made under, by its versioned identifier, after the
+level. A published claim that names no substrate profile is restated with one
+or withdrawn; a claim on a substrate the set carries no profile for waits for
+that profile to enter the set. No wire change. Vocabulary: *Substrate Profile*
+is a new term with no predecessor; the software-substrate execution profile
+(#124) is its first instance.
 
 ## 4. Toward 3.0.0 (unreleased)
 
@@ -965,6 +992,38 @@ What changes is a claim: an implementation that has said its per-request limits
 bound combined consequence stops saying so, or composes consequences across
 requests and says that under its own status label. The published case set is
 the test, cited by name and tag.
+
+**Unreleased federation-crossing migration:** A federated deployment applies
+each signed factor to the Base Trust the sending zone attests, not to the
+foreign proof's E_trust, and computes its own Risk Factor; a gateway that
+copied a foreign E_trust through the factor changes its arithmetic. Any
+implementation of the forward or backward propagation formulas stops writing
+deltas into another zone's measure: it exports breach records and withdrawn
+attestations as exposure to every zone the subject has reached, exports a
+record that a reconciliation was anchored to the same zones, and admits
+positive attestations under a policy it declares. A zone attests for a subject
+only the standing earned within it, so a deployment keeps what it admitted at
+ingress apart from what the subject earned after. The terms *Forward
+Propagation*, *Backward Propagation* and *Trust Path* are retired; the mapping
+is in KTP-FEDERATION Section 7.4. A deployment that
+sponsors across a link records every such bond in the sponsor's home zone or
+the bond is void. No wire change to the Trust Proof; the trust-proof exchange
+response gains the attested and local quantities as shown in Transport.
+
+**Unreleased recognition migration:** A federation that conditions membership
+on a recognized local rule removes the condition or carries the rule into the
+agreement by amendment. A charter whose amendments have narrowed any class's
+standing to open, contest, or object restores it; the narrowing clauses are
+void. No wire change.
+
+**Unreleased hand-back migration:** Nothing changes for an implementation that
+does not declare the hand-back. A declarer adds the `hand_back` section to its
+deployment profile, naming each recipient's capacity binding, registers a hand-back template for each (subject,
+consequence class) before minting, and answers identities with no standing
+with one code and one body. Vocabulary: Hand-Back, Clearance, Lease,
+Consequence Class, Managed Identity, Unmanaged Identity, Delegator, Recourse
+and Hysteresis Ledger are new terms with no predecessors; `specifications/hand-back.md`
+is their home.
 
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /

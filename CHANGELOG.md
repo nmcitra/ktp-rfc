@@ -242,6 +242,69 @@ under `VERSIONING.md`, with a Vocabulary rider for the terms Breach,
 Reconciliation Record and Re-entry Reduction. It remains unreleased; published
 tags are unchanged.
 
+### Recognition creates no term
+
+**Finding:** A federation could recognize one zone's local rule and then make
+adopting it a condition of membership, and nothing said the recognition was
+not already a term. A charter could amend away a class's standing to open an
+amendment or to object, and the amendment constraints did not name it.
+
+- KTP-FEDERATION's Policy Coordination gains the recognition rule: recognition
+  of a zone's local rule creates no term and no obligation on any zone, MUST
+  NOT be a condition of membership, becomes a term only by amendment under
+  Section 5.1, and an offered coordination is adopted by a zone's own act and
+  MAY be withdrawn by the same.
+- KTP-GOVERNANCE's Amendment Constraints gain a PROHIBITED row and the rule:
+  an amendment MUST NOT remove, from any class of participants, the standing to
+  open an amendment, to contest a refusal, or to object; one that does is void
+  and the charter stands.
+- Three vectors in `specifications/conformance/recognition-v1.json`.
+
+### What crosses a federation link
+
+**Finding:** Federation multiplied a sending zone's E_base by a factor the
+philosophy made reciprocal, Transport's example multiplied E_trust instead, and
+two "propagation" sections wrote a delta from one zone straight into another's
+measure. Sponsorship across a link had no rule at all: the ingress bond assumed
+a resident sponsor.
+
+- Federation gains Section 4.5 (The Factor): a trust factor is a receiving
+  zone's measure of a sending zone's measure, signed by the receiver for one
+  direction, applied at ingress to the attested Base Trust; the receiver
+  computes its own Risk Factor; a receiver MUST NOT apply a factor it did not
+  sign or a factor above one; a class ceiling and a signed factor are one
+  factor; policies lower and never raise. The decay, floor and behavior
+  modifier calculations become examples of such policies.
+- Federation gains Section 5.4 (Cross-Zone Sponsorship): a sponsor MAY vouch
+  into another zone where the agreement provides; the reserve is held at home
+  and the bond is void if home has not recorded it; the receiver takes the
+  collateral at its own measure; a sponsor not admissible at that measure MUST
+  NOT sponsor; the receiver withdraws and home penalizes, independently; the
+  sponsor's breach records cross as exposure, and a root above its unreconciled
+  count anywhere MUST NOT open a bond anywhere.
+- Federation gains Section 6.5 (Attestations as Evidence): a record crosses, a
+  measure never does; witness signatures only, verified against the registry;
+  one link, and a zone attests only the standing a subject earned within it; a
+  breach record MUST cross as exposure and never as reconciled, to every zone
+  the subject has reached and no other; a positive attestation MAY be admitted
+  under declared policy; a veto crosses as nothing and its constraint travels
+  with the data; a person's attestation crosses only as a signed act and a
+  person's reconciliation record never crosses; a record that a reconciliation
+  was anchored, carrying its two anchors and nothing else, MUST cross wherever
+  the breach record went, for an agent and a person alike.
+- Section 7 (Trust Propagation) becomes informative, as does the mesh model's
+  path calculation; Section 7.4 (What Crosses) carries the migration. The terms
+  *Forward Propagation*, *Backward Propagation* and *Trust Path* are retired
+  (vocabulary change, with the mapping in Section 7.4 and in MIGRATION.md).
+- Transport's trust-proof exchange example applies the factor to attested
+  Base Trust and shows the local Risk Factor. Zones' ingress sponsorship admits
+  a cross-zone sponsor where an agreement provides. Identity's Guarantor phase
+  no longer promises "higher weight" in federation.
+- Five threats added to Federation's Security Considerations.
+- Twenty-four vectors added to `specifications/conformance/federation-v1.json`,
+  FD17 to FD40.
+
+
 ### The federation rule
 
 **Finding:** Federation ran to a thousand lines with one normative keyword
@@ -418,6 +481,48 @@ A conformant implementation that aggregates six inputs, or that accepts the
 criticality value from the action request, stops conforming, so this requires
 a MAJOR release under `VERSIONING.md`. It remains unreleased; published tags
 are unchanged.
+
+### The hand-back: no silent abandonment
+
+**Finding:** A denial that left the human party with no recipient, no contest
+path and no repair path was indistinguishable from a stricter mode. The set
+had the stop and not its destination.
+
+- `specifications/hand-back.md` enters the set (MINOR; obligations bind
+  implementations that declare the capability): a stop inside a managed
+  relation cannot be expressed without its destination; the hand-back is
+  authored at grant and resolved at stop; a recipient whose capacity is
+  exhausted parks it as an unreachable channel does; clearance is typed; leases by
+  consequence class; recourse is a sum; hysteresis is adjudicated;
+  reconciliation gates relational reissue by KTP-REPAIR's record; the
+  unmanaged regime is answered uniformly by standing, never by credential
+  state. New terms, each with this document as home: Hand-Back, Clearance,
+  Lease, Consequence Class, Managed and Unmanaged Identity, Delegator,
+  Recourse, Hysteresis Ledger (vocabulary change; mapping in MIGRATION.md).
+- `schemas/hand-back.json`; the optional `hand_back` section of the deployment
+  profile, with each recipient's capacity binding; seventy-three vectors in
+  `specifications/conformance/hand-back-v1.json` in sixteen families, bound by
+  level.
+- KTP-CONFORMANCE: the hand-back row in the level table and the claim slot.
+  KTP-ENFORCE: a declarer MAY omit the numeric denial fields toward the agent;
+  one code and body SHOULD answer an identity with no standing. KTP-TRANSPORT:
+  the same SHOULD. KTP-EMERGENCY, KTP-HUMAN and KTP-CORE gain pointers.
+
+### A claim names its substrate profile
+
+**Finding:** A conformance claim named a level and a status label and nothing
+about what the implementation runs on, so the level's test IDs had nowhere to
+run. The set carries its first execution profile (#124) and no rule that a
+claim must name one.
+
+- KTP-CONFORMANCE's claim format gains `under [Substrate Profile]`, the
+  profile's versioned identifier: a claim MUST name the substrate profile it
+  is made under, the level's specified test IDs run under it, a claim naming
+  none MUST NOT be made, and a claim naming a profile the set does not carry
+  is not a claim under this specification. Terminology gains *Substrate
+  Profile*, with the software-substrate execution profile as the first
+  (vocabulary change; a new term, mapped in MIGRATION.md).
+- Three vectors in `specifications/conformance/claims-substrate-v1.json`.
 
 ### Conformance is claimed, not certified
 

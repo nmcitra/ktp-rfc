@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/request-binding-v1/request-proof-association.json",
+  "title": "KTP Request/Proof Association v1 (proposed)",
+  "description": "Unsigned association value; has no standalone authority. Request digest covers complete canonical request and proof digest covers exact complete compact JWS. A decision crossing a trust boundary requires an authenticated carrier under specifications/request-binding.md; this is not its wire format.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "request_digest",
+    "proof_digest",
+    "proof_jti"
+  ],
+  "properties": {
+    "version": {
+      "const": "request-proof-association-v1"
+    },
+    "request_digest": {
+      "type": "string",
+      "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+    },
+    "proof_digest": {
+      "type": "string",
+      "pattern": "^(sha256:[a-f0-9]{64}|sha384:[a-f0-9]{96})$(?![\\s\\S])"
+    },
+    "proof_jti": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

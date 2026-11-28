@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kinetic-trust-protocol.net/specs/schemas/v3/hand-back.json",
+  "title": "KTP Hand-Back",
+  "description": "The typed destination of an adverse stop inside a managed relation (specifications/hand-back.md, Section 4). Registered at grant, resolved at stop. A Revoked or Exceeded clearance without a valid hand-back is a protocol error, never a clearance.",
+  "type": "object",
+  "required": [
+    "action",
+    "reason",
+    "recipient",
+    "recourse",
+    "repair",
+    "reissue_not_before",
+    "context",
+    "issued_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The action identifier the stop answers."
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "revoked_by_principal",
+        "revoked_by_counterparty",
+        "demotion",
+        "exceeded_zeroth_law",
+        "exceeded_soul",
+        "exceeded_permit_condition",
+        "tier_restriction",
+        "policy_violation",
+        "mint_refused"
+      ],
+      "description": "The reason class. Covers the denial taxonomy of KTP-ENFORCE so that no denial class lacks a typed exit."
+    },
+    "recipient": {
+      "type": "object",
+      "required": [
+        "endpoint",
+        "ack_sla_seconds"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The accountable human endpoint of the subject's Delegator, from the registered template; for a person subject, the person."
+        },
+        "ack_sla_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The consequence-scaled acknowledgment ceiling, from the deployment profile."
+        }
+      }
+    },
+    "recourse": {
+      "type": "object",
+      "required": [
+        "kind",
+        "ref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "contest",
+            "closed_by_authority",
+            "undetermined"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A contest path owned independently of the agent, the measurer and the operator; the sovereign authority and its protocol; or the registry consulted."
+        }
+      }
+    },
+    "repair": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The reconciliation route KTP-RELATIONAL publishes for the subject; the record that closes a breach is KTP-REPAIR's."
+    },
+    "reissue_not_before": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The earliest reissue, from the lease structure (Section 7)."
+    },
+    "context": {
+      "type": "object",
+      "required": [
+        "sealed_to",
+        "ciphertext_digest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sealed_to": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The recipient endpoint key the bundle is sealed to; the transporting agent cannot read it."
+        },
+        "ciphertext_digest": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+:[0-9a-f]{32,}$"
+        }
+      }
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivery": {
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "delivered",
+            "parked"
+          ]
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Delivery is a runtime obligation: a parked hand-back retries on the declared schedule; the denial holds throughout."
+    }
+  }
+}

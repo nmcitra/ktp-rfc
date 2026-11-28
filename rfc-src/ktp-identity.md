@@ -34,6 +34,10 @@ informative:
     title: "Kinetic Trust Protocol - Repair"
     author:
       - name: Chris Perkins
+  KTP-FEDERATION:
+    title: "Kinetic Trust Protocol (KTP) - Federation Specification"
+    author:
+      - name: Chris Perkins
 
 --- abstract
 
@@ -582,6 +586,14 @@ stake_amount = sponsor_E_base * (stake_percentage / 100)
 
 ## Stake Mechanics
 
+Native proof projection of a live bond follows
+specifications/external-root.md and schemas/root-instrument.json. Its exact
+complete signed bond, sponsor and subject, authenticated input snapshot,
+current lifecycle, original expiry and outside accountability chain MUST be
+bound to the proof; a completed tether or residual liability alone is not a
+live root instrument. For-cause claims/findings remain in the authoritative
+lifecycle record; the smaller proof status does not infer an adjudication.
+
 When a Sponsorship Bond is created:
 
 1. Sponsor's effective stake is reduced: sponsor_available_E_base = sponsor_E_base - sum(effective_stake_contribution) over every bond and residual the sponsor holds
@@ -921,7 +933,7 @@ Characteristics:
 - Can sponsor Sponsored agents.  This is the phase's defining capability and it is a liability rather than a benefit: sponsoring reduces the sponsor's available E_base for as long as the bond and its residual last, and exposes the sponsor to penalty for the sponsored agent's conduct (Section 6.3, Section 6.4)
 - Contributes to Ancestral Authority of descendants, and carries the matching Ancestral Liability for exactly as long (Section 8.5)
 - May receive preferential routing during network stress
-- Attestations carry higher weight in cross-zone federation
+- Attestations about it carry no weight of their own in another zone; a federated zone admits them under its own declared policy and at its own factor ({{KTP-FEDERATION}})
 
 Identifier format: agent:guarantor:\<generation>gen:\<name>:\<unique_id>
 

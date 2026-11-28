@@ -124,6 +124,8 @@ Base Trust (E_base): A numeric value (0-100) representing a subject's intrinsic 
 
 Blue Zone: A network segment where KTP is enforced. Agents within Blue Zones operate under environment-derived constraints.
 
+Clearance: See specifications/hand-back.md.
+
 Context Tensor: Retired name for what is now split into Context Signals (the measurement catalogue) and the Risk Factors (five weighted inputs plus the Soul veto). See Section 6.
 
 Data Sovereignty: The principle that data is subject to the laws, customs, and governance structures of the nation or community from which it originates or to which it pertains.
@@ -132,7 +134,11 @@ Effective Trust Score (E_trust): The subject's final Trust Score after environme
 
 External Root: The person at the end of the accountability chain behind a subject, and the terminator behind that person: an employer, a licensing body, or a board. In the E_base composition, the External Root term is the share the instrument that person stands behind supplies. See Section 5.1.
 
+Hand-Back: See specifications/hand-back.md.
+
 Kinetic Permission: Authorization that depends on real-time environmental state rather than static credentials.
+
+Lease: See specifications/hand-back.md.
 
 Lineage: The evolutionary history of an agent, from Sponsored (dependent on sponsor) through Independent (building own mass) to Guarantor (fully autonomous).
 

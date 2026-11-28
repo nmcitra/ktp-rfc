@@ -1006,6 +1006,15 @@ agreement by amendment. A charter whose amendments have narrowed any class's
 standing to open, contest, or object restores it; the narrowing clauses are
 void. No wire change.
 
+**Unreleased hand-back migration:** Nothing changes for an implementation that
+does not declare the hand-back. A declarer adds the `hand_back` section to its
+deployment profile, naming each recipient's capacity binding, registers a hand-back template for each (subject,
+consequence class) before minting, and answers identities with no standing
+with one code and one body. Vocabulary: Hand-Back, Clearance, Lease,
+Consequence Class, Managed Identity, Unmanaged Identity, Delegator, Recourse
+and Hysteresis Ledger are new terms with no predecessors; `specifications/hand-back.md`
+is their home.
+
 **Unreleased Celestial degradation migration:** An implementation that offers
 KTP-CELESTIAL's exponential degradation curve computes its constant as `ln(2) /
 half_life`, so an Extended Trust Proof's e_trust halves every half-life. One

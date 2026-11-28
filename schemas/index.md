@@ -29,6 +29,8 @@ the source.
 | Consequential-action evidence (unreleased) | [`consequential-action-evidence.json`](consequential-action-evidence.json) | Correlation shape for request, consumed decision, reservation and observation; authentication and target effects require independent verification |
 | Deployment Profile v3 (unreleased) | [`deployment-profile.json`](deployment-profile.json) | Deployment declarations including the mandatory historical-evidence/current-readiness policy binding and explicit human-eligibility profile binding |
 | Legacy Deployment Profile v2 | [`deployment-profile-legacy-v2.json`](deployment-profile-legacy-v2.json) | Byte-preserved published schema for interpreting old profiles; no readiness acceptance path |
+| Hand-Back (unreleased) | [`hand-back.json`](hand-back.json) | The typed destination of an adverse stop inside a managed relation: recipient, recourse, repair, reissue bound, sealed context |
+| Hand-Back (unreleased) | [`hand-back.json`](hand-back.json) | The typed destination of an adverse stop inside a managed relation: recipient, recourse, repair, reissue bound, sealed context |
 | Readiness Profile v1 (unreleased) | [`readiness-profile.json`](readiness-profile.json) | Exact assessment criteria, scopes, authorized assessors and bounded evidence age |
 | Readiness Attestation v1 (unreleased) | [`readiness-attestation.json`](readiness-attestation.json) | Complete signed assessment, subject configuration, scope, challenge and observations |
 | Readiness Decision v1 (unreleased) | [`readiness-decision.json`](readiness-decision.json) | Signed binding of actual request and complete ordinary proof to current readiness evidence |
